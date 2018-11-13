@@ -27,10 +27,11 @@ buildNumber.properties
 .Trashes
 ehthumbs.db
 Thumbs.db
+.svn
 
 # Eclipse Config File
 # .classpath
-# .project
+.project
 .metadata
 bin/
 tmp/
@@ -50,3 +51,7 @@ local.properties
 .tern-project
 .springBeans
 .recommenders/
+
+# Complie dir
+**/target/
+
