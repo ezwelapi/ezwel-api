@@ -3,9 +3,7 @@
 <%@page import="java.io.BufferedReader,java.io.InputStreamReader,java.io.ByteArrayOutputStream"%>
 <%@page import="java.util.Enumeration"%>
 <%@page import="java.net.URL,java.net.HttpURLConnection"%>
-<%@page import="net.sf.json.JSONException"%>
-<%@page import="net.sf.json.JSONObject"%>
-<%@page import="net.sf.json.JSONSerializer"%>
+<%@page import="com.fasterxml.jackson.databind.ObjectMapper"%>
 <%
 try {
 	System.out.println("■■■■■■■■■ [Response JSP Reqeust Header] ■■■■■■■■■");
@@ -30,9 +28,12 @@ try {
 	System.out.println("requestOrgin : '" + sbf.toString() + "'");
 	
 	if( !sbf.toString().isEmpty() ) {
-		JSONObject jsonObject = (JSONObject) JSONSerializer.toJSON( sbf.toString() );
+		/** 시작 : 변경 부분 */
+		ObjectMapper mapper = new ObjectMapper();
+		String inputJson = mapper.writeValueAsString(sbf.toString());
 		
-		System.out.println("request jsonObject : \n" + jsonObject.toString(3));		
+		System.out.println("request jsonObject : \n" + inputJson);
+		/** 종료 : 변경 부분 */
 	}
 
 } catch (Exception e) {
