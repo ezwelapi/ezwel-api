@@ -1,10 +1,5 @@
 package com.ezwel.htl.interfaces.abstracts;
 
-import java.lang.reflect.Field;
-
-import com.ezwel.htl.interfaces.constants.IOperateCode;
-
-
 /**
  * <pre>
  *  APIObject for APIModel
