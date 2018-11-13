@@ -10,3 +10,43 @@ buildNumber.properties
 
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 !/.mvn/wrapper/maven-wrapper.jar
+
+# Execute file 
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# MS-Window, Mac 
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Eclipse Config File
+# .classpath
+# .project
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+.externalToolBuilders/
+*.launch
+.factorypath
+.buildpath
+.target
+.tern-project
+.springBeans
+.recommenders/
