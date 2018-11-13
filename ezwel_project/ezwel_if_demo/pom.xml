@@ -13,6 +13,12 @@
 	<packaging>war</packaging>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.ezwel.htl</groupId>
+			<artifactId>ezwel_framework</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+			
 		<!-- Servlet 3.0 --><!-- check -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
