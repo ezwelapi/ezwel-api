@@ -19,17 +19,17 @@ import com.ezwel.htl.interfaces.utils.APIUtil;
 
 
 
-public class HttpInterfaceTest  {
+public class HttpInterfaceServiceTest  {
 
-	private static Logger logger = LoggerFactory.getLogger(HttpInterfaceTest.class);
+	private static Logger logger = LoggerFactory.getLogger(HttpInterfaceServiceTest.class);
 	
 	private HttpConfigDTO config;
-	private HttpInterface http;
+	private HttpInterfaceService http;
 	private InputDTO inputDTO;
 	private List<String> restURIList;
 	
-	public HttpInterfaceTest() {
-		http = new HttpInterface();
+	public HttpInterfaceServiceTest() {
+		http = new HttpInterfaceService();
 		config = new HttpConfigDTO();
 		inputDTO = new InputDTO();
 		this.setHttpConfigDTO();
@@ -165,16 +165,21 @@ public class HttpInterfaceTest  {
 	public void setRestURI() {
 		
 		restURIList = new ArrayList<String>();
-		restURIList.add("http://localhost:9123/ezwel_if_demo/service/index.jsp");
-		restURIList.add("http://localhost:9123/ezwel_if_demo/service/index2.jsp");
-		restURIList.add("http://localhost:9123/ezwel_if_demo/service/index3.jsp");
-		restURIList.add("http://localhost:9123/ezwel_if_demo/service/index4.jsp");
-		restURIList.add("http://localhost:9123/ezwel_if_demo/service/index5.jsp");
-		restURIList.add("http://localhost:9123/ezwel_if_demo/service/index6.jsp");
-		restURIList.add("http://localhost:9123/ezwel_if_demo/service/index7.jsp");
-		restURIList.add("http://localhost:9123/ezwel_if_demo/service/index8.jsp");
-		restURIList.add("http://localhost:9123/ezwel_if_demo/service/index9.jsp");
-		restURIList.add("http://localhost:9123/ezwel_if_demo/service/index10.jsp");
+		restURIList.add("http://localhost:9123/ezwel_if_demo/service/agentJob.jsp");
+		restURIList.add("http://localhost:9123/ezwel_if_demo/service/allReg.jsp");
+		restURIList.add("http://localhost:9123/ezwel_if_demo/service/cancelFeeAmt.jsp");
+		restURIList.add("http://localhost:9123/ezwel_if_demo/service/cancelFeePsrc.jsp");
+		restURIList.add("http://localhost:9123/ezwel_if_demo/service/ezwelJob.jsp");
+		restURIList.add("http://localhost:9123/ezwel_if_demo/service/faclSearch.jsp");
+		restURIList.add("http://localhost:9123/ezwel_if_demo/service/omiNumIdn.jsp");
+		restURIList.add("http://localhost:9123/ezwel_if_demo/service/orderCancelReq.jsp");
+		restURIList.add("http://localhost:9123/ezwel_if_demo/service/recode.jsp");
+		restURIList.add("http://localhost:9123/ezwel_if_demo/service/roomRead.jsp");
+		restURIList.add("http://localhost:9123/ezwel_if_demo/service/rsvHistSend.jsp");
+		restURIList.add("http://localhost:9123/ezwel_if_demo/service/saleStop.jsp");
+		restURIList.add("http://localhost:9123/ezwel_if_demo/service/sddSearch.jsp");
+		restURIList.add("http://localhost:9123/ezwel_if_demo/service/view.jsp");
+		restURIList.add("http://localhost:9123/ezwel_if_demo/service/voucherReg.jsp");
 	}
 	
 }
