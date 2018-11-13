@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.slf4j.Logger;
@@ -287,4 +288,13 @@ public class APIUtil {
     	return Arrays.asList(array);
     }
     
+	
+	public static String getSecretId(String apiKey) {
+		if(isEmpty(apiKey)) {
+			throw new APIException("apiKey가 존재하지 않습니다.");
+		}
+		//SharedSecrets INSTANCE = new SharedSecrets();
+		return DigestUtils.sha256Hex(apiKey.concat("SharedSecrets").concat(Long.toString(currentTimeMillis() / 100)));
+	}
+	
 }

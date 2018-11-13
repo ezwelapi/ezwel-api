@@ -27,9 +27,6 @@ public class HttpConfigDTO extends APIObject {
 	@APIFields(description = "http interface restfufl api uri", required=true)
 	private String restURI;
 
-	@APIFields(description = "http response return value")
-	private Object returnObject;
-	
 	@APIFields(description = "http connection timeout")
 	private int connTimeout;
 	
@@ -81,7 +78,6 @@ public class HttpConfigDTO extends APIObject {
 		encoding = IOperateCode.DEFAULT_ENCODING;
 		responseCode = -1;
 		responseException = null;
-		returnObject = null;
 		lapTimeMillis = IOperateCode.LONG_ZERO_VALUE;
 	}
 
@@ -101,13 +97,6 @@ public class HttpConfigDTO extends APIObject {
 		this.isDoInput = isDoInput;
 	}
 
-	public Object getReturnObject() {
-		return returnObject;
-	}
-
-	public void setReturnObject(Object returnObject) {
-		this.returnObject = returnObject;
-	}
 
 	public String getRestURI() {
 		return restURI;

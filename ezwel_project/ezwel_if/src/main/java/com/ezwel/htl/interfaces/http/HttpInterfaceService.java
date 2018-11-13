@@ -16,7 +16,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -53,6 +52,7 @@ import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.ezwel.htl.interfaces.abstracts.AbstractEntity;
 import com.ezwel.htl.interfaces.annotation.APIFields;
@@ -78,9 +78,10 @@ import com.ezwel.htl.interfaces.utils.APIUtil;
  * @serviceType API
  */
 @APIService
-public class HttpInterface {
+@Service(value="HttpInterfaceService")
+public class HttpInterfaceService {
 
-	private static final Logger logger = LoggerFactory.getLogger(HttpInterface.class);
+	private static final Logger logger = LoggerFactory.getLogger(HttpInterfaceService.class);
 
 	/**
 	 * Default URL Connection TimeOut 3 Second
@@ -96,7 +97,7 @@ public class HttpInterface {
 	
 	private BeanMarshaller beanConvert;
 	
-	public HttpInterface() {
+	public HttpInterfaceService() {
 		this.reset();
 	}
 

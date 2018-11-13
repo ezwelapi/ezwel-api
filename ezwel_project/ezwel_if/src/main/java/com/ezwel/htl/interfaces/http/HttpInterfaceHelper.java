@@ -27,11 +27,11 @@ public class HttpInterfaceHelper implements Callable<AbstractEntity> {
 
 	private MultiHttpConfigDTO multiHttpConfigDTO;
 	
-	private HttpInterface httpInterface;
+	private HttpInterfaceService httpInterface;
 	
 	public HttpInterfaceHelper(MultiHttpConfigDTO multiHttpConfigDTO) {
 		if(httpInterface == null) {
-			this.httpInterface = new HttpInterface();
+			this.httpInterface = new HttpInterfaceService();
 		}
 		this.multiHttpConfigDTO = multiHttpConfigDTO;
 	}
