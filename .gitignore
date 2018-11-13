@@ -53,5 +53,5 @@ local.properties
 .recommenders/
 
 # Complie dir
-**/target/
-
+/**/target/
+# pom.properties

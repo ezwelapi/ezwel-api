@@ -106,14 +106,7 @@ public class HttpInterfaceService {
 		this.beanConvert = new BeanMarshaller(); 
 	}
 	
-	@APIOperation(description="Http URL Communication API", isExecTest=true)
-	public <T extends AbstractEntity> void sendPostJSON(HttpConfigDTO in, T inputObject) {
-		if(in == null) {
-			throw new APIException("인터페이스 필수 입력 객체가 존재하지 않습니다.");
-		}		
-		in.setDoInput(false);
-		sendPostJSON(in, inputObject, null);
-	}
+
 	
 	
 	public HttpURLConnection getOpenHttpURLConnection(HttpConfigDTO in) {
@@ -166,7 +159,10 @@ public class HttpInterfaceService {
 			conn.setRequestProperty("Content-Type", APIUtil.addString("application/json; charset=", in.getEncoding()));
 			conn.setRequestProperty("Accept", "application/json");
 			conn.setRequestProperty("Cache-Control", "no-cache");
-			conn.setRequestProperty("Content-Length", Integer.toString(util.getBytesLength(inJsonParam, in.getEncoding())) );
+			
+			if(in.isDoOutput() && APIUtil.isNotEmpty(inJsonParam)) {
+				conn.setRequestProperty("Content-Length", Integer.toString(util.getBytesLength(inJsonParam, in.getEncoding())) );
+			}
 			
 			logger.debug("\n■ RequestProperties : \n{}", beanConvert.toJSONString( conn.getRequestProperties()));
 		} catch(Exception e) {
@@ -239,6 +235,16 @@ public class HttpInterfaceService {
 				}
 			}
 		}
+	}
+	
+	@APIOperation(description="Http URL Communication API", isExecTest=true)
+	public <T extends AbstractEntity> T sendPostJSON(HttpConfigDTO in, Class<T> outputObject) {
+		if(in == null) {
+			throw new APIException("인터페이스 필수 입력 객체가 존재하지 않습니다.");
+		}
+		
+		in.setDoInput(false);
+		return sendPostJSON(in, null, outputObject);
 	}
 	
 	/**
