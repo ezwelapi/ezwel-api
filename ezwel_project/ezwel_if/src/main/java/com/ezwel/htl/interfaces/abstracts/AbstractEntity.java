@@ -14,7 +14,7 @@ import com.ezwel.htl.interfaces.constants.IOperateCode;
  * @serviceType API
  */
 
-public abstract class AbstractEntity {
+public abstract class AbstractEntity extends APIObject {
 	
 	private StringBuffer buffer;
 	
