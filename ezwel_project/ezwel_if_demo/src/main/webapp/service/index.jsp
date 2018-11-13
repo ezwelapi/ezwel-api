@@ -33,7 +33,7 @@ try {
 		String inputJson = mapper.writeValueAsString(sbf.toString());
 		
 		System.out.println("request jsonObject : \n" + inputJson);
-		/** 종료 : 변경 부분 */	
+		/** 종료 : 변경 부분 */
 	}
 
 } catch (Exception e) {
