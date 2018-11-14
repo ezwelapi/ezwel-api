@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIService;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
+import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
 import com.ezwel.htl.interfaces.commons.http.dto.HttpConfigDTO;
 import com.ezwel.htl.interfaces.commons.spring.ApplicationContext;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -32,7 +32,7 @@ public class InsideInterfaceService {
 
 	private static final Logger logger = LoggerFactory.getLogger(InsideInterfaceService.class);
 
-	private HttpInterfaceExecutor inteface = (HttpInterfaceExecutor) ApplicationContext.getBean("HttpInterfaceService");
+	private HttpInterfaceExecutorService inteface = (HttpInterfaceExecutorService) ApplicationContext.getBean("HttpInterfaceService");
 	
 	@APIOperation(description="주문대사(제휴사) 인터페이스")
 	public AgentJobOutDTO callAgentJob(AgentJobInDTO agentJobDTO) {

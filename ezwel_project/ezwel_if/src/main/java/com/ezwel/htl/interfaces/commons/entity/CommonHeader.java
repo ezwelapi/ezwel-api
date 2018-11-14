@@ -83,7 +83,7 @@ public class CommonHeader extends APIObject implements Serializable {
 	
 	private String elementRoot;
 	
-	private String appContents;
+	private String controllerType;
 	
 	private String pagination;
 	
@@ -91,13 +91,15 @@ public class CommonHeader extends APIObject implements Serializable {
 	
 	private boolean exec;
 	
+	private boolean isMultipartRequest;
+	
 	private Map<String, String[]> requestMap;
 	
 	private HttpServletRequest request;
 
 	private HttpServletResponse response;
 	
-	public CommonHeader(){
+	public CommonHeader() {
 		this.reset();
 	}
 	
@@ -120,10 +122,11 @@ public class CommonHeader extends APIObject implements Serializable {
 		encoding = IOperateCode.DEFAULT_ENCODING;
 		ruleValidate = true;
 		elementRoot = null;
-		appContents = null;
+		controllerType = null;
 		pagination = null;
 		clientAddress = null;
 		exec = false;
+		isMultipartRequest = false;
 		requestMap = new LinkedHashMap<String, String[]>();
 		request = null;
 		response = null;
@@ -357,12 +360,12 @@ public class CommonHeader extends APIObject implements Serializable {
 		this.elementRoot = elementRoot;
 	}
 
-	public String getAppContents() {
-		return appContents;
+	public String getControllerType() {
+		return controllerType;
 	}
 	
-	public void setAppContents(String appContents) {
-		this.appContents = appContents;
+	public void setControllerType(String controllerType) {
+		this.controllerType = controllerType;
 	}
 
 	public String getClientAddress() {
@@ -411,6 +414,14 @@ public class CommonHeader extends APIObject implements Serializable {
 
 	public void setExec(boolean exec) {
 		this.exec = exec;
+	}
+
+	public boolean isMultipartRequest() {
+		return isMultipartRequest;
+	}
+
+	public void setMultipartRequest(boolean isMultipartRequest) {
+		this.isMultipartRequest = isMultipartRequest;
 	}
 
 	

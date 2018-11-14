@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
 import com.ezwel.htl.interfaces.commons.constants.IOperateCode;
-import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
+import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
 import com.ezwel.htl.interfaces.commons.http.dto.HttpConfigDTO;
 import com.ezwel.htl.interfaces.commons.http.dto.MultiHttpConfigDTO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -25,12 +25,12 @@ public class HttpInterfaceExecutorTest  {
 	private static Logger logger = LoggerFactory.getLogger(HttpInterfaceExecutorTest.class);
 	
 	private HttpConfigDTO config;
-	private HttpInterfaceExecutor http;
+	private HttpInterfaceExecutorService http;
 	private InputDTO inputDTO;
 	private List<String> restURIList;
 	
 	public HttpInterfaceExecutorTest() {
-		http = new HttpInterfaceExecutor();
+		http = new HttpInterfaceExecutorService();
 		config = new HttpConfigDTO();
 		inputDTO = new InputDTO();
 		this.setHttpConfigDTO();

@@ -11,12 +11,15 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.MessageFormatter;
+import org.springframework.web.method.HandlerMethod;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIService;
@@ -31,6 +34,7 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
  * @date 2018. 11. 5.
  * @serviceType API
  */
+
 @APIService
 public class APIUtil {
 
@@ -155,12 +159,34 @@ public class APIUtil {
     	return out; 
     }
 	
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * 	RandomUUID를 리턴합니다.
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 14.
+	 */
 	@APIOperation(description="RandomUUID를 리턴합니다.", isExecTest=true)
 	public static String getRandomUUID(){
 		/** randomUUID 36 byte */
 		return UUID.randomUUID().toString();
 	}
 	
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * 	VMID를 리턴합니다. (43byte)
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 14.
+	 */
 	@APIOperation(description="VMID를 리턴합니다.", isExecTest=true)
 	public static String getVMID(){
 		/** VMID 43 byte */
@@ -168,8 +194,15 @@ public class APIUtil {
 	}
 	
 	/**
-	 * randomUUID + VMID
-	 * @return : 32 byte
+	 * <pre>
+	 * [메서드 설명]
+	 * randomUUID + VMID를 합하여 MD5로 암호화된 값을 리턴합니다. (32byte)
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 14.
 	 */
 	@APIOperation(description="randomUUID + VMID를 합하여 MD5로 암호화된 값을 리턴합니다.", isExecTest=true)
 	public static String getId(){
@@ -177,11 +210,18 @@ public class APIUtil {
 	}
 	
 	/**
-	 * randomUUID + VMID + references
+	 * <pre>
+	 * [메서드 설명]
+	 * 	randomUUID + VMID + reference(파라메터)를 합하여 MD5로 암호화된 값(유일값)을 리턴합니다. (32byte)
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
 	 * @param references
-	 * @return : 32 byte
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 14.
 	 */
-	@APIOperation(description="randomUUID + VMID + reference(파라메터)를 합하여 MD5로 암호화된 값을 리턴합니다.", isExecTest=true)
+	@APIOperation(description="randomUUID + VMID + reference(파라메터)를 합하여 MD5로 암호화된 값(유일값)을 리턴합니다.", isExecTest=true)
 	public static String getId(String references){
 		String reference = references;
 		
@@ -197,13 +237,20 @@ public class APIUtil {
 	}
 	
 	
-    /**
-     * 과거일부터 현재 날자와의 차이를 구함
-     * @param year
-     * @param month
-     * @param day
-     * @return
-     */
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * 	과거일부터 현재 날자와의 차이를 리턴합니다.
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 14.
+	 */
 	@APIOperation(description="과거일부터 현재 날자와의 차이를 리턴합니다.", isExecTest=true)
     public static int getPrevDateDiff(int year, int month, int day){
 
@@ -225,6 +272,18 @@ public class APIUtil {
     	return difference;
     }
     
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * 	바인드된 객체 배열을 문자열 버퍼로 연결한 문자열을 리턴합니다.
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
+	 * @param arrays
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 14.
+	 */
 	@APIOperation(description="바인드된 객체 배열을 문자열 버퍼로 연결한 문자열을 리턴합니다.", isExecTest=true)
     public static String addString(Object... arrays) {
     	
@@ -242,10 +301,17 @@ public class APIUtil {
     
     
     /**
-     * 문자열의 바이트 계산(인코딩설정가능)
+     * <pre>
+     * [메서드 설명]
+     * 	문자열의 바이트를 리턴합니다.
+     * [사용방법 설명]
+     * 
+     * </pre>
      * @param str
-     * @param encoding : 기본 시스템 파일 인코딩
-     * @return int
+     * @param encoding
+     * @return
+     * @author swkim@ebsolution.co.kr
+     * @since  2018. 11. 14.
      */
 	@APIOperation(description="문자열의 바이트를 리턴합니다.", isExecTest=true)
     public int getBytesLength(String str, String encoding) {
@@ -273,7 +339,7 @@ public class APIUtil {
 	/**
 	 * <pre>
 	 * [메서드 설명]
-	 * Array Object를 List Object로 변환
+	 * 	Array Object를 List Object로 변환합니다.
 	 * [사용방법 설명]
 	 * 
 	 * </pre>
@@ -282,19 +348,108 @@ public class APIUtil {
 	 * @author swkim@ebsolution.co.kr
 	 * @since  2018. 11. 12.
 	 */
-	@APIOperation(description="Array Object를 List Object로 변환", isExecTest=true)
+	@APIOperation(description="Array Object를 List Object로 변환합니다.", isExecTest=true)
     public static List<?> arrayToList(Object[] array){
     	if( array == null ) return null;
     	return Arrays.asList(array);
     }
     
-	
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * 	SECRET ID를 생성하여 리턴합니다.
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
+	 * @param apiKey
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 14.
+	 */
+	@APIOperation(description="SECRET ID를 생성하여 리턴합니다.", isExecTest=true)
 	public static String getSecretId(String apiKey) {
 		if(isEmpty(apiKey)) {
 			throw new APIException("apiKey가 존재하지 않습니다.");
 		}
 		//SharedSecrets INSTANCE = new SharedSecrets();
 		return DigestUtils.sha256Hex(apiKey.concat("SharedSecrets").concat(Long.toString(currentTimeMillis() / 100)));
+	}
+	
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * 	handler 타입을 리턴 (HandlerMethod 또는 DefaultServlet를 리턴)
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
+	 * @param handler
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 14.
+	 */
+	@APIOperation(description="handler 타입을 리턴 (HandlerMethod 또는 DefaultServlet를 리턴)", isExecTest=true)
+	public static String getControllerType(Object handlerParam){
+		String out = null;
+		Object handler = handlerParam;
+		if(handler instanceof HandlerMethod){ 
+			out = IOperateCode.SPRING_CONTROLLER;
+		}
+		else {
+			out = IOperateCode.DEFAULT_SERVLET;
+		}
+		
+		return out;
+	}
+	
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * 	바인드된 객체의 타입@메소드 문자열을 리턴합니다.
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
+	 * @param handler
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 14.
+	 */
+	@APIOperation(description="바인드된 객체의 타입@메소드 문자열을 리턴합니다.", isExecTest=true)
+	public String getMethodInfo(Object handler){
+		String out = null;
+		
+		if(getControllerType(handler).equals(IOperateCode.SPRING_CONTROLLER)) {
+			HandlerMethod method = (HandlerMethod) handler;
+			out = method.getBeanType().getCanonicalName().concat("@").concat(method.getMethod().getName());
+		}
+		else {
+			out = handler.getClass().getCanonicalName();
+		}
+		
+		return out;
+	}
+	
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * 	클라이언트 IP를 리턴합니다.
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
+	 * @param request
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 14.
+	 */
+	@APIOperation(description="클라이언트 IP를 리턴합니다.", isExecTest=true)
+	public String getClientAddress(HttpServletRequest request) {
+		
+		String clientAddress  = request.getHeader("X-FORWARDED-FOR"); 
+		if(clientAddress == null) 
+		{ 
+			clientAddress = request.getRemoteAddr(); 
+		} 
+		
+		return clientAddress;
 	}
 	
 }

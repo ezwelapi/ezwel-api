@@ -39,6 +39,10 @@ public class IOperateCode {
 	public static final String STR_UNDERBAR;
 	public static final String STR_HYPHEN;
 	public static final String STR_AT;
+	public static final String STR_DOT;
+	public static final String STR_COMA;
+	public final static String STR_PAREN_START;
+	public final static String STR_PAREN_END;	
 	public static final String LINE_SEPARATOR;
 	public static final String FILE_SEPARATOR;
 	public static final String PATH_SEPARATOR;
@@ -54,6 +58,8 @@ public class IOperateCode {
 	public static final String JAVA_HOME;
 	public static final String JAVA_VENDOR;
 	public static final String JAVA_SPECIFICATION_VERSION;
+	public final static String SPRING_CONTROLLER;
+	public final static String DEFAULT_SERVLET;
 	/** ORACLE, IBM JDK 존재함, HP JDK 에서 존재하지 않음 */
 	public static final String USER_COUNTRY;
 	public static final String USER_DIR;
@@ -91,6 +97,10 @@ public class IOperateCode {
 		STR_UNDERBAR = "_";
 		STR_HYPHEN = "-";
 		STR_AT = "@";
+		STR_DOT = ".";
+		STR_COMA = ",";
+		STR_PAREN_START = "(";
+		STR_PAREN_END  = ")";		
 		LINE_SEPARATOR = APIUtil.getProperty("line.separator");
 		FILE_SEPARATOR = APIUtil.getProperty("file.separator");
 		PATH_SEPARATOR = APIUtil.getProperty("path.separator");
@@ -106,6 +116,8 @@ public class IOperateCode {
 		JAVA_HOME = APIUtil.getProperty("java.home");
 		JAVA_VENDOR = APIUtil.getProperty("java.vendor");
 		JAVA_SPECIFICATION_VERSION = APIUtil.getProperty("java.specification.version");
+		SPRING_CONTROLLER = "SPRING";
+		DEFAULT_SERVLET = "DEFAULT_SERVLET";
 		/** ORACLE, IBM JDK 존재함, HP JDK 에서 존재하지 않음 */
 		USER_COUNTRY = APIUtil.getProperty("user.country");
 		USER_DIR = APIUtil.getProperty("user.dir");

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"  
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:task="http://www.springframework.org/schema/task" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+	    http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+       	http://www.springframework.org/schema/beans
+       	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       	http://www.springframework.org/schema/context
+       	http://www.springframework.org/schema/context/spring-context-3.2.xsd
+       	http://www.springframework.org/schema/util
+       	http://www.springframework.org/schema/util/spring-util-3.2.xsd
+       	http://www.directwebremoting.org/schema/spring-dwr
+       	http://www.directwebremoting.org/schema/spring-dwr/spring-dwr-3.0.xsd
+       	http://www.springframework.org/schema/tx 
+       	http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+       	http://www.springframework.org/schema/task
+       	http://www.springframework.org/schema/task/spring-task-3.2.xsd
+       	http://www.springframework.org/schema/aop 
+       	http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+	">
+       
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+
+	<!-- Handles HTTP GET requests for /ui/** by efficiently serving up static resources in the ${webappRoot}/resources directory <resources mapping="/ui/**" location="/ui/" /> -->
+	<!-- 
+		WAS's default servlet name
+		Tomcat : default
+		Resin : resin-file
+		Weblogic :  FileServlet
+		WebSphere : SimpleFileServlet
+		jetty : default
+		jboss : default
+		jeus : WorkerServlet	<default-servlet-handler default-servlet-name="WorkerServlet"/>
+	-->	
+	
+	<!-- JEUS DefaultServlet -->
+	<!-- <default-servlet-handler default-servlet-name="WorkerServlet"/> -->
+
+	<!-- 로컬 톰켓 -->
+	<default-servlet-handler />
+		
+	<!-- Enables the Spring MVC @Controller programming model
+	<annotation-driven>
+        <argument-resolvers>
+            <beans:bean class="com.universal.core.spring.resolver.CommandMapArgumentResolver" />       
+        </argument-resolvers>
+	</annotation-driven>
+	-->
+	
+	<!-- Controller for Homepage -->
+	<!-- <view-controller path="/" view-name="index" /> -->
+	
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<!-- <resources mapping="/resources/**" location="/resources/" /> -->
+
+	<!-- ##################### JSP VIEW RESOLVER ###################### -->
+	
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<!-- ##################### SPRING CONTEXT SETUP ###################### -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+	
+	<tx:annotation-driven />
+	
+	<context:annotation-config />
+	
+	<!-- 
+	Scan only files deployed in .class: *
+	If you are scanning a file in a JAR file deployed as a .jar you MUST specify the package EX) "com.universal"
+	-->
+	<context:component-scan base-package="com.ezwel.htl.interfaces" annotation-config="true">
+		<!-- <context:include-filter type="regex" expression="(service|controller|repository)\*" /> -->
+		<context:exclude-filter type="regex" expression="com\.ezwel\.htl\.interfaces\.commons\.annotation\.*" />
+	</context:component-scan>	
+	
+	<beans:bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+	
+	<beans:bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<beans:property name="order" value="1" />
+		<beans:property name="alwaysUseFullPath" value="true" />
+	</beans:bean>
+
+	<beans:bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<beans:property name="order" value="2" />
+	</beans:bean>
+	
+	<!-- not used -->
+	<!-- 
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="order" value="3" />
+	</bean>	
+	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
+		<property name="order" value="4" /> 
+	</bean>
+	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+		<property name="order" value="5" />
+	</bean>
+	-->
+
+	<!-- ##################### INTERCEPTORS SETUP ###################### -->	
+	
+	<interceptors>
+	    <interceptor> 
+	   	   <mapping path="/ezwel_if_server/**"/>
+	       <beans:bean class="com.ezwel.htl.interfaces.commons.intercepter.HandlerInterceptor"/>
+	    </interceptor>
+	    <!-- 추가로 여러개의 인터셉터 설정 가능 
+	    <interceptor> 
+	   	   <mapping path="/ezwel_if_server/inside/**"/>
+	       <bean class="com.universal.system.beans.interceptor.AdminInterCeptor"/>
+	    </interceptor>
+	    -->
+	</interceptors>
+	
+	<!-- ##################### AOP SETUP ###################### -->
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	
+	<!-- MethodsInterceptor -->
+	<beans:bean id="methodsAdvice" class="com.universal.system.beans.aop.MethodsAdvice">
+		<beans:property name="order" value="100"/>
+	</beans:bean> 
+	
+	<aop:config>
+		<!-- execution expression -->  <!-- and @annotation(remoteMethod) -->
+		<aop:pointcut id="targetMethod" expression="execution(* com.universal.system.process..*.*(..))"/>
+		 
+		<!-- Before advice -->
+		<aop:aspect ref="methodsAdvice">
+			<aop:before pointcut-ref="targetMethod" method="beforeTargetMethod" />
+		</aop:aspect>
+		
+		<!-- After returning advice -->
+		<aop:aspect ref="methodsAdvice">
+		    <aop:after-returning pointcut-ref="targetMethod" method="afterReturningTargetMethod" returning="retVal" />
+		</aop:aspect>
+			
+		<!-- After throwing advice --> 
+		<aop:aspect ref="methodsAdvice">
+			<aop:after-throwing pointcut-ref="targetMethod" method="afterThrowingTargetMethod" throwing="exception" />
+		</aop:aspect> 
+			
+		<!-- After (finally) advice -->
+		<aop:aspect ref="methodsAdvice">
+			<aop:after pointcut-ref="targetMethod" method="afterTargetMethod" />
+		</aop:aspect>
+		
+		<!-- Around advice -->
+		<aop:aspect ref="methodsAdvice">
+			<aop:around pointcut-ref="targetMethod" method="aroundTargetMethod"/>
+		</aop:aspect>
+	</aop:config>
+
+
+	
+	<!-- ##################### TASK SCHEDULER SETUP ###################### -->
+	
+	<beans:bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
+    	<beans:property name="poolSize" value="10"/>
+	</beans:bean>
+	
+	<!-- scheduling task -->
+	<task:scheduler id="taskScheduler" pool-size="10"/>
+	
+	<task:annotation-driven scheduler="taskScheduler"/>
+		
+	<!-- ##################### CONTROLLER EXCEPTION RESOLVER (Normal Case) ###################### -->
+    <!-- 
+    <beans:bean id="simpleMappingExceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <beans:property name="exceptionMappings">
+            <beans:map>
+                <beans:entry key="ValidateException" value="pms/common/info/invalidParam"/>
+            </beans:map>
+        </beans:property>
+        See note below on how this interacts with Spring Boot
+        <beans:property name="defaultErrorView" value="pms/common/info/exceptionView"/>
+        <beans:property name="exceptionAttribute" value="ex"/>
+    -->
+        <!-- 
+        Name of logger to use to log exceptions. Unset by default, so logging disabled
+        <beans:property name="warnLogCategory" value="example.MvcLogger"/>
+        -->
+    <!--
+    </beans:bean>
+    -->
+    
+	<!-- ##################### MULTIPART RESOLVER SETUP ###################### -->
+	
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="defaultEncoding" value="UTF-8" />
+		<beans:property name="maxUploadSize" value="1073741824" /> <!-- 1073741824 Byte == 1 GB 2016-01-17 -->
+		<beans:property name="uploadTempDir" value="/temp" />
+	</beans:bean>
+	    
+	<!-- ##################### INIT BEAN SETUP ###################### -->
+	<beans:bean id="operateCodeBeans" class="com.universal.system.beans.setup.OperateSetup">
+		<!-- treegrid licence code -->
+		<!-- <beans:property name="treegridCode" value="GGREJCSDIHGSW" /> -->
+		<!-- attch file home -->
+		<beans:property name="attachRoot" value="/ubms/attach_home" />
+		<!-- <beans:property name="attachRoot" value="C:\\attachHome" /> -->
+		<!--# hide view required data form postfix -->
+		<beans:property name="viewParamFormPostfix" value="ViewParameterForm" />
+		<!--# ux year select box start year -->
+		<beans:property name="strtYear" value="2010" />
+		<beans:property name="incrementYear" value="20" />
+		<!--# ux grid dunamic code prefix -->
+		<beans:property name="dynamicCodePrefix" value="XCD_" />
+		<!--# cache data sync server infomation -->
+		<!-- from server ip (,) separator  -->
+		<beans:property name="destinationServerAddressFrom" value="121.140.226.1" /> 
+		<!-- to request server ip (,) separator http://175.126.195.151:80/manager -->
+		<beans:property name="destinationServerAddressTo" value="http://175.126.195.151:80/manager" /> 
+		<!--# download filename encoding MS949, kyowon : UTF-8 ? -->
+		<beans:property name="downloadFileNameCharset" value="MS949" />
+		
+		<!-- company host : mail.company.co.kr (10.1.1.165), port : 25 -->
+		<!--# company smtp setting 
+		<beans:property name="smtp_host" value="mail.company.co.kr" />
+		<beans:property name="smtp_port" value="25" />
+		<beans:property name="smtp_fromaddress" value="admin@company.co.kr" />
+		<beans:property name="smtp_fromuser" value="ADMIN" />
+		<beans:property name="smtp_security" value="false" />
+		<beans:property name="smtp_debug" value="false" /> 
+		<beans:property name="smtp_username" value="" />
+		<beans:property name="smtp_password" value="" />
+		-->
+		
+		<!--# naver smtp setting --> 
+		<beans:property name="smtp_host" value="smtp.naver.com" />
+		<beans:property name="smtp_port" value="465" /> 
+		<beans:property name="smtp_fromaddress" value="housing82@naver.com" />
+		<beans:property name="smtp_fromuser" value="PMS" />
+		<beans:property name="smtp_security" value="true" /> 
+		<beans:property name="smtp_debug" value="true" />
+		<beans:property name="smtp_username" value="housing82" />
+		<beans:property name="smtp_password" value="vmflakehssk#82" />
+
+	</beans:bean>
+	
+</beans:beans>

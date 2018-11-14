@@ -77,11 +77,11 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
  * @date 2018. 11. 5.
  * @serviceType API
  */
+@Service 
 @APIService
-@Service(value="HttpInterfaceService")
-public class HttpInterfaceExecutor {
+public class HttpInterfaceExecutorService {
 
-	private static final Logger logger = LoggerFactory.getLogger(HttpInterfaceExecutor.class);
+	private static final Logger logger = LoggerFactory.getLogger(HttpInterfaceExecutorService.class);
 
 	/**
 	 * Default URL Connection TimeOut 3 Second
@@ -97,7 +97,7 @@ public class HttpInterfaceExecutor {
 	
 	private BeanMarshaller beanConvert;
 	
-	public HttpInterfaceExecutor() {
+	public HttpInterfaceExecutorService() {
 		this.reset();
 	}
 

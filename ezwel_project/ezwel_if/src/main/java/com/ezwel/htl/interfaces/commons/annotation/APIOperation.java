@@ -22,16 +22,21 @@ public @interface APIOperation {
     public abstract String id() default "";
     
     /**
-     * API Operation thread별 id
-     * @return
-     */
-    public abstract String threadId() default "";
-    
-    /**
      * API Operation 설명
      * @return
      */
     public abstract String description() default "api operation";
     
+    /**
+     * <pre>
+     * [메서드 설명]
+     * 테스트 통과 여부
+     * [사용방법 설명]
+     * @APIOperation(isExecTest=true)
+     * </pre>
+     * @return
+     * @author swkim@ebsolution.co.kr
+     * @since  2018. 11. 14.
+     */
     public abstract boolean isExecTest() default false;
 }
