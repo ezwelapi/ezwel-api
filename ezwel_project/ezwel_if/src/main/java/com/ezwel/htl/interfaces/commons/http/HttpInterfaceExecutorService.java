@@ -102,8 +102,12 @@ public class HttpInterfaceExecutorService {
 	}
 
 	private void reset() {
-		this.util = new APIUtil();
-		this.beanConvert = new BeanMarshaller(); 
+		if(this.util == null) {
+			this.util = new APIUtil();
+		}
+		if(this.beanConvert == null) {
+			this.beanConvert = new BeanMarshaller(); 
+		}
 	}
 	
 	public HttpURLConnection getOpenHttpURLConnection(HttpConfigDTO in) {
