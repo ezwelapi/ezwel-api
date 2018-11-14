@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	">
+	
+	<!-- Reference URL : http://mybatis.github.io/spring/ko/getting-started.html -->
+	 
+	<!-- datasource connect information propertyPlaceholderConfigurer -->
+	<beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<beans:property name="locations" value="WEB-INF/config/datasource/jdbc.properties"/>
+	</beans:bean>
+
+	<!-- WAS JNDI DataSource lookup 
+	<beans:bean id="loadJdbcDataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> 
+		<property name="jndiName" value="${oracle.jndi.datasource.database}"/> 
+	</beans:bean> 
+	--> 
+
+	<!-- //jdbc -->
+	<beans:bean id="loadJdbcDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<beans:property name="driverClassName" value="${oracle.jdbc.driverClass}"/>
+		<beans:property name="url" value="${oracle.jdbc.url}"/>
+		<beans:property name="username" value="${oracle.jdbc.username}"/>
+		<beans:property name="password" value="${oracle.jdbc.password}"/>
+        <beans:property name="initialSize" value="${oracle.jdbc.initialSize}" />
+        <beans:property name="maxIdle" value="${oracle.jdbc.maxIdle}" />
+        <beans:property name="maxActive" value="${oracle.jdbc.maxActive}" />
+        <beans:property name="maxWait" value="${oracle.jdbc.maxWait}" />		
+        <beans:property name="poolPreparedStatements" value="${oracle.jdbc.poolPreparedStatements}" />
+        <beans:property name="defaultAutoCommit" value="${oracle.jdbc.defaultAutoCommit}" />	
+        <beans:property name="validationQuery" value="${oracle.jdbc.validationQuery}" />	
+	</beans:bean>
+	
+	<beans:bean id="mainJdbcDataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<beans:constructor-arg ref="loadJdbcDataSource" />
+ 
+		<beans:property name="logFormatter">
+			<beans:bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+				<beans:property name="loggingType" value="MULTI_LINE"/>
+				<!-- beans:property name="margin" value="1"/-->
+				<beans:property name="sqlPrefix" value="::SQL ==> "/>
+			</beans:bean>
+		</beans:property>
+
+	</beans:bean>
+	
+	<!-- Mybatis Spring Works SqlSessionFactoryBean : http://mybatis.github.io/spring/ko/factorybean.html -->
+	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	  	<beans:property name="dataSource" ref="mainJdbcDataSource" />
+		<beans:property name="mapperLocations" value="classpath*:com/ezwel/htl/interfaces/**/*Query.xml" />
+	</beans:bean>
+
+	<!-- SqlSessionTemplate Constructor : SqlSessionTemplate(SqlSessionFactory sqlSessionFactory, ExecutorType executorType, PersistenceExceptionTranslator exceptionTranslator) -->
+	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+	  <beans:constructor-arg index="0" ref="sqlSessionFactory" />
+	  <!-- <beans:constructor-arg index="1" value="BATCH" /> -->
+	</beans:bean>
+
+	<!-- Scanning for mappers : http://mybatis.github.io/spring/ko/mappers.html -->
+	<!-- use mybatis java interface ex)
+	<mybatis:scan 
+		base-package="simple.project.manager.process.mapper,simple.project.sustem.process.mapper"
+		template-ref="sqlSession" 
+	/>
+	-->
+	
+	<!-- Standard Configuration Constructor : DataSourceTransactionManager(DataSource dataSource) -->
+	<beans:bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	  <beans:property name="dataSource" ref="mainJdbcDataSource" />
+	</beans:bean>
+
+	<!-- transaction annotation -->	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- 
+		Spring transaction template "Should be used, if necessary" 
+		Constructor : TransactionTemplate(PlatformTransactionManager transactionManager, TransactionDefinition transactionDefinition)
+		Create instance of transaction template for programmatic transaction manipulation
+		Reference URL : http://simplespringtutorial.com/springProgrammaticTransactions.html
+		@Autowired 
+		private TransactionTemplate transactionTemplate;		 
+	-->
+	<beans:bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+		<beans:property name="transactionManager" ref="transactionManager" />
+	</beans:bean>
+	
+	<!--
+		Spring jdbc template "Should be used, if necessary"
+		Reference URL : http://simplespringtutorial.com/springjdbc.html  
+		@Autowired 
+		private JdbcTemplate jdbcTemplate;
+	-->
+	<beans:bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+  		<beans:property name="dataSource" ref="mainJdbcDataSource" />
+	</beans:bean>
+	
+	<!-- transaction advice default setup -->
+	<!-- 
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+	  <tx:attributes>
+	  	<tx:method name="count*"  	read-only="true" />
+	    <tx:method name="select*"  	read-only="true" />
+	    <tx:method name="find*"  	read-only="true" />
+	    <tx:method name="get*"  	read-only="true" />
+	    <tx:method name="*" />
+	  </tx:attributes>
+	</tx:advice>
+	-->
+
+</beans:beans>
