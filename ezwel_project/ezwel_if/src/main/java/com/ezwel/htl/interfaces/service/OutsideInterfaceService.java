@@ -27,7 +27,7 @@ import com.ezwel.htl.interfaces.service.dto.cancelFeePsrc.CancelFeePsrcOutDTO;
  * @date   2018. 11. 13.
  */
 @APIService
-@Service(value="InterfaceService")
+@Service(value="OutsideInterfaceService")
 public class OutsideInterfaceService {
 
 	private static final Logger logger = LoggerFactory.getLogger(OutsideInterfaceService.class);
