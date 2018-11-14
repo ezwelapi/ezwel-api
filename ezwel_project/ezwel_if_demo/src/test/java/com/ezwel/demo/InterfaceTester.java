@@ -4,8 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.service.OutsideInterfaceService;
-import com.ezwel.htl.interfaces.service.dto.agentJob.AgentJobInDTO;
 import com.ezwel.htl.interfaces.service.dto.agentJob.AgentJobOutDTO;
+import com.ezwel.htl.interfaces.service.dto.cancelFeeAmt.CancelFeeAmtInDTO;
+import com.ezwel.htl.interfaces.service.dto.cancelFeeAmt.CancelFeeAmtOutDTO;
 
 /**
  * <pre>
@@ -22,13 +23,11 @@ public class InterfaceTester {
 	
 	public void test() {
 		
-		AgentJobInDTO agentJobDTO = new AgentJobInDTO();
+		CancelFeeAmtInDTO cancelFeeAmtIn = new CancelFeeAmtInDTO();
 		
-		agentJobDTO.setRsvDateEnd("");
-		agentJobDTO.setRsvDateStart("");
-		agentJobDTO.setRsvNo("");
-		AgentJobOutDTO output = (AgentJobOutDTO) interfaceService.callAgentJob(agentJobDTO);
-		
+		cancelFeeAmtIn.setRsvNo("rsvNo");
+		CancelFeeAmtOutDTO output = (CancelFeeAmtOutDTO) interfaceService.callCancelFeeAmt(cancelFeeAmtIn);
+		logger.debug("#callCancelFeeAmt interface output : {}", output);
 	}
 	
 }
