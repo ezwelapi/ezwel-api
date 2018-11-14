@@ -452,4 +452,26 @@ public class APIUtil {
 		return clientAddress;
 	}
 	
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * 	바인드된 객체가 HandlerMethod일 경우 HandlerMethod로 캐스팅하여 리턴합니다.
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
+	 * @param handler
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 14.
+	 */
+	@APIOperation(description="바인드된 객체가 HandlerMethod일 경우 HandlerMethod로 캐스팅하여 리턴합니다.", isExecTest=true)
+	public HandlerMethod getHandlerMethod(Object handler){
+		HandlerMethod method = null;
+		if(handler instanceof HandlerMethod){ 
+			method = (HandlerMethod) handler;
+		}
+		return method;
+	}
+	
+	
 }

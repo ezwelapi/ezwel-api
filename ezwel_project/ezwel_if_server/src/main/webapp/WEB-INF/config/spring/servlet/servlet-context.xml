@@ -131,13 +131,13 @@
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 	
 	<!-- MethodsInterceptor -->
-	<beans:bean id="methodsAdvice" class="com.universal.system.beans.aop.MethodsAdvice">
+	<beans:bean id="methodsAdvice" class="com.ezwel.htl.interfaces.commons.aop.MethodsAdvice">
 		<beans:property name="order" value="100"/>
 	</beans:bean> 
 	
 	<aop:config>
 		<!-- execution expression -->  <!-- and @annotation(remoteMethod) -->
-		<aop:pointcut id="targetMethod" expression="execution(* com.universal.system.process..*.*(..))"/>
+		<aop:pointcut id="targetMethod" expression="execution(* com.ezwel.htl.interfaces..*.*(..))"/>
 		 
 		<!-- Before advice -->
 		<aop:aspect ref="methodsAdvice">
@@ -207,7 +207,7 @@
 	</beans:bean>
 	    
 	<!-- ##################### INIT BEAN SETUP ###################### -->
-	<beans:bean id="operateCodeBeans" class="com.universal.system.beans.setup.OperateSetup">
+	<beans:bean id="operateCodeBeans" class="com.ezwel.htl.interfaces.commons.configure.InterfaceConfigure">
 		<!-- treegrid licence code -->
 		<!-- <beans:property name="treegridCode" value="GGREJCSDIHGSW" /> -->
 		<!-- attch file home -->

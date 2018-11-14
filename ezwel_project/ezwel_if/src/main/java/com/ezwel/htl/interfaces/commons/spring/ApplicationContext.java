@@ -10,6 +10,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIService;
+import com.ezwel.htl.interfaces.commons.exception.APIException;
 
 /**
  * <pre>
@@ -31,7 +32,23 @@ public class ApplicationContext {
      * @param beanName
      * @return
      */
+    public static Object getBean(Class<?> beans) {
+    	if(beans == null) {
+    		throw new APIException("BEAN CLASS가 존재하지 않습니다.");
+    	}
+    	return getBean(beans.getSimpleName());
+    }
+    
+    /**
+     * 빈을 직접 얻습니다.
+     *
+     * @param beanName
+     * @return
+     */
     public static Object getBean(String beanName) {
+    	if(beanName == null) {
+    		throw new APIException("BEAN NAME이 존재하지 않습니다.");
+    	}
         WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
         return context.getBean(beanName);
     }

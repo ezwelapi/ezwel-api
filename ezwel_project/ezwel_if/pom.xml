@@ -57,6 +57,14 @@
 			<systemPath>${project.basedir}/lib/thirdparty/xom-1.2.5.jar</systemPath>
 			<optional>false</optional>
 		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/thirdparty/javax.inject-1.jar</systemPath>
+			<optional>false</optional>
+		</dependency>
 		-->
 		
 		<!-- lucene -->
