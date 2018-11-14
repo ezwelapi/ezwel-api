@@ -207,49 +207,9 @@
 	</beans:bean>
 	    
 	<!-- ##################### INIT BEAN SETUP ###################### -->
-	<beans:bean id="operateCodeBeans" class="com.ezwel.htl.interfaces.commons.configure.InterfaceConfigure">
-		<!-- treegrid licence code -->
-		<!-- <beans:property name="treegridCode" value="GGREJCSDIHGSW" /> -->
-		<!-- attch file home -->
-		<beans:property name="attachRoot" value="/ubms/attach_home" />
-		<!-- <beans:property name="attachRoot" value="C:\\attachHome" /> -->
-		<!--# hide view required data form postfix -->
-		<beans:property name="viewParamFormPostfix" value="ViewParameterForm" />
-		<!--# ux year select box start year -->
-		<beans:property name="strtYear" value="2010" />
-		<beans:property name="incrementYear" value="20" />
-		<!--# ux grid dunamic code prefix -->
-		<beans:property name="dynamicCodePrefix" value="XCD_" />
-		<!--# cache data sync server infomation -->
-		<!-- from server ip (,) separator  -->
-		<beans:property name="destinationServerAddressFrom" value="121.140.226.1" /> 
-		<!-- to request server ip (,) separator http://175.126.195.151:80/manager -->
-		<beans:property name="destinationServerAddressTo" value="http://175.126.195.151:80/manager" /> 
-		<!--# download filename encoding MS949, kyowon : UTF-8 ? -->
-		<beans:property name="downloadFileNameCharset" value="MS949" />
-		
-		<!-- company host : mail.company.co.kr (10.1.1.165), port : 25 -->
-		<!--# company smtp setting 
-		<beans:property name="smtp_host" value="mail.company.co.kr" />
-		<beans:property name="smtp_port" value="25" />
-		<beans:property name="smtp_fromaddress" value="admin@company.co.kr" />
-		<beans:property name="smtp_fromuser" value="ADMIN" />
-		<beans:property name="smtp_security" value="false" />
-		<beans:property name="smtp_debug" value="false" /> 
-		<beans:property name="smtp_username" value="" />
-		<beans:property name="smtp_password" value="" />
-		-->
-		
-		<!--# naver smtp setting --> 
-		<beans:property name="smtp_host" value="smtp.naver.com" />
-		<beans:property name="smtp_port" value="465" /> 
-		<beans:property name="smtp_fromaddress" value="housing82@naver.com" />
-		<beans:property name="smtp_fromuser" value="PMS" />
-		<beans:property name="smtp_security" value="true" /> 
-		<beans:property name="smtp_debug" value="true" />
-		<beans:property name="smtp_username" value="housing82" />
-		<beans:property name="smtp_password" value="vmflakehssk#82" />
-
+	<beans:bean id="operateCodeBeans" class="com.ezwel.htl.interfaces.commons.configure.InterfaceFactory" init-method="initFactory" destroy-method="destroyFactory">
+		<!-- config file path -->
+		<beans:property name="configXmlPath" value="/interfaces/interface-configure.xml" />
 	</beans:bean>
 	
 </beans:beans>
