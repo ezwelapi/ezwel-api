@@ -65,7 +65,9 @@ public class InterfaceFactory {
 		String classesRoot = null;
 		File configureXml = null;
 		URL configureXmlURL = null;
+		
 		try {
+			
 			jaxbc = JAXBContext.newInstance("");
 			unmarshaller = jaxbc.createUnmarshaller();
 			classesRoot = this.getClass().getClassLoader().getResource("/").getPath();
