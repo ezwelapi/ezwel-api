@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ezwel.htl.interfaces.abstracts.AbstractEntity;
-import com.ezwel.htl.interfaces.annotation.APIModel;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
 @APIModel
 public class OutputDTO extends AbstractEntity {

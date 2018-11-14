@@ -27,7 +27,20 @@
 			<artifactId>ezwel_framework</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-	
+
+	<dependency>
+		<groupId>org.apache.geronimo.specs</groupId>
+		<artifactId>geronimo-servlet_3.0_spec</artifactId>
+		<version>${geronimo-servlet_3.0_spec-version}</version>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.geronimo.specs</groupId>
+		<artifactId>geronimo-jsp_2.2_spec</artifactId>
+		<version>${geronimo-jsp_2.2_spec-version}</version>
+		<scope>provided</scope>
+	</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple 
 		<dependency>
 		    <groupId>com.googlecode.json-simple</groupId>

@@ -3,8 +3,8 @@ package com.ezwel.htl.interfaces.http.dto;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.ezwel.htl.interfaces.abstracts.AbstractEntity;
-import com.ezwel.htl.interfaces.annotation.APIModel;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
 @APIModel
 public class OutputDTOSub01 extends AbstractEntity {
