@@ -20,6 +20,23 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.thetransactioncompany</groupId>
+			<artifactId>cors-filter</artifactId>
+			<version>2.6</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/thirdparty/cors-filter-2.6.jar</systemPath>
+			<optional>false</optional>				
+		</dependency>
+		<dependency>
+			<groupId>com.thetransactioncompany</groupId>
+			<artifactId>java-property-utils</artifactId>
+			<version>1.9.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/thirdparty/java-property-utils-1.9.1.jar</systemPath>
+			<optional>false</optional>							
+		</dependency> 
+
+		<dependency>
 			<groupId>org.apache.geronimo.specs</groupId>
 			<artifactId>geronimo-servlet_3.0_spec</artifactId>
 			<version>${geronimo-servlet_3.0_spec-version}</version>
@@ -31,11 +48,7 @@
 			<version>${geronimo-jsp_2.2_spec-version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>tomcat-jdbc</artifactId>
-			<version>${org.apache.tomcat-jdbc-version}</version>
-		</dependency>
+	
 		<!--# mybatis -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -53,11 +66,13 @@
 			<version>1.4</version>
 		</dependency>
 		<dependency>
-			<groupId>jstl</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-			<scope>compile</scope>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.10</version>
 		</dependency>
+		
+		
+		<!-- swagger -->
 		<dependency>
 			<groupId>com.knappsack</groupId>
 			<artifactId>swagger4spring-web</artifactId>
@@ -85,11 +100,7 @@
 			<artifactId>swagger-jaxrs_2.9.1</artifactId>
 			<version>${swagger-version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.scala-lang</groupId>
-			<artifactId>scala-library</artifactId>
-			<version>${scala-version}</version>
-		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-api</artifactId>
@@ -110,6 +121,8 @@
 			<artifactId>cxf-rt-transports-http</artifactId>
 			<version>2.6.0</version>
 		</dependency>
+		 -->
+		 <!--  
 		<dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom2</artifactId>
@@ -120,16 +133,10 @@
 			<artifactId>jaxen</artifactId>
 			<version>1.1.6</version>
 		</dependency>
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>1.10</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jdom</groupId>
-			<artifactId>jdom2</artifactId>
-			<version>2.0.6</version>
-		</dependency>		
+		-->
+		
+
+	
 		
 	</dependencies>
 

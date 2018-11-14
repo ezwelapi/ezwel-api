@@ -19,6 +19,12 @@
 			<version>${project.version}</version>
 		</dependency>
 			
+		<dependency>
+			<groupId>com.ezwel.htl</groupId>
+			<artifactId>ezwel_if</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+					
 		<!-- Servlet 3.0 --><!-- check -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
