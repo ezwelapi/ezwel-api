@@ -110,6 +110,7 @@ public class HttpInterfaceExecutorService {
 		}
 	}
 	
+	@APIOperation(description="Getting Http URL Connection", isExecTest=true)
 	public HttpURLConnection getOpenHttpURLConnection(HttpConfigDTO in) {
 		
 		HttpURLConnection conn = null;
@@ -269,12 +270,10 @@ public class HttpInterfaceExecutorService {
 	@SuppressWarnings("unchecked")
 	@APIOperation(description="Http URL Communication API", isExecTest=true)
 	public <T1 extends AbstractEntity, T2 extends AbstractEntity> T2 sendPostJSON(HttpConfigDTO in, T1 inputObject, Class<T2> outputType) {
+		logger.debug("[START] sendJSON\nInput HttpConfig : {}", in /*inputObject, outputType*/);
 		if(in == null) {
 			throw new APIException("■ 인터페이스 필수 입력 객체가 존재하지 않습니다.");
 		}
-
-		String localKey = Local.startOperation();
-		logger.debug("[START] sendJSON : {}\nInput HttpConfig : {}", localKey, in /*inputObject, outputType*/);
 		
 		//return value
 		T2 out = null;
@@ -341,11 +340,9 @@ public class HttpInterfaceExecutorService {
 			if(conn != null) {
 				conn.disconnect();
 			}
-			in.setLapTimeMillis(Local.endOperation(localKey).getLapTimeMillis());
 		}
 		
-		//logger.debug("[FIANL-OUTPUT] {}", out);
-		logger.debug("[END] sendJSON lapTimeMillis For Second : {} sec", APIUtil.getTimeMillisToSecond(Local.endOperation(localKey).getLapTimeMillis()));
+		logger.debug("[END] sendJSON");
 		return out;
 	}
 	

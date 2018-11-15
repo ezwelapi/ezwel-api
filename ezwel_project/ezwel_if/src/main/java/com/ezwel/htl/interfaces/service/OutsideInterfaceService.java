@@ -1,14 +1,20 @@
 package com.ezwel.htl.interfaces.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIService;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
 import com.ezwel.htl.interfaces.commons.http.dto.HttpConfigDTO;
+import com.ezwel.htl.interfaces.commons.http.dto.MultiHttpConfigDTO;
 import com.ezwel.htl.interfaces.commons.spring.ApplicationContext;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.service.dto.allReg.AllRegOutDTO;
@@ -43,7 +49,7 @@ public class OutsideInterfaceService {
 
 	private static final Logger logger = LoggerFactory.getLogger(OutsideInterfaceService.class);
 
-	private HttpInterfaceExecutorService inteface = (HttpInterfaceExecutorService) ApplicationContext.getBean("HttpInterfaceService");
+	private HttpInterfaceExecutorService inteface = (HttpInterfaceExecutorService) ApplicationContext.getBean(HttpInterfaceExecutorService.class);
 	
 	@APIOperation(description="전체시설일괄등록 인터페이스")
 	public AllRegOutDTO callAllReg() {
@@ -52,14 +58,8 @@ public class OutsideInterfaceService {
 		
 		try {
 			
-			HttpConfigDTO config = new HttpConfigDTO();
-			/** reqeust header config */
-			config.setHttpAgentId("제휴사ID-".concat(APIUtil.getId()));
-			config.setHttpApiKey("apiKey-agentJob");
-			config.setHttpApiSignature(APIUtil.getSecretId("apiKey-agentJob"));
-			config.setHttpApiTimestamp(Long.toString(APIUtil.currentTimeMillis() / 100));
-			/** interface target config */
-			config.setRestURI("http://localhost:9123/ezwel_if_demo/service/allReg.jsp");
+			HttpConfigDTO config = InterfaceFactory.getChannel("chan-01");
+			config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
 			/** execute interface */
 			out = (AllRegOutDTO) inteface.sendPostJSON(config, AllRegOutDTO.class);
 		}
@@ -72,22 +72,34 @@ public class OutsideInterfaceService {
 	
 	//멀티쓰레드
 	@APIOperation(description="시설검색 인터페이스")
-	public FaclSearchOutDTO callFaclSearch(FaclSearchInDTO faclSearchDTO) {
+	public List<FaclSearchOutDTO> callFaclSearch(FaclSearchInDTO faclSearchDTO) {
 			
-		FaclSearchOutDTO out = null;
+		List<FaclSearchOutDTO> out = null;
+		MultiHttpConfigDTO multi = null;
+		List<MultiHttpConfigDTO> multiHttpConfigList = null;
+		List<HttpConfigDTO> channelList = null;
 		
 		try {
+			multiHttpConfigList = new ArrayList<MultiHttpConfigDTO>();
 			
-			HttpConfigDTO config = new HttpConfigDTO();
-			/** reqeust header config */
-			config.setHttpAgentId("제휴사ID-".concat(APIUtil.getId()));
-			config.setHttpApiKey("apiKey-agentJob");
-			config.setHttpApiSignature(APIUtil.getSecretId("apiKey-agentJob"));
-			config.setHttpApiTimestamp(Long.toString(APIUtil.currentTimeMillis() / 100));
-			/** interface target config */
-			config.setRestURI("http://localhost:9123/ezwel_if_demo/service/faclSearch.jsp");
+			channelList = InterfaceFactory.getChannelGroup("chanGroup-01");
+			if(channelList != null) {
+				for(HttpConfigDTO config : channelList) {
+					multi = new MultiHttpConfigDTO();
+					config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
+					//config
+					multi.setHttpConfigDTO(config);
+					//input
+					multi.setInputDTO(faclSearchDTO);
+					//output
+					multi.setOutputType(FaclSearchOutDTO.class);
+					multiHttpConfigList.add(multi);
+				}
+			}
+			
 			/** execute interface */
-			out = (FaclSearchOutDTO) inteface.sendPostJSON(config, faclSearchDTO, FaclSearchOutDTO.class);
+			//멀티 쓰레드 인터페이스 실행
+			out = inteface.sendMultiPostJSON(multiHttpConfigList);
 		}
 		catch(Exception e) {
 			throw new APIException("시설검색 인터페이스 장애발생.", e);
@@ -98,25 +110,37 @@ public class OutsideInterfaceService {
 	
 	//멀티쓰레드
 	@APIOperation(description="당일특가검색 인터페이스")
-	public SddSearchOutDTO callSddSearch() {
+	public List<SddSearchOutDTO> callSddSearch() {
 		
-		SddSearchOutDTO out = null;
+		List<SddSearchOutDTO> out = null;
+		MultiHttpConfigDTO multi = null;
+		List<MultiHttpConfigDTO> multiHttpConfigList = null;
+		List<HttpConfigDTO> channelList = null;
 		
 		try {
+			multiHttpConfigList = new ArrayList<MultiHttpConfigDTO>();
 			
-			HttpConfigDTO config = new HttpConfigDTO();
-			/** reqeust header config */
-			config.setHttpAgentId("제휴사ID-".concat(APIUtil.getId()));
-			config.setHttpApiKey("apiKey-agentJob");
-			config.setHttpApiSignature(APIUtil.getSecretId("apiKey-agentJob"));
-			config.setHttpApiTimestamp(Long.toString(APIUtil.currentTimeMillis() / 100));
-			/** interface target config */
-			config.setRestURI("http://localhost:9123/ezwel_if_demo/service/sddSearch.jsp");
+			channelList = InterfaceFactory.getChannelGroup("chanGroup-02");
+			if(channelList != null) {
+				for(HttpConfigDTO config : channelList) {
+					multi = new MultiHttpConfigDTO();
+					config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
+					//no input 
+					config.setDoOutput(false);
+					//config
+					multi.setHttpConfigDTO(config);
+					//output
+					multi.setOutputType(SddSearchOutDTO.class);
+					multiHttpConfigList.add(multi);
+				}
+			}
+			
 			/** execute interface */
-			out = (SddSearchOutDTO) inteface.sendPostJSON(config, SddSearchOutDTO.class);
+			//멀티 쓰레드 인터페이스 실행
+			out = inteface.sendMultiPostJSON(multiHttpConfigList);
 		}
 		catch(Exception e) {
-			throw new APIException("당일특가검색 인터페이스 장애발생.", e);
+			throw new APIException("시설검색 인터페이스 장애발생.", e);
 		}
 		
 		return out;
@@ -129,14 +153,8 @@ public class OutsideInterfaceService {
 		
 		try {
 			
-			HttpConfigDTO config = new HttpConfigDTO();
-			/** reqeust header config */
-			config.setHttpAgentId("제휴사ID-".concat(APIUtil.getId()));
-			config.setHttpApiKey("apiKey-agentJob");
-			config.setHttpApiSignature(APIUtil.getSecretId("apiKey-agentJob"));
-			config.setHttpApiTimestamp(Long.toString(APIUtil.currentTimeMillis() / 100));
-			/** interface target config */
-			config.setRestURI("http://localhost:9123/ezwel_if_demo/service/roomRead.jsp");
+			HttpConfigDTO config = InterfaceFactory.getChannel("chan-04");
+			config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
 			/** execute interface */
 			out = (RoomReadOutDTO) inteface.sendPostJSON(config, roomReadDTO, RoomReadOutDTO.class);
 		}
@@ -154,13 +172,8 @@ public class OutsideInterfaceService {
 		
 		try {
 			
-			HttpConfigDTO config = new HttpConfigDTO();
-			/** reqeust header config */
-			config.setHttpAgentId("제휴사ID-".concat(APIUtil.getId()));
-			config.setHttpApiKey("apiKey-agentJob");
-			config.setHttpApiSignature(APIUtil.getSecretId("apiKey-agentJob"));
-			/** interface target config */
-			config.setRestURI("http://localhost:9123/ezwel_if_demo/service/cancelFeePsrc.jsp");
+			HttpConfigDTO config = InterfaceFactory.getChannel("chan-05");
+			config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
 			/** execute interface */
 			out = (CancelFeePsrcOutDTO) inteface.sendPostJSON(config, cancelFeePsrcDTO, CancelFeePsrcOutDTO.class);
 		}
@@ -178,14 +191,8 @@ public class OutsideInterfaceService {
 		
 		try {
 			
-			HttpConfigDTO config = new HttpConfigDTO();
-			/** reqeust header config */
-			config.setHttpAgentId("제휴사ID-".concat(APIUtil.getId()));
-			config.setHttpApiKey("apiKey-agentJob");
-			config.setHttpApiSignature(APIUtil.getSecretId("apiKey-agentJob"));
-			config.setHttpApiTimestamp(Long.toString(APIUtil.currentTimeMillis() / 100));
-			/** interface target config */
-			config.setRestURI("http://localhost:9123/ezwel_if_demo/service/rsvHistSend.jsp");
+			HttpConfigDTO config = InterfaceFactory.getChannel("chan-06");
+			config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
 			/** execute interface */
 			out = (RsvHistSendOutDTO) inteface.sendPostJSON(config, rsvHistSendDTO, RsvHistSendOutDTO.class);
 		}
@@ -203,14 +210,8 @@ public class OutsideInterfaceService {
 		
 		try {
 			
-			HttpConfigDTO config = new HttpConfigDTO();
-			/** reqeust header config */
-			config.setHttpAgentId("제휴사ID-".concat(APIUtil.getId()));
-			config.setHttpApiKey("apiKey-agentJob");
-			config.setHttpApiSignature(APIUtil.getSecretId("apiKey-agentJob"));
-			config.setHttpApiTimestamp(Long.toString(APIUtil.currentTimeMillis() / 100));
-			/** interface target config */
-			config.setRestURI("http://localhost:9123/ezwel_if_demo/service/cancelFeeAmt.jsp");
+			HttpConfigDTO config = InterfaceFactory.getChannel("chan-07");
+			config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
 			/** execute interface */
 			out = (CancelFeeAmtOutDTO) inteface.sendPostJSON(config, cancelFeeAmtDTO, CancelFeeAmtOutDTO.class);
 		}
@@ -227,14 +228,8 @@ public class OutsideInterfaceService {
 		
 		try {
 			
-			HttpConfigDTO config = new HttpConfigDTO();
-			/** reqeust header config */
-			config.setHttpAgentId("제휴사ID-".concat(APIUtil.getId()));
-			config.setHttpApiKey("apiKey-agentJob");
-			config.setHttpApiSignature(APIUtil.getSecretId("apiKey-agentJob"));
-			config.setHttpApiTimestamp(Long.toString(APIUtil.currentTimeMillis() / 100));
-			/** interface target config */
-			config.setRestURI("http://localhost:9123/ezwel_if_demo/service/orderCancelReq.jsp");
+			HttpConfigDTO config = InterfaceFactory.getChannel("chan-08");
+			config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
 			/** execute interface */
 			out = (OrderCancelReqOutDTO) inteface.sendPostJSON(config, orderCancelReqDTO, OrderCancelReqOutDTO.class);
 		}
@@ -252,14 +247,8 @@ public class OutsideInterfaceService {
 		
 		try {
 			
-			HttpConfigDTO config = new HttpConfigDTO();
-			/** reqeust header config */
-			config.setHttpAgentId("제휴사ID-".concat(APIUtil.getId()));
-			config.setHttpApiKey("apiKey-agentJob");
-			config.setHttpApiSignature(APIUtil.getSecretId("apiKey-agentJob"));
-			config.setHttpApiTimestamp(Long.toString(APIUtil.currentTimeMillis() / 100));
-			/** interface target config */
-			config.setRestURI("http://localhost:9123/ezwel_if_demo/service/omiNumIdn.jsp");
+			HttpConfigDTO config = InterfaceFactory.getChannel("chan-09");
+			config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
 			/** execute interface */
 			out = (OmiNumIdnOutDTO) inteface.sendPostJSON(config, omiNumIdnDTO, OmiNumIdnOutDTO.class);
 		}
@@ -277,14 +266,8 @@ public class OutsideInterfaceService {
 		
 		try {
 			
-			HttpConfigDTO config = new HttpConfigDTO();
-			/** reqeust header config */
-			config.setHttpAgentId("제휴사ID-".concat(APIUtil.getId()));
-			config.setHttpApiKey("apiKey-agentJob");
-			config.setHttpApiSignature(APIUtil.getSecretId("apiKey-agentJob"));
-			config.setHttpApiTimestamp(Long.toString(APIUtil.currentTimeMillis() / 100));
-			/** interface target config */
-			config.setRestURI("http://localhost:9123/ezwel_if_demo/service/cancelFeeAmt.jsp");
+			HttpConfigDTO config = InterfaceFactory.getChannel("chan-10");
+			config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
 			/** execute interface */
 			out = (EzwelJobOutDTO) inteface.sendPostJSON(config, ezwelJobDTO, EzwelJobOutDTO.class);
 		}

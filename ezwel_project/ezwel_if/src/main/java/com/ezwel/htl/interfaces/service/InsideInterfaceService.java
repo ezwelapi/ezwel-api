@@ -29,13 +29,13 @@ import com.ezwel.htl.interfaces.service.dto.voucherReg.VoucherRegOutDTO;
  * @author swkim@ebsolution.co.kr
  * @date   2018. 11. 13.
  */
+@Service
 @APIService
-@Service(value="InsideInterfaceService")
 public class InsideInterfaceService {
 
 	private static final Logger logger = LoggerFactory.getLogger(InsideInterfaceService.class);
 
-	private HttpInterfaceExecutorService inteface = (HttpInterfaceExecutorService) ApplicationContext.getBean("HttpInterfaceService");
+	private HttpInterfaceExecutorService inteface = (HttpInterfaceExecutorService) ApplicationContext.getBean(HttpInterfaceExecutorService.class);
 	
 	@APIOperation(description="신규시설등록수정 인터페이스")
 	public RecordOutDTO callRecord(RecordInDTO recordDTO) {

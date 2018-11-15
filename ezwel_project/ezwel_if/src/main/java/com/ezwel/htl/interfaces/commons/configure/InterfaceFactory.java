@@ -1,7 +1,9 @@
 package com.ezwel.htl.interfaces.commons.configure;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
@@ -27,10 +29,13 @@ public class InterfaceFactory {
 
 	private static final Logger logger = LoggerFactory.getLogger(InterfaceFactory.class);
 	
-	private static Map<String, HttpConfigDTO> configureMap; 
+	private static Map<String, HttpConfigDTO> channelMap;
+	
+	private static Map<String, List<HttpConfigDTO>> channelGroupMap;
 	
 	static {
-		configureMap = new LinkedHashMap<String, HttpConfigDTO>();
+		channelMap = new LinkedHashMap<String, HttpConfigDTO>();
+		channelGroupMap = new LinkedHashMap<String, List<HttpConfigDTO>>();
 	}
 	
 	private String configXmlPath;
@@ -51,8 +56,16 @@ public class InterfaceFactory {
 	
 	public static HttpConfigDTO getChannel(String chanId) {
 		HttpConfigDTO out = null;
-		if(configureMap != null) {
-			out = configureMap.get(chanId); 
+		if(channelMap != null) {
+			out = channelMap.get(chanId); 
+		}
+		return out;
+	}
+	
+	public static List<HttpConfigDTO> getChannelGroup(String chanGroupId) {
+		List<HttpConfigDTO> out = null;
+		if(channelMap != null) {
+			out = channelGroupMap.get(chanGroupId); 
 		}
 		return out;
 	}
@@ -65,6 +78,7 @@ public class InterfaceFactory {
 		File configureXml = null;
 		InterfaceChannel ifc = null;
 		String xmlPath = null;
+		List<HttpConfigDTO> chanGroupList = null;
 		
 		try {
 			
@@ -82,14 +96,36 @@ public class InterfaceFactory {
 			
 			ifc = (InterfaceChannel) unmarshaller.unmarshal(configureXml);
 			
+			
+			
+			
+			
 			for(HttpConfigDTO item : ifc.getOutsideChans()) {
 				logger.debug("outside channel : {}", item);
-				configureMap.put(item.getChanId(), item);
+				channelMap.put(item.getChanId(), item);
+
+				if(APIUtil.isNotEmpty(item.getChanGroupId())) {
+					chanGroupList = channelGroupMap.get(item.getChanGroupId());
+					if(chanGroupList == null) {
+						chanGroupList = new ArrayList<HttpConfigDTO>();
+					}
+					chanGroupList.add(item);
+					channelGroupMap.put(item.getChanGroupId(), chanGroupList);
+				}
 			}
 			
 			for(HttpConfigDTO item : ifc.getInsideChans()) {
 				logger.debug("inside channel : {}", item);
-				configureMap.put(item.getChanId(), item);				
+				channelMap.put(item.getChanId(), item);		
+				
+				if(APIUtil.isNotEmpty(item.getChanGroupId())) {
+					chanGroupList = channelGroupMap.get(item.getChanGroupId());
+					if(chanGroupList == null) {
+						chanGroupList = new ArrayList<HttpConfigDTO>();
+					}
+					chanGroupList.add(item);
+					channelGroupMap.put(item.getChanGroupId(), chanGroupList);
+				}				
 			}
 			
 		} catch (JAXBException e) {
@@ -98,8 +134,8 @@ public class InterfaceFactory {
 	}
 	
 	public void destroyFactory() {
-		if(configureMap != null) {
-			configureMap.clear();
+		if(channelMap != null) {
+			channelMap.clear();
 		}
 	}
 }

@@ -24,6 +24,9 @@ public class HttpConfigDTO extends APIObject {
 	@APIFields(description = "HTTP 체널 아이디", required=true)
 	private String chanId;
 	
+	@APIFields(description = "HTTP 체널 그룹 아이디")
+	private String chanGroupId;
+	
 	@APIFields(description = "HTTP 요청 파라메터 송신 여부")
 	private boolean isDoOutput;
 	
@@ -81,6 +84,7 @@ public class HttpConfigDTO extends APIObject {
 	
 	private void reset() {
 		chanId = null;
+		chanGroupId = null;
 		isDoOutput = true;
 		isDoInput = true;
 		restURI = null;
@@ -98,6 +102,15 @@ public class HttpConfigDTO extends APIObject {
 		responseException = null;
 		description = null;
 		lapTimeMillis = IOperateCode.LONG_ZERO_VALUE;
+	}
+
+	
+	public String getChanGroupId() {
+		return chanGroupId;
+	}
+
+	public void setChanGroupId(String chanGroupId) {
+		this.chanGroupId = chanGroupId;
 	}
 
 	public String getChanId() {

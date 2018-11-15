@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<interfaceChannel>
+	<outsideChans>
+		<httpChan>
+			<httpAgentId>outside-01</httpAgentId>
+			<httpApiKey>outsideApiKey-01</httpApiKey>
+			<description>전체시설일괄등록</description>
+			<restURI>http://localhost:9123/ezwel_if_demo/interface/api/allReg.jsp</restURI>
+			<encoding>UTF-8</encoding>
+			<writeEncoding>UTF-8</writeEncoding>
+			<readEncoding>UTF-8</readEncoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>3000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<httpAgentId>outside-02</httpAgentId>
+			<httpApiKey>outsideApiKey-02</httpApiKey>
+			<description>취소수수료계산</description>
+			<restURI>http://localhost:9123/ezwel_if_demo/interface/api/cancelFeeAmt.jsp</restURI>
+			<encoding>UTF-8</encoding>
+			<writeEncoding>UTF-8</writeEncoding>
+			<readEncoding>UTF-8</readEncoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>3000</readTimeout>
+		</httpChan>	
+	</outsideChans>
+	
+	<insideChans>
+		<httpChan>
+			<httpAgentId>inside-01</httpAgentId>
+			<httpApiKey>insideApiKey-01</httpApiKey>
+			<description>주문대사</description>
+			<restURI>http://localhost:9123/ezwel_if_server/interface/api/callAgentJob.do</restURI>
+			<encoding>UTF-8</encoding>
+			<writeEncoding>UTF-8</writeEncoding>
+			<readEncoding>UTF-8</readEncoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>3000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<httpAgentId>inside-02</httpAgentId>
+			<httpApiKey>insideApiKey-02</httpApiKey>
+			<description>신규시설등록수정</description>
+			<restURI>http://localhost:9123/ezwel_if_server/interface/api/callRecord.do</restURI>
+			<encoding>UTF-8</encoding>
+			<writeEncoding>UTF-8</writeEncoding>
+			<readEncoding>UTF-8</readEncoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>3000</readTimeout>
+		</httpChan>	
+	</insideChans>
+	
+</interfaceChannel>

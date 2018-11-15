@@ -1,5 +1,10 @@
 package com.ezwel.htl.interfaces.commons.abstracts;
 
+import java.io.Serializable;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 /**
  * <pre>
  *  APIObject for APIModel
@@ -8,7 +13,13 @@ package com.ezwel.htl.interfaces.commons.abstracts;
  * @date 2018. 11. 5.
  * @serviceType API
  */
+@Data
+@EqualsAndHashCode(callSuper=false)
+public abstract class AbstractEntity extends APIObject implements Serializable {
 
-public abstract class AbstractEntity extends APIObject {
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = 8331021898097280487L;
 	
 }
