@@ -174,7 +174,7 @@ public class HttpInterfaceExecutorTest  {
 		restURIList.add("http://localhost:9123/ezwel_if_demo/service/faclSearch.jsp");
 		restURIList.add("http://localhost:9123/ezwel_if_demo/service/omiNumIdn.jsp");
 		restURIList.add("http://localhost:9123/ezwel_if_demo/service/orderCancelReq.jsp");
-		restURIList.add("http://localhost:9123/ezwel_if_demo/service/recode.jsp");
+		restURIList.add("http://localhost:9123/ezwel_if_demo/service/record.jsp");
 		restURIList.add("http://localhost:9123/ezwel_if_demo/service/roomRead.jsp");
 		restURIList.add("http://localhost:9123/ezwel_if_demo/service/rsvHistSend.jsp");
 		restURIList.add("http://localhost:9123/ezwel_if_demo/service/saleStop.jsp");
