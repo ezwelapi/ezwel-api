@@ -1,6 +1,4 @@
-package com.ezwel.htl.interfaces.service.dto.sddSearch;
-
-import java.util.List;
+package com.ezwel.htl.interfaces.service.dto.omiNumIdn;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
 
@@ -8,15 +6,14 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  * <pre>
  * 
  * </pre>
- * 
- * @author swkim@ebsolution.co.kr
- * @date 2018. 11. 13.
+ * @author ypjeon@ebsolution.co.kr
+ * @date   2018. 11. 13.
  */
-public class SddSearchOutDTO extends AbstractEntity {
+public class OmiNumIdnOutDTO extends AbstractEntity {
 
 	private String code;
 	private String message;
-	private List<SddSearchDataOutDTO> data = null;
+	private OmiNumIdnReservesOutDTO reserves;
 
 	public String getCode() {
 		return code;
@@ -34,12 +31,12 @@ public class SddSearchOutDTO extends AbstractEntity {
 		this.message = message;
 	}
 
-	public List<SddSearchDataOutDTO> getData() {
-		return data;
+	public OmiNumIdnReservesOutDTO getReserves() {
+		return reserves;
 	}
 
-	public void setData(List<SddSearchDataOutDTO> data) {
-		this.data = data;
+	public void setReserves(OmiNumIdnReservesOutDTO reserves) {
+		this.reserves = reserves;
 	}
 
 }

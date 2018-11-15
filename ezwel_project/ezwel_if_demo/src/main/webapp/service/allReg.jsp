@@ -79,9 +79,9 @@ try {
 			"checkOutTime": "11:00",
 			"typeCode": "t01",
 			"gradeCode": "g01",
-			"mapX": "",
-			"mapY": "",
-			"serviceCodes": ""
+			"mapX": "37.567041",
+			"mapY": "126.978063",
+			"serviceCodes": "f01,f02,f03,f04,f05"
 		}
 	]
 }
