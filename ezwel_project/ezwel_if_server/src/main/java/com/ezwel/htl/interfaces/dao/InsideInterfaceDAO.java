@@ -15,4 +15,5 @@ import org.springframework.stereotype.Repository;
 public class InsideInterfaceDAO {
 
 	private static final Logger logger = LoggerFactory.getLogger(InsideInterfaceDAO.class);
+	
 }
