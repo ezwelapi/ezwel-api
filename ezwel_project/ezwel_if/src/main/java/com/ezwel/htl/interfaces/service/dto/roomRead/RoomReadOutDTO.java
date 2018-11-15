@@ -7,7 +7,7 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  * 
  * </pre>
  * 
- * @author swkim@ebsolution.co.kr
+ * @author ypjeon@ebsolution.co.kr
  * @date 2018. 11. 13.
  */
 public class RoomReadOutDTO extends AbstractEntity {
