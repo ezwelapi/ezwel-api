@@ -2,6 +2,8 @@ package com.ezwel.htl.interfaces.commons.http.dto;
 
 import java.util.Properties;
 
+import javax.xml.bind.annotation.XmlElement;
+
 import com.ezwel.htl.interfaces.commons.abstracts.APIObject;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
@@ -19,6 +21,9 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 @APIModel
 public class HttpConfigDTO extends APIObject {
 
+	@APIFields(description = "HTTP 체널 아이디", required=true)
+	private String chanId;
+	
 	@APIFields(description = "HTTP 요청 파라메터 송신 여부")
 	private boolean isDoOutput;
 	
@@ -27,7 +32,7 @@ public class HttpConfigDTO extends APIObject {
 	
 	@APIFields(description = "http interface restfufl api uri", required=true)
 	private String restURI;
-
+	
 	@APIFields(description = "http connection timeout")
 	private int connTimeout;
 	
@@ -37,21 +42,30 @@ public class HttpConfigDTO extends APIObject {
 	@APIFields(description = "HTTP HEADER PROPERTY")
 	private Properties requestProperty;
 	
+	@APIFields(description = "HTTP 인터페이스 설명")
+	private String description;
+	
 	@APIFields(description = "API 키(ezwel발급)", required=true, httpHeader=true, headerName="http-api-key")
 	private String httpApiKey; 
 	
+	@APIFields(description = "에이전트 아이디", required=true, httpHeader=true, headerName="http-agent-id")
+	private String httpAgentId;
+
 	@APIFields(description = "API 시그니처", required=true, httpHeader=true, headerName="http-api-signature")
 	private String httpApiSignature; 
 
 	@APIFields(description = "요정시간(타임스탬프)", required=true, httpHeader=true, headerName="http-api-timestamp")
 	private String httpApiTimestamp;
-
-	@APIFields(description = "에이전트 아이디", required=true, httpHeader=true, headerName="http-agent-id")
-	private String httpAgentId;
 	
 	@APIFields(description = "I/O 인코딩 (default:UTF-8)")
 	private String encoding;
-		
+	
+	@APIFields(description = "Output(request) 인코딩 (default:UTF-8)")
+	private String writeEncoding;
+	
+	@APIFields(description = "Input(response) 인코딩 (default:UTF-8)")
+	private String readEncoding;
+	
 	@APIFields(description = "HTTP URL 응답 코드")
 	private Integer responseCode;
 	
@@ -66,6 +80,7 @@ public class HttpConfigDTO extends APIObject {
 	}
 	
 	private void reset() {
+		chanId = null;
 		isDoOutput = true;
 		isDoInput = true;
 		restURI = null;
@@ -77,9 +92,20 @@ public class HttpConfigDTO extends APIObject {
 		httpApiTimestamp = (Long.toString(APIUtil.currentTimeMillis() / 100));
 		httpAgentId = null;
 		encoding = IOperateCode.DEFAULT_ENCODING;
+		writeEncoding = IOperateCode.DEFAULT_ENCODING;
+		readEncoding = IOperateCode.DEFAULT_ENCODING;
 		responseCode = -1;
 		responseException = null;
+		description = null;
 		lapTimeMillis = IOperateCode.LONG_ZERO_VALUE;
+	}
+
+	public String getChanId() {
+		return chanId;
+	}
+
+	public void setChanId(String chanId) {
+		this.chanId = chanId;
 	}
 
 	public boolean isDoOutput() {
@@ -103,6 +129,7 @@ public class HttpConfigDTO extends APIObject {
 		return restURI;
 	}
 
+	@XmlElement
 	public void setRestURI(String restURI) {
 		this.restURI = restURI;
 	}
@@ -111,6 +138,7 @@ public class HttpConfigDTO extends APIObject {
 		return connTimeout;
 	}
 
+	@XmlElement
 	public void setConnTimeout(int connTimeout) {
 		this.connTimeout = connTimeout;
 	}
@@ -119,6 +147,7 @@ public class HttpConfigDTO extends APIObject {
 		return readTimeout;
 	}
 
+	@XmlElement
 	public void setReadTimeout(int readTimeout) {
 		this.readTimeout = readTimeout;
 	}
@@ -142,6 +171,7 @@ public class HttpConfigDTO extends APIObject {
 		return httpApiKey;
 	}
 
+	@XmlElement
 	public void setHttpApiKey(String httpApiKey) {
 		this.httpApiKey = httpApiKey;
 	}
@@ -166,6 +196,7 @@ public class HttpConfigDTO extends APIObject {
 		return httpAgentId;
 	}
 
+	@XmlElement
 	public void setHttpAgentId(String httpAgentId) {
 		this.httpAgentId = httpAgentId;
 	}
@@ -174,6 +205,7 @@ public class HttpConfigDTO extends APIObject {
 		return encoding;
 	}
 
+	@XmlElement
 	public void setEncoding(String encoding) {
 		this.encoding = encoding;
 	}
@@ -200,6 +232,33 @@ public class HttpConfigDTO extends APIObject {
 
 	public void setLapTimeMillis(Long lapTimeMillis) {
 		this.lapTimeMillis = lapTimeMillis;
+	}
+
+	public String getWriteEncoding() {
+		return writeEncoding;
+	}
+
+	@XmlElement
+	public void setWriteEncoding(String writeEncoding) {
+		this.writeEncoding = writeEncoding;
+	}
+
+	public String getReadEncoding() {
+		return readEncoding;
+	}
+
+	@XmlElement
+	public void setReadEncoding(String readEncoding) {
+		this.readEncoding = readEncoding;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	@XmlElement
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	
