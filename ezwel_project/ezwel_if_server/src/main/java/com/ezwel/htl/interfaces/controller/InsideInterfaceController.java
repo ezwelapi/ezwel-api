@@ -2,14 +2,15 @@ package com.ezwel.htl.interfaces.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
-import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.http.dto.HttpConfigDTO;
+import com.ezwel.htl.interfaces.commons.constants.IOperateCode;
 import com.ezwel.htl.interfaces.commons.spring.ApplicationContext;
-import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.service.InsideInterfaceService;
 import com.ezwel.htl.interfaces.service.dto.agentJob.AgentJobInDTO;
 import com.ezwel.htl.interfaces.service.dto.agentJob.AgentJobOutDTO;
@@ -37,9 +38,18 @@ public class InsideInterfaceController {
 	
 	private InsideInterfaceService intefaceService = (InsideInterfaceService) ApplicationContext.getBean(InsideInterfaceService.class);
 	
+	
+	public ResponseEntity<? extends Object> responseEntity(){
+
+		HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.add("Content-Type", "application/json;charset=".concat(IOperateCode.DEFAULT_ENCODING));
+		
+		return new ResponseEntity<Object>(responseHeaders, HttpStatus.CREATED);
+	}
+	
 	@APIOperation(description="신규시설등록수정 인터페이스")
 	@RequestMapping(value="callRecord.do")
-	public RecordOutDTO callRecord(RecordInDTO recordDTO) {
+	public ResponseEntity<RecordOutDTO> callRecord(RecordInDTO recordDTO) {
 		logger.debug("[START] callRecord {}", recordDTO);
 		
 		RecordOutDTO out = intefaceService.callRecord(recordDTO);
@@ -50,7 +60,7 @@ public class InsideInterfaceController {
 	
 	@APIOperation(description="시설판매중지설정 인터페이스")
 	@RequestMapping(value="callSaleStop.do")
-	public SaleStopOutDTO callSaleStop(SaleStopInDTO saleStopDTO) {
+	public ResponseEntity<String> callSaleStop(SaleStopInDTO saleStopDTO) {
 		logger.debug("[START] callSaleStop {}", saleStopDTO);
 		
 		SaleStopOutDTO out = intefaceService.callSaleStop(saleStopDTO);
@@ -61,7 +71,7 @@ public class InsideInterfaceController {
 	
 	@APIOperation(description="시설바우처번호등록 인터페이스")
 	@RequestMapping(value="callVoucherReg.do")
-	public VoucherRegOutDTO callVoucherReg(VoucherRegInDTO voucherRegDTO) {
+	public ResponseEntity<String> callVoucherReg(VoucherRegInDTO voucherRegDTO) {
 		logger.debug("[START] callVoucherReg {}", voucherRegDTO);
 		
 		VoucherRegOutDTO out = intefaceService.callVoucherReg(voucherRegDTO);
@@ -72,7 +82,7 @@ public class InsideInterfaceController {
 	
 	@APIOperation(description="예약내역조회 인터페이스")
 	@RequestMapping(value="callView.do")
-	public ViewOutDTO callView(ViewInDTO viewDTO) {
+	public ResponseEntity<String> callView(ViewInDTO viewDTO) {
 		logger.debug("[START] callView {}", viewDTO);
 		
 		ViewOutDTO out = intefaceService.callView(viewDTO);
