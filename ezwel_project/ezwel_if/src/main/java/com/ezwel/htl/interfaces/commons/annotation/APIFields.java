@@ -43,6 +43,24 @@ public @interface APIFields {
     public abstract int ioType() default -1;
     
     /**
+     * 필드 데이터 최대 길이
+     * @return
+     */
+    public abstract int maxLength() default -1;
+
+    /**
+     * 필드 데이터 최소 길이
+     * @return
+     */
+    public abstract int minLength() default -1;
+    
+    /**
+     * 유효성 검증 정규식
+     * @return
+     */
+    public abstract String pattern() default "";
+    
+    /**
      * Json 또는 XML 마샬대상 필드 여부
      * @return
      */
@@ -84,4 +102,6 @@ public @interface APIFields {
      */
     public abstract Class<?> mapValue() default java.lang.Object.class;
 
+    
+    
 }
