@@ -130,7 +130,6 @@ public class InterfaceFactory {
 			
 			//logger.debug("- AgentSize : {}", ifc.getAgentList().size());
 			//agent list (제휴사 목록)
-			//
 			for(AgentInfoDTO agent : ifc.getAgentList()) {
 				
 				//방향 : inside interface list
