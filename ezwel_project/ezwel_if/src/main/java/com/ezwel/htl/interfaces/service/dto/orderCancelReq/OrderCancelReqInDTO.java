@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.service.dto.orderCancelReq;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -11,9 +12,16 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class OrderCancelReqInDTO extends AbstractEntity {
 
+	@APIFields(description = "주문취소요청 Input 주문번호(이지웰)", required=true, maxLength=100)
 	private String rsvNo;
+	
+	@APIFields(description = "주문취소요청 Input 주문번호(제휴사)", required=true, maxLength=100)
 	private String otaRsvNo;
+	
+	@APIFields(description = "주문취소요청 Input 결제금액", required=true)
 	private Integer rsvPrice;
+	
+	@APIFields(description = "주문취소요청 Input 취소수수료", required=true)
 	private Integer cancelCharge;
 
 	public String getRsvNo() {

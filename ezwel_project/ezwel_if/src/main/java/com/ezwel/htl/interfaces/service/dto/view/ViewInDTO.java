@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.service.dto.view;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -12,9 +13,16 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class ViewInDTO extends AbstractEntity {
 
+	@APIFields(description = "예약내역조회 Input 주문번호", maxLength=100)
 	private String rsvNo;
+	
+	@APIFields(description = "예약내역조회 Input 검색시작일", maxLength=8)
 	private String startDate;
+	
+	@APIFields(description = "예약내역조회 Input 검색종료일", maxLength=8)
 	private String endDate;
+	
+	@APIFields(description = "예약내역조회 Input 검색일구분", maxLength=1)
 	private String dateType;
 
 	public String getRsvNo() {

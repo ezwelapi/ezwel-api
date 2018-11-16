@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.service.dto.omiNumIdn;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -11,9 +12,16 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class OmiNumIdnReservesOutDTO extends AbstractEntity {
 
+	@APIFields(description = "누락건확인 output 주문번호(이지웰)", required=true, maxLength=100)
 	private String rsvNo;
+	
+	@APIFields(description = "누락건확인 output 주문상태코드", required=true, maxLength=5)
 	private String rsvStat;
+	
+	@APIFields(description = "누락건확인 output 주문번호(제휴사)", maxLength=100)
 	private String otaRsvNo;
+	
+	@APIFields(description = "누락건확인 output 주문상태비교결과코드", required=true, maxLength=1)
 	private String compareStat;
 
 	public String getRsvNo() {

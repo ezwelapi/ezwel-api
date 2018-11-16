@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.service.dto.sddSearch;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -11,10 +12,19 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class SddSearchDataOutDTO extends AbstractEntity {
 
+	@APIFields(description = "당일특가검색 output 상품코드", required=true, maxLength=100)
 	private String  pdtNo;
+	
+	@APIFields(description = "당일특가검색 output 적용일", required=true, maxLength=8)
 	private String  applyDate;
+	
+	@APIFields(description = "당일특가검색 output 최저가(정상가)", required=true)
 	private Integer spcTodayNorPrice;
+	
+	@APIFields(description = "당일특가검색 output 최저가(판매가)", required=true)
 	private Integer spcTodayPrice;
+	
+	@APIFields(description = "당일특가검색 output 상품종료일시", maxLength=12)
 	private String  spcTypeTime;
 
 

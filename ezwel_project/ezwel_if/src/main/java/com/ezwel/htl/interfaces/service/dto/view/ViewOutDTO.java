@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.service.dto.view;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -12,8 +13,13 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class ViewOutDTO extends AbstractEntity {
 
+	@APIFields(description = "예약내역조회 output code", required=true, maxLength=4)
 	private String code;
+	
+	@APIFields(description = "예약내역조회 output message", maxLength=100)
 	private String message;
+	
+	@APIFields(description = "예약내역조회 output data")
 	private ViewDataOutDTO data;
 
 	public String getCode() {

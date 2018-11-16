@@ -3,6 +3,7 @@ package com.ezwel.htl.interfaces.service.dto.sddSearch;
 import java.util.List;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -14,8 +15,13 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class SddSearchOutDTO extends AbstractEntity {
 
+	@APIFields(description = "당일특가검색 output code", required=true, maxLength=4)
 	private String code;
+	
+	@APIFields(description = "당일특가검색 output message", maxLength=100)
 	private String message;
+	
+	@APIFields(description = "당일특가검색 output data")
 	private List<SddSearchDataOutDTO> data = null;
 
 	public String getCode() {

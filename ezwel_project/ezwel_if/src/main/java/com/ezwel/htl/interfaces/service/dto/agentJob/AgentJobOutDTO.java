@@ -3,6 +3,7 @@ package com.ezwel.htl.interfaces.service.dto.agentJob;
 import java.util.List;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -13,8 +14,13 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class AgentJobOutDTO extends AbstractEntity {
 
+	@APIFields(description = "주문대사(제휴사) output code", required=true, maxLength=4)
 	private String code;
+	
+	@APIFields(description = "주문대사(제휴사) output message", maxLength=100)
 	private String message;
+	
+	@APIFields(description = "주문대사(제휴사) output reserves")
 	private List<AgentJobReservesOutDTO> reserves = null;
 
 	public String getCode() {

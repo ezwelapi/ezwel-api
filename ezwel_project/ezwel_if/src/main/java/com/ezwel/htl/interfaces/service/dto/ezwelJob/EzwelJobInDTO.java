@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.service.dto.ezwelJob;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -11,8 +12,13 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class EzwelJobInDTO extends AbstractEntity {
 
+	@APIFields(description = "주문대사(이지웰) Input 주문번호", required=true, maxLength=100)
 	private String rsvNo;
+	
+	@APIFields(description = "주문대사(이지웰) Input 주문시작일", required=true, maxLength=8)
 	private String rsvDateStart;
+	
+	@APIFields(description = "주문대사(이지웰) Input 주문종료일", required=true, maxLength=8)
 	private String rsvDateEnd;
 
 	public String getRsvNo() {

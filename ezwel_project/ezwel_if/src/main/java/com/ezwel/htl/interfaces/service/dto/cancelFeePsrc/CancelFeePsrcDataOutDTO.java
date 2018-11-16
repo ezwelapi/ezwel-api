@@ -3,6 +3,7 @@ package com.ezwel.htl.interfaces.service.dto.cancelFeePsrc;
 import java.util.List;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -14,7 +15,10 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class CancelFeePsrcDataOutDTO extends AbstractEntity {
 
+	@APIFields(description = "취소수수료규정 output 대체텍스트", maxLength=2000)
 	private String cancelFeeText;
+	
+	@APIFields(description = "취소수수료규정 output penalty")
 	private List<CancelFeePsrcPenaltyOutDTO> penalty = null;
 
 	public String getCancelFeeText() {

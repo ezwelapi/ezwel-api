@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.service.dto.rsvHistSend;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -12,6 +13,7 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class RsvHistSendInDTO extends AbstractEntity {
 
+	@APIFields(description = "결제완료내역전송 Input data")
 	private RsvHistSendDataInDTO data;
 
 	public RsvHistSendDataInDTO getData() {

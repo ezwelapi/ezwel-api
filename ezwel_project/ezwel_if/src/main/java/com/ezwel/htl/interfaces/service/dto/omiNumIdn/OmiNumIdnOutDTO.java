@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.service.dto.omiNumIdn;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -11,8 +12,13 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class OmiNumIdnOutDTO extends AbstractEntity {
 
+	@APIFields(description = "누락건확인 output code", required=true, maxLength=4)
 	private String code;
+	
+	@APIFields(description = "누락건확인 output message", maxLength=100)
 	private String message;
+	
+	@APIFields(description = "누락건확인 output reserves")
 	private OmiNumIdnReservesOutDTO reserves;
 
 	public String getCode() {
