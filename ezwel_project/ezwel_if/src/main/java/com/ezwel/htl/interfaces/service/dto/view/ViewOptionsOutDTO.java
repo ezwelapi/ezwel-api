@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.service.dto.view;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -12,10 +13,19 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class ViewOptionsOutDTO extends AbstractEntity {
 
+	@APIFields(description = "예약내역조회 Input option 옵션주문번호(이지웰)", maxLength=100)
 	private String rsvOptNo;
+	
+	@APIFields(description = "예약내역조회 Input option 옵션코드", maxLength=100)
 	private String optNo;
+	
+	@APIFields(description = "예약내역조회 Input option 옵션명", maxLength=100)
 	private String optName;
+	
+	@APIFields(description = "예약내역조회 Input option 옵션가격")
 	private Integer optPrice;
+	
+	@APIFields(description = "예약내역조회 Input option 최대선택가능수량")
 	private Integer optCountMax;
 
 	public String getRsvOptNo() {

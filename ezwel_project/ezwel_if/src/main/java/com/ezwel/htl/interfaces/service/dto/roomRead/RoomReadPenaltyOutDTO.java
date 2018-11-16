@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.service.dto.roomRead;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -12,8 +13,13 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class RoomReadPenaltyOutDTO extends AbstractEntity {
 
+	@APIFields(description = "객실정보조회 output penalty 적용시작일", required=true, maxLength=8)
 	private String applyBgnDate;
+	
+	@APIFields(description = "객실정보조회 output penalty 수수료율", required=true)
 	private Integer cancelFeeRate;
+	
+	@APIFields(description = "객실정보조회 output penalty 수수료금액", required=true)
 	private Integer cancelFeePrice;
 
 	public String getApplyBgnDate() {

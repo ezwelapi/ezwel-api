@@ -1,10 +1,9 @@
 package com.ezwel.htl.interfaces.commons.http.dto;
 
-import com.ezwel.htl.interfaces.commons.abstracts.APIObject;
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
-import com.ezwel.htl.interfaces.commons.constants.IOperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 
 /**
  * <pre>
@@ -15,17 +14,17 @@ import com.ezwel.htl.interfaces.commons.constants.IOperateCode;
  * @serviceType API
  */
 @APIModel
-public class MultiHttpConfigDTO extends APIObject {
+public class MultiHttpConfigDTO extends AbstractDTO {
 	//<T extends APIObject> 
 	
 	@APIFields(description = "HTTP 통신 설정 DTO", required=true)
 	private HttpConfigDTO httpConfigDTO;
 	
 	@APIFields(description = "HTTP 통신 요청 파라메터 DTO", required=true)
-	private AbstractEntity inputDTO;
+	private AbstractDTO inputDTO;
 	
 	@APIFields(description = "HTTP 통신 응답 결과타입 클래스", required=true)
-	private Class<? extends AbstractEntity> outputType;
+	private Class<? extends AbstractDTO> outputType;
 	
 	@APIFields(description = "HTTP 인터페이스 API 총 실행시간")
 	private Long lapTimeMillis;
@@ -38,7 +37,7 @@ public class MultiHttpConfigDTO extends APIObject {
 		httpConfigDTO = null;
 		inputDTO = null;
 		outputType = null;
-		lapTimeMillis = IOperateCode.LONG_ZERO_VALUE;
+		lapTimeMillis = OperateCode.LONG_ZERO_VALUE;
 	}
 
 	public HttpConfigDTO getHttpConfigDTO() {
@@ -49,19 +48,19 @@ public class MultiHttpConfigDTO extends APIObject {
 		this.httpConfigDTO = httpConfigDTO;
 	}
 
-	public AbstractEntity getInputDTO() {
+	public AbstractDTO getInputDTO() {
 		return inputDTO;
 	}
 
-	public void setInputDTO(AbstractEntity inputDTO) {
+	public void setInputDTO(AbstractDTO inputDTO) {
 		this.inputDTO = inputDTO;
 	}
 
-	public Class<? extends AbstractEntity> getOutputType() {
+	public Class<? extends AbstractDTO> getOutputType() {
 		return outputType;
 	}
 
-	public void setOutputType(Class<? extends AbstractEntity> outputType) {
+	public void setOutputType(Class<? extends AbstractDTO> outputType) {
 		this.outputType = outputType;
 	}
 

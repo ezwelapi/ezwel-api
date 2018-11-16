@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.service.dto.faclSearch;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -10,11 +11,20 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  * @date   2018. 11. 13.
  */
 public class FaclSearchDataOutDTO extends AbstractEntity {
-
+	
+	@APIFields(description = "시설검색 output 상품코드", required=true, maxLength=100)
 	private String  pdtNo;
+	
+	@APIFields(description = "시설검색 output 시설판매최저가(정상가)", required=true)
 	private Integer sellNorPrice;
+	
+	@APIFields(description = "시설검색 output 시설판매최저가(판매가)", required=true)
 	private Integer sellPrice;
+	
+	@APIFields(description = "시설검색 output 시설특가최저가(정상가)", required=true)
 	private Integer spcNorPrice;
+	
+	@APIFields(description = "시설검색 output 시설특가최저가(판매가)", required=true)
 	private Integer spcPrice;
 
 	public String getPdtNo() {

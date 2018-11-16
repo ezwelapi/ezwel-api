@@ -3,7 +3,7 @@ package com.ezwel.htl.interfaces.commons.abstracts;
 import java.lang.reflect.Field;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIService;
-import com.ezwel.htl.interfaces.commons.constants.IOperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 
 /**
  * <pre>
@@ -31,17 +31,17 @@ public abstract class APIObject {
 		
 		try {
 			if( buffer.length() == 0 ) {
-				buffer.append(IOperateCode.LINE_SEPARATOR);
+				buffer.append(OperateCode.LINE_SEPARATOR);
 				buffer.append(this.getClass().getCanonicalName());
-				buffer.append(IOperateCode.LINE_SEPARATOR);
+				buffer.append(OperateCode.LINE_SEPARATOR);
 			}
 			
 			//tab
 			for(int i = 0; i < ((level - 1) * 1);i++) {
-				buffer.append(IOperateCode.STR_TAB);
+				buffer.append(OperateCode.STR_TAB);
 			}
-			buffer.append(IOperateCode.STR_MID_BRACKET_R);
-			buffer.append(IOperateCode.LINE_SEPARATOR);
+			buffer.append(OperateCode.STR_MID_BRACKET_R);
+			buffer.append(OperateCode.LINE_SEPARATOR);
 			
 			Field[] field = this.getClass().getDeclaredFields();
 			Class<?> fieldType = null;
@@ -53,24 +53,24 @@ public abstract class APIObject {
 				
 				//tab
 				for(int i = 0; i < (level * 1);i++) {
-					buffer.append(IOperateCode.STR_TAB);
+					buffer.append(OperateCode.STR_TAB);
 				}
 				
 				buffer.append(fieldType.getSimpleName());
-				buffer.append(IOperateCode.STR_WHITE_SPACE);
+				buffer.append(OperateCode.STR_WHITE_SPACE);
 				buffer.append(item.getName());
-				buffer.append(IOperateCode.STR_WHITE_SPACE);
-				buffer.append(IOperateCode.STR_COLON);		
-				buffer.append(IOperateCode.STR_WHITE_SPACE);
+				buffer.append(OperateCode.STR_WHITE_SPACE);
+				buffer.append(OperateCode.STR_COLON);		
+				buffer.append(OperateCode.STR_WHITE_SPACE);
 				buffer.append(fieldValue);
-				buffer.append(IOperateCode.LINE_SEPARATOR);
+				buffer.append(OperateCode.LINE_SEPARATOR);
 			}
 			
 			//tab
 			for(int i = 0; i < ((level - 1) * 1);i++) {
-				buffer.append(IOperateCode.STR_TAB);
+				buffer.append(OperateCode.STR_TAB);
 			}		
-			buffer.append(IOperateCode.STR_MID_BRACKET_L);
+			buffer.append(OperateCode.STR_MID_BRACKET_L);
 			
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();

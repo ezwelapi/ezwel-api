@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper=false)
-public abstract class AbstractEntity extends APIObject implements Serializable {
+public abstract class AbstractDTO extends APIObject implements Serializable {
 
 	/**
 	 * serialVersionUID

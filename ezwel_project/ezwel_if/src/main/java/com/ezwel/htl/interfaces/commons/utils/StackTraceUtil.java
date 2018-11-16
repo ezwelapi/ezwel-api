@@ -3,8 +3,9 @@ package com.ezwel.htl.interfaces.commons.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIService;
-import com.ezwel.htl.interfaces.commons.constants.IOperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 
 /**
  * <pre>
@@ -54,20 +55,20 @@ public class StackTraceUtil {
     	StringBuffer message = new StringBuffer();
     	if(cause.getMessage() == null) {
     		message.append(cause.toString());
-    		message.append(IOperateCode.LINE_SEPARATOR);
+    		message.append(OperateCode.LINE_SEPARATOR);
     	}
     	
     	if(cause.getMessage() != null) {
     		message.append("Message : ");
     		message.append(cause.getMessage());
-    		message.append(IOperateCode.LINE_SEPARATOR);
+    		message.append(OperateCode.LINE_SEPARATOR);
     	} 
     	    	
     	if(stackTrace.length > 0) { 
     		message.append("Trace : ");
 	    	for(StackTraceElement stack : stackTrace){
 	    		message.append(stack.toString());
-	    		message.append(IOperateCode.LINE_SEPARATOR);
+	    		message.append(OperateCode.LINE_SEPARATOR);
 	    	}
     	}
     	
@@ -75,16 +76,47 @@ public class StackTraceUtil {
     		message.append("Caused by : ");
 	    	for(StackTraceElement stack : cause.getCause().getStackTrace()){
 	    		message.append(stack.toString());
-	    		message.append(IOperateCode.LINE_SEPARATOR);
+	    		message.append(OperateCode.LINE_SEPARATOR);
 	    	}
     	}
     	
-    	if(!message.toString().endsWith(IOperateCode.LINE_SEPARATOR) && !message.toString().endsWith("\n")) {
-    		message.append(IOperateCode.LINE_SEPARATOR);
+    	if(!message.toString().endsWith(OperateCode.LINE_SEPARATOR) && !message.toString().endsWith("\n")) {
+    		message.append(OperateCode.LINE_SEPARATOR);
     	}
     	
     	return message.toString();
     }
     
+    @APIOperation(description="이전 caller의 StackTraceElement를 리턴합니다.", isExecTest=true)
+	public static StackTraceElement getCurrentStack() {
+    	return getCurrentStack(null);
+    }
     
+	@APIOperation(description="바인드된 클래스의 이전의 StackTraceElement를 리턴합니다.", isExecTest=true)
+	public static StackTraceElement getCurrentStack(Class<?> filterClass) {
+		StackTraceElement out = null;
+        StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+        Class<?> filteredClass = null;
+        if(filterClass == null) {
+        	filteredClass = StackTraceUtil.class;
+        }
+        else {
+        	filteredClass = filterClass;
+        }
+        boolean isCurrent = false;
+        int point = 0;
+        for(StackTraceElement stack : stacktrace) {
+        	//logger.debug("stack.getClassName : {}", stack.getClassName());
+        	if(filteredClass.getCanonicalName().equals(stack.getClassName())) {
+        		isCurrent = true;
+        	}
+        	if(isCurrent && !filteredClass.getCanonicalName().equals(stack.getClassName())) {
+        		out = stacktrace[point];
+        		break;
+    		}
+        	point++;
+        }
+        
+        return out;
+	}
 }

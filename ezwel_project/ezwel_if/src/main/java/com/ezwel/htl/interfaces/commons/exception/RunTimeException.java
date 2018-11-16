@@ -1,7 +1,7 @@
 package com.ezwel.htl.interfaces.commons.exception;
 
+import com.ezwel.htl.interfaces.commons.constants.InterfaceCode;
 import com.ezwel.htl.interfaces.commons.thread.Local;
-import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
 
 
 public class RunTimeException extends RuntimeException {
@@ -10,13 +10,10 @@ public class RunTimeException extends RuntimeException {
 
     private Object arguments[];
     
-    private int resultCode;
-    
-    protected StackTraceUtil stackTrace;
+    private Integer resultCode;
     
     protected void init(){
-    	resultCode = -1;
-    	stackTrace = new StackTraceUtil();
+    	resultCode = InterfaceCode.RESPONSE_CODE_1000;
     }
     
     public RunTimeException(String message) {
@@ -39,11 +36,11 @@ public class RunTimeException extends RuntimeException {
 		this.arguments = arguments;
 	}
 
-	public int getResultCode() {
+	public Integer getResultCode() {
 		return resultCode;
 	}
 
-	public void setResultCode(int resultCode) {
+	public void setResultCode(Integer resultCode) {
 		Local.commonHeader().setResultCode(resultCode);
 		this.resultCode = resultCode;
 		

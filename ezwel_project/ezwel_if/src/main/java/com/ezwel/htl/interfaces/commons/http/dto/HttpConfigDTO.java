@@ -4,10 +4,10 @@ import java.util.Properties;
 
 import javax.xml.bind.annotation.XmlElement;
 
-import com.ezwel.htl.interfaces.commons.abstracts.APIObject;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
-import com.ezwel.htl.interfaces.commons.constants.IOperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
 /**
@@ -19,13 +19,28 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
  * @serviceType API
  */
 @APIModel
-public class HttpConfigDTO extends APIObject {
-
-	@APIFields(description = "HTTP 체널 아이디", required=true)
+public class HttpConfigDTO extends AbstractDTO {
+	
+	@APIFields(description = "에이전트 이름")
+	private String agentName;
+	
+	@APIFields(description = "체널 아이디", required=true)
 	private String chanId;
 	
+	@APIFields(description = "에이전트 아이디", required=true, httpHeader=true, headerName="http-agent-id")
+	private String httpAgentId;
+	
 	@APIFields(description = "HTTP 체널 그룹 아이디")
-	private String chanGroupId;
+	private String httpAgentGroupId;
+
+	@APIFields(description = "API 키(ezwel발급)", required=true, httpHeader=true, headerName="http-api-key")
+	private String httpApiKey; 
+
+	@APIFields(description = "API 시그니처", required=true, httpHeader=true, headerName="http-api-signature")
+	private String httpApiSignature; 
+
+	@APIFields(description = "요정시간(타임스탬프)", required=true, httpHeader=true, headerName="http-api-timestamp")
+	private String httpApiTimestamp;
 	
 	@APIFields(description = "HTTP 요청 파라메터 송신 여부")
 	private boolean isDoOutput;
@@ -47,18 +62,6 @@ public class HttpConfigDTO extends APIObject {
 	
 	@APIFields(description = "HTTP 인터페이스 설명")
 	private String description;
-	
-	@APIFields(description = "API 키(ezwel발급)", required=true, httpHeader=true, headerName="http-api-key")
-	private String httpApiKey; 
-	
-	@APIFields(description = "에이전트 아이디", required=true, httpHeader=true, headerName="http-agent-id")
-	private String httpAgentId;
-
-	@APIFields(description = "API 시그니처", required=true, httpHeader=true, headerName="http-api-signature")
-	private String httpApiSignature; 
-
-	@APIFields(description = "요정시간(타임스탬프)", required=true, httpHeader=true, headerName="http-api-timestamp")
-	private String httpApiTimestamp;
 	
 	@APIFields(description = "I/O 인코딩 (default:UTF-8)")
 	private String encoding;
@@ -83,8 +86,9 @@ public class HttpConfigDTO extends APIObject {
 	}
 	
 	private void reset() {
+		agentName = null;
 		chanId = null;
-		chanGroupId = null;
+		httpAgentGroupId = null;
 		isDoOutput = true;
 		isDoInput = true;
 		restURI = null;
@@ -95,30 +99,40 @@ public class HttpConfigDTO extends APIObject {
 		httpApiSignature = null;
 		httpApiTimestamp = (Long.toString(APIUtil.currentTimeMillis() / 100));
 		httpAgentId = null;
-		encoding = IOperateCode.DEFAULT_ENCODING;
-		writeEncoding = IOperateCode.DEFAULT_ENCODING;
-		readEncoding = IOperateCode.DEFAULT_ENCODING;
+		encoding = OperateCode.DEFAULT_ENCODING;
+		writeEncoding = OperateCode.DEFAULT_ENCODING;
+		readEncoding = OperateCode.DEFAULT_ENCODING;
 		responseCode = -1;
 		responseException = null;
 		description = null;
-		lapTimeMillis = IOperateCode.LONG_ZERO_VALUE;
+		lapTimeMillis = OperateCode.LONG_ZERO_VALUE;
 	}
-
 	
-	public String getChanGroupId() {
-		return chanGroupId;
+	
+	public String getAgentName() {
+		return agentName;
 	}
 
-	public void setChanGroupId(String chanGroupId) {
-		this.chanGroupId = chanGroupId;
+	public void setAgentName(String agentName) {
+		this.agentName = agentName;
 	}
 
 	public String getChanId() {
 		return chanId;
 	}
 
+	@XmlElement
 	public void setChanId(String chanId) {
 		this.chanId = chanId;
+	}
+
+	public String getHttpAgentGroupId() {
+		return httpAgentGroupId;
+	}
+
+	@XmlElement
+	public void setHttpAgentGroupId(String httpAgentGroupId) {
+		this.httpAgentGroupId = httpAgentGroupId;
 	}
 
 	public boolean isDoOutput() {

@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIService;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
+import com.ezwel.htl.interfaces.commons.constants.InterfaceCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
+import com.ezwel.htl.interfaces.commons.http.dto.UserAgentDTO;
 import com.ezwel.htl.interfaces.commons.http.dto.HttpConfigDTO;
 import com.ezwel.htl.interfaces.commons.http.dto.MultiHttpConfigDTO;
 import com.ezwel.htl.interfaces.commons.spring.ApplicationContext;
@@ -51,19 +54,18 @@ public class OutsideInterfaceService {
 	private HttpInterfaceExecutorService inteface = (HttpInterfaceExecutorService) ApplicationContext.getBean(HttpInterfaceExecutorService.class);
 	
 	@APIOperation(description="전체시설일괄등록 인터페이스")
-	public AllRegOutDTO callAllReg() {
+	public AllRegOutDTO callAllReg(UserAgentDTO agentInfoDTO) {
 		
 		AllRegOutDTO out = null;
 		
 		try {
-			
-			HttpConfigDTO config = InterfaceFactory.getChannel("chan-01");
-			config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
+			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("allReg", agentInfoDTO.getHttpAgentId());
+			setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 			/** execute interface */
-			out = (AllRegOutDTO) inteface.sendPostJSON(config, AllRegOutDTO.class);
+			out = (AllRegOutDTO) inteface.sendPostJSON(httpConfigDTO, AllRegOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException("전체시설일괄등록 인터페이스 장애발생.", e);
+			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "전체시설일괄등록 인터페이스 장애발생.", e);
 		}
 		
 		return out;
@@ -71,23 +73,23 @@ public class OutsideInterfaceService {
 	
 	//멀티쓰레드
 	@APIOperation(description="시설검색 인터페이스")
-	public List<FaclSearchOutDTO> callFaclSearch(FaclSearchInDTO faclSearchDTO) {
+	public List<FaclSearchOutDTO> callFaclSearch(UserAgentDTO agentInfoDTO, FaclSearchInDTO faclSearchDTO) {
 			
 		List<FaclSearchOutDTO> out = null;
 		MultiHttpConfigDTO multi = null;
-		List<MultiHttpConfigDTO> multiHttpConfigList = null;
 		List<HttpConfigDTO> channelList = null;
+		List<MultiHttpConfigDTO> multiHttpConfigList = null;
 		
 		try {
 			multiHttpConfigList = new ArrayList<MultiHttpConfigDTO>();
 			
-			channelList = InterfaceFactory.getChannelGroup("chanGroup-01");
+			channelList = InterfaceFactory.getChannelGroup("faclSearch", agentInfoDTO.getHttpAgentGroupId());
 			if(channelList != null) {
-				for(HttpConfigDTO config : channelList) {
+				for(HttpConfigDTO httpConfigDTO : channelList) {
 					multi = new MultiHttpConfigDTO();
-					config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
+					setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 					//config
-					multi.setHttpConfigDTO(config);
+					multi.setHttpConfigDTO(httpConfigDTO);
 					//input
 					multi.setInputDTO(faclSearchDTO);
 					//output
@@ -101,7 +103,7 @@ public class OutsideInterfaceService {
 			out = inteface.sendMultiPostJSON(multiHttpConfigList);
 		}
 		catch(Exception e) {
-			throw new APIException("시설검색 인터페이스 장애발생.", e);
+			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
 		}
 			
 		return out;
@@ -109,7 +111,7 @@ public class OutsideInterfaceService {
 	
 	//멀티쓰레드
 	@APIOperation(description="당일특가검색 인터페이스")
-	public List<SddSearchOutDTO> callSddSearch() {
+	public List<SddSearchOutDTO> callSddSearch(UserAgentDTO agentInfoDTO) {
 		
 		List<SddSearchOutDTO> out = null;
 		MultiHttpConfigDTO multi = null;
@@ -119,15 +121,15 @@ public class OutsideInterfaceService {
 		try {
 			multiHttpConfigList = new ArrayList<MultiHttpConfigDTO>();
 			
-			channelList = InterfaceFactory.getChannelGroup("chanGroup-02");
+			channelList = InterfaceFactory.getChannelGroup("sddSearch", agentInfoDTO.getHttpAgentGroupId());
 			if(channelList != null) {
-				for(HttpConfigDTO config : channelList) {
+				for(HttpConfigDTO httpConfigDTO : channelList) {
 					multi = new MultiHttpConfigDTO();
-					config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
+					setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 					//no input 
-					config.setDoOutput(false);
+					httpConfigDTO.setDoOutput(false);
 					//config
-					multi.setHttpConfigDTO(config);
+					multi.setHttpConfigDTO(httpConfigDTO);
 					//output
 					multi.setOutputType(SddSearchOutDTO.class);
 					multiHttpConfigList.add(multi);
@@ -139,142 +141,155 @@ public class OutsideInterfaceService {
 			out = inteface.sendMultiPostJSON(multiHttpConfigList);
 		}
 		catch(Exception e) {
-			throw new APIException("시설검색 인터페이스 장애발생.", e);
+			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
 		}
 		
 		return out;
 	}
 	
 	@APIOperation(description="객실정보조회 인터페이스")
-	public RoomReadOutDTO callRoomRead(RoomReadInDTO roomReadDTO) {
+	public RoomReadOutDTO callRoomRead(UserAgentDTO agentInfoDTO, RoomReadInDTO roomReadDTO) {
 		
 		RoomReadOutDTO out = null;
 		
 		try {
 			
-			HttpConfigDTO config = InterfaceFactory.getChannel("chan-04");
-			config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
+			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("roomRead", agentInfoDTO.getHttpAgentId());
+			setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 			/** execute interface */
-			out = (RoomReadOutDTO) inteface.sendPostJSON(config, roomReadDTO, RoomReadOutDTO.class);
+			out = (RoomReadOutDTO) inteface.sendPostJSON(httpConfigDTO, roomReadDTO, RoomReadOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException("객실정보조회 인터페이스 장애발생.", e);
+			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "객실정보조회 인터페이스 장애발생.", e);
 		}
 			
 		return out;		
 	}
 	
 	@APIOperation(description="취소수수규정 인터페이스")
-	public CancelFeePsrcOutDTO callCancelFeePsrc(CancelFeePsrcInDTO cancelFeePsrcDTO) {
+	public CancelFeePsrcOutDTO callCancelFeePsrc(UserAgentDTO agentInfoDTO, CancelFeePsrcInDTO cancelFeePsrcDTO) {
 		
 		CancelFeePsrcOutDTO out = null;
 		
 		try {
 			
-			HttpConfigDTO config = InterfaceFactory.getChannel("chan-05");
-			config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
+			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("cancelFeePsrc", agentInfoDTO.getHttpAgentId());
+			setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 			/** execute interface */
-			out = (CancelFeePsrcOutDTO) inteface.sendPostJSON(config, cancelFeePsrcDTO, CancelFeePsrcOutDTO.class);
+			out = (CancelFeePsrcOutDTO) inteface.sendPostJSON(httpConfigDTO, cancelFeePsrcDTO, CancelFeePsrcOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException("주문대사(제휴사) 인터페이스 장애발생.", e);
+			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "주문대사(제휴사) 인터페이스 장애발생.", e);
 		}
 		
 		return out;		
 	}
 	
 	@APIOperation(description="결재완료내역전송 인터페이스")
-	public RsvHistSendOutDTO callRsvHistSend(RsvHistSendInDTO rsvHistSendDTO) {
+	public RsvHistSendOutDTO callRsvHistSend(UserAgentDTO agentInfoDTO, RsvHistSendInDTO rsvHistSendDTO) {
 		
 		RsvHistSendOutDTO out = null;
 		
 		try {
 			
-			HttpConfigDTO config = InterfaceFactory.getChannel("chan-06");
-			config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
+			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("rsvHistSend", agentInfoDTO.getHttpAgentId());
+			setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 			/** execute interface */
-			out = (RsvHistSendOutDTO) inteface.sendPostJSON(config, rsvHistSendDTO, RsvHistSendOutDTO.class);
+			out = (RsvHistSendOutDTO) inteface.sendPostJSON(httpConfigDTO, rsvHistSendDTO, RsvHistSendOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException("결재완료내역전송 인터페이스 장애발생.", e);
+			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "결재완료내역전송 인터페이스 장애발생.", e);
 		}
 		
 		return out;
 	}
 	
 	@APIOperation(description="취소수수료계산 인터페이스")
-	public CancelFeeAmtOutDTO callCancelFeeAmt(CancelFeeAmtInDTO cancelFeeAmtDTO) {
+	public CancelFeeAmtOutDTO callCancelFeeAmt(UserAgentDTO agentInfoDTO, CancelFeeAmtInDTO cancelFeeAmtDTO) {
 		
 		CancelFeeAmtOutDTO out = null;
 		
 		try {
 			
-			HttpConfigDTO config = InterfaceFactory.getChannel("chan-07");
-			config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
+			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("cancelFeeAmt", agentInfoDTO.getHttpAgentId());
+			setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 			/** execute interface */
-			out = (CancelFeeAmtOutDTO) inteface.sendPostJSON(config, cancelFeeAmtDTO, CancelFeeAmtOutDTO.class);
+			out = (CancelFeeAmtOutDTO) inteface.sendPostJSON(httpConfigDTO, cancelFeeAmtDTO, CancelFeeAmtOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException("주문대사(제휴사) 인터페이스 장애발생.", e);
+			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "주문대사(제휴사) 인터페이스 장애발생.", e);
 		}
 		return out;
 	}
 	
 	@APIOperation(description="주문취소요청 인터페이스")
-	public OrderCancelReqOutDTO callOrderCancelReq(OrderCancelReqInDTO orderCancelReqDTO) {
+	public OrderCancelReqOutDTO callOrderCancelReq(UserAgentDTO agentInfoDTO, OrderCancelReqInDTO orderCancelReqDTO) {
 		
 		OrderCancelReqOutDTO out = null;
 		
 		try {
 			
-			HttpConfigDTO config = InterfaceFactory.getChannel("chan-08");
-			config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
+			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("orderCancelReq", agentInfoDTO.getHttpAgentId());
+			setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 			/** execute interface */
-			out = (OrderCancelReqOutDTO) inteface.sendPostJSON(config, orderCancelReqDTO, OrderCancelReqOutDTO.class);
+			out = (OrderCancelReqOutDTO) inteface.sendPostJSON(httpConfigDTO, orderCancelReqDTO, OrderCancelReqOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException("주문취소요청 인터페이스 장애발생.", e);
+			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "주문취소요청 인터페이스 장애발생.", e);
 		}
 		
 		return out;
 	}
 
 	@APIOperation(description="누락건확인 인터페이스")
-	public OmiNumIdnOutDTO callOmiNumIdn(OmiNumIdnInDTO omiNumIdnDTO) {
+	public OmiNumIdnOutDTO callOmiNumIdn(UserAgentDTO agentInfoDTO, OmiNumIdnInDTO omiNumIdnDTO) {
 		
 		OmiNumIdnOutDTO out = null;
 		
 		try {
 			
-			HttpConfigDTO config = InterfaceFactory.getChannel("chan-09");
-			config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
+			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("omiNumIdn", agentInfoDTO.getHttpAgentId());
+			setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 			/** execute interface */
-			out = (OmiNumIdnOutDTO) inteface.sendPostJSON(config, omiNumIdnDTO, OmiNumIdnOutDTO.class);
+			out = (OmiNumIdnOutDTO) inteface.sendPostJSON(httpConfigDTO, omiNumIdnDTO, OmiNumIdnOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException("누락건확인 인터페이스 장애발생.", e);
+			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "누락건확인 인터페이스 장애발생.", e);
 		}
 		
 		return out;
 	}
 
 	@APIOperation(description="주문대사(이지웰) 인터페이스")
-	public EzwelJobOutDTO callEzwelJob(EzwelJobInDTO ezwelJobDTO) {
+	public EzwelJobOutDTO callEzwelJob(UserAgentDTO agentInfoDTO, EzwelJobInDTO ezwelJobDTO) {
 		
 		EzwelJobOutDTO out = null;
 		
 		try {
 			
-			HttpConfigDTO config = InterfaceFactory.getChannel("chan-10");
-			config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
+			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("ezwelJob", agentInfoDTO.getHttpAgentId());
+			setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 			/** execute interface */
-			out = (EzwelJobOutDTO) inteface.sendPostJSON(config, ezwelJobDTO, EzwelJobOutDTO.class);
+			out = (EzwelJobOutDTO) inteface.sendPostJSON(httpConfigDTO, ezwelJobDTO, EzwelJobOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException("주문대사(이지웰) 인터페이스 장애발생.", e);
+			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "주문대사(이지웰) 인터페이스 장애발생.", e);
 		}
 		
 		return out;
 	}
 	
+	@APIOperation(description="인터페이스 사용 유저 설정 정보 세팅")
+	private void setupUserAgentInfo(HttpConfigDTO config, UserAgentDTO agentInfoDTO) {
+		
+		/** setup httpApiSignature */
+		config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
+		/** setup user conn/read timeout */
+		if(agentInfoDTO.getConnTimeout() > OperateCode.INTEGER_MINUS_ONE) {
+			config.setConnTimeout(agentInfoDTO.getConnTimeout());
+		}
+		if(agentInfoDTO.getReadTimeout() > OperateCode.INTEGER_MINUS_ONE) {
+			config.setReadTimeout(agentInfoDTO.getReadTimeout());
+		}
+	}
 }

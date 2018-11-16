@@ -23,7 +23,7 @@ import org.springframework.web.method.HandlerMethod;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIService;
-import com.ezwel.htl.interfaces.commons.constants.IOperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 
 /**
@@ -95,8 +95,8 @@ public class APIUtil {
     	if(pattern != null) {
 
     		try {
-		    	if(pattern.indexOf(IOperateCode.DELIM_STR) > -1) {
-		    		out = MessageFormatter.arrayFormat(pattern, argument).getMessage().replaceAll(IOperateCode.DELIM_IN_NUMBER, IOperateCode.STR_BLANK);
+		    	if(pattern.indexOf(OperateCode.DELIM_STR) > -1) {
+		    		out = MessageFormatter.arrayFormat(pattern, argument).getMessage().replaceAll(OperateCode.DELIM_IN_NUMBER, OperateCode.STR_BLANK);
 		    	}
 		    	else {
 		    		out = MessageFormat.format(pattern, argument);
@@ -137,7 +137,7 @@ public class APIUtil {
     	
     	String format = dateFormat;
     	Date datetime = (date != null ? date : new Date());
-    	String dateformat = (format != null && !format.isEmpty()) ? format:IOperateCode.DEF_DATE_FORMAT;
+    	String dateformat = (format != null && !format.isEmpty()) ? format:OperateCode.DEF_DATE_FORMAT;
     	return FastDateFormat.getInstance(dateformat, TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA).format(datetime);
     }
 	
@@ -323,7 +323,7 @@ public class APIUtil {
     		strEncoding = encoding;
     	}
     	else {
-    		strEncoding = IOperateCode.FILE_ENCODING;
+    		strEncoding = OperateCode.FILE_ENCODING;
     	}
     	
     	try {
@@ -392,10 +392,10 @@ public class APIUtil {
 		String out = null;
 		Object handler = handlerParam;
 		if(handler instanceof HandlerMethod){ 
-			out = IOperateCode.SPRING_CONTROLLER;
+			out = OperateCode.SPRING_CONTROLLER;
 		}
 		else {
-			out = IOperateCode.DEFAULT_SERVLET;
+			out = OperateCode.DEFAULT_SERVLET;
 		}
 		
 		return out;
@@ -417,7 +417,7 @@ public class APIUtil {
 	public String getMethodInfo(Object handler){
 		String out = null;
 		
-		if(getControllerType(handler).equals(IOperateCode.SPRING_CONTROLLER)) {
+		if(getControllerType(handler).equals(OperateCode.SPRING_CONTROLLER)) {
 			HandlerMethod method = (HandlerMethod) handler;
 			out = method.getBeanType().getCanonicalName().concat("@").concat(method.getMethod().getName());
 		}

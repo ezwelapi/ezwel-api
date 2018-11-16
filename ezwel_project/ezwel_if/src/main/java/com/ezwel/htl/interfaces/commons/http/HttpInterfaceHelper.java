@@ -6,7 +6,7 @@ import java.util.concurrent.Callable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIService;
 import com.ezwel.htl.interfaces.commons.http.dto.MultiHttpConfigDTO;
 
@@ -21,7 +21,7 @@ import com.ezwel.htl.interfaces.commons.http.dto.MultiHttpConfigDTO;
  * @serviceType API
  */
 @APIService
-public class HttpInterfaceHelper implements Callable<AbstractEntity> {
+public class HttpInterfaceHelper implements Callable<AbstractDTO> {
 
 	private static final Logger logger = LoggerFactory.getLogger(HttpInterfaceHelper.class);
 
@@ -37,11 +37,11 @@ public class HttpInterfaceHelper implements Callable<AbstractEntity> {
 	}
 	
 	@Override
-	public AbstractEntity call() throws Exception {
+	public AbstractDTO call() throws Exception {
 
 		logger.debug("[START] Time : {}, Thread Name : {}, httpConfig : {}",  new Date(), Thread.currentThread().getName(), multiHttpConfigDTO);
 		//인터페이스 실행
-		AbstractEntity out = (AbstractEntity) httpInterface.sendPostJSON(multiHttpConfigDTO.getHttpConfigDTO(), multiHttpConfigDTO.getInputDTO(), multiHttpConfigDTO.getOutputType());
+		AbstractDTO out = (AbstractDTO) httpInterface.sendPostJSON(multiHttpConfigDTO.getHttpConfigDTO(), multiHttpConfigDTO.getInputDTO(), multiHttpConfigDTO.getOutputType());
 		//결과 리턴
 		return out;
 	}

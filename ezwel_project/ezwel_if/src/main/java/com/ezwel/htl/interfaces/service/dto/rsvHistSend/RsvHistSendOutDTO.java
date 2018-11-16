@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.service.dto.rsvHistSend;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -11,10 +12,17 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  * @date 2018. 11. 13.
  */
 public class RsvHistSendOutDTO extends AbstractEntity {
-
+	
+	@APIFields(description = "결제완료내역전송 output code", required=true, maxLength=4)
 	private String code;
+	
+	@APIFields(description = "결제완료내역전송 output message", maxLength=100)
 	private String message;
+	
+	@APIFields(description = "결제완료내역전송 output 주문번호(이지웰)", required=true, maxLength=100)
 	private String rsvNo;
+	
+	@APIFields(description = "결제완료내역전송 output 주문번호(제휴사)", required=true, maxLength=100)
 	private String otaRsvNo;
 
 	public String getCode() {

@@ -11,13 +11,15 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.xmlbeans.impl.xb.xmlconfig.Extensionconfig.Interface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.abstracts.APIObject;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
-import com.ezwel.htl.interfaces.commons.constants.IOperateCode;
+import com.ezwel.htl.interfaces.commons.constants.InterfaceCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
 /**
@@ -49,22 +51,22 @@ public class CommonHeader extends APIObject implements Serializable {
 	@APIFields(description = "헤더 프로퍼티")
 	private Properties	properties;
 	
-	@APIFields(description = "거래코드", groupName = IOperateCode.META_COMM_HEADER, isMarshalField = true)
+	@APIFields(description = "거래코드", groupName = OperateCode.META_COMM_HEADER, isMarshalField = true)
 	private String 	guid;
 	
-	@APIFields(description = "결과코드", groupName = IOperateCode.META_COMM_HEADER, isMarshalField = true)
-	private int		resultCode;
+	@APIFields(description = "결과코드", groupName = OperateCode.META_COMM_HEADER, isMarshalField = true)
+	private Integer	resultCode;
 	
-	@APIFields(description = "메시지", groupName = IOperateCode.META_COMM_HEADER, isMarshalField = true)
+	@APIFields(description = "메시지", groupName = OperateCode.META_COMM_HEADER, isMarshalField = true)
 	private String	message;
 
-	@APIFields(description = "원인", groupName = IOperateCode.META_COMM_HEADER, isMarshalField = true)
+	@APIFields(description = "원인", groupName = OperateCode.META_COMM_HEADER, isMarshalField = true)
 	private String	cause;
 	
-	@APIFields(description = "원인추적", groupName = IOperateCode.META_COMM_HEADER, isMarshalField = true)
+	@APIFields(description = "원인추적", groupName = OperateCode.META_COMM_HEADER, isMarshalField = true)
 	private String	stackTrace;
 
-	@APIFields(description = "실행시간", groupName = IOperateCode.META_COMM_HEADER, isMarshalField = true)
+	@APIFields(description = "실행시간", groupName = OperateCode.META_COMM_HEADER, isMarshalField = true)
 	private long	lapTimeMillis;
 
 	private String[]	arrayMessages;
@@ -109,17 +111,17 @@ public class CommonHeader extends APIObject implements Serializable {
 		properties = null;
 		
 		guid = "";
-		startTimeMillis = IOperateCode.LONG_ZERO_VALUE;
-		endTimeMillis = IOperateCode.LONG_MINUS_ONE;
-		lapTimeMillis = IOperateCode.LONG_MINUS_ONE;
-		resultCode = IOperateCode.API_RESULT_CODE_SUCCESS;
+		startTimeMillis = OperateCode.LONG_ZERO_VALUE;
+		endTimeMillis = OperateCode.LONG_MINUS_ONE;
+		lapTimeMillis = OperateCode.LONG_MINUS_ONE;
+		resultCode = InterfaceCode.RESPONSE_CODE_1000;
 		message = "";
 		cause = "";
 		stackTrace = "";
 		arrayMessages = null;
 		traceMessages = null;
 		receiveFormat = null;
-		encoding = IOperateCode.DEFAULT_ENCODING;
+		encoding = OperateCode.DEFAULT_ENCODING;
 		ruleValidate = true;
 		elementRoot = null;
 		controllerType = null;
@@ -233,7 +235,7 @@ public class CommonHeader extends APIObject implements Serializable {
 	}
 
 	public long getEndTimeMillis() {
-		if(this.resultCode != IOperateCode.API_RESULT_CODE_SUCCESS || endTimeMillis == IOperateCode.LONG_MINUS_ONE) {
+		if(this.resultCode != InterfaceCode.RESPONSE_CODE_1000 || endTimeMillis == OperateCode.LONG_MINUS_ONE) {
 			setEndTimeMillis(APIUtil.currentTimeMillis());
 		}
 		return endTimeMillis;
@@ -243,11 +245,11 @@ public class CommonHeader extends APIObject implements Serializable {
 		this.endTimeMillis = endTimeMillis;
 	}
 
-	public int getResultCode() {
+	public Integer getResultCode() {
 		return resultCode;
 	}
 
-	public void setResultCode(int resultCode) {
+	public void setResultCode(Integer resultCode) {
 		this.resultCode = resultCode;
 	}
 	
@@ -272,7 +274,7 @@ public class CommonHeader extends APIObject implements Serializable {
 
 	public void addProperties(String key, String value) {
 		if( properties == null ) properties = new Properties();
-		this.properties.setProperty(key, (value == null ? IOperateCode.MESSAGE_ISNULL : value));
+		this.properties.setProperty(key, (value == null ? OperateCode.MESSAGE_ISNULL : value));
 	} 
 	
 	
@@ -281,7 +283,7 @@ public class CommonHeader extends APIObject implements Serializable {
 	}
 
 	public long getLapTimeMillis() {
-		if(this.lapTimeMillis == IOperateCode.LONG_MINUS_ONE) this.lapTimeMillis = getEndTimeMillis() - getStartTimeMillis();
+		if(this.lapTimeMillis == OperateCode.LONG_MINUS_ONE) this.lapTimeMillis = getEndTimeMillis() - getStartTimeMillis();
 		return lapTimeMillis;
 	}
 

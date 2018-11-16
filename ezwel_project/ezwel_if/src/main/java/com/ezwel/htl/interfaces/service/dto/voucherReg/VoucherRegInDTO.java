@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.service.dto.voucherReg;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -11,7 +12,10 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class VoucherRegInDTO extends AbstractEntity {
 
+	@APIFields(description = "시설바우처번호등록 Input 주문번호", required=true, maxLength=100)
 	private String rsvNo;
+	
+	@APIFields(description = "시설바우처번호등록 Input 바우처번호", required=true, maxLength=100)
 	private String voucherNo;
 
 	public String getRsvNo() {

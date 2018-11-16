@@ -1,5 +1,7 @@
 package com.ezwel.htl.interfaces.commons.constants;
 
+import java.math.BigDecimal;
+
 import com.ezwel.htl.interfaces.commons.annotation.APIService;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
@@ -12,12 +14,9 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
  * @serviceType API
  */
 @APIService
-public class IOperateCode {
+public class OperateCode {
 
 	//SYSTEM EXECUTABLE CODE
-	public static final int API_RESULT_CODE_ERROR;
-	public static final int API_RESULT_CODE_SUCCESS;
-	public static final int API_RESULT_CODE_INVALID;
 	public static final String DELIM_STR;
 	public static final String DELIM_IN_NUMBER;
 	public static final String STR_BLANK;
@@ -33,6 +32,10 @@ public class IOperateCode {
 	public static final String STR_MAX_BRACKET_L;
 	public static final long   LONG_ZERO_VALUE;
 	public static final long   LONG_MINUS_ONE;
+	public static final int	   INTEGER_ZERO_VALUE;
+	public static final int    INTEGER_MINUS_ONE;
+	public static final BigDecimal   BIGDECIMAL_ZERO_VALUE;
+	public static final BigDecimal   BIGDECIMAL_MINUS_ONE;	
 	public static final String MESSAGE_ISNULL;
 	public static final String HTTP_METHOD_POST;
 	public static final String HTTP_METHOD_GET;
@@ -71,10 +74,6 @@ public class IOperateCode {
 	
 	static {
 		
-		//SYSTEM EXECUTABLE CODE
-		API_RESULT_CODE_ERROR = 0;
-		API_RESULT_CODE_SUCCESS = 1;
-		API_RESULT_CODE_INVALID = 2;
 		DELIM_STR = "{}";
 		DELIM_IN_NUMBER = "(\\{[0-9]?+\\})";
 		STR_BLANK = "";
@@ -90,6 +89,10 @@ public class IOperateCode {
 		STR_MAX_BRACKET_L = "]";
 	 	LONG_ZERO_VALUE = 0L;
 	 	LONG_MINUS_ONE = -1L;
+		INTEGER_ZERO_VALUE = 0;
+		INTEGER_MINUS_ONE = -1;
+		BIGDECIMAL_ZERO_VALUE = BigDecimal.ZERO;
+		BIGDECIMAL_MINUS_ONE = new BigDecimal(-1);		 	
 		//META_COMM_HEADER = "commonHeader";
 		MESSAGE_ISNULL = "message is null.";
 		HTTP_METHOD_POST = "POST";

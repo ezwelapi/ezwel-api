@@ -2,7 +2,7 @@ package com.ezwel.htl.interfaces.commons.exception;
 
 
 import com.ezwel.htl.interfaces.commons.annotation.APIService;
-import com.ezwel.htl.interfaces.commons.constants.IOperateCode;
+import com.ezwel.htl.interfaces.commons.constants.InterfaceCode;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
 /**
@@ -18,17 +18,23 @@ public class APIException extends RunTimeException {
 
 	private static final long serialVersionUID = 8537976232349035843L;
 
-	public static final String DEFAULT_MESSAGE = "어플리케이션에서 오류가 발생하였습니다.";
-    
+	public static final String DEFAULT_MESSAGE;
+	public static final Integer DEFAULT_EXCEPTION_CODE;
+	
+	static {
+		DEFAULT_MESSAGE = InterfaceCode.getMessage(InterfaceCode.RESPONSE_CODE_9000);
+		DEFAULT_EXCEPTION_CODE = InterfaceCode.RESPONSE_CODE_9000;
+	}
+	
     public APIException()
     {
         super(DEFAULT_MESSAGE);
 
         super.init(); 
-        setResultCode(IOperateCode.API_RESULT_CODE_ERROR);
+        setResultCode(DEFAULT_EXCEPTION_CODE);
     }
 
-    public APIException(String message, int resultCode)
+    public APIException(Integer resultCode, String message)
     {
         super(message);
 
@@ -41,7 +47,7 @@ public class APIException extends RunTimeException {
         super(message);
         
         super.init(); 
-        setResultCode(IOperateCode.API_RESULT_CODE_ERROR);
+        setResultCode(DEFAULT_EXCEPTION_CODE);
     }
     
     public APIException(Throwable cause)
@@ -49,10 +55,10 @@ public class APIException extends RunTimeException {
         super(DEFAULT_MESSAGE, cause);
         
         super.init(); 
-        setResultCode(IOperateCode.API_RESULT_CODE_ERROR);
+        setResultCode(DEFAULT_EXCEPTION_CODE);
     }
 
-    public APIException(String message, Object arguments[], int resultCode)
+    public APIException(Integer resultCode, String message, Object... arguments)
     {
         super(formatMessage(message, arguments));
         
@@ -65,15 +71,23 @@ public class APIException extends RunTimeException {
         super(formatMessage(message, arguments));
         
         super.init(); 
-        setResultCode(IOperateCode.API_RESULT_CODE_ERROR);
+        setResultCode(DEFAULT_EXCEPTION_CODE);
     }
 
+    public APIException(Integer resultCode, Throwable cause)
+    {
+        super(InterfaceCode.getMessage(resultCode), cause);
+        
+        super.init(); 
+        setResultCode(DEFAULT_EXCEPTION_CODE);
+    }
+    
     public APIException(String message, Throwable cause)
     {
         super(message, cause);
         
         super.init(); 
-        setResultCode(IOperateCode.API_RESULT_CODE_ERROR);
+        setResultCode(DEFAULT_EXCEPTION_CODE);
     }
 
     public APIException(String message, Object arguments[], Throwable cause)
@@ -81,7 +95,7 @@ public class APIException extends RunTimeException {
         super(formatMessage(message, arguments), cause);
    
         super.init(); 
-        setResultCode(IOperateCode.API_RESULT_CODE_ERROR);
+        setResultCode(DEFAULT_EXCEPTION_CODE);
     }
     
     

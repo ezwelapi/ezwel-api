@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.service.dto.roomRead;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -11,13 +12,26 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  * @date 2018. 11. 13.
  */
 public class RoomReadInDTO extends AbstractEntity {
-
+	
+	@APIFields(description = "객실정보조회 Input 상품코드", required=true, maxLength=100)
 	private String pdtNo;
+	
+	@APIFields(description = "객실정보조회 Input 체크인", required=true, maxLength=8)
 	private String checkInDate;
+	
+	@APIFields(description = "객실정보조회 Input 체크아웃", required=true, maxLength=8)
 	private String checkOutDate;
+	
+	@APIFields(description = "객실정보조회 Input 객실상품코드", maxLength=500)
 	private String roomNo;
+	
+	@APIFields(description = "객실정보조회 Input 객실수", required=true)
 	private Integer roomCnt;
+	
+	@APIFields(description = "객실정보조회 Input 성인투숙자수")
 	private Integer adultCnt;
+	
+	@APIFields(description = "객실정보조회 Input 소아투숙자수")
 	private Integer childCnt;
 
 	public String getPdtNo() {

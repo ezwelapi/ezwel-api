@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.service.dto.allReg;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -11,7 +12,10 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class AllRegSubImagesOutDTO extends AbstractEntity {
 
+	@APIFields(description = "전체시설일괄등록 output 이미지URL", maxLength=500)
 	private String image;
+	
+	@APIFields(description = "전체시설일괄등록 output 이미지설명", maxLength=200)
 	private String desc;
 
 	public String getImage() {

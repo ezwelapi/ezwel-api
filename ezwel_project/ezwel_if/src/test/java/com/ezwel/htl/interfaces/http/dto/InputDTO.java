@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
 @APIModel
-public class InputDTO extends AbstractEntity {
+public class InputDTO extends AbstractDTO {
 
 	private String key01;
 	private List<InputDTOSub01> key02 = null;

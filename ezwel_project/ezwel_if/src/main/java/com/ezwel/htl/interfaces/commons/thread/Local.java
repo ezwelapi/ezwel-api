@@ -5,11 +5,12 @@ import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIService;
-import com.ezwel.htl.interfaces.commons.constants.IOperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 import com.ezwel.htl.interfaces.commons.entity.CommonHeader;
 import com.ezwel.htl.interfaces.commons.entity.RuntimeHeader;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
 
 /**
  * <pre>
@@ -38,19 +39,19 @@ public class Local {
 
             	if(logger.isDebugEnabled()) {
 	            	logger.debug(new StringBuilder()
-	            		.append(IOperateCode.LINE_SEPARATOR)
+	            		.append(OperateCode.LINE_SEPARATOR)
 	            		.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
-	            		.append(IOperateCode.LINE_SEPARATOR)
+	            		.append(OperateCode.LINE_SEPARATOR)
 	            		.append(" ■■ [START]    ")
-	            		.append(IOperateCode.LINE_SEPARATOR)
+	            		.append(OperateCode.LINE_SEPARATOR)
 	            		.append(" ■■ initialValue    ")
-	            		.append(IOperateCode.LINE_SEPARATOR)
+	            		.append(OperateCode.LINE_SEPARATOR)
 	            		.append(" ■■ guid : " + header.getGuid() )
-	            		.append(IOperateCode.LINE_SEPARATOR)
+	            		.append(OperateCode.LINE_SEPARATOR)
 	            		.append(" ■■ startTimeMillis : " + header.getStartTimeMillis() )
-	            		.append(IOperateCode.LINE_SEPARATOR)
+	            		.append(OperateCode.LINE_SEPARATOR)
 	            		.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
-	            		.append(IOperateCode.LINE_SEPARATOR)
+	            		.append(OperateCode.LINE_SEPARATOR)
 	            		.toString()
 	            	);
             	}
@@ -93,7 +94,7 @@ public class Local {
 	@APIOperation(description="caller의 고유 아이디를생성하고 타입@메소드 정보와 실행시간(timeMillis)를 로컬오브젝트에 세팅후 고유 아이디를 리턴합니다.", isExecTest=true)
 	public static String startOperation() {
 		String localKey = getLocalKey();
-		StackTraceElement beforeStack = getCurrentStack();
+		StackTraceElement beforeStack = StackTraceUtil.getCurrentStack(Local.class);
 		CommonHeader common = Local.commonHeader();
 		RuntimeHeader runtime = new RuntimeHeader();
 		runtime.setStartTimeMillis(APIUtil.currentTimeMillis());
@@ -113,26 +114,7 @@ public class Local {
 		return runtime;
 	}
 	
-	@APIOperation(description="APIUtil이전 caller의 StackTraceElement를 리턴합니다.", isExecTest=false)
-	public static StackTraceElement getCurrentStack() {
-		StackTraceElement out = null;
-        StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
-        boolean isCurrent = false;
-        int point = 0;
-        for(StackTraceElement stack : stacktrace) {
-        	//logger.debug("stack.getClassName : {}", stack.getClassName());
-        	if(Local.class.getCanonicalName().equals(stack.getClassName())) {
-        		isCurrent = true;
-        	}
-        	if(isCurrent && !Local.class.getCanonicalName().equals(stack.getClassName())) {
-        		out = stacktrace[point];
-        		break;
-    		}
-        	point++;
-        }
-        
-        return out;
-	}	
+
 	
     /**
      * 쓰레드 내 메소드를 call한 타입@메소드의 고유 키 발급
@@ -141,16 +123,16 @@ public class Local {
      */
 	@APIOperation(description="쓰레드 내 메소드를 call한 타입@메소드의 고유 키 발급(ThreadName + caller type + caller method + RandomUUID)", isExecTest=true)
     public static String getLocalKey() {
-    	StackTraceElement beforeStack = getCurrentStack();
+    	StackTraceElement beforeStack = StackTraceUtil.getCurrentStack(Local.class);
     	StringBuffer out = new StringBuffer();
     	String threadName = Thread.currentThread().getName();
     	
     	out.append(threadName);
-    	out.append(IOperateCode.STR_HYPHEN);
+    	out.append(OperateCode.STR_HYPHEN);
 		out.append(beforeStack.getClassName());
-		out.append(IOperateCode.STR_AT);
+		out.append(OperateCode.STR_AT);
 		out.append(beforeStack.getMethodName());
-    	out.append(IOperateCode.STR_HYPHEN);
+    	out.append(OperateCode.STR_HYPHEN);
     	out.append(APIUtil.getRandomUUID());
     	
     	return out.toString();
@@ -166,27 +148,27 @@ public class Local {
 
     	if(logger.isDebugEnabled()) {
 	    	logger.debug(new StringBuilder()
-	    		.append(IOperateCode.LINE_SEPARATOR)
+	    		.append(OperateCode.LINE_SEPARATOR)
 	    		.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
-	    		.append(IOperateCode.LINE_SEPARATOR)
+	    		.append(OperateCode.LINE_SEPARATOR)
 	            .append(" ■■ [END]    ")
-	    		.append(IOperateCode.LINE_SEPARATOR)
+	    		.append(OperateCode.LINE_SEPARATOR)
         		.append(" ■■ guid : " + commonHeader().getGuid() )
-        		.append(IOperateCode.LINE_SEPARATOR)
+        		.append(OperateCode.LINE_SEPARATOR)
         		.append(" ■■ RunTime lapTimeMillis : ")
 				.append(commonHeader().getLapTimeMillis())
 				.append("(ms)")
-	    		.append(IOperateCode.LINE_SEPARATOR)
+	    		.append(OperateCode.LINE_SEPARATOR)
 				.append(" ■■ StartTimeMillis : ")
 				.append(commonHeader().getStartTimeMillis())
-	    		.append(IOperateCode.LINE_SEPARATOR)
+	    		.append(OperateCode.LINE_SEPARATOR)
 				.append(" ■■ EndTimeMillis : ")
 				.append(commonHeader().getEndTimeMillis())
-	    		.append(IOperateCode.LINE_SEPARATOR)
+	    		.append(OperateCode.LINE_SEPARATOR)
 	    		.append(" ■■ ThreadLocal END ")
-	    		.append(IOperateCode.LINE_SEPARATOR)
+	    		.append(OperateCode.LINE_SEPARATOR)
 	    		.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
-	    		.append(IOperateCode.LINE_SEPARATOR)
+	    		.append(OperateCode.LINE_SEPARATOR)
 	    		.toString()
 			);
     	}

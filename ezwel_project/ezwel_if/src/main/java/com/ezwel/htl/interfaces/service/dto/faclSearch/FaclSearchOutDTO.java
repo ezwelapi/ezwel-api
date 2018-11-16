@@ -3,6 +3,7 @@ package com.ezwel.htl.interfaces.service.dto.faclSearch;
 import java.util.List;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -14,8 +15,13 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class FaclSearchOutDTO extends AbstractEntity {
 
+	@APIFields(description = "시설검색 output code", required=true, maxLength=4)
 	private String code;
+	
+	@APIFields(description = "시설검색 output message", maxLength=100)
 	private String message;
+	
+	@APIFields(description = "시설검색 output data")
 	private List<FaclSearchDataOutDTO> data = null;
 
 	public String getCode() {

@@ -3,6 +3,7 @@ package com.ezwel.htl.interfaces.service.dto.roomRead;
 import java.util.List;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -14,19 +15,46 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class RoomReadDataOutDTO extends AbstractEntity {
 
+	@APIFields(description = "객실정보조회 output 객실상품코드", required=true, maxLength=500)
 	private String roomNo;
+	
+	@APIFields(description = "객실정보조회 output 객실상품명", required=true, maxLength=200)
 	private String roomName;
+	
+	@APIFields(description = "객실정보조회 output 정상가", required=true)
 	private Integer priceForList;
+	
+	@APIFields(description = "객실정보조회 output 판매가", required=true)
 	private Integer priceForSale;
+	
+	@APIFields(description = "객실정보조회 output 기준인원", required=true)
 	private String adtCntMin;
+	
+	@APIFields(description = "객실정보조회 output 최대인원", required=true)
 	private String adtCntMax;
+	
+	@APIFields(description = "객실정보조회 output 객실정보", required=true, maxLength=1000)
 	private String roomInfo;
+	
+	@APIFields(description = "객실정보조회 output 잔여객실수량", required=true)
 	private Integer roomAvailCount;
+	
+	@APIFields(description = "객실정보조회 output 확정예약여부코드", required=true, maxLength=1)
 	private String rsvTypeCode;
+	
+	@APIFields(description = "객실정보조회 output 조식포함여부", required=true, maxLength=1)
 	private String breakfast;
+	
+	@APIFields(description = "객실정보조회 output 특가상품여부", required=true, maxLength=1)
 	private String spcType;
+	
+	@APIFields(description = "객실정보조회 output 특가상품종료일시", maxLength=12)
 	private String spcTypeTime;
+	
+	@APIFields(description = "객실정보조회 output options")
 	private List<RoomReadOptionsOutDTO> options = null;
+	
+	@APIFields(description = "객실정보조회 output penalty")
 	private List<RoomReadPenaltyOutDTO> penalty = null;
 
 	public String getRoomNo() {

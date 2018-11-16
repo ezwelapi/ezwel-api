@@ -7,9 +7,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
-import com.ezwel.htl.interfaces.commons.constants.IOperateCode;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
+import com.ezwel.htl.interfaces.commons.http.dto.UserAgentDTO;
 import com.ezwel.htl.interfaces.commons.http.dto.HttpConfigDTO;
 import com.ezwel.htl.interfaces.commons.http.dto.MultiHttpConfigDTO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -17,6 +18,9 @@ import com.ezwel.htl.interfaces.http.dto.InputDTO;
 import com.ezwel.htl.interfaces.http.dto.InputDTOSub01;
 import com.ezwel.htl.interfaces.http.dto.InputDTOSub02;
 import com.ezwel.htl.interfaces.http.dto.OutputDTO;
+import com.ezwel.htl.interfaces.service.OutsideInterfaceService;
+import com.ezwel.htl.interfaces.service.dto.cancelFeeAmt.CancelFeeAmtInDTO;
+import com.ezwel.htl.interfaces.service.dto.cancelFeeAmt.CancelFeeAmtOutDTO;
 
 
 
@@ -56,6 +60,17 @@ public class HttpInterfaceExecutorTest  {
 		
 		OutputDTO singleOut = (OutputDTO) http.sendPostJSON(config, inputDTO, OutputDTO.class);
 		logger.debug("singleOut : {}", singleOut);
+		
+		
+		OutsideInterfaceService interfaceService = new OutsideInterfaceService();
+		CancelFeeAmtInDTO cancelFeeAmtIn = new CancelFeeAmtInDTO();
+		cancelFeeAmtIn.setRsvNo("rsvNo");
+
+		UserAgentDTO agentInfoDTO = new UserAgentDTO();
+		agentInfoDTO.setHttpAgentId("outside-07");
+			
+//		CancelFeeAmtOutDTO output = (CancelFeeAmtOutDTO) interfaceService.callCancelFeeAmt(agentInfoDTO, cancelFeeAmtIn);
+//		logger.debug("#callCancelFeeAmt interface output : {}", output);
 	}
 	
 	//@Test
@@ -82,7 +97,7 @@ public class HttpInterfaceExecutorTest  {
 			httpConfigDTO.addRequestProperty("header01", "value01");
 			httpConfigDTO.addRequestProperty("header02", "value02");
 			httpConfigDTO.addRequestProperty("header03", "value03");
-			httpConfigDTO.setEncoding(IOperateCode.DEFAULT_ENCODING);
+			httpConfigDTO.setEncoding(OperateCode.DEFAULT_ENCODING);
 			httpConfigDTO.setRestURI(restURI);
 			httpConfigDTO.setHttpApiKey("(" + testCnt + ") " + APIUtil.getId());
 			multi.setHttpConfigDTO(httpConfigDTO);
@@ -102,10 +117,10 @@ public class HttpInterfaceExecutorTest  {
 		}
 		
 		//멀티 쓰레드 인터페이스 실행
-		List<AbstractEntity> multiOut = http.sendMultiPostJSON(multiHttpConfigList);
+		List<AbstractDTO> multiOut = http.sendMultiPostJSON(multiHttpConfigList);
 		
 		int cnt = 0;
-		for(AbstractEntity out : multiOut) {
+		for(AbstractDTO out : multiOut) {
 			logger.debug("IF-Result({}) : resultClass : {}, resultValue : {}", cnt, out.getClass(), out);
 			cnt++;
 		}
@@ -125,7 +140,7 @@ public class HttpInterfaceExecutorTest  {
 		config.addRequestProperty("header01", "value01");
 		config.addRequestProperty("header02", "value02");
 		config.addRequestProperty("header03", "value03");
-		config.setEncoding(IOperateCode.DEFAULT_ENCODING);
+		config.setEncoding(OperateCode.DEFAULT_ENCODING);
 	}
 	
 	public void setInputDTO() {

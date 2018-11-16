@@ -3,6 +3,7 @@ package com.ezwel.htl.interfaces.service.dto.allReg;
 import java.util.List;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -13,8 +14,13 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  */
 public class AllRegOutDTO extends AbstractEntity {
 
+	@APIFields(description = "전체시설일괄등록 output code", required=true, maxLength=4)
 	private String code;
+	
+	@APIFields(description = "전체시설일괄등록 output message", maxLength=100)
 	private String message;
+	
+	@APIFields(description = "전체시설일괄등록 output data")
 	private List<AllRegDataOutDTO> data = null;
 
 	public String getCode() {

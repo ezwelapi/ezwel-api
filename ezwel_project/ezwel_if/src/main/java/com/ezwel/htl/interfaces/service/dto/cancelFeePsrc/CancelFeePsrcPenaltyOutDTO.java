@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.service.dto.cancelFeePsrc;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -11,9 +12,14 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  * @date 2018. 11. 13.
  */
 public class CancelFeePsrcPenaltyOutDTO extends AbstractEntity {
-
+	
+	@APIFields(description = "취소수수료규정 output 적용시작일", required=true, maxLength=8)
 	private String applyBgnDate;
+	
+	@APIFields(description = "취소수수료규정 output 수수료율")
 	private Integer cancelFeeRate;
+	
+	@APIFields(description = "취소수수료규정 output 수수료금액")
 	private Integer cancelFeePrice;
 
 	public String getApplyBgnDate() {

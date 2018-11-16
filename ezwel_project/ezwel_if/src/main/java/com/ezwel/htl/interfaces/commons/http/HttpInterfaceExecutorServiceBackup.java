@@ -80,9 +80,9 @@ import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
  */
 @Service 
 @APIService
-public class HttpInterfaceExecutorService {
+public class HttpInterfaceExecutorServiceBackup {
 
-	private static final Logger logger = LoggerFactory.getLogger(HttpInterfaceExecutorService.class);
+	private static final Logger logger = LoggerFactory.getLogger(HttpInterfaceExecutorServiceBackup.class);
 
 	/**
 	 * Default URL Connection TimeOut 3 Second
@@ -100,7 +100,7 @@ public class HttpInterfaceExecutorService {
 	
 	private PropertyUtil propertyUtil;
 	
-	public HttpInterfaceExecutorService() {
+	public HttpInterfaceExecutorServiceBackup() {
 		this.reset();
 	}
 
@@ -137,11 +137,11 @@ public class HttpInterfaceExecutorService {
 			conn.setReadTimeout(httpReadTimeout);	
 			
 		} catch (ProtocolException e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9000, "■ 연결이 불가능한 주소입니다.", e);
+			throw new APIException("■ 연결이 불가능한 주소입니다.", e);
 		} catch (MalformedURLException e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9000, "■ 프로토콜이 잘못되었습니다.", e);
+			throw new APIException("■ 프로토콜이 잘못되었습니다.", e);
 		} catch (IOException e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "■ 통신 장애 발생.", e);
+			throw new APIException("■ 통신 장애 발생.", e);
 		}
 
 		return conn;
@@ -173,8 +173,8 @@ public class HttpInterfaceExecutorService {
 			}
 			
 			logger.debug("\n■ RequestProperties : \n{}", beanConvert.toJSONString( conn.getRequestProperties()));
-		} catch(APIException e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9000, "■ 인터페이스 요청 헤더 작성중 장애발생.", e);
+		} catch(Exception e) {
+			throw new APIException("■ 인터페이스 요청 헤더 작성중 장애발생.", e);
 		} finally {
 			if(certifications != null) {
 				certifications.clear();
@@ -194,7 +194,7 @@ public class HttpInterfaceExecutorService {
 			is = new BufferedInputStream(conn.getInputStream());
 			out = IOUtils.toString(is, in.getEncoding());
 		} catch (IOException e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9000, "■ 입력스트림 변환과정에 장애발생", e);
+			throw new APIException("■ 입력스트림 변환과정에 장애발생", e);
 		} finally {
 			if(is != null) {
 				try {
@@ -218,8 +218,8 @@ public class HttpInterfaceExecutorService {
 			out = beanConvert.toJSONString(inputObject);
 			logger.debug("\n■ input parameter : \n{}", out);	
 		}
-		catch(APIException e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9000, "■ 입력 DTO를 JSON으로 변환과정에 장애발생", e);
+		catch(Exception e) {
+			throw new APIException("■ 입력 DTO를 JSON으로 변환과정에 장애발생", e);
 		}
 		
 		return out;
@@ -233,7 +233,7 @@ public class HttpInterfaceExecutorService {
 			os.write(inJsonParam.getBytes(in.getEncoding()));
 			os.flush();			
 		} catch (IOException e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "■ JSON 파라메터 전송중 장애발생", e);
+			throw new APIException("■ 요청 파라메터 전송중 장애발생", e);
 		} finally {
 			if(os != null) {
 				try {
@@ -248,7 +248,7 @@ public class HttpInterfaceExecutorService {
 	@APIOperation(description="Http URL Communication API (output only)", isExecTest=true)
 	public <T extends AbstractDTO> T sendPostJSON(HttpConfigDTO in, Class<T> outputObject) {
 		if(in == null) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_2000, "인터페이스 필수 입력 객체가 존재하지 않습니다.");
+			throw new APIException("인터페이스 필수 입력 객체가 존재하지 않습니다.");
 		}
 		
 		/** 요청 파라메터 여부 */
@@ -259,7 +259,7 @@ public class HttpInterfaceExecutorService {
 	@APIOperation(description="Http URL Communication API (input only)", isExecTest=true)
 	public <T extends AbstractDTO> T sendPostJSON(HttpConfigDTO in, T inputObject) {
 		if(in == null) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_2000, "인터페이스 필수 입력 객체가 존재하지 않습니다.");
+			throw new APIException("인터페이스 필수 입력 객체가 존재하지 않습니다.");
 		}
 		
 		/** 응답 결과 수신 여부 */
@@ -288,9 +288,8 @@ public class HttpInterfaceExecutorService {
 		String responseOrgin = null;
 		
 		try {
-			
 			if(in == null) {
-				throw new APIException(InterfaceCode.RESPONSE_CODE_2000, "■ 인터페이스 필수 입력 객체가 존재하지 않습니다.");
+				throw new APIException("■ 인터페이스 필수 입력 객체가 존재하지 않습니다.");
 			}
 			
 			/** input bean to json */
@@ -313,8 +312,7 @@ public class HttpInterfaceExecutorService {
 			logger.debug("■ responseCode : {}", conn.getResponseCode());
 			if(conn.getResponseCode() != 200) {
 				/** 서버측 에러 발생시 에러메시지 세팅 */
-				logger.error("■ HttpServer Exception : {}", (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
-				throw new APIException(InterfaceCode.RESPONSE_CODE_9200, "■ HTTP 통신 장애 발생 원격 서버 에러");
+				throw new APIException("■ HTTP 통신 장애 발생 원격지 Excpetion : \n{}", (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
 	    	}
 			else {
 				/** 응답 수신 및 리턴타입 빈으로 변환 */
@@ -330,9 +328,9 @@ public class HttpInterfaceExecutorService {
 					if(APIUtil.isNotEmpty(responseOrgin)) {
 						
 						if(outputType == null) {
-							throw new APIException(InterfaceCode.RESPONSE_CODE_9000, "■ 인터페이스 응답 결과를 담을 CLASS정보가 존재하지 않습니다. HttpDTO의 outputType class를 설정하세요.");
+							throw new APIException("■ 인터페이스 응답 결과를 담을 CLASS정보가 존재하지 않습니다. HttpDTO의 outputType class를 설정하세요.");
 						}
-
+						
 						/** execute unmarshall */
 						logger.debug("■ outputType : {}", outputType);
 						out = (T2) beanConvert.fromJSON(responseOrgin, outputType);						
@@ -343,19 +341,14 @@ public class HttpInterfaceExecutorService {
 				}
 			}
 			
-			
-		} catch (APIException e) {
-			
+		} catch (IOException e) {
 			if(outputType != null) {
-				e.printStackTrace();
-				
 				out = outputType.newInstance();
-				propertyUtil.setProperty(out, InterfaceCode.RESPONSE_CODE_FIELD_NAME, e.getResultCode());
-				propertyUtil.setProperty(out, InterfaceCode.RESPONSE_MESSAGE_FIELD_NAME, e.getMessage());
+				
+				propertyUtil.setProperty(out, InterfaceCode.RESPONSE_CODE_FIELD_NAME, "");
+				propertyUtil.setProperty(out, InterfaceCode.RESPONSE_MESSAGE_FIELD_NAME, "");
 			}
-			else {
-				throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "■ 통신 장애 발생.", e);
-			}
+			throw new APIException("■ 통신 장애 발생.", e);
 		}  finally {
 			if(conn != null) {
 				conn.disconnect();
@@ -400,9 +393,9 @@ public class HttpInterfaceExecutorService {
 				}				
 			}
 		} catch (IllegalArgumentException e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9000, e);
+			throw new APIException(e);
 		} catch (IllegalAccessException e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9000, "■ HttpConfigDTO필드에 접근할수 없습니다.", e);
+			throw new APIException("■ HttpConfigDTO필드에 접근할수 없습니다.", e);
 		}
 		
 		return out;
@@ -444,8 +437,8 @@ public class HttpInterfaceExecutorService {
 				}
 			}
 			
-		} catch (APIException e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "■ 다중 인터페이스 장애 발생", e);
+		} catch (Exception e) {
+			throw new APIException(InterfaceCode.RESPONSE_CODE_5000, e);
 		}
 		finally {
 			if(executor != null) {
@@ -456,4 +449,238 @@ public class HttpInterfaceExecutorService {
 			return out;
 		}
 	}
+	
+	public String executePost(String URLAddress, Map<String, String> headerParams, List<NameValuePair> postParams)
+			throws MalformedURLException {
+
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpPost httpPost = new HttpPost(URLAddress);
+
+		if (headerParams != null) {
+			for (String header : headerParams.keySet()) {
+				httpPost.addHeader(header, headerParams.get(header));
+			}
+		}
+
+		// Set UTF-8 character encoding to ensure proper
+		// encoding structure in your posts
+		if (postParams != null)
+			try {
+				httpPost.setEntity(new UrlEncodedFormEntity(postParams, "UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				throw new APIException(e);
+			}
+
+		// Set up the response handler
+		ResponseHandler<String> handler = new ResponseHandler<String>() {
+
+			@Override
+			public String handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+
+				int status = response.getStatusLine().getStatusCode();
+
+				logger.info("Status: " + status);
+				HttpEntity entity = response.getEntity();
+				return entity != null ? EntityUtils.toString(entity) : null;
+			}
+		};
+		String responseBody = null;
+		try {
+			responseBody = client.execute(httpPost, handler);
+		} catch (ClientProtocolException e) {
+			throw new APIException(e);
+		} catch (IOException e) {
+			throw new APIException(e);
+		}
+		return responseBody;
+	}
+
+	public String executeGet(String URLAddress, Map<String, String> headerParams) throws MalformedURLException {
+
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpGet httpGet = new HttpGet(URLAddress);
+
+		if (headerParams != null) {
+			for (String header : headerParams.keySet()) {
+				httpGet.addHeader(header, headerParams.get(header));
+			}
+		}
+
+		// Set up the response handler
+		ResponseHandler<String> handler = new ResponseHandler<String>() {
+
+			@Override
+			public String handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+
+				int status = response.getStatusLine().getStatusCode();
+
+				logger.info("Status: " + status);
+				HttpEntity entity = response.getEntity();
+				return entity != null ? EntityUtils.toString(entity) : null;
+			}
+		};
+		String responseBody = null;
+		try {
+			responseBody = client.execute(httpGet, handler);
+		} catch (ClientProtocolException e) {
+			throw new APIException(e);
+		} catch (IOException e) {
+			throw new APIException(e);
+		}
+		return responseBody;
+	}
+
+	public String executeSSLPost(String URLAddress, Map<String, String> headerParams, List<NameValuePair> postParams)
+			throws MalformedURLException, IOException, NoSuchAlgorithmException, KeyManagementException,
+			KeyStoreException {
+
+		HttpClientBuilder builder = HttpClientBuilder.create();
+
+		SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
+			public boolean isTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+				return true;
+			}
+		}).build();
+
+		@SuppressWarnings("deprecation")
+		HostnameVerifier hostnameVerifier = SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+
+		SSLConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(sslContext, hostnameVerifier);
+		Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
+				.register("http", PlainConnectionSocketFactory.getSocketFactory()).register("https", sslSocketFactory)
+				.build();
+
+		PoolingHttpClientConnectionManager connectionMgr = new PoolingHttpClientConnectionManager(
+				socketFactoryRegistry);
+		builder.setConnectionManager(connectionMgr);
+
+		builder.setSslcontext(sslContext);
+
+		HttpClient client = builder.build();
+		HttpPost httpPost = new HttpPost(URLAddress);
+
+		if (headerParams != null) {
+			for (String header : headerParams.keySet()) {
+				httpPost.addHeader(header, headerParams.get(header));
+			}
+		}
+
+		// Set UTF-8 character encoding to ensure proper
+		// encoding structure in your posts
+		if (postParams != null)
+			httpPost.setEntity(new UrlEncodedFormEntity(postParams, "UTF-8"));
+
+		// Set up the response handler
+		ResponseHandler<String> handler = new ResponseHandler<String>() {
+
+			@Override
+			public String handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+
+				int status = response.getStatusLine().getStatusCode();
+
+				logger.info("Status: " + status);
+				if (status >= 200 && status < 300) {
+					HttpEntity entity = response.getEntity();
+					return entity != null ? EntityUtils.toString(entity) : null;
+				} else {
+					throw new ClientProtocolException("Unexpected response status: " + status);
+				}
+			}
+		};
+		String responseBody = client.execute(httpPost, handler);
+		return responseBody;
+	}
+
+	public String executeSSLGet(String URLAddress, Map<String, String> headerParams) throws MalformedURLException,
+			IOException, KeyManagementException, NoSuchAlgorithmException, KeyStoreException {
+		HttpClient client = HttpClients.createDefault();
+		HttpGet httpget = new HttpGet(URLAddress);
+
+		if (headerParams != null) {
+			for (String header : headerParams.keySet()) {
+				httpget.addHeader(header, headerParams.get(header));
+			}
+		}
+
+		logger.info("Executing request " + httpget.getRequestLine());
+
+		// Set up the response handler
+		ResponseHandler<String> handler = new ResponseHandler<String>() {
+
+			@Override
+			public String handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+
+				int status = response.getStatusLine().getStatusCode();
+
+				logger.info("Status: " + status);
+				if (status >= 200 && status < 300) {
+					HttpEntity entity = response.getEntity();
+					return entity != null ? EntityUtils.toString(entity) : null;
+				} else {
+					throw new ClientProtocolException("Unexpected response status: " + status);
+				}
+			}
+		};
+		String responseBody = client.execute(httpget, handler);
+		return responseBody;
+	}
+
+	public String executeSSLGetAllTrusting(String URLAddress) throws MalformedURLException, IOException,
+			KeyManagementException, NoSuchAlgorithmException, KeyStoreException {
+		TrustManager[] allTrustingCerts = new TrustManager[] { new X509TrustManager() {
+			@Override
+			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+				logger.info("Inside TrustManager getAcceptedIssuers...");
+				return null;
+			}
+
+			@Override
+			public void checkClientTrusted(X509Certificate[] certs, String authType) throws CertificateException {
+				logger.info("Inside TrustManager checkClientTrusted...");
+			}
+
+			@Override
+			public void checkServerTrusted(X509Certificate[] certs, String authType) {
+				logger.info("Inside TrustManager checkServerTrusted...");
+				logger.info("certs......: " + certs);
+				logger.info("authType...: " + authType);
+			}
+		} };
+
+		SSLContextBuilder sslBuilder = new SSLContextBuilder();
+		sslBuilder.loadTrustMaterial(null, new TrustStrategy() {
+			public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+				return true;
+			}
+		});
+
+		@SuppressWarnings("deprecation")
+		HostnameVerifier hostnameVerifier = SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+		SSLConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(sslBuilder.build(),
+				hostnameVerifier);
+		CloseableHttpClient client = HttpClients.custom().setSSLSocketFactory(sslSocketFactory).build();
+		HttpGet httpget = new HttpGet(URLAddress);
+
+		logger.info("Executing request " + httpget.getRequestLine());
+
+		// Set up the response handler
+		ResponseHandler<String> handler = new ResponseHandler<String>() {
+			@Override
+			public String handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+
+				int status = response.getStatusLine().getStatusCode();
+
+				logger.info("Status: " + status);
+				if (status >= 200 && status < 300) {
+					HttpEntity entity = response.getEntity();
+					return entity != null ? EntityUtils.toString(entity) : null;
+				} else {
+					throw new ClientProtocolException("Unexpected response status: " + status);
+				}
+			}
+		};
+		String responseBody = client.execute(httpget, handler);
+		return responseBody;
+	}
+
 }

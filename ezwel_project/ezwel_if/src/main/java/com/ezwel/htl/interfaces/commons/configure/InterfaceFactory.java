@@ -14,9 +14,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.configure.dto.InterfaceChannel;
+import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.http.dto.AgentInfoDTO;
 import com.ezwel.htl.interfaces.commons.http.dto.HttpConfigDTO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 
 /**
  * <pre>
@@ -29,13 +32,12 @@ public class InterfaceFactory {
 
 	private static final Logger logger = LoggerFactory.getLogger(InterfaceFactory.class);
 	
-	private static Map<String, HttpConfigDTO> channelMap;
+	private static Map<String, List<HttpConfigDTO>> interfaceChannels;
 	
-	private static Map<String, List<HttpConfigDTO>> channelGroupMap;
+	private PropertyUtil propertyUtil;
 	
 	static {
-		channelMap = new LinkedHashMap<String, HttpConfigDTO>();
-		channelGroupMap = new LinkedHashMap<String, List<HttpConfigDTO>>();
+		interfaceChannels = new LinkedHashMap<String, List<HttpConfigDTO>>();
 	}
 	
 	private String configXmlPath;
@@ -44,6 +46,10 @@ public class InterfaceFactory {
 		if(APIUtil.isEmpty(this.configXmlPath)) {
 			this.configXmlPath = "interface-configure.xml";
 		}
+		if(propertyUtil == null) {
+			propertyUtil = new PropertyUtil();
+		}
+		
 	}
 	
 	public String getConfigXmlPath() {
@@ -54,20 +60,47 @@ public class InterfaceFactory {
 		this.configXmlPath = configXmlPath;
 	}
 	
-	public static HttpConfigDTO getChannel(String chanId) {
+	public static HttpConfigDTO getChannel(String chanId, String httpAgentId) {
+		/*
+		StackTraceElement beforeStack = StackTraceUtil.getCurrentStack(InterfaceFactory.class);
+		
+		beforeStack.getClassName()
+		beforeStack.getMethodName()
+		*/
 		HttpConfigDTO out = null;
-		if(channelMap != null) {
-			out = channelMap.get(chanId); 
+		List<HttpConfigDTO> channels = null;
+		String key = null;
+		if(interfaceChannels != null && httpAgentId != null) {
+			key = chanId.concat(OperateCode.STR_HYPHEN).concat(httpAgentId);
+			channels = interfaceChannels.get(key);
+			logger.debug("channel key : {}", key);
+			if(channels != null) {
+				out = channels.get(0); 
+			}
 		}
 		return out;
 	}
 	
-	public static List<HttpConfigDTO> getChannelGroup(String chanGroupId) {
+	
+	public static List<HttpConfigDTO> getChannelGroup(String chanId, String httpAgentGroupId) {
+		/*
+		StackTraceElement beforeStack = StackTraceUtil.getCurrentStack(InterfaceFactory.class);
+		
+		beforeStack.getClassName()
+		beforeStack.getMethodName()
+		*/
 		List<HttpConfigDTO> out = null;
-		if(channelMap != null) {
-			out = channelGroupMap.get(chanGroupId); 
+		String key = null;
+		if(interfaceChannels != null && httpAgentGroupId != null) {
+			key = chanId.concat(OperateCode.STR_HYPHEN).concat(httpAgentGroupId);
+			logger.debug("channelGroup key : {}", key);
+			out = interfaceChannels.get(key); 
 		}
 		return out;
+	}
+	
+	public static Map<String, List<HttpConfigDTO>> getInterfaceChannels() {
+		return interfaceChannels;
 	}
 	
 	public void initFactory() {
@@ -78,7 +111,6 @@ public class InterfaceFactory {
 		File configureXml = null;
 		InterfaceChannel ifc = null;
 		String xmlPath = null;
-		List<HttpConfigDTO> chanGroupList = null;
 		
 		try {
 			
@@ -96,36 +128,34 @@ public class InterfaceFactory {
 			
 			ifc = (InterfaceChannel) unmarshaller.unmarshal(configureXml);
 			
-			
-			
-			
-			
-			for(HttpConfigDTO item : ifc.getOutsideChans()) {
-				logger.debug("outside channel : {}", item);
-				channelMap.put(item.getChanId(), item);
-
-				if(APIUtil.isNotEmpty(item.getChanGroupId())) {
-					chanGroupList = channelGroupMap.get(item.getChanGroupId());
-					if(chanGroupList == null) {
-						chanGroupList = new ArrayList<HttpConfigDTO>();
-					}
-					chanGroupList.add(item);
-					channelGroupMap.put(item.getChanGroupId(), chanGroupList);
+			//logger.debug("- AgentSize : {}", ifc.getAgentList().size());
+			//agent list (제휴사 목록)
+			//
+			for(AgentInfoDTO agent : ifc.getAgentList()) {
+				
+				//방향 : inside interface list
+				for(HttpConfigDTO inside : ifc.getInsideChans()) {
+					
+					inside.setAgentName(agent.getAgentName());
+					inside.setHttpAgentId(agent.getHttpAgentId());
+					inside.setHttpApiKey(agent.getInsideApiKey());
+					//logger.debug("inside channel : {}", item);
+					enter(inside);
 				}
+				
 			}
 			
-			for(HttpConfigDTO item : ifc.getInsideChans()) {
-				logger.debug("inside channel : {}", item);
-				channelMap.put(item.getChanId(), item);		
-				
-				if(APIUtil.isNotEmpty(item.getChanGroupId())) {
-					chanGroupList = channelGroupMap.get(item.getChanGroupId());
-					if(chanGroupList == null) {
-						chanGroupList = new ArrayList<HttpConfigDTO>();
-					}
-					chanGroupList.add(item);
-					channelGroupMap.put(item.getChanGroupId(), chanGroupList);
-				}				
+			for(AgentInfoDTO agent : ifc.getAgentList()) {
+
+				//방향 : outside interface list
+				for(HttpConfigDTO outside : ifc.getOutsideChans()) {
+					
+					outside.setAgentName(agent.getAgentName());
+					outside.setHttpAgentId(agent.getHttpAgentId());
+					outside.setHttpApiKey(agent.getOutsideApiKey());					
+					//logger.debug("outside channel : {}", item);
+					enter(outside);
+				}
 			}
 			
 		} catch (JAXBException e) {
@@ -133,9 +163,44 @@ public class InterfaceFactory {
 		} 
 	}
 	
+	private void enter(HttpConfigDTO item) {
+		
+		String channelId = null;
+		List<HttpConfigDTO> channelList = null;
+		
+		if(APIUtil.isNotEmpty(item.getHttpAgentGroupId())) {
+			channelId = item.getHttpAgentGroupId();
+		}
+		else if(APIUtil.isNotEmpty(item.getHttpAgentId())) {
+			channelId = item.getHttpAgentId();
+		}
+		else {
+			channelId = null;
+		}
+		
+		if(channelId != null) {
+			
+			channelId = item.getChanId().concat(OperateCode.STR_HYPHEN).concat(channelId);
+			//logger.debug("channelId : {}", channelId);
+			
+			channelList = interfaceChannels.get(channelId);
+			if(channelList == null) {
+				channelList = new ArrayList<HttpConfigDTO>();
+			}
+			
+			//logger.debug("channelList.size() : {}", channelList.size() + 1);
+			//logger.debug("cached class : {}", item.getClass());
+			//logger.debug("cached data : {}", item);
+			
+			channelList.add(item);
+			
+			interfaceChannels.put(channelId, channelList);
+		}
+	}
+	
 	public void destroyFactory() {
-		if(channelMap != null) {
-			channelMap.clear();
+		if(interfaceChannels != null) {
+			interfaceChannels.clear();
 		}
 	}
 }

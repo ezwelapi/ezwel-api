@@ -3,11 +3,11 @@ package com.ezwel.htl.interfaces.http.dto;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
 @APIModel
-public class InputDTOSub01 extends AbstractEntity {
+public class InputDTOSub01 extends AbstractDTO {
 
 	private String key02Sub01;
 	private String key02Sub02;
