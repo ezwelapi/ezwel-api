@@ -2,7 +2,7 @@ package com.ezwel.htl.interfaces.service.dto.ezwelJob;
 
 import java.util.List;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
@@ -12,7 +12,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
  * @author ypjeon@ebsolution.co.kr
  * @date   2018. 11. 13.
  */
-public class EzwelJobOutDTO extends AbstractEntity {
+public class EzwelJobOutDTO extends AbstractDTO {
 
 	@APIFields(description = "주문대사(이지웰) output code", required=true, maxLength=4)
 	private String code;

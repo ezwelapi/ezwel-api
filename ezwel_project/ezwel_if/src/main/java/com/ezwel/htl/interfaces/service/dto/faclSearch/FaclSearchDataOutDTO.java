@@ -1,6 +1,6 @@
 package com.ezwel.htl.interfaces.service.dto.faclSearch;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
@@ -10,7 +10,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
  * @author ypjeon@ebsolution.co.kr
  * @date   2018. 11. 13.
  */
-public class FaclSearchDataOutDTO extends AbstractEntity {
+public class FaclSearchDataOutDTO extends AbstractDTO {
 	
 	@APIFields(description = "시설검색 output 상품코드", required=true, maxLength=100)
 	private String  pdtNo;

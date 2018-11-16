@@ -1,6 +1,6 @@
 package com.ezwel.htl.interfaces.service.dto.allReg;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
@@ -10,7 +10,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
  * @author swkim@ebsolution.co.kr
  * @date   2018. 11. 13.
  */
-public class AllRegSubImagesOutDTO extends AbstractEntity {
+public class AllRegSubImagesOutDTO extends AbstractDTO {
 
 	@APIFields(description = "전체시설일괄등록 output 이미지URL", maxLength=500)
 	private String image;

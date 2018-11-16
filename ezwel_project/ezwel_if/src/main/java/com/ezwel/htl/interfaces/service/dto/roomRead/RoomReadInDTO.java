@@ -1,6 +1,6 @@
 package com.ezwel.htl.interfaces.service.dto.roomRead;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
@@ -11,7 +11,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
  * @author ypjeon@ebsolution.co.kr
  * @date 2018. 11. 13.
  */
-public class RoomReadInDTO extends AbstractEntity {
+public class RoomReadInDTO extends AbstractDTO {
 	
 	@APIFields(description = "객실정보조회 Input 상품코드", required=true, maxLength=100)
 	private String pdtNo;

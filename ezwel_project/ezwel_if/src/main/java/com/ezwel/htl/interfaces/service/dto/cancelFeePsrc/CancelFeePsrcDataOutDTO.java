@@ -2,7 +2,7 @@ package com.ezwel.htl.interfaces.service.dto.cancelFeePsrc;
 
 import java.util.List;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
@@ -13,7 +13,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
  * @author swkim@ebsolution.co.kr
  * @date 2018. 11. 13.
  */
-public class CancelFeePsrcDataOutDTO extends AbstractEntity {
+public class CancelFeePsrcDataOutDTO extends AbstractDTO {
 
 	@APIFields(description = "취소수수료규정 output 대체텍스트", maxLength=2000)
 	private String cancelFeeText;

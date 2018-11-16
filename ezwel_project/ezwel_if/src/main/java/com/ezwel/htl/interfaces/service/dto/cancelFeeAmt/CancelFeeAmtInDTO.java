@@ -1,6 +1,6 @@
 package com.ezwel.htl.interfaces.service.dto.cancelFeeAmt;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
@@ -10,7 +10,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
  * @author swkim@ebsolution.co.kr
  * @date   2018. 11. 13.
  */
-public class CancelFeeAmtInDTO extends AbstractEntity {
+public class CancelFeeAmtInDTO extends AbstractDTO {
 
 	@APIFields(description = "취소수수료계산 Input 주문번호", required=true, maxLength=100)
 	private String rsvNo;

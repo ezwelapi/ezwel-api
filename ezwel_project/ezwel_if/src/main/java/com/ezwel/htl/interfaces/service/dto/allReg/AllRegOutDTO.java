@@ -2,7 +2,7 @@ package com.ezwel.htl.interfaces.service.dto.allReg;
 
 import java.util.List;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
@@ -12,7 +12,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
  * @author swkim@ebsolution.co.kr
  * @date   2018. 11. 13.
  */
-public class AllRegOutDTO extends AbstractEntity {
+public class AllRegOutDTO extends AbstractDTO {
 
 	@APIFields(description = "전체시설일괄등록 output code", required=true, maxLength=4)
 	private String code;

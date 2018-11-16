@@ -2,7 +2,7 @@ package com.ezwel.htl.interfaces.service.dto.roomRead;
 
 import java.util.List;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
@@ -13,7 +13,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
  * @author ypjeon@ebsolution.co.kr
  * @date 2018. 11. 13.
  */
-public class RoomReadDataOutDTO extends AbstractEntity {
+public class RoomReadDataOutDTO extends AbstractDTO {
 
 	@APIFields(description = "객실정보조회 output 객실상품코드", required=true, maxLength=500)
 	private String roomNo;

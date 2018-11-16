@@ -1,6 +1,6 @@
 package com.ezwel.htl.interfaces.service.dto.rsvHistSend;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
@@ -11,7 +11,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
  * @author ypjeon@ebsolution.co.kr
  * @date 2018. 11. 13.
  */
-public class RsvHistSendOptionsInDTO extends AbstractEntity {
+public class RsvHistSendOptionsInDTO extends AbstractDTO {
 
 	@APIFields(description = "결제완료내역전송 Input option 옵션주문번호(이지웰)", maxLength=100)
 	private String rsvOptNo;

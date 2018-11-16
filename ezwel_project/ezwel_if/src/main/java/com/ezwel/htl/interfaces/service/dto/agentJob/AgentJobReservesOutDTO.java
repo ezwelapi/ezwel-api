@@ -1,6 +1,6 @@
 package com.ezwel.htl.interfaces.service.dto.agentJob;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
@@ -10,7 +10,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
  * @author swkim@ebsolution.co.kr
  * @date   2018. 11. 13.
  */
-public class AgentJobReservesOutDTO extends AbstractEntity {
+public class AgentJobReservesOutDTO extends AbstractDTO {
 
 	@APIFields(description = "주문대사(제휴사) output 주문번호(이지웰)", required=true, maxLength=100)
 	private String rsvNo;
