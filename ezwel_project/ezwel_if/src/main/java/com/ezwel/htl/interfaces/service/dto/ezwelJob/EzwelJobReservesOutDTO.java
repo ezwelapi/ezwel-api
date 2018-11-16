@@ -1,5 +1,6 @@
 package com.ezwel.htl.interfaces.service.dto.ezwelJob;
 
+
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
@@ -11,7 +12,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
  * @date   2018. 11. 13.
  */
 public class EzwelJobReservesOutDTO extends AbstractDTO {
-	
+
 	@APIFields(description = "주문대사(이지웰) output 주문번호(이지웰)", required=true, maxLength=100)
 	private String rsvNo;
 	

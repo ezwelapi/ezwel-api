@@ -1,5 +1,6 @@
 package com.ezwel.htl.interfaces.service.dto.ezwelJob;
 
+
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 

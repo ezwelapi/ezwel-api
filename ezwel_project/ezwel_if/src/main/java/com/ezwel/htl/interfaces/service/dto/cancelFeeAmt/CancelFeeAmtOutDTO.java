@@ -1,6 +1,10 @@
 package com.ezwel.htl.interfaces.service.dto.cancelFeeAmt;
 
+
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+
+
+
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
@@ -11,7 +15,11 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
  * @author swkim@ebsolution.co.kr
  * @date 2018. 11. 13.
  */
+
 public class CancelFeeAmtOutDTO extends AbstractDTO {
+
+
+
 	
 	@APIFields(description = "취소수수료계산 output code", required=true, maxLength=4)
 	private String code;
