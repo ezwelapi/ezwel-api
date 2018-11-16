@@ -13,12 +13,7 @@
 	<packaging>war</packaging>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.ezwel.htl</groupId>
-			<artifactId>ezwel_framework</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-			
+	
 		<dependency>
 			<groupId>com.ezwel.htl</groupId>
 			<artifactId>ezwel_if</artifactId>

@@ -12,6 +12,21 @@
 	<description>ezwel_if_server</description>
 	<packaging>war</packaging>
 	
+	<build>
+		<finalName>${project.name}-${project.version}</finalName>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<configuration>
+						<testFailureIgnore>true</testFailureIgnore>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+		
 	<dependencies>
 		<dependency>
 			<groupId>com.ezwel.htl</groupId>
@@ -134,12 +149,5 @@
 			<version>1.1.6</version>
 		</dependency>
 		-->
-		
-
-	
-		
 	</dependencies>
-
-
-
 </project>

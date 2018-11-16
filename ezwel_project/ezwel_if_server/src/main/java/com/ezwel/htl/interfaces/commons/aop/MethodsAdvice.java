@@ -12,7 +12,7 @@ import org.springframework.cglib.proxy.MethodProxy;
 import org.springframework.core.Ordered;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
-import com.ezwel.htl.interfaces.commons.constants.IOperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -72,14 +72,14 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 
 		String className = thisJoinPoint.getTarget().getClass().getSimpleName();
 		String methodName = thisJoinPoint.getSignature().getName();
-		String typeMethodName = className.concat(IOperateCode.STR_DOT).concat(methodName);
+		String typeMethodName = className.concat(OperateCode.STR_DOT).concat(methodName);
 		APIOperation apiOperAnno = thisJoinPoint.getSignature().getClass().getAnnotation(APIOperation.class);
 
 		if (apiOperAnno == null) {
 			throw new APIException("■■ 유효하지 않은 API 오퍼레이션 APIOperation어노테이션이 존재하지 않습니다. '{}'", typeMethodName);
 		}
 
-		String description = APIUtil.NVL(apiOperAnno.description(), className.concat(IOperateCode.STR_DOT).concat(methodName));
+		String description = APIUtil.NVL(apiOperAnno.description(), className.concat(OperateCode.STR_DOT).concat(methodName));
 		Object[] inputParam = thisJoinPoint.getArgs();
 		// inputParam 변경가능
 
@@ -109,9 +109,9 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 
 		StringBuilder strb = new StringBuilder();
 		strb.append(typeMethodName);
-		strb.append(IOperateCode.STR_COMA);
-		strb.append(IOperateCode.STR_WHITE_SPACE);
-		strb.append(IOperateCode.STR_PAREN_START);
+		strb.append(OperateCode.STR_COMA);
+		strb.append(OperateCode.STR_WHITE_SPACE);
+		strb.append(OperateCode.STR_PAREN_START);
 		if (inputParam != null) {
 			for (int i = 0; i < inputParam.length; i++) {
 				if (i > 0) {
@@ -120,11 +120,11 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				strb.append(inputParam[i].getClass().getSimpleName());
 			}
 		}
-		strb.append(IOperateCode.STR_PAREN_END);
+		strb.append(OperateCode.STR_PAREN_END);
 		strb.append("description : ");
 		strb.append(description);
-		strb.append(IOperateCode.STR_COMA);
-		strb.append(IOperateCode.STR_WHITE_SPACE);
+		strb.append(OperateCode.STR_COMA);
+		strb.append(OperateCode.STR_WHITE_SPACE);
 		strb.append("GUID : ");
 		strb.append(Local.getId());
 
