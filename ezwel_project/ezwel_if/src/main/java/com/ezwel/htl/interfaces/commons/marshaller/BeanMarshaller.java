@@ -90,6 +90,7 @@ public class BeanMarshaller {
 	
 	@APIOperation(description="바인드된 JSON객체를 Class객체에 담아줍니다.", isExecTest=true)
 	public Object fromJSON(String jsonString, Class<?> writeBean){
+		logger.debug("[START] fromJSON jsonString : {}\nwriteBean : {}", jsonString, writeBean);
 		
 		 Object out = null;
 		 ObjectMapper mapper = null;

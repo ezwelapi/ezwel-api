@@ -14,11 +14,12 @@ import com.ezwel.htl.interfaces.commons.constants.InterfaceCode;
 import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
-import com.ezwel.htl.interfaces.commons.http.dto.UserAgentDTO;
 import com.ezwel.htl.interfaces.commons.http.dto.HttpConfigDTO;
 import com.ezwel.htl.interfaces.commons.http.dto.MultiHttpConfigDTO;
+import com.ezwel.htl.interfaces.commons.http.dto.UserAgentDTO;
 import com.ezwel.htl.interfaces.commons.spring.ApplicationContext;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.service.dto.allReg.AllRegOutDTO;
 import com.ezwel.htl.interfaces.service.dto.cancelFeeAmt.CancelFeeAmtInDTO;
 import com.ezwel.htl.interfaces.service.dto.cancelFeeAmt.CancelFeeAmtOutDTO;
@@ -52,6 +53,17 @@ public class OutsideInterfaceService {
 	private static final Logger logger = LoggerFactory.getLogger(OutsideInterfaceService.class);
 
 	private HttpInterfaceExecutorService inteface = (HttpInterfaceExecutorService) ApplicationContext.getBean(HttpInterfaceExecutorService.class);
+	
+	private PropertyUtil propertyUtil;
+	
+	public OutsideInterfaceService() {
+		if(propertyUtil == null) {
+			propertyUtil = new PropertyUtil();
+		}
+		if(inteface == null) {
+			inteface = new HttpInterfaceExecutorService();
+		}
+	}
 	
 	@APIOperation(description="전체시설일괄등록 인터페이스")
 	public AllRegOutDTO callAllReg(UserAgentDTO agentInfoDTO) {
@@ -160,6 +172,7 @@ public class OutsideInterfaceService {
 			out = (RoomReadOutDTO) inteface.sendPostJSON(httpConfigDTO, roomReadDTO, RoomReadOutDTO.class);
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "객실정보조회 인터페이스 장애발생.", e);
 		}
 			
@@ -281,15 +294,9 @@ public class OutsideInterfaceService {
 	
 	@APIOperation(description="인터페이스 사용 유저 설정 정보 세팅")
 	private void setupUserAgentInfo(HttpConfigDTO config, UserAgentDTO agentInfoDTO) {
-		
+		/** conntime, readtime, httpAgentType, httpChannelCd, httpClientId, httpRequestId  */
+		propertyUtil.copySameProperty(agentInfoDTO, config);
 		/** setup httpApiSignature */
 		config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
-		/** setup user conn/read timeout */
-		if(agentInfoDTO.getConnTimeout() > OperateCode.INTEGER_MINUS_ONE) {
-			config.setConnTimeout(agentInfoDTO.getConnTimeout());
-		}
-		if(agentInfoDTO.getReadTimeout() > OperateCode.INTEGER_MINUS_ONE) {
-			config.setReadTimeout(agentInfoDTO.getReadTimeout());
-		}
 	}
 }

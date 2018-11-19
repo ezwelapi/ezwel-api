@@ -50,7 +50,12 @@ public class ApplicationContext {
     		throw new APIException("BEAN NAME이 존재하지 않습니다.");
     	}
         WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
-        return context.getBean(beanName);
+        if(context != null) {
+        	return context.getBean(beanName);
+        }
+        else {
+        	return null;
+        }
     }
 
     /**

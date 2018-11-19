@@ -15,11 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper=false)
-public abstract class AbstractDTO extends APIObject implements Serializable {
+public abstract class AbstractDTO extends APIObject {
 
-	/**
-	 * serialVersionUID
-	 */
-	private static final long serialVersionUID = 8331021898097280487L;
 	
 }

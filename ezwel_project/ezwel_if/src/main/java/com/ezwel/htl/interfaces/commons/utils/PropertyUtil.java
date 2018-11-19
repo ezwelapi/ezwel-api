@@ -8,6 +8,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIService;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
@@ -128,7 +129,7 @@ public class PropertyUtil {
     					readValue = BeanUtils.getProperty(readBean, readName);
     					//readValue = getProperty(readBean, readName);
     					
-    					if(isLogging && logger.isDebugEnabled()) {
+    					if(isLogging) {
 	    					logger.debug(new StringBuilder().append("\n [Copy Property Infomation]")
 	    						.append("\n readName : ").append(readName)
 	    						.append("\n readValue : ").append(readValue)

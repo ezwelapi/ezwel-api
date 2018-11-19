@@ -174,6 +174,7 @@ public class HttpInterfaceExecutorService {
 			
 			logger.debug("\n■ RequestProperties : \n{}", beanConvert.toJSONString( conn.getRequestProperties()));
 		} catch(APIException e) {
+			e.printStackTrace();
 			throw new APIException(InterfaceCode.RESPONSE_CODE_9000, "■ 인터페이스 요청 헤더 작성중 장애발생.", e);
 		} finally {
 			if(certifications != null) {

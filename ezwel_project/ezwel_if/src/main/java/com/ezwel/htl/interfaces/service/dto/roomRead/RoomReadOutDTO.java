@@ -1,10 +1,9 @@
 package com.ezwel.htl.interfaces.service.dto.roomRead;
 
 
+import java.util.List;
+
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
-
-
-
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
@@ -24,7 +23,7 @@ public class RoomReadOutDTO extends AbstractDTO {
 	private String message;
 	
 	@APIFields(description = "객실정보조회 output data")
-	private RoomReadDataOutDTO data;
+	private List<RoomReadDataOutDTO> data;
 
 	public String getCode() {
 		return code;
@@ -42,11 +41,11 @@ public class RoomReadOutDTO extends AbstractDTO {
 		this.message = message;
 	}
 
-	public RoomReadDataOutDTO getData() {
+	public List<RoomReadDataOutDTO> getData() {
 		return data;
 	}
 
-	public void setData(RoomReadDataOutDTO data) {
+	public void setData(List<RoomReadDataOutDTO> data) {
 		this.data = data;
 	}
 

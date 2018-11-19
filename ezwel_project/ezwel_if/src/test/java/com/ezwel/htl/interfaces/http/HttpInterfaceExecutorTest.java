@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
-import com.ezwel.htl.interfaces.commons.http.dto.UserAgentDTO;
 import com.ezwel.htl.interfaces.commons.http.dto.HttpConfigDTO;
 import com.ezwel.htl.interfaces.commons.http.dto.MultiHttpConfigDTO;
+import com.ezwel.htl.interfaces.commons.http.dto.UserAgentDTO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.http.dto.InputDTO;
 import com.ezwel.htl.interfaces.http.dto.InputDTOSub01;
@@ -20,7 +20,7 @@ import com.ezwel.htl.interfaces.http.dto.InputDTOSub02;
 import com.ezwel.htl.interfaces.http.dto.OutputDTO;
 import com.ezwel.htl.interfaces.service.OutsideInterfaceService;
 import com.ezwel.htl.interfaces.service.dto.cancelFeeAmt.CancelFeeAmtInDTO;
-import com.ezwel.htl.interfaces.service.dto.cancelFeeAmt.CancelFeeAmtOutDTO;
+import com.ezwel.htl.interfaces.service.dto.roomRead.RoomReadOutDTO;
 
 
 
@@ -58,9 +58,13 @@ public class HttpInterfaceExecutorTest  {
         }
         */
 		
-		OutputDTO singleOut = (OutputDTO) http.sendPostJSON(config, inputDTO, OutputDTO.class);
-		logger.debug("singleOut : {}", singleOut);
+		RoomReadOutDTO singleOut = (RoomReadOutDTO) http.sendPostJSON(config, inputDTO, RoomReadOutDTO.class);
+		logger.debug("###RoomReadOutDTO : {}", singleOut);
 		
+		
+		if(true) {
+			return;
+		}
 		
 		OutsideInterfaceService interfaceService = new OutsideInterfaceService();
 		CancelFeeAmtInDTO cancelFeeAmtIn = new CancelFeeAmtInDTO();
@@ -130,7 +134,8 @@ public class HttpInterfaceExecutorTest  {
 	private void setHttpConfigDTO() {
 
 		config = new HttpConfigDTO();
-		config.setRestURI("http://localhost:9123/ezwel_if_demo/service/index.jsp");
+		config.setChanId("roomRead");
+		config.setRestURI("http://localhost:9123/ezwel_if_demo/service/roomRead.jsp");
 		config.setHttpAgentId("CUSTOMER-A");
 		config.setHttpApiKey(APIUtil.getRandomUUID());
 		config.setHttpApiSignature("signature");
@@ -141,6 +146,11 @@ public class HttpInterfaceExecutorTest  {
 		config.addRequestProperty("header02", "value02");
 		config.addRequestProperty("header03", "value03");
 		config.setEncoding(OperateCode.DEFAULT_ENCODING);
+		
+		config.setHttpAgentType("httpAgentType-httpAgentType");
+		config.setHttpChannelCd("httpChannelCd-httpChannelCd");
+		config.setHttpClientId("httpClientId-httpClientId");
+		config.setHttpRequestId("httpRequestId-httpRequestId");
 	}
 	
 	public void setInputDTO() {

@@ -73,5 +73,16 @@ public class InterfaceChannel {
 		this.agentList = agentList;
 	}
 	
+	public void clear() {
+		if(agentList != null) {
+			agentList.clear();
+		}
+		if(insideChans != null) {
+			insideChans.clear();
+		}
+		if(outsideChans != null) {
+			outsideChans.clear();
+		}
+	}
 	
 }

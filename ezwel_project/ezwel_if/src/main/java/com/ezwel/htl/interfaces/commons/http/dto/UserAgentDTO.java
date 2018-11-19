@@ -22,11 +22,23 @@ public class UserAgentDTO extends AbstractDTO {
 	@APIFields(description = "에이전트 그룹 아이디")
 	private String httpAgentGroupId;
 
+	@APIFields(description = "에이전트유형", required=true, httpHeader=true)
+	private String httpAgentType;	
+	
+	@APIFields(description = "체널코드", required=true, httpHeader=true)
+	private String httpChannelCd;	
+	
+	@APIFields(description = "클라이언트ID", required=true, httpHeader=true)
+	private String httpClientId;	
+	
+	@APIFields(description = "요청자ID", required=true, httpHeader=true)
+	private String httpRequestId;	
+	
 	@APIFields(description = "http connection timeout")
-	private Integer connTimeout;
+	private int connTimeout;
 	
 	@APIFields(description = "http read timeout")
-	private Integer readTimeout;
+	private int readTimeout;
 	
 	
 	public UserAgentDTO() {
@@ -38,6 +50,10 @@ public class UserAgentDTO extends AbstractDTO {
 		httpAgentGroupId = null;
 		connTimeout = OperateCode.INTEGER_MINUS_ONE;
 		readTimeout = OperateCode.INTEGER_MINUS_ONE;
+		httpAgentType = null;	
+		httpChannelCd = null;	
+		httpClientId = null;	
+		httpRequestId = null;		
 	}
 
 	public String getHttpAgentGroupId() {
@@ -62,6 +78,47 @@ public class UserAgentDTO extends AbstractDTO {
 
 	public void setConnTimeout(int connTimeout) {
 		this.connTimeout = connTimeout;
+	}
+
+
+	public String getHttpAgentType() {
+		return httpAgentType;
+	}
+
+	public void setHttpAgentType(String httpAgentType) {
+		this.httpAgentType = httpAgentType;
+	}
+
+	public String getHttpChannelCd() {
+		return httpChannelCd;
+	}
+
+	public void setHttpChannelCd(String httpChannelCd) {
+		this.httpChannelCd = httpChannelCd;
+	}
+
+	public String getHttpClientId() {
+		return httpClientId;
+	}
+
+	public void setHttpClientId(String httpClientId) {
+		this.httpClientId = httpClientId;
+	}
+
+	public String getHttpRequestId() {
+		return httpRequestId;
+	}
+
+	public void setHttpRequestId(String httpRequestId) {
+		this.httpRequestId = httpRequestId;
+	}
+
+	public void setConnTimeout(Integer connTimeout) {
+		this.connTimeout = connTimeout;
+	}
+
+	public void setReadTimeout(Integer readTimeout) {
+		this.readTimeout = readTimeout;
 	}
 
 	public int getReadTimeout() {

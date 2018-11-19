@@ -20,19 +20,22 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
  */
 @APIModel
 public class HttpConfigDTO extends AbstractDTO {
-	
+
+	@APIFields(description = "캐쉬 아이디")
+	private String cacheId;
+
 	@APIFields(description = "에이전트 이름")
 	private String agentName;
 	
 	@APIFields(description = "체널 아이디", required=true)
 	private String chanId;
+
+	@APIFields(description = "HTTP 체널 그룹 아이디")
+	private String httpAgentGroupId;
 	
 	@APIFields(description = "에이전트 아이디", required=true, httpHeader=true, headerName="http-agent-id")
 	private String httpAgentId;
 	
-	@APIFields(description = "HTTP 체널 그룹 아이디")
-	private String httpAgentGroupId;
-
 	@APIFields(description = "API 키(ezwel발급)", required=true, httpHeader=true, headerName="http-api-key")
 	private String httpApiKey; 
 
@@ -41,6 +44,18 @@ public class HttpConfigDTO extends AbstractDTO {
 
 	@APIFields(description = "요정시간(타임스탬프)", required=true, httpHeader=true, headerName="http-api-timestamp")
 	private String httpApiTimestamp;
+	
+	@APIFields(description = "에이전트유형", required=true, httpHeader=true, headerName="http-agent-type")
+	private String httpAgentType;	
+	
+	@APIFields(description = "체널코드", required=true, httpHeader=true, headerName="http-channel-cd")
+	private String httpChannelCd;	
+	
+	@APIFields(description = "클라이언트ID", required=true, httpHeader=true, headerName="http-client-id")
+	private String httpClientId;	
+	
+	@APIFields(description = "요청자ID", required=true, httpHeader=true, headerName="http-request-id")
+	private String httpRequestId;	
 	
 	@APIFields(description = "HTTP 요청 파라메터 송신 여부")
 	private boolean isDoOutput;
@@ -86,6 +101,7 @@ public class HttpConfigDTO extends AbstractDTO {
 	}
 	
 	private void reset() {
+		cacheId = null;
 		agentName = null;
 		chanId = null;
 		httpAgentGroupId = null;
@@ -98,6 +114,10 @@ public class HttpConfigDTO extends AbstractDTO {
 		httpApiKey = null;
 		httpApiSignature = null;
 		httpApiTimestamp = (Long.toString(APIUtil.currentTimeMillis() / 100));
+		httpAgentType = null;	
+		httpChannelCd = null;	
+		httpClientId = null;	
+		httpRequestId = null;			
 		httpAgentId = null;
 		encoding = OperateCode.DEFAULT_ENCODING;
 		writeEncoding = OperateCode.DEFAULT_ENCODING;
@@ -109,6 +129,14 @@ public class HttpConfigDTO extends AbstractDTO {
 	}
 	
 	
+	public String getCacheId() {
+		return cacheId;
+	}
+
+	public void setCacheId(String cacheId) {
+		this.cacheId = cacheId;
+	}
+
 	public String getAgentName() {
 		return agentName;
 	}
@@ -286,6 +314,38 @@ public class HttpConfigDTO extends AbstractDTO {
 	@XmlElement
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getHttpAgentType() {
+		return httpAgentType;
+	}
+
+	public void setHttpAgentType(String httpAgentType) {
+		this.httpAgentType = httpAgentType;
+	}
+
+	public String getHttpChannelCd() {
+		return httpChannelCd;
+	}
+
+	public void setHttpChannelCd(String httpChannelCd) {
+		this.httpChannelCd = httpChannelCd;
+	}
+
+	public String getHttpClientId() {
+		return httpClientId;
+	}
+
+	public void setHttpClientId(String httpClientId) {
+		this.httpClientId = httpClientId;
+	}
+
+	public String getHttpRequestId() {
+		return httpRequestId;
+	}
+
+	public void setHttpRequestId(String httpRequestId) {
+		this.httpRequestId = httpRequestId;
 	}
 	
 	

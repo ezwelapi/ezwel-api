@@ -26,18 +26,19 @@ public class InterfaceFactoryTest {
 		
 		factory.setConfigXmlPath("/interfaces/interface-configure.xml");
 		factory.initFactory();
-		logger.debug("{}", InterfaceFactory.getInterfaceChannels());
-		logger.debug("###################################");
+		//logger.debug("###################################");
+		//logger.debug(">> {}", InterfaceFactory.getInterfaceChannels());
+		//logger.debug("###################################");
 		//logger.debug("{}", InterfaceFactory.getChannel("ezwelJob", "10000496"));
-		
+		/*
 		logger.debug("###################################");
 		logger.debug("###################################");
 		logger.debug("###################################");
 		List<HttpConfigDTO> item = InterfaceFactory.getChannelGroup("faclSearch", "chanGroup-01");
 		logger.debug("size : {}", item.size());
 		for(HttpConfigDTO http : item) {
-			//logger.debug("http : {}", http);
+			logger.debug("http : {}", http);
 		}
-		
+		*/
 	}
 }

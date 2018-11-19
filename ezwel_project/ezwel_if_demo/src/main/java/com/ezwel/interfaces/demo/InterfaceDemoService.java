@@ -1,0 +1,56 @@
+package com.ezwel.interfaces.demo;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.ezwel.htl.interfaces.commons.http.dto.UserAgentDTO;
+import com.ezwel.htl.interfaces.service.OutsideInterfaceService;
+import com.ezwel.htl.interfaces.service.dto.roomRead.RoomReadInDTO;
+import com.ezwel.htl.interfaces.service.dto.roomRead.RoomReadOutDTO;
+
+/**
+ * <pre>
+ * 
+ * </pre>
+ * @author swkim@ebsolution.co.kr
+ * @date   2018. 11. 19.
+ */
+public class InterfaceDemoService {
+
+	private static final Logger logger = LoggerFactory.getLogger(InterfaceDemoService.class);
+	
+	private OutsideInterfaceService service; 
+	
+	public InterfaceDemoService() {
+		service = new OutsideInterfaceService();
+	}
+	
+	public RoomReadOutDTO callRoomRead() {
+		logger.debug("[START] callRoomRead");
+		
+		UserAgentDTO userAgent = new UserAgentDTO();
+		//펜션라이프_플레이스엠
+		userAgent.setHttpAgentId("10000496");
+		userAgent.setHttpAgentType("httpAgentType-sample");
+		userAgent.setHttpChannelCd("httpChannelCd-sample");
+		userAgent.setHttpClientId("httpClientId-sample");
+		userAgent.setHttpRequestId("httpRequestId-sample");
+		
+		//Input parameter
+		RoomReadInDTO roomReadDTO = new RoomReadInDTO();
+		roomReadDTO.setAdultCnt(1);
+		roomReadDTO.setCheckInDate("20181119");
+		roomReadDTO.setCheckOutDate("20181121");
+		roomReadDTO.setChildCnt(1);
+		roomReadDTO.setPdtNo("pdt-No");
+		roomReadDTO.setRoomCnt(1);
+		roomReadDTO.setRoomNo("1001");
+		
+		//interface api call
+		RoomReadOutDTO out = service.callRoomRead(userAgent, roomReadDTO);
+		
+		logger.debug("[END] callRoomRead out : {}", out);
+		return out;
+	}
+	
+}

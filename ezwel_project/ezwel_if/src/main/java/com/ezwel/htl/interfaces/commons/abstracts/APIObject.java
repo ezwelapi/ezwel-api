@@ -1,9 +1,13 @@
 package com.ezwel.htl.interfaces.commons.abstracts;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 
-import com.ezwel.htl.interfaces.commons.annotation.APIService;
+import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.constants.OperateCode;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * <pre>
@@ -13,16 +17,18 @@ import com.ezwel.htl.interfaces.commons.constants.OperateCode;
  * @date 2018. 11. 5.
  * @serviceType API
  */
-@APIService
-public abstract class APIObject {
+@APIModel(modelNames="API DTO Abstract Super Class")
+@Data
+@EqualsAndHashCode(callSuper=false)
+public abstract class APIObject implements Serializable {
 	
-	private StringBuffer buffer;
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = -5668980456639902223L;
 	
 	public String toString() {
-		
-		if( buffer == null ) {
-			buffer = new StringBuffer();
-		}
+		StringBuffer buffer = new StringBuffer();
 		scanObject(buffer, 1);
 		return buffer.toString();
 	}

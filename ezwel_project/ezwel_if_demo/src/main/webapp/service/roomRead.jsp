@@ -40,72 +40,59 @@ try {
 	throw new RuntimeException("JSON Telegram Exception", e);
 }	
 %>
-
 {
-	"input": {
-		"pdtNo": "1",
-		"checkInDate": "20181201",
-		"checkOutDate": "20181202",
-		"roomNo": "1",
-		"roomCnt": 1,
-		"adultCnt": 2,
-		"childCnt": 0
-	},
-
-	"output": {
-		"code": "1000",
-		"message": "정상적으로 처리되었습니다",
-		"data" : [
-			{
-				"roomNo": "1",
-				"roomName": "디럭스",
-				"priceForList": 200000,
-				"priceForSale": 200000,
-				"adtCntMin": "2",
-				"adtCntMax": "4",
-				"roomInfo": "룸온리 객실",
-				"roomAvailCount": 5,
-				"rsvTypeCode": "2",
-				"breakfast": "0",
-				"spcType": "0",
-				"spcTypeTime": "",
-				"options" : [
-					{
-						"optNo": "1",
-						"optName": "조식",
-						"optPrice": 20000,
-						"optCountMax": 4
-					},
-					{
-						"optNo": "2",
-						"optName": "엑스트라베드",
-						"optPrice": 30000,
-						"optCountMax": 1
-					}
-				],
-				"penalty": [
-					{
-						"applyBgnDate": "20181128",
-						"cancelFeeRate": 0,
-						"cancelFeePrice": 0
-					},
-					{
-						"applyBgnDate": "20181129",
-						"cancelFeeRate": 20,
-						"cancelFeePrice": 40000
-					},
-					{
-						"applyBgnDate": "20181130",
-						"cancelFeeRate": 50,
-						"cancelFeePrice": 100000
-					},
-					{
-						"applyBgnDate": "20181201",
-						"cancelFeeRate": 100,
-						"cancelFeePrice": 200000
-					}
-				]
-			}
-		]
-	}
+	"code": "1000",
+	"message": "정상적으로 처리되었습니다",
+	"data" : [
+		{
+			"roomNo": "1",
+			"roomName": "디럭스",
+			"priceForList": 200000,
+			"priceForSale": 200000,
+			"adtCntMin": "2",
+			"adtCntMax": "4",
+			"roomInfo": "룸온리 객실",
+			"roomAvailCount": 5,
+			"rsvTypeCode": "2",
+			"breakfast": "0",
+			"spcType": "0",
+			"spcTypeTime": "",
+			"options" : [
+				{
+					"optNo": "1",
+					"optName": "조식",
+					"optPrice": 20000,
+					"optCountMax": 4
+				},
+				{
+					"optNo": "2",
+					"optName": "엑스트라베드",
+					"optPrice": 30000,
+					"optCountMax": 1
+				}
+			],
+			"penalty": [
+				{
+					"applyBgnDate": "20181128",
+					"cancelFeeRate": 0,
+					"cancelFeePrice": 0
+				},
+				{
+					"applyBgnDate": "20181129",
+					"cancelFeeRate": 20,
+					"cancelFeePrice": 40000
+				},
+				{
+					"applyBgnDate": "20181130",
+					"cancelFeeRate": 50,
+					"cancelFeePrice": 100000
+				},
+				{
+					"applyBgnDate": "20181201",
+					"cancelFeeRate": 100,
+					"cancelFeePrice": 200000
+				}
+			]
+		}
+	]
 }

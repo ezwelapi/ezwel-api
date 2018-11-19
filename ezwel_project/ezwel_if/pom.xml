@@ -19,54 +19,40 @@
 		<morphology-version>1.1</morphology-version>
 		<com.google.zxing-version>3.1.0</com.google.zxing-version>
 	</properties>
-	
-	<dependencies>
 
+	<dependencies>
+		<!-- 
 		<dependency>
 			<groupId>com.ezwel.htl</groupId>
 			<artifactId>ezwel_framework</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		-->
+		
+		<dependency>
+			<groupId>org.apache.geronimo.specs</groupId>
+			<artifactId>geronimo-servlet_3.0_spec</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.geronimo.specs</groupId>
+			<artifactId>geronimo-jsp_2.2_spec</artifactId>
+			<version>1.2</version>
+			<scope>provided</scope>
+		</dependency>
 
-	<dependency>
-		<groupId>org.apache.geronimo.specs</groupId>
-		<artifactId>geronimo-servlet_3.0_spec</artifactId>
-		<version>${geronimo-servlet_3.0_spec-version}</version>
-		<scope>provided</scope>
-	</dependency>
-	<dependency>
-		<groupId>org.apache.geronimo.specs</groupId>
-		<artifactId>geronimo-jsp_2.2_spec</artifactId>
-		<version>${geronimo-jsp_2.2_spec-version}</version>
-		<scope>provided</scope>
-	</dependency>
-		
 		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple 
-		<dependency>
-		    <groupId>com.googlecode.json-simple</groupId>
-		    <artifactId>json-simple</artifactId>
-		    <version>1.1</version>
-		</dependency>
-		-->
-		<!-- json-lib dependency json to xml , xml to json 
-		<dependency>
-			<groupId>xom</groupId>
-			<artifactId>xom</artifactId>
-			<version>1.2.5</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/thirdparty/xom-1.2.5.jar</systemPath>
-			<optional>false</optional>
-		</dependency>
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<version>1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/thirdparty/javax.inject-1.jar</systemPath>
-			<optional>false</optional>
-		</dependency>
-		-->
-		
+			<dependency> <groupId>com.googlecode.json-simple</groupId> <artifactId>json-simple</artifactId> 
+			<version>1.1</version> </dependency> -->
+		<!-- json-lib dependency json to xml , xml to json <dependency> <groupId>xom</groupId> 
+			<artifactId>xom</artifactId> <version>1.2.5</version> <scope>system</scope> 
+			<systemPath>${project.basedir}/lib/thirdparty/xom-1.2.5.jar</systemPath> 
+			<optional>false</optional> </dependency> <dependency> <groupId>javax.inject</groupId> 
+			<artifactId>javax.inject</artifactId> <version>1</version> <scope>system</scope> 
+			<systemPath>${project.basedir}/lib/thirdparty/javax.inject-1.jar</systemPath> 
+			<optional>false</optional> </dependency> -->
+
 		<!-- lucene -->
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
@@ -74,7 +60,7 @@
 			<version>${lucene-version}</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/morpheme/lucene-core-${lucene-version}.jar</systemPath>
-			<optional>false</optional>			
+			<optional>false</optional>
 		</dependency>
 
 		<!-- lucene analyzers -->
@@ -84,7 +70,7 @@
 			<version>${lucene-analyzers-version}</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/morpheme/lucene-analyzers-${lucene-analyzers-version}.jar</systemPath>
-			<optional>false</optional>				
+			<optional>false</optional>
 		</dependency>
 
 		<!-- morphology -->
@@ -144,7 +130,7 @@
 			<version>${com.google.zxing-version}</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/thirdparty/javase-${com.google.zxing-version}.jar</systemPath>
-			<optional>false</optional>			
+			<optional>false</optional>
 		</dependency>
 
 		<!-- qr code generate api -->
@@ -154,20 +140,26 @@
 			<version>${com.google.zxing-version}</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/thirdparty/core-${com.google.zxing-version}.jar</systemPath>
-			<optional>false</optional>				
+			<optional>false</optional>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.5.6</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/thirdparty/httpclient-4.5.6.jar</systemPath>
+			<optional>false</optional>			
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpcore</artifactId>
 			<version>4.4.10</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/thirdparty/httpcore-4.4.10.jar</systemPath>
+			<optional>false</optional>			
 		</dependency>
-		
+
 	</dependencies>	
 </project>

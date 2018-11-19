@@ -26,6 +26,7 @@ public class InterfaceCode {
 	public static final int RESPONSE_CODE_9000;
 	public static final int RESPONSE_CODE_9100;
 	public static final int RESPONSE_CODE_9200;
+	public static final int RESPONSE_CODE_9300;
 	
 	public static final Map<Integer, String> MESSAGE_MAP;
 
@@ -44,6 +45,7 @@ public class InterfaceCode {
 		RESPONSE_CODE_9000 = 9000;	// InterfaceCode.RESPONSE_CODE_9000
 		RESPONSE_CODE_9100 = 9100;	// InterfaceCode.RESPONSE_CODE_9100
 		RESPONSE_CODE_9200 = 9200;	// InterfaceCode.RESPONSE_CODE_9200
+		RESPONSE_CODE_9300 = 9300;	// InterfaceCode.RESPONSE_CODE_9300
 		
 		MESSAGE_MAP.put(RESPONSE_CODE_1000, "정상적으로 처리되었습니다.");
 		MESSAGE_MAP.put(RESPONSE_CODE_2000, "필수 파라메터 누락");
@@ -54,6 +56,7 @@ public class InterfaceCode {
 		MESSAGE_MAP.put(RESPONSE_CODE_9000, "어플리케이션 장애 발생");
 		MESSAGE_MAP.put(RESPONSE_CODE_9100, "인터페이스 장애 발생");
 		MESSAGE_MAP.put(RESPONSE_CODE_9200, "원격지 서버 에러 발생");
+		MESSAGE_MAP.put(RESPONSE_CODE_9300, "인터페이스 초기화 실패");
 		
 		RESPONSE_CODE_FIELD_NAME = "code";
 		RESPONSE_MESSAGE_FIELD_NAME = "message";
