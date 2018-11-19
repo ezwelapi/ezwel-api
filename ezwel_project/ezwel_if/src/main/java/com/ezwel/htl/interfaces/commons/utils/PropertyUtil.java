@@ -142,7 +142,7 @@ public class PropertyUtil {
 	    					);
     					}
     					
-    					if( !readType.isAssignableFrom(Map.class) /* && readValue != null */ ) {
+    					if( !Map.class.isAssignableFrom(readType) /* && readValue != null */ ) {
     						BeanUtils.setProperty(writeBean, readName, readValue);
     						//setProperty(writeBean, readName, readValue);
     					}
@@ -150,6 +150,8 @@ public class PropertyUtil {
     				}
     			}
     		}
+    		
+    		result = true;
 		} catch (IllegalAccessException e) {
 			throw new APIException(e);
 		} catch (InvocationTargetException e) {

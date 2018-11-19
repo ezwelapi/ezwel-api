@@ -49,8 +49,8 @@
 		<geronimo-servlet_3.0_spec-version>1.0</geronimo-servlet_3.0_spec-version>
 		<geronimo-jsp_2.2_spec-version>1.2</geronimo-jsp_2.2_spec-version>
 		<org.apache.tomcat-jdbc-version>7.0.57</org.apache.tomcat-jdbc-version>
-		<swagger-version>1.0.2</swagger-version>
-		<scala-version>2.9.1</scala-version>
+		<swagger.version>1.0.2</swagger.version>
+		<scala.version>2.9.1</scala.version>
 	</properties>
 
 	<build>

@@ -72,7 +72,7 @@
 		</dependency>
 		
 		
-		<!-- swagger -->
+		<!-- swagger 
 		<dependency>
 			<groupId>com.knappsack</groupId>
 			<artifactId>swagger4spring-web</artifactId>
@@ -87,7 +87,7 @@
 		<dependency>
 			<groupId>com.wordnik</groupId>
 			<artifactId>swagger-annotations_2.9.1</artifactId>
-			<version>${swagger-version}</version>
+			<version>${swagger.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>*</groupId>
@@ -98,8 +98,9 @@
 		<dependency>
 			<groupId>com.wordnik</groupId>
 			<artifactId>swagger-jaxrs_2.9.1</artifactId>
-			<version>${swagger-version}</version>
+			<version>${swagger.version}</version>
 		</dependency>
+		-->
 		<!-- 
 		<dependency>
 			<groupId>org.apache.cxf</groupId>

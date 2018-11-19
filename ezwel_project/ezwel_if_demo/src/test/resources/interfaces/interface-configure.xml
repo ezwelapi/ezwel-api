@@ -105,7 +105,7 @@
 		<httpChan>
 			<chanId>faclSearch</chanId>
 			<httpAgentGroupId>chanGroup-01</httpAgentGroupId>
-			<description>시설검색</description>
+			<description>시설검색1</description>
 			<restURI>http://localhost:9123/ezwel_if_demo/customerC/01faclSearch.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -114,7 +114,7 @@
 		<httpChan>
 			<chanId>faclSearch</chanId>
 			<httpAgentGroupId>chanGroup-01</httpAgentGroupId>
-			<description>시설검색</description>
+			<description>시설검색2</description>
 			<restURI>http://localhost:9123/ezwel_if_demo/customerB/02faclSearch.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -123,7 +123,7 @@
 		<httpChan>
 			<chanId>faclSearch</chanId>
 			<httpAgentGroupId>chanGroup-01</httpAgentGroupId>
-			<description>시설검색</description>
+			<description>시설검색3</description>
 			<restURI>http://localhost:9123/ezwel_if_demo/customerA/03faclSearch.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -132,27 +132,27 @@
 
 					
 		<httpChan>
-			<chanId>sddSearch</chanId>
+			<chanId>sddSearch1</chanId>
 			<httpAgentGroupId>chanGroup-02</httpAgentGroupId>
-			<description>당일특가검색</description>
+			<description>당일특가검색1</description>
 			<restURI>http://localhost:9123/ezwel_if_demo/service/sddSearch1.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
 		</httpChan>
 		<httpChan>
-			<chanId>sddSearch</chanId>
+			<chanId>sddSearch2</chanId>
 			<httpAgentGroupId>chanGroup-02</httpAgentGroupId>
-			<description>당일특가검색</description>
+			<description>당일특가검색2</description>
 			<restURI>http://localhost:9123/ezwel_if_demo/service/sddSearch2.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
 		</httpChan>
 		<httpChan>
-			<chanId>sddSearch</chanId>
+			<chanId>sddSearch3</chanId>
 			<httpAgentGroupId>chanGroup-02</httpAgentGroupId>
-			<description>당일특가검색</description>
+			<description>당일특가검색3</description>
 			<restURI>http://localhost:9123/ezwel_if_demo/service/sddSearch3.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>

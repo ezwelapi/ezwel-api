@@ -56,6 +56,12 @@
 		
 	</logger>
 
+	<logger name="o.a.c.b.converters">
+		<level value="WARN" />
+		
+	</logger>
+
+
 	<!-- 3rdparty Loggers --> 
 	<logger name="org.apache.commons.beanutils.ConvertUtils">
 		<level value="WARN" />
