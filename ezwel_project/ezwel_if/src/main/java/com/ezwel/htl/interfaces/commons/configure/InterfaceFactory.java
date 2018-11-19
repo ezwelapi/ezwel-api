@@ -45,13 +45,17 @@ public class InterfaceFactory {
 	private String configXmlPath;
 
 	public InterfaceFactory() {
+		this.init();
+	}
+	
+	private void init() {
 		if(APIUtil.isEmpty(this.configXmlPath)) {
 			this.configXmlPath = "interface-configure.xml";
 		}
+		
 		if(propertyUtil == null) {
 			propertyUtil = new PropertyUtil();
 		}
-		
 	}
 	
 	public String getConfigXmlPath() {

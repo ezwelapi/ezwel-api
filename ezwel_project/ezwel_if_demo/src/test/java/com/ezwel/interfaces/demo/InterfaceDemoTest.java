@@ -22,7 +22,6 @@ public class InterfaceDemoTest {
 	public void callRoomRead() {
 		
 		InterfaceFactory factory = new InterfaceFactory();
-		
 		factory.setConfigXmlPath("/interfaces/interface-configure.xml");
 		factory.initFactory();
 		

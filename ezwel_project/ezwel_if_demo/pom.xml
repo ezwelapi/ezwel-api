@@ -12,6 +12,10 @@
 	<description>ezwel_if_demo</description>
 	<packaging>war</packaging>
 
+	<build>
+		<finalName>ezwel_if_demo</finalName>
+	</build>
+	
 	<dependencies>
 
 		<dependency>

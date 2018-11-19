@@ -11,7 +11,11 @@
 	<name>ezwel_if_server</name>
 	<description>ezwel_if_server</description>
 	<packaging>war</packaging>
-		
+	
+	<build>
+		<finalName>ezwel_if_server</finalName>
+	</build>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.ezwel.htl</groupId>
