@@ -29,6 +29,10 @@ public class InterfaceDemoTest {
 		InterfaceDemoService service = new InterfaceDemoService(); 
 		
 		RoomReadOutDTO out = service.callRoomRead();
+		
+		logger.debug("Code : {}", out.getCode());
+		logger.debug("Message : {}", out.getMessage());
+		logger.debug("Data : {}", out.getData());
 	}
 	
 }

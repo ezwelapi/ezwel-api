@@ -49,7 +49,7 @@ public class InterfaceDemoService {
 		//interface api call
 		RoomReadOutDTO out = service.callRoomRead(userAgent, roomReadDTO);
 		
-		logger.debug("[END] callRoomRead out : {}", out);
+		logger.debug("[END] callRoomRead");
 		return out;
 	}
 	
