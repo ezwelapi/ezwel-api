@@ -172,7 +172,6 @@ public class OutsideInterfaceService {
 			out = (RoomReadOutDTO) inteface.sendPostJSON(httpConfigDTO, roomReadDTO, RoomReadOutDTO.class);
 		}
 		catch(Exception e) {
-			e.printStackTrace();
 			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "객실정보조회 인터페이스 장애발생.", e);
 		}
 			
