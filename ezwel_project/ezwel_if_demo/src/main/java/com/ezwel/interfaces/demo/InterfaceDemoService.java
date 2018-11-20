@@ -38,13 +38,15 @@ public class InterfaceDemoService {
 		
 		//Input parameter
 		RoomReadInDTO roomReadDTO = new RoomReadInDTO();
-		roomReadDTO.setAdultCnt(1);
-		roomReadDTO.setCheckInDate("20181119");
-		roomReadDTO.setCheckOutDate("20181121");
-		roomReadDTO.setChildCnt(1);
+		
+		roomReadDTO.setOtaId("ota-Id");
 		roomReadDTO.setPdtNo("pdt-No");
+		roomReadDTO.setCheckInDate("20181201");
+		roomReadDTO.setCheckOutDate("20181202");
+		roomReadDTO.setRoomNo("1");
 		roomReadDTO.setRoomCnt(1);
-		roomReadDTO.setRoomNo("1001");
+		roomReadDTO.setAdultCnt(1);
+		roomReadDTO.setChildCnt(1);
 		
 		//interface api call
 		RoomReadOutDTO out = service.callRoomRead(userAgent, roomReadDTO);
