@@ -60,6 +60,13 @@ public @interface APIFields {
      */
     public abstract String pattern() default "";
     
+    
+    /**
+     * 유효성 검증 정규식
+     * @return
+     */
+    public abstract boolean isDate() default false;    
+    
     /**
      * Json 또는 XML 마샬대상 필드 여부
      * @return

@@ -52,7 +52,7 @@ public class RoomReadDataOutDTO extends AbstractDTO {
 	@APIFields(description = "객실정보조회 output 특가상품여부", required=true, maxLength=1)
 	private String spcType;
 	
-	@APIFields(description = "객실정보조회 output 특가상품종료일시", maxLength=12)
+	@APIFields(description = "객실정보조회 output 특가상품종료일시", maxLength=12, isDate=true)
 	private String spcTypeTime;
 	
 	@APIFields(description = "객실정보조회 output options")
