@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
-import com.ezwel.htl.interfaces.commons.constants.OperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -37,17 +37,17 @@ public abstract class APIObject implements Serializable {
 		
 		try {
 			if( buffer.length() == 0 ) {
-				buffer.append(OperateCode.LINE_SEPARATOR);
+				buffer.append(OperateConstants.LINE_SEPARATOR);
 				buffer.append(this.getClass().getCanonicalName());
-				buffer.append(OperateCode.LINE_SEPARATOR);
+				buffer.append(OperateConstants.LINE_SEPARATOR);
 			}
 			
 			//tab
 			for(int i = 0; i < ((level - 1) * 1);i++) {
-				buffer.append(OperateCode.STR_TAB);
+				buffer.append(OperateConstants.STR_TAB);
 			}
-			buffer.append(OperateCode.STR_MID_BRACKET_R);
-			buffer.append(OperateCode.LINE_SEPARATOR);
+			buffer.append(OperateConstants.STR_MID_BRACKET_R);
+			buffer.append(OperateConstants.LINE_SEPARATOR);
 			
 			Field[] field = this.getClass().getDeclaredFields();
 			Class<?> fieldType = null;
@@ -59,24 +59,24 @@ public abstract class APIObject implements Serializable {
 				
 				//tab
 				for(int i = 0; i < (level * 1);i++) {
-					buffer.append(OperateCode.STR_TAB);
+					buffer.append(OperateConstants.STR_TAB);
 				}
 				
 				buffer.append(fieldType.getSimpleName());
-				buffer.append(OperateCode.STR_WHITE_SPACE);
+				buffer.append(OperateConstants.STR_WHITE_SPACE);
 				buffer.append(item.getName());
-				buffer.append(OperateCode.STR_WHITE_SPACE);
-				buffer.append(OperateCode.STR_COLON);		
-				buffer.append(OperateCode.STR_WHITE_SPACE);
+				buffer.append(OperateConstants.STR_WHITE_SPACE);
+				buffer.append(OperateConstants.STR_COLON);		
+				buffer.append(OperateConstants.STR_WHITE_SPACE);
 				buffer.append(fieldValue);
-				buffer.append(OperateCode.LINE_SEPARATOR);
+				buffer.append(OperateConstants.LINE_SEPARATOR);
 			}
 			
 			//tab
 			for(int i = 0; i < ((level - 1) * 1);i++) {
-				buffer.append(OperateCode.STR_TAB);
+				buffer.append(OperateConstants.STR_TAB);
 			}		
-			buffer.append(OperateCode.STR_MID_BRACKET_L);
+			buffer.append(OperateConstants.STR_MID_BRACKET_L);
 			
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();

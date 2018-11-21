@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.constants.OperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
 /**
  * <pre>
@@ -55,20 +55,20 @@ public class StackTraceUtil {
     	StringBuffer message = new StringBuffer();
     	if(cause.getMessage() == null) {
     		message.append(cause.toString());
-    		message.append(OperateCode.LINE_SEPARATOR);
+    		message.append(OperateConstants.LINE_SEPARATOR);
     	}
     	
     	if(cause.getMessage() != null) {
     		message.append("Message : ");
     		message.append(cause.getMessage());
-    		message.append(OperateCode.LINE_SEPARATOR);
+    		message.append(OperateConstants.LINE_SEPARATOR);
     	} 
     	    	
     	if(stackTrace.length > 0) { 
     		message.append("Trace : ");
 	    	for(StackTraceElement stack : stackTrace){
 	    		message.append(stack.toString());
-	    		message.append(OperateCode.LINE_SEPARATOR);
+	    		message.append(OperateConstants.LINE_SEPARATOR);
 	    	}
     	}
     	
@@ -76,12 +76,12 @@ public class StackTraceUtil {
     		message.append("Caused by : ");
 	    	for(StackTraceElement stack : cause.getCause().getStackTrace()){
 	    		message.append(stack.toString());
-	    		message.append(OperateCode.LINE_SEPARATOR);
+	    		message.append(OperateConstants.LINE_SEPARATOR);
 	    	}
     	}
     	
-    	if(!message.toString().endsWith(OperateCode.LINE_SEPARATOR) && !message.toString().endsWith("\n")) {
-    		message.append(OperateCode.LINE_SEPARATOR);
+    	if(!message.toString().endsWith(OperateConstants.LINE_SEPARATOR) && !message.toString().endsWith("\n")) {
+    		message.append(OperateConstants.LINE_SEPARATOR);
     	}
     	
     	return message.toString();

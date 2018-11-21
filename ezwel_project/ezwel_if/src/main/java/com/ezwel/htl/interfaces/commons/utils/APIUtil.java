@@ -25,7 +25,7 @@ import org.springframework.web.method.HandlerMethod;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.constants.OperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 
 /**
@@ -42,7 +42,6 @@ public class APIUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(APIUtil.class);
 	
-	private static boolean LOGGING_CONFIRM = false; 
 	
 	/**
 	 * str의 isEmpty 여부를 체크하 고 false이면 ""을 반환합니다.
@@ -99,8 +98,8 @@ public class APIUtil {
     	if(pattern != null) {
 
     		try {
-		    	if(pattern.indexOf(OperateCode.DELIM_STR) > -1) {
-		    		out = MessageFormatter.arrayFormat(pattern, argument).getMessage().replaceAll(OperateCode.DELIM_IN_NUMBER, OperateCode.STR_BLANK);
+		    	if(pattern.indexOf(OperateConstants.DELIM_STR) > -1) {
+		    		out = MessageFormatter.arrayFormat(pattern, argument).getMessage().replaceAll(OperateConstants.DELIM_IN_NUMBER, OperateConstants.STR_BLANK);
 		    	}
 		    	else {
 		    		out = MessageFormat.format(pattern, argument);
@@ -141,7 +140,7 @@ public class APIUtil {
     	
     	String format = dateFormat;
     	Date datetime = (date != null ? date : new Date());
-    	String dateformat = (format != null && !format.isEmpty()) ? format:OperateCode.DEF_DATE_FORMAT;
+    	String dateformat = (format != null && !format.isEmpty()) ? format:OperateConstants.DEF_DATE_FORMAT;
     	return FastDateFormat.getInstance(dateformat, TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA).format(datetime);
     }
 	
@@ -327,7 +326,7 @@ public class APIUtil {
     		strEncoding = encoding;
     	}
     	else {
-    		strEncoding = OperateCode.FILE_ENCODING;
+    		strEncoding = OperateConstants.FILE_ENCODING;
     	}
     	
     	try {
@@ -380,15 +379,15 @@ public class APIUtil {
 		//API 키 : httpApiKey
 		
 		//공유 비밀 키 : UUID + OperateCode.STR_HYPEN + 에이전트 아이디
-		String shardSecret = new StringBuffer().append(UUID.randomUUID().toString().replace(OperateCode.STR_HYPHEN, OperateCode.STR_BLANK))
-				.append(OperateCode.STR_HYPHEN).append(httpAgentId).toString();
+		String shardSecret = new StringBuffer().append(UUID.randomUUID().toString().replace(OperateConstants.STR_HYPHEN, OperateConstants.STR_BLANK))
+				.append(OperateConstants.STR_HYPHEN).append(httpAgentId).toString();
 		
 		//타임 스탬프 : timestamp
 		
 		//API 싸인
 		String httpApiSignature = (new StringBuffer().append(shardSecret)
-				.append(OperateCode.STR_HYPHEN).append(httpApiKey)
-				.append(OperateCode.STR_HYPHEN).append(timestamp).toString());
+				.append(OperateConstants.STR_HYPHEN).append(httpApiKey)
+				.append(OperateConstants.STR_HYPHEN).append(timestamp).toString());
 		
 		logger.debug("httpSignature Original : {}", httpApiSignature);
 		
@@ -398,80 +397,7 @@ public class APIUtil {
 	}
 	
 	
-	/**
-	 * <pre>
-	 * [메서드 설명]
-	 * 	handler 타입을 리턴 (HandlerMethod 또는 DefaultServlet를 리턴)
-	 * [사용방법 설명]
-	 * 
-	 * </pre>
-	 * @param handler
-	 * @return
-	 * @author swkim@ebsolution.co.kr
-	 * @since  2018. 11. 14.
-	 */
-	@APIOperation(description="handler 타입을 리턴 (HandlerMethod 또는 DefaultServlet를 리턴)", isExecTest=true)
-	public String getControllerType(Object handlerParam){
-		String out = null;
-		Object handler = handlerParam;
-		if(handler instanceof HandlerMethod){ 
-			out = OperateCode.SPRING_CONTROLLER;
-		}
-		else {
-			out = OperateCode.DEFAULT_SERVLET;
-		}
-		
-		return out;
-	}
 	
-	/**
-	 * <pre>
-	 * [메서드 설명]
-	 * 	바인드된 객체의 타입@메소드 문자열을 리턴합니다.
-	 * [사용방법 설명]
-	 * 
-	 * </pre>
-	 * @param handler
-	 * @return
-	 * @author swkim@ebsolution.co.kr
-	 * @since  2018. 11. 14.
-	 */
-	@APIOperation(description="바인드된 객체의 타입@메소드 문자열을 리턴합니다.", isExecTest=true)
-	public String getMethodInfo(Object handler){
-		String out = null;
-		
-		if(getControllerType(handler).equals(OperateCode.SPRING_CONTROLLER)) {
-			HandlerMethod method = (HandlerMethod) handler;
-			out = method.getBeanType().getCanonicalName().concat("@").concat(method.getMethod().getName());
-		}
-		else {
-			out = handler.getClass().getCanonicalName();
-		}
-		
-		return out;
-	}
-	
-	
-	/**
-	 * <pre>
-	 * [메서드 설명]
-	 * 	바인드된 객체가 HandlerMethod일 경우 HandlerMethod로 캐스팅하여 리턴합니다.
-	 * [사용방법 설명]
-	 * 
-	 * </pre>
-	 * @param handler
-	 * @return
-	 * @author swkim@ebsolution.co.kr
-	 * @since  2018. 11. 14.
-	 */
-	@APIOperation(description="바인드된 객체가 HandlerMethod일 경우 HandlerMethod로 캐스팅하여 리턴합니다.", isExecTest=true)
-	public HandlerMethod getHandlerMethod(Object handler){
-		HandlerMethod method = null;
-		if(handler instanceof HandlerMethod){ 
-			method = (HandlerMethod) handler;
-		}
-		return method;
-	}
 	
 	/**
 	 * <pre>
@@ -493,9 +419,6 @@ public class APIUtil {
 		}
 		return new File(uri);
 	}
-	
-	
-	
 	
 	/**
 	 * <pre>
@@ -523,23 +446,6 @@ public class APIUtil {
 			apiKey = (MD5.getInstance().getHashString(httpAgentId.concat(prevfix).concat(agentName).concat(toDay))).concat(prevfix).toLowerCase();
 		}
 		return apiKey;
-	}
-	
-	
-	public boolean isPassField(Field field) {
-		boolean out = false;
-
-		if (!Modifier.isPublic(field.getModifiers())
-				|| Modifier.isTransient(field.getModifiers())
-				|| Modifier.isFinal(field.getModifiers())
-				|| Modifier.isStatic(field.getModifiers())) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("[ field name : " + field.getName()+ " ] modifiers \"" + field.getModifiers()+ "\" is pass");
-			}
-			out = true;
-		}
-
-		return out;
 	}
 	
 	

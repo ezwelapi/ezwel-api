@@ -16,6 +16,14 @@
 		<finalName>ezwel_if_server</finalName>
 	</build>
 	
+	<properties>
+		<lucene-version>6.6.0</lucene-version>
+		<lucene-analyzers-version>3.6.2</lucene-analyzers-version>
+		<arirang.morph-version>1.1.0</arirang.morph-version>
+		<morphology-version>1.1</morphology-version>
+		<com.google.zxing-version>3.1.0</com.google.zxing-version>
+	</properties> 
+		
 	<dependencies>
 		<dependency>
 			<groupId>com.ezwel.htl</groupId>

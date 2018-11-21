@@ -2,7 +2,7 @@ package com.ezwel.htl.interfaces.commons.exception;
 
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.constants.MessageCode;
+import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
 /**
@@ -22,8 +22,8 @@ public class APIException extends RunTimeException {
 	public static final Integer DEFAULT_EXCEPTION_CODE;
 	
 	static {
-		DEFAULT_MESSAGE = MessageCode.getMessage(MessageCode.RESPONSE_CODE_9000);
-		DEFAULT_EXCEPTION_CODE = MessageCode.RESPONSE_CODE_9000;
+		DEFAULT_MESSAGE = MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_9000);
+		DEFAULT_EXCEPTION_CODE = MessageConstants.RESPONSE_CODE_9000;
 	}
 	
     public APIException()
@@ -76,7 +76,7 @@ public class APIException extends RunTimeException {
 
     public APIException(Integer resultCode, Throwable cause)
     {
-        super(MessageCode.getMessage(resultCode), cause);
+        super(MessageConstants.getMessage(resultCode), cause);
         
         super.init(); 
         setResultCode(DEFAULT_EXCEPTION_CODE);

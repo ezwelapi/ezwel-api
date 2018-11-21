@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
-import com.ezwel.htl.interfaces.commons.constants.OperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigDTO;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigDTO;
@@ -101,7 +101,7 @@ public class HttpInterfaceExecutorTest  {
 			httpConfigDTO.addRequestProperty("header01", "value01");
 			httpConfigDTO.addRequestProperty("header02", "value02");
 			httpConfigDTO.addRequestProperty("header03", "value03");
-			httpConfigDTO.setEncoding(OperateCode.DEFAULT_ENCODING);
+			httpConfigDTO.setEncoding(OperateConstants.DEFAULT_ENCODING);
 			httpConfigDTO.setRestURI(restURI);
 			httpConfigDTO.setHttpApiKey("(" + testCnt + ") " + APIUtil.getId());
 			multi.setHttpConfigDTO(httpConfigDTO);
@@ -145,7 +145,7 @@ public class HttpInterfaceExecutorTest  {
 		config.addRequestProperty("header01", "value01");
 		config.addRequestProperty("header02", "value02");
 		config.addRequestProperty("header03", "value03");
-		config.setEncoding(OperateCode.DEFAULT_ENCODING);
+		config.setEncoding(OperateConstants.DEFAULT_ENCODING);
 		
 		config.setHttpAgentType("httpAgentType-httpAgentType");
 		config.setHttpChannelCd("httpChannelCd-httpChannelCd");

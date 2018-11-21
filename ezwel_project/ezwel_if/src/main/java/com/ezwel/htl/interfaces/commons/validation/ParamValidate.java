@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
-import com.ezwel.htl.interfaces.commons.constants.MessageCode;
-import com.ezwel.htl.interfaces.commons.constants.OperateCode;
+import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
@@ -54,7 +54,7 @@ public class ParamValidate {
 	
 	private final String VP_LENGTH = "length:";
 	
-	private String encoding = OperateCode.DEFAULT_ENCODING;
+	private String encoding = OperateConstants.DEFAULT_ENCODING;
 	
 	public ParamValidate(){
 		this.reset();
@@ -120,7 +120,7 @@ public class ParamValidate {
 		ParamValidateDTO inValidate = execution();
 		
 		if(!returnInvalid && inValidate != null) {
-			throw new APIException(MessageCode.RESPONSE_CODE_2001, inValidate.getMessage());
+			throw new APIException(MessageConstants.RESPONSE_CODE_2001, inValidate.getMessage());
 		}
 		
 		return inValidate;
@@ -156,7 +156,7 @@ public class ParamValidate {
 			}
 		}
 		catch(Exception e){
-			throw new APIException(MessageCode.RESPONSE_CODE_2001, e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_2001, e);
 		}
 		
 		return inValidate;
@@ -180,28 +180,28 @@ public class ParamValidate {
     	 * paramValidate.getValidateType()으로 벨리데이션 유형을 판단한다. 
     	 */
     	
-    	if(paramValidate.getValidateType() == OperateCode.VALIDATE_DTO_FULL_FIELD_ANNO) {
+    	if(paramValidate.getValidateType() == OperateConstants.VALIDATE_DTO_FULL_FIELD_ANNO) {
     		//DTO 오브젝트에 있는 필드의 @Field 어노테이션을 기준으로 모든 필드 벨리데이션 설정
     		//@APIModel 어노테이션타입에만 해당
     		//@APIFields 어노테이션필드에만 해당
     		return validateModel(paramValidate);
     	}
-    	else if(paramValidate.getValidateType() == OperateCode.VALIDATE_DTO_SINGLE_FIELD_ANNO) {
+    	else if(paramValidate.getValidateType() == OperateConstants.VALIDATE_DTO_SINGLE_FIELD_ANNO) {
     		//DTO 오브젝트에 있는 fieldName의 @Field 어노테이션을 기준으로 단일 필드 벨리데이션 설정
     		//@APIModel 어노테이션타입에만 해당
     		//@APIFields 어노테이션필드에만 해당
     		return validateModel(paramValidate);    		
     	}
-    	else if(paramValidate.getValidateType() == OperateCode.VALIDATE_SINGLE_VALUE_PATTERN) {
+    	else if(paramValidate.getValidateType() == OperateConstants.VALIDATE_SINGLE_VALUE_PATTERN) {
     		//fieldValue를 petterns 옵션으로 벨리데이션 설정
     		return validate(paramValidate);
     	}
-		else if(paramValidate.getValidateType() == OperateCode.VALIDATE_DTO_SINGLE_FIELD_PATTERN) {
+		else if(paramValidate.getValidateType() == OperateConstants.VALIDATE_DTO_SINGLE_FIELD_PATTERN) {
 			//DTO 오브젝트의 fieldName의 fieldValue값을 petterns 옵션으로 벨리데이션 설정 (추가작업필요함)
 			return validate(paramValidate);
 		}
 		else {
-			throw new APIException(MessageCode.RESPONSE_CODE_2001, "유효성검사유형이 잘못되었습니다.");
+			throw new APIException(MessageConstants.RESPONSE_CODE_2001, "유효성검사유형이 잘못되었습니다.");
 		}
     }
     
@@ -209,16 +209,14 @@ public class ParamValidate {
     	
     	APIFields fieldAnno = field.getAnnotation(APIFields.class);
 		//@APIFields 어노테이션이있는 필드만 벨리데이션한다. 없는 필드는 패스 한다. 
-		if(fieldAnno != null && model != null && field != null) {
+		if(fieldAnno != null) {
 			// field.getType()
 			try {
-				boolean required = fieldAnno.required(); 
-				int maxLength = fieldAnno.attributeLength();
-				logger.debug(" #### propertyUtil : " + propertyUtil);
 				Object value = propertyUtil.getProperty(model, field.getName());
 				
+				/** required */
 				//필수 값 존재 여부채크
-				if( required ) {
+				if( fieldAnno.required() ) {
 					if(value == null || (field.getType().isAssignableFrom(String.class) && APIUtil.isEmpty((String)value))) {
 						paramValidate.setMessage("'".concat(fieldAnno.description()).concat("'는/은 필수 입력 사항합니다."));
 						paramValidate.setValidation(false);
@@ -226,19 +224,37 @@ public class ParamValidate {
 					}
 				}
 				
+				/** maxLength */
 				//필드 타입이 문자열일때 문자열의 byte(UTF-8기준 한글3바이트,나머지 한글2바이트) 최대길이를 넘어서는지 채크 
-				if( field.getType().isAssignableFrom(String.class) && maxLength > 0 && value != null) {
+				if( field.getType().isAssignableFrom(String.class) && fieldAnno.maxLength() > 0 && value != null ) {
 					//((String)field)
 					int byteLength = apiUtil.getBytesLength((String)value, this.encoding);
-					if(byteLength > maxLength) {
-						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 데이터는 ", Integer.toString(maxLength), " 바이트를 넘을수 없습니다."));
+					if(byteLength > fieldAnno.maxLength()) {
+						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 데이터는 ", Integer.toString(fieldAnno.maxLength()), " 바이트를 넘을수 없습니다."));
 						paramValidate.setValidation(false);
 						return false;	
 					}
 				}
+				
+				/** minLength */
+				//필드 타입이 문자열일때 문자열의 byte(UTF-8기준 한글3바이트,나머지 한글2바이트) 최대길이를 넘어서는지 채크 
+				if( field.getType().isAssignableFrom(String.class) && fieldAnno.minLength() > 0 && value != null ) {
+					//((String)field)
+					int byteLength = apiUtil.getBytesLength((String)value, this.encoding);
+					if(byteLength < fieldAnno.minLength()) {
+						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 데이터는 ", Integer.toString(fieldAnno.minLength()), " 바이트보다 길게 입력되야 합니다."));
+						paramValidate.setValidation(false);
+						return false;	
+					}
+				}
+				
+				/** regex pattern */
+				if( APIUtil.isNotEmpty(fieldAnno.pattern()) && value != null ) {
+					
+				}
 			} 
 			catch (Exception e){
-				throw new APIException(MessageCode.RESPONSE_CODE_2001, APIUtil.addString("유효성검사대상 필드 '", field.getName(), "'가 잘못되었습니다."), e);
+				throw new APIException(MessageConstants.RESPONSE_CODE_2001, APIUtil.addString("유효성검사대상 필드 '", field.getName(), "'가 잘못되었습니다."), e);
 			}
 		}
 		return true;
@@ -247,16 +263,15 @@ public class ParamValidate {
     private ParamValidateDTO validateModel(ParamValidateDTO paramValidate){
     	
     	Object model = paramValidate.getModel();
-
 		
     	if(model != null) {
 
         	Class<?> modelClass = null;
     		APIModel modelAnno = null;
     		
-    		if(Collection.class.isAssignableFrom(model.getClass()) && paramValidate.getValidateType() == OperateCode.VALIDATE_DTO_FULL_FIELD_ANNO){
+    		if(Collection.class.isAssignableFrom(model.getClass()) && paramValidate.getValidateType() == OperateConstants.VALIDATE_DTO_FULL_FIELD_ANNO){
     			//DeclaredFields field validate
-				for(Object items : (List<?>) model){
+				for(Object items : (List<?>) model) {
 					
 					modelClass = items.getClass();
 		    		modelAnno = modelClass.getAnnotation(APIModel.class);
@@ -274,7 +289,7 @@ public class ParamValidate {
 	        			}	
 	        		}
 	        		else {
-	        			throw new APIException(MessageCode.RESPONSE_CODE_2001, APIUtil.addString("유효성검사대상 클래스가 잘못되었습니다. @APIModel어노테이션이 설정된 모델만 가능합니다."));
+	        			throw new APIException(MessageConstants.RESPONSE_CODE_2001, APIUtil.addString("유효성검사대상 클래스가 잘못되었습니다. @APIModel어노테이션이 설정된 모델만 가능합니다."));
 	        		}
 				}
     		}
@@ -285,7 +300,7 @@ public class ParamValidate {
         		//@APIModel 어노테이션이있는 DTO만 벨리데이션한다.
         		if(modelAnno != null) {
         			
-        			if(paramValidate.getValidateType() == OperateCode.VALIDATE_DTO_FULL_FIELD_ANNO) {
+        			if(paramValidate.getValidateType() == OperateConstants.VALIDATE_DTO_FULL_FIELD_ANNO) {
         				//DeclaredFields field validate
         				for(Field field : modelClass.getDeclaredFields()) {
         					if(logger.isDebugEnabled()) {
@@ -296,7 +311,7 @@ public class ParamValidate {
         					}
             			}
         			}
-        			else if(paramValidate.getValidateType() == OperateCode.VALIDATE_DTO_SINGLE_FIELD_ANNO) {
+        			else if(paramValidate.getValidateType() == OperateConstants.VALIDATE_DTO_SINGLE_FIELD_ANNO) {
         				//Single field validate
         				
         				//validate field 
@@ -413,7 +428,7 @@ public class ParamValidate {
     				vPattern = pattern.substring(pattern.toLowerCase().indexOf(VP_REGEX) + VP_REGEX.length()).trim();
 					
 					if(logger.isDebugEnabled()) {
-		    			logger.debug(APIUtil.addString( OperateCode.LINE_SEPARATOR, " regexp : ", vPattern ,OperateCode.LINE_SEPARATOR, " values : ", values.toString()));
+		    			logger.debug(APIUtil.addString( OperateConstants.LINE_SEPARATOR, " regexp : ", vPattern ,OperateConstants.LINE_SEPARATOR, " values : ", values.toString()));
 		    		}
 
 					if(!regexUtil.testPattern(values.toString(), vPattern)) {
@@ -429,7 +444,7 @@ public class ParamValidate {
     				vPattern = pattern.substring(pattern.toLowerCase().indexOf(VP_TYPE) + VP_TYPE.length()).trim();
     				
     				if(logger.isDebugEnabled()) {
-    	    			logger.debug(APIUtil.addString( OperateCode.LINE_SEPARATOR, " value type : ", valueClass.getCanonicalName() ,OperateCode.LINE_SEPARATOR, " validate type : ", vPattern));
+    	    			logger.debug(APIUtil.addString( OperateConstants.LINE_SEPARATOR, " value type : ", valueClass.getCanonicalName() ,OperateConstants.LINE_SEPARATOR, " validate type : ", vPattern));
     	    		}
     				
     				if(!valueClass.getCanonicalName().equalsIgnoreCase(vPattern) && !valueClass.getSimpleName().equalsIgnoreCase(vPattern)) {

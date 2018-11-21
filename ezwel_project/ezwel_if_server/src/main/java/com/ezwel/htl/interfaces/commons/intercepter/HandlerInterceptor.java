@@ -2,9 +2,7 @@ package com.ezwel.htl.interfaces.commons.intercepter;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,13 +18,16 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
-import com.ezwel.htl.interfaces.commons.constants.OperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.entity.CommonHeader;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.commons.spring.ApplicationContext;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.commons.utils.CommonUtil;
+import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
+import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateDTO;
 
 
 public class HandlerInterceptor  extends HandlerInterceptorAdapter {
@@ -34,6 +35,8 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
 	
 	private APIUtil apiUtil = (APIUtil) ApplicationContext.getBean(APIUtil.class);
+	
+	private CommonUtil commonUtil = (CommonUtil) ApplicationContext.getBean(CommonUtil.class);
 	
 	private BeanMarshaller marshaller = (BeanMarshaller) ApplicationContext.getBean(BeanMarshaller.class);
 	
@@ -46,6 +49,9 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 		if(this.marshaller == null) {
 			this.marshaller = new BeanMarshaller();
 		}
+		if(this.commonUtil == null) {
+			this.commonUtil = new CommonUtil();
+		}
 	}
 
 	
@@ -55,12 +61,12 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 	 */
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
 
-		String typeMethodName = apiUtil.getMethodInfo(handler);
+		String typeMethodName = commonUtil.getMethodInfo(handler);
 		if(isLogging) {
 			logger.debug("[HANDLER START] 'preHandle' controller typeMethodName : {}", typeMethodName);
 		}
 		
-		boolean out = true;
+		boolean out = false;
 		String requestURI = request.getRequestURI();
 		String headerReferer = request.getHeader("referer");
 		
@@ -72,18 +78,14 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 			//1.ThreadLocal 초기화
 			CommonHeader header = Local.commonHeader();
 			//2.서플릿 컨트롤러 타입 저장
-			header.setControllerType(apiUtil.getControllerType(handler));
-			//3.Request Type Check
-			header.setMultipartRequest(apiUtil.isMultipartRequest(request));
-			//4.Content Type 
-			header.setContentType(apiUtil.getRequestContentType(request));
+			header.setControllerType(commonUtil.getControllerType(handler));
+			//3.Content Type 
+			header.setContentType(commonUtil.getRequestContentType(request));
 			//기타 정보 저장
 			header.setEncoding(request.getCharacterEncoding());
-			header.setClientAddress(apiUtil.getClientAddress(request));
-			header.setRequest(request);
-			header.setResponse(response);
+			header.setClientAddress(commonUtil.getClientAddress(request));
 			
-			HandlerMethod handlerMethod = apiUtil.getHandlerMethod(handler);
+			HandlerMethod handlerMethod = commonUtil.getHandlerMethod(handler);
 	
 			APIOperation operationAnno = handlerMethod.getMethodAnnotation(APIOperation.class);
 	
@@ -91,75 +93,47 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 				throw new APIException("■■ 유효하지 않은 API 오퍼레이션 APIOperation어노테이션이 존재하지 않습니다. '{}'", typeMethodName);
 			}
 
+			ParamValidate paramValidator = null;
 			APIModel apiModelAnno = null;
-			APIFields apiFieldsAnno = null;
-			Field[] fields = null; 
-			boolean required = false;
-			Object fieldValue = null;
-			Class<?> fieldType = null;
 			AbstractDTO inputParamObject = null;
-			String inputParam = apiUtil.readReqeustBodyWithBufferedReader(request);
+			String inputStreamData = null;
+			if(header.getContentType().equals(OperateConstants.CONTENT_TYPE_APPLICATION_JSON)) {
+				inputStreamData = commonUtil.readReqeustBodyWithBufferedReader(request);
 			
-			if(inputParam != null) {
-				
-				List<AbstractDTO> inputParameters = new ArrayList<AbstractDTO>();
-				MethodParameter[] methodParameter = handlerMethod.getMethodParameters();
-				for(MethodParameter input : methodParameter) {
+				if(inputStreamData != null) {
 					
-					if(AbstractDTO.class.isAssignableFrom(input.getParameterType())) {
-						//밸리데이션 대상 클래스이면
-						apiModelAnno = input.getParameterType().getAnnotation(APIModel.class);
-						if(apiModelAnno != null) {
+					//List<AbstractDTO> inputParameters = new ArrayList<AbstractDTO>();
+					MethodParameter[] methodParameter = handlerMethod.getMethodParameters();
+					if(methodParameter.length > 0) {
+						//parameter validator
+						paramValidator = new ParamValidate(); 
+						for(MethodParameter input : methodParameter) {
 							
-							inputParamObject = (AbstractDTO) marshaller.fromJSON(inputParam, input.getParameterType());
-							inputParameters.add(inputParamObject);
-							
-							fields = inputParamObject.getClass().getDeclaredFields();
-							for(Field field : fields) {
-								if(!apiUtil.isPassField(field)) {
-									apiFieldsAnno = field.getAnnotation(APIFields.class);
-									fieldValue = field.get(inputParamObject);
-									fieldType = field.getType();
-									logger.debug("■ Field description : {}", apiFieldsAnno.description());
+							if(AbstractDTO.class.isAssignableFrom(input.getParameterType())) {
+								//밸리데이션 대상 클래스이면
+								apiModelAnno = input.getParameterType().getAnnotation(APIModel.class);
+								if(apiModelAnno != null) {
 									
-									if(fieldType.isPrimitive()) {
-									
-										if(apiFieldsAnno.required()) {
-											//필수 입력
-											if(fieldValue == null) {
-												
-											}
-										}
-										if(apiFieldsAnno.maxLength() > 0) {
-											//최대 입력 길이 채크
-											
-										}
-										if(apiFieldsAnno.minLength() > 0) {
-											//최소 입력 길이 채크
-											
-										}
-										if(APIUtil.isNotEmpty(apiFieldsAnno.pattern())) {
-											//정규식 채크
-											
-										}
-									}
-									else if(fieldType.isArray() || Collection.class.isAssignableFrom(fieldType)) {
-										
-									}
-									else if(Map.class.isAssignableFrom(fieldType)) {
-										
-									}
+									inputParamObject = (AbstractDTO) marshaller.fromJSON(inputStreamData, input.getParameterType());
+									//inputParameters.add(inputParamObject);
+									//validation inputParamObject
+									paramValidator.addParam(new ParamValidateDTO(inputParamObject));
 								}
 							}
+						}
+
+						if(paramValidator.getParams() != null && paramValidator.getParams().size() > 0) {
+							//execute validator
+							paramValidator.execute();
 						}
 					}
 				}
 			}
 			
+			out = true;
 		} catch (Exception e) {
 			throw new APIException("인터페이스 인터셉터 장애발생", e);
 		}
-		
 		
 		if(isLogging) {
 			logger.debug("[HANDLER END] 'preHandle' controller typeMethodName : {}", typeMethodName);
@@ -174,7 +148,7 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 	 */
 	public void postHandle( HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 		
-		String typeMethodName = apiUtil.getMethodInfo(handler);
+		String typeMethodName = commonUtil.getMethodInfo(handler);
 		if(isLogging) {
 			logger.debug("[HANDLER START] 'postHandle' controller typeMethodName : {}", typeMethodName);
 		}
@@ -194,7 +168,7 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 	 */
 	public void afterCompletion( HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 		
-		String typeMethodName = apiUtil.getMethodInfo(handler);
+		String typeMethodName = commonUtil.getMethodInfo(handler);
 		if(isLogging) {
 			logger.debug("[HANDLER START] 'afterCompletion' controller typeMethodName : {}", typeMethodName);
 		}
@@ -212,7 +186,7 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 	 * afterConcurrentHandlingStarted - 동시에 핸들링 해주는 메서드
 	 */
 	public void afterConcurrentHandlingStarted( HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		String typeMethodName = apiUtil.getMethodInfo(handler);
+		String typeMethodName = commonUtil.getMethodInfo(handler);
 		if(isLogging) {
 			logger.debug("[HANDLER START] 'afterConcurrentHandlingStarted' controller typeMethodName : {}", typeMethodName);
 		}

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
-import com.ezwel.htl.interfaces.commons.constants.MessageCode;
+import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigDTO;
@@ -78,7 +78,7 @@ public class OutsideInterfaceService {
 			out = (AllRegOutDTO) inteface.sendPostJSON(httpConfigDTO, AllRegOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9100, "전체시설일괄등록 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "전체시설일괄등록 인터페이스 장애발생.", e);
 		}
 		
 		return out;
@@ -116,7 +116,7 @@ public class OutsideInterfaceService {
 			out = inteface.sendMultiPostJSON(multiHttpConfigList);
 		}
 		catch(Exception e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
 		}
 			
 		return out;
@@ -154,7 +154,7 @@ public class OutsideInterfaceService {
 			out = inteface.sendMultiPostJSON(multiHttpConfigList);
 		}
 		catch(Exception e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
 		}
 		
 		return out;
@@ -173,7 +173,7 @@ public class OutsideInterfaceService {
 			out = (RoomReadOutDTO) inteface.sendPostJSON(httpConfigDTO, roomReadDTO, RoomReadOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9100, "객실정보조회 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "객실정보조회 인터페이스 장애발생.", e);
 		}
 			
 		return out;		
@@ -192,7 +192,7 @@ public class OutsideInterfaceService {
 			out = (CancelFeePsrcOutDTO) inteface.sendPostJSON(httpConfigDTO, cancelFeePsrcDTO, CancelFeePsrcOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9100, "주문대사(제휴사) 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "주문대사(제휴사) 인터페이스 장애발생.", e);
 		}
 		
 		return out;		
@@ -211,7 +211,7 @@ public class OutsideInterfaceService {
 			out = (RsvHistSendOutDTO) inteface.sendPostJSON(httpConfigDTO, rsvHistSendDTO, RsvHistSendOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9100, "결재완료내역전송 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "결재완료내역전송 인터페이스 장애발생.", e);
 		}
 		
 		return out;
@@ -230,7 +230,7 @@ public class OutsideInterfaceService {
 			out = (CancelFeeAmtOutDTO) inteface.sendPostJSON(httpConfigDTO, cancelFeeAmtDTO, CancelFeeAmtOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9100, "주문대사(제휴사) 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "주문대사(제휴사) 인터페이스 장애발생.", e);
 		}
 		return out;
 	}
@@ -248,7 +248,7 @@ public class OutsideInterfaceService {
 			out = (OrderCancelReqOutDTO) inteface.sendPostJSON(httpConfigDTO, orderCancelReqDTO, OrderCancelReqOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9100, "주문취소요청 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "주문취소요청 인터페이스 장애발생.", e);
 		}
 		
 		return out;
@@ -267,7 +267,7 @@ public class OutsideInterfaceService {
 			out = (OmiNumIdnOutDTO) inteface.sendPostJSON(httpConfigDTO, omiNumIdnDTO, OmiNumIdnOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9100, "누락건확인 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "누락건확인 인터페이스 장애발생.", e);
 		}
 		
 		return out;
@@ -286,7 +286,7 @@ public class OutsideInterfaceService {
 			out = (EzwelJobOutDTO) inteface.sendPostJSON(httpConfigDTO, ezwelJobDTO, EzwelJobOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9100, "주문대사(이지웰) 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "주문대사(이지웰) 인터페이스 장애발생.", e);
 		}
 		
 		return out;

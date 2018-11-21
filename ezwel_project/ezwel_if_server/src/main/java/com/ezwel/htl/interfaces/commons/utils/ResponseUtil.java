@@ -6,7 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.ezwel.htl.interfaces.commons.constants.OperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
 /**
  * <pre>
@@ -23,7 +23,7 @@ public class ResponseUtil {
 		logger.debug("[START] responseEntity\n{}", jsonString);
 		
 		HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("Content-Type", "application/json;charset=".concat(OperateCode.DEFAULT_ENCODING));
+        responseHeaders.add("Content-Type", "application/json;charset=".concat(OperateConstants.DEFAULT_ENCODING));
 		
         logger.debug("[END] responseEntity");
 		return new ResponseEntity<String>(jsonString, responseHeaders, HttpStatus.CREATED);

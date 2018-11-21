@@ -16,7 +16,7 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
  * @serviceType API
  */
 @APIType
-public class OperateCode {
+public class OperateConstants {
 
 	//SYSTEM EXECUTABLE CODE
 	public static final String DELIM_STR;
@@ -80,7 +80,17 @@ public class OperateCode {
 	public static final int VALIDATE_SINGLE_VALUE_PATTERN;
 	public static final int VALIDATE_DTO_SINGLE_FIELD_PATTERN;
 	
+	//Request Contents Type
+	public static final String CONTENT_TYPE_MULTIPART_FORM_DATA;
+	public static final String CONTENT_TYPE_APPLICATION_JSON;
+	public static final String CONTENT_TYPE_QUERY_STRING;
+	
 	static {
+		
+		CONTENT_TYPE_MULTIPART_FORM_DATA = "multipart/form-data";
+		CONTENT_TYPE_APPLICATION_JSON = "application/json";
+		CONTENT_TYPE_QUERY_STRING = "multipart/form-data";
+		
 		EXCLUDE_PACKAGE_STARTS = new ArrayList<String>();
 		EXCLUDE_PACKAGE_STARTS.add("java.");
 		EXCLUDE_PACKAGE_STARTS.add("javax.");

@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.ezwel.htl.interfaces.commons.constants.OperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 
 @Component
@@ -145,7 +145,7 @@ public class TypeUtil {
     	
     	String[] excludes = null;
     	if( excludePackages == null || excludePackages.length == 0) {
-    		excludes = (String[]) OperateCode.EXCLUDE_PACKAGE_STARTS.toArray(); //{"java.","javax."}
+    		excludes = (String[]) OperateConstants.EXCLUDE_PACKAGE_STARTS.toArray(); //{"java.","javax."}
     	}
     	else {
     		excludes = excludePackages;

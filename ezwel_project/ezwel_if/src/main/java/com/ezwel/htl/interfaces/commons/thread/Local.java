@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.constants.OperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.entity.CommonHeader;
 import com.ezwel.htl.interfaces.commons.entity.RuntimeHeader;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
@@ -39,19 +39,19 @@ public class Local {
 
             	if(logger.isDebugEnabled()) {
 	            	logger.debug(new StringBuilder()
-	            		.append(OperateCode.LINE_SEPARATOR)
+	            		.append(OperateConstants.LINE_SEPARATOR)
 	            		.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
-	            		.append(OperateCode.LINE_SEPARATOR)
+	            		.append(OperateConstants.LINE_SEPARATOR)
 	            		.append(" ■■ [START]    ")
-	            		.append(OperateCode.LINE_SEPARATOR)
+	            		.append(OperateConstants.LINE_SEPARATOR)
 	            		.append(" ■■ initialValue    ")
-	            		.append(OperateCode.LINE_SEPARATOR)
+	            		.append(OperateConstants.LINE_SEPARATOR)
 	            		.append(" ■■ guid : " + header.getGuid() )
-	            		.append(OperateCode.LINE_SEPARATOR)
+	            		.append(OperateConstants.LINE_SEPARATOR)
 	            		.append(" ■■ startTimeMillis : " + header.getStartTimeMillis() )
-	            		.append(OperateCode.LINE_SEPARATOR)
+	            		.append(OperateConstants.LINE_SEPARATOR)
 	            		.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
-	            		.append(OperateCode.LINE_SEPARATOR)
+	            		.append(OperateConstants.LINE_SEPARATOR)
 	            		.toString()
 	            	);
             	}
@@ -128,11 +128,11 @@ public class Local {
     	String threadName = Thread.currentThread().getName();
     	
     	out.append(threadName);
-    	out.append(OperateCode.STR_HYPHEN);
+    	out.append(OperateConstants.STR_HYPHEN);
 		out.append(beforeStack.getClassName());
-		out.append(OperateCode.STR_AT);
+		out.append(OperateConstants.STR_AT);
 		out.append(beforeStack.getMethodName());
-    	out.append(OperateCode.STR_HYPHEN);
+    	out.append(OperateConstants.STR_HYPHEN);
     	out.append(APIUtil.getRandomUUID());
     	
     	return out.toString();
@@ -148,27 +148,27 @@ public class Local {
 
     	if(logger.isDebugEnabled()) {
 	    	logger.debug(new StringBuilder()
-	    		.append(OperateCode.LINE_SEPARATOR)
+	    		.append(OperateConstants.LINE_SEPARATOR)
 	    		.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
-	    		.append(OperateCode.LINE_SEPARATOR)
+	    		.append(OperateConstants.LINE_SEPARATOR)
 	            .append(" ■■ [END]    ")
-	    		.append(OperateCode.LINE_SEPARATOR)
+	    		.append(OperateConstants.LINE_SEPARATOR)
         		.append(" ■■ guid : " + commonHeader().getGuid() )
-        		.append(OperateCode.LINE_SEPARATOR)
+        		.append(OperateConstants.LINE_SEPARATOR)
         		.append(" ■■ RunTime lapTimeMillis : ")
 				.append(commonHeader().getLapTimeMillis())
 				.append("(ms)")
-	    		.append(OperateCode.LINE_SEPARATOR)
+	    		.append(OperateConstants.LINE_SEPARATOR)
 				.append(" ■■ StartTimeMillis : ")
 				.append(commonHeader().getStartTimeMillis())
-	    		.append(OperateCode.LINE_SEPARATOR)
+	    		.append(OperateConstants.LINE_SEPARATOR)
 				.append(" ■■ EndTimeMillis : ")
 				.append(commonHeader().getEndTimeMillis())
-	    		.append(OperateCode.LINE_SEPARATOR)
+	    		.append(OperateConstants.LINE_SEPARATOR)
 	    		.append(" ■■ ThreadLocal END ")
-	    		.append(OperateCode.LINE_SEPARATOR)
+	    		.append(OperateConstants.LINE_SEPARATOR)
 	    		.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
-	    		.append(OperateCode.LINE_SEPARATOR)
+	    		.append(OperateConstants.LINE_SEPARATOR)
 	    		.toString()
 			);
     	}

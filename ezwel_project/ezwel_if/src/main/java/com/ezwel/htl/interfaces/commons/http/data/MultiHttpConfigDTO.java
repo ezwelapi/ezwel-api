@@ -3,7 +3,7 @@ package com.ezwel.htl.interfaces.commons.http.data;
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
-import com.ezwel.htl.interfaces.commons.constants.OperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
 /**
  * <pre>
@@ -37,7 +37,7 @@ public class MultiHttpConfigDTO extends AbstractDTO {
 		httpConfigDTO = null;
 		inputDTO = null;
 		outputType = null;
-		lapTimeMillis = OperateCode.LONG_ZERO_VALUE;
+		lapTimeMillis = OperateConstants.LONG_ZERO_VALUE;
 	}
 
 	public HttpConfigDTO getHttpConfigDTO() {

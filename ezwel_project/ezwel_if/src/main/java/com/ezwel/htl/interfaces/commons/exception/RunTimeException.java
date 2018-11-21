@@ -1,6 +1,6 @@
 package com.ezwel.htl.interfaces.commons.exception;
 
-import com.ezwel.htl.interfaces.commons.constants.MessageCode;
+import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 
 
@@ -13,7 +13,7 @@ public class RunTimeException extends RuntimeException {
     private Integer resultCode;
     
     protected void init(){
-    	resultCode = MessageCode.RESPONSE_CODE_1000;
+    	resultCode = MessageConstants.RESPONSE_CODE_1000;
     }
     
     public RunTimeException(String message) {

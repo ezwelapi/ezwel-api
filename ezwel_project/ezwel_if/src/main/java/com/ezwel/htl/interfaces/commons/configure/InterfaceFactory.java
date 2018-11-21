@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.data.InterfaceChannel;
-import com.ezwel.htl.interfaces.commons.constants.MessageCode;
-import com.ezwel.htl.interfaces.commons.constants.OperateCode;
+import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.AgentInfoDTO;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigDTO;
@@ -99,7 +99,7 @@ public class InterfaceFactory {
 		if(APIUtil.isEmpty(chanId) || APIUtil.isEmpty(agentId)) {
 			throw new APIException("[getCacheId] 채널 아이디 또는 에이전트 아이디가 존재하지 않습니다. 'chanId : {}, agentId : {}'", chanId, agentId); 
 		}
-		String cacheId = chanId.concat(OperateCode.STR_HYPHEN).concat(agentId);
+		String cacheId = chanId.concat(OperateConstants.STR_HYPHEN).concat(agentId);
 		logger.debug("- cacheId key : {}", cacheId);
 		return cacheId;
 	}
@@ -212,7 +212,7 @@ public class InterfaceFactory {
 	private void enter(HttpConfigDTO item) {
 		
 		if(APIUtil.isEmpty(item.getHttpAgentId()) && APIUtil.isEmpty(item.getHttpAgentGroupId())) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9300, "인터페이스 팩토리 초기화 실패. 인터페이스 설정파일에 httpAgentId, httpAgentGroupId가 모두 존재하지 않는 채널이 존재합니다. channel : {}", item);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9300, "인터페이스 팩토리 초기화 실패. 인터페이스 설정파일에 httpAgentId, httpAgentGroupId가 모두 존재하지 않는 채널이 존재합니다. channel : {}", item);
 		}
 	
 		String cacheId = null;

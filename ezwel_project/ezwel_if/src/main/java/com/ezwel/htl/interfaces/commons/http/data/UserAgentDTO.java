@@ -3,7 +3,7 @@ package com.ezwel.htl.interfaces.commons.http.data;
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
-import com.ezwel.htl.interfaces.commons.constants.OperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
 /**
  * <pre>
@@ -48,8 +48,8 @@ public class UserAgentDTO extends AbstractDTO {
 	private void reset() {
 		httpAgentId = null;
 		httpAgentGroupId = null;
-		connTimeout = OperateCode.INTEGER_MINUS_ONE;
-		readTimeout = OperateCode.INTEGER_MINUS_ONE;
+		connTimeout = OperateConstants.INTEGER_MINUS_ONE;
+		readTimeout = OperateConstants.INTEGER_MINUS_ONE;
 		httpAgentType = null;	
 		httpChannelCd = null;	
 		httpClientId = null;	

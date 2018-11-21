@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
-import com.ezwel.htl.interfaces.commons.constants.OperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
 /**
@@ -119,13 +119,13 @@ public class HttpConfigDTO extends AbstractDTO {
 		httpClientId = null;	
 		httpRequestId = null;			
 		httpAgentId = null;
-		encoding = OperateCode.DEFAULT_ENCODING;
-		writeEncoding = OperateCode.DEFAULT_ENCODING;
-		readEncoding = OperateCode.DEFAULT_ENCODING;
+		encoding = OperateConstants.DEFAULT_ENCODING;
+		writeEncoding = OperateConstants.DEFAULT_ENCODING;
+		readEncoding = OperateConstants.DEFAULT_ENCODING;
 		responseCode = -1;
 		responseException = null;
 		description = null;
-		lapTimeMillis = OperateCode.LONG_ZERO_VALUE;
+		lapTimeMillis = OperateConstants.LONG_ZERO_VALUE;
 	}
 	
 	

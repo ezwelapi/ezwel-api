@@ -25,8 +25,8 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.constants.MessageCode;
-import com.ezwel.htl.interfaces.commons.constants.OperateCode;
+import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigDTO;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigDTO;
@@ -99,16 +99,16 @@ public class HttpInterfaceExecutorService {
 			conn.setDoOutput(in.isDoOutput()); //HTTP 요청 파라메터 송신 여부
 			conn.setUseCaches(false);
 			conn.setDefaultUseCaches(false);
-			conn.setRequestMethod(OperateCode.HTTP_METHOD_POST);
+			conn.setRequestMethod(OperateConstants.HTTP_METHOD_POST);
 			conn.setConnectTimeout(httpConnTimeout);
 			conn.setReadTimeout(httpReadTimeout);	
 			
 		} catch (ProtocolException e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9000, "■ 연결이 불가능한 주소입니다.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 연결이 불가능한 주소입니다.", e);
 		} catch (MalformedURLException e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9000, "■ 프로토콜이 잘못되었습니다.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 프로토콜이 잘못되었습니다.", e);
 		} catch (IOException e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9100, "■ 통신 장애 발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ 통신 장애 발생.", e);
 		}
 
 		return conn;
@@ -141,7 +141,7 @@ public class HttpInterfaceExecutorService {
 			
 			logger.debug("\n■ RequestProperties : \n{}", beanConvert.toJSONString( conn.getRequestProperties()));
 		} catch(APIException e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9000, "■ 인터페이스 요청 헤더 작성중 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 인터페이스 요청 헤더 작성중 장애발생.", e);
 		} finally {
 			if(certifications != null) {
 				certifications.clear();
@@ -161,7 +161,7 @@ public class HttpInterfaceExecutorService {
 			is = new BufferedInputStream(conn.getInputStream());
 			out = IOUtils.toString(is, in.getEncoding());
 		} catch (IOException e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9000, "■ 입력스트림 변환과정에 장애발생", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 입력스트림 변환과정에 장애발생", e);
 		} finally {
 			if(is != null) {
 				try {
@@ -186,7 +186,7 @@ public class HttpInterfaceExecutorService {
 			logger.debug("\n■ input parameter : \n{}", out);	
 		}
 		catch(APIException e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9000, "■ 입력 DTO를 JSON으로 변환과정에 장애발생", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 입력 DTO를 JSON으로 변환과정에 장애발생", e);
 		}
 		
 		return out;
@@ -200,7 +200,7 @@ public class HttpInterfaceExecutorService {
 			os.write(inJsonParam.getBytes(in.getEncoding()));
 			os.flush();			
 		} catch (IOException e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9100, "■ JSON 파라메터 전송중 장애발생", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ JSON 파라메터 전송중 장애발생", e);
 		} finally {
 			if(os != null) {
 				try {
@@ -215,7 +215,7 @@ public class HttpInterfaceExecutorService {
 	@APIOperation(description="Http URL Communication API (output only)", isExecTest=true)
 	public <T extends AbstractDTO> T sendPostJSON(HttpConfigDTO in, Class<T> outputObject) {
 		if(in == null) {
-			throw new APIException(MessageCode.RESPONSE_CODE_2000, "인터페이스 필수 입력 객체가 존재하지 않습니다.");
+			throw new APIException(MessageConstants.RESPONSE_CODE_2000, "인터페이스 필수 입력 객체가 존재하지 않습니다.");
 		}
 		
 		/** 요청 파라메터 여부 */
@@ -226,7 +226,7 @@ public class HttpInterfaceExecutorService {
 	@APIOperation(description="Http URL Communication API (input only)", isExecTest=true)
 	public <T extends AbstractDTO> T sendPostJSON(HttpConfigDTO in, T inputObject) {
 		if(in == null) {
-			throw new APIException(MessageCode.RESPONSE_CODE_2000, "인터페이스 필수 입력 객체가 존재하지 않습니다.");
+			throw new APIException(MessageConstants.RESPONSE_CODE_2000, "인터페이스 필수 입력 객체가 존재하지 않습니다.");
 		}
 		
 		/** 응답 결과 수신 여부 */
@@ -257,7 +257,7 @@ public class HttpInterfaceExecutorService {
 		try {
 			
 			if(in == null) {
-				throw new APIException(MessageCode.RESPONSE_CODE_2000, "■ 인터페이스 필수 입력 객체가 존재하지 않습니다.");
+				throw new APIException(MessageConstants.RESPONSE_CODE_2000, "■ 인터페이스 필수 입력 객체가 존재하지 않습니다.");
 			}
 			
 			/** input bean to json */
@@ -281,7 +281,7 @@ public class HttpInterfaceExecutorService {
 			if(conn.getResponseCode() != 200) {
 				/** 서버측 에러 발생시 에러메시지 세팅 */
 				logger.error("■ HttpServer Exception : {}", (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
-				throw new APIException(MessageCode.RESPONSE_CODE_9200, "■ HTTP 통신 장애 발생 원격 서버 에러");
+				throw new APIException(MessageConstants.RESPONSE_CODE_9200, "■ HTTP 통신 장애 발생 원격 서버 에러");
 	    	}
 			else {
 				/** 응답 수신 및 리턴타입 빈으로 변환 */
@@ -297,7 +297,7 @@ public class HttpInterfaceExecutorService {
 					if(APIUtil.isNotEmpty(responseOrgin)) {
 						
 						if(outputType == null) {
-							throw new APIException(MessageCode.RESPONSE_CODE_9000, "■ 인터페이스 응답 결과를 담을 CLASS정보가 존재하지 않습니다. HttpDTO의 outputType class를 설정하세요.");
+							throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 인터페이스 응답 결과를 담을 CLASS정보가 존재하지 않습니다. HttpDTO의 outputType class를 설정하세요.");
 						}
 
 						/** execute unmarshall */
@@ -317,11 +317,11 @@ public class HttpInterfaceExecutorService {
 				e.printStackTrace();
 				
 				out = outputType.newInstance();
-				propertyUtil.setProperty(out, MessageCode.RESPONSE_CODE_FIELD_NAME, e.getResultCode());
-				propertyUtil.setProperty(out, MessageCode.RESPONSE_MESSAGE_FIELD_NAME, e.getMessage());
+				propertyUtil.setProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME, e.getResultCode());
+				propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, e.getMessage());
 			}
 			else {
-				throw new APIException(MessageCode.RESPONSE_CODE_9100, "■ 통신 장애 발생.", e);
+				throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ 통신 장애 발생.", e);
 			}
 		}  finally {
 			if(conn != null) {
@@ -367,9 +367,9 @@ public class HttpInterfaceExecutorService {
 				}				
 			}
 		} catch (IllegalArgumentException e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9000, e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9000, e);
 		} catch (IllegalAccessException e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9000, "■ HttpConfigDTO필드에 접근할수 없습니다.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ HttpConfigDTO필드에 접근할수 없습니다.", e);
 		}
 		
 		return out;
@@ -386,7 +386,7 @@ public class HttpInterfaceExecutorService {
 		
 		try {
 			if(in == null || in.size() == 0) {
-				throw new APIException(MessageCode.RESPONSE_CODE_2000, "■ 멀티쓰레드 URL통신에 필요한 설정 목록이 존재하지 않습니다.");
+				throw new APIException(MessageConstants.RESPONSE_CODE_2000, "■ 멀티쓰레드 URL통신에 필요한 설정 목록이 존재하지 않습니다.");
 			}
 			
 			executor = new CallableExecutor();
@@ -412,7 +412,7 @@ public class HttpInterfaceExecutorService {
 			}
 			
 		} catch (APIException e) {
-			throw new APIException(MessageCode.RESPONSE_CODE_9100, "■ 다중 인터페이스 장애 발생", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ 다중 인터페이스 장애 발생", e);
 		}
 		finally {
 			if(executor != null) {

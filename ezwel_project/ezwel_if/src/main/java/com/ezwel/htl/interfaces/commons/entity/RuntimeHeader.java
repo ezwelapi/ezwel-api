@@ -2,7 +2,7 @@ package com.ezwel.htl.interfaces.commons.entity;
 
 import com.ezwel.htl.interfaces.commons.abstracts.APIObject;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
-import com.ezwel.htl.interfaces.commons.constants.OperateCode;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
 /**
@@ -29,9 +29,9 @@ public class RuntimeHeader extends APIObject {
 	private StackTraceElement[] stackTraceElement;
 	
 	public RuntimeHeader() {
-		startTimeMillis = OperateCode.LONG_ZERO_VALUE;
-		endTimeMillis = OperateCode.LONG_MINUS_ONE;
-		lapTimeMillis = OperateCode.LONG_MINUS_ONE;
+		startTimeMillis = OperateConstants.LONG_ZERO_VALUE;
+		endTimeMillis = OperateConstants.LONG_MINUS_ONE;
+		lapTimeMillis = OperateConstants.LONG_MINUS_ONE;
 		className = null;
 		methodName = null;
 		stackTraceElement = null;
@@ -53,7 +53,7 @@ public class RuntimeHeader extends APIObject {
 	}
 
 	public void setEndTimeMillis() {
-		if(this.endTimeMillis == OperateCode.LONG_MINUS_ONE) {
+		if(this.endTimeMillis == OperateConstants.LONG_MINUS_ONE) {
 			setEndTimeMillis(APIUtil.currentTimeMillis());
 		}		
 	}
@@ -63,7 +63,7 @@ public class RuntimeHeader extends APIObject {
 	}
 
 	public long getLapTimeMillis() {
-		if(this.lapTimeMillis == OperateCode.LONG_MINUS_ONE) this.lapTimeMillis = getEndTimeMillis() - getStartTimeMillis();
+		if(this.lapTimeMillis == OperateConstants.LONG_MINUS_ONE) this.lapTimeMillis = getEndTimeMillis() - getStartTimeMillis();
 		return lapTimeMillis;
 	}
 

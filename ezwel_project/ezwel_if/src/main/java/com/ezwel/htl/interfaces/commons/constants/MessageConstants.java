@@ -3,9 +3,6 @@ package com.ezwel.htl.interfaces.commons.constants;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * <pre>
  * 
@@ -13,7 +10,7 @@ import org.slf4j.LoggerFactory;
  * @author swkim@ebsolution.co.kr
  * @date   2018. 11. 16.
  */
-public class MessageCode {
+public class MessageConstants {
 
 	public static final int RESPONSE_CODE_1000;
 	public static final int RESPONSE_CODE_2000;
