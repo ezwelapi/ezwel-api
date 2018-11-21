@@ -14,22 +14,24 @@ import javax.xml.bind.Unmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ezwel.htl.interfaces.commons.configure.dto.InterfaceChannel;
-import com.ezwel.htl.interfaces.commons.constants.InterfaceCode;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.configure.data.InterfaceChannel;
+import com.ezwel.htl.interfaces.commons.constants.MessageCode;
 import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.http.dto.AgentInfoDTO;
-import com.ezwel.htl.interfaces.commons.http.dto.HttpConfigDTO;
+import com.ezwel.htl.interfaces.commons.http.data.AgentInfoDTO;
+import com.ezwel.htl.interfaces.commons.http.data.HttpConfigDTO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 
 /**
  * <pre>
- * 
+ * 인터페이스 설정 XML로딩 및 캐쉬 데이터 핸들링 클래스
  * </pre>
  * @author swkim@ebsolution.co.kr
  * @date   2018. 11. 14.
  */
+@APIType(description="인터페이스 설정 XML로딩 및 캐쉬 데이터 핸들링 클래스")
 public class InterfaceFactory {
 
 	private static final Logger logger = LoggerFactory.getLogger(InterfaceFactory.class);
@@ -210,7 +212,7 @@ public class InterfaceFactory {
 	private void enter(HttpConfigDTO item) {
 		
 		if(APIUtil.isEmpty(item.getHttpAgentId()) && APIUtil.isEmpty(item.getHttpAgentGroupId())) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9300, "인터페이스 팩토리 초기화 실패. 인터페이스 설정파일에 httpAgentId, httpAgentGroupId가 모두 존재하지 않는 채널이 존재합니다. channel : {}", item);
+			throw new APIException(MessageCode.RESPONSE_CODE_9300, "인터페이스 팩토리 초기화 실패. 인터페이스 설정파일에 httpAgentId, httpAgentGroupId가 모두 존재하지 않는 채널이 존재합니다. channel : {}", item);
 		}
 	
 		String cacheId = null;

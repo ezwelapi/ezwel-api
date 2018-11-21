@@ -1,8 +1,8 @@
 package com.ezwel.htl.interfaces.commons.exception;
 
 
-import com.ezwel.htl.interfaces.commons.annotation.APIService;
-import com.ezwel.htl.interfaces.commons.constants.InterfaceCode;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.constants.MessageCode;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
 /**
@@ -13,7 +13,7 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
  * @date 2018. 11. 5.
  * @serviceType API
  */
-@APIService
+@APIType
 public class APIException extends RunTimeException {
 
 	private static final long serialVersionUID = 8537976232349035843L;
@@ -22,8 +22,8 @@ public class APIException extends RunTimeException {
 	public static final Integer DEFAULT_EXCEPTION_CODE;
 	
 	static {
-		DEFAULT_MESSAGE = InterfaceCode.getMessage(InterfaceCode.RESPONSE_CODE_9000);
-		DEFAULT_EXCEPTION_CODE = InterfaceCode.RESPONSE_CODE_9000;
+		DEFAULT_MESSAGE = MessageCode.getMessage(MessageCode.RESPONSE_CODE_9000);
+		DEFAULT_EXCEPTION_CODE = MessageCode.RESPONSE_CODE_9000;
 	}
 	
     public APIException()
@@ -76,7 +76,7 @@ public class APIException extends RunTimeException {
 
     public APIException(Integer resultCode, Throwable cause)
     {
-        super(InterfaceCode.getMessage(resultCode), cause);
+        super(MessageCode.getMessage(resultCode), cause);
         
         super.init(); 
         setResultCode(DEFAULT_EXCEPTION_CODE);
