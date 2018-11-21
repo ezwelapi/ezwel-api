@@ -10,17 +10,17 @@ import org.slf4j.LoggerFactory;
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
 import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
-import com.ezwel.htl.interfaces.commons.http.dto.HttpConfigDTO;
-import com.ezwel.htl.interfaces.commons.http.dto.MultiHttpConfigDTO;
-import com.ezwel.htl.interfaces.commons.http.dto.UserAgentDTO;
+import com.ezwel.htl.interfaces.commons.http.data.HttpConfigDTO;
+import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigDTO;
+import com.ezwel.htl.interfaces.commons.http.data.UserAgentDTO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.http.dto.InputDTO;
 import com.ezwel.htl.interfaces.http.dto.InputDTOSub01;
 import com.ezwel.htl.interfaces.http.dto.InputDTOSub02;
 import com.ezwel.htl.interfaces.http.dto.OutputDTO;
 import com.ezwel.htl.interfaces.service.OutsideInterfaceService;
-import com.ezwel.htl.interfaces.service.dto.cancelFeeAmt.CancelFeeAmtInDTO;
-import com.ezwel.htl.interfaces.service.dto.roomRead.RoomReadOutDTO;
+import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInDTO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutDTO;
 
 
 

@@ -5,39 +5,38 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
-import com.ezwel.htl.interfaces.commons.annotation.APIService;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
-import com.ezwel.htl.interfaces.commons.constants.InterfaceCode;
-import com.ezwel.htl.interfaces.commons.constants.OperateCode;
+import com.ezwel.htl.interfaces.commons.constants.MessageCode;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
-import com.ezwel.htl.interfaces.commons.http.dto.HttpConfigDTO;
-import com.ezwel.htl.interfaces.commons.http.dto.MultiHttpConfigDTO;
-import com.ezwel.htl.interfaces.commons.http.dto.UserAgentDTO;
-import com.ezwel.htl.interfaces.commons.spring.ApplicationContext;
+import com.ezwel.htl.interfaces.commons.http.data.HttpConfigDTO;
+import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigDTO;
+import com.ezwel.htl.interfaces.commons.http.data.UserAgentDTO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
-import com.ezwel.htl.interfaces.service.dto.allReg.AllRegOutDTO;
-import com.ezwel.htl.interfaces.service.dto.cancelFeeAmt.CancelFeeAmtInDTO;
-import com.ezwel.htl.interfaces.service.dto.cancelFeeAmt.CancelFeeAmtOutDTO;
-import com.ezwel.htl.interfaces.service.dto.cancelFeePsrc.CancelFeePsrcInDTO;
-import com.ezwel.htl.interfaces.service.dto.cancelFeePsrc.CancelFeePsrcOutDTO;
-import com.ezwel.htl.interfaces.service.dto.ezwelJob.EzwelJobInDTO;
-import com.ezwel.htl.interfaces.service.dto.ezwelJob.EzwelJobOutDTO;
-import com.ezwel.htl.interfaces.service.dto.faclSearch.FaclSearchInDTO;
-import com.ezwel.htl.interfaces.service.dto.faclSearch.FaclSearchOutDTO;
-import com.ezwel.htl.interfaces.service.dto.omiNumIdn.OmiNumIdnInDTO;
-import com.ezwel.htl.interfaces.service.dto.omiNumIdn.OmiNumIdnOutDTO;
-import com.ezwel.htl.interfaces.service.dto.orderCancelReq.OrderCancelReqInDTO;
-import com.ezwel.htl.interfaces.service.dto.orderCancelReq.OrderCancelReqOutDTO;
-import com.ezwel.htl.interfaces.service.dto.roomRead.RoomReadInDTO;
-import com.ezwel.htl.interfaces.service.dto.roomRead.RoomReadOutDTO;
-import com.ezwel.htl.interfaces.service.dto.rsvHistSend.RsvHistSendInDTO;
-import com.ezwel.htl.interfaces.service.dto.rsvHistSend.RsvHistSendOutDTO;
-import com.ezwel.htl.interfaces.service.dto.sddSearch.SddSearchOutDTO;
+import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutDTO;
+import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInDTO;
+import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtOutDTO;
+import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcInDTO;
+import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcOutDTO;
+import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobInDTO;
+import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobOutDTO;
+import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInDTO;
+import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutDTO;
+import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnInDTO;
+import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnOutDTO;
+import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqInDTO;
+import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqOutDTO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInDTO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutDTO;
+import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendInDTO;
+import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendOutDTO;
+import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutDTO;
 
 /**
  * <pre>
@@ -47,16 +46,18 @@ import com.ezwel.htl.interfaces.service.dto.sddSearch.SddSearchOutDTO;
  * @date   2018. 11. 13.
  */
 @Service
-@APIService
+@APIType
 public class OutsideInterfaceService {
 
 	private static final Logger logger = LoggerFactory.getLogger(OutsideInterfaceService.class);
 
-	private HttpInterfaceExecutorService inteface = (HttpInterfaceExecutorService) ApplicationContext.getBean(HttpInterfaceExecutorService.class);
+	@Autowired
+	private HttpInterfaceExecutorService inteface;
 	
 	private PropertyUtil propertyUtil;
 	
 	public OutsideInterfaceService() {
+		
 		if(propertyUtil == null) {
 			propertyUtil = new PropertyUtil();
 		}
@@ -77,7 +78,7 @@ public class OutsideInterfaceService {
 			out = (AllRegOutDTO) inteface.sendPostJSON(httpConfigDTO, AllRegOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "전체시설일괄등록 인터페이스 장애발생.", e);
+			throw new APIException(MessageCode.RESPONSE_CODE_9100, "전체시설일괄등록 인터페이스 장애발생.", e);
 		}
 		
 		return out;
@@ -115,7 +116,7 @@ public class OutsideInterfaceService {
 			out = inteface.sendMultiPostJSON(multiHttpConfigList);
 		}
 		catch(Exception e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
+			throw new APIException(MessageCode.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
 		}
 			
 		return out;
@@ -153,7 +154,7 @@ public class OutsideInterfaceService {
 			out = inteface.sendMultiPostJSON(multiHttpConfigList);
 		}
 		catch(Exception e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
+			throw new APIException(MessageCode.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
 		}
 		
 		return out;
@@ -172,7 +173,7 @@ public class OutsideInterfaceService {
 			out = (RoomReadOutDTO) inteface.sendPostJSON(httpConfigDTO, roomReadDTO, RoomReadOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "객실정보조회 인터페이스 장애발생.", e);
+			throw new APIException(MessageCode.RESPONSE_CODE_9100, "객실정보조회 인터페이스 장애발생.", e);
 		}
 			
 		return out;		
@@ -191,7 +192,7 @@ public class OutsideInterfaceService {
 			out = (CancelFeePsrcOutDTO) inteface.sendPostJSON(httpConfigDTO, cancelFeePsrcDTO, CancelFeePsrcOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "주문대사(제휴사) 인터페이스 장애발생.", e);
+			throw new APIException(MessageCode.RESPONSE_CODE_9100, "주문대사(제휴사) 인터페이스 장애발생.", e);
 		}
 		
 		return out;		
@@ -210,7 +211,7 @@ public class OutsideInterfaceService {
 			out = (RsvHistSendOutDTO) inteface.sendPostJSON(httpConfigDTO, rsvHistSendDTO, RsvHistSendOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "결재완료내역전송 인터페이스 장애발생.", e);
+			throw new APIException(MessageCode.RESPONSE_CODE_9100, "결재완료내역전송 인터페이스 장애발생.", e);
 		}
 		
 		return out;
@@ -229,7 +230,7 @@ public class OutsideInterfaceService {
 			out = (CancelFeeAmtOutDTO) inteface.sendPostJSON(httpConfigDTO, cancelFeeAmtDTO, CancelFeeAmtOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "주문대사(제휴사) 인터페이스 장애발생.", e);
+			throw new APIException(MessageCode.RESPONSE_CODE_9100, "주문대사(제휴사) 인터페이스 장애발생.", e);
 		}
 		return out;
 	}
@@ -247,7 +248,7 @@ public class OutsideInterfaceService {
 			out = (OrderCancelReqOutDTO) inteface.sendPostJSON(httpConfigDTO, orderCancelReqDTO, OrderCancelReqOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "주문취소요청 인터페이스 장애발생.", e);
+			throw new APIException(MessageCode.RESPONSE_CODE_9100, "주문취소요청 인터페이스 장애발생.", e);
 		}
 		
 		return out;
@@ -266,7 +267,7 @@ public class OutsideInterfaceService {
 			out = (OmiNumIdnOutDTO) inteface.sendPostJSON(httpConfigDTO, omiNumIdnDTO, OmiNumIdnOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "누락건확인 인터페이스 장애발생.", e);
+			throw new APIException(MessageCode.RESPONSE_CODE_9100, "누락건확인 인터페이스 장애발생.", e);
 		}
 		
 		return out;
@@ -285,17 +286,17 @@ public class OutsideInterfaceService {
 			out = (EzwelJobOutDTO) inteface.sendPostJSON(httpConfigDTO, ezwelJobDTO, EzwelJobOutDTO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(InterfaceCode.RESPONSE_CODE_9100, "주문대사(이지웰) 인터페이스 장애발생.", e);
+			throw new APIException(MessageCode.RESPONSE_CODE_9100, "주문대사(이지웰) 인터페이스 장애발생.", e);
 		}
 		
 		return out;
 	}
 	
 	@APIOperation(description="인터페이스 사용 유저 설정 정보 세팅")
-	private void setupUserAgentInfo(HttpConfigDTO config, UserAgentDTO agentInfoDTO) {
+	private void setupUserAgentInfo(HttpConfigDTO config, UserAgentDTO userAgentDTO) {
 		/** conntime, readtime, httpAgentType, httpChannelCd, httpClientId, httpRequestId  */
-		propertyUtil.copySameProperty(agentInfoDTO, config);
+		propertyUtil.copySameProperty(userAgentDTO, config);
 		/** setup httpApiSignature */
-		config.setHttpApiSignature(APIUtil.getSecretId(config.getHttpApiKey()));
+		config.setHttpApiSignature(APIUtil.getHttpSignature(config.getHttpAgentId(), config.getHttpApiKey(), config.getHttpApiTimestamp()));
 	}
 }

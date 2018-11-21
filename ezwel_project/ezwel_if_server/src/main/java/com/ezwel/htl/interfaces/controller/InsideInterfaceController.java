@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.spring.ApplicationContext;
-import com.ezwel.htl.interfaces.service.InsideInterfaceService;
-import com.ezwel.htl.interfaces.service.dto.agentJob.AgentJobInDTO;
-import com.ezwel.htl.interfaces.service.dto.agentJob.AgentJobOutDTO;
-import com.ezwel.htl.interfaces.service.dto.record.RecordInDTO;
-import com.ezwel.htl.interfaces.service.dto.record.RecordOutDTO;
-import com.ezwel.htl.interfaces.service.dto.saleStop.SaleStopInDTO;
-import com.ezwel.htl.interfaces.service.dto.saleStop.SaleStopOutDTO;
-import com.ezwel.htl.interfaces.service.dto.view.ViewInDTO;
-import com.ezwel.htl.interfaces.service.dto.view.ViewOutDTO;
-import com.ezwel.htl.interfaces.service.dto.voucherReg.VoucherRegInDTO;
-import com.ezwel.htl.interfaces.service.dto.voucherReg.VoucherRegOutDTO;
+import com.ezwel.htl.interfaces.service.InsideIfService;
+import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInDTO;
+import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutDTO;
+import com.ezwel.htl.interfaces.service.data.record.RecordInDTO;
+import com.ezwel.htl.interfaces.service.data.record.RecordOutDTO;
+import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopInDTO;
+import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopOutDTO;
+import com.ezwel.htl.interfaces.service.data.view.ViewInDTO;
+import com.ezwel.htl.interfaces.service.data.view.ViewOutDTO;
+import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegInDTO;
+import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegOutDTO;
 
 /**
  * <pre>
@@ -40,8 +40,23 @@ public class InsideInterfaceController {
 
 	private static final Logger logger = LoggerFactory.getLogger(InsideInterfaceController.class);
 	
-	private InsideInterfaceService intefaceService = (InsideInterfaceService) ApplicationContext.getBean(InsideInterfaceService.class);
-
+	private InsideIfService intefaceService = (InsideIfService) ApplicationContext.getBean(InsideIfService.class);
+	
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * URL : /API1.0/{httpAgentId}/facl/record
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
+	 * @param httpAgentId
+	 * @param in
+	 * @param request
+	 * @param response
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 21.
+	 */
 	@ResponseBody
 	@APIOperation(description="신규시설등록수정 인터페이스")
 	@RequestMapping(value="/{httpAgentId}/facl/record")
@@ -55,13 +70,21 @@ public class InsideInterfaceController {
 		RecordOutDTO serviceOut = null;
 
 		try {
+			/**
+			 * 1. 파라메터 및 헤더 유효성 검사
+			 * 2. 인터 페이스 요청에 따른 DB핸들링 
+			 * 3. 결과 응답(JSON) 
+			 */
+			
 			serviceOut = intefaceService.callRecord(in);
 
 			out = new ResponseEntity<RecordOutDTO>(serviceOut, HttpStatus.OK);
 		}
 		catch(Exception e) {
 			serviceOut = new RecordOutDTO(); 
-		
+			/**
+			 * 장애 발생시 code, message 세팅 
+			 */
 			out = new ResponseEntity<RecordOutDTO>(serviceOut, HttpStatus.OK);
 			e.printStackTrace();
 		}

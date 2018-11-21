@@ -8,17 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.xmlbeans.impl.xb.xmlconfig.Extensionconfig.Interface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.abstracts.APIObject;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
-import com.ezwel.htl.interfaces.commons.constants.InterfaceCode;
+import com.ezwel.htl.interfaces.commons.constants.MessageCode;
 import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
@@ -87,6 +83,8 @@ public class CommonHeader extends APIObject implements Serializable {
 	
 	private String controllerType;
 	
+	private String contentType;
+	
 	private String pagination;
 	
 	private String clientAddress;
@@ -96,10 +94,6 @@ public class CommonHeader extends APIObject implements Serializable {
 	private boolean isMultipartRequest;
 	
 	private Map<String, String[]> requestMap;
-	
-	private HttpServletRequest request;
-
-	private HttpServletResponse response;
 	
 	public CommonHeader() {
 		this.reset();
@@ -114,7 +108,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		startTimeMillis = OperateCode.LONG_ZERO_VALUE;
 		endTimeMillis = OperateCode.LONG_MINUS_ONE;
 		lapTimeMillis = OperateCode.LONG_MINUS_ONE;
-		resultCode = InterfaceCode.RESPONSE_CODE_1000;
+		resultCode = MessageCode.RESPONSE_CODE_1000;
 		message = "";
 		cause = "";
 		stackTrace = "";
@@ -125,17 +119,24 @@ public class CommonHeader extends APIObject implements Serializable {
 		ruleValidate = true;
 		elementRoot = null;
 		controllerType = null;
+		contentType = null;
 		pagination = null;
 		clientAddress = null;
 		exec = false;
 		isMultipartRequest = false;
 		requestMap = new LinkedHashMap<String, String[]>();
-		request = null;
-		response = null;
-		
 		runtimeHeader = null;
 	}
 	
+	
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+
 	public RuntimeHeader getRuntimeHeader(String key) {
 		return runtimeHeader.get(key);
 	}
@@ -235,7 +236,7 @@ public class CommonHeader extends APIObject implements Serializable {
 	}
 
 	public long getEndTimeMillis() {
-		if(this.resultCode != InterfaceCode.RESPONSE_CODE_1000 || endTimeMillis == OperateCode.LONG_MINUS_ONE) {
+		if(this.resultCode != MessageCode.RESPONSE_CODE_1000 || endTimeMillis == OperateCode.LONG_MINUS_ONE) {
 			setEndTimeMillis(APIUtil.currentTimeMillis());
 		}
 		return endTimeMillis;
@@ -384,22 +385,6 @@ public class CommonHeader extends APIObject implements Serializable {
 
 	public void setRequestMap(Map<String, String[]> requestMap) {
 		this.requestMap = requestMap;
-	}
-
-	public HttpServletRequest getRequest() {
-		return request;
-	}
-
-	public HttpServletResponse getResponse() {
-		return response;
-	}
-
-	public void setRequest(HttpServletRequest request) {
-		this.request = request;
-	}
-
-	public void setResponse(HttpServletResponse response) {
-		this.response = response;
 	}
 
 	public String getPagination() {

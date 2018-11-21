@@ -3,10 +3,10 @@ package com.ezwel.interfaces.demo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ezwel.htl.interfaces.commons.http.dto.UserAgentDTO;
+import com.ezwel.htl.interfaces.commons.http.data.UserAgentDTO;
 import com.ezwel.htl.interfaces.service.OutsideInterfaceService;
-import com.ezwel.htl.interfaces.service.dto.roomRead.RoomReadInDTO;
-import com.ezwel.htl.interfaces.service.dto.roomRead.RoomReadOutDTO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInDTO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutDTO;
 
 /**
  * <pre>

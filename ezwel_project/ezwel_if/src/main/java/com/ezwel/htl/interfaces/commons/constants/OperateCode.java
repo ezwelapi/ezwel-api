@@ -1,8 +1,10 @@
 package com.ezwel.htl.interfaces.commons.constants;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.ezwel.htl.interfaces.commons.annotation.APIService;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
 /**
@@ -13,7 +15,7 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
  * @date 2018. 11. 5.
  * @serviceType API
  */
-@APIService
+@APIType
 public class OperateCode {
 
 	//SYSTEM EXECUTABLE CODE
@@ -68,11 +70,25 @@ public class OperateCode {
 	public static final String USER_DIR;
 	public static final String USER_LANGUAGE;
 	public static final String FILE_ENCODING;
-	
+	/** TypeUtil use exclude package starts array */
+	public static final List<String> EXCLUDE_PACKAGE_STARTS;
 	/** Use annotation value */
 	public static final String META_COMM_HEADER = "commonHeader";
+	/** VALIDATION TYPE */
+	public static final int VALIDATE_DTO_FULL_FIELD_ANNO;
+	public static final int VALIDATE_DTO_SINGLE_FIELD_ANNO;
+	public static final int VALIDATE_SINGLE_VALUE_PATTERN;
+	public static final int VALIDATE_DTO_SINGLE_FIELD_PATTERN;
 	
 	static {
+		EXCLUDE_PACKAGE_STARTS = new ArrayList<String>();
+		EXCLUDE_PACKAGE_STARTS.add("java.");
+		EXCLUDE_PACKAGE_STARTS.add("javax.");
+
+		VALIDATE_DTO_FULL_FIELD_ANNO = 1;
+		VALIDATE_DTO_SINGLE_FIELD_ANNO = 2;
+		VALIDATE_SINGLE_VALUE_PATTERN = 3;
+		VALIDATE_DTO_SINGLE_FIELD_PATTERN = 4;
 		
 		DELIM_STR = "{}";
 		DELIM_IN_NUMBER = "(\\{[0-9]?+\\})";

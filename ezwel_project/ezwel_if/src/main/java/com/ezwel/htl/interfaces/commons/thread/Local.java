@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
-import com.ezwel.htl.interfaces.commons.annotation.APIService;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 import com.ezwel.htl.interfaces.commons.entity.CommonHeader;
 import com.ezwel.htl.interfaces.commons.entity.RuntimeHeader;
@@ -20,7 +20,7 @@ import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
  * @date 2018. 11. 5.
  * @serviceType API
  */
-@APIService
+@APIType
 public class Local {
 
 	private static final Logger logger = LoggerFactory.getLogger(Local.class);

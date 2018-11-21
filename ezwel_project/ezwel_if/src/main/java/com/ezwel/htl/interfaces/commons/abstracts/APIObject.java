@@ -17,9 +17,9 @@ import lombok.EqualsAndHashCode;
  * @date 2018. 11. 5.
  * @serviceType API
  */
-@APIModel(modelNames="API DTO Abstract Super Class")
 @Data
 @EqualsAndHashCode(callSuper=false)
+@APIModel(modelNames="API DTO Abstract Super Class")
 public abstract class APIObject implements Serializable {
 	
 	/**

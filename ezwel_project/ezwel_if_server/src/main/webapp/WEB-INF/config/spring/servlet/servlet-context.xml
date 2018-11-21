@@ -112,6 +112,31 @@
 	</bean>
 	-->
 
+	<!-- ##################### TASK SCHEDULER SETUP ###################### -->
+	
+	<beans:bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
+    	<beans:property name="poolSize" value="10"/>
+	</beans:bean>
+	
+	<!-- scheduling task -->
+	<task:scheduler id="taskScheduler" pool-size="10"/>
+	
+	<task:annotation-driven scheduler="taskScheduler"/>
+	
+	<!-- ##################### MULTIPART RESOLVER SETUP ###################### -->
+	
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="defaultEncoding" value="UTF-8" />
+		<beans:property name="maxUploadSize" value="1073741824" /> <!-- 1073741824 Byte == 1 GB 2016-01-17 -->
+		<beans:property name="uploadTempDir" value="/temp" />
+	</beans:bean>
+	    
+	<!-- ##################### INIT INTERFACE SETUP ###################### -->
+	<beans:bean id="operateCodeBeans" class="com.ezwel.htl.interfaces.commons.configure.InterfaceFactory" init-method="initFactory" destroy-method="destroyFactory">
+		<!-- config file path -->
+		<beans:property name="configXmlPath" value="/interfaces/interface-configure.xml" />
+	</beans:bean>
+	
 	<!-- ##################### INTERCEPTORS SETUP ###################### -->	
 	
 	<interceptors>
@@ -129,10 +154,10 @@
 	
 	<!-- ##################### AOP SETUP ###################### -->
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
-	
+
 	<!-- MethodsInterceptor -->
-	<beans:bean id="methodsAdvice" class="com.ezwel.htl.interfaces.commons.aop.MethodsAdvice">
-		<beans:property name="order" value="100"/>
+	<beans:bean id="methodsWrapperAdvice" class="com.ezwel.htl.interfaces.commons.aop.MethodsWrapperAdvice">
+		<beans:property name="order" value="3"/>
 	</beans:bean> 
 	
 	<aop:config>
@@ -140,76 +165,33 @@
 		<aop:pointcut id="targetMethod" expression="execution(* com.ezwel.htl.interfaces..*.*(..))"/>
 		 
 		<!-- Before advice -->
-		<aop:aspect ref="methodsAdvice">
+		<aop:aspect ref="methodsWrapperAdvice">
 			<aop:before pointcut-ref="targetMethod" method="beforeTargetMethod" />
 		</aop:aspect>
 		
 		<!-- After returning advice -->
-		<aop:aspect ref="methodsAdvice">
+		<aop:aspect ref="methodsWrapperAdvice">
 		    <aop:after-returning pointcut-ref="targetMethod" method="afterReturningTargetMethod" returning="retVal" />
 		</aop:aspect>
 			
 		<!-- After throwing advice --> 
-		<aop:aspect ref="methodsAdvice">
+		<aop:aspect ref="methodsWrapperAdvice">
 			<aop:after-throwing pointcut-ref="targetMethod" method="afterThrowingTargetMethod" throwing="exception" />
 		</aop:aspect> 
 			
 		<!-- After (finally) advice -->
-		<aop:aspect ref="methodsAdvice">
+		<aop:aspect ref="methodsWrapperAdvice">
 			<aop:after pointcut-ref="targetMethod" method="afterTargetMethod" />
 		</aop:aspect>
 		
 		<!-- Around advice -->
-		<aop:aspect ref="methodsAdvice">
+		<aop:aspect ref="methodsWrapperAdvice">
 			<aop:around pointcut-ref="targetMethod" method="aroundTargetMethod"/>
 		</aop:aspect>
 	</aop:config>
 
 
-	
-	<!-- ##################### TASK SCHEDULER SETUP ###################### -->
-	
-	<beans:bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
-    	<beans:property name="poolSize" value="10"/>
-	</beans:bean>
-	
-	<!-- scheduling task -->
-	<task:scheduler id="taskScheduler" pool-size="10"/>
-	
-	<task:annotation-driven scheduler="taskScheduler"/>
 		
-	<!-- ##################### CONTROLLER EXCEPTION RESOLVER (Normal Case) ###################### -->
-    <!-- 
-    <beans:bean id="simpleMappingExceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-        <beans:property name="exceptionMappings">
-            <beans:map>
-                <beans:entry key="ValidateException" value="pms/common/info/invalidParam"/>
-            </beans:map>
-        </beans:property>
-        See note below on how this interacts with Spring Boot
-        <beans:property name="defaultErrorView" value="pms/common/info/exceptionView"/>
-        <beans:property name="exceptionAttribute" value="ex"/>
-    -->
-        <!-- 
-        Name of logger to use to log exceptions. Unset by default, so logging disabled
-        <beans:property name="warnLogCategory" value="example.MvcLogger"/>
-        -->
-    <!--
-    </beans:bean>
-    -->
-    
-	<!-- ##################### MULTIPART RESOLVER SETUP ###################### -->
-	
-	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="defaultEncoding" value="UTF-8" />
-		<beans:property name="maxUploadSize" value="1073741824" /> <!-- 1073741824 Byte == 1 GB 2016-01-17 -->
-		<beans:property name="uploadTempDir" value="/temp" />
-	</beans:bean>
-	    
-	<!-- ##################### INIT BEAN SETUP ###################### -->
-	<beans:bean id="operateCodeBeans" class="com.ezwel.htl.interfaces.commons.configure.InterfaceFactory" init-method="initFactory" destroy-method="destroyFactory">
-		<!-- config file path -->
-		<beans:property name="configXmlPath" value="/interfaces/interface-configure.xml" />
-	</beans:bean>
+
 	
 </beans:beans>

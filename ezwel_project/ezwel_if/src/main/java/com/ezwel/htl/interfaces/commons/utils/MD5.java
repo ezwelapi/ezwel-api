@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 
-import com.ezwel.htl.interfaces.commons.annotation.APIService;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 
 
 /**
@@ -18,7 +18,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIService;
  * @date 2018. 11. 5.
  * @serviceType API
  */
-@APIService
+@APIType
 public class MD5 {
 
     private static final MD5 INSTANCE = new MD5();

@@ -10,7 +10,7 @@ import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ezwel.htl.interfaces.commons.annotation.APIService;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 
 /**
@@ -23,7 +23,7 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
  * @date 2018. 11. 8.
  * @serviceType API
  */
-@APIService
+@APIType
 public class CallableExecutor {
 
 	private static final Logger logger = LoggerFactory.getLogger(CallableExecutor.class);

@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
-import com.ezwel.htl.interfaces.commons.annotation.APIService;
-import com.ezwel.htl.interfaces.commons.http.dto.MultiHttpConfigDTO;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigDTO;
 
 
 
@@ -20,7 +20,7 @@ import com.ezwel.htl.interfaces.commons.http.dto.MultiHttpConfigDTO;
  * @date 2018. 11. 5.
  * @serviceType API
  */
-@APIService
+@APIType
 public class HttpInterfaceHelper implements Callable<AbstractDTO> {
 
 	private static final Logger logger = LoggerFactory.getLogger(HttpInterfaceHelper.class);

@@ -74,70 +74,96 @@
 			<artifactId>commons-codec</artifactId>
 			<version>1.10</version>
 		</dependency>
-		
-		
-		<!-- swagger 
+
+		<!-- lucene -->
 		<dependency>
-			<groupId>com.knappsack</groupId>
-			<artifactId>swagger4spring-web</artifactId>
-			<version>0.2.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>*</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>			
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>${lucene-version}</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/morpheme/lucene-core-${lucene-version}.jar</systemPath>
+			<optional>false</optional>
 		</dependency>
+
+		<!-- lucene analyzers -->
 		<dependency>
-			<groupId>com.wordnik</groupId>
-			<artifactId>swagger-annotations_2.9.1</artifactId>
-			<version>${swagger.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>*</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>			
-		</dependency>								
-		<dependency>
-			<groupId>com.wordnik</groupId>
-			<artifactId>swagger-jaxrs_2.9.1</artifactId>
-			<version>${swagger.version}</version>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers</artifactId>
+			<version>${lucene-analyzers-version}</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/morpheme/lucene-analyzers-${lucene-analyzers-version}.jar</systemPath>
+			<optional>false</optional>
 		</dependency>
-		-->
-		<!-- 
+
+		<!-- morphology -->
 		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-api</artifactId>
-			<version>2.6.0</version>
+			<groupId>org.apache.lucene.morphology</groupId>
+			<artifactId>morph</artifactId>
+			<version>${morphology-version}</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/morpheme/morph-${morphology-version}.jar</systemPath>
+			<optional>false</optional>
 		</dependency>
+
+		<!-- For English morphology -->
 		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>2.6.0</version>
+			<groupId>org.apache.lucene.morphology</groupId>
+			<artifactId>english</artifactId>
+			<version>${morphology-version}</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/morpheme/english-${morphology-version}.jar</systemPath>
+			<optional>false</optional>
 		</dependency>
+
+		<!-- For Russian morphology -->
 		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>2.6.0</version>
-		</dependency>	
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>2.6.0</version>
+			<groupId>org.apache.lucene.morphology</groupId>
+			<artifactId>russian</artifactId>
+			<version>${morphology-version}</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/morpheme/russian-${morphology-version}.jar</systemPath>
+			<optional>false</optional>
 		</dependency>
-		 -->
-		 <!--  
+
+		<!-- local root pom project lib -->
 		<dependency>
-			<groupId>org.jdom</groupId>
-			<artifactId>jdom2</artifactId>
-			<version>2.0.6</version>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>arirang-morph</artifactId>
+			<version>${arirang.morph-version}</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/morpheme/arirang-morph-${arirang.morph-version}.jar</systemPath>
+			<optional>false</optional>
 		</dependency>
+
+		<!-- local root pom project lib -->
 		<dependency>
-			<groupId>jaxen</groupId>
-			<artifactId>jaxen</artifactId>
-			<version>1.1.6</version>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>arirang.lucene-analyzer-6.5.1</artifactId>
+			<version>${arirang.morph-version}</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/morpheme/arirang.lucene-analyzer-${lucene-version}-${arirang.morph-version}.jar</systemPath>
+			<optional>false</optional>
 		</dependency>
-		-->
+
+		<!-- qr code generate api -->
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>${com.google.zxing-version}</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/thirdparty/javase-${com.google.zxing-version}.jar</systemPath>
+			<optional>false</optional>
+		</dependency>
+
+		<!-- qr code generate api -->
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>${com.google.zxing-version}</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/thirdparty/core-${com.google.zxing-version}.jar</systemPath>
+			<optional>false</optional>
+		</dependency>
+				
 	</dependencies>
 </project>

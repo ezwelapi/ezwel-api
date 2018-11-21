@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.spring.ApplicationContext;
 import com.ezwel.htl.interfaces.dao.InsideInterfaceDAO;
-import com.ezwel.htl.interfaces.service.dto.agentJob.AgentJobInDTO;
-import com.ezwel.htl.interfaces.service.dto.agentJob.AgentJobOutDTO;
-import com.ezwel.htl.interfaces.service.dto.record.RecordInDTO;
-import com.ezwel.htl.interfaces.service.dto.record.RecordOutDTO;
-import com.ezwel.htl.interfaces.service.dto.saleStop.SaleStopInDTO;
-import com.ezwel.htl.interfaces.service.dto.saleStop.SaleStopOutDTO;
-import com.ezwel.htl.interfaces.service.dto.view.ViewInDTO;
-import com.ezwel.htl.interfaces.service.dto.view.ViewOutDTO;
-import com.ezwel.htl.interfaces.service.dto.voucherReg.VoucherRegInDTO;
-import com.ezwel.htl.interfaces.service.dto.voucherReg.VoucherRegOutDTO;
+import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInDTO;
+import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutDTO;
+import com.ezwel.htl.interfaces.service.data.record.RecordInDTO;
+import com.ezwel.htl.interfaces.service.data.record.RecordOutDTO;
+import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopInDTO;
+import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopOutDTO;
+import com.ezwel.htl.interfaces.service.data.view.ViewInDTO;
+import com.ezwel.htl.interfaces.service.data.view.ViewOutDTO;
+import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegInDTO;
+import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegOutDTO;
 
 /**
  * <pre>
@@ -29,7 +29,7 @@ import com.ezwel.htl.interfaces.service.dto.voucherReg.VoucherRegOutDTO;
 @Service
 public class InsideInterfaceService {
 
-	private static final Logger logger = LoggerFactory.getLogger(InsideInterfaceService.class);
+	private static final Logger logger = LoggerFactory.getLogger(InsideIfService.class);
 	
 	private InsideInterfaceDAO intefaceDAO = (InsideInterfaceDAO) ApplicationContext.getBean(InsideInterfaceDAO.class);
 	
@@ -38,6 +38,14 @@ public class InsideInterfaceService {
 		logger.debug("[START] callRecord {}", recordDTO);
 		
 		RecordOutDTO out = null;
+		/**
+		 * 
+		 * 
+		 * 
+		 * 
+		 */
+		
+		
 		
 		logger.debug("[END] callRecord {}", out);
 		return out;

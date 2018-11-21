@@ -1,7 +1,12 @@
 package com.ezwel.htl.interfaces.commons.utils;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.net.URI;
 import java.rmi.dgc.VMID;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -11,9 +16,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.slf4j.Logger;
@@ -22,7 +24,7 @@ import org.slf4j.helpers.MessageFormatter;
 import org.springframework.web.method.HandlerMethod;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
-import com.ezwel.htl.interfaces.commons.annotation.APIService;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.OperateCode;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 
@@ -35,10 +37,12 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
  * @serviceType API
  */
 
-@APIService
+@APIType
 public class APIUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(APIUtil.class);
+	
+	private static boolean LOGGING_CONFIRM = false; 
 	
 	/**
 	 * str의 isEmpty 여부를 체크하 고 false이면 ""을 반환합니다.
@@ -58,7 +62,7 @@ public class APIUtil {
 	 */
 	@APIOperation(description="문자열의 isEmpty 여부를 체크하 고 false이면 defaultStr을 반환합니다.", isExecTest=true)
     public static String NVL(String str, String defs) {
-
+		
     	String out = str;
     	String defaults = defs;
     	
@@ -366,14 +370,33 @@ public class APIUtil {
 	 * @author swkim@ebsolution.co.kr
 	 * @since  2018. 11. 14.
 	 */
-	@APIOperation(description="SECRET ID를 생성하여 리턴합니다.", isExecTest=true)
-	public static String getSecretId(String apiKey) {
-		if(isEmpty(apiKey)) {
+	@APIOperation(description="Http-Signature를 생성하여 리턴합니다.", isExecTest=true)
+	public static String getHttpSignature(String httpAgentId, String httpApiKey, String timestamp) {
+		if(isEmpty(httpApiKey)) {
 			throw new APIException("apiKey가 존재하지 않습니다.");
 		}
-		//SharedSecrets INSTANCE = new SharedSecrets();
-		return DigestUtils.sha256Hex(apiKey.concat("SharedSecrets").concat(Long.toString(currentTimeMillis() / 100)));
+		
+		String out = null;
+		//API 키 : httpApiKey
+		
+		//공유 비밀 키 : UUID + OperateCode.STR_HYPEN + 에이전트 아이디
+		String shardSecret = new StringBuffer().append(UUID.randomUUID().toString().replace(OperateCode.STR_HYPHEN, OperateCode.STR_BLANK))
+				.append(OperateCode.STR_HYPHEN).append(httpAgentId).toString();
+		
+		//타임 스탬프 : timestamp
+		
+		//API 싸인
+		String httpApiSignature = (new StringBuffer().append(shardSecret)
+				.append(OperateCode.STR_HYPHEN).append(httpApiKey)
+				.append(OperateCode.STR_HYPHEN).append(timestamp).toString());
+		
+		logger.debug("httpSignature Original : {}", httpApiSignature);
+		
+		out = new Base64Codec().encode(httpApiSignature);
+		logger.debug("[END] getSecretId : {}", out);
+		return out;
 	}
+	
 	
 	/**
 	 * <pre>
@@ -388,7 +411,7 @@ public class APIUtil {
 	 * @since  2018. 11. 14.
 	 */
 	@APIOperation(description="handler 타입을 리턴 (HandlerMethod 또는 DefaultServlet를 리턴)", isExecTest=true)
-	public static String getControllerType(Object handlerParam){
+	public String getControllerType(Object handlerParam){
 		String out = null;
 		Object handler = handlerParam;
 		if(handler instanceof HandlerMethod){ 
@@ -428,29 +451,6 @@ public class APIUtil {
 		return out;
 	}
 	
-	/**
-	 * <pre>
-	 * [메서드 설명]
-	 * 	클라이언트 IP를 리턴합니다.
-	 * [사용방법 설명]
-	 * 
-	 * </pre>
-	 * @param request
-	 * @return
-	 * @author swkim@ebsolution.co.kr
-	 * @since  2018. 11. 14.
-	 */
-	@APIOperation(description="클라이언트 IP를 리턴합니다.", isExecTest=true)
-	public String getClientAddress(HttpServletRequest request) {
-		
-		String clientAddress  = request.getHeader("X-FORWARDED-FOR"); 
-		if(clientAddress == null) 
-		{ 
-			clientAddress = request.getRemoteAddr(); 
-		} 
-		
-		return clientAddress;
-	}
 	
 	/**
 	 * <pre>
@@ -473,4 +473,98 @@ public class APIUtil {
 		return method;
 	}
 	
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * 바인드된 URI에 해당하는 File을 리턴합니다.
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
+	 * @param uriParam
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 20.
+	 */
+	@APIOperation(description="바인드된 URI에 해당하는 File을 리턴합니다.", isExecTest=true)
+	public static File getFileFromURI(URI uriParam) {
+		URI uri = uriParam;
+		if(uri != null) {
+			throw new APIException("URI가 존재하지 않습니다.");
+		}
+		return new File(uri);
+	}
+	
+	
+	
+	
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * 제휴사별 APIKey 생성 
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
+	 * @param prevString
+	 * @param agentName
+	 * @param httpAgentId
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 20.
+	 */
+	public String createApiKey(String prevfix, String agentName, String httpAgentId) {
+		String toDay = getFastDate("yyyyMMdd");
+		String apiKey = null;
+		if(prevfix.equalsIgnoreCase("i")) {
+			// inside
+			apiKey = (MD5.getInstance().getHashString(agentName.concat(prevfix).concat(httpAgentId).concat(toDay))).concat(prevfix).toLowerCase();
+		}
+		else {
+			//outside
+			apiKey = (MD5.getInstance().getHashString(httpAgentId.concat(prevfix).concat(agentName).concat(toDay))).concat(prevfix).toLowerCase();
+		}
+		return apiKey;
+	}
+	
+	
+	public boolean isPassField(Field field) {
+		boolean out = false;
+
+		if (!Modifier.isPublic(field.getModifiers())
+				|| Modifier.isTransient(field.getModifiers())
+				|| Modifier.isFinal(field.getModifiers())
+				|| Modifier.isStatic(field.getModifiers())) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("[ field name : " + field.getName()+ " ] modifiers \"" + field.getModifiers()+ "\" is pass");
+			}
+			out = true;
+		}
+
+		return out;
+	}
+	
+	
+    
+	public static boolean isNotEmptyStringArray(String... arrayString) {
+		
+		boolean out = false;
+		String[] strAry = arrayString;
+	
+		if(strAry != null && strAry.length > 0) {
+			out = true;
+			
+			for(String str : strAry){
+				if(StringUtils.isEmpty(str)) {
+					out = false;
+					break;
+				}
+			}
+		}
+		return out;
+	}
+	
+	
+	public static String getTimeStamp() {
+		Timestamp out = new Timestamp(System.currentTimeMillis());
+		return out.toString();
+	}
 }

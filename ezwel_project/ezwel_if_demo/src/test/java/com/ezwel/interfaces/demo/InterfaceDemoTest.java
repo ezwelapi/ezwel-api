@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
-import com.ezwel.htl.interfaces.service.dto.roomRead.RoomReadOutDTO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutDTO;
 
 /**
  * <pre>
