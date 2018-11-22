@@ -42,24 +42,16 @@ try {
 %>
 
 {
-	"input": {
-		"rsvNo": "",
-		"rsvDateStart": "",
-		"rsvDateEnd": ""
-	},
-
-	"output": {
-		"code": "1000",
-		"message": "정상적으로 처리되었습니다",
-		"reserves" : [
-			{
-				"rsvNo": "123456789",
-				"rsvPdtNo": "",
-				"rsvPrice": 200000,
-				"pdtNo": "1",
-				"otaRsvNo": "000000123",
-				"rsvStat": "o01"
-			}
-		]
-	}
+	"code": "1000",
+	"message": "정상적으로 처리되었습니다",
+	"reserves" : [
+		{
+			"rsvNo": "123456789",
+			"rsvPdtNo": "",
+			"rsvPrice": 200000,
+			"pdtNo": "1",
+			"otaRsvNo": "000000123",
+			"rsvStat": "o01"
+		}
+	]
 }

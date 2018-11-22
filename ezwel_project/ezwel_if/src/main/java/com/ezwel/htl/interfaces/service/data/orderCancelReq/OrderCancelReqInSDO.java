@@ -22,6 +22,9 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @EqualsAndHashCode(callSuper=true)
 public class OrderCancelReqInSDO extends AbstractSDO {
 
+	@APIFields(description = "주문취소요청 Input 제휴사아이디", required=true, maxLength=100)
+	private String otaId;
+	
 	@APIFields(description = "주문취소요청 Input 주문번호(이지웰)", required=true, maxLength=100)
 	private String rsvNo;
 	
@@ -34,6 +37,14 @@ public class OrderCancelReqInSDO extends AbstractSDO {
 	@APIFields(description = "주문취소요청 Input 취소수수료", required=true)
 	private Integer cancelCharge;
 
+	public String getOtaId() {
+		return otaId;
+	}
+
+	public void setOtaId(String otaId) {
+		this.otaId = otaId;
+	}
+	
 	public String getRsvNo() {
 		return rsvNo;
 	}

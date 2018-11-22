@@ -42,53 +42,44 @@ try {
 %>
 
 {
-	"input": {
-		"rsvNo": "123456789",
-		"startDate": "",
-		"endDate": "",
-		"dateType": ""
-	},
-
-	"output": {
-		"code": "1000",
-		"message": "정상적으로 처리되었습니다",
-		"data" : [
-			{
-				"rsvNo": "123456789",
-				"rsvDatetime": "20181113152332",
-				"rsvPrice": 200000,
-				"rsvStat": "r02",
-				"rsvPdtName": "",
-				"rsvPdtNo": "",
-				"pdtNo": "1",
-				"pdtName": "서울 프라자 호텔",
-				"roomNo": "1",
-				"roomName": "디럭스",
-				"roomCnt": 1,
-				"checkInDate": "20181201",
-				"checkOutDate": "20181202",
-				"otaRsvNo": "000000123",
-				"voucherNo": "1234",
-				"memKey": "EZ0001",
-				"memName": "홍길동",
-				"memPhone": "01012341234",
-				"memEmail": "test@test.com",
-				"userName": "홍길동",
-				"userMobile": "01012341234",
-				"userEmail": "test@test.com",
-				"userCmt": "전망 좋은 방으로 요청 드립니다",
-				"adultCnt": 2,
-				"childCnt": 1,
-				"options" : [
-					{
-						"rsvOptNo": "",
-						"optNo": "1",
-						"optName": "조식",
-						"optPrice": 20000,
-						"optCountMax": 2
-					}
-				]
-			}
-		]
-	}
+	"code": "1000",
+	"message": "정상적으로 처리되었습니다",
+	"data" : [
+		{
+			"rsvNo": "123456789",
+			"rsvDatetime": "20181113152332",
+			"rsvPrice": 200000,
+			"rsvStat": "r02",
+			"rsvPdtName": "",
+			"rsvPdtNo": "",
+			"pdtNo": "1",
+			"pdtName": "서울 프라자 호텔",
+			"roomNo": "1",
+			"roomName": "디럭스",
+			"roomCnt": 1,
+			"checkInDate": "20181201",
+			"checkOutDate": "20181202",
+			"otaRsvNo": "000000123",
+			"voucherNo": "1234",
+			"memKey": "EZ0001",
+			"memName": "홍길동",
+			"memPhone": "01012341234",
+			"memEmail": "test@test.com",
+			"userName": "홍길동",
+			"userMobile": "01012341234",
+			"userEmail": "test@test.com",
+			"userCmt": "전망 좋은 방으로 요청 드립니다",
+			"adultCnt": 2,
+			"childCnt": 1,
+			"options" : [
+				{
+					"rsvOptNo": "",
+					"optNo": "1",
+					"optName": "조식",
+					"optPrice": 20000,
+					"optCountMax": 2
+				}
+			]
+		}
+	]
 }

@@ -42,21 +42,14 @@ try {
 %>
 
 {
-	"input": {
-		"rsvNo": "123456789",
-		"rsvStat": "o01"
-	},
-
-	"output": {
-		"code": "1000",
-		"message": "정상적으로 처리되었습니다",
-		"reserves" : [
-			{
-				"rsvNo": "123456789",
-				"rsvStat": "o01",
-				"otaRsvNo": "000000123",
-				"compareStat": "c01"
-			}
-		]
-	}
+	"code": "1000",
+	"message": "정상적으로 처리되었습니다",
+	"reserves" : [
+		{
+			"rsvNo": "123456789",
+			"rsvStat": "o01",
+			"otaRsvNo": "000000123",
+			"compareStat": "c01"
+		}
+	]
 }

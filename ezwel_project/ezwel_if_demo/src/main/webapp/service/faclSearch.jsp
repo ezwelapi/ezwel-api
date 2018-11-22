@@ -42,31 +42,22 @@ try {
 %>
 
 {
-	"input": {
-		"checkInDate": "20181201",
-		"checkOutDate": "20181202",
-		"sidoCode": "11",
-		"gunguCode": ""
-	},
-
-	"output": {
-		"code": "1000",
-		"message": "정상적으로 처리되었습니다",
-		"data" : [
-			{
-				"pdtNo": "1",
-				"sellNorPrice": 150000,
-				"sellPrice": 150000,
-				"spcNorPrice": 0,
-				"spcPrice": 0
-			},
-			{
-				"pdtNo": "2",
-				"sellNorPrice": 200000,
-				"sellPrice": 180000,
-				"spcNorPrice": 220000,
-				"spcPrice": 200000
-			}
-		]
-	}
+	"code": "1000",
+	"message": "정상적으로 처리되었습니다",
+	"data" : [
+		{
+			"pdtNo": "1",
+			"sellNorPrice": 150000,
+			"sellPrice": 150000,
+			"spcNorPrice": 0,
+			"spcPrice": 0
+		},
+		{
+			"pdtNo": "2",
+			"sellNorPrice": 200000,
+			"sellPrice": 180000,
+			"spcNorPrice": 220000,
+			"spcPrice": 200000
+		}
+	]
 }

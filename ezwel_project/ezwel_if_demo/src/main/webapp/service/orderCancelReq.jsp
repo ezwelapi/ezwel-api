@@ -42,15 +42,6 @@ try {
 %>
 
 {
-	"input": {
-		"rsvNo": "123456789",
-		"otaRsvNo": "000000123",
-		"rsvPrice": 200000,
-		"cancelCharge": 0
-	},
-
-	"output": {
-		"code": "1000",
-		"message": "정상적으로 처리되었습니다"
-	}
+	"code": "1000",
+	"message": "정상적으로 처리되었습니다"
 }

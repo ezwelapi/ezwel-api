@@ -22,9 +22,20 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @EqualsAndHashCode(callSuper=true)
 public class CancelFeeAmtInSDO extends AbstractSDO {
 
+	@APIFields(description = "취소수수료계산 Input 제휴사아이디", required=true, maxLength=100)
+	private String otaId;
+	
 	@APIFields(description = "취소수수료계산 Input 주문번호", required=true, maxLength=100)
 	private String rsvNo;
+	
+	public String getOtaId() {
+		return otaId;
+	}
 
+	public void setOtaId(String otaId) {
+		this.otaId = otaId;
+	}
+	
 	public String getRsvNo() {
 		return rsvNo;
 	}
