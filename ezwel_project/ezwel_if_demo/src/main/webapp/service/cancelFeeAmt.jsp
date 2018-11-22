@@ -42,17 +42,11 @@ try {
 %>
 
 {
-	"input": {
-		"rsvNo": "123456789"
-	},
-
-	"output": {
-		"code": "1000",
-		"message": "정상적으로 처리되었습니다",
-		"data" : {
-			"rsvNo": "",
-			"cancelFeePrice": 50000,
-			"cancelFeeText": "18시 이후 취소 시 익일 취소규정으로 적용 되어집니다."
-		}
+	"code": "1000",
+	"message": "정상적으로 처리되었습니다",
+	"data" : {
+		"rsvNo": "",
+		"cancelFeePrice": 50000,
+		"cancelFeeText": "18시 이후 취소 시 익일 취소규정으로 적용 되어집니다."
 	}
 }

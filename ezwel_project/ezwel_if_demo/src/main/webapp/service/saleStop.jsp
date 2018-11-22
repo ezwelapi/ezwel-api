@@ -42,13 +42,6 @@ try {
 %>
 
 {
-	"input": {
-		"pdtNo": "1",
-		"sellFlag": "N"
-	},
-
-	"output": {
-		"code": "1000",
-		"message": "정상적으로 처리되었습니다",
-	}
+	"code": "1000",
+	"message": "정상적으로 처리되었습니다",
 }
