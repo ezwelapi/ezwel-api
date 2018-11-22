@@ -1,28 +1,23 @@
 package com.ezwel.htl.interfaces.commons.intercepter;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
-import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.entity.CommonHeader;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
-import com.ezwel.htl.interfaces.commons.spring.ApplicationContext;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.CommonUtil;
@@ -34,11 +29,14 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
 	
-	private APIUtil apiUtil = (APIUtil) ApplicationContext.getBean(APIUtil.class);
+	@Autowired
+	private APIUtil apiUtil; // = (APIUtil) ApplicationContext.getBean(APIUtil.class);
 	
-	private CommonUtil commonUtil = (CommonUtil) ApplicationContext.getBean(CommonUtil.class);
+	@Autowired
+	private CommonUtil commonUtil; // = (CommonUtil) ApplicationContext.getBean(CommonUtil.class);
 	
-	private BeanMarshaller marshaller = (BeanMarshaller) ApplicationContext.getBean(BeanMarshaller.class);
+	@Autowired
+	private BeanMarshaller marshaller; // = (BeanMarshaller) ApplicationContext.getBean(BeanMarshaller.class);
 	
 	private static final boolean isLogging = false;
 	

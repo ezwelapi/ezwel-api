@@ -24,6 +24,7 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
  * @serviceType API
  */
 @APIType
+@Component
 public class PropertyUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(PropertyUtil.class);

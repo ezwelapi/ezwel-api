@@ -9,11 +9,11 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -31,6 +31,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @serviceType API
  */
 @APIType
+@Component
 public class BeanMarshaller {
 
 	private static final Logger logger = LoggerFactory.getLogger(BeanMarshaller.class);

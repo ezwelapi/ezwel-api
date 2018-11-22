@@ -1,6 +1,8 @@
 package com.ezwel.htl.interfaces.commons.configure;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -110,11 +112,12 @@ public class InterfaceFactory {
 		JAXBContext jaxbc = null;
 		Unmarshaller unmarshaller = null;
 		String classesRoot = null;
+		String currentPath = null;
 		File configureXml = null;
 		InterfaceChannel ifc = null;
 		String xmlPath = null;
 		ChannelListData cld = null;
-		
+		URL classURL = null;
 		try {
 			
 			jaxbc = JAXBContext.newInstance(InterfaceChannel.class);
@@ -126,7 +129,22 @@ public class InterfaceFactory {
 			configureXml = new File(xmlPath);
 			
 			if(!configureXml.exists()) {
-				throw new APIException("인터페이스 설정파일이 존재하지 않거나 경로가 잘못되었습니다.");
+				//in jar scan
+				
+				currentPath = this.getClass().getName().replace(".", "/").concat(".class");
+				logger.debug("# this currentPath : {}", currentPath);
+				classURL = getClass().getResource(currentPath);
+				logger.debug("# this classURL : {}", classURL);
+				
+				if( classURL != null ) {
+					
+					configureXml = APIUtil.getFileFromURI(classURL.toURI());
+					logger.debug(" - configureXml : {}", configureXml);
+					//configureXml
+					
+				}
+				
+				// throw new APIException("인터페이스 설정파일이 존재하지 않거나 경로가 잘못되었습니다.");
 			}
 			
 			ifc = (InterfaceChannel) unmarshaller.unmarshal(configureXml);
@@ -151,6 +169,8 @@ public class InterfaceFactory {
 				}
 			}
 		} catch (JAXBException e) {
+			throw new APIException("InterfaceFactory 초기화중 장애발생.", e);
+		} catch (URISyntaxException e) {
 			throw new APIException("InterfaceFactory 초기화중 장애발생.", e);
 		}
 		finally {

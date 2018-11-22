@@ -132,9 +132,8 @@ public class ScanUtil {
 				logger.debug("# CanonicalPath : {}", resourceFile.getCanonicalPath());
 			}
 			else {
-				logger.warn("# classes에 존재하지 않는 Type. Jar Scanning 시작 '{}'", packages);
+				logger.warn("# classes에 존재하지 않는 Type. Jar Scanning 시작 '{}'\n => {}", packages, getClass().getResource(".").toURI());
 				File parentFile = APIUtil.getFileFromURI(getClass().getResource(".").toURI()).getParentFile();
-				
 			}
 			
 			

@@ -10,10 +10,10 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
@@ -24,8 +24,7 @@ import com.ezwel.htl.interfaces.commons.utils.TypeUtil;
 import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateDTO;
 
 
-
-@Component
+@APIType
 public class ParamValidate {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -146,7 +145,7 @@ public class ParamValidate {
 	    		else {
 	    			if(logger.isDebugEnabled()) {
 	    	    		logger.debug(APIUtil.addString("PASS Validate No.", validateCnt, " END"));
-	    	    	}	
+	    	    	}
 	    		}
 	    		validateCnt++;
 			}
@@ -205,9 +204,10 @@ public class ParamValidate {
 		}
     }
     
-    private boolean validateField(ParamValidateDTO paramValidate, Object model, Field field){
+    private boolean validateField(ParamValidateDTO paramValidate, Object model, Field field) {
     	
     	APIFields fieldAnno = field.getAnnotation(APIFields.class);
+    	Collection<?> collection = typeUtil.getCollectionType(field.getType());
 		//@APIFields 어노테이션이있는 필드만 벨리데이션한다. 없는 필드는 패스 한다. 
 		if(fieldAnno != null) {
 			// field.getType()
@@ -249,13 +249,30 @@ public class ParamValidate {
 				}
 				
 				/** regex pattern */
-				if( APIUtil.isNotEmpty(fieldAnno.pattern()) && value != null ) {
+				if( field.getType().isAssignableFrom(String.class) && APIUtil.isNotEmpty(fieldAnno.pattern()) && value != null ) {
 					
+					if(!regexUtil.testPattern((String) value, fieldAnno.pattern())) {
+						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 데이터가 유효하지 않습니다. 검증식은 '",fieldAnno.pattern() ,"' 입니다."));
+						paramValidate.setValidation(false);
+						return false;
+					}
 				}
 				
 				/** isDate */
-				
-			} 
+				if( field.getType().isAssignableFrom(String.class) && fieldAnno.isDate() && value != null ) {
+					
+					if(!apiUtil.isValidDate((String) value)) {
+						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 날짜 데이터가 유효하지 않습니다."));
+						paramValidate.setValidation(false);
+						return false;
+					}
+				}
+
+				/** collection or dto, vo 등의 User Object */
+				if(value != null && (collection != null || !typeUtil.isGeneralType(field.getType()) && typeUtil.isSupportedReferenceType(value.getClass().getCanonicalName()))) {
+					validateModel(new ParamValidateDTO(value));
+				}
+			}
 			catch (Exception e){
 				throw new APIException(MessageConstants.RESPONSE_CODE_2001, APIUtil.addString("유효성검사대상 필드 '", field.getName(), "'가 잘못되었습니다."), e);
 			}
@@ -263,7 +280,7 @@ public class ParamValidate {
 		return true;
     }
     
-    private ParamValidateDTO validateModel(ParamValidateDTO paramValidate){
+    private ParamValidateDTO validateModel(ParamValidateDTO paramValidate) {
     	
     	Object model = paramValidate.getModel();
 		
@@ -274,7 +291,7 @@ public class ParamValidate {
     		
     		if(Collection.class.isAssignableFrom(model.getClass()) && paramValidate.getValidateType() == OperateConstants.VALIDATE_DTO_FULL_FIELD_ANNO){
     			//DeclaredFields field validate
-				for(Object items : (List<?>) model) {
+				for(Object items : (Collection<?>) model) {
 					
 					modelClass = items.getClass();
 		    		modelAnno = modelClass.getAnnotation(APIModel.class);

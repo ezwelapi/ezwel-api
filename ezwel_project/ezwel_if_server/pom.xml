@@ -44,24 +44,26 @@
 			<scope>provided</scope>
 		</dependency>
 		
+		<!-- 
 		<dependency>
 			<groupId>com.thetransactioncompany</groupId>
 			<artifactId>cors-filter</artifactId>
 			<version>2.6</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/thirdparty/cors-filter-2.6.jar</systemPath>
-			<optional>false</optional>				
-		</dependency>
+			<optional>false</optional>	
+		</dependency>-->	
+		<!-- 
 		<dependency>
 			<groupId>com.thetransactioncompany</groupId>
 			<artifactId>java-property-utils</artifactId>
 			<version>1.9.1</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/thirdparty/java-property-utils-1.9.1.jar</systemPath>
-			<optional>false</optional>							
-		</dependency> 
+			<optional>false</optional>
+		</dependency> -->	
 
-		<!--# mybatis -->
+		<!--# mybatis 
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
@@ -77,13 +79,14 @@
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
 		</dependency>
+		-->
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>1.10</version>
 		</dependency>
 
-		<!-- lucene -->
+		<!-- lucene 
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
@@ -91,9 +94,9 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/morpheme/lucene-core-${lucene-version}.jar</systemPath>
 			<optional>false</optional>
-		</dependency>
+		</dependency>-->
 
-		<!-- lucene analyzers -->
+		<!-- lucene analyzers 
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-analyzers</artifactId>
@@ -101,39 +104,46 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/morpheme/lucene-analyzers-${lucene-analyzers-version}.jar</systemPath>
 			<optional>false</optional>
-		</dependency>
+			 
+		</dependency>-->
 
-		<!-- morphology -->
+		<!-- morphology 
 		<dependency>
 			<groupId>org.apache.lucene.morphology</groupId>
 			<artifactId>morph</artifactId>
 			<version>${morphology-version}</version>
+			
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/morpheme/morph-${morphology-version}.jar</systemPath>
 			<optional>false</optional>
-		</dependency>
+			 
+		</dependency>-->
 
-		<!-- For English morphology -->
+		<!-- For English morphology 
 		<dependency>
 			<groupId>org.apache.lucene.morphology</groupId>
 			<artifactId>english</artifactId>
 			<version>${morphology-version}</version>
+			
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/morpheme/english-${morphology-version}.jar</systemPath>
 			<optional>false</optional>
-		</dependency>
+			  
+		</dependency>-->
 
-		<!-- For Russian morphology -->
+		<!-- For Russian morphology 
 		<dependency>
 			<groupId>org.apache.lucene.morphology</groupId>
 			<artifactId>russian</artifactId>
 			<version>${morphology-version}</version>
+			
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/morpheme/russian-${morphology-version}.jar</systemPath>
 			<optional>false</optional>
-		</dependency>
+			
+		</dependency>-->
 
-		<!-- local root pom project lib -->
+		<!-- local root pom project lib 
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>arirang-morph</artifactId>
@@ -141,9 +151,9 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/morpheme/arirang-morph-${arirang.morph-version}.jar</systemPath>
 			<optional>false</optional>
-		</dependency>
+		</dependency> --> 
 
-		<!-- local root pom project lib -->
+		<!-- local root pom project lib 
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>arirang.lucene-analyzer-6.5.1</artifactId>
@@ -151,9 +161,9 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/morpheme/arirang.lucene-analyzer-${lucene-version}-${arirang.morph-version}.jar</systemPath>
 			<optional>false</optional>
-		</dependency>
+		</dependency>-->
 
-		<!-- qr code generate api -->
+		<!-- qr code generate api 
 		<dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>javase</artifactId>
@@ -161,9 +171,10 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/thirdparty/javase-${com.google.zxing-version}.jar</systemPath>
 			<optional>false</optional>
-		</dependency>
+			 
+		</dependency>-->
 
-		<!-- qr code generate api -->
+		<!-- qr code generate api 
 		<dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>core</artifactId>
@@ -171,7 +182,8 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/thirdparty/core-${com.google.zxing-version}.jar</systemPath>
 			<optional>false</optional>
-		</dependency>
-				
+			
+		</dependency> -->
+	
 	</dependencies>
 </project>

@@ -62,10 +62,16 @@ public @interface APIFields {
     
     
     /**
-     * 유효성 검증 정규식
+     * 날짜 유효성 검증 여부
      * @return
      */
     public abstract boolean isDate() default false;    
+
+    /**
+     * 날짜 유효성 검증시 날짜 포맷
+     * @return
+     */
+    public abstract String dateFormat() default "";    
     
     /**
      * Json 또는 XML 마샬대상 필드 여부

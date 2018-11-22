@@ -85,7 +85,7 @@
 	-->
 	<context:component-scan base-package="com.ezwel.htl.interfaces" annotation-config="true">
 		<!-- <context:include-filter type="regex" expression="(service|controller|repository)\*" /> -->
-		<context:exclude-filter type="regex" expression="com\.ezwel\.htl\.interfaces\.commons\.annotation\.*" />
+		<!-- <context:exclude-filter type="regex" expression="com\.ezwel\.htl\.interfaces\.commons\.annotation\.*" /> -->
 	</context:component-scan>	
 	
 	<beans:bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
@@ -190,8 +190,4 @@
 		</aop:aspect>
 	</aop:config>
 
-
-		
-
-	
 </beans:beans>

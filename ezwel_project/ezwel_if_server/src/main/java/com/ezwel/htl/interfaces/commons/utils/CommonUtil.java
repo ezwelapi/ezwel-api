@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.Charsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
@@ -27,6 +28,7 @@ import com.google.common.io.ByteStreams;
  * @date   2018. 11. 21.
  */
 @APIType
+@Component
 public class CommonUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
@@ -218,5 +220,21 @@ public class CommonUtil {
 
 		return out;
 	}	
+	
+	public static String getFirstCharLowerCase(String strWord) {
+		
+		String out = null;
+		
+		String word = APIUtil.NVL(strWord, "").trim();
+		if(word.length() > 1) {
+			out = word.substring(0,1).toLowerCase() + word.substring(1);
+		}
+		else {
+			out = word.toLowerCase();
+		}
+		
+		return out;
+	}
+	
 }
 

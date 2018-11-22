@@ -214,12 +214,11 @@ public class TypeUtil {
 					|| propertyType.isAssignableFrom(Collection.class)) {
 				coll = new ArrayList<Object>();
 			}
+			/*
 			else {
 				coll = (Collection<?>) propertyType.newInstance();
-			}
-    	} catch (InstantiationException e) {
-			throw new APIException(e);
-		} catch (IllegalAccessException e) {
+			}*/
+    	} catch (Exception e) {
 			throw new APIException(e);
 		}
     	

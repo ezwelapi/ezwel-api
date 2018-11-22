@@ -2,12 +2,12 @@ package com.ezwel.htl.interfaces.commons.utils;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.net.URI;
 import java.rmi.dgc.VMID;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,7 +21,7 @@ import org.apache.commons.lang.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.MessageFormatter;
-import org.springframework.web.method.HandlerMethod;
+import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
@@ -38,10 +38,18 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
  */
 
 @APIType
+@Component
 public class APIUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(APIUtil.class);
 	
+	public final static String DEF_DAY_FORMAT;
+	public final static String DEF_DATE_FORMAT;
+	
+	static {
+		DEF_DAY_FORMAT = "yyyyMMdd";
+		DEF_DATE_FORMAT = "yyyyMMddHHmmss";
+	}
 	
 	/**
 	 * str의 isEmpty 여부를 체크하 고 false이면 ""을 반환합니다.
@@ -414,7 +422,7 @@ public class APIUtil {
 	@APIOperation(description="바인드된 URI에 해당하는 File을 리턴합니다.", isExecTest=true)
 	public static File getFileFromURI(URI uriParam) {
 		URI uri = uriParam;
-		if(uri != null) {
+		if(uri == null) {
 			throw new APIException("URI가 존재하지 않습니다.");
 		}
 		return new File(uri);
@@ -473,4 +481,27 @@ public class APIUtil {
 		Timestamp out = new Timestamp(System.currentTimeMillis());
 		return out.toString();
 	}
+	
+	
+    public boolean isValidDate(String dateString) {
+    	return isValidDate(dateString, null);
+    }
+    
+	public boolean isValidDate(String dateString, String dateFormat) {
+		
+		if (dateString == null || dateString.isEmpty()) {
+			return false;
+		}
+		String date = dateString;
+		String format = dateFormat;
+		SimpleDateFormat sdf = new SimpleDateFormat(((format == null || format.isEmpty()) ? DEF_DAY_FORMAT : format));
+		String confirmFormat = null;
+		try {
+			confirmFormat = sdf.format(sdf.parse(date));
+		} catch (ParseException e) {
+			throw new APIException(e);
+		}
+		return date.equals(confirmFormat);
+	}
+	
 }

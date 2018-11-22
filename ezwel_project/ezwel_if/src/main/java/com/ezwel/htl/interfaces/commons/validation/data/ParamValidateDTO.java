@@ -6,7 +6,6 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
-@Component
 @APIModel(description = "유효성검증정보")
 public class ParamValidateDTO {
 
