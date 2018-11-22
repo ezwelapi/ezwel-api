@@ -1,7 +1,7 @@
 package com.ezwel.htl.interfaces.service.data.saleStop;
 
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +20,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @APIModel
 @Data
 @EqualsAndHashCode(callSuper=true)
-public class SaleStopInSDO extends AbstractDTO {
+public class SaleStopInSDO extends AbstractSDO {
 
 	@APIFields(description = "시설판매중지설정 Input 상품코드", required=true, maxLength=100)
 	private String pdtNo;

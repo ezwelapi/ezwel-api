@@ -2,7 +2,7 @@ package com.ezwel.htl.interfaces.service.data.cancelFeePsrc;
 
 import java.util.List;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 @APIModel
 @Data
 @EqualsAndHashCode(callSuper=true)
-public class CancelFeePsrcDataOutSDO extends AbstractDTO {
+public class CancelFeePsrcDataOutSDO extends AbstractSDO {
 
 	@APIFields(description = "취소수수료규정 output 대체텍스트", maxLength=2000)
 	private String cancelFeeText;

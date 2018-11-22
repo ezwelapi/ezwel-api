@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
 @APIModel
-public class OutputDTO extends AbstractDTO {
+public class OutputDTO extends AbstractSDO {
 
 	private List<OutputDTOSub01> menuList = null;
 

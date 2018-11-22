@@ -1,7 +1,7 @@
 package com.ezwel.htl.interfaces.service.data.allReg;
 
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +20,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @APIModel
 @Data
 @EqualsAndHashCode(callSuper=true)
-public class AllRegSubImagesOutSDO extends AbstractDTO {
+public class AllRegSubImagesOutSDO extends AbstractSDO {
 
 	@APIFields(description = "전체시설일괄등록 output 이미지URL", maxLength=500)
 	private String image;

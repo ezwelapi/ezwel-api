@@ -3,7 +3,7 @@ package com.ezwel.htl.interfaces.service.data.roomRead;
 
 import java.util.List;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +20,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @APIModel
 @Data
 @EqualsAndHashCode(callSuper=true)
-public class RoomReadOutSDO extends AbstractDTO {
+public class RoomReadOutSDO extends AbstractSDO {
 
 	@APIFields(description = "객실정보조회 output code", required=true, maxLength=4)
 	private String code;

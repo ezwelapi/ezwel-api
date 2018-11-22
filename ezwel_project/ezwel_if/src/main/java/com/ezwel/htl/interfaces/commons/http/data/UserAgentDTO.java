@@ -1,6 +1,6 @@
 package com.ezwel.htl.interfaces.commons.http.data;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
@@ -14,7 +14,7 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
  * @serviceType API
  */
 @APIModel
-public class UserAgentDTO extends AbstractDTO {
+public class UserAgentDTO extends AbstractSDO {
 
 	@APIFields(description = "에이전트 아이디", required=true, httpHeader=true, headerName="http-agent-id")
 	private String httpAgentId;

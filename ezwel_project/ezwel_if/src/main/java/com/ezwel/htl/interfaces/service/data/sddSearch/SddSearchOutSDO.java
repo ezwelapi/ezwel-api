@@ -3,7 +3,7 @@ package com.ezwel.htl.interfaces.service.data.sddSearch;
 import java.util.List;
 
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,7 +23,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @APIModel
 @Data
 @EqualsAndHashCode(callSuper=true)
-public class SddSearchOutSDO extends AbstractDTO {
+public class SddSearchOutSDO extends AbstractSDO {
 
 	@APIFields(description = "당일특가검색 output code", required=true, maxLength=4)
 	private String code;

@@ -1,7 +1,7 @@
 package com.ezwel.htl.interfaces.service.data.roomRead;
 
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +21,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @APIModel
 @Data
 @EqualsAndHashCode(callSuper=true)
-public class RoomReadPenaltyOutSDO extends AbstractDTO {
+public class RoomReadPenaltyOutSDO extends AbstractSDO {
 
 	@APIFields(description = "객실정보조회 output penalty 적용시작일", required=true, maxLength=8)
 	private String applyBgnDate;

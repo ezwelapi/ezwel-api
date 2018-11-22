@@ -1,7 +1,7 @@
 package com.ezwel.htl.interfaces.service.data.rsvHistSend;
 
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,7 +22,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @APIModel
 @Data
 @EqualsAndHashCode(callSuper=true)
-public class RsvHistSendOutSDO extends AbstractDTO {
+public class RsvHistSendOutSDO extends AbstractSDO {
 
 
 

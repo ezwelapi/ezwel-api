@@ -4,7 +4,7 @@ import java.util.Properties;
 
 import javax.xml.bind.annotation.XmlElement;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
@@ -19,7 +19,7 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
  * @serviceType API
  */
 @APIModel
-public class HttpConfigDTO extends AbstractDTO {
+public class HttpConfigDTO extends AbstractSDO {
 
 	@APIFields(description = "캐쉬 아이디")
 	private String cacheId;

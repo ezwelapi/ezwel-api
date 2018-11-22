@@ -3,9 +3,9 @@ package com.ezwel.htl.interfaces.http.dto;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 
-public class InputDTOSub02 extends AbstractDTO{
+public class InputDTOSub02 extends AbstractSDO{
 
 	private String sub01;
 	private String sub02;

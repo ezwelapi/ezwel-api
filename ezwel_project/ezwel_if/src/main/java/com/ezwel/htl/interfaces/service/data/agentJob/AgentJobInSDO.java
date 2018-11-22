@@ -1,7 +1,7 @@
 package com.ezwel.htl.interfaces.service.data.agentJob;
 
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @APIModel
 @Data
 @EqualsAndHashCode(callSuper=true)
-public class AgentJobInSDO extends AbstractDTO {
+public class AgentJobInSDO extends AbstractSDO {
 
 	@APIFields(description = "주문대사(제휴사) Input 주문번호", required=true, maxLength=100)
 	private String rsvNo;

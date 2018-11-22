@@ -11,7 +11,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
@@ -93,7 +93,7 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 
 			ParamValidate paramValidator = null;
 			APIModel apiModelAnno = null;
-			AbstractDTO inputParamObject = null;
+			AbstractSDO inputParamObject = null;
 			String inputStreamData = null;
 			if(header.getContentType().equals(OperateConstants.CONTENT_TYPE_APPLICATION_JSON)) {
 				inputStreamData = commonUtil.readReqeustBodyWithBufferedReader(request);
@@ -107,12 +107,12 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 						paramValidator = new ParamValidate(); 
 						for(MethodParameter input : methodParameter) {
 							
-							if(AbstractDTO.class.isAssignableFrom(input.getParameterType())) {
+							if(AbstractSDO.class.isAssignableFrom(input.getParameterType())) {
 								//밸리데이션 대상 클래스이면
 								apiModelAnno = input.getParameterType().getAnnotation(APIModel.class);
 								if(apiModelAnno != null) {
 									
-									inputParamObject = (AbstractDTO) marshaller.fromJSON(inputStreamData, input.getParameterType());
+									inputParamObject = (AbstractSDO) marshaller.fromJSON(inputStreamData, input.getParameterType());
 									//inputParameters.add(inputParamObject);
 									//validation inputParamObject
 									paramValidator.addParam(new ParamValidateDTO(inputParamObject));

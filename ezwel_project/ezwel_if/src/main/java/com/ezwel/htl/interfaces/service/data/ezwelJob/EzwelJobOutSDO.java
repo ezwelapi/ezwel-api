@@ -3,7 +3,7 @@ package com.ezwel.htl.interfaces.service.data.ezwelJob;
 import java.util.List;
 
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,7 +19,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @APIModel
 @Data
 @EqualsAndHashCode(callSuper=true)
-public class EzwelJobOutSDO extends AbstractDTO {
+public class EzwelJobOutSDO extends AbstractSDO {
 
 	@APIFields(description = "주문대사(이지웰) output code", required=true, maxLength=4)
 	private String code;

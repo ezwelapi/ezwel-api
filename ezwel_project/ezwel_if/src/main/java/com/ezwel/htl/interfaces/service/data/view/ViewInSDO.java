@@ -1,7 +1,7 @@
 package com.ezwel.htl.interfaces.service.data.view;
 
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +21,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @APIModel
 @Data
 @EqualsAndHashCode(callSuper=true)
-public class ViewInSDO extends AbstractDTO {
+public class ViewInSDO extends AbstractSDO {
 
 	@APIFields(description = "예약내역조회 Input 주문번호", maxLength=100)
 	private String rsvNo;

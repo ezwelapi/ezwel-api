@@ -1,6 +1,6 @@
 package com.ezwel.htl.interfaces.commons.http.data;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
@@ -14,17 +14,17 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
  * @serviceType API
  */
 @APIModel
-public class MultiHttpConfigDTO extends AbstractDTO {
+public class MultiHttpConfigDTO extends AbstractSDO {
 	//<T extends APIObject> 
 	
 	@APIFields(description = "HTTP 통신 설정 DTO", required=true)
 	private HttpConfigDTO httpConfigDTO;
 	
 	@APIFields(description = "HTTP 통신 요청 파라메터 DTO", required=true)
-	private AbstractDTO inputDTO;
+	private AbstractSDO inputDTO;
 	
 	@APIFields(description = "HTTP 통신 응답 결과타입 클래스", required=true)
-	private Class<? extends AbstractDTO> outputType;
+	private Class<? extends AbstractSDO> outputType;
 	
 	@APIFields(description = "HTTP 인터페이스 API 총 실행시간")
 	private Long lapTimeMillis;
@@ -48,19 +48,19 @@ public class MultiHttpConfigDTO extends AbstractDTO {
 		this.httpConfigDTO = httpConfigDTO;
 	}
 
-	public AbstractDTO getInputDTO() {
+	public AbstractSDO getInputDTO() {
 		return inputDTO;
 	}
 
-	public void setInputDTO(AbstractDTO inputDTO) {
+	public void setInputDTO(AbstractSDO inputDTO) {
 		this.inputDTO = inputDTO;
 	}
 
-	public Class<? extends AbstractDTO> getOutputType() {
+	public Class<? extends AbstractSDO> getOutputType() {
 		return outputType;
 	}
 
-	public void setOutputType(Class<? extends AbstractDTO> outputType) {
+	public void setOutputType(Class<? extends AbstractSDO> outputType) {
 		this.outputType = outputType;
 	}
 

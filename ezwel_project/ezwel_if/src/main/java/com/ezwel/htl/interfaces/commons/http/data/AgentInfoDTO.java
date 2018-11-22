@@ -2,7 +2,7 @@ package com.ezwel.htl.interfaces.commons.http.data;
 
 import javax.xml.bind.annotation.XmlElement;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
@@ -15,7 +15,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
  * @serviceType API
  */
 @APIModel
-public class AgentInfoDTO extends AbstractDTO {
+public class AgentInfoDTO extends AbstractSDO {
 
 	@APIFields(description = "에이전트 이름")
 	private String agentName;

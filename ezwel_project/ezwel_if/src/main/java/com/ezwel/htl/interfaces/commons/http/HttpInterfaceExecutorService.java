@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
@@ -176,7 +176,7 @@ public class HttpInterfaceExecutorService {
 	}
 	
 	
-	<T extends AbstractDTO> String inputBeanToJSON(T inputObject) {
+	<T extends AbstractSDO> String inputBeanToJSON(T inputObject) {
 		
 		String out = null;
 
@@ -213,7 +213,7 @@ public class HttpInterfaceExecutorService {
 	}
 	
 	@APIOperation(description="Http URL Communication API (output only)", isExecTest=true)
-	public <T extends AbstractDTO> T sendPostJSON(HttpConfigDTO in, Class<T> outputObject) {
+	public <T extends AbstractSDO> T sendPostJSON(HttpConfigDTO in, Class<T> outputObject) {
 		if(in == null) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_2000, "인터페이스 필수 입력 객체가 존재하지 않습니다.");
 		}
@@ -224,7 +224,7 @@ public class HttpInterfaceExecutorService {
 	}
 	
 	@APIOperation(description="Http URL Communication API (input only)", isExecTest=true)
-	public <T extends AbstractDTO> T sendPostJSON(HttpConfigDTO in, T inputObject) {
+	public <T extends AbstractSDO> T sendPostJSON(HttpConfigDTO in, T inputObject) {
 		if(in == null) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_2000, "인터페이스 필수 입력 객체가 존재하지 않습니다.");
 		}
@@ -242,7 +242,7 @@ public class HttpInterfaceExecutorService {
 	 */
 	@SuppressWarnings({ "unchecked", "finally" })
 	@APIOperation(description="Http URL Communication API", isExecTest=true)
-	public <T1 extends AbstractDTO, T2 extends AbstractDTO> T2 sendPostJSON(HttpConfigDTO in, T1 inputObject, Class<T2> outputType) {
+	public <T1 extends AbstractSDO, T2 extends AbstractSDO> T2 sendPostJSON(HttpConfigDTO in, T1 inputObject, Class<T2> outputType) {
 		logger.debug("[START] sendJSON\n[CHANNEL-INFO] {}\n[USER-INPUT] {}\n[USER-OUTPUT] {}", in, inputObject, outputType);
 		
 		//return value
@@ -378,7 +378,7 @@ public class HttpInterfaceExecutorService {
 	
 	@SuppressWarnings({ "unchecked", "finally" })
 	@APIOperation(description="Http URL Multi Communication API", isExecTest=true)
-	public <T extends AbstractDTO> List<T> sendMultiPostJSON(List<MultiHttpConfigDTO> in) {
+	public <T extends AbstractSDO> List<T> sendMultiPostJSON(List<MultiHttpConfigDTO> in) {
 		logger.debug("[START] sendMultiPostJSON\nInput Signature : {}", in);
 		
 		List<T> out = null;
@@ -396,7 +396,7 @@ public class HttpInterfaceExecutorService {
 			executor.initThreadPool(in.size());
 			
 			for(MultiHttpConfigDTO multiHttpConfig : in) {
-				Callable<AbstractDTO> callable = new HttpInterfaceHelper(multiHttpConfig);
+				Callable<AbstractSDO> callable = new HttpInterfaceHelper(multiHttpConfig);
 				//logger.debug("[before] executor.addCall : {}", in);
 				// 생성된 callable들을 threadpool에서 수행시키고 결과는 Future 목록에 담는다
 				executor.addCall(callable);

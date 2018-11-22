@@ -3,7 +3,7 @@ package com.ezwel.htl.interfaces.service.data.rsvHistSend;
 import java.util.List;
 
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,7 +23,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @APIModel
 @Data
 @EqualsAndHashCode(callSuper=true)
-public class RsvHistSendDataInSDO extends AbstractDTO {
+public class RsvHistSendDataInSDO extends AbstractSDO {
 
 	@APIFields(description = "결제완료내역전송 Input 주문번호", required=true, maxLength=100)
 	private String rsvNo;

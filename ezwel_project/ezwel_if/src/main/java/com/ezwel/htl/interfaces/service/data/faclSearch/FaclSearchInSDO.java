@@ -1,7 +1,7 @@
 package com.ezwel.htl.interfaces.service.data.faclSearch;
 
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,7 +18,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @APIModel
 @Data
 @EqualsAndHashCode(callSuper=true)
-public class FaclSearchInSDO extends AbstractDTO {
+public class FaclSearchInSDO extends AbstractSDO {
 	
 	@APIFields(description = "시설검색 Input 체크인", required=true, maxLength=8)
 	private String checkInDate;

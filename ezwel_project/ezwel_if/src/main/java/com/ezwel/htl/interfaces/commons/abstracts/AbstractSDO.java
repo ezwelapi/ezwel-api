@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper=true)
-public abstract class AbstractDTO extends APIObject {
+public abstract class AbstractSDO extends APIObject {
 
 	
 }

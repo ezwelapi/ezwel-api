@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractDTO;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigDTO;
@@ -121,10 +121,10 @@ public class HttpInterfaceExecutorTest  {
 		}
 		
 		//멀티 쓰레드 인터페이스 실행
-		List<AbstractDTO> multiOut = http.sendMultiPostJSON(multiHttpConfigList);
+		List<AbstractSDO> multiOut = http.sendMultiPostJSON(multiHttpConfigList);
 		
 		int cnt = 0;
-		for(AbstractDTO out : multiOut) {
+		for(AbstractSDO out : multiOut) {
 			logger.debug("IF-Result({}) : resultClass : {}, resultValue : {}", cnt, out.getClass(), out);
 			cnt++;
 		}
