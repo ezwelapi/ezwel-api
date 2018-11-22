@@ -3,6 +3,8 @@ package com.ezwel.htl.interfaces.commons.utils;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.rmi.dgc.VMID;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -502,6 +504,27 @@ public class APIUtil {
 			throw new APIException(e);
 		}
 		return date.equals(confirmFormat);
+	}
+	
+	
+	public static boolean isValidURL(final URL url, final File file) {
+		boolean out = false;
+	    try {
+	        final URI uri = url.toURI();
+	        if (!uri.isAbsolute()) {
+	            throw new IllegalArgumentException("URI is not absolute: " + uri.toString() /*+ " File: " + file.getAbsolutePath()*/);   //NOI18N
+	        }
+	        if (uri.isOpaque()) {
+	            throw new IllegalArgumentException("URI is not hierarchical: " + uri.toString() /*+ " File: " + file.getAbsolutePath()*/);   //NOI18N
+	        }
+	        if (!"file".equals(uri.getScheme())) {
+	            throw new IllegalArgumentException("URI scheme is not \"file\": " + uri.toString() /*+ " File: " + file.getAbsolutePath()*/);   //NOI18N
+	        }
+	        out = true;
+	    } catch (URISyntaxException use) {
+	        throw new IllegalArgumentException(use);
+	    }
+	    return out;
 	}
 	
 }

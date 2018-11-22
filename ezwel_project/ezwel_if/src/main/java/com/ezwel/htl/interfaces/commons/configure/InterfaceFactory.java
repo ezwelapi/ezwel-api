@@ -1,8 +1,9 @@
 package com.ezwel.htl.interfaces.commons.configure;
 
 import java.io.File;
-import java.net.URISyntaxException;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -112,42 +113,62 @@ public class InterfaceFactory {
 		JAXBContext jaxbc = null;
 		Unmarshaller unmarshaller = null;
 		String classesRoot = null;
-		String currentPath = null;
 		File configureXml = null;
 		InterfaceChannel ifc = null;
 		String xmlPath = null;
 		ChannelListData cld = null;
-		URL classURL = null;
+		URL resourceURL = null;
+
 		try {
 			
 			jaxbc = JAXBContext.newInstance(InterfaceChannel.class);
 			unmarshaller = jaxbc.createUnmarshaller();
-			classesRoot = this.getClass().getClassLoader().getResource("").getPath();
-			xmlPath = classesRoot.concat(File.separator).concat(getConfigXmlPath());
-			logger.debug("\nclassesRoot : {}\nxmlPath : {}", classesRoot, xmlPath);
-
-			configureXml = new File(xmlPath);
+			
+			// 1. xmlPath를 canonical로 채크
+			configureXml = new File(getConfigXmlPath());
+			logger.debug("# 1. config xml -> canonical path scan -> caninocalPath : {}", getConfigXmlPath());
 			
 			if(!configureXml.exists()) {
-				//in jar scan
 				
-				currentPath = this.getClass().getName().replace(".", "/").concat(".class");
-				logger.debug("# this currentPath : {}", currentPath);
-				classURL = getClass().getResource(currentPath);
-				logger.debug("# this classURL : {}", classURL);
+				// 2. xmlPath를 application classes class loader아래에서 채크
+				classesRoot = getClass().getResource("/").getPath();
+				xmlPath = classesRoot.concat(File.separator).concat(getConfigXmlPath());
+				configureXml = new File(xmlPath);
+				logger.debug("# 2. config xml -> classes scan -> classes xmlPath : {}", xmlPath);
 				
-				if( classURL != null ) {
-					
-					configureXml = APIUtil.getFileFromURI(classURL.toURI());
-					logger.debug(" - configureXml : {}", configureXml);
-					//configureXml
-					
+				if(!configureXml.exists()) {
+					// 3. xmlPath를 application class loader 이하 jar에서 채크
+					resourceURL = getClass().getResource(getConfigXmlPath());
+					logger.debug("# 3. config xml -> current jar scan -> resourceURL : {}", resourceURL);
+					if(resourceURL == null) {
+						throw new APIException("인터페이스 설정파일 이 존재하지 않거나 경로가 잘못되었습니다. 인터페이스 설정파일 경로를 확인하세요.");
+					}
+					else {
+						logger.debug("# find application jar");
+					}
 				}
-				
-				// throw new APIException("인터페이스 설정파일이 존재하지 않거나 경로가 잘못되었습니다.");
+				else {
+					logger.debug("# find application classes");
+				}
+			}
+			else {
+				logger.debug("# find filesystem canonicalPath");
 			}
 			
-			ifc = (InterfaceChannel) unmarshaller.unmarshal(configureXml);
+			if(resourceURL == null) {
+				
+				if(!configureXml.exists()) {
+					throw new APIException("인터페이스 설정파일 이 존재하지 않거나 경로가 잘못되었습니다. 인터페이스 설정파일 경로를 확인하세요.");
+				}
+				
+				if(!configureXml.canRead()) {
+					throw new APIException("인터페이스 설정파일을 읽을 권한이 없습니다. 설정파일 권한을 확인하세요.");
+				}
+				
+				resourceURL = Paths.get(configureXml.getCanonicalPath()).toUri().toURL();
+			}
+			
+			ifc = (InterfaceChannel) unmarshaller.unmarshal(resourceURL);
 			
 			if(ifc != null) {
 				
@@ -165,12 +186,12 @@ public class InterfaceFactory {
 					initInterfaceChannels(cld);
 					
 					logger.debug("# Real Cached Size : {}", interfaceChannels.size());
-					logger.debug("# interfaceChannels : {}", interfaceChannels);
+					//logger.debug("# interfaceChannels : {}", interfaceChannels);
 				}
 			}
 		} catch (JAXBException e) {
 			throw new APIException("InterfaceFactory 초기화중 장애발생.", e);
-		} catch (URISyntaxException e) {
+		} catch (IOException e) {
 			throw new APIException("InterfaceFactory 초기화중 장애발생.", e);
 		}
 		finally {
