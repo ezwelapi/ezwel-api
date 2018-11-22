@@ -37,19 +37,19 @@ public class InterfaceDemoService {
 		userAgent.setHttpRequestId("httpRequestId-sample");
 		
 		//Input parameter
-		RoomReadInSDO roomReadDTO = new RoomReadInSDO();
+		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
 		
-		roomReadDTO.setOtaId("ota-Id");
-		roomReadDTO.setPdtNo("pdt-No");
-		roomReadDTO.setCheckInDate("20181201");
-		roomReadDTO.setCheckOutDate("20181202");
-		roomReadDTO.setRoomNo("1");
-		roomReadDTO.setRoomCnt(1);
-		roomReadDTO.setAdultCnt(1);
-		roomReadDTO.setChildCnt(1);
+		roomReadSDO.setOtaId("ota-Id");
+		roomReadSDO.setPdtNo("pdt-No");
+		roomReadSDO.setCheckInDate("20181201");
+		roomReadSDO.setCheckOutDate("20181202");
+		roomReadSDO.setRoomNo("1");
+		roomReadSDO.setRoomCnt(1);
+		roomReadSDO.setAdultCnt(1);
+		roomReadSDO.setChildCnt(1);
 		
 		//interface api call
-		RoomReadOutSDO out = service.callRoomRead(userAgent, roomReadDTO);
+		RoomReadOutSDO out = service.callRoomRead(userAgent, roomReadSDO);
 		
 		logger.debug("[END] callRoomRead");
 		return out;
