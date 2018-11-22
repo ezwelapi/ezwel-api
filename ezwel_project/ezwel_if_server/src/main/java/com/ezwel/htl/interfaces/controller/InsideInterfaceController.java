@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.service.InsideInterfaceService;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
@@ -40,8 +40,7 @@ public class InsideInterfaceController {
 
 	private static final Logger logger = LoggerFactory.getLogger(InsideInterfaceController.class);
 	
-	@Autowired
-	private InsideInterfaceService intefaceService; // = (InsideInterfaceService) ApplicationContext.getBean(InsideInterfaceService.class);
+	private InsideInterfaceService intefaceService = (InsideInterfaceService) LApplicationContext.getBean(InsideInterfaceService.class);
 	
 	/**
 	 * <pre>

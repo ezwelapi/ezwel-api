@@ -40,43 +40,32 @@ try {
 	throw new RuntimeException("JSON Telegram Exception", e);
 }	
 %>
-
 {
-	"input": {
-		"pdtNo": "1",
-		"roomNo": "1",
-		"checkInDate": "20181201",
-		"checkOutDate": "20181202",
-		"roomCnt": 1
-	},
-
-	"output": {
-		"code": "1000",
-		"message": "정상적으로 처리되었습니다",
-		"data" : {
-			"cancelFeeText": "18시 이후 취소규정은 익일 취소규정으로 적용 되어집니다.",
-			"penalty": [
-				{
-					"applyBgnDate": "20181128",
-					"cancelFeeRate": 0,
-					"cancelFeePrice": 0
-				},
-				{
-					"applyBgnDate": "20181129",
-					"cancelFeeRate": 20,
-					"cancelFeePrice": 40000
-				},
-				{
-					"applyBgnDate": "20181130",
-					"cancelFeeRate": 50,
-					"cancelFeePrice": 100000
-				},
-				{
-					"applyBgnDate": "20181201",
-					"cancelFeeRate": 100,
-					"cancelFeePrice": 200000
-				}
-			]
-		}
+	"code": "1000",
+	"message": "정상적으로 처리되었습니다",
+	"data" : {
+		"cancelFeeText": "18시 이후 취소규정은 익일 취소규정으로 적용 되어집니다.",
+		"penalty": [
+			{
+				"applyBgnDate": "20181128",
+				"cancelFeeRate": 0,
+				"cancelFeePrice": 0
+			},
+			{
+				"applyBgnDate": "20181129",
+				"cancelFeeRate": 20,
+				"cancelFeePrice": 40000
+			},
+			{
+				"applyBgnDate": "20181130",
+				"cancelFeeRate": 50,
+				"cancelFeePrice": 100000
+			},
+			{
+				"applyBgnDate": "20181201",
+				"cancelFeeRate": 100,
+				"cancelFeePrice": 200000
+			}
+		]
 	}
 }

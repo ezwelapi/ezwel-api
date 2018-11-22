@@ -37,7 +37,6 @@ public class MethodsWrapperAdvice implements MethodInterceptor, Ordered {
 
 	@Override
 	public Object intercept(Object arg0, Method arg1, Object[] arg2, MethodProxy arg3) throws Throwable {
-		// TODO Auto-generated method stub
 
 		logger.debug("■■ [AOP] intercept\narg0 : {}\n■ arg1 : {}\n■ arg2 : {}\n■ arg3 : {}", arg0, arg1, arg2, arg3);
 		return null;

@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +17,7 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.entity.CommonHeader;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
+import com.ezwel.htl.interfaces.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.CommonUtil;
@@ -29,14 +29,11 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
 	
-	@Autowired
-	private APIUtil apiUtil; // = (APIUtil) ApplicationContext.getBean(APIUtil.class);
+	private APIUtil apiUtil = (APIUtil) LApplicationContext.getBean(APIUtil.class);
 	
-	@Autowired
-	private CommonUtil commonUtil; // = (CommonUtil) ApplicationContext.getBean(CommonUtil.class);
+	private CommonUtil commonUtil = (CommonUtil) LApplicationContext.getBean(CommonUtil.class);
 	
-	@Autowired
-	private BeanMarshaller marshaller; // = (BeanMarshaller) ApplicationContext.getBean(BeanMarshaller.class);
+	private BeanMarshaller marshaller = (BeanMarshaller) LApplicationContext.getBean(BeanMarshaller.class);
 	
 	private static final boolean isLogging = false;
 	

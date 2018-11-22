@@ -2,12 +2,10 @@ package com.ezwel.htl.interfaces.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
-import com.ezwel.htl.interfaces.commons.spring.ApplicationContext;
+import com.ezwel.htl.interfaces.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.dao.InsideInterfaceDAO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
@@ -32,8 +30,7 @@ public class InsideInterfaceService {
 
 	private static final Logger logger = LoggerFactory.getLogger(InsideInterfaceService.class);
 	
-	@Autowired
-	private InsideInterfaceDAO intefaceDAO; // = (InsideInterfaceDAO) ApplicationContext.getBean(InsideInterfaceDAO.class);
+	private InsideInterfaceDAO intefaceDAO = (InsideInterfaceDAO) LApplicationContext.getBean(InsideInterfaceDAO.class);
 	
 	@APIOperation(description="신규시설등록수정 인터페이스")
 	public RecordOutSDO callRecord(RecordInSDO recordDTO) {

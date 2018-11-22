@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
+import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 
 /**
@@ -18,13 +19,15 @@ public class InterfaceDemoTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(InterfaceDemoService.class);
 
-	@Test
-	public void callRoomRead() {
-		
+	public InterfaceDemoTest() {
 		InterfaceFactory factory = new InterfaceFactory();
 		factory.setConfigXmlPath("/interfaces/interface-configure.xml");
 		factory.initFactory();
-		
+	}
+	
+	@Test
+	public void callRoomRead() {
+
 		InterfaceDemoService service = new InterfaceDemoService(); 
 		
 		RoomReadOutSDO out = service.callRoomRead();
@@ -32,6 +35,11 @@ public class InterfaceDemoTest {
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
 		logger.debug("Data : {}", out.getData());
+		
+		
+		CancelFeePsrcOutSDO cancelFeePsrcOutSDO = service.callCancelFeePsrc();
+		
+		logger.debug("cancelFeePsrcOutSDO : {}", cancelFeePsrcOutSDO);
 	}
 	
 }

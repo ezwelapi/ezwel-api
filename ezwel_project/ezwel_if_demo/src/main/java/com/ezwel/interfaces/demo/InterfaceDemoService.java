@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentDTO;
 import com.ezwel.htl.interfaces.service.OutsideInterfaceService;
+import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcInSDO;
+import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 
@@ -28,13 +30,13 @@ public class InterfaceDemoService {
 	public RoomReadOutSDO callRoomRead() {
 		logger.debug("[START] callRoomRead");
 		
-		UserAgentDTO userAgent = new UserAgentDTO();
+		UserAgentDTO userAgentDTO = new UserAgentDTO();
 		//펜션라이프_플레이스엠
-		userAgent.setHttpAgentId("10000496");
-		userAgent.setHttpAgentType("httpAgentType-sample");
-		userAgent.setHttpChannelCd("httpChannelCd-sample");
-		userAgent.setHttpClientId("httpClientId-sample");
-		userAgent.setHttpRequestId("httpRequestId-sample");
+		userAgentDTO.setHttpAgentId("10000496");
+		userAgentDTO.setHttpAgentType("httpAgentType-sample");
+		userAgentDTO.setHttpChannelCd("httpChannelCd-sample");
+		userAgentDTO.setHttpClientId("httpClientId-sample");
+		userAgentDTO.setHttpRequestId("httpRequestId-sample");
 		
 		//Input parameter
 		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
@@ -49,9 +51,38 @@ public class InterfaceDemoService {
 		roomReadSDO.setChildCnt(1);
 		
 		//interface api call
-		RoomReadOutSDO out = service.callRoomRead(userAgent, roomReadSDO);
+		RoomReadOutSDO out = service.callRoomRead(userAgentDTO, roomReadSDO);
 		
 		logger.debug("[END] callRoomRead");
+		return out;
+	}
+	
+
+	public CancelFeePsrcOutSDO callCancelFeePsrc() {
+		logger.debug("[START] callCancelFeePsrc");
+		
+		UserAgentDTO userAgentDTO = new UserAgentDTO();
+		//펜션라이프_플레이스엠
+		userAgentDTO.setHttpAgentId("10000496");
+		userAgentDTO.setHttpAgentType("httpAgentType-sample");
+		userAgentDTO.setHttpChannelCd("httpChannelCd-sample");
+		userAgentDTO.setHttpClientId("httpClientId-sample");
+		userAgentDTO.setHttpRequestId("httpRequestId-sample");
+		
+		//Input parameter
+		CancelFeePsrcInSDO sdo = new CancelFeePsrcInSDO();
+		
+		sdo.setOtaId("ota-Id");
+		sdo.setPdtNo("pdt-No");
+		sdo.setCheckInDate("20181201");
+		sdo.setCheckOutDate("20181202");
+		sdo.setRoomNo("1");
+		sdo.setRoomCnt(1);
+		
+		//interface api call
+		CancelFeePsrcOutSDO out = service.callCancelFeePsrc(userAgentDTO, sdo);
+		
+		logger.debug("[END] callCancelFeePsrc");
 		return out;
 	}
 	

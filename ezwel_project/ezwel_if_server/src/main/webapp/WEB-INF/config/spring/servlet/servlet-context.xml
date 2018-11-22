@@ -79,6 +79,10 @@
 	
 	<context:annotation-config />
 	
+	<!-- ##################### ApplicationContextAware SETUP ###################### -->
+
+	<beans:bean id="springApplicationContext" class="com.ezwel.htl.interfaces.commons.spring.LApplicationContext" ></beans:bean>
+
 	<!-- 
 	Scan only files deployed in .class: *
 	If you are scanning a file in a JAR file deployed as a .jar you MUST specify the package EX) "com.universal"
@@ -112,6 +116,7 @@
 	</bean>
 	-->
 
+
 	<!-- ##################### TASK SCHEDULER SETUP ###################### -->
 	
 	<beans:bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
@@ -122,7 +127,14 @@
 	<task:scheduler id="taskScheduler" pool-size="10"/>
 	
 	<task:annotation-driven scheduler="taskScheduler"/>
+	    
+	<!-- ##################### INIT INTERFACE SETUP ###################### -->
+	<beans:bean id="interfaceFactory" class="com.ezwel.htl.interfaces.commons.configure.InterfaceFactory" init-method="initFactory" destroy-method="destroyFactory">
+		<!-- config file path -->
+		<beans:property name="configXmlPath" value="/interfaces/interface-configure.xml" />
+	</beans:bean>
 	
+
 	<!-- ##################### MULTIPART RESOLVER SETUP ###################### -->
 	
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -130,13 +142,7 @@
 		<beans:property name="maxUploadSize" value="1073741824" /> <!-- 1073741824 Byte == 1 GB 2016-01-17 -->
 		<beans:property name="uploadTempDir" value="/temp" />
 	</beans:bean>
-	    
-	<!-- ##################### INIT INTERFACE SETUP ###################### -->
-	<beans:bean id="operateCodeBeans" class="com.ezwel.htl.interfaces.commons.configure.InterfaceFactory" init-method="initFactory" destroy-method="destroyFactory">
-		<!-- config file path -->
-		<beans:property name="configXmlPath" value="/interfaces/interface-configure.xml" />
-	</beans:bean>
-	
+		
 	<!-- ##################### INTERCEPTORS SETUP ###################### -->	
 	
 	<interceptors>

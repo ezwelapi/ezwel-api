@@ -292,7 +292,7 @@ public class HttpInterfaceExecutorService {
 					
 					if(responseOrgin != null) {
 						responseOrgin = responseOrgin.trim();
-					}
+					} 
 					
 					if(APIUtil.isNotEmpty(responseOrgin)) {
 						
@@ -302,7 +302,7 @@ public class HttpInterfaceExecutorService {
 
 						/** execute unmarshall */
 						logger.debug("■ outputType : {}", outputType);
-						out = (T2) beanConvert.fromJSON(responseOrgin, outputType);						
+						out = (T2) beanConvert.fromJSONString/*fromJSON*/(responseOrgin, outputType);						
 					}
 					else {
 						logger.debug("■ 인터페이스 응답 내용이 존재하지 않습니다.");

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -47,7 +48,6 @@ public class BeanMarshaller {
 		ObjectMapper mapper = null;
 		
 		try {
-			
 			mapper = new ObjectMapper();
 			out = mapper.writeValueAsString(bean);
 		} catch (JsonProcessingException e) {
@@ -74,6 +74,7 @@ public class BeanMarshaller {
 			else {
 				logger.warn("순서(인덱스)가 보장 되지 않는 맵으로 구현된 Map객체입니다. ");
 			}
+			
 			out = writeBean.newInstance();
 			BeanUtils.populate(out, readMap);
 		} catch (IllegalAccessException e) {
@@ -112,9 +113,28 @@ public class BeanMarshaller {
 		}
 		
  		return out;
-	}	
+	}	 
 	
+	@APIOperation(description="바인드된 JSON 문자열을 Class객체에 담아줍니다.", isExecTest=true)
+	public Object fromJSONString(String jsonString, Class<?> writeBean) {
 
+		ObjectMapper mapper = new ObjectMapper();
+		Object out = null;
+		try {
+			// Convert JSON string to Object
+			out = mapper.readValue(jsonString, writeBean);
+
+		} catch (JsonGenerationException e) {
+			throw new APIException(e);
+		} catch (JsonMappingException e) {
+			throw new APIException(e);
+		} catch (IOException e) {
+			throw new APIException(e);
+		}
+		
+		return out;
+	}
+	
 	/**
 	 * bean의 value을 map에 넣어주는 메소드
 	 * @param readBean
