@@ -18,8 +18,8 @@ import lombok.EqualsAndHashCode;
  * @serviceType API
  */
 @Data
-@EqualsAndHashCode(callSuper=false)
-@APIModel(modelNames="API DTO Abstract Super Class")
+@EqualsAndHashCode(callSuper=true)
+@APIModel(modelNames="API Model Super Class")
 public abstract class APIObject implements Serializable {
 	
 	/**
@@ -27,6 +27,7 @@ public abstract class APIObject implements Serializable {
 	 */
 	private static final long serialVersionUID = -5668980456639902223L;
 	
+	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 		scanObject(buffer, 1);

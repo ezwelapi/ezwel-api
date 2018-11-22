@@ -1,13 +1,13 @@
 package com.ezwel.htl.interfaces.commons.abstracts;
 
-import java.io.Serializable;
+import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
  * <pre>
- *  APIObject for APIModel
+ *  AbstractSDO for *SDO
  * </pre>
  * @author swkim@ebsolution.co.kr
  * @date 2018. 11. 5.
@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper=true)
+@APIModel(modelNames="API SDO Super Class")
 public abstract class AbstractSDO extends APIObject {
 
 	
