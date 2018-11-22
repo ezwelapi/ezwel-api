@@ -45,7 +45,7 @@ public class InsideInterfaceController {
 	/**
 	 * <pre>
 	 * [메서드 설명]
-	 * URL : /API1.0/{httpAgentId}/facl/record
+	 * URL : /API1.0/test/facl/record
 	 * [사용방법 설명]
 	 * 
 	 * </pre>
@@ -60,23 +60,25 @@ public class InsideInterfaceController {
 	@ResponseBody
 	@APIOperation(description="신규시설등록수정 인터페이스")
 	@RequestMapping(value="/{httpAgentId}/facl/record")
-	public ResponseEntity<RecordOutSDO> callRecord(@PathVariable("httpAgentId") String httpAgentId, RecordInSDO in, HttpServletRequest request, HttpServletResponse response) {
-		logger.debug("[START] callRecord {}", in);
-		if(in == null) {
-			throw new APIException("입력값이 존재하지 않습니다.");
-		}
+	public ResponseEntity<RecordOutSDO> callRecord(@PathVariable("httpAgentId") String httpAgentId, RecordInSDO recordInSDO, HttpServletRequest request, HttpServletResponse response) {
+		logger.debug("[START] callRecord {}", recordInSDO);
 		
 		ResponseEntity<RecordOutSDO> out = null;
 		RecordOutSDO serviceOut = null;
 
 		try {
+			if(recordInSDO == null) {
+				throw new APIException("입력값이 존재하지 않습니다.");
+			}
+			
 			/**
 			 * 1. 파라메터 및 헤더 유효성 검사
 			 * 2. 인터 페이스 요청에 따른 DB핸들링 
 			 * 3. 결과 응답(JSON) 
 			 */
 			
-			serviceOut = intefaceService.callRecord(in);
+			//Advice & Interceptor 최적화후 작업 추가 진행
+			serviceOut = intefaceService.callRecord(recordInSDO);
 
 			out = new ResponseEntity<RecordOutSDO>(serviceOut, HttpStatus.OK);
 		}
@@ -96,17 +98,19 @@ public class InsideInterfaceController {
 	@ResponseBody
 	@APIOperation(description="시설판매중지설정 인터페이스")
 	@RequestMapping(value="/{httpAgentId}/facl/saleStop")
-	public ResponseEntity<SaleStopOutSDO> callSaleStop(@PathVariable("httpAgentId") String httpAgentId, SaleStopInSDO in, HttpServletRequest request, HttpServletResponse response) {
-		logger.debug("[START] callSaleStop {}", in);
-		if(in == null) {
-			throw new APIException("입력값이 존재하지 않습니다.");
-		}
+	public ResponseEntity<SaleStopOutSDO> callSaleStop(@PathVariable("httpAgentId") String httpAgentId, SaleStopInSDO saleStopInSDO, HttpServletRequest request, HttpServletResponse response) {
+		logger.debug("[START] callSaleStop {}", saleStopInSDO);
 		
 		ResponseEntity<SaleStopOutSDO> out = null;
 		SaleStopOutSDO serviceOut = null;
 
 		try {
-			serviceOut = intefaceService.callSaleStop(in);
+			if(saleStopInSDO == null) {
+				throw new APIException("입력값이 존재하지 않습니다.");
+			}
+			
+			//Advice & Interceptor 최적화후 작업 추가 진행
+			serviceOut = intefaceService.callSaleStop(saleStopInSDO);
 
 			out = new ResponseEntity<SaleStopOutSDO>(serviceOut, HttpStatus.OK);
 		}
@@ -125,17 +129,19 @@ public class InsideInterfaceController {
 	@ResponseBody
 	@APIOperation(description="예약내역조회 인터페이스")
 	@RequestMapping(value="/{httpAgentId}/rsv/view")
-	public ResponseEntity<ViewOutSDO> callView(@PathVariable("httpAgentId") String httpAgentId, ViewInSDO in, HttpServletRequest request, HttpServletResponse response) {
-		logger.debug("[START] callView {}", in);
-		if(in == null) {
-			throw new APIException("입력값이 존재하지 않습니다.");
-		}
+	public ResponseEntity<ViewOutSDO> callView(@PathVariable("httpAgentId") String httpAgentId, ViewInSDO viewInSDO, HttpServletRequest request, HttpServletResponse response) {
+		logger.debug("[START] callView {}", viewInSDO);
 		
 		ResponseEntity<ViewOutSDO> out = null;
 		ViewOutSDO serviceOut = null;
 
 		try {
-			serviceOut = intefaceService.callView(in);
+			if(viewInSDO == null) {
+				throw new APIException("입력값이 존재하지 않습니다.");
+			}
+			
+			//Advice & Interceptor 최적화후 작업 추가 진행
+			serviceOut = intefaceService.callView(viewInSDO);
 
 			out = new ResponseEntity<ViewOutSDO>(serviceOut, HttpStatus.OK);
 		}
@@ -153,17 +159,19 @@ public class InsideInterfaceController {
 	@ResponseBody
 	@APIOperation(description="시설바우처번호등록 인터페이스")
 	@RequestMapping(value="/{httpAgentId}/facl/voucherReg")
-	public ResponseEntity<VoucherRegOutSDO> callVoucherReg(@PathVariable("httpAgentId") String httpAgentId, VoucherRegInSDO in, HttpServletRequest request, HttpServletResponse response) {
-		logger.debug("[START] callVoucherReg {}", in);
-		if(in == null) {
-			throw new APIException("입력값이 존재하지 않습니다.");
-		}
+	public ResponseEntity<VoucherRegOutSDO> callVoucherReg(@PathVariable("httpAgentId") String httpAgentId, VoucherRegInSDO voucherRegInSDO, HttpServletRequest request, HttpServletResponse response) {
+		logger.debug("[START] callVoucherReg {}", voucherRegInSDO);
 		
 		ResponseEntity<VoucherRegOutSDO> out = null;
 		VoucherRegOutSDO serviceOut = null;
 
 		try {
-			serviceOut = intefaceService.callVoucherReg(in);
+			if(voucherRegInSDO == null) {
+				throw new APIException("입력값이 존재하지 않습니다.");
+			}
+			
+			//Advice & Interceptor 최적화후 작업 추가 진행
+			serviceOut = intefaceService.callVoucherReg(voucherRegInSDO);
 
 			out = new ResponseEntity<VoucherRegOutSDO>(serviceOut, HttpStatus.OK);
 		}
@@ -182,17 +190,19 @@ public class InsideInterfaceController {
 	@ResponseBody
 	@APIOperation(description="주문대사(제휴사) 인터페이스")
 	@RequestMapping(value="/{httpAgentId}/order/agentJob")
-	public ResponseEntity<AgentJobOutSDO> callAgentJob(@PathVariable("httpAgentId") String httpAgentId, AgentJobInSDO in, HttpServletRequest request, HttpServletResponse response) {
-		logger.debug("[START] callAgentJob {}", in);
-		if(in == null) {
-			throw new APIException("입력값이 존재하지 않습니다.");
-		}
+	public ResponseEntity<AgentJobOutSDO> callAgentJob(@PathVariable("httpAgentId") String httpAgentId, AgentJobInSDO agentJobInSDO, HttpServletRequest request, HttpServletResponse response) {
+		logger.debug("[START] callAgentJob {}", agentJobInSDO);
 		
 		ResponseEntity<AgentJobOutSDO> out = null;
 		AgentJobOutSDO serviceOut = null;
 
 		try {
-			serviceOut = intefaceService.callAgentJob(in);
+			if(agentJobInSDO == null) {
+				throw new APIException("입력값이 존재하지 않습니다.");
+			}
+			
+			//Advice & Interceptor 최적화후 작업 추가 진행
+			serviceOut = intefaceService.callAgentJob(agentJobInSDO);
 
 			out = new ResponseEntity<AgentJobOutSDO>(serviceOut, HttpStatus.OK);
 		}

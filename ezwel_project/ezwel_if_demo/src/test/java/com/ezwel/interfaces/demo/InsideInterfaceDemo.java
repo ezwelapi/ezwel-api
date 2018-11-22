@@ -15,11 +15,11 @@ import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
  * @author swkim@ebsolution.co.kr
  * @date   2018. 11. 19.
  */
-public class InterfaceDemoTest {
+public class InsideInterfaceDemo {
 
 	private static final Logger logger = LoggerFactory.getLogger(InterfaceDemoService.class);
 
-	public InterfaceDemoTest() {
+	public InsideInterfaceDemo() {
 		InterfaceFactory factory = new InterfaceFactory();
 		factory.setConfigXmlPath("/interfaces/interface-configure.xml");
 		factory.initFactory();
