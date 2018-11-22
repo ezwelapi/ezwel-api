@@ -40,6 +40,7 @@ try {
 	throw new RuntimeException("JSON Telegram Exception", e);
 }	
 %>
+
 {
 	"code": "1000",
 	"message": "정상적으로 처리되었습니다",
