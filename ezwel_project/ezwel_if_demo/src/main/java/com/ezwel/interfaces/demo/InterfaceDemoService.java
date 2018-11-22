@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentDTO;
 import com.ezwel.htl.interfaces.service.OutsideInterfaceService;
-import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInDTO;
-import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutDTO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 
 /**
  * <pre>
@@ -25,7 +25,7 @@ public class InterfaceDemoService {
 		service = new OutsideInterfaceService();
 	}
 	
-	public RoomReadOutDTO callRoomRead() {
+	public RoomReadOutSDO callRoomRead() {
 		logger.debug("[START] callRoomRead");
 		
 		UserAgentDTO userAgent = new UserAgentDTO();
@@ -37,7 +37,7 @@ public class InterfaceDemoService {
 		userAgent.setHttpRequestId("httpRequestId-sample");
 		
 		//Input parameter
-		RoomReadInDTO roomReadDTO = new RoomReadInDTO();
+		RoomReadInSDO roomReadDTO = new RoomReadInSDO();
 		
 		roomReadDTO.setOtaId("ota-Id");
 		roomReadDTO.setPdtNo("pdt-No");
@@ -49,7 +49,7 @@ public class InterfaceDemoService {
 		roomReadDTO.setChildCnt(1);
 		
 		//interface api call
-		RoomReadOutDTO out = service.callRoomRead(userAgent, roomReadDTO);
+		RoomReadOutSDO out = service.callRoomRead(userAgent, roomReadDTO);
 		
 		logger.debug("[END] callRoomRead");
 		return out;

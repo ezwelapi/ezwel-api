@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
-import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutDTO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 
 /**
  * <pre>
@@ -27,7 +27,7 @@ public class InterfaceDemoTest {
 		
 		InterfaceDemoService service = new InterfaceDemoService(); 
 		
-		RoomReadOutDTO out = service.callRoomRead();
+		RoomReadOutSDO out = service.callRoomRead();
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());

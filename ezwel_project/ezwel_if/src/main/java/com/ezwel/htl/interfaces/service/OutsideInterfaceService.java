@@ -19,24 +19,24 @@ import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigDTO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentDTO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
-import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutDTO;
-import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInDTO;
-import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtOutDTO;
-import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcInDTO;
-import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcOutDTO;
-import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobInDTO;
-import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobOutDTO;
-import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInDTO;
-import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutDTO;
-import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnInDTO;
-import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnOutDTO;
-import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqInDTO;
-import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqOutDTO;
-import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInDTO;
-import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutDTO;
-import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendInDTO;
-import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendOutDTO;
-import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutDTO;
+import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
+import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInSDO;
+import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtOutSDO;
+import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcInSDO;
+import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcOutSDO;
+import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobInSDO;
+import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobOutSDO;
+import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
+import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
+import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnInSDO;
+import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnOutSDO;
+import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqInSDO;
+import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqOutSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
+import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendInSDO;
+import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendOutSDO;
+import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 
 /**
  * <pre>
@@ -67,15 +67,15 @@ public class OutsideInterfaceService {
 	}
 	
 	@APIOperation(description="전체시설일괄등록 인터페이스")
-	public AllRegOutDTO callAllReg(UserAgentDTO agentInfoDTO) {
+	public AllRegOutSDO callAllReg(UserAgentDTO agentInfoDTO) {
 		
-		AllRegOutDTO out = null;
+		AllRegOutSDO out = null;
 		
 		try {
 			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("allReg", agentInfoDTO.getHttpAgentId());
 			setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 			/** execute interface */
-			out = (AllRegOutDTO) inteface.sendPostJSON(httpConfigDTO, AllRegOutDTO.class);
+			out = (AllRegOutSDO) inteface.sendPostJSON(httpConfigDTO, AllRegOutSDO.class);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "전체시설일괄등록 인터페이스 장애발생.", e);
@@ -86,9 +86,9 @@ public class OutsideInterfaceService {
 	
 	//멀티쓰레드
 	@APIOperation(description="시설검색 인터페이스")
-	public List<FaclSearchOutDTO> callFaclSearch(UserAgentDTO agentInfoDTO, FaclSearchInDTO faclSearchDTO) {
+	public List<FaclSearchOutSDO> callFaclSearch(UserAgentDTO agentInfoDTO, FaclSearchInSDO faclSearchDTO) {
 			
-		List<FaclSearchOutDTO> out = null;
+		List<FaclSearchOutSDO> out = null;
 		MultiHttpConfigDTO multi = null;
 		List<HttpConfigDTO> channelList = null;
 		List<MultiHttpConfigDTO> multiHttpConfigList = null;
@@ -106,7 +106,7 @@ public class OutsideInterfaceService {
 					//input
 					multi.setInputDTO(faclSearchDTO);
 					//output
-					multi.setOutputType(FaclSearchOutDTO.class);
+					multi.setOutputType(FaclSearchOutSDO.class);
 					multiHttpConfigList.add(multi);
 				}
 			}
@@ -124,9 +124,9 @@ public class OutsideInterfaceService {
 	
 	//멀티쓰레드
 	@APIOperation(description="당일특가검색 인터페이스")
-	public List<SddSearchOutDTO> callSddSearch(UserAgentDTO agentInfoDTO) {
+	public List<SddSearchOutSDO> callSddSearch(UserAgentDTO agentInfoDTO) {
 		
-		List<SddSearchOutDTO> out = null;
+		List<SddSearchOutSDO> out = null;
 		MultiHttpConfigDTO multi = null;
 		List<MultiHttpConfigDTO> multiHttpConfigList = null;
 		List<HttpConfigDTO> channelList = null;
@@ -144,7 +144,7 @@ public class OutsideInterfaceService {
 					//config
 					multi.setHttpConfigDTO(httpConfigDTO);
 					//output
-					multi.setOutputType(SddSearchOutDTO.class);
+					multi.setOutputType(SddSearchOutSDO.class);
 					multiHttpConfigList.add(multi);
 				}
 			}
@@ -161,16 +161,16 @@ public class OutsideInterfaceService {
 	}
 	
 	@APIOperation(description="객실정보조회 인터페이스")
-	public RoomReadOutDTO callRoomRead(UserAgentDTO agentInfoDTO, RoomReadInDTO roomReadDTO) {
+	public RoomReadOutSDO callRoomRead(UserAgentDTO agentInfoDTO, RoomReadInSDO roomReadDTO) {
 		
-		RoomReadOutDTO out = null;
+		RoomReadOutSDO out = null;
 		
 		try {
 			
 			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("roomRead", agentInfoDTO.getHttpAgentId());
 			setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 			/** execute interface */
-			out = (RoomReadOutDTO) inteface.sendPostJSON(httpConfigDTO, roomReadDTO, RoomReadOutDTO.class);
+			out = (RoomReadOutSDO) inteface.sendPostJSON(httpConfigDTO, roomReadDTO, RoomReadOutSDO.class);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "객실정보조회 인터페이스 장애발생.", e);
@@ -180,16 +180,16 @@ public class OutsideInterfaceService {
 	}
 	
 	@APIOperation(description="취소수수규정 인터페이스")
-	public CancelFeePsrcOutDTO callCancelFeePsrc(UserAgentDTO agentInfoDTO, CancelFeePsrcInDTO cancelFeePsrcDTO) {
+	public CancelFeePsrcOutSDO callCancelFeePsrc(UserAgentDTO agentInfoDTO, CancelFeePsrcInSDO cancelFeePsrcDTO) {
 		
-		CancelFeePsrcOutDTO out = null;
+		CancelFeePsrcOutSDO out = null;
 		
 		try {
 			
 			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("cancelFeePsrc", agentInfoDTO.getHttpAgentId());
 			setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 			/** execute interface */
-			out = (CancelFeePsrcOutDTO) inteface.sendPostJSON(httpConfigDTO, cancelFeePsrcDTO, CancelFeePsrcOutDTO.class);
+			out = (CancelFeePsrcOutSDO) inteface.sendPostJSON(httpConfigDTO, cancelFeePsrcDTO, CancelFeePsrcOutSDO.class);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "주문대사(제휴사) 인터페이스 장애발생.", e);
@@ -199,16 +199,16 @@ public class OutsideInterfaceService {
 	}
 	
 	@APIOperation(description="결재완료내역전송 인터페이스")
-	public RsvHistSendOutDTO callRsvHistSend(UserAgentDTO agentInfoDTO, RsvHistSendInDTO rsvHistSendDTO) {
+	public RsvHistSendOutSDO callRsvHistSend(UserAgentDTO agentInfoDTO, RsvHistSendInSDO rsvHistSendDTO) {
 		
-		RsvHistSendOutDTO out = null;
+		RsvHistSendOutSDO out = null;
 		
 		try {
 			
 			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("rsvHistSend", agentInfoDTO.getHttpAgentId());
 			setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 			/** execute interface */
-			out = (RsvHistSendOutDTO) inteface.sendPostJSON(httpConfigDTO, rsvHistSendDTO, RsvHistSendOutDTO.class);
+			out = (RsvHistSendOutSDO) inteface.sendPostJSON(httpConfigDTO, rsvHistSendDTO, RsvHistSendOutSDO.class);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "결재완료내역전송 인터페이스 장애발생.", e);
@@ -218,16 +218,16 @@ public class OutsideInterfaceService {
 	}
 	
 	@APIOperation(description="취소수수료계산 인터페이스")
-	public CancelFeeAmtOutDTO callCancelFeeAmt(UserAgentDTO agentInfoDTO, CancelFeeAmtInDTO cancelFeeAmtDTO) {
+	public CancelFeeAmtOutSDO callCancelFeeAmt(UserAgentDTO agentInfoDTO, CancelFeeAmtInSDO cancelFeeAmtDTO) {
 		
-		CancelFeeAmtOutDTO out = null;
+		CancelFeeAmtOutSDO out = null;
 		
 		try {
 			
 			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("cancelFeeAmt", agentInfoDTO.getHttpAgentId());
 			setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 			/** execute interface */
-			out = (CancelFeeAmtOutDTO) inteface.sendPostJSON(httpConfigDTO, cancelFeeAmtDTO, CancelFeeAmtOutDTO.class);
+			out = (CancelFeeAmtOutSDO) inteface.sendPostJSON(httpConfigDTO, cancelFeeAmtDTO, CancelFeeAmtOutSDO.class);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "주문대사(제휴사) 인터페이스 장애발생.", e);
@@ -236,16 +236,16 @@ public class OutsideInterfaceService {
 	}
 	
 	@APIOperation(description="주문취소요청 인터페이스")
-	public OrderCancelReqOutDTO callOrderCancelReq(UserAgentDTO agentInfoDTO, OrderCancelReqInDTO orderCancelReqDTO) {
+	public OrderCancelReqOutSDO callOrderCancelReq(UserAgentDTO agentInfoDTO, OrderCancelReqInSDO orderCancelReqDTO) {
 		
-		OrderCancelReqOutDTO out = null;
+		OrderCancelReqOutSDO out = null;
 		
 		try {
 			
 			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("orderCancelReq", agentInfoDTO.getHttpAgentId());
 			setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 			/** execute interface */
-			out = (OrderCancelReqOutDTO) inteface.sendPostJSON(httpConfigDTO, orderCancelReqDTO, OrderCancelReqOutDTO.class);
+			out = (OrderCancelReqOutSDO) inteface.sendPostJSON(httpConfigDTO, orderCancelReqDTO, OrderCancelReqOutSDO.class);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "주문취소요청 인터페이스 장애발생.", e);
@@ -255,16 +255,16 @@ public class OutsideInterfaceService {
 	}
 
 	@APIOperation(description="누락건확인 인터페이스")
-	public OmiNumIdnOutDTO callOmiNumIdn(UserAgentDTO agentInfoDTO, OmiNumIdnInDTO omiNumIdnDTO) {
+	public OmiNumIdnOutSDO callOmiNumIdn(UserAgentDTO agentInfoDTO, OmiNumIdnInSDO omiNumIdnDTO) {
 		
-		OmiNumIdnOutDTO out = null;
+		OmiNumIdnOutSDO out = null;
 		
 		try {
 			
 			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("omiNumIdn", agentInfoDTO.getHttpAgentId());
 			setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 			/** execute interface */
-			out = (OmiNumIdnOutDTO) inteface.sendPostJSON(httpConfigDTO, omiNumIdnDTO, OmiNumIdnOutDTO.class);
+			out = (OmiNumIdnOutSDO) inteface.sendPostJSON(httpConfigDTO, omiNumIdnDTO, OmiNumIdnOutSDO.class);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "누락건확인 인터페이스 장애발생.", e);
@@ -274,16 +274,16 @@ public class OutsideInterfaceService {
 	}
 
 	@APIOperation(description="주문대사(이지웰) 인터페이스")
-	public EzwelJobOutDTO callEzwelJob(UserAgentDTO agentInfoDTO, EzwelJobInDTO ezwelJobDTO) {
+	public EzwelJobOutSDO callEzwelJob(UserAgentDTO agentInfoDTO, EzwelJobInSDO ezwelJobDTO) {
 		
-		EzwelJobOutDTO out = null;
+		EzwelJobOutSDO out = null;
 		
 		try {
 			
 			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("ezwelJob", agentInfoDTO.getHttpAgentId());
 			setupUserAgentInfo(httpConfigDTO, agentInfoDTO);
 			/** execute interface */
-			out = (EzwelJobOutDTO) inteface.sendPostJSON(httpConfigDTO, ezwelJobDTO, EzwelJobOutDTO.class);
+			out = (EzwelJobOutSDO) inteface.sendPostJSON(httpConfigDTO, ezwelJobDTO, EzwelJobOutSDO.class);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "주문대사(이지웰) 인터페이스 장애발생.", e);

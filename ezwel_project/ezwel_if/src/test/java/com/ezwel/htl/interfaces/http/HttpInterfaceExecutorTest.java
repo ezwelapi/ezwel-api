@@ -19,8 +19,8 @@ import com.ezwel.htl.interfaces.http.dto.InputDTOSub01;
 import com.ezwel.htl.interfaces.http.dto.InputDTOSub02;
 import com.ezwel.htl.interfaces.http.dto.OutputDTO;
 import com.ezwel.htl.interfaces.service.OutsideInterfaceService;
-import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInDTO;
-import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutDTO;
+import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 
 
 
@@ -58,7 +58,7 @@ public class HttpInterfaceExecutorTest  {
         }
         */
 		
-		RoomReadOutDTO singleOut = (RoomReadOutDTO) http.sendPostJSON(config, inputDTO, RoomReadOutDTO.class);
+		RoomReadOutSDO singleOut = (RoomReadOutSDO) http.sendPostJSON(config, inputDTO, RoomReadOutSDO.class);
 		logger.debug("###RoomReadOutDTO : {}", singleOut);
 		
 		
@@ -67,7 +67,7 @@ public class HttpInterfaceExecutorTest  {
 		}
 		
 		OutsideInterfaceService interfaceService = new OutsideInterfaceService();
-		CancelFeeAmtInDTO cancelFeeAmtIn = new CancelFeeAmtInDTO();
+		CancelFeeAmtInSDO cancelFeeAmtIn = new CancelFeeAmtInSDO();
 		cancelFeeAmtIn.setRsvNo("rsvNo");
 
 		UserAgentDTO agentInfoDTO = new UserAgentDTO();

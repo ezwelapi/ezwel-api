@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.service.InsideInterfaceService;
-import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInDTO;
-import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutDTO;
-import com.ezwel.htl.interfaces.service.data.record.RecordInDTO;
-import com.ezwel.htl.interfaces.service.data.record.RecordOutDTO;
-import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopInDTO;
-import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopOutDTO;
-import com.ezwel.htl.interfaces.service.data.view.ViewInDTO;
-import com.ezwel.htl.interfaces.service.data.view.ViewOutDTO;
-import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegInDTO;
-import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegOutDTO;
+import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
+import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
+import com.ezwel.htl.interfaces.service.data.record.RecordInSDO;
+import com.ezwel.htl.interfaces.service.data.record.RecordOutSDO;
+import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopInSDO;
+import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopOutSDO;
+import com.ezwel.htl.interfaces.service.data.view.ViewInSDO;
+import com.ezwel.htl.interfaces.service.data.view.ViewOutSDO;
+import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegInSDO;
+import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegOutSDO;
 
 /**
  * <pre>
@@ -61,14 +61,14 @@ public class InsideInterfaceController {
 	@ResponseBody
 	@APIOperation(description="신규시설등록수정 인터페이스")
 	@RequestMapping(value="/{httpAgentId}/facl/record")
-	public ResponseEntity<RecordOutDTO> callRecord(@PathVariable("httpAgentId") String httpAgentId, RecordInDTO in, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<RecordOutSDO> callRecord(@PathVariable("httpAgentId") String httpAgentId, RecordInSDO in, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callRecord {}", in);
 		if(in == null) {
 			throw new APIException("입력값이 존재하지 않습니다.");
 		}
 		
-		ResponseEntity<RecordOutDTO> out = null;
-		RecordOutDTO serviceOut = null;
+		ResponseEntity<RecordOutSDO> out = null;
+		RecordOutSDO serviceOut = null;
 
 		try {
 			/**
@@ -79,14 +79,14 @@ public class InsideInterfaceController {
 			
 			serviceOut = intefaceService.callRecord(in);
 
-			out = new ResponseEntity<RecordOutDTO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<RecordOutSDO>(serviceOut, HttpStatus.OK);
 		}
 		catch(Exception e) {
-			serviceOut = new RecordOutDTO(); 
+			serviceOut = new RecordOutSDO(); 
 			/**
 			 * 장애 발생시 code, message 세팅 
 			 */
-			out = new ResponseEntity<RecordOutDTO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<RecordOutSDO>(serviceOut, HttpStatus.OK);
 			e.printStackTrace();
 		}
 		
@@ -97,24 +97,24 @@ public class InsideInterfaceController {
 	@ResponseBody
 	@APIOperation(description="시설판매중지설정 인터페이스")
 	@RequestMapping(value="/{httpAgentId}/facl/saleStop")
-	public ResponseEntity<SaleStopOutDTO> callSaleStop(@PathVariable("httpAgentId") String httpAgentId, SaleStopInDTO in, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<SaleStopOutSDO> callSaleStop(@PathVariable("httpAgentId") String httpAgentId, SaleStopInSDO in, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callSaleStop {}", in);
 		if(in == null) {
 			throw new APIException("입력값이 존재하지 않습니다.");
 		}
 		
-		ResponseEntity<SaleStopOutDTO> out = null;
-		SaleStopOutDTO serviceOut = null;
+		ResponseEntity<SaleStopOutSDO> out = null;
+		SaleStopOutSDO serviceOut = null;
 
 		try {
 			serviceOut = intefaceService.callSaleStop(in);
 
-			out = new ResponseEntity<SaleStopOutDTO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<SaleStopOutSDO>(serviceOut, HttpStatus.OK);
 		}
 		catch(Exception e) {
-			serviceOut = new SaleStopOutDTO(); 
+			serviceOut = new SaleStopOutSDO(); 
 		
-			out = new ResponseEntity<SaleStopOutDTO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<SaleStopOutSDO>(serviceOut, HttpStatus.OK);
 			e.printStackTrace();
 		}
 		
@@ -126,24 +126,24 @@ public class InsideInterfaceController {
 	@ResponseBody
 	@APIOperation(description="예약내역조회 인터페이스")
 	@RequestMapping(value="/{httpAgentId}/rsv/view")
-	public ResponseEntity<ViewOutDTO> callView(@PathVariable("httpAgentId") String httpAgentId, ViewInDTO in, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<ViewOutSDO> callView(@PathVariable("httpAgentId") String httpAgentId, ViewInSDO in, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callView {}", in);
 		if(in == null) {
 			throw new APIException("입력값이 존재하지 않습니다.");
 		}
 		
-		ResponseEntity<ViewOutDTO> out = null;
-		ViewOutDTO serviceOut = null;
+		ResponseEntity<ViewOutSDO> out = null;
+		ViewOutSDO serviceOut = null;
 
 		try {
 			serviceOut = intefaceService.callView(in);
 
-			out = new ResponseEntity<ViewOutDTO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<ViewOutSDO>(serviceOut, HttpStatus.OK);
 		}
 		catch(Exception e) {
-			serviceOut = new ViewOutDTO(); 
+			serviceOut = new ViewOutSDO(); 
 		
-			out = new ResponseEntity<ViewOutDTO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<ViewOutSDO>(serviceOut, HttpStatus.OK);
 			e.printStackTrace();
 		}
 		
@@ -154,24 +154,24 @@ public class InsideInterfaceController {
 	@ResponseBody
 	@APIOperation(description="시설바우처번호등록 인터페이스")
 	@RequestMapping(value="/{httpAgentId}/facl/voucherReg")
-	public ResponseEntity<VoucherRegOutDTO> callVoucherReg(@PathVariable("httpAgentId") String httpAgentId, VoucherRegInDTO in, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<VoucherRegOutSDO> callVoucherReg(@PathVariable("httpAgentId") String httpAgentId, VoucherRegInSDO in, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callVoucherReg {}", in);
 		if(in == null) {
 			throw new APIException("입력값이 존재하지 않습니다.");
 		}
 		
-		ResponseEntity<VoucherRegOutDTO> out = null;
-		VoucherRegOutDTO serviceOut = null;
+		ResponseEntity<VoucherRegOutSDO> out = null;
+		VoucherRegOutSDO serviceOut = null;
 
 		try {
 			serviceOut = intefaceService.callVoucherReg(in);
 
-			out = new ResponseEntity<VoucherRegOutDTO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<VoucherRegOutSDO>(serviceOut, HttpStatus.OK);
 		}
 		catch(Exception e) {
-			serviceOut = new VoucherRegOutDTO(); 
+			serviceOut = new VoucherRegOutSDO(); 
 		
-			out = new ResponseEntity<VoucherRegOutDTO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<VoucherRegOutSDO>(serviceOut, HttpStatus.OK);
 			e.printStackTrace();
 		}
 		
@@ -183,24 +183,24 @@ public class InsideInterfaceController {
 	@ResponseBody
 	@APIOperation(description="주문대사(제휴사) 인터페이스")
 	@RequestMapping(value="/{httpAgentId}/order/agentJob")
-	public ResponseEntity<AgentJobOutDTO> callAgentJob(@PathVariable("httpAgentId") String httpAgentId, AgentJobInDTO in, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<AgentJobOutSDO> callAgentJob(@PathVariable("httpAgentId") String httpAgentId, AgentJobInSDO in, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callAgentJob {}", in);
 		if(in == null) {
 			throw new APIException("입력값이 존재하지 않습니다.");
 		}
 		
-		ResponseEntity<AgentJobOutDTO> out = null;
-		AgentJobOutDTO serviceOut = null;
+		ResponseEntity<AgentJobOutSDO> out = null;
+		AgentJobOutSDO serviceOut = null;
 
 		try {
 			serviceOut = intefaceService.callAgentJob(in);
 
-			out = new ResponseEntity<AgentJobOutDTO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<AgentJobOutSDO>(serviceOut, HttpStatus.OK);
 		}
 		catch(Exception e) {
-			serviceOut = new AgentJobOutDTO(); 
+			serviceOut = new AgentJobOutSDO(); 
 		
-			out = new ResponseEntity<AgentJobOutDTO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<AgentJobOutSDO>(serviceOut, HttpStatus.OK);
 			e.printStackTrace();
 		}
 		
