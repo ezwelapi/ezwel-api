@@ -19,6 +19,9 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @EqualsAndHashCode(callSuper=true)
 public class EzwelJobInSDO extends AbstractSDO {
 
+	@APIFields(description = "주문대사(이지웰) Input 제휴사아이디", required=true, maxLength=100)
+	private String otaId;
+	
 	@APIFields(description = "주문대사(이지웰) Input 주문번호", required=true, maxLength=100)
 	private String rsvNo;
 	
@@ -28,6 +31,14 @@ public class EzwelJobInSDO extends AbstractSDO {
 	@APIFields(description = "주문대사(이지웰) Input 주문종료일", required=true, maxLength=8)
 	private String rsvDateEnd;
 
+	public String getOtaId() {
+		return otaId;
+	}
+
+	public void setOtaId(String otaId) {
+		this.otaId = otaId;
+	}
+	
 	public String getRsvNo() {
 		return rsvNo;
 	}

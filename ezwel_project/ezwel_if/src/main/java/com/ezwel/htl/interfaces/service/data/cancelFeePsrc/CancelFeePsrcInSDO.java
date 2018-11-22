@@ -24,8 +24,8 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @EqualsAndHashCode(callSuper=true)
 public class CancelFeePsrcInSDO extends AbstractSDO {
 
-
-
+	@APIFields(description = "취소수수료규정 Input 제휴사아이디", required=true, maxLength=100)
+	private String otaId;
 	
 	@APIFields(description = "취소수수료규정 Input 상품코드", required=true, maxLength=100)
 	private String pdtNo;
@@ -42,6 +42,14 @@ public class CancelFeePsrcInSDO extends AbstractSDO {
 	@APIFields(description = "취소수수료규정 Input 객실수", required=true, maxLength=1)
 	private Integer roomCnt;
 
+	public String getOtaId() {
+		return otaId;
+	}
+
+	public void setOtaId(String otaId) {
+		this.otaId = otaId;
+	}
+	
 	public String getPdtNo() {
 		return pdtNo;
 	}
