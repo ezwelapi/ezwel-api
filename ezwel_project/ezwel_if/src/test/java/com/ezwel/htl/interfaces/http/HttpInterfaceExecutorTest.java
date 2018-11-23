@@ -18,7 +18,7 @@ import com.ezwel.htl.interfaces.http.dto.InputDTO;
 import com.ezwel.htl.interfaces.http.dto.InputDTOSub01;
 import com.ezwel.htl.interfaces.http.dto.InputDTOSub02;
 import com.ezwel.htl.interfaces.http.dto.OutputDTO;
-import com.ezwel.htl.interfaces.service.OutsideInterfaceService;
+import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 
@@ -66,7 +66,7 @@ public class HttpInterfaceExecutorTest  {
 			return;
 		}
 		
-		OutsideInterfaceService interfaceService = new OutsideInterfaceService();
+		OutsideIFService interfaceService = new OutsideIFService();
 		CancelFeeAmtInSDO cancelFeeAmtIn = new CancelFeeAmtInSDO();
 		cancelFeeAmtIn.setRsvNo("rsvNo");
 

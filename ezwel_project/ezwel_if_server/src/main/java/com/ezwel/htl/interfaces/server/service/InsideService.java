@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
-import com.ezwel.htl.interfaces.server.repository.InsideInterfaceRepository;
+import com.ezwel.htl.interfaces.server.repository.InsideRepository;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
 import com.ezwel.htl.interfaces.service.data.record.RecordInSDO;
@@ -26,11 +26,11 @@ import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegOutSDO;
  * @date   2018. 11. 15.
  */
 @Service
-public class InsideInterfaceService {
+public class InsideService {
 
-	private static final Logger logger = LoggerFactory.getLogger(InsideInterfaceService.class);
+	private static final Logger logger = LoggerFactory.getLogger(InsideService.class);
 	
-	private InsideInterfaceRepository intefaceDAO = (InsideInterfaceRepository) LApplicationContext.getBean(InsideInterfaceRepository.class);
+	private InsideRepository intefaceDAO = (InsideRepository) LApplicationContext.getBean(InsideRepository.class);
 	
 	@APIOperation(description="신규시설등록수정 인터페이스")
 	public RecordOutSDO callRecord(RecordInSDO recordSDO) {

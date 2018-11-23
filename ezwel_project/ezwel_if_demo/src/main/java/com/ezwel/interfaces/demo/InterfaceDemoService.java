@@ -4,7 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentDTO;
-import com.ezwel.htl.interfaces.service.OutsideInterfaceService;
+import com.ezwel.htl.interfaces.server.service.OutsideIFServerService;
+import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtOutSDO;
@@ -12,8 +13,6 @@ import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcInSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
-import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendInSDO;
-import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendOutSDO;
 
 /**
  * <pre>
@@ -26,10 +25,12 @@ public class InterfaceDemoService {
 
 	private static final Logger logger = LoggerFactory.getLogger(InterfaceDemoService.class);
 	
-	private OutsideInterfaceService service; 
+	private OutsideIFService outIfService; 
+	private OutsideIFServerService outIfServerService; 
 	
 	public InterfaceDemoService() {
-		service = new OutsideInterfaceService();
+		outIfService = new OutsideIFService();
+		outIfServerService = new OutsideIFServerService();
 	}
 	
 	public AllRegOutSDO callAllReg() {		
@@ -44,7 +45,7 @@ public class InterfaceDemoService {
 		userAgentDTO.setHttpRequestId("httpRequestId-sample");
 		
 		//interface api call
-		AllRegOutSDO out = service.callAllReg(userAgentDTO);
+		AllRegOutSDO out = outIfServerService.callAllReg(userAgentDTO);
 		
 		logger.debug("[END] callAllReg");
 		return out;
@@ -72,7 +73,7 @@ public class InterfaceDemoService {
 		sdo.setRoomCnt(1);
 		
 		//interface api call
-		CancelFeePsrcOutSDO out = service.callCancelFeePsrc(userAgentDTO, sdo);
+		CancelFeePsrcOutSDO out = outIfService.callCancelFeePsrc(userAgentDTO, sdo);
 		
 		logger.debug("[END] callCancelFeePsrc");
 		return out;
@@ -96,7 +97,7 @@ public class InterfaceDemoService {
 		sdo.setRsvNo("rsv-no");
 		
 		//interface api call
-		CancelFeeAmtOutSDO out = service.callCancelFeeAmt(userAgentDTO, sdo);
+		CancelFeeAmtOutSDO out = outIfService.callCancelFeeAmt(userAgentDTO, sdo);
 		
 		logger.debug("[END] callCancelFeeAmt");
 		return out;
@@ -126,7 +127,7 @@ public class InterfaceDemoService {
 		roomReadSDO.setChildCnt(1);
 		
 		//interface api call
-		RoomReadOutSDO out = service.callRoomRead(userAgentDTO, roomReadSDO);
+		RoomReadOutSDO out = outIfService.callRoomRead(userAgentDTO, roomReadSDO);
 		
 		logger.debug("[END] callRoomRead");
 		return out;

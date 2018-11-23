@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.service;
+package com.ezwel.htl.interfaces.adapter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,9 +39,9 @@ import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendOutSDO;
  */
 @Service
 @APIType
-public class OutsideIFService {
+public class OutsideIFAdapter {
 
-	private static final Logger logger = LoggerFactory.getLogger(OutsideIFService.class);
+	private static final Logger logger = LoggerFactory.getLogger(OutsideIFAdapter.class);
 
 	@Autowired
 	private HttpInterfaceExecutorService inteface;
@@ -52,7 +52,7 @@ public class OutsideIFService {
 	@Autowired
 	private PropertyUtil propertyUtil;
 	
-	public OutsideIFService() {
+	public OutsideIFAdapter() {
 		
 		if(propertyUtil == null) {
 			propertyUtil = new PropertyUtil();

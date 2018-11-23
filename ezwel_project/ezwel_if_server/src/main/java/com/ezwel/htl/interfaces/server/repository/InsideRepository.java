@@ -24,9 +24,9 @@ import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegOutSDO;
  * @date   2018. 11. 15.
  */
 @Repository
-public class InsideInterfaceRepository {
+public class InsideRepository {
 
-	private static final Logger logger = LoggerFactory.getLogger(InsideInterfaceRepository.class);
+	private static final Logger logger = LoggerFactory.getLogger(InsideRepository.class);
 
 	@APIOperation(description="신규시설등록수정 인터페이스")
 	public RecordOutSDO callRecord(RecordInSDO recordSDO) {
