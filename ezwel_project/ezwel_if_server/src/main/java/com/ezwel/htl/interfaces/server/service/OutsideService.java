@@ -14,9 +14,9 @@ import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
-import com.ezwel.htl.interfaces.commons.http.data.HttpConfigDTO;
-import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigDTO;
-import com.ezwel.htl.interfaces.commons.http.data.UserAgentDTO;
+import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
@@ -57,12 +57,12 @@ public class OutsideService {
 	}
 	
 	@APIOperation(description="전체시설일괄등록 인터페이스")
-	public AllRegOutSDO callAllReg(UserAgentDTO userAgentDTO) {
+	public AllRegOutSDO callAllReg(UserAgentSDO userAgentDTO) {
 		
 		AllRegOutSDO out = null;
 		
 		try {
-			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("allReg", userAgentDTO.getHttpAgentId());
+			HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("allReg", userAgentDTO.getHttpAgentId());
 			configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
 			/** execute interface */
 			out = (AllRegOutSDO) inteface.sendPostJSON(httpConfigDTO, AllRegOutSDO.class);
@@ -76,20 +76,20 @@ public class OutsideService {
 	
 	//멀티쓰레드
 	@APIOperation(description="시설검색 인터페이스")
-	public List<FaclSearchOutSDO> callFaclSearch(UserAgentDTO userAgentDTO, FaclSearchInSDO faclSearchDTO) {
+	public List<FaclSearchOutSDO> callFaclSearch(UserAgentSDO userAgentDTO, FaclSearchInSDO faclSearchDTO) {
 			
 		List<FaclSearchOutSDO> out = null;
-		MultiHttpConfigDTO multi = null;
-		List<HttpConfigDTO> channelList = null;
-		List<MultiHttpConfigDTO> multiHttpConfigList = null;
+		MultiHttpConfigSDO multi = null;
+		List<HttpConfigSDO> channelList = null;
+		List<MultiHttpConfigSDO> multiHttpConfigList = null;
 		
 		try {
-			multiHttpConfigList = new ArrayList<MultiHttpConfigDTO>();
+			multiHttpConfigList = new ArrayList<MultiHttpConfigSDO>();
 			
 			channelList = InterfaceFactory.getChannelGroup("faclSearch", userAgentDTO.getHttpAgentGroupId());
 			if(channelList != null) {
-				for(HttpConfigDTO httpConfigDTO : channelList) {
-					multi = new MultiHttpConfigDTO();
+				for(HttpConfigSDO httpConfigDTO : channelList) {
+					multi = new MultiHttpConfigSDO();
 					configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
 					//config
 					multi.setHttpConfigDTO(httpConfigDTO);
@@ -114,20 +114,20 @@ public class OutsideService {
 	
 	//멀티쓰레드
 	@APIOperation(description="당일특가검색 인터페이스")
-	public List<SddSearchOutSDO> callSddSearch(UserAgentDTO userAgentDTO) {
+	public List<SddSearchOutSDO> callSddSearch(UserAgentSDO userAgentDTO) {
 		
 		List<SddSearchOutSDO> out = null;
-		MultiHttpConfigDTO multi = null;
-		List<MultiHttpConfigDTO> multiHttpConfigList = null;
-		List<HttpConfigDTO> channelList = null;
+		MultiHttpConfigSDO multi = null;
+		List<MultiHttpConfigSDO> multiHttpConfigList = null;
+		List<HttpConfigSDO> channelList = null;
 		
 		try {
-			multiHttpConfigList = new ArrayList<MultiHttpConfigDTO>();
+			multiHttpConfigList = new ArrayList<MultiHttpConfigSDO>();
 			
 			channelList = InterfaceFactory.getChannelGroup("sddSearch", userAgentDTO.getHttpAgentGroupId());
 			if(channelList != null) {
-				for(HttpConfigDTO httpConfigDTO : channelList) {
-					multi = new MultiHttpConfigDTO();
+				for(HttpConfigSDO httpConfigDTO : channelList) {
+					multi = new MultiHttpConfigSDO();
 					configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
 					//no input 
 					httpConfigDTO.setDoOutput(false);

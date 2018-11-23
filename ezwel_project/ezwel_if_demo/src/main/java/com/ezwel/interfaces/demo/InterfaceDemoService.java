@@ -3,7 +3,7 @@ package com.ezwel.interfaces.demo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ezwel.htl.interfaces.commons.http.data.UserAgentDTO;
+import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.server.service.OutsideService;
 import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
@@ -36,7 +36,7 @@ public class InterfaceDemoService {
 	public AllRegOutSDO callAllReg() {		
 		logger.debug("[START] callAllReg");
 		
-		UserAgentDTO userAgentDTO = new UserAgentDTO();
+		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
 		//User agent set
 		userAgentDTO.setHttpAgentType("httpAgentType-sample");
@@ -54,7 +54,7 @@ public class InterfaceDemoService {
 	public CancelFeePsrcOutSDO callCancelFeePsrc() {
 		logger.debug("[START] callCancelFeePsrc");
 		
-		UserAgentDTO userAgentDTO = new UserAgentDTO();
+		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		//펜션라이프_플레이스엠
 		userAgentDTO.setHttpAgentId("10000496");
 		userAgentDTO.setHttpAgentType("httpAgentType-sample");
@@ -82,7 +82,7 @@ public class InterfaceDemoService {
 	public CancelFeeAmtOutSDO callCancelFeeAmt() {
 		logger.debug("[START] callCancelFeeAmt");
 		
-		UserAgentDTO userAgentDTO = new UserAgentDTO();
+		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		//펜션라이프_플레이스엠
 		userAgentDTO.setHttpAgentId("10000496");
 		userAgentDTO.setHttpAgentType("httpAgentType-sample");
@@ -106,7 +106,7 @@ public class InterfaceDemoService {
 	public RoomReadOutSDO callRoomRead() {		
 		logger.debug("[START] callRoomRead");
 		
-		UserAgentDTO userAgentDTO = new UserAgentDTO();
+		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		//펜션라이프_플레이스엠
 		userAgentDTO.setHttpAgentId("10000496");
 		userAgentDTO.setHttpAgentType("httpAgentType-sample");
