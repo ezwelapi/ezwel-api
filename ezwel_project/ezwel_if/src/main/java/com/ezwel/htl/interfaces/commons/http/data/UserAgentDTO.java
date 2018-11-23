@@ -16,7 +16,7 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 @APIModel
 public class UserAgentDTO extends AbstractSDO {
 
-	@APIFields(description = "에이전트 아이디", required=true, httpHeader=true, headerName="http-agent-id")
+	@APIFields(description = "에이전트 아이디", httpHeader=true, headerName="http-agent-id")
 	private String httpAgentId;
 	
 	@APIFields(description = "에이전트 그룹 아이디")
