@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.commons.spring;
+package com.ezwel.htl.interfaces.server.commons.spring;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -50,14 +50,50 @@ public class LApplicationContext implements ApplicationContextAware, BeanNameAwa
 		LApplicationContext.applicationContext = context;
 	}
 
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * 바인드된 빈 클래스에 해당하는 빈을 직접 얻습니다.
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
+	 * @param beans
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 21.
+	 */
 	public static Object getBean(Class<?> beanName) {
 		return applicationContext.getBean(beanName);
 	}
 	
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * 바인드된 빈 이르ㅁ에 해당하는 빈을 직접 얻습니다.
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
+	 * @param beans
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 21.
+	 */
 	public static Object getBean(String beanName) {
 		return applicationContext.getBean(beanName);
 	}
 
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * 바인드된 빈이름과 빈클래스에 해당하는 빈을 직접 얻습니다.
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
+	 * @param beans
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 21.
+	 */
 	public static <T> T getBean(String beanName, Class<T> requiredType) {
 		return applicationContext.getBean(beanName, requiredType);
 	}

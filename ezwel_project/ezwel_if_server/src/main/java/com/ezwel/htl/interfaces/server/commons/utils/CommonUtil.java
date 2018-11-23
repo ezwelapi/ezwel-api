@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.commons.utils;
+package com.ezwel.htl.interfaces.server.commons.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,6 +18,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.google.common.io.ByteSource;
 import com.google.common.io.ByteStreams;
 /**

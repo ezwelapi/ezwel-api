@@ -63,7 +63,7 @@
 		<httpChan>
 			<chanId>record</chanId>
 			<description>신규시설등록수정</description>
-			<restURI>http://localhost:9123/ezwel_if_server/API1.0/{httpAgentId}/facl/record</restURI>
+			<restURI>http://localhost:8282/ezwel_if_server/API1.0/{httpAgentId}/facl/record</restURI>
 			<encoding>UTF-8</encoding>
 		</httpChan>
 		<httpChan>
