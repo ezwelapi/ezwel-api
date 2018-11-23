@@ -1,0 +1,136 @@
+package com.ezwel.htl.interfaces.server.entities;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.apache.ibatis.type.Alias;
+import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
+import java.math.BigDecimal;
+
+
+/**
+ * <b>History : Generated Code Skeleton Made by KSW</b>
+ * <pre>
+ * 버전              성명                                일자                                       변경내용
+ * -------    ----------------     -------------------		-----------------
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:10                신규자동생성 
+ * </pre>
+ * 
+ * @author swkim@ebsolution.co.kr
+ * @since 2018-11-23 18:46:10
+ * @version 0.0.1
+ * @see "EZWEL Entity"
+ */
+@Data
+@Alias("ezcCacheMinAmt")
+@EqualsAndHashCode(callSuper=true)
+@APIModel(modelNames="CACHE 최저가 정보", description="CACHE 최저가 정보 ( EZC_CACHE_MIN_AMT )", modelTypes="TABLE")
+public class EzcCacheMinAmt extends AbstractEntity {
+
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1L;
+	
+	@APIFields(description = "체크인 일자", maxLength=8, required=true, constraints="EZC_CACHE_MIN_AMT_PK(P),FK_EZC_CACHE_SEARCH_LOG_EZC_CA(R),SYS_C0011160(C) EZC_CACHE_MIN_AMT_PK(UNIQUE),EZC_CACHE_MIN_AMT_IF01(NONUNIQUE)")
+	private String checkInDd;
+
+	@APIFields(description = "체크아웃 일자", maxLength=8, required=true, constraints="EZC_CACHE_MIN_AMT_PK(P),FK_EZC_CACHE_SEARCH_LOG_EZC_CA(R),SYS_C0011161(C) EZC_CACHE_MIN_AMT_PK(UNIQUE),EZC_CACHE_MIN_AMT_IF01(NONUNIQUE)")
+	private String checkOutDd;
+
+	@APIFields(description = "그룹 시설 코드", maxLength=10, required=true, constraints="EZC_CACHE_MIN_AMT_PK(P),FK_EZC_MAPPING_FACL_EZC_CACHE_(R),SYS_C0011162(C) EZC_CACHE_MIN_AMT_IF02(NONUNIQUE),EZC_CACHE_MIN_AMT_PK(UNIQUE)")
+	private BigDecimal grpFaclCd;
+
+	@APIFields(description = "시설 코드", maxLength=10, required=true, constraints="EZC_CACHE_MIN_AMT_PK(P),FK_EZC_MAPPING_FACL_EZC_CACHE_(R),SYS_C0011163(C) EZC_CACHE_MIN_AMT_IF02(NONUNIQUE),EZC_CACHE_MIN_AMT_PK(UNIQUE)")
+	private BigDecimal faclCd;
+
+	@APIFields(description = "도시 코드", maxLength=10, required=true, constraints="EZC_CACHE_MIN_AMT_PK(P),FK_EZC_CACHE_SEARCH_LOG_EZC_CA(R),SYS_C0011164(C) EZC_CACHE_MIN_AMT_IF01(NONUNIQUE),EZC_CACHE_MIN_AMT_PK(UNIQUE)")
+	private String cityCd;
+
+	@APIFields(description = "지역 코드", maxLength=10, required=true, constraints="EZC_CACHE_MIN_AMT_PK(P),FK_EZC_CACHE_SEARCH_LOG_EZC_CA(R),SYS_C0011165(C) EZC_CACHE_MIN_AMT_IF01(NONUNIQUE),EZC_CACHE_MIN_AMT_PK(UNIQUE)")
+	private String areaCd;
+
+	@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="SYS_C0011166(C)")
+	private String partnerCdType;
+
+	@APIFields(description = "객실 최저가", maxLength=8, required=true, constraints="SYS_C0011167(C)")
+	private BigDecimal roomMinPrice;
+
+	@APIFields(description = "특가최저가", maxLength=8)
+	private BigDecimal spRoomMinPrice;
+
+
+	
+	public String getCheckInDd() {
+		return checkInDd;
+	}
+
+	public void setCheckInDd(String checkInDd) {
+		this.checkInDd = checkInDd;
+	}
+
+	public String getCheckOutDd() {
+		return checkOutDd;
+	}
+
+	public void setCheckOutDd(String checkOutDd) {
+		this.checkOutDd = checkOutDd;
+	}
+
+	public BigDecimal getGrpFaclCd() {
+		return grpFaclCd;
+	}
+
+	public void setGrpFaclCd(BigDecimal grpFaclCd) {
+		this.grpFaclCd = grpFaclCd;
+	}
+
+	public BigDecimal getFaclCd() {
+		return faclCd;
+	}
+
+	public void setFaclCd(BigDecimal faclCd) {
+		this.faclCd = faclCd;
+	}
+
+	public String getCityCd() {
+		return cityCd;
+	}
+
+	public void setCityCd(String cityCd) {
+		this.cityCd = cityCd;
+	}
+
+	public String getAreaCd() {
+		return areaCd;
+	}
+
+	public void setAreaCd(String areaCd) {
+		this.areaCd = areaCd;
+	}
+
+	public String getPartnerCdType() {
+		return partnerCdType;
+	}
+
+	public void setPartnerCdType(String partnerCdType) {
+		this.partnerCdType = partnerCdType;
+	}
+
+	public BigDecimal getRoomMinPrice() {
+		return roomMinPrice;
+	}
+
+	public void setRoomMinPrice(BigDecimal roomMinPrice) {
+		this.roomMinPrice = roomMinPrice;
+	}
+
+	public BigDecimal getSpRoomMinPrice() {
+		return spRoomMinPrice;
+	}
+
+	public void setSpRoomMinPrice(BigDecimal spRoomMinPrice) {
+		this.spRoomMinPrice = spRoomMinPrice;
+	}
+
+
+}	
