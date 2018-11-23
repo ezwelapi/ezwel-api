@@ -15,7 +15,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
  * @serviceType API
  */
 @APIModel
-public class AgentInfoDTO extends AbstractSDO {
+public class AgentInfoSDO extends AbstractSDO {
 
 	@APIFields(description = "에이전트 이름")
 	private String agentName;
@@ -29,7 +29,7 @@ public class AgentInfoDTO extends AbstractSDO {
 	@APIFields(description = "outsideApiKey")
 	private String outsideApiKey;
 	
-	public AgentInfoDTO() {
+	public AgentInfoSDO() {
 		this.reset();
 	}
 	

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
-import com.ezwel.htl.interfaces.server.service.InsideInterfaceService;
+import com.ezwel.htl.interfaces.server.service.InsideService;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
 import com.ezwel.htl.interfaces.service.data.record.RecordInSDO;
@@ -36,11 +36,11 @@ import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegOutSDO;
  */
 @Controller
 @RequestMapping(value="/API1.0")
-public class InsideInterfaceController {
+public class InsideController {
 
-	private static final Logger logger = LoggerFactory.getLogger(InsideInterfaceController.class);
+	private static final Logger logger = LoggerFactory.getLogger(InsideController.class);
 	
-	private InsideInterfaceService intefaceService = (InsideInterfaceService) LApplicationContext.getBean(InsideInterfaceService.class);
+	private InsideService intefaceService = (InsideService) LApplicationContext.getBean(InsideService.class);
 	
 	/**
 	 * <pre>

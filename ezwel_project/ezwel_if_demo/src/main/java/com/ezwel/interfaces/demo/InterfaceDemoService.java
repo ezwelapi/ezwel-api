@@ -3,8 +3,9 @@ package com.ezwel.interfaces.demo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ezwel.htl.interfaces.commons.http.data.UserAgentDTO;
-import com.ezwel.htl.interfaces.service.OutsideInterfaceService;
+import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
+import com.ezwel.htl.interfaces.server.service.OutsideService;
+import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtOutSDO;
@@ -12,8 +13,6 @@ import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcInSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
-import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendInSDO;
-import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendOutSDO;
 
 /**
  * <pre>
@@ -26,16 +25,18 @@ public class InterfaceDemoService {
 
 	private static final Logger logger = LoggerFactory.getLogger(InterfaceDemoService.class);
 	
-	private OutsideInterfaceService service; 
+	private OutsideIFService outIfService; 
+	private OutsideService outIfServerService; 
 	
 	public InterfaceDemoService() {
-		service = new OutsideInterfaceService();
+		outIfService = new OutsideIFService();
+		outIfServerService = new OutsideService();
 	}
 	
 	public AllRegOutSDO callAllReg() {		
 		logger.debug("[START] callAllReg");
 		
-		UserAgentDTO userAgentDTO = new UserAgentDTO();
+		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
 		//User agent set
 		userAgentDTO.setHttpAgentType("httpAgentType-sample");
@@ -44,7 +45,7 @@ public class InterfaceDemoService {
 		userAgentDTO.setHttpRequestId("httpRequestId-sample");
 		
 		//interface api call
-		AllRegOutSDO out = service.callAllReg(userAgentDTO);
+		AllRegOutSDO out = outIfServerService.callAllReg(userAgentDTO);
 		
 		logger.debug("[END] callAllReg");
 		return out;
@@ -53,7 +54,7 @@ public class InterfaceDemoService {
 	public CancelFeePsrcOutSDO callCancelFeePsrc() {
 		logger.debug("[START] callCancelFeePsrc");
 		
-		UserAgentDTO userAgentDTO = new UserAgentDTO();
+		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		//펜션라이프_플레이스엠
 		userAgentDTO.setHttpAgentId("10000496");
 		userAgentDTO.setHttpAgentType("httpAgentType-sample");
@@ -72,7 +73,7 @@ public class InterfaceDemoService {
 		sdo.setRoomCnt(1);
 		
 		//interface api call
-		CancelFeePsrcOutSDO out = service.callCancelFeePsrc(userAgentDTO, sdo);
+		CancelFeePsrcOutSDO out = outIfService.callCancelFeePsrc(userAgentDTO, sdo);
 		
 		logger.debug("[END] callCancelFeePsrc");
 		return out;
@@ -81,7 +82,7 @@ public class InterfaceDemoService {
 	public CancelFeeAmtOutSDO callCancelFeeAmt() {
 		logger.debug("[START] callCancelFeeAmt");
 		
-		UserAgentDTO userAgentDTO = new UserAgentDTO();
+		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		//펜션라이프_플레이스엠
 		userAgentDTO.setHttpAgentId("10000496");
 		userAgentDTO.setHttpAgentType("httpAgentType-sample");
@@ -96,7 +97,7 @@ public class InterfaceDemoService {
 		sdo.setRsvNo("rsv-no");
 		
 		//interface api call
-		CancelFeeAmtOutSDO out = service.callCancelFeeAmt(userAgentDTO, sdo);
+		CancelFeeAmtOutSDO out = outIfService.callCancelFeeAmt(userAgentDTO, sdo);
 		
 		logger.debug("[END] callCancelFeeAmt");
 		return out;
@@ -105,7 +106,7 @@ public class InterfaceDemoService {
 	public RoomReadOutSDO callRoomRead() {		
 		logger.debug("[START] callRoomRead");
 		
-		UserAgentDTO userAgentDTO = new UserAgentDTO();
+		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		//펜션라이프_플레이스엠
 		userAgentDTO.setHttpAgentId("10000496");
 		userAgentDTO.setHttpAgentType("httpAgentType-sample");
@@ -126,7 +127,7 @@ public class InterfaceDemoService {
 		roomReadSDO.setChildCnt(1);
 		
 		//interface api call
-		RoomReadOutSDO out = service.callRoomRead(userAgentDTO, roomReadSDO);
+		RoomReadOutSDO out = outIfService.callRoomRead(userAgentDTO, roomReadSDO);
 		
 		logger.debug("[END] callRoomRead");
 		return out;

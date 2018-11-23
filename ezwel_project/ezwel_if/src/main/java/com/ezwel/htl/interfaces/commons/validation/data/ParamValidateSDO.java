@@ -7,7 +7,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
 @APIModel(description = "유효성검증정보")
-public class ParamValidateDTO {
+public class ParamValidateSDO {
 
 	@APIFields(required = false, description = "DTO")
 	private Object model;
@@ -34,7 +34,7 @@ public class ParamValidateDTO {
 	private int validateType;	
 
 	
-	public ParamValidateDTO() {
+	public ParamValidateSDO() {
 		this.reset();
 	}
 
@@ -42,7 +42,7 @@ public class ParamValidateDTO {
 	 * DTO 오브젝트에 있는 필드의 @Field 어노테이션을 기준으로 모든 필드 벨리데이션 설정
 	 * @param model
 	 */
-	public ParamValidateDTO(Object model) {
+	public ParamValidateSDO(Object model) {
 		this.validateType = OperateConstants.VALIDATE_DTO_FULL_FIELD_ANNO;
 		initialize(model, null, null, null, null);
 	}
@@ -51,7 +51,7 @@ public class ParamValidateDTO {
 	 * DTO 오브젝트에 있는 fieldName의 @Field 어노테이션을 기준으로 단일 필드 벨리데이션 설정
 	 * @param model
 	 */
-	public ParamValidateDTO(Object model, String fieldName) {
+	public ParamValidateSDO(Object model, String fieldName) {
 		this.validateType = OperateConstants.VALIDATE_DTO_SINGLE_FIELD_ANNO;
 		initialize(model, fieldName, null, null, null);
 	}
@@ -62,7 +62,7 @@ public class ParamValidateDTO {
 	 * @param patterns
 	 * @param message
 	 */
-	public ParamValidateDTO(Object fieldValue, String[] patterns, String message) {
+	public ParamValidateSDO(Object fieldValue, String[] patterns, String message) {
 		this.validateType = OperateConstants.VALIDATE_SINGLE_VALUE_PATTERN;
 		initialize(null, null, fieldValue, patterns, message);
 	}
@@ -75,7 +75,7 @@ public class ParamValidateDTO {
 	 * @param patterns
 	 * @param message
 	 */
-	public ParamValidateDTO(Object model, String fieldName, Object fieldValue, String[] patterns, String message) {
+	public ParamValidateSDO(Object model, String fieldName, Object fieldValue, String[] patterns, String message) {
 		this.validateType = OperateConstants.VALIDATE_DTO_SINGLE_FIELD_PATTERN;
 		initialize(model, fieldName, fieldValue, patterns, message);
 	}

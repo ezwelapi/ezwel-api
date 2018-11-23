@@ -14,11 +14,11 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
  * @serviceType API
  */
 @APIModel
-public class MultiHttpConfigDTO extends AbstractSDO {
+public class MultiHttpConfigSDO extends AbstractSDO {
 	//<T extends APIObject> 
 	
 	@APIFields(description = "HTTP 통신 설정 DTO", required=true)
-	private HttpConfigDTO httpConfigDTO;
+	private HttpConfigSDO httpConfigDTO;
 	
 	@APIFields(description = "HTTP 통신 요청 파라메터 DTO", required=true)
 	private AbstractSDO inputDTO;
@@ -29,7 +29,7 @@ public class MultiHttpConfigDTO extends AbstractSDO {
 	@APIFields(description = "HTTP 인터페이스 API 총 실행시간")
 	private Long lapTimeMillis;
 	
-	public MultiHttpConfigDTO() {
+	public MultiHttpConfigSDO() {
 		this.reset();
 	}
 	
@@ -40,11 +40,11 @@ public class MultiHttpConfigDTO extends AbstractSDO {
 		lapTimeMillis = OperateConstants.LONG_ZERO_VALUE;
 	}
 
-	public HttpConfigDTO getHttpConfigDTO() {
+	public HttpConfigSDO getHttpConfigDTO() {
 		return httpConfigDTO;
 	}
 
-	public void setHttpConfigDTO(HttpConfigDTO httpConfigDTO) {
+	public void setHttpConfigDTO(HttpConfigSDO httpConfigDTO) {
 		this.httpConfigDTO = httpConfigDTO;
 	}
 

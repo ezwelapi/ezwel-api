@@ -28,8 +28,8 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.http.data.HttpConfigDTO;
-import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigDTO;
+import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -84,7 +84,7 @@ public class HttpInterfaceExecutorService {
 	}
 	
 	@APIOperation(description="Getting Http URL Connection", isExecTest=true)
-	public HttpURLConnection getOpenHttpURLConnection(HttpConfigDTO in) {
+	public HttpURLConnection getOpenHttpURLConnection(HttpConfigSDO in) {
 		
 		HttpURLConnection conn = null;
 		URL url = null;
@@ -114,7 +114,7 @@ public class HttpInterfaceExecutorService {
 		return conn;
 	}
 	
-	void setJsonRequestHeader(HttpConfigDTO in, HttpURLConnection conn, String inJsonParam) {
+	void setJsonRequestHeader(HttpConfigSDO in, HttpURLConnection conn, String inJsonParam) {
 		
 		Properties certifications = null;
 		
@@ -152,7 +152,7 @@ public class HttpInterfaceExecutorService {
 		}
 	}
 	
-	String getInputStreamToString(HttpConfigDTO in, HttpURLConnection conn) {
+	String getInputStreamToString(HttpConfigSDO in, HttpURLConnection conn) {
 		
 		String out = null; 
 		InputStream is = null;
@@ -192,7 +192,7 @@ public class HttpInterfaceExecutorService {
 		return out;
 	}
 	
-	void wrtieInputJSON(HttpConfigDTO in, HttpURLConnection conn, String inJsonParam) {
+	void wrtieInputJSON(HttpConfigSDO in, HttpURLConnection conn, String inJsonParam) {
 		
 		OutputStream os = null;
 		try {
@@ -213,7 +213,7 @@ public class HttpInterfaceExecutorService {
 	}
 	
 	@APIOperation(description="Http URL Communication API (output only)", isExecTest=true)
-	public <T extends AbstractSDO> T sendPostJSON(HttpConfigDTO in, Class<T> outputObject) {
+	public <T extends AbstractSDO> T sendPostJSON(HttpConfigSDO in, Class<T> outputObject) {
 		if(in == null) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_2000, "인터페이스 필수 입력 객체가 존재하지 않습니다.");
 		}
@@ -224,7 +224,7 @@ public class HttpInterfaceExecutorService {
 	}
 	
 	@APIOperation(description="Http URL Communication API (input only)", isExecTest=true)
-	public <T extends AbstractSDO> T sendPostJSON(HttpConfigDTO in, T inputObject) {
+	public <T extends AbstractSDO> T sendPostJSON(HttpConfigSDO in, T inputObject) {
 		if(in == null) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_2000, "인터페이스 필수 입력 객체가 존재하지 않습니다.");
 		}
@@ -242,7 +242,7 @@ public class HttpInterfaceExecutorService {
 	 */
 	@SuppressWarnings({ "unchecked", "finally" })
 	@APIOperation(description="Http URL Communication API", isExecTest=true)
-	public <T1 extends AbstractSDO, T2 extends AbstractSDO> T2 sendPostJSON(HttpConfigDTO in, T1 inputObject, Class<T2> outputType) {
+	public <T1 extends AbstractSDO, T2 extends AbstractSDO> T2 sendPostJSON(HttpConfigSDO in, T1 inputObject, Class<T2> outputType) {
 		logger.debug("[START] sendJSON\n[CHANNEL-INFO] {}\n[USER-INPUT] {}\n[USER-OUTPUT] {}", in, inputObject, outputType);
 		
 		//return value
@@ -339,7 +339,7 @@ public class HttpInterfaceExecutorService {
 	 * @return
 	 */
 	@APIOperation(description="Create Http URL Communication Certification Properties", isExecTest=true)
-	private Properties getCert(HttpConfigDTO request) {
+	private Properties getCert(HttpConfigSDO request) {
 		
 		Properties out = null;
 		Field[] field = null;
@@ -378,7 +378,7 @@ public class HttpInterfaceExecutorService {
 	
 	@SuppressWarnings({ "unchecked", "finally" })
 	@APIOperation(description="Http URL Multi Communication API", isExecTest=true)
-	public <T extends AbstractSDO> List<T> sendMultiPostJSON(List<MultiHttpConfigDTO> in) {
+	public <T extends AbstractSDO> List<T> sendMultiPostJSON(List<MultiHttpConfigSDO> in) {
 		logger.debug("[START] sendMultiPostJSON\nInput Signature : {}", in);
 		
 		List<T> out = null;
@@ -395,7 +395,7 @@ public class HttpInterfaceExecutorService {
 			//multiHttpConfigList 사이즈만큼 쓰레드를 가진 쓰레드풀 생성
 			executor.initThreadPool(in.size());
 			
-			for(MultiHttpConfigDTO multiHttpConfig : in) {
+			for(MultiHttpConfigSDO multiHttpConfig : in) {
 				Callable<AbstractSDO> callable = new HttpInterfaceHelper(multiHttpConfig);
 				//logger.debug("[before] executor.addCall : {}", in);
 				// 생성된 callable들을 threadpool에서 수행시키고 결과는 Future 목록에 담는다

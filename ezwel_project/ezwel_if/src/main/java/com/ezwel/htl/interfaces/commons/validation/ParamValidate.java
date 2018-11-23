@@ -21,7 +21,7 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.commons.utils.RegexUtil;
 import com.ezwel.htl.interfaces.commons.utils.TypeUtil;
-import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateDTO;
+import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 
 
 @APIType
@@ -41,7 +41,7 @@ public class ParamValidate {
 	@Autowired
 	private APIUtil apiUtil;
 	
-	private List<ParamValidateDTO> params;
+	private List<ParamValidateSDO> params;
 	
 	private final String VP_REQUIRED = "required";
 	
@@ -65,50 +65,50 @@ public class ParamValidate {
 	}
 	
 	private void reset(){
-		params = new ArrayList<ParamValidateDTO>();
+		params = new ArrayList<ParamValidateSDO>();
 	}
 
-	public List<ParamValidateDTO> getParams() {
+	public List<ParamValidateSDO> getParams() {
 		return params;
 	}
 
-	public void setParams(List<ParamValidateDTO> params) {
+	public void setParams(List<ParamValidateSDO> params) {
 		this.params = params;
 	}
 
-	public void addParam(ParamValidateDTO param) {
-		if(this.params == null) this.params = new ArrayList<ParamValidateDTO>();
+	public void addParam(ParamValidateSDO param) {
+		if(this.params == null) this.params = new ArrayList<ParamValidateSDO>();
 		this.params.add(param);
 	}
 	
-	public ParamValidateDTO validation(){
+	public ParamValidateSDO validation(){
 		return validation(null);
 	}
 	
-	public ParamValidateDTO validation(String encoding){
+	public ParamValidateSDO validation(String encoding){
 		
-		if(this.params == null) return new ParamValidateDTO();
+		if(this.params == null) return new ParamValidateSDO();
 		
 		if(encoding != null) {
 			this.encoding = encoding;
 		}
 		
-		ParamValidateDTO inValidate = execution();
+		ParamValidateSDO inValidate = execution();
 		
-		if(inValidate == null) inValidate = new ParamValidateDTO();
+		if(inValidate == null) inValidate = new ParamValidateSDO();
 		
 		return inValidate;
 	}
 	
-	public ParamValidateDTO execute(){
+	public ParamValidateSDO execute(){
 		return execute(null, false);
 	}
 	
-	public ParamValidateDTO execute(boolean returnInvalid){
+	public ParamValidateSDO execute(boolean returnInvalid){
 		return execute(null, returnInvalid);
 	}
 	
-	public ParamValidateDTO execute(String encoding, boolean returnInvalid){
+	public ParamValidateSDO execute(String encoding, boolean returnInvalid){
 
 		if(this.params == null) return null;
 		
@@ -116,7 +116,7 @@ public class ParamValidate {
 			this.encoding = encoding;
 		}
 		
-		ParamValidateDTO inValidate = execution();
+		ParamValidateSDO inValidate = execution();
 		
 		if(!returnInvalid && inValidate != null) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_2001, inValidate.getMessage());
@@ -125,12 +125,12 @@ public class ParamValidate {
 		return inValidate;
 	}
 	
-	private ParamValidateDTO execution(){
+	private ParamValidateSDO execution(){
 		
-		ParamValidateDTO inValidate = null;
+		ParamValidateSDO inValidate = null;
 		try {
 			int validateCnt = 1;
-			for(ParamValidateDTO validate : this.params) {
+			for(ParamValidateSDO validate : this.params) {
 				
 		    	if(logger.isDebugEnabled()) {
 		    		logger.debug(APIUtil.addString("START Validate No.", validateCnt));
@@ -169,7 +169,7 @@ public class ParamValidate {
 	 * @param paramValidate
 	 * @return
 	 */
-    public ParamValidateDTO run(ParamValidateDTO paramValidate){
+    public ParamValidateSDO run(ParamValidateSDO paramValidate){
     	
     	if( logger.isDebugEnabled() ) {
 	    	logger.debug("유효성 검증 필드 : {}", paramValidate);
@@ -204,7 +204,7 @@ public class ParamValidate {
 		}
     }
     
-    private boolean validateField(ParamValidateDTO paramValidate, Object model, Field field) {
+    private boolean validateField(ParamValidateSDO paramValidate, Object model, Field field) {
     	
     	APIFields fieldAnno = field.getAnnotation(APIFields.class);
     	Collection<?> collection = typeUtil.getCollectionType(field.getType());
@@ -270,7 +270,7 @@ public class ParamValidate {
 
 				/** collection or dto, vo 등의 User Object */
 				if(value != null && (collection != null || !typeUtil.isGeneralType(field.getType()) && typeUtil.isSupportedReferenceType(value.getClass().getCanonicalName()))) {
-					validateModel(new ParamValidateDTO(value));
+					validateModel(new ParamValidateSDO(value));
 				}
 			}
 			catch (Exception e){
@@ -280,7 +280,7 @@ public class ParamValidate {
 		return true;
     }
     
-    private ParamValidateDTO validateModel(ParamValidateDTO paramValidate) {
+    private ParamValidateSDO validateModel(ParamValidateSDO paramValidate) {
     	
     	Object model = paramValidate.getModel();
 		
@@ -415,7 +415,7 @@ public class ParamValidate {
     }
     
     
-    private ParamValidateDTO validate(ParamValidateDTO paramValidate){
+    private ParamValidateSDO validate(ParamValidateSDO paramValidate){
     	
     	Object values = paramValidate.getFieldValue();
     	

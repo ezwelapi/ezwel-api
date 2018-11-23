@@ -22,8 +22,8 @@ import com.ezwel.htl.interfaces.commons.configure.data.InterfaceChannel;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.http.data.AgentInfoDTO;
-import com.ezwel.htl.interfaces.commons.http.data.HttpConfigDTO;
+import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
+import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 
@@ -39,12 +39,12 @@ public class InterfaceFactory {
 
 	private static final Logger logger = LoggerFactory.getLogger(InterfaceFactory.class);
 	
-	private static Map<String, List<HttpConfigDTO>> interfaceChannels;
+	private static Map<String, List<HttpConfigSDO>> interfaceChannels;
 	
 	private PropertyUtil propertyUtil;
 	
 	static {
-		interfaceChannels = new LinkedHashMap<String, List<HttpConfigDTO>>();
+		interfaceChannels = new LinkedHashMap<String, List<HttpConfigSDO>>();
 	}
 	
 	private String configXmlPath;
@@ -71,10 +71,10 @@ public class InterfaceFactory {
 		this.configXmlPath = configXmlPath;
 	}
 	
-	public static HttpConfigDTO getChannel(String chanId, String httpAgentId) {
+	public static HttpConfigSDO getChannel(String chanId, String httpAgentId) {
 
-		HttpConfigDTO out = null;
-		List<HttpConfigDTO> channels = null;
+		HttpConfigSDO out = null;
+		List<HttpConfigSDO> channels = null;
 		if(interfaceChannels != null && httpAgentId != null) {
 			channels = interfaceChannels.get(getCacheId(chanId, httpAgentId));
 			if(channels != null) {
@@ -85,16 +85,16 @@ public class InterfaceFactory {
 	}
 	
 	
-	public static List<HttpConfigDTO> getChannelGroup(String chanId, String httpAgentGroupId) {
+	public static List<HttpConfigSDO> getChannelGroup(String chanId, String httpAgentGroupId) {
 
-		List<HttpConfigDTO> out = null;
+		List<HttpConfigSDO> out = null;
 		if(interfaceChannels != null && httpAgentGroupId != null) {
 			out = interfaceChannels.get(getCacheId(chanId, httpAgentGroupId)); 
 		}
 		return out;
 	}
 	
-	public static Map<String, List<HttpConfigDTO>> getInterfaceChannels() {
+	public static Map<String, List<HttpConfigSDO>> getInterfaceChannels() {
 		return interfaceChannels;
 	}
 	
@@ -214,13 +214,13 @@ public class InterfaceFactory {
 	private void initInterfaceChannels(ChannelListData channelListData, int index) {
 		logger.debug("[PROC] agentItemList.size : {}, index : {}", channelListData.getAgentList().size(), index);
 		
-		AgentInfoDTO agent = new AgentInfoDTO();
+		AgentInfoSDO agent = new AgentInfoSDO();
 		propertyUtil.copySameProperty(channelListData.getAgentList().get(index), agent);
 		
 		//방향 : inside interface list
-		Iterator<HttpConfigDTO> insideIterator = channelListData.getInsideConfigList().iterator();
+		Iterator<HttpConfigSDO> insideIterator = channelListData.getInsideConfigList().iterator();
         while (insideIterator.hasNext()) {
-        	HttpConfigDTO inside = insideIterator.next();
+        	HttpConfigSDO inside = insideIterator.next();
 			
 			inside.setAgentName(agent.getAgentName());
 			inside.setHttpAgentId(agent.getHttpAgentId());
@@ -230,9 +230,9 @@ public class InterfaceFactory {
 		}
 	
 		//방향 : outside interface list
-		Iterator<HttpConfigDTO> outsideIterator = channelListData.getOutsideConfigList().iterator();
+		Iterator<HttpConfigSDO> outsideIterator = channelListData.getOutsideConfigList().iterator();
         while (outsideIterator.hasNext()) {
-	        HttpConfigDTO outside = outsideIterator.next();
+	        HttpConfigSDO outside = outsideIterator.next();
 
 			outside.setAgentName(agent.getAgentName());
 			outside.setHttpAgentId(agent.getHttpAgentId());
@@ -250,20 +250,20 @@ public class InterfaceFactory {
         }
 	}
 	
-	private void enter(HttpConfigDTO item) {
+	private void enter(HttpConfigSDO item) {
 		
 		if(APIUtil.isEmpty(item.getHttpAgentId()) && APIUtil.isEmpty(item.getHttpAgentGroupId())) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9300, "인터페이스 팩토리 초기화 실패. 인터페이스 설정파일에 httpAgentId, httpAgentGroupId가 모두 존재하지 않는 채널이 존재합니다. channel : {}", item);
 		}
 	
 		String cacheId = null;
-		HttpConfigDTO agentGroup = null;
+		HttpConfigSDO agentGroup = null;
 		//httpAgentId 별 무조건 캐쉬
 		if(APIUtil.isNotEmpty(item.getHttpAgentId())) {
 			
 			cacheId = getCacheId(item.getChanId(), item.getHttpAgentId());
 			//local cache list
-			List<HttpConfigDTO> channelList = getChannelList(cacheId);
+			List<HttpConfigSDO> channelList = getChannelList(cacheId);
 			//set cache id
 			item.setCacheId(cacheId);
 			//add cacheId '{}' item -> channelList 
@@ -274,7 +274,7 @@ public class InterfaceFactory {
 			
 			if(APIUtil.isNotEmpty(item.getHttpAgentGroupId())) {
 				
-				agentGroup = new HttpConfigDTO();
+				agentGroup = new HttpConfigSDO();
 				//new instance property
 				if(propertyUtil.copySameProperty(item, agentGroup)) {
 					
@@ -282,7 +282,7 @@ public class InterfaceFactory {
 					//set cache id
 					agentGroup.setCacheId(cacheId);
 					//local cache list
-					List<HttpConfigDTO> groupChannelList = getChannelList(cacheId);				
+					List<HttpConfigSDO> groupChannelList = getChannelList(cacheId);				
 					//add cacheId '{}' item -> channelList 
 					groupChannelList.add(agentGroup);
 					logger.debug("# Group Channel Cache Id : {}, groupChannelList({})", cacheId, groupChannelList.size());
@@ -293,11 +293,11 @@ public class InterfaceFactory {
 		}
 	}
 	
-	private List<HttpConfigDTO> getChannelList(String cacheId) {
+	private List<HttpConfigSDO> getChannelList(String cacheId) {
 		
-		List<HttpConfigDTO> channelList = interfaceChannels.get(cacheId);
+		List<HttpConfigSDO> channelList = interfaceChannels.get(cacheId);
 		if(channelList == null) {
-			channelList = new ArrayList<HttpConfigDTO>();
+			channelList = new ArrayList<HttpConfigSDO>();
 		}
 		
 		return channelList;
@@ -311,39 +311,39 @@ public class InterfaceFactory {
 
 	private class ChannelListData {
 		
-		private List<HttpConfigDTO> insideConfigList;
-		private List<HttpConfigDTO> outsideConfigList;
-		private List<AgentInfoDTO> agentList;
+		private List<HttpConfigSDO> insideConfigList;
+		private List<HttpConfigSDO> outsideConfigList;
+		private List<AgentInfoSDO> agentList;
 		
-		public List<HttpConfigDTO> getInsideConfigList() {
+		public List<HttpConfigSDO> getInsideConfigList() {
 			return insideConfigList;
 		}
 		
-		public void addAllInsideConfigList(List<HttpConfigDTO> insideConfigList) {
+		public void addAllInsideConfigList(List<HttpConfigSDO> insideConfigList) {
 			if(this.insideConfigList == null) {
-				this.insideConfigList = new ArrayList<HttpConfigDTO>();
+				this.insideConfigList = new ArrayList<HttpConfigSDO>();
 			}
 			this.insideConfigList.addAll(insideConfigList);
 		}	
 		
-		public List<HttpConfigDTO> getOutsideConfigList() {
+		public List<HttpConfigSDO> getOutsideConfigList() {
 			return outsideConfigList;
 		}
 		
-		public void addAllOutsideConfigList(List<HttpConfigDTO> outsideConfigList) {
+		public void addAllOutsideConfigList(List<HttpConfigSDO> outsideConfigList) {
 			if(this.outsideConfigList == null) {
-				this.outsideConfigList = new ArrayList<HttpConfigDTO>();
+				this.outsideConfigList = new ArrayList<HttpConfigSDO>();
 			}
 			this.outsideConfigList.addAll(outsideConfigList);
 		}
 		
-		public List<AgentInfoDTO> getAgentList() {
+		public List<AgentInfoSDO> getAgentList() {
 			return agentList;
 		}
 		
-		public void addAllAgentList(List<AgentInfoDTO> agentList) {
+		public void addAllAgentList(List<AgentInfoSDO> agentList) {
 			if(this.agentList == null) {
-				this.agentList = new ArrayList<AgentInfoDTO>();
+				this.agentList = new ArrayList<AgentInfoSDO>();
 			}
 			this.agentList.addAll(agentList);
 		}

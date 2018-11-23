@@ -14,7 +14,7 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
  * @serviceType API
  */
 @APIModel
-public class UserAgentDTO extends AbstractSDO {
+public class UserAgentSDO extends AbstractSDO {
 
 	@APIFields(description = "에이전트 아이디", httpHeader=true, headerName="http-agent-id")
 	private String httpAgentId;
@@ -41,7 +41,7 @@ public class UserAgentDTO extends AbstractSDO {
 	private int readTimeout;
 	
 	
-	public UserAgentDTO() {
+	public UserAgentSDO() {
 		this.reset();
 	}
 	

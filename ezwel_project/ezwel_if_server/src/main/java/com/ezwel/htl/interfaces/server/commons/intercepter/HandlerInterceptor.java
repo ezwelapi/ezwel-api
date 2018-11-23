@@ -20,7 +20,7 @@ import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
-import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateDTO;
+import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 
@@ -115,7 +115,7 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 									inputParamObject = (AbstractSDO) marshaller.fromJSON(inputStreamData, input.getParameterType());
 									//inputParameters.add(inputParamObject);
 									//validation inputParamObject
-									paramValidator.addParam(new ParamValidateDTO(inputParamObject));
+									paramValidator.addParam(new ParamValidateSDO(inputParamObject));
 								}
 							}
 						}

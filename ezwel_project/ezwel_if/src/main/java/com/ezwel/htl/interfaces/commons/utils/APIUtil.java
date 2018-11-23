@@ -29,6 +29,8 @@ import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 
 /**
  * <pre>
@@ -526,5 +528,6 @@ public class APIUtil {
 	    }
 	    return out;
 	}
+	
 	
 }

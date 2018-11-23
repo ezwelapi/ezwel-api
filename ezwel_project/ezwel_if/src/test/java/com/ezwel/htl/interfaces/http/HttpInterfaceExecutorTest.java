@@ -10,15 +10,15 @@ import org.slf4j.LoggerFactory;
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
-import com.ezwel.htl.interfaces.commons.http.data.HttpConfigDTO;
-import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigDTO;
-import com.ezwel.htl.interfaces.commons.http.data.UserAgentDTO;
+import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.http.dto.InputDTO;
 import com.ezwel.htl.interfaces.http.dto.InputDTOSub01;
 import com.ezwel.htl.interfaces.http.dto.InputDTOSub02;
 import com.ezwel.htl.interfaces.http.dto.OutputDTO;
-import com.ezwel.htl.interfaces.service.OutsideInterfaceService;
+import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 
@@ -28,14 +28,14 @@ public class HttpInterfaceExecutorTest  {
 
 	private static Logger logger = LoggerFactory.getLogger(HttpInterfaceExecutorTest.class);
 	
-	private HttpConfigDTO config;
+	private HttpConfigSDO config;
 	private HttpInterfaceExecutorService http;
 	private InputDTO inputDTO;
 	private List<String> restURIList;
 	
 	public HttpInterfaceExecutorTest() {
 		http = new HttpInterfaceExecutorService();
-		config = new HttpConfigDTO();
+		config = new HttpConfigSDO();
 		inputDTO = new InputDTO();
 		this.setHttpConfigDTO();
 		this.setInputDTO();
@@ -66,11 +66,11 @@ public class HttpInterfaceExecutorTest  {
 			return;
 		}
 		
-		OutsideInterfaceService interfaceService = new OutsideInterfaceService();
+		OutsideIFService interfaceService = new OutsideIFService();
 		CancelFeeAmtInSDO cancelFeeAmtIn = new CancelFeeAmtInSDO();
 		cancelFeeAmtIn.setRsvNo("rsvNo");
 
-		UserAgentDTO agentInfoDTO = new UserAgentDTO();
+		UserAgentSDO agentInfoDTO = new UserAgentSDO();
 		agentInfoDTO.setHttpAgentId("outside-07");
 			
 //		CancelFeeAmtOutDTO output = (CancelFeeAmtOutDTO) interfaceService.callCancelFeeAmt(agentInfoDTO, cancelFeeAmtIn);
@@ -80,18 +80,18 @@ public class HttpInterfaceExecutorTest  {
 	//@Test
 	public void sendMultiJSONTest() {
 		
-		MultiHttpConfigDTO multi = null;
-		HttpConfigDTO httpConfigDTO = null;
+		MultiHttpConfigSDO multi = null;
+		HttpConfigSDO httpConfigDTO = null;
 		
-		List<MultiHttpConfigDTO> multiHttpConfigList = new ArrayList<MultiHttpConfigDTO>();
+		List<MultiHttpConfigSDO> multiHttpConfigList = new ArrayList<MultiHttpConfigSDO>();
 		int testCnt = 0;
 		for(String restURI : restURIList) {
 			
 			//멀티 시그니처DTO
-			multi = new MultiHttpConfigDTO();
+			multi = new MultiHttpConfigSDO();
 			
 			//설정 DTO
-			httpConfigDTO = new HttpConfigDTO();
+			httpConfigDTO = new HttpConfigSDO();
 			httpConfigDTO.setHttpAgentId("CUSTOMER-A");
 			httpConfigDTO.setHttpApiKey(APIUtil.getRandomUUID());
 			httpConfigDTO.setHttpApiSignature("signature");
@@ -133,7 +133,7 @@ public class HttpInterfaceExecutorTest  {
 	
 	private void setHttpConfigDTO() {
 
-		config = new HttpConfigDTO();
+		config = new HttpConfigSDO();
 		config.setChanId("roomRead");
 		config.setRestURI("http://localhost:9123/ezwel_if_demo/service/roomRead.jsp");
 		config.setHttpAgentId("CUSTOMER-A");
