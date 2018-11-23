@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:42                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:12                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:42
+ * @since 2018-11-23 18:46:12
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,19 +31,19 @@ public class EzcFreqTxt extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "상용구 코드", maxLength=10, required=true, constraints = "EZC_FREQ_TXT_PK(P),SYS_C0011455(C) EZC_FREQ_TXT_PK(UNIQUE)")
+	@APIFields(description = "상용구 코드", maxLength=10, required=true, constraints="EZC_FREQ_TXT_PK(P),SYS_C0011455(C) EZC_FREQ_TXT_PK(UNIQUE)")
 	private BigDecimal freqTxtCd;
 
-	@APIFields(description = "상용구 분류", maxLength=8, required=true, constraints = "SYS_C0011456(C)")
+	@APIFields(description = "상용구 분류", maxLength=8, required=true, constraints="SYS_C0011456(C)")
 	private String freqTxtClass;
 
 	@APIFields(description = "상용구", maxLength=1000)
 	private String freqTxt;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011457(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011457(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011458(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011458(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:41                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:11                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:41
+ * @since 2018-11-23 18:46:11
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,10 +31,10 @@ public class EzcChannelClient extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "고객사 코드", maxLength=20, required=true, constraints = "EZC_CHANNEL_CLIENT_PK(P),SYS_C0011236(C) EZC_CHANNEL_CLIENT_PK(UNIQUE)")
+	@APIFields(description = "고객사 코드", maxLength=20, required=true, constraints="EZC_CHANNEL_CLIENT_PK(P),SYS_C0011236(C) EZC_CHANNEL_CLIENT_PK(UNIQUE)")
 	private String clientCd;
 
-	@APIFields(description = "채널 코드", maxLength=10, required=true, constraints = "EZC_CHANNEL_CLIENT_PK(P),SYS_C0011237(C) EZC_CHANNEL_CLIENT_IF01(NONUNIQUE),EZC_CHANNEL_CLIENT_PK(UNIQUE)")
+	@APIFields(description = "채널 코드", maxLength=10, required=true, constraints="EZC_CHANNEL_CLIENT_PK(P),SYS_C0011237(C) EZC_CHANNEL_CLIENT_IF01(NONUNIQUE),EZC_CHANNEL_CLIENT_PK(UNIQUE)")
 	private String channelCd;
 
 	@APIFields(description = "마크 유형", maxLength=8)
@@ -46,10 +46,10 @@ public class EzcChannelClient extends AbstractEntity {
 	@APIFields(description = "마크 금액", maxLength=8)
 	private BigDecimal markAmt;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011238(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011238(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011239(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011239(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

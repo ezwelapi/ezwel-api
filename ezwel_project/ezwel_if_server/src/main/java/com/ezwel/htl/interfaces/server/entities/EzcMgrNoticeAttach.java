@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:42                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:12                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:42
+ * @since 2018-11-23 18:46:12
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,25 +31,25 @@ public class EzcMgrNoticeAttach extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "공지사항 첨부파일 일련번호", maxLength=10, required=true, constraints = "EZC_MGR_NOTICE_ATTACH_PK(P),SYS_C0011499(C) EZC_MGR_NOTICE_ATTACH_PK(UNIQUE)")
+	@APIFields(description = "공지사항 첨부파일 일련번호", maxLength=10, required=true, constraints="EZC_MGR_NOTICE_ATTACH_PK(P),SYS_C0011499(C) EZC_MGR_NOTICE_ATTACH_PK(UNIQUE)")
 	private BigDecimal noticeAttachSeq;
 
-	@APIFields(description = "공지사항 일련번호", maxLength=10, required=true, constraints = "FK_EZC_MGR_NOTICE_EZC_MGR_NOTI(R),SYS_C0011500(C) EZC_MGR_NOTICE_ATTACH_IF01(NONUNIQUE)")
+	@APIFields(description = "공지사항 일련번호", maxLength=10, required=true, constraints="FK_EZC_MGR_NOTICE_EZC_MGR_NOTI(R),SYS_C0011500(C) EZC_MGR_NOTICE_ATTACH_IF01(NONUNIQUE)")
 	private BigDecimal noticeSeq;
 
-	@APIFields(description = "파일 경로", maxLength=100, required=true, constraints = "SYS_C0011501(C)")
+	@APIFields(description = "파일 경로", maxLength=100, required=true, constraints="SYS_C0011501(C)")
 	private String filePath;
 
-	@APIFields(description = "시스템 파일명", maxLength=100, required=true, constraints = "SYS_C0011502(C)")
+	@APIFields(description = "시스템 파일명", maxLength=100, required=true, constraints="SYS_C0011502(C)")
 	private String sysFilenm;
 
-	@APIFields(description = "파일명", maxLength=100, required=true, constraints = "SYS_C0011503(C)")
+	@APIFields(description = "파일명", maxLength=100, required=true, constraints="SYS_C0011503(C)")
 	private String filenm;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011504(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011504(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011505(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011505(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:42                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:11                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:42
+ * @since 2018-11-23 18:46:11
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,22 +31,22 @@ public class EzcDistRoom extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "객실 코드", maxLength=10, required=true, constraints = "EZC_DIST_ROOM_PK(P),SYS_C0011412(C) EZC_DIST_ROOM_PK(UNIQUE)")
+	@APIFields(description = "객실 코드", maxLength=10, required=true, constraints="EZC_DIST_ROOM_PK(P),SYS_C0011412(C) EZC_DIST_ROOM_PK(UNIQUE)")
 	private BigDecimal roomCd;
 
-	@APIFields(description = "시설 코드", maxLength=10, required=true, constraints = "FK_EZC_FACL_EZC_DIST_ROOM(R),SYS_C0011413(C) EZC_DIST_ROOM_IF01(NONUNIQUE)")
+	@APIFields(description = "시설 코드", maxLength=10, required=true, constraints="FK_EZC_FACL_EZC_DIST_ROOM(R),SYS_C0011413(C) EZC_DIST_ROOM_IF01(NONUNIQUE)")
 	private BigDecimal faclCd;
 
-	@APIFields(description = "특가 여부", maxLength=1, required=true, constraints = "SYS_C0011414(C)")
+	@APIFields(description = "특가 여부", maxLength=1, required=true, constraints="SYS_C0011414(C)")
 	private String specYn;
 
-	@APIFields(description = "당일특가 여부", maxLength=1, required=true, constraints = "SYS_C0011415(C)")
+	@APIFields(description = "당일특가 여부", maxLength=1, required=true, constraints="SYS_C0011415(C)")
 	private String dayPriceYn;
 
-	@APIFields(description = "객실 명", maxLength=100, required=true, constraints = "SYS_C0011416(C)")
+	@APIFields(description = "객실 명", maxLength=100, required=true, constraints="SYS_C0011416(C)")
 	private String roomNm;
 
-	@APIFields(description = "정상 금액", maxLength=8, required=true, constraints = "SYS_C0011417(C)")
+	@APIFields(description = "정상 금액", maxLength=8, required=true, constraints="SYS_C0011417(C)")
 	private BigDecimal normalAmt;
 
 	@APIFields(description = "기준 인원 수", maxLength=4)
@@ -55,13 +55,13 @@ public class EzcDistRoom extends AbstractEntity {
 	@APIFields(description = "최대 인원 수", maxLength=4)
 	private BigDecimal maxUserCnt;
 
-	@APIFields(description = "조식 포함 여부", maxLength=1, required=true, constraints = "SYS_C0011418(C)")
+	@APIFields(description = "조식 포함 여부", maxLength=1, required=true, constraints="SYS_C0011418(C)")
 	private String breakfastIncludeYn;
 
 	@APIFields(description = "전망", maxLength=1000)
 	private String viewer;
 
-	@APIFields(description = "객실 크기", maxLength=100, required=true, constraints = "SYS_C0011419(C)")
+	@APIFields(description = "객실 크기", maxLength=100, required=true, constraints="SYS_C0011419(C)")
 	private String roomSize;
 
 	@APIFields(description = "객실 서비스", maxLength=1000)
@@ -100,10 +100,10 @@ public class EzcDistRoom extends AbstractEntity {
 	@APIFields(description = "텀 일수", maxLength=4)
 	private BigDecimal termDdcnt;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011420(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011420(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011421(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011421(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

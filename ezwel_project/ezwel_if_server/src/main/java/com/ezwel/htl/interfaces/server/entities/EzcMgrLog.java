@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:42                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:12                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:42
+ * @since 2018-11-23 18:46:12
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,25 +31,25 @@ public class EzcMgrLog extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "로그 일련번호", maxLength=10, required=true, constraints = "EZC_MGR_LOG_PK(P),SYS_C0011484(C) EZC_MGR_LOG_PK(UNIQUE)")
+	@APIFields(description = "로그 일련번호", maxLength=10, required=true, constraints="EZC_MGR_LOG_PK(P),SYS_C0011484(C) EZC_MGR_LOG_PK(UNIQUE)")
 	private BigDecimal logSeq;
 
-	@APIFields(description = "운영자 ID", maxLength=20, required=true, constraints = "FK_EZC_MGR_EZC_MGR_LOG(R),SYS_C0011485(C) EZC_MGR_LOG_IF01(NONUNIQUE)")
+	@APIFields(description = "운영자 ID", maxLength=20, required=true, constraints="FK_EZC_MGR_EZC_MGR_LOG(R),SYS_C0011485(C) EZC_MGR_LOG_IF01(NONUNIQUE)")
 	private String mgrId;
 
-	@APIFields(description = "로그 유형", maxLength=8, required=true, constraints = "SYS_C0011486(C)")
+	@APIFields(description = "로그 유형", maxLength=8, required=true, constraints="SYS_C0011486(C)")
 	private String logType;
 
-	@APIFields(description = "내용", maxLength=1000, required=true, constraints = "SYS_C0011487(C)")
+	@APIFields(description = "내용", maxLength=1000, required=true, constraints="SYS_C0011487(C)")
 	private String content;
 
-	@APIFields(description = "접속 IP", maxLength=15, required=true, constraints = "SYS_C0011488(C)")
+	@APIFields(description = "접속 IP", maxLength=15, required=true, constraints="SYS_C0011488(C)")
 	private String connIp;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011489(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011489(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011490(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011490(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

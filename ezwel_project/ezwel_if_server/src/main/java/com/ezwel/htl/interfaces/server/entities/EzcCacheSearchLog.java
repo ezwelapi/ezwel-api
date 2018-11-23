@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:41                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:10                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:41
+ * @since 2018-11-23 18:46:10
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,31 +31,31 @@ public class EzcCacheSearchLog extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "체크인 일자", maxLength=8, required=true, constraints = "EZC_CACHE_SEARCH_LOG_PK(P),SYS_C0011169(C) EZC_CACHE_SEARCH_LOG_PK(UNIQUE)")
+	@APIFields(description = "체크인 일자", maxLength=8, required=true, constraints="EZC_CACHE_SEARCH_LOG_PK(P),SYS_C0011169(C) EZC_CACHE_SEARCH_LOG_PK(UNIQUE)")
 	private String checkInDd;
 
-	@APIFields(description = "체크아웃 일자", maxLength=8, required=true, constraints = "EZC_CACHE_SEARCH_LOG_PK(P),SYS_C0011170(C) EZC_CACHE_SEARCH_LOG_PK(UNIQUE)")
+	@APIFields(description = "체크아웃 일자", maxLength=8, required=true, constraints="EZC_CACHE_SEARCH_LOG_PK(P),SYS_C0011170(C) EZC_CACHE_SEARCH_LOG_PK(UNIQUE)")
 	private String checkOutDd;
 
-	@APIFields(description = "도시 코드", maxLength=10, required=true, constraints = "EZC_CACHE_SEARCH_LOG_PK(P),SYS_C0011171(C) EZC_CACHE_SEARCH_LOG_PK(UNIQUE)")
+	@APIFields(description = "도시 코드", maxLength=10, required=true, constraints="EZC_CACHE_SEARCH_LOG_PK(P),SYS_C0011171(C) EZC_CACHE_SEARCH_LOG_PK(UNIQUE)")
 	private String cityCd;
 
-	@APIFields(description = "지역 코드", maxLength=10, required=true, constraints = "EZC_CACHE_SEARCH_LOG_PK(P),SYS_C0011172(C) EZC_CACHE_SEARCH_LOG_PK(UNIQUE)")
+	@APIFields(description = "지역 코드", maxLength=10, required=true, constraints="EZC_CACHE_SEARCH_LOG_PK(P),SYS_C0011172(C) EZC_CACHE_SEARCH_LOG_PK(UNIQUE)")
 	private String areaCd;
 
-	@APIFields(description = "실행 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011173(C)")
+	@APIFields(description = "실행 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011173(C)")
 	private String exeDt;
 
-	@APIFields(description = "CACHE 만료 시간", maxLength=4, required=true, constraints = "SYS_C0011174(C)")
+	@APIFields(description = "CACHE 만료 시간", maxLength=4, required=true, constraints="SYS_C0011174(C)")
 	private String cacheEndTm;
 
-	@APIFields(description = "실행 상태", maxLength=8, required=true, constraints = "SYS_C0011175(C)")
+	@APIFields(description = "실행 상태", maxLength=8, required=true, constraints="SYS_C0011175(C)")
 	private String exeStatus;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011176(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011176(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011177(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011177(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

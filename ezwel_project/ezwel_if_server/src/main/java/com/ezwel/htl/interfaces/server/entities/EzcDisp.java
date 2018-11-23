@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:42                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:11                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:42
+ * @since 2018-11-23 18:46:11
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,10 +31,10 @@ public class EzcDisp extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "전시 코드", maxLength=10, required=true, constraints = "EZC_DISP_PK(P),SYS_C0011388(C) EZC_DISP_PK(UNIQUE)")
+	@APIFields(description = "전시 코드", maxLength=10, required=true, constraints="EZC_DISP_PK(P),SYS_C0011388(C) EZC_DISP_PK(UNIQUE)")
 	private BigDecimal dispCd;
 
-	@APIFields(description = "전시 명", maxLength=100, required=true, constraints = "SYS_C0011389(C)")
+	@APIFields(description = "전시 명", maxLength=100, required=true, constraints="SYS_C0011389(C)")
 	private String dispNm;
 
 	@APIFields(description = "전시 설명", maxLength=4000)
@@ -55,10 +55,10 @@ public class EzcDisp extends AbstractEntity {
 	@APIFields(description = "이미지 HTML", maxLength=4000)
 	private String imgHtml;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011390(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011390(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011391(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011391(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

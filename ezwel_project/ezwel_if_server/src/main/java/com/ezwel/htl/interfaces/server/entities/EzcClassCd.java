@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:41                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:11                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:41
+ * @since 2018-11-23 18:46:11
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,7 +31,7 @@ public class EzcClassCd extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "분류 코드", maxLength=4, required=true, constraints = "EZC_CLAS_CD_PK(P),SYS_C0011273(C) EZC_CLAS_CD_PK(UNIQUE)")
+	@APIFields(description = "분류 코드", maxLength=4, required=true, constraints="EZC_CLAS_CD_PK(P),SYS_C0011273(C) EZC_CLAS_CD_PK(UNIQUE)")
 	private String classCd;
 
 	@APIFields(description = "분류 명", maxLength=50)
@@ -40,13 +40,13 @@ public class EzcClassCd extends AbstractEntity {
 	@APIFields(description = "분류 설명", maxLength=1000)
 	private String classDesc;
 
-	@APIFields(description = "사용 여부", maxLength=1, required=true, constraints = "SYS_C0011274(C)")
+	@APIFields(description = "사용 여부", maxLength=1, required=true, constraints="SYS_C0011274(C)")
 	private String useYn;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011275(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011275(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011276(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011276(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

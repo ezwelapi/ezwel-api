@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:42                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:12                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:42
+ * @since 2018-11-23 18:46:12
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,19 +31,19 @@ public class EzcMem extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "회원 ID", maxLength=20, required=true, constraints = "EZC_MEM_PK(P),SYS_C0011467(C) EZC_MEM_PK(UNIQUE)")
+	@APIFields(description = "회원 ID", maxLength=20, required=true, constraints="EZC_MEM_PK(P),SYS_C0011467(C) EZC_MEM_PK(UNIQUE)")
 	private String userId;
 
-	@APIFields(description = "고객사 코드", maxLength=20, required=true, constraints = "FK_EZC_CLIENT_INFO_EZC_MEM(R),SYS_C0011468(C) EZC_MEM_IF01(NONUNIQUE)")
+	@APIFields(description = "고객사 코드", maxLength=20, required=true, constraints="FK_EZC_CLIENT_INFO_EZC_MEM(R),SYS_C0011468(C) EZC_MEM_IF01(NONUNIQUE)")
 	private String clientCd;
 
 	@APIFields(description = "USER_KEY", maxLength=10)
 	private BigDecimal userKey;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011469(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011469(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011470(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011470(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

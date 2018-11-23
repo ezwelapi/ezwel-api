@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:43                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:12                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:43
+ * @since 2018-11-23 18:46:12
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,43 +31,43 @@ public class EzcReservPay extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "예약 번호", maxLength=10, required=true, constraints = "EZC_RESERV_PAY_PK(P),SYS_C0011634(C) EZC_RESERV_PAY_PK(UNIQUE)")
+	@APIFields(description = "예약 번호", maxLength=10, required=true, constraints="EZC_RESERV_PAY_PK(P),SYS_C0011634(C) EZC_RESERV_PAY_PK(UNIQUE)")
 	private BigDecimal reservNum;
 
-	@APIFields(description = "카드 결제 여부", maxLength=1, required=true, constraints = "SYS_C0011635(C)")
+	@APIFields(description = "카드 결제 여부", maxLength=1, required=true, constraints="SYS_C0011635(C)")
 	private String cardPayYn;
 
 	@APIFields(description = "카드 결제 금액", maxLength=8)
 	private BigDecimal cardPayAmt;
 
-	@APIFields(description = "현금 결제 여부", maxLength=1, required=true, constraints = "SYS_C0011636(C)")
+	@APIFields(description = "현금 결제 여부", maxLength=1, required=true, constraints="SYS_C0011636(C)")
 	private String cashPayYn;
 
 	@APIFields(description = "현금 결제 금액", maxLength=8)
 	private BigDecimal cashPayAmt;
 
-	@APIFields(description = "쿠폰 사용 여부", maxLength=1, required=true, constraints = "SYS_C0011637(C)")
+	@APIFields(description = "쿠폰 사용 여부", maxLength=1, required=true, constraints="SYS_C0011637(C)")
 	private String cpnUseYn;
 
 	@APIFields(description = "할인 쿠폰 금액", maxLength=8)
 	private BigDecimal dcCpnAmt;
 
-	@APIFields(description = "포인트 사용 여부", maxLength=1, required=true, constraints = "SYS_C0011638(C)")
+	@APIFields(description = "포인트 사용 여부", maxLength=1, required=true, constraints="SYS_C0011638(C)")
 	private String pointUseYn;
 
 	@APIFields(description = "포인트 금액", maxLength=8)
 	private BigDecimal pointAmt;
 
-	@APIFields(description = "미납 금액", maxLength=8, required=true, constraints = "SYS_C0011639(C)")
+	@APIFields(description = "미납 금액", maxLength=8, required=true, constraints="SYS_C0011639(C)")
 	private BigDecimal nonAmt;
 
-	@APIFields(description = "결제 상태", maxLength=8, required=true, constraints = "SYS_C0011640(C)")
+	@APIFields(description = "결제 상태", maxLength=8, required=true, constraints="SYS_C0011640(C)")
 	private String payStatus;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011641(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011641(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011642(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011642(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

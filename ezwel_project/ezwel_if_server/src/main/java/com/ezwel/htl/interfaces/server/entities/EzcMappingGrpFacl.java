@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:42                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:12                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:42
+ * @since 2018-11-23 18:46:12
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,52 +31,52 @@ public class EzcMappingGrpFacl extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "그룹 시설 코드", maxLength=10, required=true, constraints = "EZC_MAPPING_GRP_FACL_PK(P),SYS_C0011120(C) EZC_MAPPING_GRP_FACL_PK(UNIQUE)")
+	@APIFields(description = "그룹 시설 코드", maxLength=10, required=true, constraints="EZC_MAPPING_GRP_FACL_PK(P),SYS_C0011120(C) EZC_MAPPING_GRP_FACL_PK(UNIQUE)")
 	private BigDecimal grpFaclCd;
 
-	@APIFields(description = "도시 코드", maxLength=10, required=true, constraints = "SYS_C0011121(C)")
+	@APIFields(description = "도시 코드", maxLength=10, required=true, constraints="SYS_C0011121(C)")
 	private String cityCd;
 
-	@APIFields(description = "지역 코드", maxLength=10, required=true, constraints = "SYS_C0011122(C)")
+	@APIFields(description = "지역 코드", maxLength=10, required=true, constraints="SYS_C0011122(C)")
 	private String areaCd;
 
-	@APIFields(description = "시설 명 한글", maxLength=100, required=true, constraints = "SYS_C0011123(C)")
+	@APIFields(description = "시설 명 한글", maxLength=100, required=true, constraints="SYS_C0011123(C)")
 	private String faclNmKor;
 
-	@APIFields(description = "시설 명 영문", maxLength=100, required=true, constraints = "SYS_C0011124(C)")
+	@APIFields(description = "시설 명 영문", maxLength=100, required=true, constraints="SYS_C0011124(C)")
 	private String faclNmEng;
 
-	@APIFields(description = "숙소 등급", maxLength=8, required=true, constraints = "SYS_C0011125(C)")
+	@APIFields(description = "숙소 등급", maxLength=8, required=true, constraints="SYS_C0011125(C)")
 	private String roomClass;
 
-	@APIFields(description = "숙소 유형", maxLength=8, required=true, constraints = "SYS_C0011126(C)")
+	@APIFields(description = "숙소 유형", maxLength=8, required=true, constraints="SYS_C0011126(C)")
 	private String roomType;
 
-	@APIFields(description = "주소 유형", maxLength=8, required=true, constraints = "SYS_C0011127(C)")
+	@APIFields(description = "주소 유형", maxLength=8, required=true, constraints="SYS_C0011127(C)")
 	private String addrType;
 
-	@APIFields(description = "주소", maxLength=200, required=true, constraints = "SYS_C0011128(C)")
+	@APIFields(description = "주소", maxLength=200, required=true, constraints="SYS_C0011128(C)")
 	private String addr;
 
 	@APIFields(description = "우편번호", maxLength=7)
 	private String post;
 
-	@APIFields(description = "전화 번호", maxLength=20, required=true, constraints = "SYS_C0011129(C)")
+	@APIFields(description = "전화 번호", maxLength=20, required=true, constraints="SYS_C0011129(C)")
 	private String telNum;
 
-	@APIFields(description = "위도", maxLength=20, required=true, constraints = "SYS_C0011130(C)")
+	@APIFields(description = "위도", maxLength=20, required=true, constraints="SYS_C0011130(C)")
 	private String coordY;
 
-	@APIFields(description = "경도", maxLength=20, required=true, constraints = "SYS_C0011131(C)")
+	@APIFields(description = "경도", maxLength=20, required=true, constraints="SYS_C0011131(C)")
 	private String coordX;
 
 	@APIFields(description = "트립어드바이저 프로퍼티 ID", maxLength=100)
 	private String tripPropId;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011132(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011132(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011133(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011133(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

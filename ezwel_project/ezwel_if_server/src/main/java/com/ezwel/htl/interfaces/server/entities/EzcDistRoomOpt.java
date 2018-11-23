@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:42                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:11                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:42
+ * @since 2018-11-23 18:46:11
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,25 +31,25 @@ public class EzcDistRoomOpt extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "객실 코드", maxLength=10, required=true, constraints = "EZC_DIST_ROOM_OPT_PK(P),SYS_C0011430(C) EZC_DIST_ROOM_OPT_PK(UNIQUE),EZC_DIST_ROOM_OPT_IF01(NONUNIQUE)")
+	@APIFields(description = "객실 코드", maxLength=10, required=true, constraints="EZC_DIST_ROOM_OPT_PK(P),SYS_C0011430(C) EZC_DIST_ROOM_OPT_PK(UNIQUE),EZC_DIST_ROOM_OPT_IF01(NONUNIQUE)")
 	private BigDecimal roomCd;
 
-	@APIFields(description = "객실 옵션코드", maxLength=100, required=true, constraints = "EZC_DIST_ROOM_OPT_PK(P),SYS_C0011431(C) EZC_DIST_ROOM_OPT_PK(UNIQUE)")
+	@APIFields(description = "객실 옵션코드", maxLength=100, required=true, constraints="EZC_DIST_ROOM_OPT_PK(P),SYS_C0011431(C) EZC_DIST_ROOM_OPT_PK(UNIQUE)")
 	private String roomOptcd;
 
 	@APIFields(description = "옵션 이름", maxLength=50)
 	private String optNm;
 
-	@APIFields(description = "옵션 금액", maxLength=8, required=true, constraints = "SYS_C0011432(C)")
+	@APIFields(description = "옵션 금액", maxLength=8, required=true, constraints="SYS_C0011432(C)")
 	private BigDecimal optAmt;
 
 	@APIFields(description = "최대 가능 수량", maxLength=4)
 	private BigDecimal limitQty;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011433(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011433(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011434(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011434(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

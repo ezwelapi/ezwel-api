@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:42                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:11                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:42
+ * @since 2018-11-23 18:46:11
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,25 +31,25 @@ public class EzcDepositIssueHist extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "예치금 발생 일련번호", maxLength=10, required=true, constraints = "EZC_DEPOSIT_ISSUE_HIST_PK(P),SYS_C0011364(C) EZC_DEPOSIT_ISSUE_HIST_PK(UNIQUE)")
+	@APIFields(description = "예치금 발생 일련번호", maxLength=10, required=true, constraints="EZC_DEPOSIT_ISSUE_HIST_PK(P),SYS_C0011364(C) EZC_DEPOSIT_ISSUE_HIST_PK(UNIQUE)")
 	private BigDecimal depositIssueSeq;
 
-	@APIFields(description = "제휴사 코드", maxLength=20, required=true, constraints = "FK_EZC_DEPOSIT_EZC_DEPOSIT_ISS(R),SYS_C0011365(C) EZC_DEPOSIT_ISSUE_HIST_IF02(NONUNIQUE)")
+	@APIFields(description = "제휴사 코드", maxLength=20, required=true, constraints="FK_EZC_DEPOSIT_EZC_DEPOSIT_ISS(R),SYS_C0011365(C) EZC_DEPOSIT_ISSUE_HIST_IF02(NONUNIQUE)")
 	private String partnerCd;
 
-	@APIFields(description = "예약 번호", maxLength=10, required=true, constraints = "FK_EZC_RESERV_BASE_EZC_DEPOSIT(R),SYS_C0011366(C) EZC_DEPOSIT_ISSUE_HIST_IF01(NONUNIQUE)")
+	@APIFields(description = "예약 번호", maxLength=10, required=true, constraints="FK_EZC_RESERV_BASE_EZC_DEPOSIT(R),SYS_C0011366(C) EZC_DEPOSIT_ISSUE_HIST_IF01(NONUNIQUE)")
 	private BigDecimal reservNum;
 
-	@APIFields(description = "발생 일자", maxLength=8, required=true, constraints = "SYS_C0011367(C)")
+	@APIFields(description = "발생 일자", maxLength=8, required=true, constraints="SYS_C0011367(C)")
 	private String issueDd;
 
-	@APIFields(description = "발생 예치 금액", maxLength=8, required=true, constraints = "SYS_C0011368(C)")
+	@APIFields(description = "발생 예치 금액", maxLength=8, required=true, constraints="SYS_C0011368(C)")
 	private BigDecimal issueDepositAmt;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011369(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011369(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011370(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011370(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

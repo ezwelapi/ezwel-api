@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:42                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:12                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:42
+ * @since 2018-11-23 18:46:12
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,16 +31,16 @@ public class EzcMyCpn extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "쿠폰 코드", maxLength=10, required=true, constraints = "EZC_MY_CPN_PK(P),FK_EZC_CPN_EZC_MY_CPN(R),SYS_C0011507(C) EZC_MY_CPN_PK(UNIQUE),EZC_MY_CPN_IF01(NONUNIQUE)")
+	@APIFields(description = "쿠폰 코드", maxLength=10, required=true, constraints="EZC_MY_CPN_PK(P),FK_EZC_CPN_EZC_MY_CPN(R),SYS_C0011507(C) EZC_MY_CPN_PK(UNIQUE),EZC_MY_CPN_IF01(NONUNIQUE)")
 	private BigDecimal cpnCd;
 
-	@APIFields(description = "회원 ID", maxLength=20, required=true, constraints = "EZC_MY_CPN_PK(P),SYS_C0011508(C) EZC_MY_CPN_PK(UNIQUE)")
+	@APIFields(description = "회원 ID", maxLength=20, required=true, constraints="EZC_MY_CPN_PK(P),SYS_C0011508(C) EZC_MY_CPN_PK(UNIQUE)")
 	private String userId;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011509(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011509(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011510(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011510(C)")
 	private String regDt;
 
 

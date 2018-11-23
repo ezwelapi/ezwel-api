@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:41                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:11                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:41
+ * @since 2018-11-23 18:46:11
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,19 +31,19 @@ public class EzcCpnClient extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "쿠폰 코드", maxLength=10, required=true, constraints = "EZC_CPN_CLIENT_PK(P),FK_EZC_CPN_CHANNEL_EZC_CPN_CLI(R),SYS_C0011331(C) EZC_CPN_CLIENT_PK(UNIQUE),EZC_CPN_CLIENT_IF01(NONUNIQUE)")
+	@APIFields(description = "쿠폰 코드", maxLength=10, required=true, constraints="EZC_CPN_CLIENT_PK(P),FK_EZC_CPN_CHANNEL_EZC_CPN_CLI(R),SYS_C0011331(C) EZC_CPN_CLIENT_PK(UNIQUE),EZC_CPN_CLIENT_IF01(NONUNIQUE)")
 	private BigDecimal cpnCd;
 
-	@APIFields(description = "채널 코드", maxLength=10, required=true, constraints = "EZC_CPN_CLIENT_PK(P),FK_EZC_CPN_CHANNEL_EZC_CPN_CLI(R),SYS_C0011332(C) EZC_CPN_CLIENT_PK(UNIQUE),EZC_CPN_CLIENT_IF01(NONUNIQUE)")
+	@APIFields(description = "채널 코드", maxLength=10, required=true, constraints="EZC_CPN_CLIENT_PK(P),FK_EZC_CPN_CHANNEL_EZC_CPN_CLI(R),SYS_C0011332(C) EZC_CPN_CLIENT_PK(UNIQUE),EZC_CPN_CLIENT_IF01(NONUNIQUE)")
 	private String channelCd;
 
-	@APIFields(description = "고객사 코드", maxLength=20, required=true, constraints = "EZC_CPN_CLIENT_PK(P),SYS_C0011333(C) EZC_CPN_CLIENT_PK(UNIQUE)")
+	@APIFields(description = "고객사 코드", maxLength=20, required=true, constraints="EZC_CPN_CLIENT_PK(P),SYS_C0011333(C) EZC_CPN_CLIENT_PK(UNIQUE)")
 	private String clientCd;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011334(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011334(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011335(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011335(C)")
 	private String regDt;
 
 

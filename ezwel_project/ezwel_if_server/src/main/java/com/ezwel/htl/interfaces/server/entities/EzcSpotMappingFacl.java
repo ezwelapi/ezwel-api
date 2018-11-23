@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:43                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:13                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:43
+ * @since 2018-11-23 18:46:13
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,19 +31,19 @@ public class EzcSpotMappingFacl extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "스팟 코드", maxLength=10, required=true, constraints = "EZC_SPOT_MAPPING_FACL_PK(P),FK_EZC_SPOT_EZC_SPOT_MAPPING_F(R),SYS_C0011679(C) EZC_SPOT_MAPPING_FACL_PK(UNIQUE),EZC_SPOT_MAPPING_FACL_IF01(NONUNIQUE)")
+	@APIFields(description = "스팟 코드", maxLength=10, required=true, constraints="EZC_SPOT_MAPPING_FACL_PK(P),FK_EZC_SPOT_EZC_SPOT_MAPPING_F(R),SYS_C0011679(C) EZC_SPOT_MAPPING_FACL_PK(UNIQUE),EZC_SPOT_MAPPING_FACL_IF01(NONUNIQUE)")
 	private BigDecimal spotCd;
 
-	@APIFields(description = "그룹 시설 코드", maxLength=10, required=true, constraints = "EZC_SPOT_MAPPING_FACL_PK(P),FK_EZC_MAPPING_GRP_FACL_EZC_SP(R),SYS_C0011680(C) EZC_SPOT_MAPPING_FACL_IF03(NONUNIQUE),EZC_SPOT_MAPPING_FACL_PK(UNIQUE)")
+	@APIFields(description = "그룹 시설 코드", maxLength=10, required=true, constraints="EZC_SPOT_MAPPING_FACL_PK(P),FK_EZC_MAPPING_GRP_FACL_EZC_SP(R),SYS_C0011680(C) EZC_SPOT_MAPPING_FACL_IF03(NONUNIQUE),EZC_SPOT_MAPPING_FACL_PK(UNIQUE)")
 	private BigDecimal grpFaclCd;
 
 	@APIFields(description = "정렬 순서", maxLength=4)
 	private BigDecimal dispOrder;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011681(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011681(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011682(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011682(C)")
 	private String regDt;
 
 

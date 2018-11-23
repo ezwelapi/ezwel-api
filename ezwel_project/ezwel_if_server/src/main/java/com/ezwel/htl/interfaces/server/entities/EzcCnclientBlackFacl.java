@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:41                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:11                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:41
+ * @since 2018-11-23 18:46:11
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,22 +31,22 @@ public class EzcCnclientBlackFacl extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "그룹 시설 여부", maxLength=1, required=true, constraints = "EZC_CNCLIENT_BLACK_FACL_PK(P),SYS_C0011282(C) EZC_CNCLIENT_BLACK_FACL_PK(UNIQUE)")
+	@APIFields(description = "그룹 시설 여부", maxLength=1, required=true, constraints="EZC_CNCLIENT_BLACK_FACL_PK(P),SYS_C0011282(C) EZC_CNCLIENT_BLACK_FACL_PK(UNIQUE)")
 	private String grpFaclYn;
 
-	@APIFields(description = "연계 시설 코드", maxLength=10, required=true, constraints = "EZC_CNCLIENT_BLACK_FACL_PK(P),SYS_C0011283(C) EZC_CNCLIENT_BLACK_FACL_PK(UNIQUE)")
+	@APIFields(description = "연계 시설 코드", maxLength=10, required=true, constraints="EZC_CNCLIENT_BLACK_FACL_PK(P),SYS_C0011283(C) EZC_CNCLIENT_BLACK_FACL_PK(UNIQUE)")
 	private BigDecimal conFaclCd;
 
-	@APIFields(description = "고객사 코드", maxLength=20, required=true, constraints = "EZC_CNCLIENT_BLACK_FACL_PK(P),FK_EZC_CHANNEL_CLIENT_EZC_CNCL(R),SYS_C0011284(C) EZC_CNCLIENT_BLACK_FACL_IF01(NONUNIQUE),EZC_CNCLIENT_BLACK_FACL_PK(UNIQUE)")
+	@APIFields(description = "고객사 코드", maxLength=20, required=true, constraints="EZC_CNCLIENT_BLACK_FACL_PK(P),FK_EZC_CHANNEL_CLIENT_EZC_CNCL(R),SYS_C0011284(C) EZC_CNCLIENT_BLACK_FACL_IF01(NONUNIQUE),EZC_CNCLIENT_BLACK_FACL_PK(UNIQUE)")
 	private String clientCd;
 
-	@APIFields(description = "채널 코드", maxLength=10, required=true, constraints = "EZC_CNCLIENT_BLACK_FACL_PK(P),FK_EZC_CHANNEL_CLIENT_EZC_CNCL(R),SYS_C0011285(C) EZC_CNCLIENT_BLACK_FACL_IF01(NONUNIQUE),EZC_CNCLIENT_BLACK_FACL_PK(UNIQUE)")
+	@APIFields(description = "채널 코드", maxLength=10, required=true, constraints="EZC_CNCLIENT_BLACK_FACL_PK(P),FK_EZC_CHANNEL_CLIENT_EZC_CNCL(R),SYS_C0011285(C) EZC_CNCLIENT_BLACK_FACL_IF01(NONUNIQUE),EZC_CNCLIENT_BLACK_FACL_PK(UNIQUE)")
 	private String channelCd;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011286(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011286(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011287(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011287(C)")
 	private String regDt;
 
 

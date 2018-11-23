@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:43                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:12                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:43
+ * @since 2018-11-23 18:46:12
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,10 +31,10 @@ public class EzcQna extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "문의사항 일련번호", maxLength=10, required=true, constraints = "EZC_QNA_PK(P),SYS_C0011592(C) EZC_QNA_PK(UNIQUE)")
+	@APIFields(description = "문의사항 일련번호", maxLength=10, required=true, constraints="EZC_QNA_PK(P),SYS_C0011592(C) EZC_QNA_PK(UNIQUE)")
 	private BigDecimal qnaSeq;
 
-	@APIFields(description = "문의사항 그룹", maxLength=10, required=true, constraints = "SYS_C0011593(C)")
+	@APIFields(description = "문의사항 그룹", maxLength=10, required=true, constraints="SYS_C0011593(C)")
 	private BigDecimal qnaGrp;
 
 	@APIFields(description = "문의사항 그룹 순서", maxLength=4)
@@ -49,16 +49,16 @@ public class EzcQna extends AbstractEntity {
 	@APIFields(description = "내용", maxLength=4000)
 	private String content;
 
-	@APIFields(description = "비밀 여부", maxLength=1, required=true, constraints = "SYS_C0011594(C)")
+	@APIFields(description = "비밀 여부", maxLength=1, required=true, constraints="SYS_C0011594(C)")
 	private String passYn;
 
-	@APIFields(description = "문의사항 상태", maxLength=8, required=true, constraints = "SYS_C0011595(C)")
+	@APIFields(description = "문의사항 상태", maxLength=8, required=true, constraints="SYS_C0011595(C)")
 	private String qnaStatus;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011596(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011596(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011597(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011597(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)
@@ -67,7 +67,7 @@ public class EzcQna extends AbstractEntity {
 	@APIFields(description = "수정 일시", maxLength=14, isDate=true)
 	private String modiDt;
 
-	@APIFields(description = "시설 코드", maxLength=10, constraints = "EZC_QNA_IF01(NONUNIQUE)")
+	@APIFields(description = "시설 코드", maxLength=10, constraints="EZC_QNA_IF01(NONUNIQUE)")
 	private BigDecimal faclCd;
 
 

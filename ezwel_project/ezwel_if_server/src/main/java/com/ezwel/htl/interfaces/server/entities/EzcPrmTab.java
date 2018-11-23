@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:43                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:12                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:43
+ * @since 2018-11-23 18:46:12
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,22 +31,22 @@ public class EzcPrmTab extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "TAB 일련번호", maxLength=10, required=true, constraints = "EZC_PRM_TAB_PK(P),SYS_C0011586(C) EZC_PRM_TAB_PK(UNIQUE)")
+	@APIFields(description = "TAB 일련번호", maxLength=10, required=true, constraints="EZC_PRM_TAB_PK(P),SYS_C0011586(C) EZC_PRM_TAB_PK(UNIQUE)")
 	private BigDecimal tabSeq;
 
-	@APIFields(description = "프로모션 코드", maxLength=10, required=true, constraints = "FK_EZC_PRM_MNG_EZC_PRM_TAB(R),SYS_C0011587(C) EZC_PRM_TAB_IF02(NONUNIQUE)")
+	@APIFields(description = "프로모션 코드", maxLength=10, required=true, constraints="FK_EZC_PRM_MNG_EZC_PRM_TAB(R),SYS_C0011587(C) EZC_PRM_TAB_IF02(NONUNIQUE)")
 	private String prmCd;
 
-	@APIFields(description = "TAB 명", maxLength=100, required=true, constraints = "SYS_C0011588(C)")
+	@APIFields(description = "TAB 명", maxLength=100, required=true, constraints="SYS_C0011588(C)")
 	private String tabNm;
 
 	@APIFields(description = "상품 노출 배열", maxLength=4)
 	private BigDecimal goodsDispArr;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011589(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011589(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011590(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011590(C)")
 	private String regDt;
 
 

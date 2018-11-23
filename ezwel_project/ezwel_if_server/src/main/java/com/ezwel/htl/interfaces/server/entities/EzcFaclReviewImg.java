@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:42                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:12                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:42
+ * @since 2018-11-23 18:46:12
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,22 +31,22 @@ public class EzcFaclReviewImg extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "후기 이미지 일련번호", maxLength=10, required=true, constraints = "EZC_FACL_REVIEW_IMG_PK(P),SYS_C0011447(C) EZC_FACL_REVIEW_IMG_PK(UNIQUE)")
+	@APIFields(description = "후기 이미지 일련번호", maxLength=10, required=true, constraints="EZC_FACL_REVIEW_IMG_PK(P),SYS_C0011447(C) EZC_FACL_REVIEW_IMG_PK(UNIQUE)")
 	private BigDecimal reviewImgSeq;
 
-	@APIFields(description = "파일 경로", maxLength=100, required=true, constraints = "SYS_C0011448(C)")
+	@APIFields(description = "파일 경로", maxLength=100, required=true, constraints="SYS_C0011448(C)")
 	private String filePath;
 
-	@APIFields(description = "시스템 파일명", maxLength=100, required=true, constraints = "SYS_C0011449(C)")
+	@APIFields(description = "시스템 파일명", maxLength=100, required=true, constraints="SYS_C0011449(C)")
 	private String sysFilenm;
 
-	@APIFields(description = "파일명", maxLength=100, required=true, constraints = "SYS_C0011450(C)")
+	@APIFields(description = "파일명", maxLength=100, required=true, constraints="SYS_C0011450(C)")
 	private String filenm;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011451(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011451(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011452(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011452(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)
@@ -55,7 +55,7 @@ public class EzcFaclReviewImg extends AbstractEntity {
 	@APIFields(description = "수정 일시", maxLength=14, isDate=true)
 	private String modiDt;
 
-	@APIFields(description = "시설 후기 일련번호", maxLength=10, required=true, constraints = "SYS_C0011453(C) EZC_FACL_REVIEW_IMG_IF01(NONUNIQUE)")
+	@APIFields(description = "시설 후기 일련번호", maxLength=10, required=true, constraints="SYS_C0011453(C) EZC_FACL_REVIEW_IMG_IF01(NONUNIQUE)")
 	private BigDecimal faclReviewSeq;
 
 

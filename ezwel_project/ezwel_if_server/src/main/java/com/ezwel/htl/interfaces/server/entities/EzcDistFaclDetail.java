@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:42                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:11                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:42
+ * @since 2018-11-23 18:46:11
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,10 +31,10 @@ public class EzcDistFaclDetail extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "시설 코드", maxLength=10, required=true, constraints = "EZC_DIST_FACL_DETAIL_PK(P),FK_EZC_FACL_EZC_DIST_FACL_DETA(R),SYS_C0011407(C) EZC_DIST_FACL_DETAIL_PK(UNIQUE)")
+	@APIFields(description = "시설 코드", maxLength=10, required=true, constraints="EZC_DIST_FACL_DETAIL_PK(P),FK_EZC_FACL_EZC_DIST_FACL_DETA(R),SYS_C0011407(C) EZC_DIST_FACL_DETAIL_PK(UNIQUE)")
 	private BigDecimal faclCd;
 
-	@APIFields(description = "팩스 번호", maxLength=20, required=true, constraints = "SYS_C0011408(C)")
+	@APIFields(description = "팩스 번호", maxLength=20, required=true, constraints="SYS_C0011408(C)")
 	private String faxNum;
 
 	@APIFields(description = "홈페이지", maxLength=200)
@@ -49,10 +49,10 @@ public class EzcDistFaclDetail extends AbstractEntity {
 	@APIFields(description = "추가 배드 요금", maxLength=8)
 	private BigDecimal addBedAmt;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011409(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011409(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011410(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011410(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

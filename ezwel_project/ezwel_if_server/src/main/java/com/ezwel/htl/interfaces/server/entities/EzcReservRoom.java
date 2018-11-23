@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:43                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:12                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:43
+ * @since 2018-11-23 18:46:12
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,10 +31,10 @@ public class EzcReservRoom extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "예약 객실 번호", maxLength=10, required=true, constraints = "EZC_RESERV_ROOM_PK(P),SYS_C0011644(C) EZC_RESERV_ROOM_PK(UNIQUE)")
+	@APIFields(description = "예약 객실 번호", maxLength=10, required=true, constraints="EZC_RESERV_ROOM_PK(P),SYS_C0011644(C) EZC_RESERV_ROOM_PK(UNIQUE)")
 	private BigDecimal reservRoomNum;
 
-	@APIFields(description = "예약 번호", maxLength=10, required=true, constraints = "SYS_C0011645(C) EZC_RESERV_ROOM_IF01(NONUNIQUE)")
+	@APIFields(description = "예약 번호", maxLength=10, required=true, constraints="SYS_C0011645(C) EZC_RESERV_ROOM_IF01(NONUNIQUE)")
 	private BigDecimal reservNum;
 
 	@APIFields(description = "제휴사 객실 주문 번호", maxLength=100)
@@ -43,13 +43,13 @@ public class EzcReservRoom extends AbstractEntity {
 	@APIFields(description = "제휴사 객실 상품 코드", maxLength=100)
 	private String partnerRoomGoodsCd;
 
-	@APIFields(description = "객실 명", maxLength=100, required=true, constraints = "SYS_C0011646(C)")
+	@APIFields(description = "객실 명", maxLength=100, required=true, constraints="SYS_C0011646(C)")
 	private String roomNm;
 
-	@APIFields(description = "체크인 일자", maxLength=8, required=true, constraints = "SYS_C0011647(C)")
+	@APIFields(description = "체크인 일자", maxLength=8, required=true, constraints="SYS_C0011647(C)")
 	private String checkInDd;
 
-	@APIFields(description = "체크아웃 일자", maxLength=8, required=true, constraints = "SYS_C0011648(C)")
+	@APIFields(description = "체크아웃 일자", maxLength=8, required=true, constraints="SYS_C0011648(C)")
 	private String checkOutDd;
 
 	@APIFields(description = "성인 수", maxLength=4)
@@ -61,13 +61,13 @@ public class EzcReservRoom extends AbstractEntity {
 	@APIFields(description = "객실 수", maxLength=4)
 	private BigDecimal roomCnt;
 
-	@APIFields(description = "정상 금액", maxLength=8, required=true, constraints = "SYS_C0011649(C)")
+	@APIFields(description = "정상 금액", maxLength=8, required=true, constraints="SYS_C0011649(C)")
 	private BigDecimal normalAmt;
 
-	@APIFields(description = "옵션 금액", maxLength=8, required=true, constraints = "SYS_C0011650(C)")
+	@APIFields(description = "옵션 금액", maxLength=8, required=true, constraints="SYS_C0011650(C)")
 	private BigDecimal optAmt;
 
-	@APIFields(description = "판매 금액", maxLength=8, required=true, constraints = "SYS_C0011651(C)")
+	@APIFields(description = "판매 금액", maxLength=8, required=true, constraints="SYS_C0011651(C)")
 	private BigDecimal saleAmt;
 
 	@APIFields(description = "기준 인원", maxLength=4)
@@ -79,19 +79,19 @@ public class EzcReservRoom extends AbstractEntity {
 	@APIFields(description = "침대 유형", maxLength=8)
 	private String bedType;
 
-	@APIFields(description = "조식 포함 여부", maxLength=1, required=true, constraints = "SYS_C0011652(C)")
+	@APIFields(description = "조식 포함 여부", maxLength=1, required=true, constraints="SYS_C0011652(C)")
 	private String breakfastIncludeYn;
 
 	@APIFields(description = "취소 수수료 규정", maxLength=4000)
 	private String cancelFeeRule;
 
-	@APIFields(description = "객실 상태", maxLength=8, required=true, constraints = "SYS_C0011653(C)")
+	@APIFields(description = "객실 상태", maxLength=8, required=true, constraints="SYS_C0011653(C)")
 	private String roomStatus;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011654(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011654(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011655(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011655(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

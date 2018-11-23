@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:41                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:10                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:41
+ * @since 2018-11-23 18:46:10
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,13 +31,13 @@ public class EzcApiReq extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "API 요청 번호", maxLength=10, required=true, constraints = "EZC_API_REQ_PK(P),SYS_C0011184(C) EZC_API_REQ_PK(UNIQUE)")
+	@APIFields(description = "API 요청 번호", maxLength=10, required=true, constraints="EZC_API_REQ_PK(P),SYS_C0011184(C) EZC_API_REQ_PK(UNIQUE)")
 	private BigDecimal apiReqNum;
 
-	@APIFields(description = "API 요청 명", maxLength=100, required=true, constraints = "SYS_C0011185(C)")
+	@APIFields(description = "API 요청 명", maxLength=100, required=true, constraints="SYS_C0011185(C)")
 	private String apiReqNm;
 
-	@APIFields(description = "API 구분 코드", maxLength=8, required=true, constraints = "SYS_C0011186(C)")
+	@APIFields(description = "API 구분 코드", maxLength=8, required=true, constraints="SYS_C0011186(C)")
 	private String apiDivCd;
 
 	@APIFields(description = "제휴사 코드", maxLength=20)
@@ -52,10 +52,10 @@ public class EzcApiReq extends AbstractEntity {
 	@APIFields(description = "테스트 기본 데이터", maxLength=200)
 	private String testBaseData;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011187(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011187(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011188(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011188(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:41                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:11                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:41
+ * @since 2018-11-23 18:46:11
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,19 +31,19 @@ public class EzcChannelClientPartner extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "고객사 코드", maxLength=20, required=true, constraints = "EZC_CHANNEL_CLIENT_PARTNER_PK(P),FK_EZC_CHANNEL_CLIENT_EZC_CHAN(R),SYS_C0011241(C) EZC_CHANNEL_CLIENT_PARTNER_PK(UNIQUE),EZC_CHANNEL_CLIENT_PARTNER_IF0(NONUNIQUE)")
+	@APIFields(description = "고객사 코드", maxLength=20, required=true, constraints="EZC_CHANNEL_CLIENT_PARTNER_PK(P),FK_EZC_CHANNEL_CLIENT_EZC_CHAN(R),SYS_C0011241(C) EZC_CHANNEL_CLIENT_PARTNER_PK(UNIQUE),EZC_CHANNEL_CLIENT_PARTNER_IF0(NONUNIQUE)")
 	private String clientCd;
 
-	@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints = "EZC_CHANNEL_CLIENT_PARTNER_PK(P),SYS_C0011242(C) EZC_CHANNEL_CLIENT_PARTNER_PK(UNIQUE)")
+	@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="EZC_CHANNEL_CLIENT_PARTNER_PK(P),SYS_C0011242(C) EZC_CHANNEL_CLIENT_PARTNER_PK(UNIQUE)")
 	private String partnerCdType;
 
-	@APIFields(description = "채널 코드", maxLength=10, required=true, constraints = "EZC_CHANNEL_CLIENT_PARTNER_PK(P),FK_EZC_CHANNEL_CLIENT_EZC_CHAN(R),SYS_C0011243(C) EZC_CHANNEL_CLIENT_PARTNER_IF0(NONUNIQUE),EZC_CHANNEL_CLIENT_PARTNER_PK(UNIQUE)")
+	@APIFields(description = "채널 코드", maxLength=10, required=true, constraints="EZC_CHANNEL_CLIENT_PARTNER_PK(P),FK_EZC_CHANNEL_CLIENT_EZC_CHAN(R),SYS_C0011243(C) EZC_CHANNEL_CLIENT_PARTNER_IF0(NONUNIQUE),EZC_CHANNEL_CLIENT_PARTNER_PK(UNIQUE)")
 	private String channelCd;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011244(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011244(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011245(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011245(C)")
 	private String regDt;
 
 

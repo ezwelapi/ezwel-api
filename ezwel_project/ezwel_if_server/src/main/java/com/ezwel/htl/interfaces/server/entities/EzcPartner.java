@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:42                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:12                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:42
+ * @since 2018-11-23 18:46:12
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,25 +31,25 @@ public class EzcPartner extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "제휴사 코드", maxLength=20, required=true, constraints = "EZC_PARTNER_PK(P),SYS_C0011512(C) EZC_PARTNER_PK(UNIQUE)")
+	@APIFields(description = "제휴사 코드", maxLength=20, required=true, constraints="EZC_PARTNER_PK(P),SYS_C0011512(C) EZC_PARTNER_PK(UNIQUE)")
 	private String partnerCd;
 
-	@APIFields(description = "제휴사 유형", maxLength=8, required=true, constraints = "SYS_C0011513(C)")
+	@APIFields(description = "제휴사 유형", maxLength=8, required=true, constraints="SYS_C0011513(C)")
 	private String partnerType;
 
-	@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints = "SYS_C0011514(C)")
+	@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="SYS_C0011514(C)")
 	private String partnerCdType;
 
-	@APIFields(description = "지불 구분", maxLength=8, required=true, constraints = "SYS_C0011515(C)")
+	@APIFields(description = "지불 구분", maxLength=8, required=true, constraints="SYS_C0011515(C)")
 	private String payDiv;
 
-	@APIFields(description = "정산 기준 유형", maxLength=8, required=true, constraints = "SYS_C0011516(C)")
+	@APIFields(description = "정산 기준 유형", maxLength=8, required=true, constraints="SYS_C0011516(C)")
 	private String calStdType;
 
-	@APIFields(description = "금액 기준 유형", maxLength=8, required=true, constraints = "SYS_C0011517(C)")
+	@APIFields(description = "금액 기준 유형", maxLength=8, required=true, constraints="SYS_C0011517(C)")
 	private String amtStdType;
 
-	@APIFields(description = "제휴사 명", maxLength=100, required=true, constraints = "SYS_C0011518(C)")
+	@APIFields(description = "제휴사 명", maxLength=100, required=true, constraints="SYS_C0011518(C)")
 	private String partnerNm;
 
 	@APIFields(description = "사업자 등록번호", maxLength=12)
@@ -73,10 +73,10 @@ public class EzcPartner extends AbstractEntity {
 	@APIFields(description = "이지웰 담당자 ID", maxLength=20)
 	private String ezwelMgrId;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011519(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011519(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011520(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011520(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

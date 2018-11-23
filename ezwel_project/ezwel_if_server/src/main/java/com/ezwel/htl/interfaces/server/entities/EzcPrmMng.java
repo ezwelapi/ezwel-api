@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:43                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:12                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:43
+ * @since 2018-11-23 18:46:12
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,22 +31,22 @@ public class EzcPrmMng extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "프로모션 코드", maxLength=10, required=true, constraints = "EZC_PRM_MNG_PK(P),SYS_C0011560(C) EZC_PRM_MNG_PK(UNIQUE)")
+	@APIFields(description = "프로모션 코드", maxLength=10, required=true, constraints="EZC_PRM_MNG_PK(P),SYS_C0011560(C) EZC_PRM_MNG_PK(UNIQUE)")
 	private String prmCd;
 
-	@APIFields(description = "프로모션 유형", maxLength=8, required=true, constraints = "SYS_C0011561(C)")
+	@APIFields(description = "프로모션 유형", maxLength=8, required=true, constraints="SYS_C0011561(C)")
 	private String prmType;
 
-	@APIFields(description = "프로모션 구성 구분", maxLength=8, required=true, constraints = "SYS_C0011562(C)")
+	@APIFields(description = "프로모션 구성 구분", maxLength=8, required=true, constraints="SYS_C0011562(C)")
 	private String prmConfigDiv;
 
-	@APIFields(description = "제목", maxLength=100, required=true, constraints = "SYS_C0011563(C)")
+	@APIFields(description = "제목", maxLength=100, required=true, constraints="SYS_C0011563(C)")
 	private String title;
 
-	@APIFields(description = "프로모션 시작 일자", maxLength=8, required=true, constraints = "SYS_C0011564(C)")
+	@APIFields(description = "프로모션 시작 일자", maxLength=8, required=true, constraints="SYS_C0011564(C)")
 	private String prmStartDd;
 
-	@APIFields(description = "프로모션 종료 일자", maxLength=8, required=true, constraints = "SYS_C0011565(C)")
+	@APIFields(description = "프로모션 종료 일자", maxLength=8, required=true, constraints="SYS_C0011565(C)")
 	private String prmEndDd;
 
 	@APIFields(description = "프로모션 시작 시간", maxLength=4)
@@ -55,13 +55,13 @@ public class EzcPrmMng extends AbstractEntity {
 	@APIFields(description = "프로모션 종료 시간", maxLength=4)
 	private String prmEndTm;
 
-	@APIFields(description = "프로모션 사용 여부", maxLength=1, required=true, constraints = "SYS_C0011566(C)")
+	@APIFields(description = "프로모션 사용 여부", maxLength=1, required=true, constraints="SYS_C0011566(C)")
 	private String prmUseYn;
 
 	@APIFields(description = "디바이스 유형", maxLength=8)
 	private String deviceType;
 
-	@APIFields(description = "가족회원 접근 여부", maxLength=1, required=true, constraints = "SYS_C0011567(C)")
+	@APIFields(description = "가족회원 접근 여부", maxLength=1, required=true, constraints="SYS_C0011567(C)")
 	private String famuserAccessYn;
 
 	@APIFields(description = "목록 이미지", maxLength=200)
@@ -73,13 +73,13 @@ public class EzcPrmMng extends AbstractEntity {
 	@APIFields(description = "유의사항", maxLength=2000)
 	private String notice;
 
-	@APIFields(description = "좋아요 사용 여부", maxLength=1, required=true, constraints = "SYS_C0011568(C)")
+	@APIFields(description = "좋아요 사용 여부", maxLength=1, required=true, constraints="SYS_C0011568(C)")
 	private String goodUseYn;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011569(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011569(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011570(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011570(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

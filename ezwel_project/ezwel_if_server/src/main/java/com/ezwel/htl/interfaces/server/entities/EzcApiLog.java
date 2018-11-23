@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:41                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:10                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:41
+ * @since 2018-11-23 18:46:10
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,22 +31,22 @@ public class EzcApiLog extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "API 로그 일련번호", maxLength=10, required=true, constraints = "EZC_API_LOG_PK(P),SYS_C0011151(C) EZC_API_LOG_PK(UNIQUE)")
+	@APIFields(description = "API 로그 일련번호", maxLength=10, required=true, constraints="EZC_API_LOG_PK(P),SYS_C0011151(C) EZC_API_LOG_PK(UNIQUE)")
 	private BigDecimal apiLogSeq;
 
-	@APIFields(description = "API 유형", maxLength=8, required=true, constraints = "SYS_C0011152(C)")
+	@APIFields(description = "API 유형", maxLength=8, required=true, constraints="SYS_C0011152(C)")
 	private String apiType;
 
-	@APIFields(description = "API 응답 구분", maxLength=8, required=true, constraints = "SYS_C0011153(C)")
+	@APIFields(description = "API 응답 구분", maxLength=8, required=true, constraints="SYS_C0011153(C)")
 	private String apiResponDiv;
 
-	@APIFields(description = "에이전트 유형", maxLength=8, required=true, constraints = "SYS_C0011154(C)")
+	@APIFields(description = "에이전트 유형", maxLength=8, required=true, constraints="SYS_C0011154(C)")
 	private String agentType;
 
-	@APIFields(description = "로그 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011155(C)")
+	@APIFields(description = "로그 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011155(C)")
 	private String logDt;
 
-	@APIFields(description = "오류 여부", maxLength=1, required=true, constraints = "SYS_C0011156(C)")
+	@APIFields(description = "오류 여부", maxLength=1, required=true, constraints="SYS_C0011156(C)")
 	private String errYn;
 
 	@APIFields(description = "오류 메시지", maxLength=4000)
@@ -58,10 +58,10 @@ public class EzcApiLog extends AbstractEntity {
 	@APIFields(description = "RES TXT", maxLength=4000)
 	private String resTxt;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011157(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011157(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011158(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011158(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

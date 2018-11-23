@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:42                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:12                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:42
+ * @since 2018-11-23 18:46:12
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,19 +31,19 @@ public class EzcFaclReviewGrade extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "시설 후기 유형", maxLength=8, required=true, constraints = "EZC_FACL_REVIEW_GRADE_PK(P),SYS_C0011442(C) EZC_FACL_REVIEW_GRADE_PK(UNIQUE)")
+	@APIFields(description = "시설 후기 유형", maxLength=8, required=true, constraints="EZC_FACL_REVIEW_GRADE_PK(P),SYS_C0011442(C) EZC_FACL_REVIEW_GRADE_PK(UNIQUE)")
 	private String faclReviewType;
 
-	@APIFields(description = "시설 후기 일련번호", maxLength=10, required=true, constraints = "EZC_FACL_REVIEW_GRADE_PK(P),SYS_C0011443(C) EZC_FACL_REVIEW_GRADE_IF01(NONUNIQUE),EZC_FACL_REVIEW_GRADE_PK(UNIQUE)")
+	@APIFields(description = "시설 후기 일련번호", maxLength=10, required=true, constraints="EZC_FACL_REVIEW_GRADE_PK(P),SYS_C0011443(C) EZC_FACL_REVIEW_GRADE_IF01(NONUNIQUE),EZC_FACL_REVIEW_GRADE_PK(UNIQUE)")
 	private BigDecimal faclReviewSeq;
 
 	@APIFields(description = "평점", maxLength=4)
 	private BigDecimal grade;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011444(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011444(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011445(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011445(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)

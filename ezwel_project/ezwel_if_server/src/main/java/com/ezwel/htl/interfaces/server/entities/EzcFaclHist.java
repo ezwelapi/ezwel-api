@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:42                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:11                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:42
+ * @since 2018-11-23 18:46:11
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,55 +31,55 @@ public class EzcFaclHist extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "시설 내역 일련번호", maxLength=10, required=true, constraints = "EZC_FACL_HIST_PK(P),SYS_C0011082(C) EZC_FACL_HIST_PK(UNIQUE)")
+	@APIFields(description = "시설 내역 일련번호", maxLength=10, required=true, constraints="EZC_FACL_HIST_PK(P),SYS_C0011082(C) EZC_FACL_HIST_PK(UNIQUE)")
 	private BigDecimal faclHistSeq;
 
-	@APIFields(description = "제휴사 코드", maxLength=20, required=true, constraints = "SYS_C0011083(C)")
+	@APIFields(description = "제휴사 코드", maxLength=20, required=true, constraints="SYS_C0011083(C)")
 	private String partnerCd;
 
-	@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints = "SYS_C0011084(C)")
+	@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="SYS_C0011084(C)")
 	private String partnerCdType;
 
-	@APIFields(description = "시설 구분", maxLength=8, required=true, constraints = "SYS_C0011085(C)")
+	@APIFields(description = "시설 구분", maxLength=8, required=true, constraints="SYS_C0011085(C)")
 	private String faclDiv;
 
-	@APIFields(description = "상품 코드", maxLength=100, required=true, constraints = "SYS_C0011086(C)")
+	@APIFields(description = "상품 코드", maxLength=100, required=true, constraints="SYS_C0011086(C)")
 	private String goodsCd;
 
-	@APIFields(description = "시설 명 한글", maxLength=100, required=true, constraints = "SYS_C0011087(C)")
+	@APIFields(description = "시설 명 한글", maxLength=100, required=true, constraints="SYS_C0011087(C)")
 	private String faclNmKor;
 
-	@APIFields(description = "시설 명 영문", maxLength=100, required=true, constraints = "SYS_C0011088(C)")
+	@APIFields(description = "시설 명 영문", maxLength=100, required=true, constraints="SYS_C0011088(C)")
 	private String faclNmEng;
 
-	@APIFields(description = "숙소 유형", maxLength=8, required=true, constraints = "SYS_C0011089(C)")
+	@APIFields(description = "숙소 유형", maxLength=8, required=true, constraints="SYS_C0011089(C)")
 	private String roomType;
 
-	@APIFields(description = "숙소 등급", maxLength=8, required=true, constraints = "SYS_C0011090(C)")
+	@APIFields(description = "숙소 등급", maxLength=8, required=true, constraints="SYS_C0011090(C)")
 	private String roomClass;
 
-	@APIFields(description = "판매 시작 일자", maxLength=8, required=true, constraints = "SYS_C0011091(C)")
+	@APIFields(description = "판매 시작 일자", maxLength=8, required=true, constraints="SYS_C0011091(C)")
 	private String saleStartDd;
 
-	@APIFields(description = "판매 종료 일자", maxLength=8, required=true, constraints = "SYS_C0011092(C)")
+	@APIFields(description = "판매 종료 일자", maxLength=8, required=true, constraints="SYS_C0011092(C)")
 	private String saleEndDd;
 
-	@APIFields(description = "체크인 시분", maxLength=4, required=true, constraints = "SYS_C0011093(C)")
+	@APIFields(description = "체크인 시분", maxLength=4, required=true, constraints="SYS_C0011093(C)")
 	private String checkInTm;
 
-	@APIFields(description = "체크아웃 시분", maxLength=4, required=true, constraints = "SYS_C0011094(C)")
+	@APIFields(description = "체크아웃 시분", maxLength=4, required=true, constraints="SYS_C0011094(C)")
 	private String checkOutTm;
 
-	@APIFields(description = "지역 코드", maxLength=10, required=true, constraints = "SYS_C0011095(C)")
+	@APIFields(description = "지역 코드", maxLength=10, required=true, constraints="SYS_C0011095(C)")
 	private String areaCd;
 
-	@APIFields(description = "도시 코드", maxLength=10, required=true, constraints = "SYS_C0011096(C)")
+	@APIFields(description = "도시 코드", maxLength=10, required=true, constraints="SYS_C0011096(C)")
 	private String cityCd;
 
-	@APIFields(description = "주소 유형", maxLength=8, required=true, constraints = "SYS_C0011097(C)")
+	@APIFields(description = "주소 유형", maxLength=8, required=true, constraints="SYS_C0011097(C)")
 	private String addrType;
 
-	@APIFields(description = "주소", maxLength=200, required=true, constraints = "SYS_C0011098(C)")
+	@APIFields(description = "주소", maxLength=200, required=true, constraints="SYS_C0011098(C)")
 	private String addr;
 
 	@APIFields(description = "우편번호", maxLength=7)
@@ -109,7 +109,7 @@ public class EzcFaclHist extends AbstractEntity {
 	@APIFields(description = "대표 이미지 URL", maxLength=200)
 	private String mainImgUrl;
 
-	@APIFields(description = "이미지 변경 여부", maxLength=1, required=true, constraints = "SYS_C0011099(C)")
+	@APIFields(description = "이미지 변경 여부", maxLength=1, required=true, constraints="SYS_C0011099(C)")
 	private String imgChangeYn;
 
 	@APIFields(description = "판매 중지 일시", maxLength=14, isDate=true)
@@ -118,22 +118,22 @@ public class EzcFaclHist extends AbstractEntity {
 	@APIFields(description = "API 동기화 일시", maxLength=14, isDate=true)
 	private String apiSyncDt;
 
-	@APIFields(description = "확정 상태", maxLength=8, required=true, constraints = "SYS_C0011100(C)")
+	@APIFields(description = "확정 상태", maxLength=8, required=true, constraints="SYS_C0011100(C)")
 	private String confirmStatus;
 
-	@APIFields(description = "시설 상태", maxLength=8, required=true, constraints = "SYS_C0011101(C)")
+	@APIFields(description = "시설 상태", maxLength=8, required=true, constraints="SYS_C0011101(C)")
 	private String faclStatus;
 
 	@APIFields(description = "반려 내용", maxLength=1000)
 	private String rejectContent;
 
-	@APIFields(description = "사용 여부", maxLength=1, required=true, constraints = "SYS_C0011102(C)")
+	@APIFields(description = "사용 여부", maxLength=1, required=true, constraints="SYS_C0011102(C)")
 	private String useYn;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011103(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011103(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011104(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011104(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)
@@ -142,7 +142,7 @@ public class EzcFaclHist extends AbstractEntity {
 	@APIFields(description = "수정 일시", maxLength=14, isDate=true)
 	private String modiDt;
 
-	@APIFields(description = "시설 코드", maxLength=10, constraints = "EZC_FACL_HIST_IF01(NONUNIQUE)")
+	@APIFields(description = "시설 코드", maxLength=10, constraints="EZC_FACL_HIST_IF01(NONUNIQUE)")
 	private BigDecimal faclCd;
 
 

@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:44:41                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:46:10                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:44:41
+ * @since 2018-11-23 18:46:10
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -31,28 +31,28 @@ public class EzcCacheDayPrice extends AbstractEntity {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	@APIFields(description = "당일특가 일자", maxLength=8, required=true, constraints = "EZC_CACHE_DAY_PRICE_PK(P),SYS_C0011135(C) EZC_CACHE_DAY_PRICE_PK(UNIQUE)")
+	@APIFields(description = "당일특가 일자", maxLength=8, required=true, constraints="EZC_CACHE_DAY_PRICE_PK(P),SYS_C0011135(C) EZC_CACHE_DAY_PRICE_PK(UNIQUE)")
 	private String dayPriceDd;
 
-	@APIFields(description = "시설 코드", maxLength=10, required=true, constraints = "EZC_CACHE_DAY_PRICE_PK(P),FK_EZC_MAPPING_FACL_EZC_CACHE(R),SYS_C0011136(C) EZC_CACHE_DAY_PRICE_IF01(NONUNIQUE),EZC_CACHE_DAY_PRICE_PK(UNIQUE)")
+	@APIFields(description = "시설 코드", maxLength=10, required=true, constraints="EZC_CACHE_DAY_PRICE_PK(P),FK_EZC_MAPPING_FACL_EZC_CACHE(R),SYS_C0011136(C) EZC_CACHE_DAY_PRICE_IF01(NONUNIQUE),EZC_CACHE_DAY_PRICE_PK(UNIQUE)")
 	private BigDecimal faclCd;
 
-	@APIFields(description = "그룹 시설 코드", maxLength=10, required=true, constraints = "EZC_CACHE_DAY_PRICE_PK(P),FK_EZC_MAPPING_FACL_EZC_CACHE(R),SYS_C0011137(C) EZC_CACHE_DAY_PRICE_IF01(NONUNIQUE),EZC_CACHE_DAY_PRICE_PK(UNIQUE)")
+	@APIFields(description = "그룹 시설 코드", maxLength=10, required=true, constraints="EZC_CACHE_DAY_PRICE_PK(P),FK_EZC_MAPPING_FACL_EZC_CACHE(R),SYS_C0011137(C) EZC_CACHE_DAY_PRICE_IF01(NONUNIQUE),EZC_CACHE_DAY_PRICE_PK(UNIQUE)")
 	private BigDecimal grpFaclCd;
 
-	@APIFields(description = "당일특가 로그 일련번호", maxLength=10, required=true, constraints = "FK_EZC_CACHE_DAY_PRICE_LOG_EZC(R),SYS_C0011138(C) EZC_CACHE_DAY_PRICE_IF02(NONUNIQUE)")
+	@APIFields(description = "당일특가 로그 일련번호", maxLength=10, required=true, constraints="FK_EZC_CACHE_DAY_PRICE_LOG_EZC(R),SYS_C0011138(C) EZC_CACHE_DAY_PRICE_IF02(NONUNIQUE)")
 	private BigDecimal dayPriceLogSeq;
 
-	@APIFields(description = "당일특가 최저가", maxLength=8, required=true, constraints = "SYS_C0011139(C)")
+	@APIFields(description = "당일특가 최저가", maxLength=8, required=true, constraints="SYS_C0011139(C)")
 	private BigDecimal dayPriceMinPrice;
 
-	@APIFields(description = "판매 종료 시분", maxLength=4, required=true, constraints = "SYS_C0011140(C)")
+	@APIFields(description = "판매 종료 시분", maxLength=4, required=true, constraints="SYS_C0011140(C)")
 	private String saleEndTm;
 
-	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints = "SYS_C0011141(C)")
+	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011141(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints = "SYS_C0011142(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011142(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)
