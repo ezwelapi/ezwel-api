@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
-import com.ezwel.htl.interfaces.commons.http.data.HttpConfigDTO;
-import com.ezwel.htl.interfaces.commons.http.data.UserAgentDTO;
+import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 
@@ -28,7 +28,7 @@ public class ConfigureHelper {
 	}
 	
 	@APIOperation(description="인터페이스 사용 유저 설정 정보 세팅")
-	public void setupUserAgentInfo(HttpConfigDTO config, UserAgentDTO userAgentDTO) {
+	public void setupUserAgentInfo(HttpConfigSDO config, UserAgentSDO userAgentDTO) {
 		/** conntime, readtime, httpAgentType, httpChannelCd, httpClientId, httpRequestId  */
 		propertyUtil.copySameProperty(userAgentDTO, config);
 		/** setup httpApiSignature */

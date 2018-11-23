@@ -19,7 +19,7 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
  * @serviceType API
  */
 @APIModel
-public class HttpConfigDTO extends AbstractSDO {
+public class HttpConfigSDO extends AbstractSDO {
 
 	@APIFields(description = "캐쉬 아이디")
 	private String cacheId;
@@ -96,7 +96,7 @@ public class HttpConfigDTO extends AbstractSDO {
 	@APIFields(description = "HTTP 인터페이스 API 총 실행시간")
 	private Long lapTimeMillis;
 	
-	public HttpConfigDTO() {
+	public HttpConfigSDO() {
 		this.reset();
 	}
 	

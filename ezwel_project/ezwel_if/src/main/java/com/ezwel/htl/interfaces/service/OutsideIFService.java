@@ -12,8 +12,8 @@ import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
-import com.ezwel.htl.interfaces.commons.http.data.HttpConfigDTO;
-import com.ezwel.htl.interfaces.commons.http.data.UserAgentDTO;
+import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtOutSDO;
@@ -66,13 +66,13 @@ public class OutsideIFService {
 	}
 	
 	@APIOperation(description="객실정보조회 인터페이스")
-	public RoomReadOutSDO callRoomRead(UserAgentDTO userAgentDTO, RoomReadInSDO roomReadDTO) {
+	public RoomReadOutSDO callRoomRead(UserAgentSDO userAgentDTO, RoomReadInSDO roomReadDTO) {
 		
 		RoomReadOutSDO out = null;
 		
 		try {
 			
-			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("roomRead", userAgentDTO.getHttpAgentId());
+			HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("roomRead", userAgentDTO.getHttpAgentId());
 			configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
 			/** execute interface */
 			out = (RoomReadOutSDO) inteface.sendPostJSON(httpConfigDTO, roomReadDTO, RoomReadOutSDO.class);
@@ -85,13 +85,13 @@ public class OutsideIFService {
 	}
 	
 	@APIOperation(description="취소수수규정 인터페이스")
-	public CancelFeePsrcOutSDO callCancelFeePsrc(UserAgentDTO userAgentDTO, CancelFeePsrcInSDO cancelFeePsrcDTO) {
+	public CancelFeePsrcOutSDO callCancelFeePsrc(UserAgentSDO userAgentDTO, CancelFeePsrcInSDO cancelFeePsrcDTO) {
 		
 		CancelFeePsrcOutSDO out = null;
 		
 		try {
 			
-			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("cancelFeePsrc", userAgentDTO.getHttpAgentId());
+			HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("cancelFeePsrc", userAgentDTO.getHttpAgentId());
 			configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
 			/** execute interface */
 			out = (CancelFeePsrcOutSDO) inteface.sendPostJSON(httpConfigDTO, cancelFeePsrcDTO, CancelFeePsrcOutSDO.class);
@@ -104,13 +104,13 @@ public class OutsideIFService {
 	}
 	
 	@APIOperation(description="결재완료내역전송 인터페이스")
-	public RsvHistSendOutSDO callRsvHistSend(UserAgentDTO userAgentDTO, RsvHistSendInSDO rsvHistSendDTO) {
+	public RsvHistSendOutSDO callRsvHistSend(UserAgentSDO userAgentDTO, RsvHistSendInSDO rsvHistSendDTO) {
 		
 		RsvHistSendOutSDO out = null;
 		
 		try {
 			
-			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("rsvHistSend", userAgentDTO.getHttpAgentId());
+			HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("rsvHistSend", userAgentDTO.getHttpAgentId());
 			configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
 			/** execute interface */
 			out = (RsvHistSendOutSDO) inteface.sendPostJSON(httpConfigDTO, rsvHistSendDTO, RsvHistSendOutSDO.class);
@@ -123,13 +123,13 @@ public class OutsideIFService {
 	}
 	
 	@APIOperation(description="취소수수료계산 인터페이스")
-	public CancelFeeAmtOutSDO callCancelFeeAmt(UserAgentDTO userAgentDTO, CancelFeeAmtInSDO cancelFeeAmtDTO) {
+	public CancelFeeAmtOutSDO callCancelFeeAmt(UserAgentSDO userAgentDTO, CancelFeeAmtInSDO cancelFeeAmtDTO) {
 		
 		CancelFeeAmtOutSDO out = null;
 		
 		try {
 			
-			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("cancelFeeAmt", userAgentDTO.getHttpAgentId());
+			HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("cancelFeeAmt", userAgentDTO.getHttpAgentId());
 			configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
 			/** execute interface */
 			out = (CancelFeeAmtOutSDO) inteface.sendPostJSON(httpConfigDTO, cancelFeeAmtDTO, CancelFeeAmtOutSDO.class);
@@ -141,13 +141,13 @@ public class OutsideIFService {
 	}
 	
 	@APIOperation(description="주문취소요청 인터페이스")
-	public OrderCancelReqOutSDO callOrderCancelReq(UserAgentDTO userAgentDTO, OrderCancelReqInSDO orderCancelReqDTO) {
+	public OrderCancelReqOutSDO callOrderCancelReq(UserAgentSDO userAgentDTO, OrderCancelReqInSDO orderCancelReqDTO) {
 		
 		OrderCancelReqOutSDO out = null;
 		
 		try {
 			
-			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("orderCancelReq", userAgentDTO.getHttpAgentId());
+			HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("orderCancelReq", userAgentDTO.getHttpAgentId());
 			configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
 			/** execute interface */
 			out = (OrderCancelReqOutSDO) inteface.sendPostJSON(httpConfigDTO, orderCancelReqDTO, OrderCancelReqOutSDO.class);
@@ -160,13 +160,13 @@ public class OutsideIFService {
 	}
 
 	@APIOperation(description="누락건확인 인터페이스")
-	public OmiNumIdnOutSDO callOmiNumIdn(UserAgentDTO userAgentDTO, OmiNumIdnInSDO omiNumIdnDTO) {
+	public OmiNumIdnOutSDO callOmiNumIdn(UserAgentSDO userAgentDTO, OmiNumIdnInSDO omiNumIdnDTO) {
 		
 		OmiNumIdnOutSDO out = null;
 		
 		try {
 			
-			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("omiNumIdn", userAgentDTO.getHttpAgentId());
+			HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("omiNumIdn", userAgentDTO.getHttpAgentId());
 			configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
 			/** execute interface */
 			out = (OmiNumIdnOutSDO) inteface.sendPostJSON(httpConfigDTO, omiNumIdnDTO, OmiNumIdnOutSDO.class);
@@ -179,13 +179,13 @@ public class OutsideIFService {
 	}
 
 	@APIOperation(description="주문대사(이지웰) 인터페이스")
-	public EzwelJobOutSDO callEzwelJob(UserAgentDTO userAgentDTO, EzwelJobInSDO ezwelJobDTO) {
+	public EzwelJobOutSDO callEzwelJob(UserAgentSDO userAgentDTO, EzwelJobInSDO ezwelJobDTO) {
 		
 		EzwelJobOutSDO out = null;
 		
 		try {
 			
-			HttpConfigDTO httpConfigDTO = InterfaceFactory.getChannel("ezwelJob", userAgentDTO.getHttpAgentId());
+			HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("ezwelJob", userAgentDTO.getHttpAgentId());
 			configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
 			/** execute interface */
 			out = (EzwelJobOutSDO) inteface.sendPostJSON(httpConfigDTO, ezwelJobDTO, EzwelJobOutSDO.class);

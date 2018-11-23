@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigDTO;
+import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
 
 
 
@@ -25,11 +25,11 @@ public class HttpInterfaceHelper implements Callable<AbstractSDO> {
 
 	private static final Logger logger = LoggerFactory.getLogger(HttpInterfaceHelper.class);
 
-	private MultiHttpConfigDTO multiHttpConfigDTO;
+	private MultiHttpConfigSDO multiHttpConfigDTO;
 	
 	private HttpInterfaceExecutorService httpInterface;
 	
-	public HttpInterfaceHelper(MultiHttpConfigDTO multiHttpConfigDTO) {
+	public HttpInterfaceHelper(MultiHttpConfigSDO multiHttpConfigDTO) {
 		if(httpInterface == null) {
 			this.httpInterface = new HttpInterfaceExecutorService();
 		}
