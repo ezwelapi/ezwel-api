@@ -33,9 +33,9 @@ import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
  */
 @Service
 @APIType
-public class OutsideIFServerService {
+public class OutsideService {
 
-	private static final Logger logger = LoggerFactory.getLogger(OutsideIFServerService.class);
+	private static final Logger logger = LoggerFactory.getLogger(OutsideService.class);
 
 	private HttpInterfaceExecutorService inteface = (HttpInterfaceExecutorService) LApplicationContext.getBean(HttpInterfaceExecutorService.class);
 	
@@ -43,7 +43,7 @@ public class OutsideIFServerService {
 	
 	private PropertyUtil propertyUtil = (PropertyUtil) LApplicationContext.getBean(PropertyUtil.class);
 	
-	public OutsideIFServerService() {
+	public OutsideService() {
 		
 		if(propertyUtil == null) {
 			propertyUtil = new PropertyUtil();

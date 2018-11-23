@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentDTO;
-import com.ezwel.htl.interfaces.server.service.OutsideIFServerService;
+import com.ezwel.htl.interfaces.server.service.OutsideService;
 import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInSDO;
@@ -26,11 +26,11 @@ public class InterfaceDemoService {
 	private static final Logger logger = LoggerFactory.getLogger(InterfaceDemoService.class);
 	
 	private OutsideIFService outIfService; 
-	private OutsideIFServerService outIfServerService; 
+	private OutsideService outIfServerService; 
 	
 	public InterfaceDemoService() {
 		outIfService = new OutsideIFService();
-		outIfServerService = new OutsideIFServerService();
+		outIfServerService = new OutsideService();
 	}
 	
 	public AllRegOutSDO callAllReg() {		
