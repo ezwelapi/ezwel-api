@@ -14,7 +14,7 @@
 	<!-- Spring extends encoding filter -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
-		<filter-class>com.ezwel.htl.interfaces.commons.filter.CharacterEncodingFilter</filter-class>
+		<filter-class>com.ezwel.htl.interfaces.server.commons.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>
