@@ -1,10 +1,11 @@
-package com.ezwel.htl.interfaces.commons.aop;
+package com.ezwel.htl.interfaces.server.commons.aop;
 
 import java.lang.reflect.Method;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cglib.proxy.MethodInterceptor;
@@ -42,74 +43,88 @@ public class MethodsWrapperAdvice implements MethodInterceptor, Ordered {
 		return null;
 	}
 
+	//order:1
 	public void beforeTargetMethod(JoinPoint thisJoinPoint) {
 		if (isLogging) {
 			logger.debug("■■ [AOP] MethodsAdvice.beforeTargetMethod executed.\n■ thisJoinPoint : {}", thisJoinPoint);
 		}
 	}
 
-	public void afterReturningTargetMethod(JoinPoint thisJoinPoint, Object retVal) {
+	//order:2, methodend > order:1
+	public void afterTargetMethod(JoinPoint thisJoinPoint) {
 		if (isLogging) {
-			logger.debug("■■ [AOP] MethodsAdvice.afterReturningTargetMethod executed.\n■ thisJoinPoint : {}\n■ retVal : {}", thisJoinPoint, retVal);
+			logger.debug("■■ [AOP] MethodsAdvice.afterTargetMethod (finally) executed.\n■ thisJoinPoint : {}", thisJoinPoint);
 		}
 	}
-
+	
+	//order:3
 	public void afterThrowingTargetMethod(JoinPoint thisJoinPoint, Exception exception) throws Exception {
 		if (isLogging) {
 			logger.debug("■■ [AOP] MethodsAdvice.afterThrowingTargetMethod executed.\n■ thisJoinPoint : {}\n■ exception : ", thisJoinPoint, exception);
 		}
 		// throw new ApplicationException("어플리케이션 장애발생", exception);
 	}
-
-	public void afterTargetMethod(JoinPoint thisJoinPoint) {
+	
+	//methodend > order:2
+	public void afterReturningTargetMethod(JoinPoint thisJoinPoint, Object retVal) {
 		if (isLogging) {
-			logger.debug("■■ [AOP] MethodsAdvice.afterTargetMethod (finally) executed.\n■ thisJoinPoint : {}", thisJoinPoint);
+			logger.debug("■■ [AOP] MethodsAdvice.afterReturningTargetMethod executed.\n■ thisJoinPoint : {}\n■ retVal : {}", thisJoinPoint, retVal);
 		}
 	}
 
+	//method execute
 	public Object aroundTargetMethod(ProceedingJoinPoint thisJoinPoint) throws Throwable {
-
+		if (isLogging) {
+			logger.debug("■■ [AOP] MethodsAdvice.aroundTargetMethod executed. thisJoinPoint : {}", thisJoinPoint);
+		}
 		String className = thisJoinPoint.getTarget().getClass().getSimpleName();
 		String methodName = thisJoinPoint.getSignature().getName();
 		String typeMethodName = className.concat(OperateConstants.STR_DOT).concat(methodName);
-		APIOperation apiOperAnno = thisJoinPoint.getSignature().getClass().getAnnotation(APIOperation.class);
-
+		Method proccesMethod = ((MethodSignature) thisJoinPoint.getSignature()).getMethod();
+		APIOperation apiOperAnno = proccesMethod.getAnnotation(APIOperation.class);
+		
 		if (apiOperAnno == null) {
 			throw new APIException("■■ 유효하지 않은 API 오퍼레이션 APIOperation어노테이션이 존재하지 않습니다. '{}'", typeMethodName);
 		}
 
 		String description = APIUtil.NVL(apiOperAnno.description(), className.concat(OperateConstants.STR_DOT).concat(methodName));
-		Object[] inputParam = thisJoinPoint.getArgs();
 		// inputParam 변경가능
-
-		String methodInfomation = getTargetMethodInfomation(typeMethodName, inputParam, description);
-
-		logger.debug("■■ [AOP] START Operation infomation :\n{} ", methodInfomation);
-
+		Object[] inputParam = thisJoinPoint.getArgs();
+		
 		/** method당 실행시간 세팅 및 쓰레드내 메소드의 고유 값 생성 */
-		String localKey = Local.startOperation();
+		String methodGuid = Local.startOperation();
+
+		String methodInfomation = getTargetMethodInfomation(typeMethodName, inputParam, description, methodGuid);
+
+		logger.debug("■■ [AOP START Operation] {} ", methodInfomation);
 
 		Object retVal = null;
 		try {
 			retVal = thisJoinPoint.proceed(inputParam);
 			// retVal = retVal + "(modified)"; //결과 변경가능
 		} catch (Exception e) {
-			throw new APIException("■■ {} APIOperation 장애발생.", description, e);
+			throw new APIException("■■ '{}' APIOperation 장애발생.", description, e);
 		}
 
-		long executeLapTimeMillis = Local.endOperation(localKey).getLapTimeMillis();
+		long executeLapTimeMillis = Local.endOperation(methodGuid).getLapTimeMillis();
 
 		logger.debug("■■ [AOP] output : {}", retVal);
-		logger.debug("■■ [AOP] END Operation infomation :\n{}■ lapTime : {} sec", APIUtil.getTimeMillisToSecond(executeLapTimeMillis), methodInfomation);
+		logger.debug("■■ [AOP] END Operation lapTime : {} sec, methodInfomation : {}", APIUtil.getTimeMillisToSecond(executeLapTimeMillis), methodInfomation);
 		return retVal;
 	}
 
-	private String getTargetMethodInfomation(String typeMethodName, Object[] inputParam, String description) {
+	private String getTargetMethodInfomation(String typeMethodName, Object[] inputParam, String description, String methodGuid) {
 
 		StringBuilder strb = new StringBuilder();
-		strb.append(typeMethodName);
+		strb.append("DESCRIPTION : ");
+		strb.append(description);
 		strb.append(OperateConstants.STR_COMA);
 		strb.append(OperateConstants.STR_WHITE_SPACE);
+		strb.append("METHOD GUID : ");
+		strb.append(methodGuid);
+		strb.append(OperateConstants.STR_COMA);
+		strb.append(OperateConstants.STR_WHITE_SPACE);
+		strb.append(typeMethodName);
 		strb.append(OperateConstants.STR_PAREN_START);
 		if (inputParam != null) {
 			for (int i = 0; i < inputParam.length; i++) {
@@ -120,13 +135,7 @@ public class MethodsWrapperAdvice implements MethodInterceptor, Ordered {
 			}
 		}
 		strb.append(OperateConstants.STR_PAREN_END);
-		strb.append("description : ");
-		strb.append(description);
-		strb.append(OperateConstants.STR_COMA);
-		strb.append(OperateConstants.STR_WHITE_SPACE);
-		strb.append("GUID : ");
-		strb.append(Local.getId());
-
+		
 		return strb.toString();
 	}
 }

@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.controller;
+package com.ezwel.htl.interfaces.server.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.spring.LApplicationContext;
-import com.ezwel.htl.interfaces.service.InsideInterfaceService;
+import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.service.InsideInterfaceService;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
 import com.ezwel.htl.interfaces.service.data.record.RecordInSDO;
@@ -29,7 +29,7 @@ import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegOutSDO;
 
 /**
  * <pre>
- *  http://ip/API1.0/inside-03/facl/record
+ *  http://localhost:8282/ezwel_if_server/API1.0/inside-03/facl/record
  * </pre>
  * @author swkim@ebsolution.co.kr
  * @date   2018. 11. 15.

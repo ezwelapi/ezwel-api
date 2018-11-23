@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.commons.utils;
+package com.ezwel.htl.interfaces.server.commons.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.commons.filter;
+package com.ezwel.htl.interfaces.server.commons.filter;
 
 import java.io.IOException;
 

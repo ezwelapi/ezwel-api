@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.commons.intercepter;
+package com.ezwel.htl.interfaces.server.commons.intercepter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,12 +17,12 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.entity.CommonHeader;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
-import com.ezwel.htl.interfaces.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
-import com.ezwel.htl.interfaces.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
 import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateDTO;
+import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 
 
 public class HandlerInterceptor  extends HandlerInterceptorAdapter {
@@ -37,7 +37,10 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 	
 	private static final boolean isLogging = false;
 	
-	public HandlerInterceptor() {
+	public HandlerInterceptor() { 
+		
+		logger.debug("# Init HandlerInterceptor");
+		
 		if(this.apiUtil == null) {
 			this.apiUtil = new APIUtil();
 		}

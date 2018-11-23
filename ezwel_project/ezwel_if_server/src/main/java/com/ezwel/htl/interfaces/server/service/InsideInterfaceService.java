@@ -1,10 +1,12 @@
-package com.ezwel.htl.interfaces.repository;
+package com.ezwel.htl.interfaces.server.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.repository.InsideInterfaceRepository;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
 import com.ezwel.htl.interfaces.service.data.record.RecordInSDO;
@@ -23,17 +25,19 @@ import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegOutSDO;
  * @author swkim@ebsolution.co.kr
  * @date   2018. 11. 15.
  */
-@Repository
-public class InsideInterfaceRepository {
+@Service
+public class InsideInterfaceService {
 
-	private static final Logger logger = LoggerFactory.getLogger(InsideInterfaceRepository.class);
-
+	private static final Logger logger = LoggerFactory.getLogger(InsideInterfaceService.class);
+	
+	private InsideInterfaceRepository intefaceDAO = (InsideInterfaceRepository) LApplicationContext.getBean(InsideInterfaceRepository.class);
+	
 	@APIOperation(description="신규시설등록수정 인터페이스")
 	public RecordOutSDO callRecord(RecordInSDO recordSDO) {
 		logger.debug("[START] callRecord {}", recordSDO);
 		
-		RecordOutSDO out = null;
-
+		//Advice & Interceptor 최적화후 작업 진행
+		RecordOutSDO out = intefaceDAO.callRecord(recordSDO);
 		
 		logger.debug("[END] callRecord {}", out);
 		return out;
@@ -43,7 +47,8 @@ public class InsideInterfaceRepository {
 	public SaleStopOutSDO callSaleStop(SaleStopInSDO saleStopSDO) {
 		logger.debug("[START] callSaleStop {}", saleStopSDO);
 		
-		SaleStopOutSDO out = null;
+		//Advice & Interceptor 최적화후 작업 진행
+		SaleStopOutSDO out = intefaceDAO.callSaleStop(saleStopSDO);
 		
 		logger.debug("[END] callSaleStop {}", out);
 		return out;
@@ -53,7 +58,8 @@ public class InsideInterfaceRepository {
 	public VoucherRegOutSDO callVoucherReg(VoucherRegInSDO voucherRegSDO) {
 		logger.debug("[START] callVoucherReg {}", voucherRegSDO);
 		
-		VoucherRegOutSDO out = null;
+		//Advice & Interceptor 최적화후 작업 진행
+		VoucherRegOutSDO out = intefaceDAO.callVoucherReg(voucherRegSDO);
 		
 		logger.debug("[END] callVoucherReg {}", out);
 		return out;
@@ -63,21 +69,23 @@ public class InsideInterfaceRepository {
 	public ViewOutSDO callView(ViewInSDO viewSDO) {
 		logger.debug("[START] callView {}", viewSDO);
 		
-		ViewOutSDO out = null;
+		//Advice & Interceptor 최적화후 작업 진행
+		ViewOutSDO out = intefaceDAO.callView(viewSDO);
 		
 		logger.debug("[END] callView {}", out);
 		return out;
 	}
 	
+
 	@APIOperation(description="주문대사(제휴사) 인터페이스")
 	public AgentJobOutSDO callAgentJob(AgentJobInSDO agentJobSDO) {
 		logger.debug("[START] callAgentJob {}", agentJobSDO);
 		
-		AgentJobOutSDO out = null;
+		//Advice & Interceptor 최적화후 작업 진행
+		AgentJobOutSDO out = intefaceDAO.callAgentJob(agentJobSDO);
 		
 		logger.debug("[END] callAgentJob {}", out);
 		return out;
 	}
-	
 	
 }
