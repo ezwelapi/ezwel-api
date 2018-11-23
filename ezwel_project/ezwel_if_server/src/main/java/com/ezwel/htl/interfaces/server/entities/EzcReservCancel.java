@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:46:12                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:55:43                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:46:12
+ * @since 2018-11-23 18:55:43
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -43,7 +43,7 @@ public class EzcReservCancel extends AbstractEntity {
 	@APIFields(description = "전체 취소 여부", maxLength=1, required=true, constraints="SYS_C0011617(C)")
 	private String allCancelYn;
 
-	@APIFields(description = "취소 요청 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011618(C)")
+	@APIFields(description = "취소 요청 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss", required=true, constraints="SYS_C0011618(C)")
 	private String cancelReqDt;
 
 	@APIFields(description = "취소 수수료 금액", maxLength=8, required=true, constraints="SYS_C0011619(C)")
@@ -58,13 +58,13 @@ public class EzcReservCancel extends AbstractEntity {
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011622(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011623(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss", required=true, constraints="SYS_C0011623(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)
 	private String modiId;
 
-	@APIFields(description = "수정 일시", maxLength=14, isDate=true)
+	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
 	private String modiDt;
 
 

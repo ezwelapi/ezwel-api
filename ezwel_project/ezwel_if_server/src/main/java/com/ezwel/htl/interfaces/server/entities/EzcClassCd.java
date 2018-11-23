@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:46:11                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:55:41                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:46:11
+ * @since 2018-11-23 18:55:41
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -46,13 +46,13 @@ public class EzcClassCd extends AbstractEntity {
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011275(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011276(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss", required=true, constraints="SYS_C0011276(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)
 	private String modiId;
 
-	@APIFields(description = "수정 일시", maxLength=14, isDate=true)
+	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
 	private String modiDt;
 
 

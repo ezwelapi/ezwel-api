@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:46:10                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:55:41                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:46:10
+ * @since 2018-11-23 18:55:41
  * @version 0.0.1
  * @see "EZWEL Entity"
  */

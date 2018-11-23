@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:46:11                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:55:42                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:46:11
+ * @since 2018-11-23 18:55:42
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -112,10 +112,10 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "이미지 변경 여부", maxLength=1, required=true, constraints="SYS_C0011070(C)")
 	private String imgChangeYn;
 
-	@APIFields(description = "판매 중지 일시", maxLength=14, isDate=true)
+	@APIFields(description = "판매 중지 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
 	private String saleStopDt;
 
-	@APIFields(description = "API 동기화 일시", maxLength=14, isDate=true)
+	@APIFields(description = "API 동기화 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
 	private String apiSyncDt;
 
 	@APIFields(description = "확정 상태", maxLength=8, required=true, constraints="SYS_C0011071(C)")
@@ -133,13 +133,13 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011074(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011075(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss", required=true, constraints="SYS_C0011075(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)
 	private String modiId;
 
-	@APIFields(description = "수정 일시", maxLength=14, isDate=true)
+	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
 	private String modiDt;
 
 

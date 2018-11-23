@@ -14,11 +14,11 @@ import java.math.BigDecimal;
  * <pre>
  * 버전              성명                                일자                                       변경내용
  * -------    ----------------     -------------------		-----------------
- * 0.0.1      CodeSkeleton         2018-11-23 18:46:10                신규자동생성 
+ * 0.0.1      CodeSkeleton         2018-11-23 18:55:41                신규자동생성 
  * </pre>
  * 
  * @author swkim@ebsolution.co.kr
- * @since 2018-11-23 18:46:10
+ * @since 2018-11-23 18:55:41
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
@@ -43,7 +43,7 @@ public class EzcCacheSearchLog extends AbstractEntity {
 	@APIFields(description = "지역 코드", maxLength=10, required=true, constraints="EZC_CACHE_SEARCH_LOG_PK(P),SYS_C0011172(C) EZC_CACHE_SEARCH_LOG_PK(UNIQUE)")
 	private String areaCd;
 
-	@APIFields(description = "실행 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011173(C)")
+	@APIFields(description = "실행 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss", required=true, constraints="SYS_C0011173(C)")
 	private String exeDt;
 
 	@APIFields(description = "CACHE 만료 시간", maxLength=4, required=true, constraints="SYS_C0011174(C)")
@@ -55,13 +55,13 @@ public class EzcCacheSearchLog extends AbstractEntity {
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011176(C)")
 	private String regId;
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, required=true, constraints="SYS_C0011177(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss", required=true, constraints="SYS_C0011177(C)")
 	private String regDt;
 
 	@APIFields(description = "수정자 ID", maxLength=20)
 	private String modiId;
 
-	@APIFields(description = "수정 일시", maxLength=14, isDate=true)
+	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
 	private String modiDt;
 
 
