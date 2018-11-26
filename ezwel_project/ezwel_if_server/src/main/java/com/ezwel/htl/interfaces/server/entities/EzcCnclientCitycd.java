@@ -6,7 +6,7 @@ import org.apache.ibatis.type.Alias;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
-import java.math.BigDecimal;
+
 
 
 /**

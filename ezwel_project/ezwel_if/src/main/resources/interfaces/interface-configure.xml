@@ -55,9 +55,14 @@
 			<httpAgentId>10056562</httpAgentId>
 			<insideApiKey>e54d735ff4ab6b93308c31d99cd683d4i</insideApiKey>
 			<outsideApiKey>8747fe3bc4ded32f80136b1661b0afc4o</outsideApiKey>
-		</agentInfo>					
+		</agentInfo>
+		<agentInfo>
+			<agentName>제휴사협의중</agentName>
+			<httpAgentId>99999999</httpAgentId>
+			<insideApiKey>e54d735ffzab6b93308c31d99cd683d4i</insideApiKey>
+			<outsideApiKey>8747fe3bz4ded32f80136b1661b0afc4o</outsideApiKey>
+		</agentInfo>
 	</agentList>
-	
 
 	<insideChans>
 		<httpChan>
@@ -93,15 +98,88 @@
 	</insideChans>
 	
 	<outsideChans>
+
 		<httpChan>
-			<chanId>allReg</chanId>
-			<description>전체시설일괄등록</description>
+			<chanId>allReg-10000495</chanId>
+			<description>호텔엔조이_메이트아이</description>
 			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
 		</httpChan>
-		
+		<httpChan>
+			<chanId>allReg-10000496</chanId>
+			<description>펜션라이프_플레이스엠</description>
+			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>3000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<chanId>allReg-10002654</chanId>
+			<description>인터파크투어_인터파크INT</description>
+			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>3000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<chanId>allReg-10008365</chanId>
+			<description>펀앤비즈_샬레코리아</description>
+			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>3000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<chanId>allReg-10030653</chanId>
+			<description>우리펜션(옐로트래블랩스)</description>
+			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>3000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<chanId>allReg-10053461</chanId>
+			<description>인터치투어</description>
+			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>3000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<chanId>allReg-10054233</chanId>
+			<description>웹투어</description>
+			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>3000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<chanId>allReg-10055550</chanId>
+			<description>호텔패스글로벌</description>
+			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>3000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<chanId>allReg-10056562</chanId>
+			<description>(주)위드이노베이션_여기어때</description>
+			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>3000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<chanId>allReg-99999999</chanId>
+			<description>제휴사협의중</description>
+			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>3000</readTimeout>
+		</httpChan>		
+				
 		<httpChan>
 			<chanId>faclSearch</chanId>
 			<httpAgentGroupId>chanGroup-01</httpAgentGroupId>
