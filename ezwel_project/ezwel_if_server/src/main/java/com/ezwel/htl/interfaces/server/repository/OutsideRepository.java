@@ -5,12 +5,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.utils.DataAccessObjectUtil;
+import com.ezwel.htl.interfaces.server.commons.utils.DataAccessObjectUtil;
+import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
@@ -28,18 +30,31 @@ public class OutsideRepository extends DataAccessObjectUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(OutsideRepository.class);
 
+	private final String MAPPER_NAMESPACE = "com.ezwel.htl.interfaces.server.repository.outsideRepository";
+	
 	/**
 	 * 맵핑 시설 : EZC_FACL, EZC_FACL_IMG, EZC_FACL_AMENT ( 1 : N : N ), 데이터 적제 
 	 * 요청(입력) 파라메터 없음
 	 */
+	@Transactional
 	@APIOperation(description="전체시설일괄등록 인터페이스")
-	public AllRegOutSDO callAllReg(List<AllRegOutSDO> assets) {
+	public AllRegOutSDO callAllReg(AllRegOutSDO assets) {
 		
 		AllRegOutSDO out = null;
 		
 		try {
 			
-			
+			for(AllRegDataOutSDO item : assets.getData()) {
+				
+				/**
+				 * 1. EZC_FACL 1건 저장
+				 * 2. EZC_FACL_IMG N건 저장
+				 * 3. EZC_FACL_AMENT N건 저장
+				 */
+				
+				sqlSession.insert(MAPPER_NAMESPACE.concat("insertEzcFacl"), parameter)
+				
+			}
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);

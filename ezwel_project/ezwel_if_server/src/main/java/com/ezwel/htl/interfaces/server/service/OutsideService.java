@@ -98,8 +98,7 @@ public class OutsideService {
 			//멀티 쓰레드 인터페이스 실행
 			List<AllRegOutSDO> assets = inteface.sendMultiPostJSON(multiHttpConfigList);
 			
-			/** execute dbio */
-			out = outsideRepository.callAllReg(assets);
+			out = insertAllReg(assets, new AllRegOutSDO());
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
@@ -108,6 +107,15 @@ public class OutsideService {
 		
 		return out;
 	}	
+	
+	@APIOperation(description="전체시설일괄등록 인터페이스")
+	private AllRegOutSDO insertAllReg(List<AllRegOutSDO> assets, AllRegOutSDO resultData) {
+		
+		
+		
+		return resultData;
+	}
+	
 	
 	
 	/**
