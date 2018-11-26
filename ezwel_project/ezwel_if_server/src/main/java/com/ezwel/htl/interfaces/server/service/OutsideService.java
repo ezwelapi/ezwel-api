@@ -24,6 +24,7 @@ import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.repository.OutsideRepository;
+import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
@@ -50,6 +51,9 @@ public class OutsideService {
 	
 	private OutsideRepository outsideRepository = (OutsideRepository) LApplicationContext.getBean(OutsideRepository.class);
 	
+	/** 제휴사 별 시설 정보 transaction commit 건수 */
+	private static final Integer FACL_REG_DATA_TX_COUNT = 50;
+	
 	public OutsideService() {
 		
 		if(propertyUtil == null) {
@@ -74,6 +78,7 @@ public class OutsideService {
 		AllRegOutSDO out = null;
 		MultiHttpConfigSDO multi = null;
 		List<MultiHttpConfigSDO> multiHttpConfigList = null;
+		Integer txCount = 0;
 		
 		try {
 			multiHttpConfigList = new ArrayList<MultiHttpConfigSDO>();
@@ -94,11 +99,13 @@ public class OutsideService {
 				multiHttpConfigList.add(multi);
 			}
 			
-			/** execute interface */
-			//멀티 쓰레드 인터페이스 실행
+			/** execute multi thread interface */
 			List<AllRegOutSDO> assets = inteface.sendMultiPostJSON(multiHttpConfigList);
 			
-			out = insertAllReg(assets, new AllRegOutSDO());
+			if(assets != null && assets.size() > 0) {
+				/** execute transaction */ 
+				out = insertAllFacl(assets, new AllRegOutSDO(), 0);
+			}
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
@@ -109,13 +116,70 @@ public class OutsideService {
 	}	
 	
 	@APIOperation(description="전체시설일괄등록 인터페이스")
-	private AllRegOutSDO insertAllReg(List<AllRegOutSDO> assets, AllRegOutSDO resultData) {
+	private AllRegOutSDO insertAllFacl(List<AllRegOutSDO> assets, AllRegOutSDO allFacl, Integer faclIndex) {
+		if(assets == null) {
+			throw new APIException("시설 목록이 존재하지 않거나 잘못되었습니다.");
+		}
 		
+		Integer txCount = 0;
+		/**
+		 * 1. 제휴사 별 TX 실행
+		 * 2. 제휴사 내 100개씩  commit 되도록 operation 구성
+		 */
+
+		AllRegOutSDO allReg = assets.get(faclIndex);
+		List<AllRegDataOutSDO> faclDatas = null;
+		/** 제휴사 1건 별 이하 프로세스 실행 */
+		if(allReg != null && allReg.getData() != null && allReg.getData().size() > 0) {
+			/** 제휴사 별 시설 목록 */
+			faclDatas = allReg.getData();
+			/** 제휴사 별 시설 데이터 입력 실행 */
+			txCount = insertFaclRegData(faclDatas, 0);
+			/** 저장 개수가 존재하면 */
+			if(txCount > 0) {
+				if(allFacl.getData() == null) {
+					allFacl.setData(new ArrayList<AllRegDataOutSDO>());
+				}
+				/** 제휴사의 시설 데이터를 output sdo 의 목록에 저장 */
+				allFacl.getData().addAll(faclDatas);
+				/** 트렌젝션 성공 개수 */
+				allFacl.setTxCount(allFacl.getTxCount() + txCount);
+			}
+		}
 		
+		Integer nextIndex = faclIndex + 1;
+		if(assets != null && assets.size() > nextIndex) {
+			insertAllFacl(assets, allFacl, nextIndex);
+		}
 		
-		return resultData;
+		return allFacl;
 	}
 	
+	
+	
+	@APIOperation(description="전체시설일괄등록 인터페이스")
+	private Integer insertFaclRegData(List<AllRegDataOutSDO> faclDatas/* 제휴사 별 시설 목록 */, Integer fromIndex) {
+		/**
+		 * 시설 50개씩 connection 끊어서 돌려야함.
+		 */
+		Integer txCount = 0;
+		Integer toIndex = fromIndex + FACL_REG_DATA_TX_COUNT;
+		List<AllRegDataOutSDO> saveFaclRegDatas = null;
+		if(toIndex >= faclDatas.size()) {
+			toIndex = faclDatas.size() - 1;
+		}
+
+		saveFaclRegDatas = faclDatas.subList(fromIndex, toIndex);
+		
+		txCount = outsideRepository.insertAllReg(saveFaclRegDatas);
+		
+		Integer nextIndex = toIndex + 1;
+		if(faclDatas != null && faclDatas.size() > nextIndex) {
+			insertFaclRegData(faclDatas/* 제휴사 별 시설 목록 */, nextIndex) ;
+		}
+		
+		return txCount;
+	}
 	
 	
 	/**

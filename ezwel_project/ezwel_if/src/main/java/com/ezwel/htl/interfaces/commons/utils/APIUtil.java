@@ -530,4 +530,17 @@ public class APIUtil {
 	}
 	
 	
+	public static String getTimeMillisToDate(long userTimeMillis) {
+		return getTimeMillisToDate(userTimeMillis, null);
+	}
+	
+	public static String getTimeMillisToDate(long userTimeMillis, String dateFormat) {
+		long timeMillis = userTimeMillis;
+		String format = dateFormat;
+		Date resultdate = new Date(timeMillis);
+    	String dateformat = (format != null && !format.isEmpty()) ? format:OperateConstants.DEF_DATE_FORMAT;
+    	return FastDateFormat.getInstance(dateformat, TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA).format(resultdate);
+	
+	}
+	
 }

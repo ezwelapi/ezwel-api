@@ -20,14 +20,11 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
  * @date   2018. 11. 13.
  */
 
-@APIModel
+@APIModel(description="시설 정보")
 @Data
 @EqualsAndHashCode(callSuper=true)
 public class AllRegDataOutSDO extends AbstractSDO {
 
-
-
-	
 	@APIFields(description = "전체시설일괄등록 output 시설명칭", required=true, maxLength=200)
 	private String pdtName;
 	
@@ -106,7 +103,7 @@ public class AllRegDataOutSDO extends AbstractSDO {
 	@APIFields(description = "전체시설일괄등록 output 경도", maxLength=20)
 	private String mapY;
 	
-	@APIFields(description = "전체시설일괄등록 output 부대시설", required=true, maxLength=500)
+	@APIFields(description = "전체시설일괄등록 output 부대시설 유형", required=true, maxLength=500)
 	private String serviceCodes;
 
 	public String getPdtName() {
@@ -157,11 +154,11 @@ public class AllRegDataOutSDO extends AbstractSDO {
 		this.changeImage = changeImage;
 	}
 
-	public List<AllRegSubImagesOutSDO> getAllRegSubImagesOutDTOs() {
+	public List<AllRegSubImagesOutSDO> getSubImages() {
 		return subImages;
 	}
 
-	public void setAllRegSubImagesOutDTOs(List<AllRegSubImagesOutSDO> subImages) {
+	public void setSubImages(List<AllRegSubImagesOutSDO> subImages) {
 		this.subImages = subImages;
 	}
 
