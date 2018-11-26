@@ -78,7 +78,6 @@ public class OutsideService {
 		AllRegOutSDO out = null;
 		MultiHttpConfigSDO multi = null;
 		List<MultiHttpConfigSDO> multiHttpConfigList = null;
-		Integer txCount = 0;
 		
 		try {
 			multiHttpConfigList = new ArrayList<MultiHttpConfigSDO>();
