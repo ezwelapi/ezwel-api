@@ -56,7 +56,7 @@
 	<!-- Mybatis Spring Works SqlSessionFactoryBean : http://mybatis.github.io/spring/ko/factorybean.html -->
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 	  	<beans:property name="dataSource" ref="mainJdbcDataSource" />
-		<beans:property name="mapperLocations" value="classpath*:com/ezwel/htl/interfaces/**/*Query.xml" />
+		<beans:property name="mapperLocations" value="classpath*:com/ezwel/htl/interfaces/server/**/*Mapper.xml" />
 	</beans:bean>
 
 	<!-- SqlSessionTemplate Constructor : SqlSessionTemplate(SqlSessionFactory sqlSessionFactory, ExecutorType executorType, PersistenceExceptionTranslator exceptionTranslator) -->

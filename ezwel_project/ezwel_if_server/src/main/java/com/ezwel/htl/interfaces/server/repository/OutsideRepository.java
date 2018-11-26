@@ -53,7 +53,6 @@ public class OutsideRepository extends DataAccessObjectUtil {
 				 */
 				
 				sqlSession.insert(MAPPER_NAMESPACE.concat("insertEzcFacl"), item);
-				
 			}
 		}
 		catch(Exception e) {

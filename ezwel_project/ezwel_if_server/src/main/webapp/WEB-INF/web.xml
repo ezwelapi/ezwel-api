@@ -108,11 +108,11 @@
 
 	<resource-ref>
 		<description>EZWEL DataSource</description>
-		<res-ref-name>EZWEL_DATABASE</res-ref-name>
+		<res-ref-name>ezwelDS</res-ref-name>
 		<res-type>javax.sql.DataSource</res-type>
 		<res-auth>Container</res-auth>
 	</resource-ref>
-			
+
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
