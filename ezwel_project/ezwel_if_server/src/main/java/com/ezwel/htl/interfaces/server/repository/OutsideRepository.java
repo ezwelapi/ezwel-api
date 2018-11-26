@@ -52,7 +52,7 @@ public class OutsideRepository extends DataAccessObjectUtil {
 				 * 3. EZC_FACL_AMENT N건 저장
 				 */
 				
-				sqlSession.insert(MAPPER_NAMESPACE.concat("insertEzcFacl"), parameter);
+				sqlSession.insert(MAPPER_NAMESPACE.concat("insertEzcFacl"), item);
 				
 			}
 		}
