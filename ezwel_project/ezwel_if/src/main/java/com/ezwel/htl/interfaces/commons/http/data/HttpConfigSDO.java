@@ -39,7 +39,7 @@ public class HttpConfigSDO extends AbstractSDO {
 	@APIFields(description = "API 키(ezwel발급)", required=false, httpHeader=false, headerName="http-api-key")
 	private String httpApiKey; 
 
-	@APIFields(description = "API 시그니처", required=true, httpHeader=true, headerName="http-api-signature")
+	@APIFields(description = "API 시그니처", required=false, httpHeader=true, headerName="http-api-signature")
 	private String httpApiSignature; 
 
 	@APIFields(description = "요정시간(타임스탬프)", required=true, httpHeader=true, headerName="http-api-timestamp")

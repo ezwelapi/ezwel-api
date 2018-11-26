@@ -88,8 +88,12 @@ public class InsideController {
 			serviceOut = intefaceService.callRecord(recordInSDO);
 			
 			serviceOut = getOutCallRecord(httpAgentId, response);
+			
+			logger.debug("[ypjeon] callRecord serviceOut {}", serviceOut);
 
 			out = new ResponseEntity<RecordOutSDO>(serviceOut, HttpStatus.OK);
+			
+			logger.debug("[ypjeon] callRecord out {}", out);
 			
 		}
 		catch(Exception e) {

@@ -34,7 +34,7 @@ function createData() {
 function AjaxCall() { 
 	$.ajax({ 
 		type: "POST", 
-		url : "localhost:8123/API1.0/10000496/facl/record", 
+		url : "http://ezcheckin.jyp.ezwel.com:8123/API1.0/10000496/facl/record", 
 		data: createData(), 
 		dataType:"json", 
 		success : function(data, status, xhr) { 
