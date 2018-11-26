@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Map.Entry;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.Charsets;
 import org.slf4j.Logger;
@@ -16,9 +19,13 @@ import org.springframework.web.method.HandlerMethod;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
+import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.google.common.io.ByteSource;
 import com.google.common.io.ByteStreams;
 /**
@@ -33,8 +40,6 @@ import com.google.common.io.ByteStreams;
 public class CommonUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
-	
-
 	
     public String readReqeustBodyWithBufferedReader(HttpServletRequest request) {
     	
@@ -236,6 +241,47 @@ public class CommonUtil {
 		
 		return out;
 	}
+	
+	
+	/**
+	 * 컨트롤러 응답결과 테스트용 유틸
+	 * @param in
+	 * @param response
+	 */
+	public void setRequestHeader(HttpConfigSDO in, HttpServletResponse response) {
+		
+		Properties certifications = null;
+		
+		try {
+			
+			//Certifications Property
+			certifications = new HttpInterfaceExecutorService().getCert(in);
+			
+			if(in.getRequestProperty() == null) in.setRequestProperty(new Properties());
+			in.getRequestProperty().putAll(certifications);
+			
+			for(Entry<Object, Object> entry : in.getRequestProperty().entrySet()) {
+				response.setHeader((String) entry.getKey(), (String) entry.getValue());
+			}
+			
+			/** 강제 유지 프로퍼티 */
+			response.setHeader("Content-Type", APIUtil.addString("application/json; charset=", in.getEncoding()));
+			response.setHeader("Accept", "application/json");
+			response.setHeader("Cache-Control", "no-cache");
+			response.setHeader("Content-Length", "1" );
+			
+		} catch(APIException e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 인터페이스 요청 헤더 작성중 장애발생.", e);
+		} finally {
+			if(certifications != null) {
+				certifications.clear();
+			}
+			if(in.getRequestProperty() != null) {
+				in.getRequestProperty().clear();
+			}			
+		}
+	}
+	
 	
 }
 

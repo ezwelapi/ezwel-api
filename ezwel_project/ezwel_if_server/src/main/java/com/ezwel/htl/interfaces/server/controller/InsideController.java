@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
+import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.service.InsideService;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
@@ -41,6 +45,9 @@ public class InsideController {
 	private static final Logger logger = LoggerFactory.getLogger(InsideController.class);
 	
 	private InsideService intefaceService = (InsideService) LApplicationContext.getBean(InsideService.class);
+	
+	private CommonUtil commonUtil = (CommonUtil) LApplicationContext.getBean(CommonUtil.class);
+	
 	
 	/**
 	 * <pre>
@@ -79,8 +86,11 @@ public class InsideController {
 			
 			//Advice & Interceptor 최적화후 작업 추가 진행
 			serviceOut = intefaceService.callRecord(recordInSDO);
+			
+			serviceOut = getOutCallRecord(httpAgentId, response);
 
 			out = new ResponseEntity<RecordOutSDO>(serviceOut, HttpStatus.OK);
+			
 		}
 		catch(Exception e) {
 			serviceOut = new RecordOutSDO(); 
@@ -94,6 +104,24 @@ public class InsideController {
 		logger.debug("[END] callRecord {}", out);
 		return out;
 	}
+	
+	@APIOperation(description="신규시설등록수정 인터페이스 결과")
+	private RecordOutSDO getOutCallRecord(String httpAgentId, HttpServletResponse response) {
+		
+		HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("record", httpAgentId);
+		commonUtil.setRequestHeader(httpConfigDTO, response);
+		
+		RecordOutSDO out = new RecordOutSDO();
+		
+		//data set
+		out.setCode("1000");
+		out.setMessage("정상적으로 처리되었습니다");
+		
+		return out;
+	}
+	
+
+	
 	
 	@ResponseBody
 	@APIOperation(description="시설판매중지설정 인터페이스")
@@ -111,7 +139,7 @@ public class InsideController {
 			
 			//Advice & Interceptor 최적화후 작업 추가 진행
 			serviceOut = intefaceService.callSaleStop(saleStopInSDO);
-
+ 
 			out = new ResponseEntity<SaleStopOutSDO>(serviceOut, HttpStatus.OK);
 		}
 		catch(Exception e) {

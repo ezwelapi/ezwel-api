@@ -48,13 +48,13 @@ public class HttpConfigSDO extends AbstractSDO {
 	@APIFields(description = "에이전트유형", required=true, httpHeader=true, headerName="http-agent-type")
 	private String httpAgentType;	
 	
-	@APIFields(description = "체널코드", required=true, httpHeader=true, headerName="http-channel-cd")
+	@APIFields(description = "체널코드", required=false, httpHeader=true, headerName="http-channel-cd")
 	private String httpChannelCd;	
 	
-	@APIFields(description = "클라이언트ID", required=true, httpHeader=true, headerName="http-client-id")
+	@APIFields(description = "클라이언트ID", required=false, httpHeader=true, headerName="http-client-id")
 	private String httpClientId;	
 	
-	@APIFields(description = "요청자ID", required=true, httpHeader=true, headerName="http-request-id")
+	@APIFields(description = "요청자ID", required=false, httpHeader=true, headerName="http-request-id")
 	private String httpRequestId;	
 	
 	@APIFields(description = "HTTP 요청 파라메터 송신 여부")

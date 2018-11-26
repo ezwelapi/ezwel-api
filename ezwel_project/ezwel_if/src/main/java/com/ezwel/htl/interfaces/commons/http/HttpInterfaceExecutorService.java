@@ -339,7 +339,7 @@ public class HttpInterfaceExecutorService {
 	 * @return
 	 */
 	@APIOperation(description="Create Http URL Communication Certification Properties", isExecTest=true)
-	private Properties getCert(HttpConfigSDO request) {
+	public Properties getCert(HttpConfigSDO request) {
 		
 		Properties out = null;
 		Field[] field = null;
