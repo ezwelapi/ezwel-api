@@ -1,5 +1,6 @@
 package com.ezwel.htl.interfaces.server.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -51,6 +52,8 @@ public class OutsideRepository extends DataAccessObjectUtil {
 				 * 2. EZC_FACL_IMG N건 저장
 				 * 3. EZC_FACL_AMENT N건 저장
 				 */
+				
+				
 				
 				sqlSession.insert(MAPPER_NAMESPACE.concat("insertEzcFacl"), item);
 			}
