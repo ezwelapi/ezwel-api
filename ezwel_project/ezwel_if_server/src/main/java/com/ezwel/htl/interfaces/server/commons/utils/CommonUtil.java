@@ -252,8 +252,7 @@ public class CommonUtil {
 	 * @param response
 	 */
 	@APIOperation(description="컨트롤러 응답결과 테스트용 유틸 response header 정보 세팅", isExecTest=true)
-	public void setRequestHeader(HttpConfigSDO in, HttpServletResponse response) {
-		
+	public void setResponseHeader(HttpConfigSDO in, HttpServletResponse response) {
 		
 		logger.debug("[컨트롤러 응답결과 테스트용 유틸] in {}", in);
 		

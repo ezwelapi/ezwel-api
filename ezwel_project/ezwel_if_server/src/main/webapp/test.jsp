@@ -21,7 +21,10 @@ function createData() {
 	// 2. jQuery serialize함수를 사용해서 전달 
 	var sendData = $('#AjaxForm').serialize(); 
 	
+	console.log("-----------------"); 
 	console.log(sendData); 
+	console.log("================="); 
+	
 	
 	return sendData; 
 	
@@ -34,14 +37,20 @@ function createData() {
 function AjaxCall() { 
 	$.ajax({ 
 		type: "POST", 
-		url : "http://ezcheckin.jyp.ezwel.com:8123/API1.0/10000496/facl/record", 
+		url : "http://localhost:8282/ezwel_if_server/API1.0/10000496/facl/record", 
 		data: createData(), 
 		dataType:"json", 
-		success : function(data, status, xhr) { 
-			console.log(data); 
+		success : function(data, status, xhr) {
+			console.log("success");
+			console.log(data);
+			console.log(status); 
+			console.log(xhr); 
 		}, 
-		error: function(jqXHR, textStatus, errorThrown) { 
-			console.log(jqXHR.responseText); 
+		error: function(jqXHR, textStatus, errorThrown) {
+			console.log("error");
+			console.log(jqXHR);
+			console.log(textStatus);
+			console.log(errorThrown);
 		}
 	}); 
 }

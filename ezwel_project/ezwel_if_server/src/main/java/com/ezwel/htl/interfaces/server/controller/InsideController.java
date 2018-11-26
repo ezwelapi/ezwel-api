@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
+import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.service.InsideService;
@@ -48,6 +50,7 @@ public class InsideController {
 	
 	private CommonUtil commonUtil = (CommonUtil) LApplicationContext.getBean(CommonUtil.class);
 	
+	private BeanMarshaller beanMarshaller = (BeanMarshaller) LApplicationContext.getBean(BeanMarshaller.class);
 	
 	/**
 	 * <pre>
@@ -67,11 +70,11 @@ public class InsideController {
 	@ResponseBody
 	@APIOperation(description="신규시설등록수정 인터페이스")
 	@RequestMapping(value="/{httpAgentId}/facl/record")
-	public ResponseEntity<RecordOutSDO> callRecord(@PathVariable("httpAgentId") String httpAgentId, RecordInSDO recordInSDO, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<String> callRecord(@PathVariable("httpAgentId") String httpAgentId, RecordInSDO recordInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callRecord {}", recordInSDO);
 		
-		ResponseEntity<RecordOutSDO> out = null;
-		RecordOutSDO serviceOut = null;
+		ResponseEntity<String> out = null;
+		String serviceOut = null;
 
 		try {
 			if(recordInSDO == null) {
@@ -85,23 +88,25 @@ public class InsideController {
 			 */
 			
 			//Advice & Interceptor 최적화후 작업 추가 진행
-			serviceOut = intefaceService.callRecord(recordInSDO);
+			//serviceOut = intefaceService.callRecord(recordInSDO);
 			
 			serviceOut = getOutCallRecord(httpAgentId, response);
 			
 			logger.debug("[ypjeon] callRecord serviceOut {}", serviceOut);
-
-			out = new ResponseEntity<RecordOutSDO>(serviceOut, HttpStatus.OK);
+			
+			out = new ResponseEntity<String>(serviceOut, HttpStatus.CREATED);
 			
 			logger.debug("[ypjeon] callRecord out {}", out);
 			
 		}
 		catch(Exception e) {
-			serviceOut = new RecordOutSDO(); 
+			RecordOutSDO errorOut = new RecordOutSDO(); 
+			errorOut.setCode(Integer.toString(MessageConstants.RESPONSE_CODE_5000));
+			errorOut.setMessage(MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_5000));
 			/**
 			 * 장애 발생시 code, message 세팅 
 			 */
-			out = new ResponseEntity<RecordOutSDO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<String>(beanMarshaller.toJSONString(errorOut), HttpStatus.CREATED);
 			e.printStackTrace();
 		}
 		
@@ -110,18 +115,18 @@ public class InsideController {
 	}
 	
 	@APIOperation(description="신규시설등록수정 인터페이스 결과")
-	private RecordOutSDO getOutCallRecord(String httpAgentId, HttpServletResponse response) {
+	private String getOutCallRecord(String httpAgentId, HttpServletResponse response) {
 		
 		HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("record", httpAgentId);
-		commonUtil.setRequestHeader(httpConfigDTO, response);
+		commonUtil.setResponseHeader(httpConfigDTO, response);
 		
 		RecordOutSDO out = new RecordOutSDO();
 		
 		//data set
 		out.setCode("1000");
 		out.setMessage("정상적으로 처리되었습니다");
-		
-		return out;
+
+		return beanMarshaller.toJSONString(out);
 	}
 	
 
@@ -144,12 +149,12 @@ public class InsideController {
 			//Advice & Interceptor 최적화후 작업 추가 진행
 			serviceOut = intefaceService.callSaleStop(saleStopInSDO);
  
-			out = new ResponseEntity<SaleStopOutSDO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<SaleStopOutSDO>(serviceOut, HttpStatus.CREATED);
 		}
 		catch(Exception e) {
 			serviceOut = new SaleStopOutSDO(); 
 		
-			out = new ResponseEntity<SaleStopOutSDO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<SaleStopOutSDO>(serviceOut, HttpStatus.CREATED);
 			e.printStackTrace();
 		}
 		
@@ -175,12 +180,12 @@ public class InsideController {
 			//Advice & Interceptor 최적화후 작업 추가 진행
 			serviceOut = intefaceService.callView(viewInSDO);
 
-			out = new ResponseEntity<ViewOutSDO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<ViewOutSDO>(serviceOut, HttpStatus.CREATED);
 		}
 		catch(Exception e) {
 			serviceOut = new ViewOutSDO(); 
 		
-			out = new ResponseEntity<ViewOutSDO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<ViewOutSDO>(serviceOut, HttpStatus.CREATED);
 			e.printStackTrace();
 		}
 		
@@ -205,12 +210,12 @@ public class InsideController {
 			//Advice & Interceptor 최적화후 작업 추가 진행
 			serviceOut = intefaceService.callVoucherReg(voucherRegInSDO);
 
-			out = new ResponseEntity<VoucherRegOutSDO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<VoucherRegOutSDO>(serviceOut, HttpStatus.CREATED);
 		}
 		catch(Exception e) {
 			serviceOut = new VoucherRegOutSDO(); 
 		
-			out = new ResponseEntity<VoucherRegOutSDO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<VoucherRegOutSDO>(serviceOut, HttpStatus.CREATED);
 			e.printStackTrace();
 		}
 		
@@ -236,12 +241,12 @@ public class InsideController {
 			//Advice & Interceptor 최적화후 작업 추가 진행
 			serviceOut = intefaceService.callAgentJob(agentJobInSDO);
 
-			out = new ResponseEntity<AgentJobOutSDO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<AgentJobOutSDO>(serviceOut, HttpStatus.CREATED);
 		}
 		catch(Exception e) {
 			serviceOut = new AgentJobOutSDO(); 
 		
-			out = new ResponseEntity<AgentJobOutSDO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<AgentJobOutSDO>(serviceOut, HttpStatus.CREATED);
 			e.printStackTrace();
 		}
 		

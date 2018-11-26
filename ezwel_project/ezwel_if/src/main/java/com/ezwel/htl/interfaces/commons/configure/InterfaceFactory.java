@@ -76,7 +76,8 @@ public class InterfaceFactory {
 	}
 	
 	public static HttpConfigSDO getChannel(String chanId, String httpAgentId) {
-
+		logger.debug("[PROC] getChannel chanId : {}, httpAgentId : {}", chanId, httpAgentId);
+		
 		HttpConfigSDO out = null;
 		List<HttpConfigSDO> channels = null;
 		if(interfaceChannels != null && httpAgentId != null) {
@@ -89,7 +90,8 @@ public class InterfaceFactory {
 	}
 	
 	public static List<HttpConfigSDO> getChannelGroup(String chanId, String httpAgentGroupId) {
-
+		logger.debug("[PROC] getChannelGroup chanId : {}, httpAgentGroupId : {}", chanId, httpAgentGroupId);
+		
 		List<HttpConfigSDO> out = null;
 		if(interfaceChannels != null && httpAgentGroupId != null) {
 			out = interfaceChannels.get(getCacheId(chanId, httpAgentGroupId)); 
@@ -197,7 +199,7 @@ public class InterfaceFactory {
 					initInterfaceChannels(cld);
 					
 					logger.debug("# Real Cached Size : {}", interfaceChannels.size());
-					//logger.debug("# interfaceChannels : {}", interfaceChannels);
+					logger.debug("# interfaceChannels : {}", interfaceChannels);
 				}
 			}
 		} catch (JAXBException e) {
