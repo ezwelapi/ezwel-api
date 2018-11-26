@@ -34,6 +34,19 @@ public class FaclSearchOutSDO extends AbstractSDO {
 	@APIFields(description = "시설검색 output data")
 	private List<FaclSearchDataOutSDO> data = null;
 
+	@APIFields(description = "시설검색 output message", maxLength=100)
+	private Integer txCount;
+
+	
+	
+	public Integer getTxCount() {
+		return txCount;
+	}
+
+	public void setTxCount(Integer txCount) {
+		this.txCount = txCount;
+	}
+
 	public String getCode() {
 		return code;
 	}

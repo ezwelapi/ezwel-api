@@ -33,6 +33,16 @@ public class AllRegOutSDO extends AbstractSDO {
 	@APIFields(description = "전체시설일괄등록 output data")
 	private List<AllRegDataOutSDO> data = null;
 
+	private Integer txCount = 0;
+	
+	public Integer getTxCount() {
+		return txCount;
+	}
+
+	public void setTxCount(Integer txCount) {
+		this.txCount = txCount;
+	}
+
 	public String getCode() {
 		return code;
 	}
