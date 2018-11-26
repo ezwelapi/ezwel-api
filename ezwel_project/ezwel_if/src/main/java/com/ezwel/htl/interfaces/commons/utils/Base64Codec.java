@@ -3,6 +3,8 @@ package com.ezwel.htl.interfaces.commons.utils;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+
 /**
 * <p>Title: Base64Codec</p>
 * <p>Description:
@@ -19,12 +21,14 @@ public class Base64Codec {
 
 	private static final Base64Codec INSTANCE = new Base64Codec();
 
+	@APIOperation(description="Base64Codec 인스턴스를 리턴합니다.")
     public static Base64Codec getInstance()
     {
         return INSTANCE;
     }
 
-    public String encode(String value)
+	@APIOperation(description="바인드된 일반 문자열을 Base64로 인코딩합니다.")
+	public String encode(String value)
     {
         String result = "";
         try
@@ -40,6 +44,7 @@ public class Base64Codec {
         return result;
     }
 
+	@APIOperation(description="Base64로 인코딩된 문자열을 decode합니다.")
     public String decode(String value)
     {
         String result = "";

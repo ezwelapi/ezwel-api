@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 
@@ -40,6 +41,7 @@ public class PropertyUtil {
 	 * @throws InvocationTargetException
 	 * @throws NoSuchMethodException
 	 */
+	@APIOperation(description="주어진 bean 에 propertyName 이 존재한다면 propertyName 의 value 를 반환합니다.")
     public Object getProperty(Object bean, String getPropertyName) {
         if(bean == null || APIUtil.isEmpty(getPropertyName)) {
         	throw new APIException(" The parameter was null or invalid. ");
@@ -74,6 +76,7 @@ public class PropertyUtil {
      * @throws InvocationTargetException
      * @throws NoSuchMethodException
      */
+	@APIOperation(description="주어진 bean에 propertyName이 존재한다면 propertyName 에 result 를 setting합니다.")
     public boolean setProperty(Object bean, String propertyName, Object setValue) {
         if(bean == null || APIUtil.isEmpty(propertyName)) {
         	throw new APIException(" The parameter was null or invalid. ");
@@ -99,17 +102,19 @@ public class PropertyUtil {
     }
     
 
+	@APIOperation(description="readBean의 프로퍼티 명과 이름이 일치하는 writeBean의 프로퍼티에 값을 담아줍니다.")
     public boolean copySameProperty(Object readBean, Object writeBean) {
     	return copySameProperty(readBean, writeBean, false);
     }
     
     /**
-     * readBean의 프로퍼티 명과 프로퍼티 타입이 일치하는 writeBean의 프로퍼티에 값을 담아줌. 
+     * readBean의 프로퍼티 명과 이름이 일치하는 writeBean의 프로퍼티에 값을 담아줌. 
      * @param readBean
      * @param writeBean
      * @param copyTarget
      * @return
      */
+	@APIOperation(description="readBean의 프로퍼티 명과 이름이 일치하는 writeBean의 프로퍼티에 값을 담아줍니다.(세팅 로깅여부를 설정합니다)")
     public boolean copySameProperty(Object readBean, Object writeBean, boolean isLogging){
     	boolean result = false;
     	String readName = null;

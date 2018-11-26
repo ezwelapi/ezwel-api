@@ -88,7 +88,6 @@ public class InterfaceFactory {
 		return out;
 	}
 	
-	
 	public static List<HttpConfigSDO> getChannelGroup(String chanId, String httpAgentGroupId) {
 
 		List<HttpConfigSDO> out = null;

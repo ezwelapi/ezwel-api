@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
@@ -64,27 +65,33 @@ public class ParamValidate {
 		if(apiUtil == null) this.apiUtil = new APIUtil();
 	}
 	
+	@APIOperation(description="필드 밸류 리셋(초기화)")
 	private void reset(){
 		params = new ArrayList<ParamValidateSDO>();
 	}
 
+	@APIOperation(description="파라메터 유효성 검사 목록 DATA OBJECT를 리턴합니다.")
 	public List<ParamValidateSDO> getParams() {
 		return params;
 	}
 
+	@APIOperation(description="파라메터 유효성 검사 목록 DATA OBJECT를 세팅합니다.")
 	public void setParams(List<ParamValidateSDO> params) {
 		this.params = params;
 	}
 
+	@APIOperation(description="파라메터 유효성 검사 DATA OBJECT를 목록에 추가합니다.")
 	public void addParam(ParamValidateSDO param) {
 		if(this.params == null) this.params = new ArrayList<ParamValidateSDO>();
 		this.params.add(param);
 	}
 	
+	@APIOperation(description="파라메터 유효성 검사를 실행합니다.")
 	public ParamValidateSDO validation(){
 		return validation(null);
 	}
 	
+	@APIOperation(description="파라메터 유효성 검사를 바인드된 인코딩을 반영하여 실행합니다.")
 	public ParamValidateSDO validation(String encoding){
 		
 		if(this.params == null) return new ParamValidateSDO();
@@ -100,14 +107,19 @@ public class ParamValidate {
 		return inValidate;
 	}
 	
+	
+	@APIOperation(description="파라메터 유효성 검사를 실행합니다.")
 	public ParamValidateSDO execute(){
 		return execute(null, false);
 	}
 	
+	@APIOperation(description="파라메터 유효성 검사를 실행하고 유효성검사에 실패한 인증 필드 객체의 리턴 여부를 지정합니다.")
 	public ParamValidateSDO execute(boolean returnInvalid){
 		return execute(null, returnInvalid);
 	}
 	
+	
+	@APIOperation(description="파라메터 유효성 검사를 바인드된 인코딩을 반영하여 실행하고 유효성검사에 실패한 인증 필드 객체의 리턴 여부를 지정합니다.")
 	public ParamValidateSDO execute(String encoding, boolean returnInvalid){
 
 		if(this.params == null) return null;
@@ -125,6 +137,7 @@ public class ParamValidate {
 		return inValidate;
 	}
 	
+	@APIOperation(description="파라메터 유효성 검사를 설정된 정보에 의거하여 실행합니다.")
 	private ParamValidateSDO execution(){
 		
 		ParamValidateSDO inValidate = null;
@@ -169,6 +182,7 @@ public class ParamValidate {
 	 * @param paramValidate
 	 * @return
 	 */
+	@APIOperation(description="바인드된 ParamValidateSDO설정값으로 유효성검사를 실행 합니다.")
     public ParamValidateSDO run(ParamValidateSDO paramValidate){
     	
     	if( logger.isDebugEnabled() ) {
@@ -204,6 +218,7 @@ public class ParamValidate {
 		}
     }
     
+	@APIOperation(description="바인드된 ParamValidateSDO설정값 중 설정된 모델의 필드를 유효성검사합니다.")
     private boolean validateField(ParamValidateSDO paramValidate, Object model, Field field) {
     	
     	APIFields fieldAnno = field.getAnnotation(APIFields.class);
@@ -280,6 +295,8 @@ public class ParamValidate {
 		return true;
     }
     
+	
+	@APIOperation(description="바인드된 ParamValidateSDO설정값 중 설정된 모델의 모든 필드를 유효성검사합니다.")
     private ParamValidateSDO validateModel(ParamValidateSDO paramValidate) {
     	
     	Object model = paramValidate.getModel();
@@ -415,6 +432,7 @@ public class ParamValidate {
     }
     
     
+	@APIOperation(description="바인드된 ParamValidateSDO설정값으로 유효성 검사를 실행합니다.")
     private ParamValidateSDO validate(ParamValidateSDO paramValidate){
     	
     	Object values = paramValidate.getFieldValue();

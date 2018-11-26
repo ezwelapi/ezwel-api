@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 
@@ -32,9 +33,6 @@ public class TypeUtil {
 	private static Set<Class<?>> primitiveWrapper = null;
 	
 	private static Map<String, String> dataBaseType4j = new HashMap<String, String>();
-	
-	private static Map<String, Object> dataBaseDefault4j = new HashMap<String, Object>();
-	
 	
 	static {
 		
@@ -81,63 +79,84 @@ public class TypeUtil {
 		dataBaseType4j.put("DATE", "String"); //pms
 	}
 	
-	static {
-		dataBaseDefault4j.put("NUMBER", 0);
-		dataBaseDefault4j.put("INTEGER", 0);
-		dataBaseDefault4j.put("FLOAT", 0);
-		dataBaseDefault4j.put("DOUBLE", 0);
-		dataBaseDefault4j.put("NVARCHAR2", "\"\"");
-		dataBaseDefault4j.put("VARCHAR2", "\"\"");
-		dataBaseDefault4j.put("CHAR", "\"\"");
-		dataBaseDefault4j.put("LONG", "\"\"");
-		dataBaseDefault4j.put("CLOB", "\"\"");
-		dataBaseDefault4j.put("BLOB", null);
-		//dataBaseDefault4j.put("DATE", null);
-		dataBaseDefault4j.put("DATE", "\"\""); //pms
-	}
-	
-	
+
+	@APIOperation(description="바인드된 클래스의 Collection Object를 리턴합니다.")
+    public Collection<?> getCollectionType(Class<?> propertyType){
+    	
+    	Collection<?> coll = null;
+    	
+    	try {
+			if(propertyType.isAssignableFrom(SortedSet.class)) {
+				coll = new TreeSet<Object>();	
+			}
+			else if(propertyType.isAssignableFrom(Set.class)) {
+				coll = new HashSet<Object>();
+			}
+			else if(propertyType.isAssignableFrom(List.class)
+					|| propertyType.isAssignableFrom(Collection.class)) {
+				coll = new ArrayList<Object>();
+			}
+			/*
+			else {
+				coll = (Collection<?>) propertyType.newInstance();
+			}*/
+    	} catch (Exception e) {
+			throw new APIException(e);
+		}
+    	
+    	return coll;
+    }
+ 
+	@APIOperation(description="바인드된 클래스의 Map Object를 리턴합니다.")
+    public Map<?, ?> getMapType(Class<?> propertyType){
+    	
+    	Map<?, ?> map = null;
+    	try {
+	    
+	    	if(propertyType.isAssignableFrom(SortedMap.class)) {
+	    		map = new TreeMap<Object, Object>();	
+	    	}
+	    	else if(propertyType.isAssignableFrom(Map.class)) {
+	    		map = new HashMap<Object, Object>();	
+	    	}
+	    	else {
+				map = (Map<?, ?>) propertyType.newInstance();
+	    	}
+    	} catch (InstantiationException e) {
+			throw new APIException(e);
+		} catch (IllegalAccessException e) {
+			throw new APIException(e);
+		}
+    	
+    	return map;
+    }
+    
     /**
      * primitive or primitive wrapper class ( Contains an array ) true/false
      * @param propertyType
      * @return
      */
+	@APIOperation(description="바인드된 클래스가 일반 적인 타입인지 여부를 리턴합니다.")
     public boolean isGeneralType(Class<?> propertyType){
     	return (propertyType.isPrimitive() || isConvertibleRequest(propertyType) || propertyType.isArray());
     }
     
-    public boolean isPrimitiveWrapType(Class<?> propertyType) {
-    	return primitiveWrapper.contains(propertyType);
-    }
-    
-
-    
- 	public String getDataBaseType4j(String dataBaseType){
- 	
-		String out = dataBaseType4j.get(dataBaseType);
-		
- 		return out;
- 	}
-    
- 	public Object getDataBaseDefault4j(String dataBaseType){
-
- 		Object out = dataBaseDefault4j.get(dataBaseType);
-		
- 		return out;
- 	}
- 	
+	@APIOperation(description="바인드된 패키지가 서포트 가능한 리퍼런스타입인지 여부를 리턴합니다.")	
     public boolean isSupportedReferenceType(String packages){
     	return isSupportedReferenceType(packages, null, null);
     }
 
+	@APIOperation(description="바인드된 패키지가 서포트 가능한 includePackage인지 여부를 리턴합니다.")
     public boolean isSupportedIncludeReferenceType(String packages, String[] includePackages){
     	return isSupportedReferenceType(packages, includePackages, null);
     }
     
+	@APIOperation(description="바인드된 패키지가 서포트를 제외한 excludePackage인지 여부를 리턴합니다.")
     public boolean isSupportedExcludeReferenceType(String packages, String[] excludePackages){
     	return isSupportedReferenceType(packages, null, excludePackages);
     }
     
+	@APIOperation(description="바인드된 패키지가 서포트 가능한 includePackage인지, 서포트를 제외한 excludePackage인지 여부를 리턴합니다.")
     public boolean isSupportedReferenceType(String packages, String[] includePackages, String[] excludePackages){
     	
     	boolean out = true;
@@ -177,76 +196,13 @@ public class TypeUtil {
     	return out;
     }
  
-
-
-    public Class<?> getValidGenericeParameterType(Type parameterType, Class<?> defaultWildCardType){
-    	
-    	Class<?> out = null;
-    	
-    	if(parameterType instanceof java.lang.reflect.ParameterizedType) {
-    		logger.warn( " [WARN] ParameterizedType is Unsupported GeneticeParameterType : {}", parameterType);
-    		out = null;
-    	}
-		else if(parameterType instanceof java.lang.reflect.WildcardType) {
-			logger.debug( " - WildcardType is Converted to defaultWildCardType : {}", defaultWildCardType);
-			out = defaultWildCardType;
-		}
-		else {
-			out = (Class<?>) parameterType;
-		}
-    	
-    	return out;
+    
+	@APIOperation(description="바인드된 클래스가 PRIMITIVE 타입이거나 일반적인 REFERENCE WRAPTYPE인지를 리턴합니다.")
+    public boolean isPrimitiveWrapType(Class<?> propertyType) {
+    	return primitiveWrapper.contains(propertyType);
     }
     
-    
-    public Collection<?> getCollectionType(Class<?> propertyType){
-    	
-    	Collection<?> coll = null;
-    	
-    	try {
-			if(propertyType.isAssignableFrom(SortedSet.class)) {
-				coll = new TreeSet<Object>();	
-			}
-			else if(propertyType.isAssignableFrom(Set.class)) {
-				coll = new HashSet<Object>();
-			}
-			else if(propertyType.isAssignableFrom(List.class)
-					|| propertyType.isAssignableFrom(Collection.class)) {
-				coll = new ArrayList<Object>();
-			}
-			/*
-			else {
-				coll = (Collection<?>) propertyType.newInstance();
-			}*/
-    	} catch (Exception e) {
-			throw new APIException(e);
-		}
-    	
-    	return coll;
-    }
- 
-    public Map<?, ?> getMapType(Class<?> propertyType){
-    	
-    	Map<?, ?> map = null;
-    	try {
-	    
-	    	if(propertyType.isAssignableFrom(SortedMap.class)) {
-	    		map = new TreeMap<Object, Object>();	
-	    	}
-	    	else if(propertyType.isAssignableFrom(Map.class)) {
-	    		map = new HashMap<Object, Object>();	
-	    	}
-	    	else {
-				map = (Map<?, ?>) propertyType.newInstance();
-	    	}
-    	} catch (InstantiationException e) {
-			throw new APIException(e);
-		} catch (IllegalAccessException e) {
-			throw new APIException(e);
-		}
-    	
-    	return map;
-    }
+   
     
 	/**
 	 * <pre>
@@ -260,6 +216,7 @@ public class TypeUtil {
 	 * @author swkim@ebsolution.co.kr
 	 * @since  2018. 11. 21.
 	 */
+	@APIOperation(description="바인드된 클래스가 beanutils 의 ConvertUtils 가 converting 가능한 primitive reference type 인지 체크하여줍니다.")
     public boolean isConvertibleRequest(Class<?> clazz) {
     	
     	if(clazz == null || clazz.isAssignableFrom(Class.class)) {

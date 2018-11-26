@@ -2,6 +2,8 @@ package com.ezwel.htl.interfaces.server.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +14,10 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.ConfigureHelper;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
+import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
@@ -71,8 +75,15 @@ public class OutsideService {
 		
 		try {
 			multiHttpConfigList = new ArrayList<MultiHttpConfigSDO>();
+			HttpConfigSDO httpConfigSDO = null;
+			Map<String, AgentInfoSDO> interfaceAgents = InterfaceFactory.getInterfaceAgents();
+			for(Entry<String, AgentInfoSDO> entry : interfaceAgents.entrySet()) {
+				httpConfigSDO = InterfaceFactory.getChannel("allReg".concat(OperateConstants.STR_HYPHEN).concat(entry.getValue().getHttpAgentId()), entry.getValue().getHttpAgentId());
+				
+				
+				//multiHttpConfigList.add(InterfaceFactory.getChannel("allReg".concat(OperateConstants.STR_HYPHEN).concat(entry.getValue().getHttpAgentId()), entry.getValue().getHttpAgentId()));
+			}
 			
-			channelList = InterfaceFactory.getChannelGroup("allReg", userAgentDTO.getHttpAgentGroupId());
 			if(channelList != null) {
 				for(HttpConfigSDO httpConfigDTO : channelList) {
 					multi = new MultiHttpConfigSDO();

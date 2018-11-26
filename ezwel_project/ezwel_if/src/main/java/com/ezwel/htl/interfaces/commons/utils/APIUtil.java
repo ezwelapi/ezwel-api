@@ -446,6 +446,7 @@ public class APIUtil {
 	 * @author swkim@ebsolution.co.kr
 	 * @since  2018. 11. 20.
 	 */
+	@APIOperation(description="제휴사별APIKey 생성 ")
 	public String createApiKey(String prevfix, String agentName, String httpAgentId) {
 		String toDay = getFastDate("yyyyMMdd");
 		String apiKey = null;
@@ -461,7 +462,7 @@ public class APIUtil {
 	}
 	
 	
-    
+	@APIOperation(description="문자밸열의 인덱스별 값의 존재 여부를 채크하여줍니다.")
 	public static boolean isNotEmptyStringArray(String... arrayString) {
 		
 		boolean out = false;
@@ -480,17 +481,18 @@ public class APIUtil {
 		return out;
 	}
 	
-	
+	@APIOperation(description="현제 타임스템프를 리턴합니다.")
 	public static String getTimeStamp() {
 		Timestamp out = new Timestamp(System.currentTimeMillis());
 		return out.toString();
 	}
 	
-	
+	@APIOperation(description="문자형식의 날자값이 유효한 날자인지 체크합니다.")
     public boolean isValidDate(String dateString) {
     	return isValidDate(dateString, null);
     }
     
+	@APIOperation(description="문자형식의 날자값을 바인드된 데이터 포멧으로 변환하여 유효한 날자인지 체크합니다.")
 	public boolean isValidDate(String dateString, String dateFormat) {
 		
 		if (dateString == null || dateString.isEmpty()) {
@@ -508,19 +510,19 @@ public class APIUtil {
 		return date.equals(confirmFormat);
 	}
 	
-	
-	public static boolean isValidURL(final URL url, final File file) {
+	@APIOperation(description="바인드된 URL이 유효한 URL인지 체크합니다.")
+	public static boolean isValidURL(final URL url) {
 		boolean out = false;
 	    try {
 	        final URI uri = url.toURI();
 	        if (!uri.isAbsolute()) {
-	            throw new IllegalArgumentException("URI is not absolute: " + uri.toString() /*+ " File: " + file.getAbsolutePath()*/);   //NOI18N
+	            throw new IllegalArgumentException("URI is not absolute: " + uri.toString());   //NOI18N
 	        }
 	        if (uri.isOpaque()) {
-	            throw new IllegalArgumentException("URI is not hierarchical: " + uri.toString() /*+ " File: " + file.getAbsolutePath()*/);   //NOI18N
+	            throw new IllegalArgumentException("URI is not hierarchical: " + uri.toString());   //NOI18N
 	        }
 	        if (!"file".equals(uri.getScheme())) {
-	            throw new IllegalArgumentException("URI scheme is not \"file\": " + uri.toString() /*+ " File: " + file.getAbsolutePath()*/);   //NOI18N
+	            throw new IllegalArgumentException("URI scheme is not \"file\": " + uri.toString());   //NOI18N
 	        }
 	        out = true;
 	    } catch (URISyntaxException use) {

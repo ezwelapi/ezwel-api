@@ -57,14 +57,14 @@ public class OutsideController {
 			//Advice & Interceptor 최적화후 작업 추가 진행
 			serviceOut = outsideService.callFaclSearch(userAgentDTO, faclSearchDTO);
 
-			out = new ResponseEntity<List<FaclSearchOutSDO>>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<List<FaclSearchOutSDO>>(serviceOut, HttpStatus.CREATED);
 		}
 		catch(Exception e) {
 			serviceOut = new ArrayList<FaclSearchOutSDO>(); 
 			faclSearchOut = new FaclSearchOutSDO();
 			
 			serviceOut.add(faclSearchOut);
-			out = new ResponseEntity<List<FaclSearchOutSDO>>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<List<FaclSearchOutSDO>>(serviceOut, HttpStatus.CREATED);
 			e.printStackTrace();
 		}
 		
@@ -90,7 +90,7 @@ public class OutsideController {
 			//Advice & Interceptor 최적화후 작업 추가 진행
 			serviceOut = outsideService.callSddSearch(userAgentDTO);
 
-			out = new ResponseEntity<List<SddSearchOutSDO>>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<List<SddSearchOutSDO>>(serviceOut, HttpStatus.CREATED);
 		}
 		catch(Exception e) {
 			serviceOut = new ArrayList<SddSearchOutSDO>(); 
@@ -98,7 +98,7 @@ public class OutsideController {
 			
 			serviceOut.add(sddSearchOut);
 			
-			out = new ResponseEntity<List<SddSearchOutSDO>>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<List<SddSearchOutSDO>>(serviceOut, HttpStatus.CREATED);
 			e.printStackTrace();
 		}
 		
@@ -144,14 +144,14 @@ public class OutsideController {
 			//Advice & Interceptor 최적화후 작업 추가 진행
 			serviceOut = outsideService.callAllReg(userAgentSDO);
 
-			out = new ResponseEntity<AllRegOutSDO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<AllRegOutSDO>(serviceOut, HttpStatus.CREATED);
 		}
 		catch(Exception e) {
 			serviceOut = new AllRegOutSDO(); 
 			/**
 			 * 장애 발생시 code, message 세팅 
 			 */
-			out = new ResponseEntity<AllRegOutSDO>(serviceOut, HttpStatus.OK);
+			out = new ResponseEntity<AllRegOutSDO>(serviceOut, HttpStatus.CREATED);
 			e.printStackTrace();
 		}
 		
