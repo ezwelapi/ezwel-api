@@ -45,7 +45,7 @@ public class HttpConfigSDO extends AbstractSDO {
 	@APIFields(description = "요정시간(타임스탬프)", required=true, httpHeader=true, headerName="http-api-timestamp")
 	private String httpApiTimestamp;
 	
-	@APIFields(description = "에이전트유형", required=true, httpHeader=true, headerName="http-agent-type")
+	@APIFields(description = "에이전트유형", required=false, httpHeader=true, headerName="http-agent-type")
 	private String httpAgentType;	
 	
 	@APIFields(description = "체널코드", required=false, httpHeader=true, headerName="http-channel-cd")
