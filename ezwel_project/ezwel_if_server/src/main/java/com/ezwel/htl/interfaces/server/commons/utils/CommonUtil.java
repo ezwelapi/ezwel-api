@@ -41,6 +41,7 @@ public class CommonUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
 	
+	@APIOperation(description="요청 파라메터 바디를 BufferReader를 이용하여 읽고 내용을 문자열로 리턴합니다.", isExecTest=true)
     public String readReqeustBodyWithBufferedReader(HttpServletRequest request) {
     	
     	StringBuilder builder = null;
@@ -65,7 +66,7 @@ public class CommonUtil {
     }
  
     
-    
+	@APIOperation(description="요청 파라메터 바디를 ByteStreams를 이용하여 읽고 내용을 문자열로 리턴합니다.", isExecTest=true)
     public String readReqestBodyWithByteStreams(HttpServletRequest request) {
     	String out = null;
     	try {
@@ -92,6 +93,7 @@ public class CommonUtil {
 	 * @author swkim@ebsolution.co.kr
 	 * @since  2018. 11. 20.
 	 */
+	@APIOperation(description="HttpServletRequest의 content-type을 리턴합니다.", isExecTest=true)
 	public String getRequestContentType(HttpServletRequest request) {
 		
 		String out = null;
@@ -210,7 +212,7 @@ public class CommonUtil {
 	}
 	
 	
-
+	@APIOperation(description="핸들링 패스 필드인지 여부를 리턴합니다.", isExecTest=true)
 	public boolean isPassField(Field field) {
 		boolean out = false;
 
@@ -227,6 +229,7 @@ public class CommonUtil {
 		return out;
 	}	
 	
+	@APIOperation(description="문자열의 첫번째 문자를 소문자로 변환하여 리턴합니다.", isExecTest=true)
 	public static String getFirstCharLowerCase(String strWord) {
 		
 		String out = null;
@@ -248,6 +251,7 @@ public class CommonUtil {
 	 * @param in
 	 * @param response
 	 */
+	@APIOperation(description="컨트롤러 응답결과 테스트용 유틸 response header 정보 세팅", isExecTest=true)
 	public void setRequestHeader(HttpConfigSDO in, HttpServletResponse response) {
 		
 		Properties certifications = null;
