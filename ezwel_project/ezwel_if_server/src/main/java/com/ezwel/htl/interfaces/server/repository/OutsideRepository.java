@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.server.repository;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -8,13 +9,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.DataAccessObjectUtil;
+import com.ezwel.htl.interfaces.server.entities.EzcFaclAment;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataOutSDO;
-import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
+import com.ezwel.htl.interfaces.service.data.allReg.AllRegSubImagesOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 
@@ -30,8 +35,6 @@ import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 public class OutsideRepository extends DataAccessObjectUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(OutsideRepository.class);
-
-	private final String MAPPER_NAMESPACE = "com.ezwel.htl.interfaces.server.repository.outsideRepository";
 	
 	/**
 	 * 맵핑 시설 : EZC_FACL, EZC_FACL_IMG, EZC_FACL_AMENT ( 1 : N : N ), 데이터 적제 
@@ -39,13 +42,17 @@ public class OutsideRepository extends DataAccessObjectUtil {
 	 */
 	@Transactional
 	@APIOperation(description="전체시설일괄등록 인터페이스")
-	public AllRegOutSDO callAllReg(AllRegOutSDO assets) {
+	public Integer insertAllReg(List<AllRegDataOutSDO> saveFaclRegDatas) {
 		
-		AllRegOutSDO out = null;
+		Integer txCount = 0;
+		Integer txSuccess = 0;
+		List<AllRegSubImagesOutSDO> subImages = null;
+		List<String> serviceCodes = null;
+		EzcFaclAment ezcFaclAment = null;
 		
 		try {
 			
-			for(AllRegDataOutSDO item : assets.getData()) {
+			for(AllRegDataOutSDO item : saveFaclRegDatas) {
 				
 				/**
 				 * 1. EZC_FACL 1건 저장
@@ -53,9 +60,35 @@ public class OutsideRepository extends DataAccessObjectUtil {
 				 * 3. EZC_FACL_AMENT N건 저장
 				 */
 				
-				
-				
-				sqlSession.insert(MAPPER_NAMESPACE.concat("insertEzcFacl"), item);
+				/** 1. EZC_FACL 1건 저장 */
+				txSuccess = sqlSession.insert(OUTSIDE_MAPPER_NAMESPACE.concat("insertEzcFacl"), item);
+				if(txSuccess > 0) {
+					txCount++;
+					
+					/** 2. EZC_FACL_IMG N건 저장 */
+					subImages = item.getSubImages();
+					if(subImages != null) {
+						for(AllRegSubImagesOutSDO subImage : subImages) {
+							txCount += sqlSession.insert(OUTSIDE_MAPPER_NAMESPACE.concat("insertEzcFaclImg"), subImage);
+						}
+					}
+					
+					/** 3. EZC_FACL_AMENT N건 저장 */
+					if(APIUtil.isNotEmpty(item.getServiceCodes())) {
+						serviceCodes = Arrays.asList(item.getServiceCodes().split(OperateConstants.STR_COMA));
+						
+						for(String serviceCode : serviceCodes) {
+							
+							ezcFaclAment = new EzcFaclAment();
+							
+							
+							ezcFaclAment.setFaclCd(item.getFaclCd());
+							ezcFaclAment.setAmentType(serviceCode);
+							
+							txCount += sqlSession.insert(OUTSIDE_MAPPER_NAMESPACE.concat("insertEzcFaclImg"), ezcFaclAment);
+						}
+					}
+				}
 			}
 		}
 		catch(Exception e) {
@@ -63,7 +96,7 @@ public class OutsideRepository extends DataAccessObjectUtil {
 		}
 		
 		
-		return out;
+		return txCount;
 	}	
 	
 	
