@@ -85,7 +85,11 @@ public class OperateConstants {
 	public static final String CONTENT_TYPE_APPLICATION_JSON;
 	public static final String CONTENT_TYPE_QUERY_STRING;
 	
+	//Interface Batch System Info
+	public static final String SYSTEM_ID;
+	
 	static {
+		SYSTEM_ID = "IF_SYS_USR";
 		
 		CONTENT_TYPE_MULTIPART_FORM_DATA = "multipart/form-data";
 		CONTENT_TYPE_APPLICATION_JSON = "application/json";

@@ -101,10 +101,23 @@ public class PropertyUtil {
         return false;
     }
     
+	@APIOperation(description="readBean의 프로퍼티 명과 이름이 일치하는 writeBean의 프로퍼티에 값을 담아줍니다.")
+    public Object copySameProperty(Object readBean, Class<?> writeBean) {
+		Object out = null;
+    	try {
+    		out = copySameProperty(readBean, writeBean.newInstance(), false);
+		} catch (InstantiationException e) {
+			throw new APIException(e);
+		} catch (IllegalAccessException e) {
+			throw new APIException(e);
+		}
+    	return out;
+    }
 
 	@APIOperation(description="readBean의 프로퍼티 명과 이름이 일치하는 writeBean의 프로퍼티에 값을 담아줍니다.")
     public boolean copySameProperty(Object readBean, Object writeBean) {
-    	return copySameProperty(readBean, writeBean, false);
+		Object out = copySameProperty(readBean, writeBean, false);
+    	return (out != null ? true : false);
     }
     
     /**
@@ -115,8 +128,8 @@ public class PropertyUtil {
      * @return
      */
 	@APIOperation(description="readBean의 프로퍼티 명과 이름이 일치하는 writeBean의 프로퍼티에 값을 담아줍니다.(세팅 로깅여부를 설정합니다)")
-    public boolean copySameProperty(Object readBean, Object writeBean, boolean isLogging){
-    	boolean result = false;
+    public Object copySameProperty(Object readBean, Object writeBean, boolean isLogging){
+    	
     	String readName = null;
     	Class<?> readType = null;
     	Object readValue = null;
@@ -157,7 +170,6 @@ public class PropertyUtil {
     			}
     		}
     		
-    		result = true;
 		} catch (IllegalAccessException e) {
 			throw new APIException(e);
 		} catch (InvocationTargetException e) {
@@ -166,7 +178,7 @@ public class PropertyUtil {
 			throw new APIException(e);
 		}
 
-    	return result;
+    	return writeBean;
     }
     
 }

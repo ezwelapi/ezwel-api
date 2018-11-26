@@ -9,15 +9,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
+import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.DataAccessObjectUtil;
+import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclAment;
+import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegSubImagesOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
@@ -36,6 +40,8 @@ public class OutsideRepository extends DataAccessObjectUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(OutsideRepository.class);
 	
+	private PropertyUtil propertyUtil = (PropertyUtil) LApplicationContext.getBean(PropertyUtil.class);
+	
 	/**
 	 * 맵핑 시설 : EZC_FACL, EZC_FACL_IMG, EZC_FACL_AMENT ( 1 : N : N ), 데이터 적제 
 	 * 요청(입력) 파라메터 없음
@@ -49,52 +55,72 @@ public class OutsideRepository extends DataAccessObjectUtil {
 		List<AllRegSubImagesOutSDO> subImages = null;
 		List<String> serviceCodes = null;
 		EzcFaclAment ezcFaclAment = null;
+		BigDecimal faclCdSeq = null;
+		EzcFacl ezcFacl = null;
+		EzcFaclImg ezcFaclImg = null;
+		AllRegDataOutSDO telegramItem = null;
 		
 		try {
 			
-			for(AllRegDataOutSDO item : saveFaclRegDatas) {
+			for(Integer i = 0; i < saveFaclRegDatas.size(); i++) {
+				telegramItem = saveFaclRegDatas.get(i);
 				
+				ezcFacl = (EzcFacl) propertyUtil.copySameProperty(telegramItem, EzcFacl.class);
 				/**
-				 * 1. EZC_FACL 1건 저장
-				 * 2. EZC_FACL_IMG N건 저장
-				 * 3. EZC_FACL_AMENT N건 저장
+				 * 인터페이스 전문 필드명과 DB 테이블 컬럼 엔티티명 죄다 다름 아우 -_- 필드 별 일일이 확인 필요
 				 */
 				
+				/** 0. 시설 코드 (Number) Sequnce */
+				faclCdSeq = sqlSession.selectOne(OUTSIDE_MAPPER_NAMESPACE.concat("sequnceEzcFacl"));
+				ezcFacl.setFaclCd(faclCdSeq);
+				ezcFacl.setRegId(Local.commonHeader().getSystemUserId());
+				ezcFacl.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
+				
 				/** 1. EZC_FACL 1건 저장 */
-				txSuccess = sqlSession.insert(OUTSIDE_MAPPER_NAMESPACE.concat("insertEzcFacl"), item);
+				txSuccess = sqlSession.insert(OUTSIDE_MAPPER_NAMESPACE.concat("insertEzcFacl"), ezcFacl);
 				if(txSuccess > 0) {
 					txCount++;
 					
 					/** 2. EZC_FACL_IMG N건 저장 */
-					subImages = item.getSubImages();
+					subImages = telegramItem.getSubImages();
 					if(subImages != null) {
 						for(AllRegSubImagesOutSDO subImage : subImages) {
-							txCount += sqlSession.insert(OUTSIDE_MAPPER_NAMESPACE.concat("insertEzcFaclImg"), subImage);
+							ezcFaclImg = (EzcFaclImg) propertyUtil.copySameProperty(subImage, EzcFaclImg.class);
+							ezcFaclImg.setRegId(Local.commonHeader().getSystemUserId());
+							ezcFaclImg.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));							
+							/**
+							 * 인터페이스 전문 필드명과 DB 테이블 컬럼 엔티티명 죄다 다름 아우 -_- 필드 별 일일이 확인 필요
+							 */
+							
+							txCount += sqlSession.insert(OUTSIDE_MAPPER_NAMESPACE.concat("insertEzcFaclImg"), ezcFaclImg);
 						}
 					}
 					
 					/** 3. EZC_FACL_AMENT N건 저장 */
-					if(APIUtil.isNotEmpty(item.getServiceCodes())) {
-						serviceCodes = Arrays.asList(item.getServiceCodes().split(OperateConstants.STR_COMA));
+					if(APIUtil.isNotEmpty(telegramItem.getServiceCodes())) {
+						serviceCodes = Arrays.asList(telegramItem.getServiceCodes().split(OperateConstants.STR_COMA));
 						
 						for(String serviceCode : serviceCodes) {
-							
-							ezcFaclAment = new EzcFaclAment();
-							
-							
-							ezcFaclAment.setFaclCd(item.getFaclCd());
-							ezcFaclAment.setAmentType(serviceCode);
-							
-							txCount += sqlSession.insert(OUTSIDE_MAPPER_NAMESPACE.concat("insertEzcFaclImg"), ezcFaclAment);
+							if(APIUtil.isNotEmpty(serviceCode)) {
+								
+								ezcFaclAment = new EzcFaclAment();
+								ezcFaclAment.setFaclCd(ezcFacl.getFaclCd());
+								ezcFaclAment.setAmentType(serviceCode.trim());
+								ezcFaclAment.setRegId(Local.commonHeader().getSystemUserId());
+								ezcFaclAment.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
+								
+								txCount += sqlSession.insert(OUTSIDE_MAPPER_NAMESPACE.concat("insertEzcFaclImg"), ezcFaclAment);
+							}
 						}
 					}
 				}
 			}
 		}
 		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
+			//에러 발생 레코드 errorItems에 저장후 runtimeException 없이 로깅후 종료
+			Local.commonHeader().addErrorItems(telegramItem);
+			e.printStackTrace();
 		}
-		
 		
 		return txCount;
 	}	

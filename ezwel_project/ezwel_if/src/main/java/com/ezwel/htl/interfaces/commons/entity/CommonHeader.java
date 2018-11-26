@@ -91,7 +91,11 @@ public class CommonHeader extends APIObject implements Serializable {
 	
 	private boolean exec;
 	
+	private String systemUserId;
+	
 	private Map<String, String[]> requestMap;
+	
+	private List<Object> errorItems;
 	
 	public CommonHeader() {
 		this.reset();
@@ -101,7 +105,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		annotationMap = null;
 		objectMap = null;
 		properties = null;
-		
+		systemUserId = OperateConstants.SYSTEM_ID;
 		guid = "";
 		startTimeMillis = OperateConstants.LONG_ZERO_VALUE;
 		endTimeMillis = OperateConstants.LONG_MINUS_ONE;
@@ -123,9 +127,18 @@ public class CommonHeader extends APIObject implements Serializable {
 		exec = false;
 		requestMap = new LinkedHashMap<String, String[]>();
 		runtimeHeader = null;
+		errorItems = null;
 	}
 	
 	
+	public String getSystemUserId() {
+		return systemUserId;
+	}
+
+	public void setSystemUserId(String systemUserId) {
+		this.systemUserId = systemUserId;
+	}
+
 	public String getContentType() {
 		return contentType;
 	}
@@ -305,7 +318,20 @@ public class CommonHeader extends APIObject implements Serializable {
 		if( this.traceMessages == null ) this.traceMessages = new ArrayList<String>();
 		this.traceMessages.add(traceMessages);
 	}
+	
+	public List<Object> getErrorItems() {
+		return errorItems;
+	}
 
+	public void setErrorItems(List<Object> errorItems) {
+		this.errorItems = errorItems;
+	}
+
+	public void addErrorItems(Object errorItem) {
+		if( this.errorItems == null ) this.errorItems = new ArrayList<Object>();
+		this.errorItems.add(errorItem);
+	}
+	
 	public String getCause() {
 		return cause;
 	}
