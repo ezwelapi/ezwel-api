@@ -32,7 +32,7 @@ import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
  * @date   2018. 11. 13.
  */
 @Service
-@APIType
+@APIType(description="외부 인터페이스 데이터 적제 서비스")
 public class OutsideService {
 
 	private static final Logger logger = LoggerFactory.getLogger(OutsideService.class);
@@ -56,10 +56,45 @@ public class OutsideService {
 		}		
 	}
 	
+
+	/**
+	 * 맵핑 시설 : EZC_FACL, EZC_FACL_IMG, EZC_FACL_AMENT ( 1 : N : N ), 데이터 적제 
+	 * 요청(입력) 파라메터 없음
+	 */
 	@APIOperation(description="전체시설일괄등록 인터페이스")
 	public AllRegOutSDO callAllReg(UserAgentSDO userAgentDTO) {
 		
-		AllRegOutSDO out = null;
+		List<AllRegOutSDO> out = null;
+		MultiHttpConfigSDO multi = null;
+		List<HttpConfigSDO> channelList = null;
+		List<MultiHttpConfigSDO> multiHttpConfigList = null;
+		
+		try {
+			multiHttpConfigList = new ArrayList<MultiHttpConfigSDO>();
+			
+			channelList = InterfaceFactory.getChannelGroup("allReg", userAgentDTO.getHttpAgentGroupId());
+			if(channelList != null) {
+				for(HttpConfigSDO httpConfigDTO : channelList) {
+					multi = new MultiHttpConfigSDO();
+					configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
+					//no input 
+					httpConfigDTO.setDoOutput(false);					
+					//config
+					multi.setHttpConfigDTO(httpConfigDTO);
+					//output
+					multi.setOutputType(FaclSearchOutSDO.class);
+					multiHttpConfigList.add(multi);
+				}
+			}
+			
+			/** execute interface */
+			//멀티 쓰레드 인터페이스 실행
+			out = inteface.sendMultiPostJSON(multiHttpConfigList);
+		}
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
+		}
+		
 		
 		try {
 			HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("allReg", userAgentDTO.getHttpAgentId());
@@ -72,9 +107,17 @@ public class OutsideService {
 		}
 		
 		return out;
-	}
+	}	
 	
-	//멀티쓰레드
+	
+	/**
+	 * 멀티쓰레드
+	 * EZC_CACHE_MIN_AMT 데이터 적제
+	 * input = 
+	 * @param userAgentDTO
+	 * @param faclSearchDTO
+	 * @return
+	 */
 	@APIOperation(description="시설검색 인터페이스")
 	public List<FaclSearchOutSDO> callFaclSearch(UserAgentSDO userAgentDTO, FaclSearchInSDO faclSearchDTO) {
 			
@@ -112,7 +155,11 @@ public class OutsideService {
 		return out;
 	}
 	
-	//멀티쓰레드
+	/**
+	 * EZC_CACHE_DAY_PRICE 데이터 적제  ( 맵핑시설 테이블에 존재하는 시설의 당일특가만 적제 가능 )
+	 * @param userAgentDTO
+	 * @return 
+	 */
 	@APIOperation(description="당일특가검색 인터페이스")
 	public List<SddSearchOutSDO> callSddSearch(UserAgentSDO userAgentDTO) {
 		
@@ -150,4 +197,5 @@ public class OutsideService {
 		return out;
 	}
 	
+
 }

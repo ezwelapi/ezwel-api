@@ -39,59 +39,7 @@ public class OutsideController {
 	
 	private OutsideService outsideService = (OutsideService) LApplicationContext.getBean(OutsideService.class);
 	
-	/**
-	 * <pre>
-	 * [메서드 설명]
-	 * URL : /API1.0/test/facl/record
-	 * [사용방법 설명]
-	 * 
-	 * </pre>
-	 * @param httpAgentId
-	 * @param in
-	 * @param request
-	 * @param response
-	 * @return
-	 * @author swkim@ebsolution.co.kr
-	 * @since  2018. 11. 21.
-	 */
-	@ResponseBody
-	@APIOperation(description="전체시설일괄등록 인터페이스")
-	@RequestMapping(value="/service/allReg")
-	public ResponseEntity<AllRegOutSDO> callAllReg(UserAgentSDO userAgentSDO, HttpServletRequest request, HttpServletResponse response) {
-		logger.debug("[START] callAllReg {}", userAgentSDO);
-		
-		ResponseEntity<AllRegOutSDO> out = null;
-		AllRegOutSDO serviceOut = null;
 
-		try {
-			if(userAgentSDO == null) {
-				throw new APIException("입력값이 존재하지 않습니다.");
-			}
-			
-			/**
-			 * 1. 파라메터 및 헤더 유효성 검사
-			 * 2. 인터 페이스 요청에 따른 DB핸들링 
-			 * 3. 결과 응답(JSON) 
-			 */
-			
-			//Advice & Interceptor 최적화후 작업 추가 진행
-			serviceOut = outsideService.callAllReg(userAgentSDO);
-
-			out = new ResponseEntity<AllRegOutSDO>(serviceOut, HttpStatus.OK);
-		}
-		catch(Exception e) {
-			serviceOut = new AllRegOutSDO(); 
-			/**
-			 * 장애 발생시 code, message 세팅 
-			 */
-			out = new ResponseEntity<AllRegOutSDO>(serviceOut, HttpStatus.OK);
-			e.printStackTrace();
-		}
-		
-		logger.debug("[END] callAllReg {}", out);
-		return out;
-	}
-	
 	@ResponseBody
 	@APIOperation(description="시설검색 인터페이스")
 	@RequestMapping(value="/service/callFaclSearch")
@@ -155,6 +103,59 @@ public class OutsideController {
 		}
 		
 		logger.debug("[END] callView {}", out);
+		return out;
+	}
+	
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * URL : /API1.0/test/facl/record
+	 * [사용방법 설명]
+	 * 
+	 * </pre>
+	 * @param httpAgentId
+	 * @param in
+	 * @param request
+	 * @param response
+	 * @return
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2018. 11. 21.
+	 */
+	@ResponseBody
+	@APIOperation(description="전체시설일괄등록 인터페이스")
+	@RequestMapping(value="/service/allReg")
+	public ResponseEntity<AllRegOutSDO> callAllReg(UserAgentSDO userAgentSDO, HttpServletRequest request, HttpServletResponse response) {
+		logger.debug("[START] callAllReg {}", userAgentSDO);
+		
+		ResponseEntity<AllRegOutSDO> out = null;
+		AllRegOutSDO serviceOut = null;
+
+		try {
+			if(userAgentSDO == null) {
+				throw new APIException("입력값이 존재하지 않습니다.");
+			}
+			
+			/**
+			 * 1. 파라메터 및 헤더 유효성 검사
+			 * 2. 인터 페이스 요청에 따른 DB핸들링 
+			 * 3. 결과 응답(JSON) 
+			 */
+			
+			//Advice & Interceptor 최적화후 작업 추가 진행
+			serviceOut = outsideService.callAllReg(userAgentSDO);
+
+			out = new ResponseEntity<AllRegOutSDO>(serviceOut, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			serviceOut = new AllRegOutSDO(); 
+			/**
+			 * 장애 발생시 code, message 세팅 
+			 */
+			out = new ResponseEntity<AllRegOutSDO>(serviceOut, HttpStatus.OK);
+			e.printStackTrace();
+		}
+		
+		logger.debug("[END] callAllReg {}", out);
 		return out;
 	}
 	

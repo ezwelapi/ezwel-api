@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.repository.InsideRepository;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
@@ -26,6 +27,7 @@ import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegOutSDO;
  * @date   2018. 11. 15.
  */
 @Service
+@APIType(description="외부 > 내부 인터페이스 서비스")
 public class InsideService {
 
 	private static final Logger logger = LoggerFactory.getLogger(InsideService.class);

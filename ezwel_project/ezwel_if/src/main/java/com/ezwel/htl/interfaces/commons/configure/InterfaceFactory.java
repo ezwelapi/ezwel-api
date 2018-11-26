@@ -41,10 +41,14 @@ public class InterfaceFactory {
 	
 	private static Map<String, List<HttpConfigSDO>> interfaceChannels;
 	
+	private static Map<String, AgentInfoSDO> interfaceAgents;
+	
+	
 	private PropertyUtil propertyUtil;
 	
 	static {
 		interfaceChannels = new LinkedHashMap<String, List<HttpConfigSDO>>();
+		interfaceAgents = new LinkedHashMap<String, AgentInfoSDO>();
 	}
 	
 	private String configXmlPath;
@@ -96,6 +100,14 @@ public class InterfaceFactory {
 	
 	public static Map<String, List<HttpConfigSDO>> getInterfaceChannels() {
 		return interfaceChannels;
+	}
+	
+	public static Map<String, AgentInfoSDO> getInterfaceAgents() {
+		return interfaceAgents;
+	}
+	
+	public static AgentInfoSDO getInterfaceAgents(String httpAgentId) {
+		return interfaceAgents.get(httpAgentId);
 	}
 	
 	private static String getCacheId(String chanId, String agentId) {
@@ -216,6 +228,8 @@ public class InterfaceFactory {
 		
 		AgentInfoSDO agent = new AgentInfoSDO();
 		propertyUtil.copySameProperty(channelListData.getAgentList().get(index), agent);
+		//에이전트(제휴사)캐쉬
+		interfaceAgents.put(agent.getHttpAgentId(), agent);
 		
 		//방향 : inside interface list
 		Iterator<HttpConfigSDO> insideIterator = channelListData.getInsideConfigList().iterator();
@@ -306,6 +320,9 @@ public class InterfaceFactory {
 	public void destroyFactory() {
 		if(interfaceChannels != null) {
 			interfaceChannels.clear();
+		}
+		if(interfaceAgents != null) {
+			interfaceAgents.clear();
 		}
 	}
 
