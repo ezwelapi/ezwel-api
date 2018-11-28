@@ -34,6 +34,15 @@ public class APIException extends RunTimeException {
         setResultCode(DEFAULT_EXCEPTION_CODE);
     }
 
+    public APIException(Integer resultCode)
+    {
+        super(MessageConstants.getMessage(resultCode));
+
+        super.init(); 
+        setResultCode(resultCode);
+    }
+    
+    
     public APIException(Integer resultCode, String message)
     {
         super(message);

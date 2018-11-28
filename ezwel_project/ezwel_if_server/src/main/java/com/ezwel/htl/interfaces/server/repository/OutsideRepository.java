@@ -17,8 +17,9 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
+import com.ezwel.htl.interfaces.server.commons.constants.NamespaceConstants;
+import com.ezwel.htl.interfaces.server.commons.mybatis.DataAccessObjectUtil;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
-import com.ezwel.htl.interfaces.server.commons.utils.DataAccessObjectUtil;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclAment;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
@@ -41,6 +42,10 @@ public class OutsideRepository extends DataAccessObjectUtil {
 	private static final Logger logger = LoggerFactory.getLogger(OutsideRepository.class);
 	
 	private PropertyUtil propertyUtil = (PropertyUtil) LApplicationContext.getBean(PropertyUtil.class);
+	
+	public OutsideRepository() {
+		this.namespace = NamespaceConstants.OUTSIDE_MAPPER;
+	}
 	
 	/**
 	 * 맵핑 시설 : EZC_FACL, EZC_FACL_IMG, EZC_FACL_AMENT ( 1 : N : N ), 데이터 적제 
@@ -71,13 +76,13 @@ public class OutsideRepository extends DataAccessObjectUtil {
 				 */
 				
 				/** 0. 시설 코드 (Number) Sequnce */
-				faclCdSeq = sqlSession.selectOne(OUTSIDE_MAPPER_NAMESPACE.concat("sequnceEzcFacl"));
+				faclCdSeq = sqlSession.selectOne(getNamespace("sequnceEzcFacl"));
 				ezcFacl.setFaclCd(faclCdSeq);
 				ezcFacl.setRegId(Local.commonHeader().getSystemUserId());
 				ezcFacl.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
 				
 				/** 1. EZC_FACL 1건 저장 */
-				txSuccess = sqlSession.insert(OUTSIDE_MAPPER_NAMESPACE.concat("insertEzcFacl"), ezcFacl);
+				txSuccess = sqlSession.insert(getNamespace("insertEzcFacl"), ezcFacl);
 				if(txSuccess > 0) {
 					txCount++;
 					
@@ -92,7 +97,7 @@ public class OutsideRepository extends DataAccessObjectUtil {
 							 * 인터페이스 전문 필드명과 DB 테이블 컬럼 엔티티명 죄다 다름 아우 -_- 필드 별 일일이 확인 필요
 							 */
 							
-							txCount += sqlSession.insert(OUTSIDE_MAPPER_NAMESPACE.concat("insertEzcFaclImg"), ezcFaclImg);
+							txCount += sqlSession.insert(getNamespace("insertEzcFaclImg"), ezcFaclImg);
 						}
 					}
 					
@@ -109,7 +114,7 @@ public class OutsideRepository extends DataAccessObjectUtil {
 								ezcFaclAment.setRegId(Local.commonHeader().getSystemUserId());
 								ezcFaclAment.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
 								
-								txCount += sqlSession.insert(OUTSIDE_MAPPER_NAMESPACE.concat("insertEzcFaclImg"), ezcFaclAment);
+								txCount += sqlSession.insert(getNamespace("insertEzcFaclImg"), ezcFaclAment);
 							}
 						}
 					}
