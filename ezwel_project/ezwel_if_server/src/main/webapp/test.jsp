@@ -31,12 +31,9 @@ function createData() {
 
 function AjaxCall() { 
 	
-	var url = null;
+	var url = "/API1.0/10000496/facl/record";
 	if(location.href.indexOf("localhost:8282/ezwel_if_server") > -1) {
-		url = "http://http://localhost:8282/ezwel_if_server/API1.0/10000496/facl/record";
-	}
-	else {
-		url = "http://ezc-api.dev.ezwel.com/API1.0/10000496/facl/record";
+		url = "/ezwel_if_server" + url;
 	}
 	
 	$.ajax({ 
