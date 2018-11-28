@@ -39,9 +39,6 @@ function createData() {
 function AjaxCall() { 
 	
 	var url = "/API1.0/10000496/facl/record";
-	if(location.href.indexOf("localhost:8282/ezwel_if_server") > -1) {
-		url = "/ezwel_if_server" + url;
-	}
 	
 	$.ajax({ 
 		type: "POST", 
