@@ -61,8 +61,8 @@ function AjaxCall() {
 
 </script>
 
-<div>Interface Test Site</div>
-<div>Input Data Setup</div>
+<h2>Interface Test Site</h2>
+<span>Input Data Setup</span><span><input type="button" value="POST" onclick="AjaxCall();" /></span>
 <div>
 	<form name="AjaxForm" id="AjaxForm"> 
 		<label for="name">dataUrl</label> 
