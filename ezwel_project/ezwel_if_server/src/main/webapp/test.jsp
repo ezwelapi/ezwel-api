@@ -78,11 +78,9 @@ function AjaxCall() {
 	<span style="padding-left:10px;"><input type="button" value="POST" onclick="AjaxCall();" /></span>
 </div>
 <div>
-	<textarea id="inputJson" style="width:98%;height:200px;">
-{
+<textarea id="inputJson" style="width:98%;height:200px;">{
   "dataUrl" : "http://ezcheckin.jyp.ezwel.com:8123/API1.0/10000496/facl/record"
-}	
-	</textarea>
+}</textarea>
 </div>
 <span>Output Data</span>
 <div>
