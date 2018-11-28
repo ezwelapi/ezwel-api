@@ -1,17 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>ezwel api test</title>
 </head>
 <body>
 
-<!-- Ajax 사용을 위한 jquery -->
 <script src="//code.jquery.com/jquery.js"></script>
- 
-<!-- JavaScript -->
 <script type="text/javascript">
 function createData() { 
 	
@@ -23,8 +19,7 @@ function createData() {
 	
 	console.log("-----------------"); 
 	console.log(sendData); 
-	console.log("================="); 
-	
+	console.log("-----------------");
 	
 	return sendData; 
 	
@@ -37,14 +32,12 @@ function createData() {
 function AjaxCall() { 
 	$.ajax({ 
 		type: "POST", 
-		url : "http://localhost:8282/ezwel_if_server/API1.0/10000496/facl/record", 
+		url : "http://ezc-api.dev.ezwel.com/API1.0/10000496/facl/record", 
 		data: createData(), 
 		dataType:"json", 
 		success : function(data, status, xhr) {
 			console.log("success");
 			console.log(data);
-			console.log(status); 
-			console.log(xhr); 
 		}, 
 		error: function(jqXHR, textStatus, errorThrown) {
 			console.log("error");
