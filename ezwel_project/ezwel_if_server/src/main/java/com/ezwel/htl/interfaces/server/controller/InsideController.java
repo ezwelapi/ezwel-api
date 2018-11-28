@@ -116,13 +116,15 @@ public class InsideController {
 		RecordOutSDO out = new RecordOutSDO();
 		
 		//data set
-		if(!httpConfigDTO.getHttpApiKey().equals("") || !httpConfigDTO.getHttpAgentId().equals("") || !httpConfigDTO.getHttpApiTimestamp().equals("")) {
-			out.setCode("4000");
-			out.setMessage("사용자 인증 실패");
-		} else {		
-			out.setCode("1000");
-			out.setMessage("정상적으로 처리되었습니다");
-		}
+		
+		logger.debug("[YPJEON] getHttpApiKey {}", httpConfigDTO.getHttpApiKey());
+		logger.debug("[YPJEON] getHttpApiSignature {}", httpConfigDTO.getHttpApiSignature());
+		logger.debug("[YPJEON] getHttpApiTimestamp {}", httpConfigDTO.getHttpApiTimestamp());
+		logger.debug("[YPJEON] getHttpAgentId {}", httpConfigDTO.getHttpAgentId());
+		logger.debug("[YPJEON] getHttpAgentId {}", httpConfigDTO.getHttpApiSignature().equals(""));
+		
+		out.setCode("1000");
+		out.setMessage("정상적으로 처리되었습니다");
 		
 		return beanMarshaller.toJSONString(out);
 	}	
@@ -178,13 +180,8 @@ public class InsideController {
 		SaleStopOutSDO out = new SaleStopOutSDO();
 		
 		//data set
-		if(!httpConfigDTO.getHttpApiKey().equals("") || !httpConfigDTO.getHttpAgentId().equals("") || !httpConfigDTO.getHttpApiTimestamp().equals("")) {
-			out.setCode("4000");
-			out.setMessage("사용자 인증 실패");
-		} else {		
-			out.setCode("3000");
-			out.setMessage("기타오류 (시설정보가 존재하지 않습니다.)");
-		}
+		out.setCode("3000");
+		out.setMessage("기타오류 (시설정보가 존재하지 않습니다.)");
 		
 		return beanMarshaller.toJSONString(out);
 	}
@@ -270,13 +267,8 @@ public class InsideController {
 		ViewOutSDO out = new ViewOutSDO();
 		
 		//data set
-		if(!httpConfigDTO.getHttpApiKey().equals("") || !httpConfigDTO.getHttpAgentId().equals("") || !httpConfigDTO.getHttpApiTimestamp().equals("")) {
-			out.setCode("4000");
-			out.setMessage("사용자 인증 실패");
-		} else {		
-			out.setCode("3000");
-			out.setMessage("기타오류 (예약정보가 존재하지 않습니다.)");
-		}
+		out.setCode("3000");
+		out.setMessage("기타오류 (예약정보가 존재하지 않습니다.)");
 
 		return beanMarshaller.toJSONString(out);
 	}
@@ -363,13 +355,8 @@ public class InsideController {
 		VoucherRegOutSDO out = new VoucherRegOutSDO();
 		
 		//data set
-		if(!httpConfigDTO.getHttpApiKey().equals("") || !httpConfigDTO.getHttpAgentId().equals("") || !httpConfigDTO.getHttpApiTimestamp().equals("")) {
-			out.setCode("4000");
-			out.setMessage("사용자 인증 실패");
-		} else {		
-			out.setCode("3000");
-			out.setMessage("기타오류 (주문정보가 존재하지 않습니다.)");
-		}
+		out.setCode("3000");
+		out.setMessage("기타오류 (주문정보가 존재하지 않습니다.)");
 
 		return beanMarshaller.toJSONString(out);
 	}
@@ -457,13 +444,8 @@ public class InsideController {
 		AgentJobOutSDO out = new AgentJobOutSDO();
 		
 		//data set
-		if(!httpConfigDTO.getHttpApiKey().equals("") || !httpConfigDTO.getHttpAgentId().equals("") || !httpConfigDTO.getHttpApiTimestamp().equals("")) {
-			out.setCode("4000");
-			out.setMessage("사용자 인증 실패");
-		} else {		
-			out.setCode("3000");
-			out.setMessage("기타오류 (대사정보가 존재하지 않습니다.)");
-		}
+		out.setCode("3000");
+		out.setMessage("기타오류 (대사정보가 존재하지 않습니다.)");
 
 		return beanMarshaller.toJSONString(out);
 	}
