@@ -22,7 +22,8 @@ function createData() {
 	//var sendData = {name:$('#dataUrl').val()}; 
 	
 	// 2. jQuery serialize함수를 사용해서 전달 
-	var sendData = $('#AjaxForm').serialize(); 
+	//var sendData = $('#AjaxForm').serialize(); 
+	var sendData = $('#inputJson').val();
 	
 	console.log("-----------------"); 
 	console.log(sendData); 
@@ -38,7 +39,7 @@ function createData() {
 
 function AjaxCall() { 
 	
-	var url = "/API1.0/10000496/facl/record";
+	var url = $("#restURL").val();
 	
 	$.ajax({ 
 		type: "POST", 
@@ -48,12 +49,21 @@ function AjaxCall() {
 		success : function(data, status, xhr) {
 			console.log("success");
 			console.log(data);
+			$('#outputJson').text(JSON.stringify(data, undefined, 4));
 		}, 
 		error: function(jqXHR, textStatus, errorThrown) {
 			console.log("error");
+			var output = "";
+			output += JSON.stringify(jqXHR, undefined, 4);
+			output += "\n";
+			output += JSON.stringify(textStatus, undefined, 4);
+			output += "\n";
+			output += JSON.stringify(errorThrown, undefined, 4);
 			console.log(jqXHR);
 			console.log(textStatus);
 			console.log(errorThrown);
+
+			$('#outputJson').text(output);
 		}
 	}); 
 }
@@ -62,15 +72,21 @@ function AjaxCall() {
 </script>
 
 <h2>Interface Test Site</h2>
-<span>Input Data Setup</span><span><input type="button" value="POST" onclick="AjaxCall();" /></span>
+<span>Input Data Setup</span>
 <div>
-	<form name="AjaxForm" id="AjaxForm"> 
-		<label for="name">dataUrl</label> 
-		<input type="text" name="dataUrl" id="dataUrl" />
-		<textarea name="inputJson" style="width:90%;height:200px;"></textarea>
-	</form> 
-	
+	<span><input id="restURL" type="text" value="/API1.0/10000496/facl/record" style="width:30%;"/></span>
+	<span style="padding-left:10px;"><input type="button" value="POST" onclick="AjaxCall();" /></span>
 </div>
-
+<div>
+	<textarea id="inputJson" style="width:98%;height:200px;">
+{
+  "dataUrl" : "http://ezcheckin.jyp.ezwel.com:8123/API1.0/10000496/facl/record"
+}	
+	</textarea>
+</div>
+<span>Output Data</span>
+<div>
+	<textarea id="outputJson" style="width:98%;height:200px;"></textarea>
+</div>
 </body>
 </html>
