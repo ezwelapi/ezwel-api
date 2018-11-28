@@ -115,14 +115,7 @@ public class InsideController {
 		
 		RecordOutSDO out = new RecordOutSDO();
 		
-		//data set
-		
-		logger.debug("[YPJEON] getHttpApiKey {}", httpConfigDTO.getHttpApiKey());
-		logger.debug("[YPJEON] getHttpApiSignature {}", httpConfigDTO.getHttpApiSignature());
-		logger.debug("[YPJEON] getHttpApiTimestamp {}", httpConfigDTO.getHttpApiTimestamp());
-		logger.debug("[YPJEON] getHttpAgentId {}", httpConfigDTO.getHttpAgentId());
-		logger.debug("[YPJEON] getHttpAgentId {}", httpConfigDTO.getHttpApiSignature().equals(""));
-		
+		//data set		
 		out.setCode("1000");
 		out.setMessage("정상적으로 처리되었습니다");
 		
