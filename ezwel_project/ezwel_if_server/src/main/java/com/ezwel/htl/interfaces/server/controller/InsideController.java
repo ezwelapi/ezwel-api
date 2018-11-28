@@ -116,7 +116,7 @@ public class InsideController {
 		RecordOutSDO out = new RecordOutSDO();
 		
 		//data set
-		if(httpConfigDTO.getHttpApiKey().equals("") || httpConfigDTO.getHttpAgentId().equals("") || httpConfigDTO.getHttpApiTimestamp().equals("")) {
+		if(!httpConfigDTO.getHttpApiKey().equals("") || !httpConfigDTO.getHttpAgentId().equals("") || !httpConfigDTO.getHttpApiTimestamp().equals("")) {
 			out.setCode("4000");
 			out.setMessage("사용자 인증 실패");
 		} else {		
@@ -178,7 +178,7 @@ public class InsideController {
 		SaleStopOutSDO out = new SaleStopOutSDO();
 		
 		//data set
-		if(httpConfigDTO.getHttpApiKey().equals("") || httpConfigDTO.getHttpAgentId().equals("") || httpConfigDTO.getHttpApiTimestamp().equals("")) {
+		if(!httpConfigDTO.getHttpApiKey().equals("") || !httpConfigDTO.getHttpAgentId().equals("") || !httpConfigDTO.getHttpApiTimestamp().equals("")) {
 			out.setCode("4000");
 			out.setMessage("사용자 인증 실패");
 		} else {		
@@ -270,7 +270,7 @@ public class InsideController {
 		ViewOutSDO out = new ViewOutSDO();
 		
 		//data set
-		if(httpConfigDTO.getHttpApiKey().equals("") || httpConfigDTO.getHttpAgentId().equals("") || httpConfigDTO.getHttpApiTimestamp().equals("")) {
+		if(!httpConfigDTO.getHttpApiKey().equals("") || !httpConfigDTO.getHttpAgentId().equals("") || !httpConfigDTO.getHttpApiTimestamp().equals("")) {
 			out.setCode("4000");
 			out.setMessage("사용자 인증 실패");
 		} else {		
@@ -363,7 +363,7 @@ public class InsideController {
 		VoucherRegOutSDO out = new VoucherRegOutSDO();
 		
 		//data set
-		if(httpConfigDTO.getHttpApiKey().equals("") || httpConfigDTO.getHttpAgentId().equals("") || httpConfigDTO.getHttpApiTimestamp().equals("")) {
+		if(!httpConfigDTO.getHttpApiKey().equals("") || !httpConfigDTO.getHttpAgentId().equals("") || !httpConfigDTO.getHttpApiTimestamp().equals("")) {
 			out.setCode("4000");
 			out.setMessage("사용자 인증 실패");
 		} else {		
@@ -457,7 +457,7 @@ public class InsideController {
 		AgentJobOutSDO out = new AgentJobOutSDO();
 		
 		//data set
-		if(httpConfigDTO.getHttpApiKey().equals("") || httpConfigDTO.getHttpAgentId().equals("") || httpConfigDTO.getHttpApiTimestamp().equals("")) {
+		if(!httpConfigDTO.getHttpApiKey().equals("") || !httpConfigDTO.getHttpAgentId().equals("") || !httpConfigDTO.getHttpApiTimestamp().equals("")) {
 			out.setCode("4000");
 			out.setMessage("사용자 인증 실패");
 		} else {		
