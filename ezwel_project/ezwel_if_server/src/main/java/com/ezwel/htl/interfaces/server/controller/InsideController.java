@@ -40,7 +40,6 @@ import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegOutSDO;
  * @date   2018. 11. 15.
  */
 @Controller
-@RequestMapping(value="/API1.0")
 public class InsideController {
 
 	private static final Logger logger = LoggerFactory.getLogger(InsideController.class);

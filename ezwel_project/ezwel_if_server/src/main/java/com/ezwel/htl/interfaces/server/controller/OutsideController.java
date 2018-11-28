@@ -29,7 +29,6 @@ import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
  * @date   2018. 11. 15.
  */
 @Controller
-@RequestMapping(value="/API1.0")
 public class OutsideController {
 
 	private static final Logger logger = LoggerFactory.getLogger(OutsideController.class);
