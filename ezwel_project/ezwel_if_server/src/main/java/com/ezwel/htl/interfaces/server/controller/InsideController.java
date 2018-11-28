@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
-import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
@@ -75,7 +74,7 @@ public class InsideController {
 		
 		ResponseEntity<String> out = null;
 		String serviceOut = null;
-
+		
 		try {
 			if(recordInSDO == null) {
 				throw new APIException("입력값이 존재하지 않습니다.");
@@ -90,14 +89,8 @@ public class InsideController {
 			//Advice & Interceptor 최적화후 작업 추가 진행
 			//serviceOut = intefaceService.callRecord(recordInSDO);
 			
-			serviceOut = getOutCallRecord(httpAgentId, response);
-			
-			logger.debug("[ypjeon] callRecord serviceOut {}", serviceOut);
-			
+			serviceOut = getOutCallRecord(httpAgentId, response);			
 			out = new ResponseEntity<String>(serviceOut, HttpStatus.CREATED);
-			
-			logger.debug("[ypjeon] callRecord out {}", out);
-			
 		}
 		catch(Exception e) {
 			RecordOutSDO errorOut = new RecordOutSDO(); 
@@ -123,38 +116,52 @@ public class InsideController {
 		RecordOutSDO out = new RecordOutSDO();
 		
 		//data set
-		out.setCode("1000");
-		out.setMessage("정상적으로 처리되었습니다");
-
+		if(httpConfigDTO.getHttpApiKey().equals("") || httpConfigDTO.getHttpAgentId().equals("") || httpConfigDTO.getHttpApiTimestamp().equals("")) {
+			out.setCode("4000");
+			out.setMessage("사용자 인증 실패");
+		} else {		
+			out.setCode("1000");
+			out.setMessage("정상적으로 처리되었습니다");
+		}
+		
 		return beanMarshaller.toJSONString(out);
-	}
-	
-
-	
+	}	
 	
 	@ResponseBody
 	@APIOperation(description="시설판매중지설정 인터페이스")
 	@RequestMapping(value="/{httpAgentId}/facl/saleStop")
-	public ResponseEntity<SaleStopOutSDO> callSaleStop(@PathVariable("httpAgentId") String httpAgentId, SaleStopInSDO saleStopInSDO, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<String> callSaleStop(@PathVariable("httpAgentId") String httpAgentId, SaleStopInSDO saleStopInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callSaleStop {}", saleStopInSDO);
 		
-		ResponseEntity<SaleStopOutSDO> out = null;
-		SaleStopOutSDO serviceOut = null;
+		ResponseEntity<String> out = null;
+		String serviceOut = null;
 
 		try {
 			if(saleStopInSDO == null) {
 				throw new APIException("입력값이 존재하지 않습니다.");
 			}
 			
+			/**
+			 * 1. 파라메터 및 헤더 유효성 검사
+			 * 2. 인터 페이스 요청에 따른 DB핸들링 
+			 * 3. 결과 응답(JSON) 
+			 */
+			
 			//Advice & Interceptor 최적화후 작업 추가 진행
-			serviceOut = intefaceService.callSaleStop(saleStopInSDO);
- 
-			out = new ResponseEntity<SaleStopOutSDO>(serviceOut, HttpStatus.CREATED);
+			//serviceOut = intefaceService.callSaleStop(saleStopInSDO);
+			
+			serviceOut = getOutCallSaleStop(httpAgentId, response);
+			out = new ResponseEntity<String>(serviceOut, HttpStatus.CREATED);
+			
 		}
 		catch(Exception e) {
-			serviceOut = new SaleStopOutSDO(); 
-		
-			out = new ResponseEntity<SaleStopOutSDO>(serviceOut, HttpStatus.CREATED);
+			RecordOutSDO errorOut = new RecordOutSDO(); 
+			errorOut.setCode(Integer.toString(MessageConstants.RESPONSE_CODE_5000));
+			errorOut.setMessage(MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_5000));
+			/**
+			 * 장애 발생시 code, message 세팅 
+			 */
+			out = new ResponseEntity<String>(beanMarshaller.toJSONString(errorOut), HttpStatus.CREATED);
 			e.printStackTrace();
 		}
 		
@@ -162,8 +169,27 @@ public class InsideController {
 		return out;
 	}
 	
-
-	@ResponseBody
+	@APIOperation(description="시설판매중지설정 인터페이스 결과")
+	private String getOutCallSaleStop(String httpAgentId, HttpServletResponse response) {
+		
+		HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("saleStop", httpAgentId);
+		commonUtil.setResponseHeader(httpConfigDTO, response);
+		
+		SaleStopOutSDO out = new SaleStopOutSDO();
+		
+		//data set
+		if(httpConfigDTO.getHttpApiKey().equals("") || httpConfigDTO.getHttpAgentId().equals("") || httpConfigDTO.getHttpApiTimestamp().equals("")) {
+			out.setCode("4000");
+			out.setMessage("사용자 인증 실패");
+		} else {		
+			out.setCode("3000");
+			out.setMessage("기타오류 (시설정보가 존재하지 않습니다.)");
+		}
+		
+		return beanMarshaller.toJSONString(out);
+	}
+	
+	/*@ResponseBody
 	@APIOperation(description="예약내역조회 인터페이스")
 	@RequestMapping(value="/{httpAgentId}/rsv/view")
 	public ResponseEntity<ViewOutSDO> callView(@PathVariable("httpAgentId") String httpAgentId, ViewInSDO viewInSDO, HttpServletRequest request, HttpServletResponse response) {
@@ -191,9 +217,71 @@ public class InsideController {
 		
 		logger.debug("[END] callView {}", out);
 		return out;
-	}
+	}*/
 	
 	@ResponseBody
+	@APIOperation(description="예약내역조회 인터페이스")
+	@RequestMapping(value="/{httpAgentId}/facl/view")
+	public ResponseEntity<String> callView(@PathVariable("httpAgentId") String httpAgentId, ViewInSDO viewInSDO, HttpServletRequest request, HttpServletResponse response) {
+		logger.debug("[START] callView {}", viewInSDO);
+		
+		ResponseEntity<String> out = null;
+		String serviceOut = null;
+
+		try {
+			if(viewInSDO == null) {
+				throw new APIException("입력값이 존재하지 않습니다.");
+			}
+			
+			/**
+			 * 1. 파라메터 및 헤더 유효성 검사
+			 * 2. 인터 페이스 요청에 따른 DB핸들링 
+			 * 3. 결과 응답(JSON) 
+			 */
+			
+			//Advice & Interceptor 최적화후 작업 추가 진행
+			//serviceOut = intefaceService.callSaleStop(saleStopInSDO);
+			
+			serviceOut = getOutCallView(httpAgentId, response);			
+			out = new ResponseEntity<String>(serviceOut, HttpStatus.CREATED);
+			
+		}
+		catch(Exception e) {
+			RecordOutSDO errorOut = new RecordOutSDO(); 
+			errorOut.setCode(Integer.toString(MessageConstants.RESPONSE_CODE_5000));
+			errorOut.setMessage(MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_5000));
+			/**
+			 * 장애 발생시 code, message 세팅 
+			 */
+			out = new ResponseEntity<String>(beanMarshaller.toJSONString(errorOut), HttpStatus.CREATED);
+			e.printStackTrace();
+		}
+		
+		logger.debug("[END] callView {}", out);
+		return out;
+	}
+	
+	@APIOperation(description="예약내역조회 인터페이스 결과")
+	private String getOutCallView(String httpAgentId, HttpServletResponse response) {
+		
+		HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("view", httpAgentId);
+		commonUtil.setResponseHeader(httpConfigDTO, response);
+		
+		ViewOutSDO out = new ViewOutSDO();
+		
+		//data set
+		if(httpConfigDTO.getHttpApiKey().equals("") || httpConfigDTO.getHttpAgentId().equals("") || httpConfigDTO.getHttpApiTimestamp().equals("")) {
+			out.setCode("4000");
+			out.setMessage("사용자 인증 실패");
+		} else {		
+			out.setCode("3000");
+			out.setMessage("기타오류 (예약정보가 존재하지 않습니다.)");
+		}
+
+		return beanMarshaller.toJSONString(out);
+	}
+	
+	/*@ResponseBody
 	@APIOperation(description="시설바우처번호등록 인터페이스")
 	@RequestMapping(value="/{httpAgentId}/facl/voucherReg")
 	public ResponseEntity<VoucherRegOutSDO> callVoucherReg(@PathVariable("httpAgentId") String httpAgentId, VoucherRegInSDO voucherRegInSDO, HttpServletRequest request, HttpServletResponse response) {
@@ -221,10 +309,73 @@ public class InsideController {
 		
 		logger.debug("[END] callVoucherReg {}", out);
 		return out;
+	}*/
+	
+	@ResponseBody
+	@APIOperation(description="시설바우처번호등록 인터페이스")
+	@RequestMapping(value="/{httpAgentId}/facl/voucherReg")
+	public ResponseEntity<String> callVoucherReg(@PathVariable("httpAgentId") String httpAgentId, VoucherRegInSDO voucherRegInSDO, HttpServletRequest request, HttpServletResponse response) {
+		logger.debug("[START] callVoucherReg {}", voucherRegInSDO);
+		
+		ResponseEntity<String> out = null;
+		String serviceOut = null;
+
+		try {
+			if(voucherRegInSDO == null) {
+				throw new APIException("입력값이 존재하지 않습니다.");
+			}
+			
+			/**
+			 * 1. 파라메터 및 헤더 유효성 검사
+			 * 2. 인터 페이스 요청에 따른 DB핸들링 
+			 * 3. 결과 응답(JSON) 
+			 */
+			
+			//Advice & Interceptor 최적화후 작업 추가 진행
+			//serviceOut = intefaceService.callSaleStop(saleStopInSDO);
+			
+			serviceOut = getOutCallVoucherReg(httpAgentId, response);
+			
+			out = new ResponseEntity<String>(serviceOut, HttpStatus.CREATED);
+			
+		}
+		catch(Exception e) {
+			RecordOutSDO errorOut = new RecordOutSDO(); 
+			errorOut.setCode(Integer.toString(MessageConstants.RESPONSE_CODE_5000));
+			errorOut.setMessage(MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_5000));
+			/**
+			 * 장애 발생시 code, message 세팅 
+			 */
+			out = new ResponseEntity<String>(beanMarshaller.toJSONString(errorOut), HttpStatus.CREATED);
+			e.printStackTrace();
+		}
+		
+		logger.debug("[END] callVoucherReg {}", out);
+		return out;
+	}
+	
+	@APIOperation(description="시설바우처번호등록 인터페이스 결과")
+	private String getOutCallVoucherReg(String httpAgentId, HttpServletResponse response) {
+		
+		HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("voucherReg", httpAgentId);
+		commonUtil.setResponseHeader(httpConfigDTO, response);
+		
+		VoucherRegOutSDO out = new VoucherRegOutSDO();
+		
+		//data set
+		if(httpConfigDTO.getHttpApiKey().equals("") || httpConfigDTO.getHttpAgentId().equals("") || httpConfigDTO.getHttpApiTimestamp().equals("")) {
+			out.setCode("4000");
+			out.setMessage("사용자 인증 실패");
+		} else {		
+			out.setCode("3000");
+			out.setMessage("기타오류 (주문정보가 존재하지 않습니다.)");
+		}
+
+		return beanMarshaller.toJSONString(out);
 	}
 	
 	
-	@ResponseBody
+	/*@ResponseBody
 	@APIOperation(description="주문대사(제휴사) 인터페이스")
 	@RequestMapping(value="/{httpAgentId}/order/agentJob")
 	public ResponseEntity<AgentJobOutSDO> callAgentJob(@PathVariable("httpAgentId") String httpAgentId, AgentJobInSDO agentJobInSDO, HttpServletRequest request, HttpServletResponse response) {
@@ -252,6 +403,69 @@ public class InsideController {
 		
 		logger.debug("[END] callAgentJob {}", out);
 		return out;
-	}	
+	}*/
+	
+	@ResponseBody
+	@APIOperation(description="주문대사(제휴사) 인터페이스")
+	@RequestMapping(value="/{httpAgentId}/facl/agentJob")
+	public ResponseEntity<String> callAgentJob(@PathVariable("httpAgentId") String httpAgentId, AgentJobInSDO agentJobInSDO, HttpServletRequest request, HttpServletResponse response) {
+		logger.debug("[START] callAgentJob {}", agentJobInSDO);
+		
+		ResponseEntity<String> out = null;
+		String serviceOut = null;
+
+		try {
+			if(agentJobInSDO == null) {
+				throw new APIException("입력값이 존재하지 않습니다.");
+			}
+			
+			/**
+			 * 1. 파라메터 및 헤더 유효성 검사
+			 * 2. 인터 페이스 요청에 따른 DB핸들링 
+			 * 3. 결과 응답(JSON) 
+			 */
+			
+			//Advice & Interceptor 최적화후 작업 추가 진행
+			//serviceOut = intefaceService.callSaleStop(saleStopInSDO);
+			
+			serviceOut = getOutCallAgentJob(httpAgentId, response);
+			
+			out = new ResponseEntity<String>(serviceOut, HttpStatus.CREATED);
+			
+		}
+		catch(Exception e) {
+			RecordOutSDO errorOut = new RecordOutSDO(); 
+			errorOut.setCode(Integer.toString(MessageConstants.RESPONSE_CODE_5000));
+			errorOut.setMessage(MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_5000));
+			/**
+			 * 장애 발생시 code, message 세팅 
+			 */
+			out = new ResponseEntity<String>(beanMarshaller.toJSONString(errorOut), HttpStatus.CREATED);
+			e.printStackTrace();
+		}
+		
+		logger.debug("[END] callAgentJob {}", out);
+		return out;
+	}
+	
+	@APIOperation(description="주문대사(제휴사) 인터페이스 결과")
+	private String getOutCallAgentJob(String httpAgentId, HttpServletResponse response) {
+		
+		HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("agentJob", httpAgentId);
+		commonUtil.setResponseHeader(httpConfigDTO, response);
+		
+		AgentJobOutSDO out = new AgentJobOutSDO();
+		
+		//data set
+		if(httpConfigDTO.getHttpApiKey().equals("") || httpConfigDTO.getHttpAgentId().equals("") || httpConfigDTO.getHttpApiTimestamp().equals("")) {
+			out.setCode("4000");
+			out.setMessage("사용자 인증 실패");
+		} else {		
+			out.setCode("3000");
+			out.setMessage("기타오류 (대사정보가 존재하지 않습니다.)");
+		}
+
+		return beanMarshaller.toJSONString(out);
+	}
 	
 }
