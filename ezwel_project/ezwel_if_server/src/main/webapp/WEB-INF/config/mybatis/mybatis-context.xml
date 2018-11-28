@@ -51,8 +51,10 @@
 				<beans:property name="sqlPrefix" value="::SQL ==> "/>
 			</beans:bean>
 		</beans:property>
-
 	</beans:bean>
+	
+	<!-- DefaultTransactionDefinition -->
+	<bean class="com.ezwel.htl.interfaces.server.commons.mybatis.TransactionManager" scope="prototype" />
 	
 	<!-- Mybatis Spring Works SqlSessionFactoryBean : http://mybatis.github.io/spring/ko/factorybean.html -->
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -61,7 +63,7 @@
 	</beans:bean>
 
 	<!-- SqlSessionTemplate Constructor : SqlSessionTemplate(SqlSessionFactory sqlSessionFactory, ExecutorType executorType, PersistenceExceptionTranslator exceptionTranslator) -->
-	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
 	  <beans:constructor-arg index="0" ref="sqlSessionFactory" />
 	  <!-- <beans:constructor-arg index="1" value="BATCH" /> -->
 	</beans:bean>

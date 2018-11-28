@@ -128,10 +128,14 @@ public class MethodsWrapperAdvice implements MethodInterceptor, Ordered {
 		strb.append(OperateConstants.STR_PAREN_START);
 		if (inputParam != null) {
 			for (int i = 0; i < inputParam.length; i++) {
-				if (i > 0) {
-					strb.append(", ");
+
+				if(inputParam[i] != null) {
+				
+					if (i > 0) {
+						strb.append(", ");
+					}
+					strb.append(inputParam[i].getClass().getSimpleName());
 				}
-				strb.append(inputParam[i].getClass().getSimpleName());
 			}
 		}
 		strb.append(OperateConstants.STR_PAREN_END);

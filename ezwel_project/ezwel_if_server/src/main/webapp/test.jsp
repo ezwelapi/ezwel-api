@@ -4,10 +4,17 @@
 <head>
 <meta charset="UTF-8">
 <title>ezwel api test</title>
+<style>
+	body, ul, li {
+		margin:0px;
+		padding:0px;
+	}
+</style>
 </head>
 <body>
 
 <script src="//code.jquery.com/jquery.js"></script>
+
 <script type="text/javascript">
 function createData() { 
 	
@@ -30,9 +37,15 @@ function createData() {
 }
 
 function AjaxCall() { 
+	
+	var url = "/API1.0/10000496/facl/record";
+	if(location.href.indexOf("localhost:8282/ezwel_if_server") > -1) {
+		url = "/ezwel_if_server" + url;
+	}
+	
 	$.ajax({ 
 		type: "POST", 
-		url : "http://ezc-api.dev.ezwel.com/API1.0/10000496/facl/record", 
+		url : url, 
 		data: createData(), 
 		dataType:"json", 
 		success : function(data, status, xhr) {
@@ -51,11 +64,16 @@ function AjaxCall() {
 
 </script>
 
-<form name="AjaxForm" id="AjaxForm"> 
-<label for="name">dataUrl</label> 
-<input type="text" name="dataUrl" id="dataUrl" />
-</form> 
-<input type="button" value="POST" onclick="AjaxCall();" />
+<div>Interface Test Site</div>
+<div>Input Data Setup</div>
+<div>
+	<form name="AjaxForm" id="AjaxForm"> 
+		<label for="name">dataUrl</label> 
+		<input type="text" name="dataUrl" id="dataUrl" />
+		<textarea name="inputJson" style="width:90%;height:200px;"></textarea>
+	</form> 
+	
+</div>
 
 </body>
 </html>

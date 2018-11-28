@@ -227,15 +227,14 @@ public class InterfaceFactory {
 	private void initInterfaceChannels(ChannelListData channelListData, int index) {
 		logger.debug("[PROC] agentItemList.size : {}, index : {}", channelListData.getAgentList().size(), index);
 		
-		AgentInfoSDO agent = new AgentInfoSDO();
-		propertyUtil.copySameProperty(channelListData.getAgentList().get(index), agent);
+		AgentInfoSDO agent = (AgentInfoSDO) propertyUtil.copySameProperty(channelListData.getAgentList().get(index), AgentInfoSDO.class);
 		//에이전트(제휴사)캐쉬
 		interfaceAgents.put(agent.getHttpAgentId(), agent);
 		
 		//방향 : inside interface list
 		Iterator<HttpConfigSDO> insideIterator = channelListData.getInsideConfigList().iterator();
         while (insideIterator.hasNext()) {
-        	HttpConfigSDO inside = insideIterator.next();
+        	HttpConfigSDO inside = (HttpConfigSDO) propertyUtil.copySameProperty(insideIterator.next(), HttpConfigSDO.class);
 			
 			inside.setAgentName(agent.getAgentName());
 			inside.setHttpAgentId(agent.getHttpAgentId());
@@ -247,8 +246,8 @@ public class InterfaceFactory {
 		//방향 : outside interface list
 		Iterator<HttpConfigSDO> outsideIterator = channelListData.getOutsideConfigList().iterator();
         while (outsideIterator.hasNext()) {
-	        HttpConfigSDO outside = outsideIterator.next();
-
+	        HttpConfigSDO outside = (HttpConfigSDO) propertyUtil.copySameProperty(outsideIterator.next(), HttpConfigSDO.class);
+	        
 			outside.setAgentName(agent.getAgentName());
 			outside.setHttpAgentId(agent.getHttpAgentId());
 			outside.setHttpApiKey(agent.getOutsideApiKey());					
