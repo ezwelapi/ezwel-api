@@ -181,56 +181,9 @@ public class OutsideService {
 	}
 	
 	
-	/**
-	 * 멀티쓰레드
-	 * EZC_CACHE_MIN_AMT 데이터 적제
-	 * input = 
-	 * @param userAgentDTO
-	 * @param faclSearchDTO
-	 * @return
-	 */
-	@APIOperation(description="시설검색 인터페이스")
-	public FaclSearchOutSDO callFaclSearch(UserAgentSDO userAgentDTO, FaclSearchInSDO faclSearchDTO) {
-			
-		FaclSearchOutSDO out = null;
-		MultiHttpConfigSDO multi = null;
-		List<HttpConfigSDO> channelList = null;
-		List<MultiHttpConfigSDO> multiHttpConfigList = null;
-		
-		try {
-			multiHttpConfigList = new ArrayList<MultiHttpConfigSDO>();
-			
-			channelList = InterfaceFactory.getChannelGroup("faclSearch", userAgentDTO.getHttpAgentGroupId());
-			if(channelList != null) {
-				for(HttpConfigSDO httpConfigSDO : channelList) {
-					multi = new MultiHttpConfigSDO();
-					configureHelper.setupUserAgentInfo(httpConfigSDO, userAgentDTO);
-					//config
-					multi.setHttpConfigDTO(httpConfigSDO);
-					//input
-					multi.setInputDTO(faclSearchDTO);
-					//output
-					multi.setOutputType(FaclSearchOutSDO.class);
-					multiHttpConfigList.add(multi);
-				}
-			}
-			
-			/** execute interface */
-			//멀티 쓰레드 인터페이스 실행
-			List<FaclSearchOutSDO> assets = inteface.sendMultiPostJSON(multiHttpConfigList);
-			
-			/** execute dbio */
-			out = outsideRepository.callFaclSearch(assets);
-		}
-		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
-		}
-			
-		return out;
-	}
 	
 	/**
-	 * EZC_CACHE_DAY_PRICE 데이터 적제  ( 맵핑시설 테이블에 존재하는 시설의 당일특가만 적제 가능 )
+	 * EZC_CACHE_DAY_PRICE, EZC_CACHE_DAY_PRICE_LOG 데이터 적제  ( 맵핑시설 테이블에 존재하는 시설의 당일특가만 적제 가능 )
 	 * @param userAgentDTO
 	 * @return 
 	 */
@@ -275,4 +228,51 @@ public class OutsideService {
 	}
 	
 
+	/**
+	 * 멀티쓰레드
+	 * EZC_CACHE_MIN_AMT, EZC_CACHE_SEARCH_LOG 데이터 적제
+	 * input = 
+	 * @param userAgentDTO
+	 * @param faclSearchDTO
+	 * @return
+	 */
+	@APIOperation(description="시설검색 인터페이스")
+	public FaclSearchOutSDO callFaclSearch(UserAgentSDO userAgentDTO, FaclSearchInSDO faclSearchDTO) {
+			
+		FaclSearchOutSDO out = null;
+		MultiHttpConfigSDO multi = null;
+		List<HttpConfigSDO> channelList = null;
+		List<MultiHttpConfigSDO> multiHttpConfigList = null;
+		
+		try {
+			multiHttpConfigList = new ArrayList<MultiHttpConfigSDO>();
+			
+			channelList = InterfaceFactory.getChannelGroup("faclSearch", userAgentDTO.getHttpAgentGroupId());
+			if(channelList != null) {
+				for(HttpConfigSDO httpConfigSDO : channelList) {
+					multi = new MultiHttpConfigSDO();
+					configureHelper.setupUserAgentInfo(httpConfigSDO, userAgentDTO);
+					//config
+					multi.setHttpConfigDTO(httpConfigSDO);
+					//input
+					multi.setInputDTO(faclSearchDTO);
+					//output
+					multi.setOutputType(FaclSearchOutSDO.class);
+					multiHttpConfigList.add(multi);
+				}
+			}
+			
+			/** execute interface */
+			//멀티 쓰레드 인터페이스 실행
+			List<FaclSearchOutSDO> assets = inteface.sendMultiPostJSON(multiHttpConfigList);
+			
+			/** execute dbio */
+			out = outsideRepository.callFaclSearch(assets);
+		}
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
+		}
+			
+		return out;
+	}
 }
