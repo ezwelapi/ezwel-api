@@ -19,19 +19,19 @@
 var testAssets = {
 	 contextPath : "/API1.0" // testAssets.contextPath
 	,datas : {
-		"신규시설등록수정" : {
+		"IN-신규시설등록수정" : {
 			 url : "/{httpAgentId}/facl/record"
 			,input : {
 				  "dataUrl" : "http://ezcheckin.jyp.ezwel.com:8123/API1.0/10000496/facl/record"
 			}
 		},
-		"시설판매중지설정" : {
+		"IN-시설판매중지설정" : {
 			  url : "/{httpAgentId}/facl/saleStop"
 			 ,input : {
 				 
 			 }
 		},
-		"예약내역조회" : {
+		"IN-예약내역조회" : {
 			 url : "/{httpAgentId}/facl/view"
 			,input : {
 				
