@@ -1,7 +1,7 @@
 package com.ezwel.htl.interfaces.server.entities;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+//import lombok.Data;
+//import lombok.EqualsAndHashCode;
 import org.apache.ibatis.type.Alias;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
@@ -22,9 +22,9 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
-@Data
+//@Data
 @Alias("ezcCnclientCitycd")
-@EqualsAndHashCode(callSuper=true)
+//@EqualsAndHashCode(callSuper=true)
 @APIModel(modelNames="채널고객사 도시코드", description="채널고객사 도시코드 ( EZC_CNCLIENT_CITYCD )", modelTypes="TABLE")
 public class EzcCnclientCitycd extends AbstractEntity {
 

@@ -2,15 +2,12 @@ package com.ezwel.htl.interfaces.service.data.allReg;
 
 import java.util.List;
 
-
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-
-
-import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>

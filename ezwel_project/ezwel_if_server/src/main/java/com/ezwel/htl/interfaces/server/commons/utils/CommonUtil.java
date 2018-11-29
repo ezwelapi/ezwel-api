@@ -1,13 +1,18 @@
 package com.ezwel.htl.interfaces.server.commons.utils;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,7 +30,6 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
-import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.google.common.io.ByteSource;
 import com.google.common.io.ByteStreams;
 /**
@@ -290,6 +294,133 @@ public class CommonUtil {
 		}
 	}
 	
+	/**
+	 * URL 이미지를 바인드된 경로에 다운로드 하고 저장된 전체경로를 리턴합니다.
+	 * @param imageHttpURL 다운로드 할 이미지 URL
+	 * @param saveFilePath 저장할 경로
+	 * @return
+	 */
+	@APIOperation(description="URL 이미지를 바인드된 경로에 다운로드 하고 저장된 전체경로를 리턴합니다.")
+	public String getImage(String imageHttpURL, String saveDirPath, boolean verbose) {
+		logger.debug("[START] getImage imageHttpURL : {}, saveDirPath : {}, verbose : {}", imageHttpURL, saveDirPath, verbose);
+		
+		File outputFile = new File(saveDirPath);
+		
+		URL url = null;
+		BufferedImage bufferedImage = null;
+		String fileExt = null;
+		String out = null;
+		String fileName = null;
+		try {
+						
+			if(doDirectoryMake(outputFile, true)) {
+				
+				if(imageHttpURL.startsWith(OperateConstants.DATA_IMAGE_PREFIX) && imageHttpURL.contains(OperateConstants.STR_BASE64)) {
+					if(verbose) {
+						logger.debug("- base64 data:image");
+					}
+				}
+				else {
+					for(Entry<String, String> entry : OperateConstants.IMAGE_EXT.entrySet()) {
+						if(imageHttpURL.toLowerCase().endsWith(OperateConstants.STR_DOT.concat(entry.getValue()))) {
+							fileExt = entry.getValue();
+							fileName = imageHttpURL.substring(imageHttpURL.lastIndexOf(OperateConstants.STR_DOT) + OperateConstants.STR_DOT.length());
+							break;
+						}
+					}
+					
+					if(fileExt == null) {
+						if(verbose) {
+							logger.debug("image file extension is not found");
+						}
+						fileExt = OperateConstants.DEF_IMAGE_EXTENSION;
+					}
+					
+					outputFile = new File(outputFile, fileName);
+					url = new URL(imageHttpURL);
+					bufferedImage = ImageIO.read(url);
+					
+					if(verbose) {
+						logger.debug("- 이미지 URL : {}", url);
+						logger.debug("- 이미지 bufferedImage : {}", bufferedImage);
+						logger.debug("- 이미지 파일 확장자 : {}", fileExt);
+						logger.debug("- 저장할 파일명 전체 경로를 생성합니다. {}", outputFile.getCanonicalPath());
+					}
+					
+				}
+			}
+			
+		 
+		} catch (MalformedURLException e) {
+			throw new APIException(e);
+		} catch (IOException e) {
+			throw new APIException(e);
+		} catch (Exception e) {
+			throw new APIException(e);
+		}
+		
+		logger.debug("[END] getImage out : {}", out);
+		return out;
+	}
 	
+	
+    /**
+     * FS의 디렉토리 존재여부를 판단하고 존재하지 않는다면 생성합니다.
+     * @param directory
+     * @param verbose
+     */
+	public boolean doDirectoryMake(String targetDir, boolean verbose) {
+		return doDirectoryMake(new File(targetDir), verbose);
+	}
+	
+    /**
+     * FS의 디렉토리 존재여부를 판단하고 존재하지 않는다면 생성합니다.
+     * @param directory
+     * @param verbose
+     */
+    public boolean doDirectoryMake(File directory, boolean verbose) {
+    	logger.debug("[START] doDirectoryMake directory : {}, verbose : {}", directory, verbose);
+    	
+    	boolean out = true;
+    	
+    	try {
+    		
+    		File dir = directory;
+
+	        if(verbose) {
+	        	logger.debug("..디렉토리 존재여부 : " , dir.isDirectory());
+	        }
+	        
+			if(dir.isFile()) {
+				if(verbose) {
+	        		logger.debug("..디렉토리 생성 대상 경로가 이미 존재하는 파일입니다. 잘못된 경로가 전달되었습니다.");
+	        	}
+				out = false;
+			}
+			else if(!dir.isDirectory()){
+	        	
+	        	if(verbose) {
+	        		logger.debug("..디렉토리가 존재하지 않음으로 디렉토리를 생성합니다.");
+	        	}
+	        	
+	            if(!dir.mkdirs()){
+	            	
+	            	if(verbose) {
+	            		logger.debug("..디렉토리 생성 실패.");
+	            	}
+	                out = false;
+	            }else{
+	            	out = true;
+	            }
+	        }
+		} catch (Exception e) {
+			out = false;
+			/** ignore exception "no runtime exception" */
+			e.printStackTrace();
+		}
+
+    	logger.debug("[END] doDirectoryMake out : {}", out);
+        return out;
+    }
 }
 

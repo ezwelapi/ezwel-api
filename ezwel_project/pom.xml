@@ -325,18 +325,6 @@
 			<artifactId>log4j</artifactId>
 			<version>${log4j.log4j-version}</version>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>${ch.qos.logback-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>${ch.qos.logback-version}</version>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>org.lazyluke</groupId>
 			<artifactId>log4jdbc-remix</artifactId>
@@ -424,13 +412,7 @@
 			<artifactId>plexus-utils</artifactId>
 			<version>3.0.21</version>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.16.0</version>
-		</dependency>
-		-->
+
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
