@@ -30,6 +30,7 @@ public class OperateConstants {
 	public static final String STR_COLON;
 	public static final String STR_WHITE_SPACE;
 	public static final String STR_TAB;
+	public static final String STR_SLASH;
 	public static final String STR_MID_BRACKET_R;
 	public static final String STR_MID_BRACKET_L;
 	public static final String STR_MAX_BRACKET_R;
@@ -132,6 +133,7 @@ public class OperateConstants {
 		STR_COLON = ":";
 		STR_WHITE_SPACE = " ";
 		STR_TAB = "	";
+		STR_SLASH = "/";
 		STR_MID_BRACKET_R = "{";
 		STR_MID_BRACKET_L = "}";
 		STR_MAX_BRACKET_R = "[";

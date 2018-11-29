@@ -1,4 +1,4 @@
-package ezwel_if_server;
+package ezwel_if_server.test;
 
 import org.junit.Test;
 

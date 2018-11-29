@@ -18,7 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.configure.data.InterfaceChannel;
+import com.ezwel.htl.interfaces.commons.configure.data.FileRepository;
+import com.ezwel.htl.interfaces.commons.configure.data.InterfaceConfigure;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
@@ -43,6 +44,7 @@ public class InterfaceFactory {
 	
 	private static Map<String, AgentInfoSDO> interfaceAgents;
 	
+	private static FileRepository fileRepository;
 	
 	private PropertyUtil propertyUtil;
 	
@@ -99,6 +101,10 @@ public class InterfaceFactory {
 		return out;
 	}
 	
+	public static FileRepository getFileRepository() {
+		return fileRepository;
+	}
+	
 	public static Map<String, List<HttpConfigSDO>> getInterfaceChannels() {
 		return interfaceChannels;
 	}
@@ -127,14 +133,14 @@ public class InterfaceFactory {
 		Unmarshaller unmarshaller = null;
 		String classesRoot = null;
 		File configureXml = null;
-		InterfaceChannel ifc = null;
+		InterfaceConfigure ifc = null;
 		String xmlPath = null;
 		ChannelListData cld = null;
 		URL resourceURL = null;
 
 		try {
 			
-			jaxbc = JAXBContext.newInstance(InterfaceChannel.class);
+			jaxbc = JAXBContext.newInstance(InterfaceConfigure.class);
 			unmarshaller = jaxbc.createUnmarshaller();
 			
 			// 1. xmlPath를 canonical로 채크
@@ -181,7 +187,7 @@ public class InterfaceFactory {
 				resourceURL = Paths.get(configureXml.getCanonicalPath()).toUri().toURL();
 			}
 			
-			ifc = (InterfaceChannel) unmarshaller.unmarshal(resourceURL);
+			ifc = (InterfaceConfigure) unmarshaller.unmarshal(resourceURL);
 			
 			if(ifc != null) {
 				
@@ -197,6 +203,8 @@ public class InterfaceFactory {
 					logger.debug("# OutsideChans Channel Size : {}", ifc.getOutsideChans().size());
 					
 					initInterfaceChannels(cld);
+					
+					InterfaceFactory.fileRepository = ifc.getFileRepository();
 					
 					logger.debug("# Real Cached Size : {}", interfaceChannels.size());
 					logger.debug("# interfaceChannels : {}", interfaceChannels);
