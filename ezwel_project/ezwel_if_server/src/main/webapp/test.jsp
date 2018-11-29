@@ -9,6 +9,9 @@
 		margin:0px;
 		padding:0px 14px 0px 10px;
 	}
+	h2, span {
+		color : #ffffff
+	}
 </style>
 </head>
 <body>
@@ -17,7 +20,43 @@
 
 <script type="text/javascript">
 var testAssets = {
-	 contextPath : "/API1.0" // testAssets.contextPath
+	color : {
+		// testAssets.color.metro_palette
+		metro_palette : {
+			1:"black",
+			2:"lime",
+			3:"green",
+			4:"teal",
+			5:"blue",
+			6:"indigo",
+			7:"violet",
+			8:"pink",
+			9:"magenta",
+			10:"crimson",
+			11:"red",
+			12:"orange",
+			13:"yellow",
+			14:"brown",
+			15:"olive",
+			16:"red",
+			17:"gray",
+			18:"orange",
+			19:"darkMagenta",
+			20:"brown",
+			21:"darkGreen",
+			22:"darkOrange",
+			23:"darkRed",
+			24:"darkBlue"
+		},
+		// testAssets.color.metroColor
+		metroColor: function(){
+			var randomNumber = Math.ceil(Math.random() * Object.keys(testAssets.color.metro_palette).length ); // ceil 올림
+			var color = testAssets.color.metro_palette[ randomNumber ];
+			console.debug("color : " + color);
+			$("body").css("background-color", color);
+		}		
+	}
+	 ,contextPath : "/API1.0" // testAssets.contextPath
 	,datas : {
 		"IN-신규시설등록수정" : {
 			 url : "/{httpAgentId}/facl/record"
@@ -96,8 +135,10 @@ var testAssets = {
 		});
 	}
 	,init : function() {
-		var datas = this.datas;
+
+		testAssets.color.metroColor();
 		
+		var datas = this.datas;
 		var keys = Object.keys(datas);
 		var $select = $("#restURL");
 		$select.append(new Option(":: 선택 ::", ""));
