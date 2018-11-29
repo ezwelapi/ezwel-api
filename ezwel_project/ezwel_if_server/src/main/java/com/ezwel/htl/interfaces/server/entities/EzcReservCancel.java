@@ -1,7 +1,7 @@
 package com.ezwel.htl.interfaces.server.entities;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+//import lombok.Data;
+//import lombok.EqualsAndHashCode;
 import org.apache.ibatis.type.Alias;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
@@ -22,9 +22,9 @@ import java.math.BigDecimal;
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
-@Data
+//@Data
 @Alias("ezcReservCancel")
-@EqualsAndHashCode(callSuper=true)
+//@EqualsAndHashCode(callSuper=true)
 @APIModel(modelNames="예약 취소 정보", description="예약 취소 정보 ( EZC_RESERV_CANCEL )", modelTypes="TABLE")
 public class EzcReservCancel extends AbstractEntity {
 

@@ -2,7 +2,9 @@ package com.ezwel.htl.interfaces.commons.constants;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -88,7 +90,24 @@ public class OperateConstants {
 	//Interface Batch System Info
 	public static final String SYSTEM_ID;
 	
+	public static final Map<String, String> IMAGE_EXT;
+	public static final String DEF_IMAGE_EXTENSION;
+	
+	public static final String DATA_IMAGE_PREFIX;
+	public static final String STR_BASE64;
+	
 	static {
+		DATA_IMAGE_PREFIX = "data:image/";
+		STR_BASE64 = "base64";
+		
+		IMAGE_EXT = new HashMap<String, String>();
+		IMAGE_EXT.put("jpeg", "jpg");
+		IMAGE_EXT.put("jpg", "jpg");
+		IMAGE_EXT.put("gif", "gif");
+		IMAGE_EXT.put("png", "png");
+		
+		DEF_IMAGE_EXTENSION = "png";
+		
 		SYSTEM_ID = "IF_SYS_USR";
 		
 		CONTENT_TYPE_MULTIPART_FORM_DATA = "multipart/form-data";

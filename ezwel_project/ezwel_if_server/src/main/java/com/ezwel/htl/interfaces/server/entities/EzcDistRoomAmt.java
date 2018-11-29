@@ -1,7 +1,7 @@
 package com.ezwel.htl.interfaces.server.entities;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+//import lombok.Data;
+//import lombok.EqualsAndHashCode;
 import org.apache.ibatis.type.Alias;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
@@ -22,9 +22,9 @@ import java.math.BigDecimal;
  * @version 0.0.1
  * @see "EZWEL Entity"
  */
-@Data
+//@Data
 @Alias("ezcDistRoomAmt")
-@EqualsAndHashCode(callSuper=true)
+//@EqualsAndHashCode(callSuper=true)
 @APIModel(modelNames="직영/숙박 객실 금액", description="직영/숙박 객실 금액 ( EZC_DIST_ROOM_AMT )", modelTypes="TABLE")
 public class EzcDistRoomAmt extends AbstractEntity {
 
