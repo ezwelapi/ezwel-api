@@ -24,12 +24,15 @@ import org.springframework.web.method.HandlerMethod;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
+import com.ezwel.htl.interfaces.commons.configure.data.FileRepository;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.server.commons.utils.data.ImageSDO;
 import com.google.common.io.ByteSource;
 import com.google.common.io.ByteStreams;
 /**
@@ -296,35 +299,43 @@ public class CommonUtil {
 	
 	/**
 	 * URL 이미지를 바인드된 경로에 다운로드 하고 저장된 전체경로를 리턴합니다.
-	 * @param imageHttpURL 다운로드 할 이미지 URL
+	 * @param imageSDO.getImageURL() 다운로드 할 이미지 URL
 	 * @param saveFilePath 저장할 경로
 	 * @return
 	 */
 	@APIOperation(description="URL 이미지를 바인드된 경로에 다운로드 하고 저장된 전체경로를 리턴합니다.")
-	public String getImage(String imageHttpURL, String saveDirPath, boolean verbose) {
-		logger.debug("[START] getImage imageHttpURL : {}, saveDirPath : {}, verbose : {}", imageHttpURL, saveDirPath, verbose);
+	public ImageSDO getImage(ImageSDO imageSDO, boolean verbose) {
+		logger.debug("[START] getImage imageSDO : {}, verbose : {}", imageSDO, verbose);
 		
-		File outputFile = new File(saveDirPath);
+		String lodgeBuildingImageRootPath = InterfaceFactory.getFileRepository().getLodgeBuildingImageRootPath();
+		String toDate = APIUtil.getFastDate("yyyyMMdd");
+		File outputFile = new File(lodgeBuildingImageRootPath, toDate);
 		
 		URL url = null;
 		BufferedImage bufferedImage = null;
 		String fileExt = null;
-		String out = null;
-		String fileName = null;
+		String canonicalPath = null;
+		String chngFileName = null;
+		String orgFileName = null;
+		String tempImageURL = null;
 		try {
 						
 			if(doDirectoryMake(outputFile, true)) {
 				
-				if(imageHttpURL.startsWith(OperateConstants.DATA_IMAGE_PREFIX) && imageHttpURL.contains(OperateConstants.STR_BASE64)) {
+				if(imageSDO.getImageURL().startsWith(OperateConstants.DATA_IMAGE_PREFIX) && imageSDO.getImageURL().contains(OperateConstants.STR_BASE64)) {
 					if(verbose) {
-						logger.debug("- base64 data:image");
+						logger.debug("- base64 data:image 제휴사에서 데이터 이미지URL을 리턴할경우 추가작업 현재(20181129) 전용필차장과 의논해본결과 리턴URL 패턴 파악이 불가능함");
 					}
 				}
 				else {
 					for(Entry<String, String> entry : OperateConstants.IMAGE_EXT.entrySet()) {
-						if(imageHttpURL.toLowerCase().endsWith(OperateConstants.STR_DOT.concat(entry.getValue()))) {
+						tempImageURL = imageSDO.getImageURL().toLowerCase(); 
+						if(tempImageURL.indexOf("?") > -1) {
+							tempImageURL = tempImageURL.substring(0, tempImageURL.indexOf("?"));
+						}
+						if(tempImageURL.endsWith(OperateConstants.STR_DOT.concat(entry.getValue()))) {
 							fileExt = entry.getValue();
-							fileName = imageHttpURL.substring(imageHttpURL.lastIndexOf(OperateConstants.STR_DOT) + OperateConstants.STR_DOT.length());
+							orgFileName = APIUtil.NVL(tempImageURL.substring(tempImageURL.lastIndexOf(OperateConstants.STR_SLASH) + OperateConstants.STR_SLASH.length()), "PROGRAM-URL");
 							break;
 						}
 					}
@@ -336,17 +347,37 @@ public class CommonUtil {
 						fileExt = OperateConstants.DEF_IMAGE_EXTENSION;
 					}
 					
-					outputFile = new File(outputFile, fileName);
-					url = new URL(imageHttpURL);
+					chngFileName = APIUtil.getId().concat(OperateConstants.STR_DOT).concat(fileExt);
+					
+					if(verbose) {
+						
+						logger.debug("- 이미지 orgFileName : {}", orgFileName);
+						logger.debug("- 이미지 chngFileName : {}", chngFileName);
+					}
+					
+					outputFile = new File(outputFile, chngFileName);
+					url = new URL(imageSDO.getImageURL());
 					bufferedImage = ImageIO.read(url);
 					
 					if(verbose) {
-						logger.debug("- 이미지 URL : {}", url);
+						logger.debug("- 이미지 URL : '{}'", url);
 						logger.debug("- 이미지 bufferedImage : {}", bufferedImage);
 						logger.debug("- 이미지 파일 확장자 : {}", fileExt);
 						logger.debug("- 저장할 파일명 전체 경로를 생성합니다. {}", outputFile.getCanonicalPath());
 					}
 					
+					if(ImageIO.write(bufferedImage, fileExt, outputFile)) {
+						canonicalPath = outputFile.getCanonicalPath();
+						imageSDO.setSave(true);
+						if(verbose) {
+							logger.debug("- 이미지 다운로드 성공...");
+						}
+					}
+					
+					imageSDO.setFileExt(fileExt);
+					imageSDO.setChngFileName(chngFileName);
+					imageSDO.setOrgFileName(orgFileName);
+					imageSDO.setCanonicalPath(canonicalPath);
 				}
 			}
 			
@@ -359,8 +390,8 @@ public class CommonUtil {
 			throw new APIException(e);
 		}
 		
-		logger.debug("[END] getImage out : {}", out);
-		return out;
+		logger.debug("[END] getImage imageSDO : {}", imageSDO);
+		return imageSDO;
 	}
 	
 	

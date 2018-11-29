@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
+import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 
@@ -19,10 +20,10 @@ import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
  * @author swkim@ebsolution.co.kr
  * @date   2018. 11. 14.
  */
-@XmlRootElement( name = "interfaceChannel" )
-@XmlType (propOrder={"agentList","insideChans","outsideChans"})
-public class InterfaceChannel {
-
+@XmlRootElement( name = "interfaceConfigure" )
+@XmlType (propOrder={"agentList", "insideChans", "outsideChans", "fileRepository"})
+@APIModel(description="인터페이스 설정")
+public class InterfaceConfigure {
 
 	@APIFields(description = "나가는 인터페이스 체널 목록")
 	private List<HttpConfigSDO> outsideChans;
@@ -32,8 +33,11 @@ public class InterfaceChannel {
 	
 	@APIFields(description = "에이전트 별 agentId, insideKey, outsideKey")
 	private List<AgentInfoSDO> agentList;
-		
-	public InterfaceChannel() {
+	
+	@APIFields(description = "인터페이스 URL/FAX 이미지 다운로드 시스템 설정")
+	private FileRepository fileRepository;
+	
+	public InterfaceConfigure() {
 		this.reset();
 	}
 	
@@ -41,6 +45,7 @@ public class InterfaceChannel {
 		outsideChans = new ArrayList<HttpConfigSDO>();
 		insideChans = new ArrayList<HttpConfigSDO>();
 		agentList = new ArrayList<AgentInfoSDO>();
+		fileRepository = null;
 	}
 
 	public List<HttpConfigSDO> getOutsideChans() {
@@ -73,6 +78,15 @@ public class InterfaceChannel {
 		this.agentList = agentList;
 	}
 	
+	public FileRepository getFileRepository() {
+		return fileRepository;
+	}
+
+	@XmlElement
+	public void setFileRepository(FileRepository fileRepository) {
+		this.fileRepository = fileRepository;
+	}
+
 	public void clear() {
 		if(agentList != null) {
 			agentList.clear();
@@ -83,6 +97,8 @@ public class InterfaceChannel {
 		if(outsideChans != null) {
 			outsideChans.clear();
 		}
+		//memory release
+		fileRepository = null;
 	}
 	
 }

@@ -7,7 +7,7 @@
 <style>
 	body, ul, li {
 		margin:0px;
-		padding:0px;
+		padding:0px 14px 0px 10px;
 	}
 </style>
 </head>
@@ -16,75 +16,120 @@
 <script src="//code.jquery.com/jquery.js"></script>
 
 <script type="text/javascript">
-function createData() { 
-	
-	// 1. 자바스크립트 객체 형태로 전달 
-	//var sendData = {name:$('#dataUrl').val()}; 
-	
-	// 2. jQuery serialize함수를 사용해서 전달 
-	//var sendData = $('#AjaxForm').serialize(); 
-	var sendData = $('#inputJson').val();
-	
-	console.log("-----------------"); 
-	console.log(sendData); 
-	console.log("-----------------");
-	
-	return sendData; 
-	
-	// 3. 객체를 json 문자열로 만들어서 전달 
-	//var sendData = JSON.stringify({name:$('#name').val(), email:$('#email').val()}); 
-	//console.log(sendData);
-	//return {"data" : sendDta}; 
-}
-
-function AjaxCall() { 
-	
-	var url = $("#restURL").val();
-	
-	$.ajax({ 
-		type: "POST", 
-		url : url, 
-		data: createData(), 
-		dataType:"json", 
-		success : function(data, status, xhr) {
-			console.log("success");
-			console.log(data);
-			$('#outputJson').text(JSON.stringify(data, undefined, 4));
-		}, 
-		error: function(jqXHR, textStatus, errorThrown) {
-			console.log("error");
-			var output = "";
-			output += JSON.stringify(jqXHR, undefined, 4);
-			output += "\n";
-			output += JSON.stringify(textStatus, undefined, 4);
-			output += "\n";
-			output += JSON.stringify(errorThrown, undefined, 4);
-			console.log(jqXHR);
-			console.log(textStatus);
-			console.log(errorThrown);
-
-			$('#outputJson').text(output);
+var testAssets = {
+	 contextPath : "/API1.0" // testAssets.contextPath
+	,datas : {
+		"신규시설등록수정" : {
+			 url : "/{httpAgentId}/facl/record"
+			,input : {
+				  "dataUrl" : "http://ezcheckin.jyp.ezwel.com:8123/API1.0/10000496/facl/record"
+			}
+		},
+		"시설판매중지설정" : {
+			  url : "/{httpAgentId}/facl/saleStop"
+			 ,input : {
+				 
+			 }
+		},
+		"예약내역조회" : {
+			 url : "/{httpAgentId}/facl/view"
+			,input : {
+				
+			}
 		}
-	}); 
-}
+	}
+	,send : function( restURL, inputJson ) {
+		
+		$.ajax({ 
+			type: "POST", 
+			url : testAssets.contextPath + restURL, 
+			data: inputJson, 
+			dataType:"json", 
+			success : function(data, status, xhr) {
+				console.log("success");
+				console.log(data);
+				$('#outputJson').text(JSON.stringify(data, undefined, 4));
+			}, 
+			error: function(jqXHR, textStatus, errorThrown) {
+				console.log("error");
+				var output = "";
+				output += JSON.stringify(jqXHR, undefined, 4);
+				output += "\n";
+				output += JSON.stringify(textStatus, undefined, 4);
+				output += "\n";
+				output += JSON.stringify(errorThrown, undefined, 4);
+				console.log(jqXHR);
+				console.log(textStatus);
+				console.log(errorThrown);
 
+				$('#outputJson').text(output);
+			}
+		}); 
+	}
+	,bind : function() {
+		
+		$("#restURL").on("change", function( e ) {
+			var selectText = $("#restURL option:selected").text();
+			console.debug("text : " + selectText);
 
+			var datas = testAssets.datas;
+			var input = datas[selectText].input;
+			$("#inputJson").val(JSON.stringify(input, undefined, 4));
+		});
+		
+		$("#sendBtn").on("click", function(e) {
+			var restURL = $("#restURL").val();
+			if(!restURL || restURL == "") {
+				alert("선택박스에서 인터페이스를 선택하세요.");
+				return false;
+			}
+			
+			var httpAgentId = $.trim($("#httpAgentId").val());
+			var inputJson = $("#inputJson").val();
+			
+			if(restURL.indexOf("{httpAgentId}") > -1 && (!httpAgentId || httpAgentId == "")) {
+				alert("에이전트 아이디를 입력하세요");
+				return false;
+			}			
+			restURL = restURL.replace("{httpAgentId}", httpAgentId);
+			testAssets.send( restURL, inputJson );
+		});
+	}
+	,init : function() {
+		var datas = this.datas;
+		
+		var keys = Object.keys(datas);
+		var $select = $("#restURL");
+		$select.append(new Option(":: 선택 ::", ""));
+		$.each(keys, function(idx, optionText) {
+			console.debug("optionText["+idx+"] : " + optionText);
+			$select.append(new Option(optionText, datas[optionText].url));
+		});
+		
+		this.bind();
+	}
+};
+
+$(document).ready(function() {
+	testAssets.init();
+});
 </script>
 
 <h2>Interface Test Site</h2>
-<span>Input Data Setup</span>
-<div>
-	<span><input id="restURL" type="text" value="/API1.0/10000496/facl/record" style="width:30%;"/></span>
-	<span style="padding-left:10px;"><input type="button" value="POST" onclick="AjaxCall();" /></span>
+<div style="padding-bottom:4px;">
+	<span>Input Data Setup</span>
+	<span>
+		<select id="restURL"></select>
+	</span>
+	<span style="padding-left:2px;"><input id="httpAgentId" type="text" value="" style="width:10%;"/></span>
+	<span style="padding-left:2px;"><button id="sendBtn">SEND</button></span>
 </div>
 <div>
-<textarea id="inputJson" style="width:98%;height:200px;">{
-  "dataUrl" : "http://ezcheckin.jyp.ezwel.com:8123/API1.0/10000496/facl/record"
-}</textarea>
+<textarea id="inputJson" style="width:100%;height:200px;"></textarea>
 </div>
 <span>Output Data</span>
 <div>
-	<textarea id="outputJson" style="width:98%;height:200px;"></textarea>
+	<textarea id="outputJson" style="width:100%;height:200px;"></textarea>
 </div>
 </body>
 </html>
