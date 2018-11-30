@@ -65,51 +65,36 @@ public class InsideController {
 	 * @author swkim@ebsolution.co.kr
 	 * @since  2018. 11. 21.
 	 */
-	@ResponseBody
-	@APIOperation(description="신규시설등록수정 인터페이스")
+	@APIOperation(description="신규시설등록수정 인터페이스", isOutputJsonMarshall=true, returnType=RecordOutSDO.class)
 	@RequestMapping(value="/{httpAgentId}/facl/record")
-	public ResponseEntity<String> callRecord(@PathVariable("httpAgentId") String httpAgentId, RecordInSDO recordInSDO, HttpServletRequest request, HttpServletResponse response) {
+	public Object callRecord(@PathVariable("httpAgentId") String httpAgentId, RecordInSDO recordInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callRecord {}", recordInSDO);
 		
-		ResponseEntity<String> out = null;
-		String serviceOut = null;
+		RecordOutSDO serviceOut = null;
 		
-		try {
-			if(recordInSDO == null) {
-				throw new APIException("입력값이 존재하지 않습니다.");
-			}
-			
-			/**
-			 * 1. 파라메터 및 헤더 유효성 검사
-			 * 2. 인터 페이스 요청에 따른 DB핸들링 
-			 * 3. 결과 응답(JSON) 
-			 */
-			
-			//Advice & Interceptor 최적화후 작업 추가 진행
-			//serviceOut = intefaceService.callRecord(recordInSDO);
-			
-			logger.debug("[YPJEON] getDataUrl {}", recordInSDO.getDataUrl());
-			
-			serviceOut = getOutCallRecord(httpAgentId, response);			
-			out = new ResponseEntity<String>(serviceOut, HttpStatus.CREATED);
-		}
-		catch(Exception e) {
-			RecordOutSDO errorOut = new RecordOutSDO(); 
-			errorOut.setCode(Integer.toString(MessageConstants.RESPONSE_CODE_5000));
-			errorOut.setMessage(e.getMessage());
-			/**
-			 * 장애 발생시 code, message 세팅 
-			 */
-			out = new ResponseEntity<String>(beanMarshaller.toJSONString(errorOut), HttpStatus.CREATED);
-			e.printStackTrace();
+		if(recordInSDO == null) {
+			throw new APIException("입력값이 존재하지 않습니다.");
 		}
 		
-		logger.debug("[END] callRecord {}", out);
-		return out;
+		/**
+		 * 1. 파라메터 및 헤더 유효성 검사
+		 * 2. 인터 페이스 요청에 따른 DB핸들링 
+		 * 3. 결과 응답(JSON) 
+		 */
+		
+		//Advice & Interceptor 최적화후 작업 추가 진행
+		//serviceOut = intefaceService.callRecord(recordInSDO);
+		
+		logger.debug("[YPJEON] getDataUrl {}", recordInSDO.getDataUrl());
+		
+		serviceOut = getOutCallRecord(httpAgentId, response);			
+	
+		logger.debug("[END] callRecord {}", serviceOut);
+		return serviceOut;
 	}
 	
 	@APIOperation(description="신규시설등록수정 인터페이스 결과")
-	private String getOutCallRecord(String httpAgentId, HttpServletResponse response) {
+	private RecordOutSDO getOutCallRecord(String httpAgentId, HttpServletResponse response) {
 		
 		HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("record", httpAgentId);
 		commonUtil.setResponseHeader(httpConfigDTO, response);
@@ -120,53 +105,37 @@ public class InsideController {
 		out.setCode("1000");
 		out.setMessage("정상적으로 처리되었습니다 " + httpAgentId);
 		
-		return beanMarshaller.toJSONString(out);
+		return out;
 	}	
 	
-	@ResponseBody
-	@APIOperation(description="시설판매중지설정 인터페이스")
+	@APIOperation(description="시설판매중지설정 인터페이스", isOutputJsonMarshall=true, returnType=SaleStopOutSDO.class)
 	@RequestMapping(value="/{httpAgentId}/facl/saleStop")
-	public ResponseEntity<String> callSaleStop(@PathVariable("httpAgentId") String httpAgentId, SaleStopInSDO saleStopInSDO, HttpServletRequest request, HttpServletResponse response) {
+	public Object callSaleStop(@PathVariable("httpAgentId") String httpAgentId, SaleStopInSDO saleStopInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callSaleStop {}", saleStopInSDO);
 		
-		ResponseEntity<String> out = null;
-		String serviceOut = null;
+		SaleStopOutSDO serviceOut = null;
 
-		try {
-			if(saleStopInSDO == null) {
-				throw new APIException("입력값이 존재하지 않습니다.");
-			}
-			
-			/**
-			 * 1. 파라메터 및 헤더 유효성 검사
-			 * 2. 인터 페이스 요청에 따른 DB핸들링 
-			 * 3. 결과 응답(JSON) 
-			 */
-			
-			//Advice & Interceptor 최적화후 작업 추가 진행
-			//serviceOut = intefaceService.callSaleStop(saleStopInSDO);
-			
-			serviceOut = getOutCallSaleStop(httpAgentId, response);
-			out = new ResponseEntity<String>(serviceOut, HttpStatus.CREATED);
-			
-		}
-		catch(Exception e) {
-			RecordOutSDO errorOut = new RecordOutSDO(); 
-			errorOut.setCode(Integer.toString(MessageConstants.RESPONSE_CODE_5000));
-			errorOut.setMessage(MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_5000));
-			/**
-			 * 장애 발생시 code, message 세팅 
-			 */
-			out = new ResponseEntity<String>(beanMarshaller.toJSONString(errorOut), HttpStatus.CREATED);
-			e.printStackTrace();
+		if(saleStopInSDO == null) {
+			throw new APIException("입력값이 존재하지 않습니다.");
 		}
 		
-		logger.debug("[END] callSaleStop {}", out);
-		return out;
+		/**
+		 * 1. 파라메터 및 헤더 유효성 검사
+		 * 2. 인터 페이스 요청에 따른 DB핸들링 
+		 * 3. 결과 응답(JSON) 
+		 */
+		
+		//Advice & Interceptor 최적화후 작업 추가 진행
+		//serviceOut = intefaceService.callSaleStop(saleStopInSDO);
+		
+		serviceOut = getOutCallSaleStop(httpAgentId, response);
+		
+		logger.debug("[END] callSaleStop {}", serviceOut);
+		return serviceOut;
 	}
 	
 	@APIOperation(description="시설판매중지설정 인터페이스 결과")
-	private String getOutCallSaleStop(String httpAgentId, HttpServletResponse response) {
+	private SaleStopOutSDO getOutCallSaleStop(String httpAgentId, HttpServletResponse response) {
 		
 		HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("saleStop", httpAgentId);
 		commonUtil.setResponseHeader(httpConfigDTO, response);
@@ -177,7 +146,7 @@ public class InsideController {
 		out.setCode("3000");
 		out.setMessage("기타오류 (시설정보가 존재하지 않습니다.)");
 		
-		return beanMarshaller.toJSONString(out);
+		return out;
 	}
 	
 	/*@ResponseBody
@@ -210,50 +179,34 @@ public class InsideController {
 		return out;
 	}*/
 	
-	@ResponseBody
-	@APIOperation(description="예약내역조회 인터페이스")
+	@APIOperation(description="예약내역조회 인터페이스", isOutputJsonMarshall=true, returnType=ViewOutSDO.class)
 	@RequestMapping(value="/{httpAgentId}/facl/view")
-	public ResponseEntity<String> callView(@PathVariable("httpAgentId") String httpAgentId, ViewInSDO viewInSDO, HttpServletRequest request, HttpServletResponse response) {
+	public Object callView(@PathVariable("httpAgentId") String httpAgentId, ViewInSDO viewInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callView {}", viewInSDO);
 		
-		ResponseEntity<String> out = null;
-		String serviceOut = null;
+		ViewOutSDO serviceOut = null;
 
-		try {
-			if(viewInSDO == null) {
-				throw new APIException("입력값이 존재하지 않습니다.");
-			}
-			
-			/**
-			 * 1. 파라메터 및 헤더 유효성 검사
-			 * 2. 인터 페이스 요청에 따른 DB핸들링 
-			 * 3. 결과 응답(JSON) 
-			 */
-			
-			//Advice & Interceptor 최적화후 작업 추가 진행
-			//serviceOut = intefaceService.callSaleStop(saleStopInSDO);
-			
-			serviceOut = getOutCallView(httpAgentId, response);			
-			out = new ResponseEntity<String>(serviceOut, HttpStatus.CREATED);
-			
-		}
-		catch(Exception e) {
-			RecordOutSDO errorOut = new RecordOutSDO(); 
-			errorOut.setCode(Integer.toString(MessageConstants.RESPONSE_CODE_5000));
-			errorOut.setMessage(MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_5000));
-			/**
-			 * 장애 발생시 code, message 세팅 
-			 */
-			out = new ResponseEntity<String>(beanMarshaller.toJSONString(errorOut), HttpStatus.CREATED);
-			e.printStackTrace();
+		if(viewInSDO == null) {
+			throw new APIException("입력값이 존재하지 않습니다.");
 		}
 		
-		logger.debug("[END] callView {}", out);
-		return out;
+		/**
+		 * 1. 파라메터 및 헤더 유효성 검사
+		 * 2. 인터 페이스 요청에 따른 DB핸들링 
+		 * 3. 결과 응답(JSON) 
+		 */
+		
+		//Advice & Interceptor 최적화후 작업 추가 진행
+		//serviceOut = intefaceService.callSaleStop(saleStopInSDO);
+		
+		serviceOut = getOutCallView(httpAgentId, response);			
+		
+		logger.debug("[END] callView {}", serviceOut);
+		return serviceOut;
 	}
 	
 	@APIOperation(description="예약내역조회 인터페이스 결과")
-	private String getOutCallView(String httpAgentId, HttpServletResponse response) {
+	private ViewOutSDO getOutCallView(String httpAgentId, HttpServletResponse response) {
 		
 		HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("view", httpAgentId);
 		commonUtil.setResponseHeader(httpConfigDTO, response);
@@ -264,7 +217,7 @@ public class InsideController {
 		out.setCode("3000");
 		out.setMessage("기타오류 (예약정보가 존재하지 않습니다.)");
 
-		return beanMarshaller.toJSONString(out);
+		return out;
 	}
 	
 	/*@ResponseBody
@@ -297,51 +250,34 @@ public class InsideController {
 		return out;
 	}*/
 	
-	@ResponseBody
-	@APIOperation(description="시설바우처번호등록 인터페이스")
+	@APIOperation(description="시설바우처번호등록 인터페이스", isOutputJsonMarshall=true, returnType=VoucherRegOutSDO.class)
 	@RequestMapping(value="/{httpAgentId}/facl/voucherReg")
-	public ResponseEntity<String> callVoucherReg(@PathVariable("httpAgentId") String httpAgentId, VoucherRegInSDO voucherRegInSDO, HttpServletRequest request, HttpServletResponse response) {
+	public Object callVoucherReg(@PathVariable("httpAgentId") String httpAgentId, VoucherRegInSDO voucherRegInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callVoucherReg {}", voucherRegInSDO);
 		
-		ResponseEntity<String> out = null;
-		String serviceOut = null;
+		VoucherRegOutSDO serviceOut = null;
 
-		try {
-			if(voucherRegInSDO == null) {
-				throw new APIException("입력값이 존재하지 않습니다.");
-			}
-			
-			/**
-			 * 1. 파라메터 및 헤더 유효성 검사
-			 * 2. 인터 페이스 요청에 따른 DB핸들링 
-			 * 3. 결과 응답(JSON) 
-			 */
-			
-			//Advice & Interceptor 최적화후 작업 추가 진행
-			//serviceOut = intefaceService.callSaleStop(saleStopInSDO);
-			
-			serviceOut = getOutCallVoucherReg(httpAgentId, response);
-			
-			out = new ResponseEntity<String>(serviceOut, HttpStatus.CREATED);
-			
-		}
-		catch(Exception e) {
-			RecordOutSDO errorOut = new RecordOutSDO(); 
-			errorOut.setCode(Integer.toString(MessageConstants.RESPONSE_CODE_5000));
-			errorOut.setMessage(MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_5000));
-			/**
-			 * 장애 발생시 code, message 세팅 
-			 */
-			out = new ResponseEntity<String>(beanMarshaller.toJSONString(errorOut), HttpStatus.CREATED);
-			e.printStackTrace();
+		if(voucherRegInSDO == null) {
+			throw new APIException("입력값이 존재하지 않습니다.");
 		}
 		
-		logger.debug("[END] callVoucherReg {}", out);
-		return out;
+		/**
+		 * 1. 파라메터 및 헤더 유효성 검사
+		 * 2. 인터 페이스 요청에 따른 DB핸들링 
+		 * 3. 결과 응답(JSON) 
+		 */
+		
+		//Advice & Interceptor 최적화후 작업 추가 진행
+		//serviceOut = intefaceService.callSaleStop(saleStopInSDO);
+		
+		serviceOut = getOutCallVoucherReg(httpAgentId, response);
+		
+		logger.debug("[END] callVoucherReg {}", serviceOut);
+		return serviceOut;
 	}
 	
 	@APIOperation(description="시설바우처번호등록 인터페이스 결과")
-	private String getOutCallVoucherReg(String httpAgentId, HttpServletResponse response) {
+	private VoucherRegOutSDO getOutCallVoucherReg(String httpAgentId, HttpServletResponse response) {
 		
 		HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("voucherReg", httpAgentId);
 		commonUtil.setResponseHeader(httpConfigDTO, response);
@@ -352,7 +288,7 @@ public class InsideController {
 		out.setCode("3000");
 		out.setMessage("기타오류 (주문정보가 존재하지 않습니다.)");
 
-		return beanMarshaller.toJSONString(out);
+		return out;
 	}
 	
 	
@@ -386,51 +322,34 @@ public class InsideController {
 		return out;
 	}*/
 	
-	@ResponseBody
-	@APIOperation(description="주문대사(제휴사) 인터페이스")
+	@APIOperation(description="주문대사(제휴사) 인터페이스", isOutputJsonMarshall=true, returnType=AgentJobOutSDO.class)
 	@RequestMapping(value="/{httpAgentId}/facl/agentJob")
-	public ResponseEntity<String> callAgentJob(@PathVariable("httpAgentId") String httpAgentId, AgentJobInSDO agentJobInSDO, HttpServletRequest request, HttpServletResponse response) {
+	public Object callAgentJob(@PathVariable("httpAgentId") String httpAgentId, AgentJobInSDO agentJobInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callAgentJob {}", agentJobInSDO);
 		
-		ResponseEntity<String> out = null;
-		String serviceOut = null;
+		AgentJobOutSDO serviceOut = null;
 
-		try {
-			if(agentJobInSDO == null) {
-				throw new APIException("입력값이 존재하지 않습니다.");
-			}
-			
-			/**
-			 * 1. 파라메터 및 헤더 유효성 검사
-			 * 2. 인터 페이스 요청에 따른 DB핸들링 
-			 * 3. 결과 응답(JSON) 
-			 */
-			
-			//Advice & Interceptor 최적화후 작업 추가 진행
-			//serviceOut = intefaceService.callSaleStop(saleStopInSDO);
-			
-			serviceOut = getOutCallAgentJob(httpAgentId, response);
-			
-			out = new ResponseEntity<String>(serviceOut, HttpStatus.CREATED);
-			
-		}
-		catch(Exception e) {
-			RecordOutSDO errorOut = new RecordOutSDO(); 
-			errorOut.setCode(Integer.toString(MessageConstants.RESPONSE_CODE_5000));
-			errorOut.setMessage(MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_5000));
-			/**
-			 * 장애 발생시 code, message 세팅 
-			 */
-			out = new ResponseEntity<String>(beanMarshaller.toJSONString(errorOut), HttpStatus.CREATED);
-			e.printStackTrace();
+		if(agentJobInSDO == null) {
+			throw new APIException("입력값이 존재하지 않습니다.");
 		}
 		
-		logger.debug("[END] callAgentJob {}", out);
-		return out;
+		/**
+		 * 1. 파라메터 및 헤더 유효성 검사
+		 * 2. 인터 페이스 요청에 따른 DB핸들링 
+		 * 3. 결과 응답(JSON) 
+		 */
+		
+		//Advice & Interceptor 최적화후 작업 추가 진행
+		//serviceOut = intefaceService.callSaleStop(saleStopInSDO);
+		
+		serviceOut = getOutCallAgentJob(httpAgentId, response);
+		
+		logger.debug("[END] callAgentJob {}", serviceOut);
+		return serviceOut;
 	}
 	
 	@APIOperation(description="주문대사(제휴사) 인터페이스 결과")
-	private String getOutCallAgentJob(String httpAgentId, HttpServletResponse response) {
+	private AgentJobOutSDO getOutCallAgentJob(String httpAgentId, HttpServletResponse response) {
 		
 		HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("agentJob", httpAgentId);
 		commonUtil.setResponseHeader(httpConfigDTO, response);
@@ -441,7 +360,7 @@ public class InsideController {
 		out.setCode("3000");
 		out.setMessage("기타오류 (대사정보가 존재하지 않습니다.)");
 
-		return beanMarshaller.toJSONString(out);
+		return out;
 	}
 	
 }

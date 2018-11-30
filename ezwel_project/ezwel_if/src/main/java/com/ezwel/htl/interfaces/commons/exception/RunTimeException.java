@@ -2,6 +2,7 @@ package com.ezwel.htl.interfaces.commons.exception;
 
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.thread.Local;
+import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
 
 public class RunTimeException extends RuntimeException {
@@ -18,10 +19,19 @@ public class RunTimeException extends RuntimeException {
     
     public RunTimeException(String message) {
         super(message);
+        if(APIUtil.isEmpty(Local.commonHeader().getMessage())) {
+        	Local.commonHeader().setMessage(message);
+        }
     }
 
     public RunTimeException(String message, Throwable cause) {
         super(message, cause);
+        if(APIUtil.isEmpty(Local.commonHeader().getMessage())) {
+        	Local.commonHeader().setMessage(message);
+        }
+        if(Local.commonHeader().getThrowable() == null) {
+        	Local.commonHeader().setThrowable(cause);
+        }
     }
 
     public RunTimeException(Throwable cause) {
@@ -44,5 +54,13 @@ public class RunTimeException extends RuntimeException {
 		Local.commonHeader().setResultCode(resultCode);
 		this.resultCode = resultCode;
 		
+	}
+	
+	public String getResultCodeString() {
+		return (resultCode != null ? Integer.toString(resultCode) : "");
+	}
+	
+	public String getMessages() {
+		return APIUtil.NVL(Local.commonHeader().getMessage(), super.getMessage());
 	}
 }

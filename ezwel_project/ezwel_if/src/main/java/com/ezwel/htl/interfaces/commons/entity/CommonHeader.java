@@ -59,6 +59,9 @@ public class CommonHeader extends APIObject implements Serializable {
 	@APIFields(description = "원인", groupName = OperateConstants.META_COMM_HEADER, isMarshalField = true)
 	private String	cause;
 	
+	@APIFields(description = "Throwable", groupName = OperateConstants.META_COMM_HEADER, isMarshalField = true)
+	private Throwable throwable;
+	
 	@APIFields(description = "원인추적", groupName = OperateConstants.META_COMM_HEADER, isMarshalField = true)
 	private String	stackTrace;
 
@@ -112,6 +115,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		lapTimeMillis = OperateConstants.LONG_MINUS_ONE;
 		resultCode = MessageConstants.RESPONSE_CODE_1000;
 		message = "";
+		throwable = null;
 		cause = "";
 		stackTrace = "";
 		arrayMessages = null;
@@ -187,6 +191,14 @@ public class CommonHeader extends APIObject implements Serializable {
 			return annotationMap.get(key);
 		}
 		return null;
+	}
+
+	public Throwable getThrowable() {
+		return throwable;
+	}
+
+	public void setThrowable(Throwable throwable) {
+		this.throwable = throwable;
 	}
 
 	public void setObject(String key, Object clazz) {

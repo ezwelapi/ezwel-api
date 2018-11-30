@@ -17,6 +17,7 @@ import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.service.OutsideService;
+import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
@@ -36,8 +37,6 @@ public class OutsideController {
 	
 	private OutsideService outsideService = (OutsideService) LApplicationContext.getBean(OutsideService.class);
 	
-	private BeanMarshaller beanMarshaller = (BeanMarshaller) LApplicationContext.getBean(BeanMarshaller.class);
-	
 	/**
 	 * <pre>
 	 * [메서드 설명]
@@ -53,104 +52,60 @@ public class OutsideController {
 	 * @author swkim@ebsolution.co.kr
 	 * @since  2018. 11. 21.
 	 */
-	@ResponseBody
-	@APIOperation(description="전체시설일괄등록 인터페이스")
+	@APIOperation(description="전체시설일괄등록 인터페이스", isOutputJsonMarshall=true, returnType=AllRegOutSDO.class)
 	@RequestMapping(value="/service/allReg")
-	public ResponseEntity<String> callAllReg(UserAgentSDO userAgentSDO, HttpServletRequest request, HttpServletResponse response) {
+	public Object callAllReg(UserAgentSDO userAgentSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callAllReg {}", userAgentSDO);
 		
-		ResponseEntity<String> out = null;
-		AllRegOutSDO serviceOut = null;
-		try {
-			if(userAgentSDO == null) {
-				throw new APIException("입력값이 존재하지 않습니다.");
-			}
-			
-			/**
-			 * 1. 파라메터 및 헤더 유효성 검사
-			 * 2. 인터 페이스 요청에 따른 DB핸들링 
-			 * 3. 결과 응답(JSON) 
-			 */
-			
-			//Advice & Interceptor 최적화후 작업 추가 진행
-			serviceOut = outsideService.callAllReg(userAgentSDO);
+		AllRegOutSDO out = null;
 
-			out = new ResponseEntity<String>(beanMarshaller.toJSONString(serviceOut), HttpStatus.CREATED);
+		if (userAgentSDO == null) {
+			throw new APIException("입력값이 존재하지 않습니다.");
 		}
-		catch(APIException e) {
-			serviceOut = new AllRegOutSDO(); 
-			serviceOut.setCode(Integer.toString(e.getResultCode()));
-			serviceOut.setMessage(e.getMessage());
-			
-			/**
-			 * 장애 발생시 code, message 세팅 
-			 */
-			out = new ResponseEntity<String>(beanMarshaller.toJSONString(serviceOut), HttpStatus.CREATED);
-			e.printStackTrace();
-		}
-		
+
+		/**
+		 * 1. 파라메터 및 헤더 유효성 검사 2. 인터 페이스 요청에 따른 DB핸들링 3. 결과 응답(JSON)
+		 */
+
+		// Advice & Interceptor 최적화후 작업 추가 진행
+		out = outsideService.callAllReg(userAgentSDO);
+
 		logger.debug("[END] callAllReg {}", out);
 		return out;
 	}
 	
-	@ResponseBody
-	@APIOperation(description="시설검색 인터페이스")
+	@APIOperation(description="시설검색 인터페이스", isOutputJsonMarshall=true, returnType=FaclSearchOutSDO.class)
 	@RequestMapping(value="/service/callFaclSearch")
-	public ResponseEntity<FaclSearchOutSDO> callFaclSearch(UserAgentSDO userAgentDTO, FaclSearchInSDO faclSearchDTO, HttpServletRequest request, HttpServletResponse response) {
+	public Object callFaclSearch(UserAgentSDO userAgentDTO, FaclSearchInSDO faclSearchDTO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callFaclSearch {} {}", userAgentDTO, faclSearchDTO);
 		
-		ResponseEntity<FaclSearchOutSDO> out = null;
-		FaclSearchOutSDO serviceOut = null;
-		try {
-			if(userAgentDTO == null || faclSearchDTO == null) {
-				throw new APIException("입력값이 존재하지 않습니다.");
-			}
-			
-			//Advice & Interceptor 최적화후 작업 추가 진행
-			serviceOut = outsideService.callFaclSearch(userAgentDTO, faclSearchDTO);
-
-			out = new ResponseEntity<FaclSearchOutSDO>(serviceOut, HttpStatus.CREATED);
-		}
-		catch(APIException e) {
-			serviceOut = new FaclSearchOutSDO(); 
-			serviceOut.setCode(Integer.toString(e.getResultCode()));
-			serviceOut.setMessage(e.getMessage());
-			
-			out = new ResponseEntity<FaclSearchOutSDO>(serviceOut, HttpStatus.CREATED);
-			e.printStackTrace();
-		}
+		FaclSearchOutSDO out = null;
 		
+		if (userAgentDTO == null || faclSearchDTO == null) {
+			throw new APIException("입력값이 존재하지 않습니다.");
+		}
+
+		// Advice & Interceptor 최적화후 작업 추가 진행
+		out = outsideService.callFaclSearch(userAgentDTO, faclSearchDTO);
+
 		logger.debug("[END] callFaclSearch {}", out);
 		return out;
 	}
 	
 
-	@ResponseBody
-	@APIOperation(description="당일특가검색 인터페이스")
+	@APIOperation(description="당일특가검색 인터페이스", isOutputJsonMarshall=true, returnType=SddSearchOutSDO.class)
 	@RequestMapping(value="/service/callSddSearch")
-	public ResponseEntity<SddSearchOutSDO> callSddSearch(UserAgentSDO userAgentDTO, HttpServletRequest request, HttpServletResponse response) {
+	public Object callSddSearch(UserAgentSDO userAgentDTO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callView {}", userAgentDTO);
 		
-		ResponseEntity<SddSearchOutSDO> out = null;
-		SddSearchOutSDO serviceOut = null;
-		try {
-			if(userAgentDTO == null) {
-				throw new APIException("입력값이 존재하지 않습니다.");
-			}
-			
-			//Advice & Interceptor 최적화후 작업 추가 진행
-			serviceOut = outsideService.callSddSearch(userAgentDTO);
+		SddSearchOutSDO out = null;
 
-			out = new ResponseEntity<SddSearchOutSDO>(serviceOut, HttpStatus.CREATED);
+		if (userAgentDTO == null) {
+			throw new APIException("입력값이 존재하지 않습니다.");
 		}
-		catch(APIException e) {
-			serviceOut = new SddSearchOutSDO();
-			serviceOut.setCode(Integer.toString(e.getResultCode()));
-			serviceOut.setMessage(e.getMessage());
-			
-			out = new ResponseEntity<SddSearchOutSDO>(serviceOut, HttpStatus.CREATED);
-			e.printStackTrace();
-		}
+
+		// Advice & Interceptor 최적화후 작업 추가 진행
+		out = outsideService.callSddSearch(userAgentDTO);
 		
 		logger.debug("[END] callView {}", out);
 		return out;

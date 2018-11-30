@@ -66,6 +66,14 @@ public class LApplicationContext implements ApplicationContextAware, BeanNameAwa
 		return applicationContext.getBean(beanName);
 	}
 	
+	public static Object getBean(Object currentBean, Class<?> beanName) {
+		if(currentBean == null) {
+			return applicationContext.getBean(beanName);
+		} else {
+			return currentBean;
+		}
+	}
+	
 	/**
 	 * <pre>
 	 * [메서드 설명]

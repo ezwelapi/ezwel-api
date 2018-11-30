@@ -39,4 +39,10 @@ public @interface APIOperation {
      * @since  2018. 11. 14.
      */
     public abstract boolean isExecTest() default false;
+    
+    
+    public abstract boolean isOutputJsonMarshall() default false;
+    
+    
+    public abstract Class<?> returnType() default Object.class;
 }

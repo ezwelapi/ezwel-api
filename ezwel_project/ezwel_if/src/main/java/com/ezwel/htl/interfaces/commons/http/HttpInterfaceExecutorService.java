@@ -369,9 +369,7 @@ public class HttpInterfaceExecutorService {
 			}
 		} catch (IllegalAccessException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ HttpConfigDTO필드에 접근할수 없습니다.", e);
-		} catch (APIException e) {
-			throw new APIException(e);
-		}
+		} 
 		
 		logger.debug("[END] getCert");
 		return out;
