@@ -96,7 +96,16 @@ var testAssets = {
 			}
 		}
 	}
-	,send : function( restURL, inputJson ) {
+	,send : function( restURL, jsonString ) {
+		
+		var inputJson = null;
+		try {
+			inputJson = JSON.parse(jsonString);
+		}
+		catch( e ) {
+			alert("입력 파라메터 필드의 JSON 문자열이 잘못되었습니다.\n" + e.message);
+			return false;
+		}
 		
 		$.ajax({ 
 			type: "POST", 
@@ -181,7 +190,7 @@ $(document).ready(function() {
 	<span>
 		<select id="restURL"></select>
 	</span>
-	<span style="padding-left:2px;" style="width:10%;">
+	<span style="padding-left:2px;width:10%;">
 		<select id="httpAgentId" name="httpAgentId">
 			<option value="10000495">호텔엔조이 메이트아이 10000495</option>
 			<option value="10000496">펜션라이프 플레이스엠 10000496</option>

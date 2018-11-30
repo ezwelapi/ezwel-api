@@ -43,9 +43,12 @@ public class EzcFaclImg extends AbstractEntity {
 	@APIFields(description = "대표 이미지 여부", maxLength=1, required=true, constraints="SYS_C0011109(C)")
 	private String mainImgYn;
 
-	@APIFields(description = "이미지 URL", maxLength=200, required=true, constraints="SYS_C0011110(C)")
+	@APIFields(description = "이미지 경로", maxLength=200, required=true, constraints="SYS_C0011110(C)")
 	private String imgUrl;
 
+	@APIFields(description = "이미지 URL", maxLength=500, required=true, constraints="SYS_C0011110(C)")
+	private String partnerImgUrl;
+	
 	@APIFields(description = "이미지 설명", maxLength=1000)
 	private String imgDesc;
 
@@ -101,6 +104,16 @@ public class EzcFaclImg extends AbstractEntity {
 
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
+	}
+
+	
+	
+	public String getPartnerImgUrl() {
+		return partnerImgUrl;
+	}
+
+	public void setPartnerImgUrl(String partnerImgUrl) {
+		this.partnerImgUrl = partnerImgUrl;
 	}
 
 	public String getImgDesc() {

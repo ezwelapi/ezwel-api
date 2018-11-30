@@ -4,9 +4,11 @@ package com.ezwel.htl.interfaces.server.entities;
 //import lombok.EqualsAndHashCode;
 import org.apache.ibatis.type.Alias;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+import com.ezwel.htl.interfaces.service.data.allReg.AllRegSubImagesOutSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractEntity;
 import java.math.BigDecimal;
+import java.util.List;
 
 
 /**
@@ -115,7 +117,7 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "판매 중지 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
 	private String saleStopDt;
 
-	@APIFields(description = "API 동기화 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
+	@APIFields(description = "API 동기화 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHH24miss")
 	private String apiSyncDt;
 
 	@APIFields(description = "확정 상태", maxLength=8, required=true, constraints="SYS_C0011071(C)")
@@ -142,8 +144,22 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
 	private String modiDt;
 
-
+	@APIFields(description = "시설 이미지")
+	private List<EzcFaclImg> ezcFaclImgList = null;
 	
+	@APIFields(description = "시설 부대시설", maxLength=500)
+	private String ezcFaclAments;
+	
+	
+	
+	public String getEzcFaclAments() {
+		return ezcFaclAments;
+	}
+
+	public void setEzcFaclAments(String ezcFaclAments) {
+		this.ezcFaclAments = ezcFaclAments;
+	}
+
 	public BigDecimal getFaclCd() {
 		return faclCd;
 	}
@@ -438,6 +454,14 @@ public class EzcFacl extends AbstractEntity {
 
 	public void setModiDt(String modiDt) {
 		this.modiDt = modiDt;
+	}
+
+	public List<EzcFaclImg> getEzcFaclImgList() {
+		return ezcFaclImgList;
+	}
+
+	public void setEzcFaclImgList(List<EzcFaclImg> ezcFaclImgList) {
+		this.ezcFaclImgList = ezcFaclImgList;
 	}
 
 

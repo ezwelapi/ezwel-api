@@ -11,17 +11,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.MethodProxy;
 import org.springframework.core.Ordered;
+import org.springframework.stereotype.Controller;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
+import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 
 @Aspect
-public class MethodsWrapperAdvice implements MethodInterceptor, Ordered {
+public class MethodsAdvice implements MethodInterceptor, Ordered {
 
-	private static final Logger logger = LoggerFactory.getLogger(MethodsWrapperAdvice.class);
+	private static final Logger logger = LoggerFactory.getLogger(MethodsAdvice.class);
 
 	private static final boolean isLogging = true;
 
@@ -73,7 +77,7 @@ public class MethodsWrapperAdvice implements MethodInterceptor, Ordered {
 	}
 
 	//method execute
-	public Object aroundTargetMethod(ProceedingJoinPoint thisJoinPoint) throws Throwable {
+	public Object aroundTargetMethod(ProceedingJoinPoint thisJoinPoint) throws Throwable, APIException {
 		if (isLogging) {
 			logger.debug("■■ [AOP] MethodsAdvice.aroundTargetMethod executed. thisJoinPoint : {}", thisJoinPoint);
 		}
@@ -82,11 +86,12 @@ public class MethodsWrapperAdvice implements MethodInterceptor, Ordered {
 		String typeMethodName = className.concat(OperateConstants.STR_DOT).concat(methodName);
 		Method proccesMethod = ((MethodSignature) thisJoinPoint.getSignature()).getMethod();
 		APIOperation apiOperAnno = proccesMethod.getAnnotation(APIOperation.class);
+		Controller controlAnno = thisJoinPoint.getTarget().getClass().getAnnotation(Controller.class);
 		
 		if (apiOperAnno == null) {
 			throw new APIException("■■ 유효하지 않은 API 오퍼레이션 APIOperation어노테이션이 존재하지 않습니다. '{}'", typeMethodName);
 		}
-
+		
 		String description = APIUtil.NVL(apiOperAnno.description(), className.concat(OperateConstants.STR_DOT).concat(methodName));
 		// inputParam 변경가능
 		Object[] inputParam = thisJoinPoint.getArgs();
@@ -94,17 +99,15 @@ public class MethodsWrapperAdvice implements MethodInterceptor, Ordered {
 		/** method당 실행시간 세팅 및 쓰레드내 메소드의 고유 값 생성 */
 		String methodGuid = Local.startOperation();
 
+		if(controlAnno != null) {
+			doMethodInputValidation(proccesMethod.getParameterTypes(), inputParam);
+		}
+		
 		String methodInfomation = getTargetMethodInfomation(typeMethodName, inputParam, description, methodGuid);
 
 		logger.debug("■■ [AOP START Operation] {} ", methodInfomation);
 
-		Object retVal = null;
-		try {
-			retVal = thisJoinPoint.proceed(inputParam);
-			// retVal = retVal + "(modified)"; //결과 변경가능
-		} catch (Exception e) {
-			throw new APIException("■■ '{}' APIOperation 장애발생.", description, e);
-		}
+		Object retVal = thisJoinPoint.proceed(inputParam);
 
 		long executeLapTimeMillis = Local.endOperation(methodGuid).getLapTimeMillis();
 
@@ -113,6 +116,35 @@ public class MethodsWrapperAdvice implements MethodInterceptor, Ordered {
 		return retVal;
 	}
 
+	private void doMethodInputValidation(Class<?>[] inputParamTypes, Object[] inputParamObjects) {
+		logger.debug("■■ [AOP] doMethodInputValidation");
+		
+		if(inputParamTypes != null && inputParamObjects != null) {
+			ParamValidate paramValidator = new ParamValidate();
+			Class<?> inputType = null;
+			Object inputObject = null;
+			APIModel modelAnno = null;
+			for(int i = 0; i < inputParamTypes.length; i++) {
+				inputType = inputParamTypes[i];
+				inputObject = inputParamObjects[i];
+				modelAnno = inputType.getAnnotation(APIModel.class);
+				if(modelAnno != null) {
+					if(inputObject == null) {
+						throw new APIException("필수 입력 APIModel Parameter {}이/가 입력되지 않았습니다. ", APIUtil.NVL(modelAnno.description(), inputType.getSimpleName()));
+					}
+					
+					//setup validation object    
+					paramValidator.addParam(new ParamValidateSDO(inputObject));					
+				}
+			}
+			
+			if(paramValidator.getParams() != null && paramValidator.getParams().size() > 0) {
+				//execute validator
+				paramValidator.execute();
+			}			
+		}
+	}
+	
 	private String getTargetMethodInfomation(String typeMethodName, Object[] inputParam, String description, String methodGuid) {
 
 		StringBuilder strb = new StringBuilder();

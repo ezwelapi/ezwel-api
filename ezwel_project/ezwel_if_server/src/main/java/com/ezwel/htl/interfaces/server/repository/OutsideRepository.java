@@ -23,7 +23,6 @@ import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclAment;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
-import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegSubImagesOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
@@ -53,67 +52,65 @@ public class OutsideRepository extends DataAccessObjectUtil {
 	 */
 	@Transactional
 	@APIOperation(description="전체시설일괄등록 인터페이스")
-	public Integer insertAllReg(List<AllRegDataOutSDO> saveFaclRegDatas) {
+	public Integer insertAllReg(List<EzcFacl> saveFaclRegDatas) {
 		
 		Integer txCount = 0;
 		Integer txSuccess = 0;
-		List<AllRegSubImagesOutSDO> subImages = null;
-		List<String> serviceCodes = null;
+		List<EzcFaclImg> ezcFaclImgList = null;
+		List<String> ezcFaclAmentList = null;
 		EzcFaclAment ezcFaclAment = null;
 		BigDecimal faclCdSeq = null;
 		EzcFacl ezcFacl = null;
-		EzcFaclImg ezcFaclImg = null;
-		AllRegDataOutSDO telegramItem = null;
-		
+
 		try {
 			
 			for(Integer i = 0; i < saveFaclRegDatas.size(); i++) {
-				telegramItem = saveFaclRegDatas.get(i);
-				
-				ezcFacl = (EzcFacl) propertyUtil.copySameProperty(telegramItem, EzcFacl.class);
+				ezcFacl = saveFaclRegDatas.get(i);
+
 				/**
 				 * 인터페이스 전문 필드명과 DB 테이블 컬럼 엔티티명 죄다 다름 아우 -_- 필드 별 일일이 확인 필요
 				 */
 				
 				/** 0. 시설 코드 (Number) Sequnce */
+				//sequnce
 				faclCdSeq = sqlSession.selectOne(getNamespace("sequnceEzcFacl"));
 				ezcFacl.setFaclCd(faclCdSeq);
 				ezcFacl.setRegId(Local.commonHeader().getSystemUserId());
 				ezcFacl.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
 				
 				/** 1. EZC_FACL 1건 저장 */
+				//insert
 				txSuccess = sqlSession.insert(getNamespace("insertEzcFacl"), ezcFacl);
 				if(txSuccess > 0) {
 					txCount++;
 					
 					/** 2. EZC_FACL_IMG N건 저장 */
-					subImages = telegramItem.getSubImages();
-					if(subImages != null) {
-						for(AllRegSubImagesOutSDO subImage : subImages) {
-							ezcFaclImg = (EzcFaclImg) propertyUtil.copySameProperty(subImage, EzcFaclImg.class);
-							ezcFaclImg.setRegId(Local.commonHeader().getSystemUserId());
-							ezcFaclImg.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));							
-							/**
-							 * 인터페이스 전문 필드명과 DB 테이블 컬럼 엔티티명 죄다 다름 아우 -_- 필드 별 일일이 확인 필요
-							 */
-							
-							txCount += sqlSession.insert(getNamespace("insertEzcFaclImg"), ezcFaclImg);
+					ezcFaclImgList = ezcFacl.getEzcFaclImgList();
+					if(ezcFaclImgList != null) {
+						for(EzcFaclImg faclImg : ezcFaclImgList) {
+							//sequnce
+							faclImg.setFaclImgSeq((BigDecimal) sqlSession.selectOne(getNamespace("sequnceEzcFaclImg")));
+							faclImg.setFaclCd(ezcFacl.getFaclCd());
+							faclImg.setRegId(Local.commonHeader().getSystemUserId());
+							faclImg.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));							
+							//insert
+							txCount += sqlSession.insert(getNamespace("insertEzcFaclImg"), faclImg);
 						}
 					}
 					
 					/** 3. EZC_FACL_AMENT N건 저장 */
-					if(APIUtil.isNotEmpty(telegramItem.getServiceCodes())) {
-						serviceCodes = Arrays.asList(telegramItem.getServiceCodes().split(OperateConstants.STR_COMA));
+					if(APIUtil.isNotEmpty(ezcFacl.getEzcFaclAments())) {
+						ezcFaclAmentList = Arrays.asList(ezcFacl.getEzcFaclAments().split(OperateConstants.STR_COMA));
 						
-						for(String serviceCode : serviceCodes) {
-							if(APIUtil.isNotEmpty(serviceCode)) {
+						for(String faclAment : ezcFaclAmentList) {
+							if(APIUtil.isNotEmpty(faclAment)) {
 								
 								ezcFaclAment = new EzcFaclAment();
 								ezcFaclAment.setFaclCd(ezcFacl.getFaclCd());
-								ezcFaclAment.setAmentType(serviceCode.trim());
+								ezcFaclAment.setAmentType(faclAment.trim());
 								ezcFaclAment.setRegId(Local.commonHeader().getSystemUserId());
 								ezcFaclAment.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
-								
+								//insert
 								txCount += sqlSession.insert(getNamespace("insertEzcFaclImg"), ezcFaclAment);
 							}
 						}
@@ -123,7 +120,7 @@ public class OutsideRepository extends DataAccessObjectUtil {
 		}
 		catch(Exception e) {
 			//에러 발생 레코드 errorItems에 저장후 runtimeException 없이 로깅후 종료
-			Local.commonHeader().addErrorItems(telegramItem);
+			Local.commonHeader().addErrorItems(ezcFacl);
 			e.printStackTrace();
 		}
 		

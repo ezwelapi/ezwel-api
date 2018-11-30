@@ -30,11 +30,26 @@ public class AllRegOutSDO extends AbstractSDO {
 	@APIFields(description = "전체시설일괄등록 output message", maxLength=100)
 	private String message;
 	
+	@APIFields(description = "고객사ID (제휴사 코드)", maxLength=20)
+	private String httpAgentId;
+	
+	@APIFields(description = "고객사(파트너) 코드 유형", required=true)
+	private String patnCdType;
+	
 	@APIFields(description = "전체시설일괄등록 output data")
 	private List<AllRegDataOutSDO> data = null;
-
+	
 	private Integer txCount = 0;
 	
+	
+	public String getPatnCdType() {
+		return patnCdType;
+	}
+
+	public void setPatnCdType(String patnCdType) {
+		this.patnCdType = patnCdType;
+	}
+
 	public Integer getTxCount() {
 		return txCount;
 	}
@@ -65,6 +80,14 @@ public class AllRegOutSDO extends AbstractSDO {
 
 	public void setData(List<AllRegDataOutSDO> data) {
 		this.data = data;
+	}
+
+	public String getHttpAgentId() {
+		return httpAgentId;
+	}
+
+	public void setHttpAgentId(String httpAgentId) {
+		this.httpAgentId = httpAgentId;
 	}
 
 }

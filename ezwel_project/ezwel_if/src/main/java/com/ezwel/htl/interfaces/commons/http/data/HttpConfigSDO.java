@@ -36,6 +36,9 @@ public class HttpConfigSDO extends AbstractSDO {
 	@APIFields(description = "에이전트 아이디", required=true, httpHeader=true, headerName="http-agent-id")
 	private String httpAgentId;
 	
+	@APIFields(description = "고객사(파트너) 코드 유형", required=true)
+	private String patnCdType;
+	
 	@APIFields(description = "API 키(ezwel발급)", required=false, httpHeader=false, headerName="http-api-key")
 	private String httpApiKey; 
 
@@ -119,6 +122,7 @@ public class HttpConfigSDO extends AbstractSDO {
 		httpClientId = null;	
 		httpRequestId = null;			
 		httpAgentId = null;
+		patnCdType = null;
 		encoding = OperateConstants.DEFAULT_ENCODING;
 		writeEncoding = OperateConstants.DEFAULT_ENCODING;
 		readEncoding = OperateConstants.DEFAULT_ENCODING;
@@ -129,6 +133,15 @@ public class HttpConfigSDO extends AbstractSDO {
 	}
 	
 	
+	public String getPatnCdType() {
+		return patnCdType;
+	}
+
+	@XmlElement
+	public void setPatnCdType(String patnCdType) {
+		this.patnCdType = patnCdType;
+	}
+
 	public String getCacheId() {
 		return cacheId;
 	}

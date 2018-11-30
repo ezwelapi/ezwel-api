@@ -8,7 +8,11 @@ import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 
 
 
@@ -29,9 +33,14 @@ public class HttpInterfaceHelper implements Callable<AbstractSDO> {
 	
 	private HttpInterfaceExecutorService httpInterface;
 	
+	private PropertyUtil propertyUtil;
+	
 	public HttpInterfaceHelper(MultiHttpConfigSDO multiHttpConfigDTO) {
 		if(httpInterface == null) {
 			this.httpInterface = new HttpInterfaceExecutorService();
+		}
+		if(propertyUtil == null) {
+			this.propertyUtil = new PropertyUtil();
 		}
 		this.multiHttpConfigDTO = multiHttpConfigDTO;
 	}
@@ -41,7 +50,13 @@ public class HttpInterfaceHelper implements Callable<AbstractSDO> {
 
 		logger.debug("[START] Time : {}, Thread Name : {}, httpConfig : {}",  new Date(), Thread.currentThread().getName(), multiHttpConfigDTO);
 		//인터페이스 실행
-		AbstractSDO out = (AbstractSDO) httpInterface.sendPostJSON(multiHttpConfigDTO.getHttpConfigDTO(), multiHttpConfigDTO.getInputDTO(), multiHttpConfigDTO.getOutputType());
+		Object output = httpInterface.sendPostJSON(multiHttpConfigDTO.getHttpConfigDTO(), multiHttpConfigDTO.getInputDTO(), multiHttpConfigDTO.getOutputType());
+		//setup httpAgentId
+		propertyUtil.setProperty(output, OperateConstants.FIELD_HTTP_AGENT_ID, multiHttpConfigDTO.getHttpConfigDTO().getHttpAgentId());
+		//setup patnCdType
+		propertyUtil.setProperty(output, OperateConstants.FIELD_PATN_CD_TYPE, multiHttpConfigDTO.getHttpConfigDTO().getPatnCdType());
+		//setup output
+		AbstractSDO out = (AbstractSDO) output;
 		//결과 리턴
 		return out;
 	}

@@ -96,7 +96,7 @@ public class InsideController {
 		catch(Exception e) {
 			RecordOutSDO errorOut = new RecordOutSDO(); 
 			errorOut.setCode(Integer.toString(MessageConstants.RESPONSE_CODE_5000));
-			errorOut.setMessage(MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_5000));
+			errorOut.setMessage(e.getMessage());
 			/**
 			 * 장애 발생시 code, message 세팅 
 			 */

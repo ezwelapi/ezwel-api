@@ -171,8 +171,8 @@
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 
 	<!-- MethodsInterceptor -->
-	<beans:bean id="methodsWrapperAdvice" class="com.ezwel.htl.interfaces.server.commons.aop.MethodsWrapperAdvice">
-		<beans:property name="order" value="3"/>
+	<beans:bean id="methodsAdvice" class="com.ezwel.htl.interfaces.server.commons.aop.MethodsAdvice">
+		<beans:property name="order" value="2"/>
 	</beans:bean> 
 	
 	<aop:config>
@@ -180,27 +180,27 @@
 		<aop:pointcut id="targetMethod" expression="execution(* com.ezwel.htl.interfaces..*.*(..))"/>
 		 
 		<!-- Before advice -->
-		<aop:aspect ref="methodsWrapperAdvice">
+		<aop:aspect ref="methodsAdvice">
 			<aop:before pointcut-ref="targetMethod" method="beforeTargetMethod" />
 		</aop:aspect>
 		
 		<!-- After returning advice -->
-		<aop:aspect ref="methodsWrapperAdvice">
+		<aop:aspect ref="methodsAdvice">
 		    <aop:after-returning pointcut-ref="targetMethod" method="afterReturningTargetMethod" returning="retVal" />
 		</aop:aspect>
 			
 		<!-- After throwing advice --> 
-		<aop:aspect ref="methodsWrapperAdvice">
+		<aop:aspect ref="methodsAdvice">
 			<aop:after-throwing pointcut-ref="targetMethod" method="afterThrowingTargetMethod" throwing="exception" />
 		</aop:aspect> 
 			
 		<!-- After (finally) advice -->
-		<aop:aspect ref="methodsWrapperAdvice">
+		<aop:aspect ref="methodsAdvice">
 			<aop:after pointcut-ref="targetMethod" method="afterTargetMethod" />
 		</aop:aspect>
 		
 		<!-- Around advice -->
-		<aop:aspect ref="methodsWrapperAdvice">
+		<aop:aspect ref="methodsAdvice">
 			<aop:around pointcut-ref="targetMethod" method="aroundTargetMethod"/>
 		</aop:aspect>
 	</aop:config>

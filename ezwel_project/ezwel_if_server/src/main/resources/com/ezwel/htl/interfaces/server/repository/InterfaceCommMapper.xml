@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezwel.htl.interfaces.server.repository.interfaceCommMapper">
+
+<!-- 공통코드 조회
+SELECT 
+     EZC_DETAIL_CD.MASTER_CD AS masterCd
+    ,EZC_DETAIL_CD.DETAIL_CD AS detailCd
+    ,EZC_DETAIL_CD.CLASS_CD AS classCd
+    ,EZC_DETAIL_CD.DETAIL_NM AS detailNm
+    ,EZC_DETAIL_CD.DISP_ORDER AS dispOrder
+    ,EZC_DETAIL_CD.USE_YN AS useYn
+    ,EZC_DETAIL_CD.REG_ID AS regId
+    ,EZC_DETAIL_CD.REG_DT AS regDt
+    ,EZC_DETAIL_CD.MODI_ID AS modiId
+    ,EZC_DETAIL_CD.MODI_DT AS modiDt 
+FROM
+     EZC_CLASS_CD
+    ,EZC_DETAIL_CD
+WHERE 1=1
+    AND EZC_CLASS_CD.CLASS_CD = EZC_DETAIL_CD.CLASS_CD
+    AND EZC_DETAIL_CD.CLASS_CD IN ('G002','G003') 
+    AND EZC_CLASS_CD.USE_YN = 'Y'
+    AND EZC_DETAIL_CD.USE_YN = 'Y'
+-->
+
+</mapper>  

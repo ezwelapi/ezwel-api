@@ -97,7 +97,13 @@ public class OperateConstants {
 	public static final String DATA_IMAGE_PREFIX;
 	public static final String STR_BASE64;
 	
+	public static final String FIELD_HTTP_AGENT_ID;
+	public static final String FIELD_PATN_CD_TYPE;
+	
 	static {
+		FIELD_HTTP_AGENT_ID = "httpAgentId";
+		FIELD_PATN_CD_TYPE = "patnCdType";
+		
 		DATA_IMAGE_PREFIX = "data:image/";
 		STR_BASE64 = "base64";
 		

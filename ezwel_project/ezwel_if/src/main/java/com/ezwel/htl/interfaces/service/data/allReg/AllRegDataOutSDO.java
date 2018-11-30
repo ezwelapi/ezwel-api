@@ -17,90 +17,92 @@ import lombok.EqualsAndHashCode;
  * @date   2018. 11. 13.
  */
 
-@APIModel(description="시설 정보")
 @Data
 @EqualsAndHashCode(callSuper=true)
+@APIModel(description="시설 정보")
 public class AllRegDataOutSDO extends AbstractSDO {
 
-	@APIFields(description = "전체시설일괄등록 output 시설명칭", required=true, maxLength=200)
+	private static final long serialVersionUID = 1L;
+
+	@APIFields(description = "시설명칭", required=true, maxLength=200)
 	private String pdtName;
 	
-	@APIFields(description = "전체시설일괄등록 output 시설명칭(영문)", maxLength=200)
+	@APIFields(description = "시설명칭(영문)", maxLength=200)
 	private String pdtNameEng;
 	
-	@APIFields(description = "전체시설일괄등록 output 상품코드", required=true, maxLength=100)
+	@APIFields(description = "상품코드", required=true, maxLength=100)
 	private String pdtNo;
 	
-	@APIFields(description = "전체시설일괄등록 output 트립어드바이져아이디", maxLength=10)
+	@APIFields(description = "트립어드바이져아이디", maxLength=10)
 	private String tripadvisorId;
 	
-	@APIFields(description = "전체시설일괄등록 output 대표이미지", required=true, maxLength=500)
+	@APIFields(description = "대표이미지", required=true, maxLength=500)
 	private String mainImage;
 	
-	@APIFields(description = "전체시설일괄등록 output 이미지변경여부", required=true, maxLength=1)
+	@APIFields(description = "이미지변경여부", required=true, maxLength=1)
 	private String changeImage;
 	
-	@APIFields(description = "전체시설일괄등록 output 서브이미지")
+	@APIFields(description = "서브이미지")
 	private List<AllRegSubImagesOutSDO> subImages = null;
 	
-	@APIFields(description = "전체시설일괄등록 output 상품상세설명(HTML)", required=true, maxLength=50000)
+	@APIFields(description = "상품상세설명(HTML)", required=true, maxLength=50000)
 	private String descHTML;
 	
-	@APIFields(description = "전체시설일괄등록 output 상품상세설명(MOBILE)", maxLength=50000)
+	@APIFields(description = "상품상세설명(MOBILE)", maxLength=50000)
 	private String descMobile;
 	
-	@APIFields(description = "전체시설일괄등록 output 판매시작일", required=true, maxLength=8)
+	@APIFields(description = "판매시작일", required=true, maxLength=8)
 	private String sellStartDate;
 	
-	@APIFields(description = "전체시설일괄등록 output 판매종료일", required=true, maxLength=8)
+	@APIFields(description = "판매종료일", required=true, maxLength=8)
 	private String sellEndDate;
 	
-	@APIFields(description = "전체시설일괄등록 output 판매기간최저가", required=true)
+	@APIFields(description = "판매기간최저가", required=true)
 	private String sellPrice;
 	
-	@APIFields(description = "전체시설일괄등록 output 시도명", required=true, maxLength=100)
+	@APIFields(description = "시도명", required=true, maxLength=100)
 	private String sido;
 	
-	@APIFields(description = "전체시설일괄등록 output 시도코드", required=true, maxLength=2)
+	@APIFields(description = "시도코드", required=true, maxLength=2)
 	private String sidoCode;
 	
-	@APIFields(description = "전체시설일괄등록 output 군구명", required=true, maxLength=100)
+	@APIFields(description = "군구명", required=true, maxLength=100)
 	private String gungu;
 	
-	@APIFields(description = "전체시설일괄등록 output 군구코드", required=true, maxLength=5)
+	@APIFields(description = "군구코드", required=true, maxLength=5)
 	private String gunguCode;
 	
-	@APIFields(description = "전체시설일괄등록 output 시설주소", required=true, maxLength=300)
+	@APIFields(description = "시설주소", required=true, maxLength=300)
 	private String address;
 	
-	@APIFields(description = "전체시설일괄등록 output 주소타입", required=true, maxLength=1)
+	@APIFields(description = "주소타입", required=true, maxLength=1)
 	private String addressType;
 	
-	@APIFields(description = "전체시설일괄등록 output 우편번호", required=true, maxLength=6)
+	@APIFields(description = "우편번호", required=true, maxLength=6)
 	private String zipCode;
 	
-	@APIFields(description = "전체시설일괄등록 output 시설대표전화번호", required=true, maxLength=20)
+	@APIFields(description = "시설대표전화번호", required=true, maxLength=20)
 	private String telephone;
 	
-	@APIFields(description = "전체시설일괄등록 output 채크인시간", maxLength=5)
+	@APIFields(description = "채크인시간", maxLength=5)
 	private String checkInTime;
 	
-	@APIFields(description = "전체시설일괄등록 output 체크아웃시간", maxLength=5)
+	@APIFields(description = "체크아웃시간", maxLength=5)
 	private String checkOutTime;
 	
-	@APIFields(description = "전체시설일괄등록 output 시설유형코드", required=true, maxLength=5)
+	@APIFields(description = "시설유형코드", required=true, maxLength=5)
 	private String typeCode;
 	
-	@APIFields(description = "전체시설일괄등록 output 시설등급코드", required=true, maxLength=5)
+	@APIFields(description = "시설등급코드", required=true, maxLength=5)
 	private String gradeCode;
 	
-	@APIFields(description = "전체시설일괄등록 output 위도", maxLength=20)
+	@APIFields(description = "위도", maxLength=20)
 	private String mapX;
 	
-	@APIFields(description = "전체시설일괄등록 output 경도", maxLength=20)
+	@APIFields(description = "경도", maxLength=20)
 	private String mapY;
 	
-	@APIFields(description = "전체시설일괄등록 output 부대시설 유형", required=true, maxLength=500)
+	@APIFields(description = "부대시설 유형", maxLength=500)
 	private String serviceCodes;
 
 	public String getPdtName() {

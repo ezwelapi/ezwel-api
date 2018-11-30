@@ -2,62 +2,72 @@
 <interfaceConfigure>
 	<agentList>
 		<agentInfo>
-			<agentName>호텔엔조이_메이트아이</agentName>
+			<agentName>호텔엔조이 메이트아이</agentName>
 			<httpAgentId>10000495</httpAgentId>
+			<patnCdType>C0130002</patnCdType>
 			<insideApiKey>d099b5ed2d8d352d6bb539febb4b46aai</insideApiKey>
 			<outsideApiKey>cd214a129f259c7cf9af7eb5a5b4c184o</outsideApiKey>
 		</agentInfo>
 		<agentInfo>
-			<agentName>펜션라이프_플레이스엠</agentName>
+			<agentName>펜션라이프 플레이스엠</agentName>
 			<httpAgentId>10000496</httpAgentId>
+			<patnCdType>C0130003</patnCdType>
 			<insideApiKey>dcf82e9fc9dafb753075c6c244f6699fi</insideApiKey>
 			<outsideApiKey>05025f8f3722f1a807071e609977dba1o</outsideApiKey>
 		</agentInfo>
 		<agentInfo>
-			<agentName>인터파크투어_인터파크INT</agentName>
+			<agentName>인터파크투어 인터파크INT</agentName>
 			<httpAgentId>10002654</httpAgentId>
+			<patnCdType>C0130004</patnCdType>
 			<insideApiKey>2abcbc439f7d84747b370776de4aa3d1i</insideApiKey>
 			<outsideApiKey>b6fe756656118f6e4cfaa724e728df2bo</outsideApiKey>
 		</agentInfo>		
 		<agentInfo>
-			<agentName>펀앤비즈_샬레코리아</agentName>
+			<agentName>펀앤비즈 샬레코리아</agentName>
 			<httpAgentId>10008365</httpAgentId>
+			<patnCdType>C0130005</patnCdType>
 			<insideApiKey>aadde1e6ac23fdbb04c7b9a067ee7c1ai</insideApiKey>
 			<outsideApiKey>bab3f9ec7d892f991c217ececd2cb7bdo</outsideApiKey>
 		</agentInfo>	
 		<agentInfo>
 			<agentName>우리펜션(옐로트래블랩스)</agentName>
 			<httpAgentId>10030653</httpAgentId>
+			<patnCdType>C0130006</patnCdType>
 			<insideApiKey>4a2022d9a3b0da0231b701de6778eb15i</insideApiKey>
 			<outsideApiKey>ff57df561ffb0c89306a33c7416de6c0o</outsideApiKey>
 		</agentInfo>					
 		<agentInfo>
 			<agentName>인터치투어</agentName>
 			<httpAgentId>10053461</httpAgentId>
+			<patnCdType>C0130007</patnCdType>
 			<insideApiKey>173a7146e68477b8b3b3e3017646aa6ci</insideApiKey>
 			<outsideApiKey>71a0ade8d5267d139e0db6ccbde9e0c2o</outsideApiKey>
 		</agentInfo>	
 		<agentInfo>
 			<agentName>웹투어</agentName>
 			<httpAgentId>10054233</httpAgentId>
+			<patnCdType>C0130008</patnCdType>
 			<insideApiKey>b6380f208fd90378ff70786a02d92aa5i</insideApiKey>
 			<outsideApiKey>4bf397c250c744e96ca89545a4a97fc9o</outsideApiKey>
 		</agentInfo>
 		<agentInfo>
 			<agentName>호텔패스글로벌</agentName>
 			<httpAgentId>10055550</httpAgentId>
+			<patnCdType>C0130009</patnCdType>
 			<insideApiKey>f5831137b0aa322fc2af1a37d6ecf8cei</insideApiKey>
 			<outsideApiKey>051ad6599211837ae557efbaecc65b3ao</outsideApiKey>
 		</agentInfo>	
 		<agentInfo>
-			<agentName>(주)위드이노베이션_여기어때</agentName>
+			<agentName>(주)위드이노베이션 여기어때</agentName>
 			<httpAgentId>10056562</httpAgentId>
+			<patnCdType>C0130010</patnCdType>
 			<insideApiKey>e54d735ff4ab6b93308c31d99cd683d4i</insideApiKey>
 			<outsideApiKey>8747fe3bc4ded32f80136b1661b0afc4o</outsideApiKey>
 		</agentInfo>
 		<agentInfo>
-			<agentName>제휴사협의중</agentName>
+			<agentName>직영/숙박</agentName>
 			<httpAgentId>99999999</httpAgentId>
+			<patnCdType>C0130001</patnCdType>
 			<insideApiKey>e54d735ffzab6b93308c31d99cd683d4i</insideApiKey>
 			<outsideApiKey>8747fe3bz4ded32f80136b1661b0afc4o</outsideApiKey>
 		</agentInfo>

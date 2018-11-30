@@ -340,6 +340,7 @@ public class HttpInterfaceExecutorService {
 	 */
 	@APIOperation(description="Create Http URL Communication Certification Properties", isExecTest=true)
 	public Properties getCert(HttpConfigSDO request) {
+		logger.debug("[START] getCert : {}", request);
 		
 		Properties out = null;
 		Field[] field = null;
@@ -366,12 +367,13 @@ public class HttpInterfaceExecutorService {
 					out.setProperty(fieldAnno.headerName(), (String) fieldValue);
 				}				
 			}
-		} catch (IllegalArgumentException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9000, e);
 		} catch (IllegalAccessException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ HttpConfigDTO필드에 접근할수 없습니다.", e);
+		} catch (APIException e) {
+			throw new APIException(e);
 		}
 		
+		logger.debug("[END] getCert");
 		return out;
 	}
 	

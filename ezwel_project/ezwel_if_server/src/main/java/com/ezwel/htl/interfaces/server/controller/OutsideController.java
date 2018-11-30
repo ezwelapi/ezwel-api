@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
+import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.service.OutsideService;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
@@ -35,7 +36,8 @@ public class OutsideController {
 	
 	private OutsideService outsideService = (OutsideService) LApplicationContext.getBean(OutsideService.class);
 	
-
+	private BeanMarshaller beanMarshaller = (BeanMarshaller) LApplicationContext.getBean(BeanMarshaller.class);
+	
 	/**
 	 * <pre>
 	 * [메서드 설명]
@@ -54,10 +56,10 @@ public class OutsideController {
 	@ResponseBody
 	@APIOperation(description="전체시설일괄등록 인터페이스")
 	@RequestMapping(value="/service/allReg")
-	public ResponseEntity<AllRegOutSDO> callAllReg(UserAgentSDO userAgentSDO, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<String> callAllReg(UserAgentSDO userAgentSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callAllReg {}", userAgentSDO);
 		
-		ResponseEntity<AllRegOutSDO> out = null;
+		ResponseEntity<String> out = null;
 		AllRegOutSDO serviceOut = null;
 		try {
 			if(userAgentSDO == null) {
@@ -73,7 +75,7 @@ public class OutsideController {
 			//Advice & Interceptor 최적화후 작업 추가 진행
 			serviceOut = outsideService.callAllReg(userAgentSDO);
 
-			out = new ResponseEntity<AllRegOutSDO>(serviceOut, HttpStatus.CREATED);
+			out = new ResponseEntity<String>(beanMarshaller.toJSONString(serviceOut), HttpStatus.CREATED);
 		}
 		catch(APIException e) {
 			serviceOut = new AllRegOutSDO(); 
@@ -83,7 +85,7 @@ public class OutsideController {
 			/**
 			 * 장애 발생시 code, message 세팅 
 			 */
-			out = new ResponseEntity<AllRegOutSDO>(serviceOut, HttpStatus.CREATED);
+			out = new ResponseEntity<String>(beanMarshaller.toJSONString(serviceOut), HttpStatus.CREATED);
 			e.printStackTrace();
 		}
 		

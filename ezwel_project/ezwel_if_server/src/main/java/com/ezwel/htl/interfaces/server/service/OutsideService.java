@@ -1,5 +1,6 @@
 package com.ezwel.htl.interfaces.server.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,11 +22,18 @@ import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
+import com.ezwel.htl.interfaces.commons.thread.Local;
+import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
+import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.entities.EzcFacl;
+import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
+import com.ezwel.htl.interfaces.server.repository.InterfaceCommRepository;
 import com.ezwel.htl.interfaces.server.repository.OutsideRepository;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
+import com.ezwel.htl.interfaces.service.data.allReg.AllRegSubImagesOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
@@ -50,6 +58,8 @@ public class OutsideService {
 	private PropertyUtil propertyUtil = (PropertyUtil) LApplicationContext.getBean(PropertyUtil.class);
 	
 	private OutsideRepository outsideRepository = (OutsideRepository) LApplicationContext.getBean(OutsideRepository.class);
+	
+	private InterfaceCommRepository interfaceCommRepository = (InterfaceCommRepository) LApplicationContext.getBean(InterfaceCommRepository.class);
 	
 	/** 제휴사 별 시설 정보 transaction commit 건수 */
 	private static final Integer FACL_REG_DATA_TX_COUNT = 50;
@@ -114,6 +124,13 @@ public class OutsideService {
 		return out;
 	}	
 	
+	/**
+	 * 맵핑 시설 : EZC_FACL, EZC_FACL_IMG, EZC_FACL_AMENT ( 1 : N : N ), 데이터 적제
+	 * @param assets
+	 * @param allFacl
+	 * @param faclIndex
+	 * @return
+	 */
 	@APIOperation(description="전체시설일괄등록 인터페이스")
 	private AllRegOutSDO insertAllFacl(List<AllRegOutSDO> assets, AllRegOutSDO allFacl, Integer faclIndex) {
 		if(assets == null) {
@@ -121,19 +138,94 @@ public class OutsideService {
 		}
 		
 		Integer txCount = 0;
+
 		/**
 		 * 1. 제휴사 별 TX 실행
 		 * 2. 제휴사 내 100개씩  commit 되도록 operation 구성
 		 */
-
-		AllRegOutSDO allReg = assets.get(faclIndex);
-		List<AllRegDataOutSDO> faclDatas = null;
+		AllRegOutSDO allReg = assets.get(faclIndex);// 제휴사 (단건 / 인터페이스 전문 SDO )
+		List<AllRegDataOutSDO> faclDatas = null;	// 제휴사 및에 시설 목록 ( 인터페이스 전문 SDO )
+		
+		//시설 정보 DB 엔티티
+		EzcFacl ezcFacl = null;
+		List<EzcFacl> ezcFacls = null;	// 제휴사 및에 시설 목록 ( DB 엔티티 )
+		//시설 이미지 DB 엔티티
+		EzcFaclImg ezcFaclImg = null;
+		List<EzcFaclImg> ezcFaclImgList = null;
+		
 		/** 제휴사 1건 별 이하 프로세스 실행 */
 		if(allReg != null && allReg.getData() != null && allReg.getData().size() > 0) {
 			/** 제휴사 별 시설 목록 */
 			faclDatas = allReg.getData();
+			
+			ezcFacls = new ArrayList<EzcFacl>();
+			
+			for(AllRegDataOutSDO faclData : faclDatas) {
+				/** 제휴사 별 시설 데이터 세팅 */
+				ezcFacl = new EzcFacl(); 
+				//ezcFacl.setFaclCd(faclCd); //sequnce
+				ezcFacl.setPartnerCd(allReg.getHttpAgentId()); // 에이전트 ID
+				ezcFacl.setPartnerCdType(allReg.getPatnCdType());
+				ezcFacl.setFaclDiv(CodeDataConstants.CD_API_G0010001); //시설 구분 ( API or 직영숙박 )
+				ezcFacl.setPartnerGoodsCd(faclData.getPdtNo());
+				ezcFacl.setFaclNmKor(faclData.getPdtName()); //시설 한글 명
+				ezcFacl.setFaclNmEng(faclData.getPdtNameEng());
+				ezcFacl.setRoomType(faclData.getTypeCode()); // -> DB 공통코드 (테이블 : EZC_DETAIL_CD.DETAIL_CD  = '#{typeCode}' AND EZC_DETAIL_CD.CLASS_CD = 'G002' )
+				ezcFacl.setRoomClass(faclData.getGradeCode()); // -> DB 공통코드 (테이블 : EZC_DETAIL_CD.DETAIL_CD  = '#{gradeCode}' AND EZC_DETAIL_CD.CLASS_CD = 'G003')
+				ezcFacl.setSaleStartDd(faclData.getSellStartDate()); // 판매시작일
+				ezcFacl.setSaleEndDd(faclData.getSellEndDate());	// 판매종료일
+				ezcFacl.setCheckInTm(faclData.getCheckInTime());	//채크인시간
+				ezcFacl.setCheckOutTm(faclData.getCheckOutTime());	//채크아웃시간
+				ezcFacl.setAreaCd(faclData.getGunguCode());	//지역코드(군구코드)
+				ezcFacl.setCityCd(faclData.getSidoCode());	//도시코드(시도코드)
+				ezcFacl.setAddrType(faclData.getAddressType());  // -> DB 공통코드 (테이블 : EZC_DETAIL_CD)
+				ezcFacl.setAddr(faclData.getAddress());	//주소
+				ezcFacl.setPost(faclData.getZipCode());	//우편번호
+				ezcFacl.setTelNum(faclData.getTelephone());	//전화 번호
+				ezcFacl.setCoordY(faclData.getMapX());	//위도
+				ezcFacl.setCoordX(faclData.getMapY());	//경도
+				ezcFacl.setMinAmt((faclData.getSellPrice() != null ? new BigDecimal(faclData.getSellPrice()) : OperateConstants.BIGDECIMAL_ZERO_VALUE)); // 최저 금액
+				ezcFacl.setDetailDescPc(faclData.getDescHTML());	//상세 설명 PC
+				ezcFacl.setDetailDescM(faclData.getDescMobile());	//상세 설명 모바일
+				ezcFacl.setTripPropId(faclData.getTripadvisorId());	//트립어드바이저 프로퍼티 ID
+				ezcFacl.setMainImgUrl(faclData.getMainImage());		//대표 이미지 URL
+				ezcFacl.setImgChangeYn(faclData.getChangeImage());	//이미지 변경 여부
+				ezcFacl.setApiSyncDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis(), "yyyyMMddHH24miss")); //API 동기화 일시(API 동작일시)
+				ezcFacl.setUseYn(CodeDataConstants.CD_Y);	//사용 여부 새로등록되는 시설에 대하여 기본 Y로 등록함
+				
+				//서브 이미지 세팅
+				if(faclData.getSubImages() != null) {
+					
+					//시설 이미지 DB 엔티티
+					ezcFaclImgList = new ArrayList<EzcFaclImg>();					
+					for(AllRegSubImagesOutSDO subImages : faclData.getSubImages()) {
+						ezcFaclImg = new EzcFaclImg();
+						//ezcFaclImg.setFaclCd(faclCd); sequnce
+						//ezcFaclImg.setFaclImgSeq(faclImgSeq); sequnce
+						ezcFaclImg.setFaclImgType(CodeDataConstants.CD_FACL_IMG_TYPE_G0080001);
+						ezcFaclImg.setPartnerImgUrl(subImages.getImage()); // 이미지 URL 
+						ezcFaclImg.setImgDesc(subImages.getDesc()); // 이미지 설명
+						if(faclData.getMainImage().equals(subImages.getImage())) {
+							ezcFaclImg.setMainImgYn(CodeDataConstants.CD_Y); // 메인 이미지 여부
+						}
+						else {
+							ezcFaclImg.setMainImgYn(CodeDataConstants.CD_N); // 메인 이미지 여부
+						}
+
+						ezcFaclImgList.add(ezcFaclImg);
+					}
+				}
+				ezcFacl.setEzcFaclImgList(ezcFaclImgList);
+				
+				//부대시설 세팅
+				ezcFacl.setEzcFaclAments(faclData.getServiceCodes());
+				
+				//DB 엔티티에 전문 데이터 세팅
+				ezcFacls.add(ezcFacl);
+			}
+			
 			/** 제휴사 별 시설 데이터 입력 실행 */
-			txCount = insertFaclRegData(faclDatas, 0);
+			txCount = insertFaclRegData(ezcFacls, 0);
 			/** 저장 개수가 존재하면 */
 			if(txCount > 0) {
 				if(allFacl.getData() == null) {
@@ -157,24 +249,24 @@ public class OutsideService {
 	
 	
 	@APIOperation(description="전체시설일괄등록 인터페이스")
-	private Integer insertFaclRegData(List<AllRegDataOutSDO> faclDatas/* 제휴사 별 시설 목록 */, Integer fromIndex) {
+	private Integer insertFaclRegData(List<EzcFacl> ezcFacls/* 제휴사 별 시설 목록 */, Integer fromIndex) {
 		/**
 		 * 시설 50개씩 connection 끊어서 돌려야함.
 		 */
 		Integer txCount = 0;
 		Integer toIndex = fromIndex + FACL_REG_DATA_TX_COUNT;
-		List<AllRegDataOutSDO> saveFaclRegDatas = null;
-		if(toIndex >= faclDatas.size()) {
-			toIndex = faclDatas.size() - 1;
+		List<EzcFacl> saveFaclRegDatas = null;
+		if(toIndex >= ezcFacls.size()) {
+			toIndex = ezcFacls.size() - 1;
 		}
 
-		saveFaclRegDatas = faclDatas.subList(fromIndex, toIndex);
+		saveFaclRegDatas = ezcFacls.subList(fromIndex, toIndex);
 		
 		txCount = outsideRepository.insertAllReg(saveFaclRegDatas);
 		
 		Integer nextIndex = toIndex + 1;
-		if(faclDatas != null && faclDatas.size() > nextIndex) {
-			insertFaclRegData(faclDatas/* 제휴사 별 시설 목록 */, nextIndex) ;
+		if(ezcFacls != null && ezcFacls.size() > nextIndex) {
+			insertFaclRegData(ezcFacls/* 제휴사 별 시설 목록 */, nextIndex);
 		}
 		
 		return txCount;
