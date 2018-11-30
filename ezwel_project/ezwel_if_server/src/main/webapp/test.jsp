@@ -61,19 +61,38 @@ var testAssets = {
 		"IN-신규시설등록수정" : {
 			 url : "/{httpAgentId}/facl/record"
 			,input : {
-				  "dataUrl" : "http://ezcheckin.jyp.ezwel.com:8123/API1.0/10000496/facl/record"
+				"dataUrl" : "http://ezc-api.dev.ezwel.com/API1.0/10000496/facl/record"
 			}
 		},
 		"IN-시설판매중지설정" : {
 			  url : "/{httpAgentId}/facl/saleStop"
 			 ,input : {
-				 
+				"pdtNo": "1",
+				"sellFlag": "N"
 			 }
 		},
 		"IN-예약내역조회" : {
 			 url : "/{httpAgentId}/facl/view"
 			,input : {
-				
+				"rsvNo": "123456789",
+				"startDate": "",
+				"endDate": "",
+				"dateType": ""
+			}
+		},
+		"IN-시설바우처번호등록" : {
+			 url : "/{httpAgentId}/facl/voucherReg"
+			,input : {
+				"rsvNo": "123456789",
+				"voucherNo": "1234"
+			}
+		},
+		"IN-주문대사(제휴사)" : {
+			 url : "/{httpAgentId}/facl/agentJob"
+			,input : {
+				"rsvNo": "123456789",
+				"rsvDateStart": "",
+				"rsvDateEnd": ""
 			}
 		}
 	}
@@ -162,15 +181,27 @@ $(document).ready(function() {
 	<span>
 		<select id="restURL"></select>
 	</span>
-	<span style="padding-left:2px;"><input id="httpAgentId" type="text" value="" style="width:10%;"/></span>
+	<span style="padding-left:2px;" style="width:10%;">
+		<select id="httpAgentId" name="httpAgentId">
+			<option value="10000495">호텔엔조이 메이트아이 10000495</option>
+			<option value="10000496">펜션라이프 플레이스엠 10000496</option>
+			<option value="10002654">인터파크투어 10002654</option>
+			<option value="10008365">펀앤비즈 샬레코리아 10008365</option>
+			<option value="10030653">우리펜션(옐로트래블랩스) 10030653</option>
+			<option value="10053461">인터치투어 10053461</option>
+			<option value="10054233">웹투어 10054233</option>
+			<option value="10055550">호텔패스글로벌 10055550</option>
+			<option value="10056562">(주)위드이노베이션_여기어때 10056562</option>
+		</select>
+	</span>
 	<span style="padding-left:2px;"><button id="sendBtn">SEND</button></span>
 </div>
 <div>
-<textarea id="inputJson" style="width:100%;height:200px;"></textarea>
+<textarea id="inputJson" name="inputJson" style="width:100%;height:200px;"></textarea>
 </div>
 <span>Output Data</span>
 <div>
-	<textarea id="outputJson" style="width:100%;height:200px;"></textarea>
+	<textarea id="outputJson" name="outputJson" style="width:100%;height:200px;"></textarea>
 </div>
 </body>
 </html>

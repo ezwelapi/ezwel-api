@@ -88,6 +88,8 @@ public class InsideController {
 			//Advice & Interceptor 최적화후 작업 추가 진행
 			//serviceOut = intefaceService.callRecord(recordInSDO);
 			
+			logger.debug("[YPJEON] getDataUrl {}", recordInSDO.getDataUrl());
+			
 			serviceOut = getOutCallRecord(httpAgentId, response);			
 			out = new ResponseEntity<String>(serviceOut, HttpStatus.CREATED);
 		}
@@ -116,7 +118,7 @@ public class InsideController {
 		
 		//data set		
 		out.setCode("1000");
-		out.setMessage("정상적으로 처리되었습니다");
+		out.setMessage("정상적으로 처리되었습니다 " + httpAgentId);
 		
 		return beanMarshaller.toJSONString(out);
 	}	
