@@ -23,6 +23,9 @@ public class AgentInfoSDO extends AbstractSDO {
 	@APIFields(description = "에이전트 아이디")
 	private String httpAgentId;
 	
+	@APIFields(description = "고객사(파트너) 코드 유형")
+	private String patnCdType;
+	
 	@APIFields(description = "insideApiKey")
 	private String insideApiKey;
 
@@ -36,6 +39,7 @@ public class AgentInfoSDO extends AbstractSDO {
 	private void reset() {
 		agentName = null;
 		httpAgentId = null;
+		patnCdType = null;
 		insideApiKey = null;
 		outsideApiKey = null;
 	}
@@ -74,6 +78,15 @@ public class AgentInfoSDO extends AbstractSDO {
 	@XmlElement
 	public void setOutsideApiKey(String outsideApiKey) {
 		this.outsideApiKey = outsideApiKey;
+	}
+
+	public String getPatnCdType() {
+		return patnCdType;
+	}
+
+	@XmlElement
+	public void setPatnCdType(String patnCdType) {
+		this.patnCdType = patnCdType;
 	}
 
 	

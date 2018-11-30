@@ -243,9 +243,8 @@ public class InterfaceFactory {
 		Iterator<HttpConfigSDO> insideIterator = channelListData.getInsideConfigList().iterator();
         while (insideIterator.hasNext()) {
         	HttpConfigSDO inside = (HttpConfigSDO) propertyUtil.copySameProperty(insideIterator.next(), HttpConfigSDO.class);
-			
-			inside.setAgentName(agent.getAgentName());
-			inside.setHttpAgentId(agent.getHttpAgentId());
+        	propertyUtil.copySameProperty(agent, inside);
+        	
 			inside.setHttpApiKey(agent.getInsideApiKey());
 			//logger.debug("inside channel : {}", item);
 			enter(inside);
@@ -255,9 +254,8 @@ public class InterfaceFactory {
 		Iterator<HttpConfigSDO> outsideIterator = channelListData.getOutsideConfigList().iterator();
         while (outsideIterator.hasNext()) {
 	        HttpConfigSDO outside = (HttpConfigSDO) propertyUtil.copySameProperty(outsideIterator.next(), HttpConfigSDO.class);
+	        propertyUtil.copySameProperty(agent, outside);
 	        
-			outside.setAgentName(agent.getAgentName());
-			outside.setHttpAgentId(agent.getHttpAgentId());
 			outside.setHttpApiKey(agent.getOutsideApiKey());					
 			//logger.debug("outside channel : {}", item);
 			enter(outside);
