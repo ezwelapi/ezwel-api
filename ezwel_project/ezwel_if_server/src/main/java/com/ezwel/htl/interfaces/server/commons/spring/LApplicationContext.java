@@ -178,7 +178,7 @@ public class LApplicationContext implements ApplicationContextAware, BeanNameAwa
      * @since  2018. 11. 21.
      */
     public static HttpServletRequest getRequest() {
-        ServletRequestAttributes attr = (ServletRequestAttributes)RequestContextHolder.currentRequestAttributes();
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         return attr.getRequest();
     }
 

@@ -47,10 +47,12 @@ public class APIUtil {
 	
 	public final static String DEF_DAY_FORMAT;
 	public final static String DEF_DATE_FORMAT;
+	public final static String DEF_DATE24_FORMAT;
 	
 	static {
 		DEF_DAY_FORMAT = "yyyyMMdd";
 		DEF_DATE_FORMAT = "yyyyMMddHHmmss";
+		DEF_DATE24_FORMAT = "yyyyMMddHH24miss";
 	}
 	
 	/**
@@ -530,11 +532,15 @@ public class APIUtil {
 	}
 	
 	
-	public static String getTimeMillisToDate(long userTimeMillis) {
+	public static String getTimeMillisToDate(Long userTimeMillis) {
 		return getTimeMillisToDate(userTimeMillis, null);
 	}
 	
-	public static String getTimeMillisToDate(long userTimeMillis, String dateFormat) {
+	public static String getTimeMillisToDate(Long userTimeMillis, String dateFormat) {
+		if(userTimeMillis == null) {
+			logger.warn("[WARN] ThreadLocal is init");
+			return "";
+		}
 		long timeMillis = userTimeMillis;
 		String format = dateFormat;
 		Date resultdate = new Date(timeMillis);

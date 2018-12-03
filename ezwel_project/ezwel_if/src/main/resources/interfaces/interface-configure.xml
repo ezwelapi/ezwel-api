@@ -167,7 +167,7 @@
 		<httpChan>
 			<chanId>allReg-10055550</chanId>
 			<description>호텔패스글로벌</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/TourProductRQ.ashx</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -191,16 +191,16 @@
 				
 		<httpChan>
 			<chanId>faclSearch</chanId>
-			<httpAgentGroupId>chanGroup-01</httpAgentGroupId>
-			<description>시설검색1</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/customerC/01faclSearch.jsp</restURI>
+			<httpAgentGroupId>faclSearch-chanGroup</httpAgentGroupId>
+			<description>시설검색-호텔패스글로벌</description>
+			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/ProductSearchRQ.ashx</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
 		</httpChan>			
-		<httpChan>
+		<!-- <httpChan>
 			<chanId>faclSearch</chanId>
-			<httpAgentGroupId>chanGroup-01</httpAgentGroupId>
+			<httpAgentGroupId>faclSearch-chanGroup</httpAgentGroupId>
 			<description>시설검색2</description>
 			<restURI>http://localhost:9123/ezwel_if_demo/customerB/02faclSearch.jsp</restURI>
 			<encoding>UTF-8</encoding>
@@ -209,13 +209,13 @@
 		</httpChan>
 		<httpChan>
 			<chanId>faclSearch</chanId>
-			<httpAgentGroupId>chanGroup-01</httpAgentGroupId>
+			<httpAgentGroupId>faclSearch-chanGroup</httpAgentGroupId>
 			<description>시설검색3</description>
 			<restURI>http://localhost:9123/ezwel_if_demo/customerA/03faclSearch.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
-		</httpChan>
+		</httpChan> -->
 
 					
 		<httpChan>
@@ -248,7 +248,7 @@
 		<httpChan>
 			<chanId>roomRead</chanId>
 			<description>객실정보조회</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/roomRead.jsp</restURI>
+			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/RoomInfoRQ.ashx</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>

@@ -77,7 +77,8 @@ public class OutsideService {
 		}		
 	}
 	
-
+	private static final String ALL_REG_CHANNEL = "allReg";
+	
 	/**
 	 * 맵핑 시설 : EZC_FACL, EZC_FACL_IMG, EZC_FACL_AMENT ( 1 : N : N ), 데이터 적제 
 	 * 요청(입력) 파라메터 없음
@@ -97,7 +98,7 @@ public class OutsideService {
 			for(Entry<String, AgentInfoSDO> entry : interfaceAgents.entrySet()) {
 				
 				multi = new MultiHttpConfigSDO();
-				httpConfigSDO = InterfaceFactory.getChannel("allReg".concat(OperateConstants.STR_HYPHEN).concat(entry.getValue().getHttpAgentId()), entry.getValue().getHttpAgentId());
+				httpConfigSDO = InterfaceFactory.getChannel(ALL_REG_CHANNEL.concat(OperateConstants.STR_HYPHEN).concat(entry.getValue().getHttpAgentId()), entry.getValue().getHttpAgentId());
 				configureHelper.setupUserAgentInfo(httpConfigSDO, userAgentDTO);
 				//no input 
 				httpConfigSDO.setDoOutput(false);	
@@ -190,7 +191,7 @@ public class OutsideService {
 				ezcFacl.setTripPropId(faclData.getTripadvisorId());	//트립어드바이저 프로퍼티 ID
 				ezcFacl.setMainImgUrl(faclData.getMainImage());		//대표 이미지 URL
 				ezcFacl.setImgChangeYn(faclData.getChangeImage());	//이미지 변경 여부
-				ezcFacl.setApiSyncDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis(), "yyyyMMddHH24miss")); //API 동기화 일시(API 동작일시)
+				ezcFacl.setApiSyncDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis(), APIUtil.DEF_DATE24_FORMAT)); //API 동기화 일시(API 동작일시)
 				ezcFacl.setUseYn(CodeDataConstants.CD_Y);	//사용 여부 새로등록되는 시설에 대하여 기본 Y로 등록함
 				
 				//서브 이미지 세팅

@@ -41,10 +41,10 @@ public class EzcChannelBlackFacl extends AbstractEntity {
 	private BigDecimal conFaclCd;
 
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011228(C)")
-	private String regId;
+	private String regId = Local.commonHeader().getSystemUserId();
 
 	@APIFields(description = "등록 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss", required=true, constraints="SYS_C0011229(C)")
-	private String regDt;
+	private String regDt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
 
 
 	

@@ -1,6 +1,9 @@
 package com.ezwel.htl.interfaces.server.commons.aop;
 
 import java.lang.reflect.Method;
+import java.util.Enumeration;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -19,6 +22,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
+import com.ezwel.htl.interfaces.commons.entity.CommonHeader;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.commons.thread.Local;
@@ -28,6 +32,7 @@ import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
 import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.sdo.ExceptionSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 
 @Aspect
 public class MethodsAdvice implements MethodInterceptor, Ordered {
@@ -39,6 +44,8 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 	private BeanMarshaller beanMarshaller;
 	
 	private PropertyUtil propertyUtil;
+	
+	private CommonUtil commonUtil;
 	
 	private int order = 1;
 
@@ -62,6 +69,30 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 	public void beforeTargetMethod(JoinPoint thisJoinPoint) {
 		if (isLogging) {
 			logger.debug("■■ [AOP] MethodsAdvice.beforeTargetMethod executed.\n■ thisJoinPoint : {}", thisJoinPoint);
+		}
+		
+		if(thisJoinPoint.getTarget().getClass().getAnnotation(Controller.class) != null) {
+			
+			HttpServletRequest request = LApplicationContext.getRequest();		
+			//1.ThreadLocal 초기화
+			CommonHeader header = Local.commonHeader();
+			//2.Content Type 
+			header.setContentType(commonUtil.getRequestContentType(request));
+			//3.요청 인코딩
+			header.setEncoding(request.getCharacterEncoding());
+			//4.접속자 IP
+			header.setClientAddress(commonUtil.getClientAddress(request));
+			//5.Request Header 
+			if(request.getHeaderNames() != null) {
+				String headerName = null;
+				String headerValue = null;
+				while(request.getHeaderNames().hasMoreElements()) {
+					headerName = request.getHeaderNames().nextElement();
+					headerValue = request.getHeader(headerName);
+					logger.debug("- requestHeader ■ {} : {}", headerName, headerValue);
+					header.addProperties(headerName, headerValue);
+				}
+			}
 		}
 	}
 
@@ -108,13 +139,14 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			throw new APIException("■■ 유효하지 않은 API 오퍼레이션 APIOperation어노테이션이 존재하지 않습니다. '{}'", typeMethodName);
 		}
 		
-		String description = APIUtil.NVL(apiOperAnno.description(), className.concat(OperateConstants.STR_DOT).concat(methodName));
 		// inputParam 변경가능
 		Object[] inputParam = thisJoinPoint.getArgs();
 		
 		/** method당 실행시간 세팅 및 쓰레드내 메소드의 고유 값 생성 */
 		String methodGuid = Local.startOperation();
-		
+		/** method description */
+		String description = APIUtil.NVL(apiOperAnno.description(), className.concat(OperateConstants.STR_DOT).concat(methodName));
+		/** method full infomation */
 		String methodInfomation = getTargetMethodInfomation(typeMethodName, inputParam, description, methodGuid);
 
 		logger.debug("■■ [AOP START Operation] {} ", methodInfomation);
@@ -165,6 +197,11 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		logger.debug("■■ [AOP] doMethodInputValidation");
 		
 		if(inputParamTypes != null && inputParamObjects != null) {
+			
+			if(inputParamTypes.length != inputParamObjects.length) {
+				throw new APIException("컨트롤러 오퍼레이션의 입력 파라메터 타입 개수와 입력 오브젝트 개수가 다를 수 없습니다.");
+			}
+			
 			ParamValidate paramValidator = new ParamValidate();
 			Class<?> inputType = null;
 			Object inputObject = null;

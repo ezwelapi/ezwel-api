@@ -7,6 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
@@ -23,7 +24,6 @@ import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclAment;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
-import com.ezwel.htl.interfaces.service.data.allReg.AllRegSubImagesOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 
@@ -42,15 +42,11 @@ public class OutsideRepository extends DataAccessObjectUtil {
 	
 	private PropertyUtil propertyUtil = (PropertyUtil) LApplicationContext.getBean(PropertyUtil.class);
 	
-	public OutsideRepository() {
-		this.namespace = NamespaceConstants.OUTSIDE_MAPPER;
-	}
-	
 	/**
 	 * 맵핑 시설 : EZC_FACL, EZC_FACL_IMG, EZC_FACL_AMENT ( 1 : N : N ), 데이터 적제 
 	 * 요청(입력) 파라메터 없음
 	 */
-	@Transactional
+	@Transactional(propagation=Propagation.REQUIRED)
 	@APIOperation(description="전체시설일괄등록 인터페이스")
 	public Integer insertAllReg(List<EzcFacl> saveFaclRegDatas) {
 		
@@ -73,14 +69,14 @@ public class OutsideRepository extends DataAccessObjectUtil {
 				
 				/** 0. 시설 코드 (Number) Sequnce */
 				//sequnce
-				faclCdSeq = sqlSession.selectOne(getNamespace("sequnceEzcFacl"));
+				faclCdSeq = sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectEzcFaclSeq"));
 				ezcFacl.setFaclCd(faclCdSeq);
 				ezcFacl.setRegId(Local.commonHeader().getSystemUserId());
 				ezcFacl.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
 				
 				/** 1. EZC_FACL 1건 저장 */
 				//insert
-				txSuccess = sqlSession.insert(getNamespace("insertEzcFacl"), ezcFacl);
+				txSuccess = sqlSession.insert(getNamespace("EZC_FACL_MAPPER", "insertEzcFacl"), ezcFacl);
 				if(txSuccess > 0) {
 					txCount++;
 					
@@ -89,12 +85,12 @@ public class OutsideRepository extends DataAccessObjectUtil {
 					if(ezcFaclImgList != null) {
 						for(EzcFaclImg faclImg : ezcFaclImgList) {
 							//sequnce
-							faclImg.setFaclImgSeq((BigDecimal) sqlSession.selectOne(getNamespace("sequnceEzcFaclImg")));
+							faclImg.setFaclImgSeq((BigDecimal) sqlSession.selectOne(getNamespace("FACL_IMG_MAPPER", "sequnceEzcFaclImg")));
 							faclImg.setFaclCd(ezcFacl.getFaclCd());
 							faclImg.setRegId(Local.commonHeader().getSystemUserId());
 							faclImg.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));							
 							//insert
-							txCount += sqlSession.insert(getNamespace("insertEzcFaclImg"), faclImg);
+							txCount += sqlSession.insert(getNamespace("FACL_IMG_MAPPER", "insertEzcFaclImg"), faclImg);
 						}
 					}
 					
@@ -111,17 +107,16 @@ public class OutsideRepository extends DataAccessObjectUtil {
 								ezcFaclAment.setRegId(Local.commonHeader().getSystemUserId());
 								ezcFaclAment.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
 								//insert
-								txCount += sqlSession.insert(getNamespace("insertEzcFaclImg"), ezcFaclAment);
+								txCount += sqlSession.insert(getNamespace("FACL_IMG_MAPPER", "insertEzcFaclImg"), ezcFaclAment);
 							}
 						}
 					}
 				}
 			}
 		}
-		catch(Exception e) {
+		catch(APIException e) {
 			//에러 발생 레코드 errorItems에 저장후 runtimeException 없이 로깅후 종료
-			Local.commonHeader().addErrorItems(ezcFacl);
-			e.printStackTrace();
+			throw new APIException("시설정보 DB 저장 실패"); 
 		}
 		
 		return txCount;
@@ -144,7 +139,7 @@ public class OutsideRepository extends DataAccessObjectUtil {
 		try {
 			
 		}
-		catch(Exception e) {
+		catch(APIException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
 		}
 			
@@ -164,7 +159,7 @@ public class OutsideRepository extends DataAccessObjectUtil {
 		try {
 		
 		}
-		catch(Exception e) {
+		catch(APIException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
 		}
 		
