@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:03 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:43 	신규작성 
  * 
- * @since 2018-12-03 11:05:03
+ * @since 2018-12-03 14:47:43
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcFaclReviewGrade" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReviewGrade">
+<insert id="insertEzcFaclReviewGrade" parameterType="ezcFaclReviewGrade">
 INSERT INTO EZC_FACL_REVIEW_GRADE(	/* 시설 후기 평점 */
 	 FACL_REVIEW_TYPE	/* 시설 후기 유형, VARCHAR2(8) */
 	,FACL_REVIEW_SEQ	/* 시설 후기 일련번호, NUMBER(0,22) */
@@ -29,7 +29,7 @@ INSERT INTO EZC_FACL_REVIEW_GRADE(	/* 시설 후기 평점 */
 )
 </insert>
 
-<select id="selectEzcFaclReviewGrade" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReviewGrade" resultType="com.ezwel.htl.interfaces.server.entities.EzcFaclReviewGrade">
+<select id="selectEzcFaclReviewGrade" parameterType="ezcFaclReviewGrade" resultType="ezcFaclReviewGrade">
 SELECT
 	 EZC_FACL_REVIEW_GRADE.FACL_REVIEW_TYPE AS faclReviewType	/* 시설 후기 유형, VARCHAR2(8) */
 	,EZC_FACL_REVIEW_GRADE.FACL_REVIEW_SEQ AS faclReviewSeq	/* 시설 후기 일련번호, NUMBER(0,22) */
@@ -41,11 +41,11 @@ SELECT
 FROM
 	EZC_FACL_REVIEW_GRADE	/* 시설 후기 평점 */
 WHERE 1=1
-	AND EZC_FACL_REVIEW_GRADE.FACL_REVIEW_TYPE = #{faclReviewType, jdbcType=VARCHAR}	/* 시설 후기 유형, VARCHAR2(8) */
-	AND EZC_FACL_REVIEW_GRADE.FACL_REVIEW_SEQ = #{faclReviewSeq, jdbcType=DECIMAL}	/* 시설 후기 일련번호, NUMBER(0,22) */
+	AND EZC_FACL_REVIEW_GRADE.FACL_REVIEW_TYPE = #{faclReviewType, jdbcType=VARCHAR}	/* 시설 후기 유형, VARCHAR2(8), EZC_FACL_REVIEW_GRADE_PK(P),SYS_C0011442(C) */
+	AND EZC_FACL_REVIEW_GRADE.FACL_REVIEW_SEQ = #{faclReviewSeq, jdbcType=DECIMAL}	/* 시설 후기 일련번호, NUMBER(0,22), EZC_FACL_REVIEW_GRADE_PK(P),SYS_C0011443(C) */
 </select>
 
-<select id="selectCountEzcFaclReviewGrade" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReviewGrade" resultType="java.lang.Integer">
+<select id="selectCountEzcFaclReviewGrade" parameterType="ezcFaclReviewGrade" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -57,9 +57,24 @@ WHERE 1=1
 	<if test="faclReviewSeq != null and faclReviewSeq gt 0">
 	AND EZC_FACL_REVIEW_GRADE.FACL_REVIEW_SEQ = #{faclReviewSeq, jdbcType=DECIMAL}	/* 시설 후기 일련번호, NUMBER(0,22) */
 	</if>
+	<if test="grade != null and grade gt 0">
+	AND EZC_FACL_REVIEW_GRADE.GRADE = #{grade, jdbcType=NUMERIC}	/* 평점, NUMBER(0,22) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_FACL_REVIEW_GRADE.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_FACL_REVIEW_GRADE.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_FACL_REVIEW_GRADE.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_FACL_REVIEW_GRADE.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcFaclReviewGrade" resultType="com.ezwel.htl.interfaces.server.entities.EzcFaclReviewGrade">
+<select id="selectListEzcFaclReviewGrade" resultType="ezcFaclReviewGrade">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -74,22 +89,37 @@ SELECT * FROM (
 		FROM
 			EZC_FACL_REVIEW_GRADE	/* 시설 후기 평점 */
 		WHERE 1=1
-			<if test="param.faclReviewType != null and param.faclReviewType != ''">
-			AND EZC_FACL_REVIEW_GRADE.FACL_REVIEW_TYPE = #{param.faclReviewType, jdbcType=VARCHAR}	/* 시설 후기 유형, VARCHAR2(8) */
+			<if test="faclReviewType != null and faclReviewType != ''">
+			AND EZC_FACL_REVIEW_GRADE.FACL_REVIEW_TYPE = #{faclReviewType, jdbcType=VARCHAR}	/* 시설 후기 유형, VARCHAR2(8) */
 			</if>
-			<if test="param.faclReviewSeq != null and param.faclReviewSeq gt 0">
-			AND EZC_FACL_REVIEW_GRADE.FACL_REVIEW_SEQ = #{param.faclReviewSeq, jdbcType=DECIMAL}	/* 시설 후기 일련번호, NUMBER(0,22) */
+			<if test="faclReviewSeq != null and faclReviewSeq gt 0">
+			AND EZC_FACL_REVIEW_GRADE.FACL_REVIEW_SEQ = #{faclReviewSeq, jdbcType=DECIMAL}	/* 시설 후기 일련번호, NUMBER(0,22) */
+			</if>
+			<if test="grade != null and grade gt 0">
+			AND EZC_FACL_REVIEW_GRADE.GRADE = #{grade, jdbcType=NUMERIC}	/* 평점, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_FACL_REVIEW_GRADE.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_FACL_REVIEW_GRADE.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_FACL_REVIEW_GRADE.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_FACL_REVIEW_GRADE.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_FACL_REVIEW_GRADE.FACL_REVIEW_TYPE DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcFaclReviewGrade" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReviewGrade">
+<update id="updateEzcFaclReviewGrade" parameterType="ezcFaclReviewGrade">
 UPDATE EZC_FACL_REVIEW_GRADE SET	/* 시설 후기 평점 */
 	 GRADE = #{grade, jdbcType=NUMERIC}	/* 평점, NUMBER(0,22) */
 	,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
@@ -99,7 +129,7 @@ WHERE 1=1
 	AND FACL_REVIEW_SEQ = #{faclReviewSeq, jdbcType=DECIMAL}	/* 시설 후기 일련번호, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcFaclReviewGrade" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReviewGrade">
+<update id="mergeEzcFaclReviewGrade" parameterType="ezcFaclReviewGrade">
 MERGE INTO EZC_FACL_REVIEW_GRADE /* 시설 후기 평점 */
 	USING DUAL ON (
 		FACL_REVIEW_TYPE = #{faclReviewType, jdbcType=VARCHAR}	/* 시설 후기 유형, VARCHAR2(8) */
@@ -126,7 +156,7 @@ MERGE INTO EZC_FACL_REVIEW_GRADE /* 시설 후기 평점 */
 		)
 </update>
 
-<delete id="deleteEzcFaclReviewGrade" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReviewGrade">
+<delete id="deleteEzcFaclReviewGrade" parameterType="ezcFaclReviewGrade">
 DELETE FROM EZC_FACL_REVIEW_GRADE /* 시설 후기 평점 */
 WHERE 1=1
 	AND FACL_REVIEW_TYPE = #{faclReviewType, jdbcType=VARCHAR}	/* 시설 후기 유형, VARCHAR2(8) */

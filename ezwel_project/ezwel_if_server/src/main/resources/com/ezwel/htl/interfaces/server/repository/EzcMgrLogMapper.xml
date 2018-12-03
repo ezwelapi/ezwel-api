@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:03 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:43 	신규작성 
  * 
- * @since 2018-12-03 11:05:03
+ * @since 2018-12-03 14:47:43
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcMgrLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrLog">
+<insert id="insertEzcMgrLog" parameterType="ezcMgrLog">
 INSERT INTO EZC_MGR_LOG(	/* 운영자 로그 */
 	 LOG_SEQ	/* 로그 일련번호, NUMBER(0,22) */
 	,MGR_ID	/* 운영자 ID, VARCHAR2(20) */
@@ -33,7 +33,7 @@ INSERT INTO EZC_MGR_LOG(	/* 운영자 로그 */
 )
 </insert>
 
-<select id="selectEzcMgrLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrLog" resultType="com.ezwel.htl.interfaces.server.entities.EzcMgrLog">
+<select id="selectEzcMgrLog" parameterType="ezcMgrLog" resultType="ezcMgrLog">
 SELECT
 	 EZC_MGR_LOG.LOG_SEQ AS logSeq	/* 로그 일련번호, NUMBER(0,22) */
 	,EZC_MGR_LOG.MGR_ID AS mgrId	/* 운영자 ID, VARCHAR2(20) */
@@ -53,15 +53,11 @@ WHERE 1=1
 	AND EZC_MGR_LOG.MGR_ID = EZC_MGR.MGR_ID
 	AND EZC_MGR.CLIENT_CD = EZC_CLIENT_INFO.CLIENT_CD
 	AND EZC_MGR.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-	AND EZC_MGR_LOG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_MGR.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CLIENT_INFO.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_MGR_LOG.LOG_SEQ = #{logSeq, jdbcType=DECIMAL}	/* 로그 일련번호, NUMBER(0,22) */
-	AND EZC_MGR_LOG.MGR_ID = #{mgrId, jdbcType=VARCHAR}	/* 운영자 ID, VARCHAR2(20) */
+	AND EZC_MGR_LOG.LOG_SEQ = #{logSeq, jdbcType=DECIMAL}	/* 로그 일련번호, NUMBER(0,22), EZC_MGR_LOG_PK(P),SYS_C0011484(C) */
+	AND EZC_MGR_LOG.MGR_ID = #{mgrId, jdbcType=VARCHAR}	/* 운영자 ID, VARCHAR2(20), FK_EZC_MGR_EZC_MGR_LOG(R),SYS_C0011485(C) */
 </select>
 
-<select id="selectCountEzcMgrLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrLog" resultType="java.lang.Integer">
+<select id="selectCountEzcMgrLog" parameterType="ezcMgrLog" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -73,22 +69,36 @@ WHERE 1=1
 	AND EZC_MGR_LOG.MGR_ID = EZC_MGR.MGR_ID
 	AND EZC_MGR.CLIENT_CD = EZC_CLIENT_INFO.CLIENT_CD
 	AND EZC_MGR.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-	AND EZC_MGR_LOG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_MGR.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CLIENT_INFO.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
 	<if test="logSeq != null and logSeq gt 0">
 	AND EZC_MGR_LOG.LOG_SEQ = #{logSeq, jdbcType=DECIMAL}	/* 로그 일련번호, NUMBER(0,22) */
 	</if>
 	<if test="mgrId != null and mgrId != ''">
 	AND EZC_MGR_LOG.MGR_ID = #{mgrId, jdbcType=VARCHAR}	/* 운영자 ID, VARCHAR2(20) */
 	</if>
+	<if test="logType != null and logType != ''">
+	AND EZC_MGR_LOG.LOG_TYPE = #{logType, jdbcType=VARCHAR}	/* 로그 유형, VARCHAR2(8) */
+	</if>
 	<if test="content != null and content != ''">
 	AND EZC_MGR_LOG.CONTENT LIKE '%' || #{content, jdbcType=VARCHAR} || '%'	/* 내용, VARCHAR2(1000) */
 	</if>
+	<if test="connIp != null and connIp != ''">
+	AND EZC_MGR_LOG.CONN_IP = #{connIp, jdbcType=VARCHAR}	/* 접속 IP, VARCHAR2(15) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_MGR_LOG.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_MGR_LOG.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_MGR_LOG.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_MGR_LOG.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcMgrLog" resultType="com.ezwel.htl.interfaces.server.entities.EzcMgrLog">
+<select id="selectListEzcMgrLog" resultType="ezcMgrLog">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -111,29 +121,43 @@ SELECT * FROM (
 			AND EZC_MGR_LOG.MGR_ID = EZC_MGR.MGR_ID
 			AND EZC_MGR.CLIENT_CD = EZC_CLIENT_INFO.CLIENT_CD
 			AND EZC_MGR.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-			AND EZC_MGR_LOG.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_MGR.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CLIENT_INFO.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_PARTNER.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.logSeq != null and param.logSeq gt 0">
-			AND EZC_MGR_LOG.LOG_SEQ = #{param.logSeq, jdbcType=DECIMAL}	/* 로그 일련번호, NUMBER(0,22) */
+			<if test="logSeq != null and logSeq gt 0">
+			AND EZC_MGR_LOG.LOG_SEQ = #{logSeq, jdbcType=DECIMAL}	/* 로그 일련번호, NUMBER(0,22) */
 			</if>
-			<if test="param.mgrId != null and param.mgrId != ''">
-			AND EZC_MGR_LOG.MGR_ID = #{param.mgrId, jdbcType=VARCHAR}	/* 운영자 ID, VARCHAR2(20) */
+			<if test="mgrId != null and mgrId != ''">
+			AND EZC_MGR_LOG.MGR_ID = #{mgrId, jdbcType=VARCHAR}	/* 운영자 ID, VARCHAR2(20) */
 			</if>
-			<if test="param.content != null and param.content != ''">
-			AND EZC_MGR_LOG.CONTENT LIKE '%' || #{param.content, jdbcType=VARCHAR} || '%'	/* 내용, VARCHAR2(1000) */
+			<if test="logType != null and logType != ''">
+			AND EZC_MGR_LOG.LOG_TYPE = #{logType, jdbcType=VARCHAR}	/* 로그 유형, VARCHAR2(8) */
+			</if>
+			<if test="content != null and content != ''">
+			AND EZC_MGR_LOG.CONTENT LIKE '%' || #{content, jdbcType=VARCHAR} || '%'	/* 내용, VARCHAR2(1000) */
+			</if>
+			<if test="connIp != null and connIp != ''">
+			AND EZC_MGR_LOG.CONN_IP = #{connIp, jdbcType=VARCHAR}	/* 접속 IP, VARCHAR2(15) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_MGR_LOG.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_MGR_LOG.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_MGR_LOG.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_MGR_LOG.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_MGR_LOG.LOG_SEQ DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcMgrLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrLog">
+<update id="updateEzcMgrLog" parameterType="ezcMgrLog">
 UPDATE EZC_MGR_LOG SET	/* 운영자 로그 */
 	 LOG_TYPE = #{logType, jdbcType=VARCHAR}	/* 로그 유형, VARCHAR2(8) */
 	,CONTENT = #{content, jdbcType=VARCHAR}	/* 내용, VARCHAR2(1000) */
@@ -145,7 +169,7 @@ WHERE 1=1
 	AND MGR_ID = #{mgrId, jdbcType=VARCHAR}	/* 운영자 ID, VARCHAR2(20) */
 </update>
 
-<update id="mergeEzcMgrLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrLog">
+<update id="mergeEzcMgrLog" parameterType="ezcMgrLog">
 MERGE INTO EZC_MGR_LOG /* 운영자 로그 */
 	USING DUAL ON (
 		LOG_SEQ = #{logSeq, jdbcType=DECIMAL}	/* 로그 일련번호, NUMBER(0,22) */
@@ -178,7 +202,7 @@ MERGE INTO EZC_MGR_LOG /* 운영자 로그 */
 		)
 </update>
 
-<delete id="deleteEzcMgrLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrLog">
+<delete id="deleteEzcMgrLog" parameterType="ezcMgrLog">
 DELETE FROM EZC_MGR_LOG /* 운영자 로그 */
 WHERE 1=1
 	AND LOG_SEQ = #{logSeq, jdbcType=DECIMAL}	/* 로그 일련번호, NUMBER(0,22) */

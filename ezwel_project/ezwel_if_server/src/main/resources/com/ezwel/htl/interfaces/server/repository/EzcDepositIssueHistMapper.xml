@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:02 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:42 	신규작성 
  * 
- * @since 2018-12-03 11:05:02
+ * @since 2018-12-03 14:47:42
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcDepositIssueHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDepositIssueHist">
+<insert id="insertEzcDepositIssueHist" parameterType="ezcDepositIssueHist">
 INSERT INTO EZC_DEPOSIT_ISSUE_HIST(	/* 예치금 발생 내역 */
 	 DEPOSIT_ISSUE_SEQ	/* 예치금 발생 일련번호, NUMBER(0,22) */
 	,PARTNER_CD	/* 제휴사 코드, VARCHAR2(20) */
@@ -33,7 +33,7 @@ INSERT INTO EZC_DEPOSIT_ISSUE_HIST(	/* 예치금 발생 내역 */
 )
 </insert>
 
-<select id="selectEzcDepositIssueHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDepositIssueHist" resultType="com.ezwel.htl.interfaces.server.entities.EzcDepositIssueHist">
+<select id="selectEzcDepositIssueHist" parameterType="ezcDepositIssueHist" resultType="ezcDepositIssueHist">
 SELECT
 	 EZC_DEPOSIT_ISSUE_HIST.DEPOSIT_ISSUE_SEQ AS depositIssueSeq	/* 예치금 발생 일련번호, NUMBER(0,22) */
 	,EZC_DEPOSIT_ISSUE_HIST.PARTNER_CD AS partnerCd	/* 제휴사 코드, VARCHAR2(20) */
@@ -64,20 +64,12 @@ WHERE 1=1
 	AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
 	AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
 	AND EZC_RESERV_BASE.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-	AND EZC_DEPOSIT_ISSUE_HIST.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_DEPOSIT.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_RESERV_BASE.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CHANNEL_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AREA_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CITY_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_DEPOSIT_ISSUE_HIST.DEPOSIT_ISSUE_SEQ = #{depositIssueSeq, jdbcType=DECIMAL}	/* 예치금 발생 일련번호, NUMBER(0,22) */
-	AND EZC_DEPOSIT_ISSUE_HIST.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
-	AND EZC_DEPOSIT_ISSUE_HIST.RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
+	AND EZC_DEPOSIT_ISSUE_HIST.DEPOSIT_ISSUE_SEQ = #{depositIssueSeq, jdbcType=DECIMAL}	/* 예치금 발생 일련번호, NUMBER(0,22), EZC_DEPOSIT_ISSUE_HIST_PK(P),SYS_C0011364(C) */
+	AND EZC_DEPOSIT_ISSUE_HIST.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20), FK_EZC_DEPOSIT_EZC_DEPOSIT_ISS(R),SYS_C0011365(C) */
+	AND EZC_DEPOSIT_ISSUE_HIST.RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22), FK_EZC_RESERV_BASE_EZC_DEPOSIT(R),SYS_C0011366(C) */
 </select>
 
-<select id="selectCountEzcDepositIssueHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDepositIssueHist" resultType="java.lang.Integer">
+<select id="selectCountEzcDepositIssueHist" parameterType="ezcDepositIssueHist" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -100,14 +92,6 @@ WHERE 1=1
 	AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
 	AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
 	AND EZC_RESERV_BASE.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-	AND EZC_DEPOSIT_ISSUE_HIST.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_DEPOSIT.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_RESERV_BASE.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CHANNEL_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AREA_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CITY_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
 	<if test="depositIssueSeq != null and depositIssueSeq gt 0">
 	AND EZC_DEPOSIT_ISSUE_HIST.DEPOSIT_ISSUE_SEQ = #{depositIssueSeq, jdbcType=DECIMAL}	/* 예치금 발생 일련번호, NUMBER(0,22) */
 	</if>
@@ -117,9 +101,27 @@ WHERE 1=1
 	<if test="reservNum != null and reservNum gt 0">
 	AND EZC_DEPOSIT_ISSUE_HIST.RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
 	</if>
+	<if test="issueDd != null and issueDd != ''">
+	AND EZC_DEPOSIT_ISSUE_HIST.ISSUE_DD = #{issueDd, jdbcType=VARCHAR}	/* 발생 일자, VARCHAR2(8) */
+	</if>
+	<if test="issueDepositAmt != null and issueDepositAmt gt 0">
+	AND EZC_DEPOSIT_ISSUE_HIST.ISSUE_DEPOSIT_AMT = #{issueDepositAmt, jdbcType=NUMERIC}	/* 발생 예치 금액, NUMBER(0,22) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_DEPOSIT_ISSUE_HIST.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_DEPOSIT_ISSUE_HIST.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_DEPOSIT_ISSUE_HIST.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_DEPOSIT_ISSUE_HIST.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcDepositIssueHist" resultType="com.ezwel.htl.interfaces.server.entities.EzcDepositIssueHist">
+<select id="selectListEzcDepositIssueHist" resultType="ezcDepositIssueHist">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -153,33 +155,43 @@ SELECT * FROM (
 			AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
 			AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
 			AND EZC_RESERV_BASE.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-			AND EZC_DEPOSIT_ISSUE_HIST.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_DEPOSIT.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_PARTNER.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_RESERV_BASE.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CHANNEL_MNG.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_FACL.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_AREA_CD.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CITY_CD.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.depositIssueSeq != null and param.depositIssueSeq gt 0">
-			AND EZC_DEPOSIT_ISSUE_HIST.DEPOSIT_ISSUE_SEQ = #{param.depositIssueSeq, jdbcType=DECIMAL}	/* 예치금 발생 일련번호, NUMBER(0,22) */
+			<if test="depositIssueSeq != null and depositIssueSeq gt 0">
+			AND EZC_DEPOSIT_ISSUE_HIST.DEPOSIT_ISSUE_SEQ = #{depositIssueSeq, jdbcType=DECIMAL}	/* 예치금 발생 일련번호, NUMBER(0,22) */
 			</if>
-			<if test="param.partnerCd != null and param.partnerCd != ''">
-			AND EZC_DEPOSIT_ISSUE_HIST.PARTNER_CD = #{param.partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
+			<if test="partnerCd != null and partnerCd != ''">
+			AND EZC_DEPOSIT_ISSUE_HIST.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
 			</if>
-			<if test="param.reservNum != null and param.reservNum gt 0">
-			AND EZC_DEPOSIT_ISSUE_HIST.RESERV_NUM = #{param.reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
+			<if test="reservNum != null and reservNum gt 0">
+			AND EZC_DEPOSIT_ISSUE_HIST.RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
+			</if>
+			<if test="issueDd != null and issueDd != ''">
+			AND EZC_DEPOSIT_ISSUE_HIST.ISSUE_DD = #{issueDd, jdbcType=VARCHAR}	/* 발생 일자, VARCHAR2(8) */
+			</if>
+			<if test="issueDepositAmt != null and issueDepositAmt gt 0">
+			AND EZC_DEPOSIT_ISSUE_HIST.ISSUE_DEPOSIT_AMT = #{issueDepositAmt, jdbcType=NUMERIC}	/* 발생 예치 금액, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_DEPOSIT_ISSUE_HIST.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_DEPOSIT_ISSUE_HIST.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_DEPOSIT_ISSUE_HIST.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_DEPOSIT_ISSUE_HIST.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_DEPOSIT_ISSUE_HIST.DEPOSIT_ISSUE_SEQ DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcDepositIssueHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDepositIssueHist">
+<update id="updateEzcDepositIssueHist" parameterType="ezcDepositIssueHist">
 UPDATE EZC_DEPOSIT_ISSUE_HIST SET	/* 예치금 발생 내역 */
 	 ISSUE_DD = #{issueDd, jdbcType=VARCHAR}	/* 발생 일자, VARCHAR2(8) */
 	,ISSUE_DEPOSIT_AMT = #{issueDepositAmt, jdbcType=NUMERIC}	/* 발생 예치 금액, NUMBER(0,22) */
@@ -191,7 +203,7 @@ WHERE 1=1
 	AND RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcDepositIssueHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDepositIssueHist">
+<update id="mergeEzcDepositIssueHist" parameterType="ezcDepositIssueHist">
 MERGE INTO EZC_DEPOSIT_ISSUE_HIST /* 예치금 발생 내역 */
 	USING DUAL ON (
 		DEPOSIT_ISSUE_SEQ = #{depositIssueSeq, jdbcType=DECIMAL}	/* 예치금 발생 일련번호, NUMBER(0,22) */
@@ -224,7 +236,7 @@ MERGE INTO EZC_DEPOSIT_ISSUE_HIST /* 예치금 발생 내역 */
 		)
 </update>
 
-<delete id="deleteEzcDepositIssueHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDepositIssueHist">
+<delete id="deleteEzcDepositIssueHist" parameterType="ezcDepositIssueHist">
 DELETE FROM EZC_DEPOSIT_ISSUE_HIST /* 예치금 발생 내역 */
 WHERE 1=1
 	AND DEPOSIT_ISSUE_SEQ = #{depositIssueSeq, jdbcType=DECIMAL}	/* 예치금 발생 일련번호, NUMBER(0,22) */

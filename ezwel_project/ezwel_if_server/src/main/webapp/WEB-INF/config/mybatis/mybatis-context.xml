@@ -59,6 +59,7 @@
 	<!-- Mybatis Spring Works SqlSessionFactoryBean : http://mybatis.github.io/spring/ko/factorybean.html -->
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 	  	<beans:property name="dataSource" ref="mainJdbcDataSource" />
+		<beans:property name="typeAliasesPackage" value="classpath*:com.ezwel.htl.interfaces.server.entities" />
 		<beans:property name="mapperLocations" value="classpath*:com/ezwel/htl/interfaces/server/**/*Mapper.xml" />
 	</beans:bean>
 

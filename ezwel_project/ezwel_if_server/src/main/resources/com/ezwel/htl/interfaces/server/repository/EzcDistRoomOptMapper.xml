@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:03 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:42 	신규작성 
  * 
- * @since 2018-12-03 11:05:03
+ * @since 2018-12-03 14:47:42
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcDistRoomOpt" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistRoomOpt">
+<insert id="insertEzcDistRoomOpt" parameterType="ezcDistRoomOpt">
 INSERT INTO EZC_DIST_ROOM_OPT(	/* 직영/숙박 객실 옵션 */
 	 ROOM_CD	/* 객실 코드, NUMBER(0,22) */
 	,ROOM_OPTCD	/* 객실 옵션코드, VARCHAR2(100) */
@@ -33,7 +33,7 @@ INSERT INTO EZC_DIST_ROOM_OPT(	/* 직영/숙박 객실 옵션 */
 )
 </insert>
 
-<select id="selectEzcDistRoomOpt" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistRoomOpt" resultType="com.ezwel.htl.interfaces.server.entities.EzcDistRoomOpt">
+<select id="selectEzcDistRoomOpt" parameterType="ezcDistRoomOpt" resultType="ezcDistRoomOpt">
 SELECT
 	 EZC_DIST_ROOM_OPT.ROOM_CD AS roomCd	/* 객실 코드, NUMBER(0,22) */
 	,EZC_DIST_ROOM_OPT.ROOM_OPTCD AS roomOptcd	/* 객실 옵션코드, VARCHAR2(100) */
@@ -47,11 +47,11 @@ SELECT
 FROM
 	EZC_DIST_ROOM_OPT	/* 직영/숙박 객실 옵션 */
 WHERE 1=1
-	AND EZC_DIST_ROOM_OPT.ROOM_CD = #{roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22) */
-	AND EZC_DIST_ROOM_OPT.ROOM_OPTCD = #{roomOptcd, jdbcType=VARCHAR}	/* 객실 옵션코드, VARCHAR2(100) */
+	AND EZC_DIST_ROOM_OPT.ROOM_CD = #{roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22), EZC_DIST_ROOM_OPT_PK(P),SYS_C0011430(C) */
+	AND EZC_DIST_ROOM_OPT.ROOM_OPTCD = #{roomOptcd, jdbcType=VARCHAR}	/* 객실 옵션코드, VARCHAR2(100), EZC_DIST_ROOM_OPT_PK(P),SYS_C0011431(C) */
 </select>
 
-<select id="selectCountEzcDistRoomOpt" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistRoomOpt" resultType="java.lang.Integer">
+<select id="selectCountEzcDistRoomOpt" parameterType="ezcDistRoomOpt" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -63,9 +63,30 @@ WHERE 1=1
 	<if test="roomOptcd != null and roomOptcd != ''">
 	AND EZC_DIST_ROOM_OPT.ROOM_OPTCD = #{roomOptcd, jdbcType=VARCHAR}	/* 객실 옵션코드, VARCHAR2(100) */
 	</if>
+	<if test="optNm != null and optNm != ''">
+	AND EZC_DIST_ROOM_OPT.OPT_NM = #{optNm, jdbcType=VARCHAR}	/* 옵션 이름, VARCHAR2(50) */
+	</if>
+	<if test="optAmt != null and optAmt gt 0">
+	AND EZC_DIST_ROOM_OPT.OPT_AMT = #{optAmt, jdbcType=NUMERIC}	/* 옵션 금액, NUMBER(0,22) */
+	</if>
+	<if test="limitQty != null and limitQty gt 0">
+	AND EZC_DIST_ROOM_OPT.LIMIT_QTY = #{limitQty, jdbcType=NUMERIC}	/* 최대 가능 수량, NUMBER(0,22) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_DIST_ROOM_OPT.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_DIST_ROOM_OPT.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_DIST_ROOM_OPT.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_DIST_ROOM_OPT.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcDistRoomOpt" resultType="com.ezwel.htl.interfaces.server.entities.EzcDistRoomOpt">
+<select id="selectListEzcDistRoomOpt" resultType="ezcDistRoomOpt">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -82,22 +103,43 @@ SELECT * FROM (
 		FROM
 			EZC_DIST_ROOM_OPT	/* 직영/숙박 객실 옵션 */
 		WHERE 1=1
-			<if test="param.roomCd != null and param.roomCd gt 0">
-			AND EZC_DIST_ROOM_OPT.ROOM_CD = #{param.roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22) */
+			<if test="roomCd != null and roomCd gt 0">
+			AND EZC_DIST_ROOM_OPT.ROOM_CD = #{roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22) */
 			</if>
-			<if test="param.roomOptcd != null and param.roomOptcd != ''">
-			AND EZC_DIST_ROOM_OPT.ROOM_OPTCD = #{param.roomOptcd, jdbcType=VARCHAR}	/* 객실 옵션코드, VARCHAR2(100) */
+			<if test="roomOptcd != null and roomOptcd != ''">
+			AND EZC_DIST_ROOM_OPT.ROOM_OPTCD = #{roomOptcd, jdbcType=VARCHAR}	/* 객실 옵션코드, VARCHAR2(100) */
+			</if>
+			<if test="optNm != null and optNm != ''">
+			AND EZC_DIST_ROOM_OPT.OPT_NM = #{optNm, jdbcType=VARCHAR}	/* 옵션 이름, VARCHAR2(50) */
+			</if>
+			<if test="optAmt != null and optAmt gt 0">
+			AND EZC_DIST_ROOM_OPT.OPT_AMT = #{optAmt, jdbcType=NUMERIC}	/* 옵션 금액, NUMBER(0,22) */
+			</if>
+			<if test="limitQty != null and limitQty gt 0">
+			AND EZC_DIST_ROOM_OPT.LIMIT_QTY = #{limitQty, jdbcType=NUMERIC}	/* 최대 가능 수량, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_DIST_ROOM_OPT.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_DIST_ROOM_OPT.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_DIST_ROOM_OPT.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_DIST_ROOM_OPT.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_DIST_ROOM_OPT.ROOM_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcDistRoomOpt" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistRoomOpt">
+<update id="updateEzcDistRoomOpt" parameterType="ezcDistRoomOpt">
 UPDATE EZC_DIST_ROOM_OPT SET	/* 직영/숙박 객실 옵션 */
 	 OPT_NM = #{optNm, jdbcType=VARCHAR}	/* 옵션 이름, VARCHAR2(50) */
 	,OPT_AMT = #{optAmt, jdbcType=NUMERIC}	/* 옵션 금액, NUMBER(0,22) */
@@ -109,7 +151,7 @@ WHERE 1=1
 	AND ROOM_OPTCD = #{roomOptcd, jdbcType=VARCHAR}	/* 객실 옵션코드, VARCHAR2(100) */
 </update>
 
-<update id="mergeEzcDistRoomOpt" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistRoomOpt">
+<update id="mergeEzcDistRoomOpt" parameterType="ezcDistRoomOpt">
 MERGE INTO EZC_DIST_ROOM_OPT /* 직영/숙박 객실 옵션 */
 	USING DUAL ON (
 		ROOM_CD = #{roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22) */
@@ -142,7 +184,7 @@ MERGE INTO EZC_DIST_ROOM_OPT /* 직영/숙박 객실 옵션 */
 		)
 </update>
 
-<delete id="deleteEzcDistRoomOpt" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistRoomOpt">
+<delete id="deleteEzcDistRoomOpt" parameterType="ezcDistRoomOpt">
 DELETE FROM EZC_DIST_ROOM_OPT /* 직영/숙박 객실 옵션 */
 WHERE 1=1
 	AND ROOM_CD = #{roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22) */

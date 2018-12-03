@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:02 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:41 	신규작성 
  * 
- * @since 2018-12-03 11:05:02
+ * @since 2018-12-03 14:47:41
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcCnclientFaclMark" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCnclientFaclMark">
+<insert id="insertEzcCnclientFaclMark" parameterType="ezcCnclientFaclMark">
 INSERT INTO EZC_CNCLIENT_FACL_MARK(	/* 채널고객사 시설 마크 */
 	 CLIENT_CD	/* 고객사 코드, VARCHAR2(20) */
 	,GRP_FACL_CD	/* 그룹 시설 코드, NUMBER(0,22) */
@@ -35,7 +35,7 @@ INSERT INTO EZC_CNCLIENT_FACL_MARK(	/* 채널고객사 시설 마크 */
 )
 </insert>
 
-<select id="selectEzcCnclientFaclMark" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCnclientFaclMark" resultType="com.ezwel.htl.interfaces.server.entities.EzcCnclientFaclMark">
+<select id="selectEzcCnclientFaclMark" parameterType="ezcCnclientFaclMark" resultType="ezcCnclientFaclMark">
 SELECT
 	 EZC_CNCLIENT_FACL_MARK.CLIENT_CD AS clientCd	/* 고객사 코드, VARCHAR2(20) */
 	,EZC_CNCLIENT_FACL_MARK.GRP_FACL_CD AS grpFaclCd	/* 그룹 시설 코드, NUMBER(0,22) */
@@ -50,12 +50,12 @@ SELECT
 FROM
 	EZC_CNCLIENT_FACL_MARK	/* 채널고객사 시설 마크 */
 WHERE 1=1
-	AND EZC_CNCLIENT_FACL_MARK.CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
-	AND EZC_CNCLIENT_FACL_MARK.GRP_FACL_CD = #{grpFaclCd, jdbcType=DECIMAL}	/* 그룹 시설 코드, NUMBER(0,22) */
-	AND EZC_CNCLIENT_FACL_MARK.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
+	AND EZC_CNCLIENT_FACL_MARK.CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20), EZC_CNCLIENT_FACL_MARK_PK(P),SYS_C0011295(C) */
+	AND EZC_CNCLIENT_FACL_MARK.GRP_FACL_CD = #{grpFaclCd, jdbcType=DECIMAL}	/* 그룹 시설 코드, NUMBER(0,22), EZC_CNCLIENT_FACL_MARK_PK(P),SYS_C0011296(C) */
+	AND EZC_CNCLIENT_FACL_MARK.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10), EZC_CNCLIENT_FACL_MARK_PK(P),SYS_C0011297(C) */
 </select>
 
-<select id="selectCountEzcCnclientFaclMark" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCnclientFaclMark" resultType="java.lang.Integer">
+<select id="selectCountEzcCnclientFaclMark" parameterType="ezcCnclientFaclMark" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -70,9 +70,30 @@ WHERE 1=1
 	<if test="channelCd != null and channelCd != ''">
 	AND EZC_CNCLIENT_FACL_MARK.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 	</if>
+	<if test="markType != null and markType != ''">
+	AND EZC_CNCLIENT_FACL_MARK.MARK_TYPE = #{markType, jdbcType=VARCHAR}	/* 마크 유형, VARCHAR2(8) */
+	</if>
+	<if test="markUnit != null and markUnit != ''">
+	AND EZC_CNCLIENT_FACL_MARK.MARK_UNIT = #{markUnit, jdbcType=VARCHAR}	/* 마크 단위, VARCHAR2(8) */
+	</if>
+	<if test="markAmt != null and markAmt gt 0">
+	AND EZC_CNCLIENT_FACL_MARK.MARK_AMT = #{markAmt, jdbcType=NUMERIC}	/* 마크 금액, NUMBER(0,22) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_CNCLIENT_FACL_MARK.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_CNCLIENT_FACL_MARK.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_CNCLIENT_FACL_MARK.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_CNCLIENT_FACL_MARK.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcCnclientFaclMark" resultType="com.ezwel.htl.interfaces.server.entities.EzcCnclientFaclMark">
+<select id="selectListEzcCnclientFaclMark" resultType="ezcCnclientFaclMark">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -90,25 +111,46 @@ SELECT * FROM (
 		FROM
 			EZC_CNCLIENT_FACL_MARK	/* 채널고객사 시설 마크 */
 		WHERE 1=1
-			<if test="param.clientCd != null and param.clientCd != ''">
-			AND EZC_CNCLIENT_FACL_MARK.CLIENT_CD = #{param.clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
+			<if test="clientCd != null and clientCd != ''">
+			AND EZC_CNCLIENT_FACL_MARK.CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
 			</if>
-			<if test="param.grpFaclCd != null and param.grpFaclCd gt 0">
-			AND EZC_CNCLIENT_FACL_MARK.GRP_FACL_CD = #{param.grpFaclCd, jdbcType=DECIMAL}	/* 그룹 시설 코드, NUMBER(0,22) */
+			<if test="grpFaclCd != null and grpFaclCd gt 0">
+			AND EZC_CNCLIENT_FACL_MARK.GRP_FACL_CD = #{grpFaclCd, jdbcType=DECIMAL}	/* 그룹 시설 코드, NUMBER(0,22) */
 			</if>
-			<if test="param.channelCd != null and param.channelCd != ''">
-			AND EZC_CNCLIENT_FACL_MARK.CHANNEL_CD = #{param.channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
+			<if test="channelCd != null and channelCd != ''">
+			AND EZC_CNCLIENT_FACL_MARK.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
+			</if>
+			<if test="markType != null and markType != ''">
+			AND EZC_CNCLIENT_FACL_MARK.MARK_TYPE = #{markType, jdbcType=VARCHAR}	/* 마크 유형, VARCHAR2(8) */
+			</if>
+			<if test="markUnit != null and markUnit != ''">
+			AND EZC_CNCLIENT_FACL_MARK.MARK_UNIT = #{markUnit, jdbcType=VARCHAR}	/* 마크 단위, VARCHAR2(8) */
+			</if>
+			<if test="markAmt != null and markAmt gt 0">
+			AND EZC_CNCLIENT_FACL_MARK.MARK_AMT = #{markAmt, jdbcType=NUMERIC}	/* 마크 금액, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_CNCLIENT_FACL_MARK.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_CNCLIENT_FACL_MARK.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_CNCLIENT_FACL_MARK.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_CNCLIENT_FACL_MARK.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_CNCLIENT_FACL_MARK.CLIENT_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcCnclientFaclMark" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCnclientFaclMark">
+<update id="updateEzcCnclientFaclMark" parameterType="ezcCnclientFaclMark">
 UPDATE EZC_CNCLIENT_FACL_MARK SET	/* 채널고객사 시설 마크 */
 	 MARK_TYPE = #{markType, jdbcType=VARCHAR}	/* 마크 유형, VARCHAR2(8) */
 	,MARK_UNIT = #{markUnit, jdbcType=VARCHAR}	/* 마크 단위, VARCHAR2(8) */
@@ -121,7 +163,7 @@ WHERE 1=1
 	AND CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 </update>
 
-<update id="mergeEzcCnclientFaclMark" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCnclientFaclMark">
+<update id="mergeEzcCnclientFaclMark" parameterType="ezcCnclientFaclMark">
 MERGE INTO EZC_CNCLIENT_FACL_MARK /* 채널고객사 시설 마크 */
 	USING DUAL ON (
 		CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
@@ -157,7 +199,7 @@ MERGE INTO EZC_CNCLIENT_FACL_MARK /* 채널고객사 시설 마크 */
 		)
 </update>
 
-<delete id="deleteEzcCnclientFaclMark" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCnclientFaclMark">
+<delete id="deleteEzcCnclientFaclMark" parameterType="ezcCnclientFaclMark">
 DELETE FROM EZC_CNCLIENT_FACL_MARK /* 채널고객사 시설 마크 */
 WHERE 1=1
 	AND CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */

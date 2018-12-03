@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:01 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:41 	신규작성 
  * 
- * @since 2018-12-03 11:05:01
+ * @since 2018-12-03 14:47:41
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcAuthGrp" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuthGrp">
+<insert id="insertEzcAuthGrp" parameterType="ezcAuthGrp">
 INSERT INTO EZC_AUTH_GRP(	/* 권한 그룹 */
 	 AUTH_GRP_CD	/* 권한 그룹 코드, VARCHAR2(10) */
 	,SYS_TYPE	/* 시스템 유형, VARCHAR2(8) */
@@ -31,7 +31,7 @@ INSERT INTO EZC_AUTH_GRP(	/* 권한 그룹 */
 )
 </insert>
 
-<select id="selectEzcAuthGrp" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuthGrp" resultType="com.ezwel.htl.interfaces.server.entities.EzcAuthGrp">
+<select id="selectEzcAuthGrp" parameterType="ezcAuthGrp" resultType="ezcAuthGrp">
 SELECT
 	 EZC_AUTH_GRP.AUTH_GRP_CD AS authGrpCd	/* 권한 그룹 코드, VARCHAR2(10) */
 	,EZC_AUTH_GRP.SYS_TYPE AS sysType	/* 시스템 유형, VARCHAR2(8) */
@@ -44,21 +44,45 @@ SELECT
 FROM
 	EZC_AUTH_GRP	/* 권한 그룹 */
 WHERE 1=1
-	AND EZC_AUTH_GRP.AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */
+	<if test="useYn != null and useYn != ''">
+	AND EZC_AUTH_GRP.USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
+	</if>
+	AND EZC_AUTH_GRP.AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10), EZC_AUTH_GRP_PK(P),SYS_C0011214(C) */
 </select>
 
-<select id="selectCountEzcAuthGrp" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuthGrp" resultType="java.lang.Integer">
+<select id="selectCountEzcAuthGrp" parameterType="ezcAuthGrp" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
 	EZC_AUTH_GRP	/* 권한 그룹 */
 WHERE 1=1
+	<if test="useYn != null and useYn != ''">
+	AND EZC_AUTH_GRP.USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
+	</if>
 	<if test="authGrpCd != null and authGrpCd != ''">
 	AND EZC_AUTH_GRP.AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */
 	</if>
+	<if test="sysType != null and sysType != ''">
+	AND EZC_AUTH_GRP.SYS_TYPE = #{sysType, jdbcType=VARCHAR}	/* 시스템 유형, VARCHAR2(8) */
+	</if>
+	<if test="authGrpNm != null and authGrpNm != ''">
+	AND EZC_AUTH_GRP.AUTH_GRP_NM = #{authGrpNm, jdbcType=VARCHAR}	/* 권한 그룹 명, VARCHAR2(50) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_AUTH_GRP.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_AUTH_GRP.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_AUTH_GRP.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_AUTH_GRP.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcAuthGrp" resultType="com.ezwel.htl.interfaces.server.entities.EzcAuthGrp">
+<select id="selectListEzcAuthGrp" resultType="ezcAuthGrp">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -74,19 +98,40 @@ SELECT * FROM (
 		FROM
 			EZC_AUTH_GRP	/* 권한 그룹 */
 		WHERE 1=1
-			<if test="param.authGrpCd != null and param.authGrpCd != ''">
-			AND EZC_AUTH_GRP.AUTH_GRP_CD = #{param.authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */
+			<if test="useYn != null and useYn != ''">
+			AND EZC_AUTH_GRP.USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
+			</if>
+			<if test="authGrpCd != null and authGrpCd != ''">
+			AND EZC_AUTH_GRP.AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */
+			</if>
+			<if test="sysType != null and sysType != ''">
+			AND EZC_AUTH_GRP.SYS_TYPE = #{sysType, jdbcType=VARCHAR}	/* 시스템 유형, VARCHAR2(8) */
+			</if>
+			<if test="authGrpNm != null and authGrpNm != ''">
+			AND EZC_AUTH_GRP.AUTH_GRP_NM = #{authGrpNm, jdbcType=VARCHAR}	/* 권한 그룹 명, VARCHAR2(50) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_AUTH_GRP.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_AUTH_GRP.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_AUTH_GRP.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_AUTH_GRP.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_AUTH_GRP.AUTH_GRP_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcAuthGrp" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuthGrp">
+<update id="updateEzcAuthGrp" parameterType="ezcAuthGrp">
 UPDATE EZC_AUTH_GRP SET	/* 권한 그룹 */
 	 SYS_TYPE = #{sysType, jdbcType=VARCHAR}	/* 시스템 유형, VARCHAR2(8) */
 	,AUTH_GRP_NM = #{authGrpNm, jdbcType=VARCHAR}	/* 권한 그룹 명, VARCHAR2(50) */
@@ -97,7 +142,7 @@ WHERE 1=1
 	AND AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */
 </update>
 
-<update id="mergeEzcAuthGrp" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuthGrp">
+<update id="mergeEzcAuthGrp" parameterType="ezcAuthGrp">
 MERGE INTO EZC_AUTH_GRP /* 권한 그룹 */
 	USING DUAL ON (
 		AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */
@@ -127,7 +172,7 @@ MERGE INTO EZC_AUTH_GRP /* 권한 그룹 */
 		)
 </update>
 
-<delete id="deleteEzcAuthGrp" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuthGrp">
+<delete id="deleteEzcAuthGrp" parameterType="ezcAuthGrp">
 DELETE FROM EZC_AUTH_GRP /* 권한 그룹 */
 WHERE 1=1
 	AND AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */

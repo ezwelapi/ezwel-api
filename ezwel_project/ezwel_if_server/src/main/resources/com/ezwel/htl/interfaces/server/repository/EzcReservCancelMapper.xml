@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:04 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:44 	신규작성 
  * 
- * @since 2018-12-03 11:05:04
+ * @since 2018-12-03 14:47:44
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcReservCancel" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservCancel">
+<insert id="insertEzcReservCancel" parameterType="ezcReservCancel">
 INSERT INTO EZC_RESERV_CANCEL(	/* 예약 취소 정보 */
 	 RESERV_CANCEL_SEQ	/* 예약 취소 일련번호, NUMBER(0,22) */
 	,RESERV_NUM	/* 예약 번호, NUMBER(0,22) */
@@ -39,7 +39,7 @@ INSERT INTO EZC_RESERV_CANCEL(	/* 예약 취소 정보 */
 )
 </insert>
 
-<select id="selectEzcReservCancel" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservCancel" resultType="com.ezwel.htl.interfaces.server.entities.EzcReservCancel">
+<select id="selectEzcReservCancel" parameterType="ezcReservCancel" resultType="ezcReservCancel">
 SELECT
 	 EZC_RESERV_CANCEL.RESERV_CANCEL_SEQ AS reservCancelSeq	/* 예약 취소 일련번호, NUMBER(0,22) */
 	,EZC_RESERV_CANCEL.RESERV_NUM AS reservNum	/* 예약 번호, NUMBER(0,22) */
@@ -72,20 +72,18 @@ WHERE 1=1
 	AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
 	AND EZC_RESERV_BASE.PARTNER_CD = EZC_PARTNER.PARTNER_CD
 	AND EZC_RESERV_CANCEL.RESERV_ROOM_NUM = EZC_RESERV_ROOM.RESERV_ROOM_NUM
-	AND EZC_RESERV_CANCEL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_RESERV_BASE.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CHANNEL_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AREA_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CITY_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_RESERV_ROOM.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_RESERV_CANCEL.RESERV_CANCEL_SEQ = #{reservCancelSeq, jdbcType=DECIMAL}	/* 예약 취소 일련번호, NUMBER(0,22) */
-	AND EZC_RESERV_CANCEL.RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
-	AND EZC_RESERV_CANCEL.RESERV_ROOM_NUM = #{reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22) */
+	<if test="allCancelYn != null and allCancelYn != ''">
+	AND EZC_RESERV_CANCEL.ALL_CANCEL_YN = #{allCancelYn, jdbcType=CHAR}	/* 전체 취소 여부, CHAR(1) */
+	</if>
+	<if test="feePayYn != null and feePayYn != ''">
+	AND EZC_RESERV_CANCEL.FEE_PAY_YN = #{feePayYn, jdbcType=CHAR}	/* 수수료 결제 여부, CHAR(1) */
+	</if>
+	AND EZC_RESERV_CANCEL.RESERV_CANCEL_SEQ = #{reservCancelSeq, jdbcType=DECIMAL}	/* 예약 취소 일련번호, NUMBER(0,22), EZC_RESERV_CANCEL_PK(P),SYS_C0011615(C) */
+	AND EZC_RESERV_CANCEL.RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22), FK_EZC_RESERV_BASE_EZC_RESERV_(R),SYS_C0011616(C) */
+	AND EZC_RESERV_CANCEL.RESERV_ROOM_NUM = #{reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22), FK_EZC_RESERV_ROOM_EZC_RESERV_(R) */
 </select>
 
-<select id="selectCountEzcReservCancel" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservCancel" resultType="java.lang.Integer">
+<select id="selectCountEzcReservCancel" parameterType="ezcReservCancel" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -107,14 +105,12 @@ WHERE 1=1
 	AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
 	AND EZC_RESERV_BASE.PARTNER_CD = EZC_PARTNER.PARTNER_CD
 	AND EZC_RESERV_CANCEL.RESERV_ROOM_NUM = EZC_RESERV_ROOM.RESERV_ROOM_NUM
-	AND EZC_RESERV_CANCEL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_RESERV_BASE.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CHANNEL_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AREA_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CITY_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_RESERV_ROOM.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
+	<if test="allCancelYn != null and allCancelYn != ''">
+	AND EZC_RESERV_CANCEL.ALL_CANCEL_YN = #{allCancelYn, jdbcType=CHAR}	/* 전체 취소 여부, CHAR(1) */
+	</if>
+	<if test="feePayYn != null and feePayYn != ''">
+	AND EZC_RESERV_CANCEL.FEE_PAY_YN = #{feePayYn, jdbcType=CHAR}	/* 수수료 결제 여부, CHAR(1) */
+	</if>
 	<if test="reservCancelSeq != null and reservCancelSeq gt 0">
 	AND EZC_RESERV_CANCEL.RESERV_CANCEL_SEQ = #{reservCancelSeq, jdbcType=DECIMAL}	/* 예약 취소 일련번호, NUMBER(0,22) */
 	</if>
@@ -124,9 +120,30 @@ WHERE 1=1
 	<if test="reservRoomNum != null and reservRoomNum gt 0">
 	AND EZC_RESERV_CANCEL.RESERV_ROOM_NUM = #{reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22) */
 	</if>
+	<if test="cancelReqDt != null and cancelReqDt != ''">
+	AND EZC_RESERV_CANCEL.CANCEL_REQ_DT = #{cancelReqDt, jdbcType=VARCHAR}	/* 취소 요청 일시, VARCHAR2(14) */
+	</if>
+	<if test="cancelFeeAmt != null and cancelFeeAmt gt 0">
+	AND EZC_RESERV_CANCEL.CANCEL_FEE_AMT = #{cancelFeeAmt, jdbcType=NUMERIC}	/* 취소 수수료 금액, NUMBER(0,22) */
+	</if>
+	<if test="cancelStatus != null and cancelStatus != ''">
+	AND EZC_RESERV_CANCEL.CANCEL_STATUS = #{cancelStatus, jdbcType=VARCHAR}	/* 취소 상태, VARCHAR2(8) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_RESERV_CANCEL.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_RESERV_CANCEL.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_RESERV_CANCEL.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_RESERV_CANCEL.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcReservCancel" resultType="com.ezwel.htl.interfaces.server.entities.EzcReservCancel">
+<select id="selectListEzcReservCancel" resultType="ezcReservCancel">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -162,33 +179,52 @@ SELECT * FROM (
 			AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
 			AND EZC_RESERV_BASE.PARTNER_CD = EZC_PARTNER.PARTNER_CD
 			AND EZC_RESERV_CANCEL.RESERV_ROOM_NUM = EZC_RESERV_ROOM.RESERV_ROOM_NUM
-			AND EZC_RESERV_CANCEL.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_RESERV_BASE.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CHANNEL_MNG.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_FACL.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_AREA_CD.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CITY_CD.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_PARTNER.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_RESERV_ROOM.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.reservCancelSeq != null and param.reservCancelSeq gt 0">
-			AND EZC_RESERV_CANCEL.RESERV_CANCEL_SEQ = #{param.reservCancelSeq, jdbcType=DECIMAL}	/* 예약 취소 일련번호, NUMBER(0,22) */
+			<if test="allCancelYn != null and allCancelYn != ''">
+			AND EZC_RESERV_CANCEL.ALL_CANCEL_YN = #{allCancelYn, jdbcType=CHAR}	/* 전체 취소 여부, CHAR(1) */
 			</if>
-			<if test="param.reservNum != null and param.reservNum gt 0">
-			AND EZC_RESERV_CANCEL.RESERV_NUM = #{param.reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
+			<if test="feePayYn != null and feePayYn != ''">
+			AND EZC_RESERV_CANCEL.FEE_PAY_YN = #{feePayYn, jdbcType=CHAR}	/* 수수료 결제 여부, CHAR(1) */
 			</if>
-			<if test="param.reservRoomNum != null and param.reservRoomNum gt 0">
-			AND EZC_RESERV_CANCEL.RESERV_ROOM_NUM = #{param.reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22) */
+			<if test="reservCancelSeq != null and reservCancelSeq gt 0">
+			AND EZC_RESERV_CANCEL.RESERV_CANCEL_SEQ = #{reservCancelSeq, jdbcType=DECIMAL}	/* 예약 취소 일련번호, NUMBER(0,22) */
+			</if>
+			<if test="reservNum != null and reservNum gt 0">
+			AND EZC_RESERV_CANCEL.RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
+			</if>
+			<if test="reservRoomNum != null and reservRoomNum gt 0">
+			AND EZC_RESERV_CANCEL.RESERV_ROOM_NUM = #{reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22) */
+			</if>
+			<if test="cancelReqDt != null and cancelReqDt != ''">
+			AND EZC_RESERV_CANCEL.CANCEL_REQ_DT = #{cancelReqDt, jdbcType=VARCHAR}	/* 취소 요청 일시, VARCHAR2(14) */
+			</if>
+			<if test="cancelFeeAmt != null and cancelFeeAmt gt 0">
+			AND EZC_RESERV_CANCEL.CANCEL_FEE_AMT = #{cancelFeeAmt, jdbcType=NUMERIC}	/* 취소 수수료 금액, NUMBER(0,22) */
+			</if>
+			<if test="cancelStatus != null and cancelStatus != ''">
+			AND EZC_RESERV_CANCEL.CANCEL_STATUS = #{cancelStatus, jdbcType=VARCHAR}	/* 취소 상태, VARCHAR2(8) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_RESERV_CANCEL.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_RESERV_CANCEL.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_RESERV_CANCEL.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_RESERV_CANCEL.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_RESERV_CANCEL.RESERV_CANCEL_SEQ DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcReservCancel" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservCancel">
+<update id="updateEzcReservCancel" parameterType="ezcReservCancel">
 UPDATE EZC_RESERV_CANCEL SET	/* 예약 취소 정보 */
 	 ALL_CANCEL_YN = #{allCancelYn, jdbcType=CHAR}	/* 전체 취소 여부, CHAR(1) */
 	,CANCEL_REQ_DT = #{cancelReqDt, jdbcType=VARCHAR}	/* 취소 요청 일시, VARCHAR2(14) */
@@ -203,7 +239,7 @@ WHERE 1=1
 	AND RESERV_ROOM_NUM = #{reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcReservCancel" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservCancel">
+<update id="mergeEzcReservCancel" parameterType="ezcReservCancel">
 MERGE INTO EZC_RESERV_CANCEL /* 예약 취소 정보 */
 	USING DUAL ON (
 		RESERV_CANCEL_SEQ = #{reservCancelSeq, jdbcType=DECIMAL}	/* 예약 취소 일련번호, NUMBER(0,22) */
@@ -245,7 +281,7 @@ MERGE INTO EZC_RESERV_CANCEL /* 예약 취소 정보 */
 		)
 </update>
 
-<delete id="deleteEzcReservCancel" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservCancel">
+<delete id="deleteEzcReservCancel" parameterType="ezcReservCancel">
 DELETE FROM EZC_RESERV_CANCEL /* 예약 취소 정보 */
 WHERE 1=1
 	AND RESERV_CANCEL_SEQ = #{reservCancelSeq, jdbcType=DECIMAL}	/* 예약 취소 일련번호, NUMBER(0,22) */

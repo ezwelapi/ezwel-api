@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:04 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:45 	신규작성 
  * 
- * @since 2018-12-03 11:05:04
+ * @since 2018-12-03 14:47:45
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcSpotMappingFacl" parameterType="com.ezwel.htl.interfaces.server.entities.EzcSpotMappingFacl">
+<insert id="insertEzcSpotMappingFacl" parameterType="ezcSpotMappingFacl">
 INSERT INTO EZC_SPOT_MAPPING_FACL(	/* 스팟 맵핑 시설 */
 	 SPOT_CD	/* 스팟 코드, NUMBER(0,22) */
 	,GRP_FACL_CD	/* 그룹 시설 코드, NUMBER(0,22) */
@@ -29,7 +29,7 @@ INSERT INTO EZC_SPOT_MAPPING_FACL(	/* 스팟 맵핑 시설 */
 )
 </insert>
 
-<select id="selectEzcSpotMappingFacl" parameterType="com.ezwel.htl.interfaces.server.entities.EzcSpotMappingFacl" resultType="com.ezwel.htl.interfaces.server.entities.EzcSpotMappingFacl">
+<select id="selectEzcSpotMappingFacl" parameterType="ezcSpotMappingFacl" resultType="ezcSpotMappingFacl">
 SELECT
 	 EZC_SPOT_MAPPING_FACL.SPOT_CD AS spotCd	/* 스팟 코드, NUMBER(0,22) */
 	,EZC_SPOT_MAPPING_FACL.GRP_FACL_CD AS grpFaclCd	/* 그룹 시설 코드, NUMBER(0,22) */
@@ -43,14 +43,11 @@ FROM
 WHERE 1=1
 	AND EZC_SPOT_MAPPING_FACL.GRP_FACL_CD = EZC_MAPPING_GRP_FACL.GRP_FACL_CD
 	AND EZC_SPOT_MAPPING_FACL.SPOT_CD = EZC_SPOT.SPOT_CD
-	AND EZC_SPOT_MAPPING_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_MAPPING_GRP_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_SPOT.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_SPOT_MAPPING_FACL.SPOT_CD = #{spotCd, jdbcType=DECIMAL}	/* 스팟 코드, NUMBER(0,22) */
-	AND EZC_SPOT_MAPPING_FACL.GRP_FACL_CD = #{grpFaclCd, jdbcType=DECIMAL}	/* 그룹 시설 코드, NUMBER(0,22) */
+	AND EZC_SPOT_MAPPING_FACL.SPOT_CD = #{spotCd, jdbcType=DECIMAL}	/* 스팟 코드, NUMBER(0,22), EZC_SPOT_MAPPING_FACL_PK(P),FK_EZC_SPOT_EZC_SPOT_MAPPING_F(R),SYS_C0011679(C) */
+	AND EZC_SPOT_MAPPING_FACL.GRP_FACL_CD = #{grpFaclCd, jdbcType=DECIMAL}	/* 그룹 시설 코드, NUMBER(0,22), EZC_SPOT_MAPPING_FACL_PK(P),FK_EZC_MAPPING_GRP_FACL_EZC_SP(R),SYS_C0011680(C) */
 </select>
 
-<select id="selectCountEzcSpotMappingFacl" parameterType="com.ezwel.htl.interfaces.server.entities.EzcSpotMappingFacl" resultType="java.lang.Integer">
+<select id="selectCountEzcSpotMappingFacl" parameterType="ezcSpotMappingFacl" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -60,18 +57,24 @@ FROM
 WHERE 1=1
 	AND EZC_SPOT_MAPPING_FACL.GRP_FACL_CD = EZC_MAPPING_GRP_FACL.GRP_FACL_CD
 	AND EZC_SPOT_MAPPING_FACL.SPOT_CD = EZC_SPOT.SPOT_CD
-	AND EZC_SPOT_MAPPING_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_MAPPING_GRP_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_SPOT.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
 	<if test="spotCd != null and spotCd gt 0">
 	AND EZC_SPOT_MAPPING_FACL.SPOT_CD = #{spotCd, jdbcType=DECIMAL}	/* 스팟 코드, NUMBER(0,22) */
 	</if>
 	<if test="grpFaclCd != null and grpFaclCd gt 0">
 	AND EZC_SPOT_MAPPING_FACL.GRP_FACL_CD = #{grpFaclCd, jdbcType=DECIMAL}	/* 그룹 시설 코드, NUMBER(0,22) */
 	</if>
+	<if test="dispOrder != null and dispOrder gt 0">
+	AND EZC_SPOT_MAPPING_FACL.DISP_ORDER = #{dispOrder, jdbcType=NUMERIC}	/* 정렬 순서, NUMBER(0,22) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_SPOT_MAPPING_FACL.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_SPOT_MAPPING_FACL.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcSpotMappingFacl" resultType="com.ezwel.htl.interfaces.server.entities.EzcSpotMappingFacl">
+<select id="selectListEzcSpotMappingFacl" resultType="ezcSpotMappingFacl">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -88,25 +91,31 @@ SELECT * FROM (
 		WHERE 1=1
 			AND EZC_SPOT_MAPPING_FACL.GRP_FACL_CD = EZC_MAPPING_GRP_FACL.GRP_FACL_CD
 			AND EZC_SPOT_MAPPING_FACL.SPOT_CD = EZC_SPOT.SPOT_CD
-			AND EZC_SPOT_MAPPING_FACL.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_MAPPING_GRP_FACL.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_SPOT.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.spotCd != null and param.spotCd gt 0">
-			AND EZC_SPOT_MAPPING_FACL.SPOT_CD = #{param.spotCd, jdbcType=DECIMAL}	/* 스팟 코드, NUMBER(0,22) */
+			<if test="spotCd != null and spotCd gt 0">
+			AND EZC_SPOT_MAPPING_FACL.SPOT_CD = #{spotCd, jdbcType=DECIMAL}	/* 스팟 코드, NUMBER(0,22) */
 			</if>
-			<if test="param.grpFaclCd != null and param.grpFaclCd gt 0">
-			AND EZC_SPOT_MAPPING_FACL.GRP_FACL_CD = #{param.grpFaclCd, jdbcType=DECIMAL}	/* 그룹 시설 코드, NUMBER(0,22) */
+			<if test="grpFaclCd != null and grpFaclCd gt 0">
+			AND EZC_SPOT_MAPPING_FACL.GRP_FACL_CD = #{grpFaclCd, jdbcType=DECIMAL}	/* 그룹 시설 코드, NUMBER(0,22) */
+			</if>
+			<if test="dispOrder != null and dispOrder gt 0">
+			AND EZC_SPOT_MAPPING_FACL.DISP_ORDER = #{dispOrder, jdbcType=NUMERIC}	/* 정렬 순서, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_SPOT_MAPPING_FACL.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_SPOT_MAPPING_FACL.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_SPOT_MAPPING_FACL.SPOT_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcSpotMappingFacl" parameterType="com.ezwel.htl.interfaces.server.entities.EzcSpotMappingFacl">
+<update id="updateEzcSpotMappingFacl" parameterType="ezcSpotMappingFacl">
 UPDATE EZC_SPOT_MAPPING_FACL SET	/* 스팟 맵핑 시설 */
 	 DISP_ORDER = #{dispOrder, jdbcType=NUMERIC}	/* 정렬 순서, NUMBER(0,22) */
 WHERE 1=1
@@ -114,7 +123,7 @@ WHERE 1=1
 	AND GRP_FACL_CD = #{grpFaclCd, jdbcType=DECIMAL}	/* 그룹 시설 코드, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcSpotMappingFacl" parameterType="com.ezwel.htl.interfaces.server.entities.EzcSpotMappingFacl">
+<update id="mergeEzcSpotMappingFacl" parameterType="ezcSpotMappingFacl">
 MERGE INTO EZC_SPOT_MAPPING_FACL /* 스팟 맵핑 시설 */
 	USING DUAL ON (
 		SPOT_CD = #{spotCd, jdbcType=DECIMAL}	/* 스팟 코드, NUMBER(0,22) */
@@ -139,7 +148,7 @@ MERGE INTO EZC_SPOT_MAPPING_FACL /* 스팟 맵핑 시설 */
 		)
 </update>
 
-<delete id="deleteEzcSpotMappingFacl" parameterType="com.ezwel.htl.interfaces.server.entities.EzcSpotMappingFacl">
+<delete id="deleteEzcSpotMappingFacl" parameterType="ezcSpotMappingFacl">
 DELETE FROM EZC_SPOT_MAPPING_FACL /* 스팟 맵핑 시설 */
 WHERE 1=1
 	AND SPOT_CD = #{spotCd, jdbcType=DECIMAL}	/* 스팟 코드, NUMBER(0,22) */

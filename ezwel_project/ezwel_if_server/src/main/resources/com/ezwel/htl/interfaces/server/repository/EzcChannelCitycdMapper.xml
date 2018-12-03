@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:02 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:41 	신규작성 
  * 
- * @since 2018-12-03 11:05:02
+ * @since 2018-12-03 14:47:41
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcChannelCitycd" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelCitycd">
+<insert id="insertEzcChannelCitycd" parameterType="ezcChannelCitycd">
 INSERT INTO EZC_CHANNEL_CITYCD(	/* 채널 도시코드 */
 	 CHANNEL_CD	/* 채널 코드, VARCHAR2(10) */
 	,CITY_CD	/* 도시 코드, VARCHAR2(10) */
@@ -27,7 +27,7 @@ INSERT INTO EZC_CHANNEL_CITYCD(	/* 채널 도시코드 */
 )
 </insert>
 
-<select id="selectEzcChannelCitycd" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelCitycd" resultType="com.ezwel.htl.interfaces.server.entities.EzcChannelCitycd">
+<select id="selectEzcChannelCitycd" parameterType="ezcChannelCitycd" resultType="ezcChannelCitycd">
 SELECT
 	 EZC_CHANNEL_CITYCD.CHANNEL_CD AS channelCd	/* 채널 코드, VARCHAR2(10) */
 	,EZC_CHANNEL_CITYCD.CITY_CD AS cityCd	/* 도시 코드, VARCHAR2(10) */
@@ -36,11 +36,11 @@ SELECT
 FROM
 	EZC_CHANNEL_CITYCD	/* 채널 도시코드 */
 WHERE 1=1
-	AND EZC_CHANNEL_CITYCD.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
-	AND EZC_CHANNEL_CITYCD.CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10) */
+	AND EZC_CHANNEL_CITYCD.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10), EZC_CHANNEL_CITYCD_PK(P),SYS_C0011231(C) */
+	AND EZC_CHANNEL_CITYCD.CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10), EZC_CHANNEL_CITYCD_PK(P),SYS_C0011232(C) */
 </select>
 
-<select id="selectCountEzcChannelCitycd" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelCitycd" resultType="java.lang.Integer">
+<select id="selectCountEzcChannelCitycd" parameterType="ezcChannelCitycd" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -52,9 +52,15 @@ WHERE 1=1
 	<if test="cityCd != null and cityCd != ''">
 	AND EZC_CHANNEL_CITYCD.CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10) */
 	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_CHANNEL_CITYCD.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_CHANNEL_CITYCD.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcChannelCitycd" resultType="com.ezwel.htl.interfaces.server.entities.EzcChannelCitycd">
+<select id="selectListEzcChannelCitycd" resultType="ezcChannelCitycd">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -66,29 +72,35 @@ SELECT * FROM (
 		FROM
 			EZC_CHANNEL_CITYCD	/* 채널 도시코드 */
 		WHERE 1=1
-			<if test="param.channelCd != null and param.channelCd != ''">
-			AND EZC_CHANNEL_CITYCD.CHANNEL_CD = #{param.channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
+			<if test="channelCd != null and channelCd != ''">
+			AND EZC_CHANNEL_CITYCD.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 			</if>
-			<if test="param.cityCd != null and param.cityCd != ''">
-			AND EZC_CHANNEL_CITYCD.CITY_CD = #{param.cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10) */
+			<if test="cityCd != null and cityCd != ''">
+			AND EZC_CHANNEL_CITYCD.CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_CHANNEL_CITYCD.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_CHANNEL_CITYCD.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_CHANNEL_CITYCD.CHANNEL_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcChannelCitycd" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelCitycd">
+<update id="updateEzcChannelCitycd" parameterType="ezcChannelCitycd">
 UPDATE EZC_CHANNEL_CITYCD SET	/* 채널 도시코드 */
 WHERE 1=1
 	AND CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 	AND CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10) */
 </update>
 
-<update id="mergeEzcChannelCitycd" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelCitycd">
+<update id="mergeEzcChannelCitycd" parameterType="ezcChannelCitycd">
 MERGE INTO EZC_CHANNEL_CITYCD /* 채널 도시코드 */
 	USING DUAL ON (
 		CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
@@ -110,7 +122,7 @@ MERGE INTO EZC_CHANNEL_CITYCD /* 채널 도시코드 */
 		)
 </update>
 
-<delete id="deleteEzcChannelCitycd" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelCitycd">
+<delete id="deleteEzcChannelCitycd" parameterType="ezcChannelCitycd">
 DELETE FROM EZC_CHANNEL_CITYCD /* 채널 도시코드 */
 WHERE 1=1
 	AND CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */

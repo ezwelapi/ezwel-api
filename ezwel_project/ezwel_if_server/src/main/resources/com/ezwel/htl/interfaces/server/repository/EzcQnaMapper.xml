@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:04 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:44 	신규작성 
  * 
- * @since 2018-12-03 11:05:04
+ * @since 2018-12-03 14:47:44
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcQna" parameterType="com.ezwel.htl.interfaces.server.entities.EzcQna">
+<insert id="insertEzcQna" parameterType="ezcQna">
 INSERT INTO EZC_QNA(	/* 시설 문의사항 */
 	 QNA_SEQ	/* 문의사항 일련번호, NUMBER(0,22) */
 	,QNA_GRP	/* 문의사항 그룹, NUMBER(0,22) */
@@ -41,7 +41,7 @@ INSERT INTO EZC_QNA(	/* 시설 문의사항 */
 )
 </insert>
 
-<select id="selectEzcQna" parameterType="com.ezwel.htl.interfaces.server.entities.EzcQna" resultType="com.ezwel.htl.interfaces.server.entities.EzcQna">
+<select id="selectEzcQna" parameterType="ezcQna" resultType="ezcQna">
 SELECT
 	 EZC_QNA.QNA_SEQ AS qnaSeq	/* 문의사항 일련번호, NUMBER(0,22) */
 	,EZC_QNA.QNA_GRP AS qnaGrp	/* 문의사항 그룹, NUMBER(0,22) */
@@ -59,27 +59,60 @@ SELECT
 FROM
 	EZC_QNA	/* 시설 문의사항 */
 WHERE 1=1
-	AND EZC_QNA.QNA_SEQ = #{qnaSeq, jdbcType=DECIMAL}	/* 문의사항 일련번호, NUMBER(0,22) */
+	<if test="passYn != null and passYn != ''">
+	AND EZC_QNA.PASS_YN = #{passYn, jdbcType=CHAR}	/* 비밀 여부, CHAR(1) */
+	</if>
+	AND EZC_QNA.QNA_SEQ = #{qnaSeq, jdbcType=DECIMAL}	/* 문의사항 일련번호, NUMBER(0,22), EZC_QNA_PK(P),SYS_C0011592(C) */
 </select>
 
-<select id="selectCountEzcQna" parameterType="com.ezwel.htl.interfaces.server.entities.EzcQna" resultType="java.lang.Integer">
+<select id="selectCountEzcQna" parameterType="ezcQna" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
 	EZC_QNA	/* 시설 문의사항 */
 WHERE 1=1
+	<if test="passYn != null and passYn != ''">
+	AND EZC_QNA.PASS_YN = #{passYn, jdbcType=CHAR}	/* 비밀 여부, CHAR(1) */
+	</if>
 	<if test="qnaSeq != null and qnaSeq gt 0">
 	AND EZC_QNA.QNA_SEQ = #{qnaSeq, jdbcType=DECIMAL}	/* 문의사항 일련번호, NUMBER(0,22) */
 	</if>
+	<if test="qnaGrp != null and qnaGrp gt 0">
+	AND EZC_QNA.QNA_GRP = #{qnaGrp, jdbcType=DECIMAL}	/* 문의사항 그룹, NUMBER(0,22) */
+	</if>
+	<if test="qnaGrpOrd != null and qnaGrpOrd gt 0">
+	AND EZC_QNA.QNA_GRP_ORD = #{qnaGrpOrd, jdbcType=NUMERIC}	/* 문의사항 그룹 순서, NUMBER(0,22) */
+	</if>
+	<if test="depth != null and depth gt 0">
+	AND EZC_QNA.DEPTH = #{depth, jdbcType=NUMERIC}	/* 깊이, NUMBER(0,22) */
+	</if>
+	<if test="title != null and title != ''">
+	AND EZC_QNA.TITLE = #{title, jdbcType=VARCHAR}	/* 제목, VARCHAR2(100) */
+	</if>
 	<if test="content != null and content != ''">
 	AND EZC_QNA.CONTENT LIKE '%' || #{content, jdbcType=VARCHAR} || '%'	/* 내용, VARCHAR2(4000) */
+	</if>
+	<if test="qnaStatus != null and qnaStatus != ''">
+	AND EZC_QNA.QNA_STATUS = #{qnaStatus, jdbcType=VARCHAR}	/* 문의사항 상태, VARCHAR2(8) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_QNA.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_QNA.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_QNA.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_QNA.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 	</if>
 	<if test="faclCd != null and faclCd gt 0">
 	AND EZC_QNA.FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
 	</if>
 </select>
 
-<select id="selectListEzcQna" resultType="com.ezwel.htl.interfaces.server.entities.EzcQna">
+<select id="selectListEzcQna" resultType="ezcQna">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -100,25 +133,55 @@ SELECT * FROM (
 		FROM
 			EZC_QNA	/* 시설 문의사항 */
 		WHERE 1=1
-			<if test="param.qnaSeq != null and param.qnaSeq gt 0">
-			AND EZC_QNA.QNA_SEQ = #{param.qnaSeq, jdbcType=DECIMAL}	/* 문의사항 일련번호, NUMBER(0,22) */
+			<if test="passYn != null and passYn != ''">
+			AND EZC_QNA.PASS_YN = #{passYn, jdbcType=CHAR}	/* 비밀 여부, CHAR(1) */
 			</if>
-			<if test="param.content != null and param.content != ''">
-			AND EZC_QNA.CONTENT LIKE '%' || #{param.content, jdbcType=VARCHAR} || '%'	/* 내용, VARCHAR2(4000) */
+			<if test="qnaSeq != null and qnaSeq gt 0">
+			AND EZC_QNA.QNA_SEQ = #{qnaSeq, jdbcType=DECIMAL}	/* 문의사항 일련번호, NUMBER(0,22) */
 			</if>
-			<if test="param.faclCd != null and param.faclCd gt 0">
-			AND EZC_QNA.FACL_CD = #{param.faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
+			<if test="qnaGrp != null and qnaGrp gt 0">
+			AND EZC_QNA.QNA_GRP = #{qnaGrp, jdbcType=DECIMAL}	/* 문의사항 그룹, NUMBER(0,22) */
+			</if>
+			<if test="qnaGrpOrd != null and qnaGrpOrd gt 0">
+			AND EZC_QNA.QNA_GRP_ORD = #{qnaGrpOrd, jdbcType=NUMERIC}	/* 문의사항 그룹 순서, NUMBER(0,22) */
+			</if>
+			<if test="depth != null and depth gt 0">
+			AND EZC_QNA.DEPTH = #{depth, jdbcType=NUMERIC}	/* 깊이, NUMBER(0,22) */
+			</if>
+			<if test="title != null and title != ''">
+			AND EZC_QNA.TITLE = #{title, jdbcType=VARCHAR}	/* 제목, VARCHAR2(100) */
+			</if>
+			<if test="content != null and content != ''">
+			AND EZC_QNA.CONTENT LIKE '%' || #{content, jdbcType=VARCHAR} || '%'	/* 내용, VARCHAR2(4000) */
+			</if>
+			<if test="qnaStatus != null and qnaStatus != ''">
+			AND EZC_QNA.QNA_STATUS = #{qnaStatus, jdbcType=VARCHAR}	/* 문의사항 상태, VARCHAR2(8) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_QNA.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_QNA.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_QNA.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_QNA.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+			</if>
+			<if test="faclCd != null and faclCd gt 0">
+			AND EZC_QNA.FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
 			</if>
 		ORDER BY
 			EZC_QNA.QNA_SEQ DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcQna" parameterType="com.ezwel.htl.interfaces.server.entities.EzcQna">
+<update id="updateEzcQna" parameterType="ezcQna">
 UPDATE EZC_QNA SET	/* 시설 문의사항 */
 	 QNA_GRP = #{qnaGrp, jdbcType=DECIMAL}	/* 문의사항 그룹, NUMBER(0,22) */
 	,QNA_GRP_ORD = #{qnaGrpOrd, jdbcType=NUMERIC}	/* 문의사항 그룹 순서, NUMBER(0,22) */
@@ -134,7 +197,7 @@ WHERE 1=1
 	AND QNA_SEQ = #{qnaSeq, jdbcType=DECIMAL}	/* 문의사항 일련번호, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcQna" parameterType="com.ezwel.htl.interfaces.server.entities.EzcQna">
+<update id="mergeEzcQna" parameterType="ezcQna">
 MERGE INTO EZC_QNA /* 시설 문의사항 */
 	USING DUAL ON (
 		QNA_SEQ = #{qnaSeq, jdbcType=DECIMAL}	/* 문의사항 일련번호, NUMBER(0,22) */
@@ -179,7 +242,7 @@ MERGE INTO EZC_QNA /* 시설 문의사항 */
 		)
 </update>
 
-<delete id="deleteEzcQna" parameterType="com.ezwel.htl.interfaces.server.entities.EzcQna">
+<delete id="deleteEzcQna" parameterType="ezcQna">
 DELETE FROM EZC_QNA /* 시설 문의사항 */
 WHERE 1=1
 	AND QNA_SEQ = #{qnaSeq, jdbcType=DECIMAL}	/* 문의사항 일련번호, NUMBER(0,22) */

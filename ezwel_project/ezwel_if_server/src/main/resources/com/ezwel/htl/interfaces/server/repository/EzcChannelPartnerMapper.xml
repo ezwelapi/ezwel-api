@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:02 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:41 	신규작성 
  * 
- * @since 2018-12-03 11:05:02
+ * @since 2018-12-03 14:47:41
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcChannelPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelPartner">
+<insert id="insertEzcChannelPartner" parameterType="ezcChannelPartner">
 INSERT INTO EZC_CHANNEL_PARTNER(	/* 채널 제휴사 */
 	 CHANNEL_CD	/* 채널 코드, VARCHAR2(10) */
 	,PARTNER_CD_TYPE	/* 제휴사 코드 유형, VARCHAR2(8) */
@@ -27,7 +27,7 @@ INSERT INTO EZC_CHANNEL_PARTNER(	/* 채널 제휴사 */
 )
 </insert>
 
-<select id="selectEzcChannelPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelPartner" resultType="com.ezwel.htl.interfaces.server.entities.EzcChannelPartner">
+<select id="selectEzcChannelPartner" parameterType="ezcChannelPartner" resultType="ezcChannelPartner">
 SELECT
 	 EZC_CHANNEL_PARTNER.CHANNEL_CD AS channelCd	/* 채널 코드, VARCHAR2(10) */
 	,EZC_CHANNEL_PARTNER.PARTNER_CD_TYPE AS partnerCdType	/* 제휴사 코드 유형, VARCHAR2(8) */
@@ -36,11 +36,11 @@ SELECT
 FROM
 	EZC_CHANNEL_PARTNER	/* 채널 제휴사 */
 WHERE 1=1
-	AND EZC_CHANNEL_PARTNER.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
-	AND EZC_CHANNEL_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+	AND EZC_CHANNEL_PARTNER.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10), EZC_CHANNEL_PARTNER_PK(P),SYS_C0011257(C) */
+	AND EZC_CHANNEL_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8), EZC_CHANNEL_PARTNER_PK(P),SYS_C0011258(C) */
 </select>
 
-<select id="selectCountEzcChannelPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelPartner" resultType="java.lang.Integer">
+<select id="selectCountEzcChannelPartner" parameterType="ezcChannelPartner" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -52,9 +52,15 @@ WHERE 1=1
 	<if test="partnerCdType != null and partnerCdType != ''">
 	AND EZC_CHANNEL_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
 	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_CHANNEL_PARTNER.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_CHANNEL_PARTNER.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcChannelPartner" resultType="com.ezwel.htl.interfaces.server.entities.EzcChannelPartner">
+<select id="selectListEzcChannelPartner" resultType="ezcChannelPartner">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -66,29 +72,35 @@ SELECT * FROM (
 		FROM
 			EZC_CHANNEL_PARTNER	/* 채널 제휴사 */
 		WHERE 1=1
-			<if test="param.channelCd != null and param.channelCd != ''">
-			AND EZC_CHANNEL_PARTNER.CHANNEL_CD = #{param.channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
+			<if test="channelCd != null and channelCd != ''">
+			AND EZC_CHANNEL_PARTNER.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 			</if>
-			<if test="param.partnerCdType != null and param.partnerCdType != ''">
-			AND EZC_CHANNEL_PARTNER.PARTNER_CD_TYPE = #{param.partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+			<if test="partnerCdType != null and partnerCdType != ''">
+			AND EZC_CHANNEL_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_CHANNEL_PARTNER.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_CHANNEL_PARTNER.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_CHANNEL_PARTNER.CHANNEL_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcChannelPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelPartner">
+<update id="updateEzcChannelPartner" parameterType="ezcChannelPartner">
 UPDATE EZC_CHANNEL_PARTNER SET	/* 채널 제휴사 */
 WHERE 1=1
 	AND CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 	AND PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
 </update>
 
-<update id="mergeEzcChannelPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelPartner">
+<update id="mergeEzcChannelPartner" parameterType="ezcChannelPartner">
 MERGE INTO EZC_CHANNEL_PARTNER /* 채널 제휴사 */
 	USING DUAL ON (
 		CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
@@ -110,7 +122,7 @@ MERGE INTO EZC_CHANNEL_PARTNER /* 채널 제휴사 */
 		)
 </update>
 
-<delete id="deleteEzcChannelPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelPartner">
+<delete id="deleteEzcChannelPartner" parameterType="ezcChannelPartner">
 DELETE FROM EZC_CHANNEL_PARTNER /* 채널 제휴사 */
 WHERE 1=1
 	AND CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */

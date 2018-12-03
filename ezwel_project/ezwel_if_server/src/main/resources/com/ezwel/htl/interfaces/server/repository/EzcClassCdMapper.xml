@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:02 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:41 	신규작성 
  * 
- * @since 2018-12-03 11:05:02
+ * @since 2018-12-03 14:47:41
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcClassCd" parameterType="com.ezwel.htl.interfaces.server.entities.EzcClassCd">
+<insert id="insertEzcClassCd" parameterType="ezcClassCd">
 INSERT INTO EZC_CLASS_CD(	/* 공통 분류 코드 */
 	 CLASS_CD	/* 분류 코드, VARCHAR2(4) */
 	,CLASS_NM	/* 분류 명, VARCHAR2(50) */
@@ -31,7 +31,7 @@ INSERT INTO EZC_CLASS_CD(	/* 공통 분류 코드 */
 )
 </insert>
 
-<select id="selectEzcClassCd" parameterType="com.ezwel.htl.interfaces.server.entities.EzcClassCd" resultType="com.ezwel.htl.interfaces.server.entities.EzcClassCd">
+<select id="selectEzcClassCd" parameterType="ezcClassCd" resultType="ezcClassCd">
 SELECT
 	 EZC_CLASS_CD.CLASS_CD AS classCd	/* 분류 코드, VARCHAR2(4) */
 	,EZC_CLASS_CD.CLASS_NM AS classNm	/* 분류 명, VARCHAR2(50) */
@@ -44,24 +44,45 @@ SELECT
 FROM
 	EZC_CLASS_CD	/* 공통 분류 코드 */
 WHERE 1=1
-	AND EZC_CLASS_CD.CLASS_CD = #{classCd, jdbcType=VARCHAR}	/* 분류 코드, VARCHAR2(4) */
+	<if test="useYn != null and useYn != ''">
+	AND EZC_CLASS_CD.USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
+	</if>
+	AND EZC_CLASS_CD.CLASS_CD = #{classCd, jdbcType=VARCHAR}	/* 분류 코드, VARCHAR2(4), EZC_CLAS_CD_PK(P),SYS_C0011273(C) */
 </select>
 
-<select id="selectCountEzcClassCd" parameterType="com.ezwel.htl.interfaces.server.entities.EzcClassCd" resultType="java.lang.Integer">
+<select id="selectCountEzcClassCd" parameterType="ezcClassCd" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
 	EZC_CLASS_CD	/* 공통 분류 코드 */
 WHERE 1=1
+	<if test="useYn != null and useYn != ''">
+	AND EZC_CLASS_CD.USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
+	</if>
 	<if test="classCd != null and classCd != ''">
 	AND EZC_CLASS_CD.CLASS_CD = #{classCd, jdbcType=VARCHAR}	/* 분류 코드, VARCHAR2(4) */
+	</if>
+	<if test="classNm != null and classNm != ''">
+	AND EZC_CLASS_CD.CLASS_NM = #{classNm, jdbcType=VARCHAR}	/* 분류 명, VARCHAR2(50) */
 	</if>
 	<if test="classDesc != null and classDesc != ''">
 	AND EZC_CLASS_CD.CLASS_DESC LIKE '%' || #{classDesc, jdbcType=VARCHAR} || '%'	/* 분류 설명, VARCHAR2(1000) */
 	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_CLASS_CD.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_CLASS_CD.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_CLASS_CD.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_CLASS_CD.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcClassCd" resultType="com.ezwel.htl.interfaces.server.entities.EzcClassCd">
+<select id="selectListEzcClassCd" resultType="ezcClassCd">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -77,22 +98,40 @@ SELECT * FROM (
 		FROM
 			EZC_CLASS_CD	/* 공통 분류 코드 */
 		WHERE 1=1
-			<if test="param.classCd != null and param.classCd != ''">
-			AND EZC_CLASS_CD.CLASS_CD = #{param.classCd, jdbcType=VARCHAR}	/* 분류 코드, VARCHAR2(4) */
+			<if test="useYn != null and useYn != ''">
+			AND EZC_CLASS_CD.USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
 			</if>
-			<if test="param.classDesc != null and param.classDesc != ''">
-			AND EZC_CLASS_CD.CLASS_DESC LIKE '%' || #{param.classDesc, jdbcType=VARCHAR} || '%'	/* 분류 설명, VARCHAR2(1000) */
+			<if test="classCd != null and classCd != ''">
+			AND EZC_CLASS_CD.CLASS_CD = #{classCd, jdbcType=VARCHAR}	/* 분류 코드, VARCHAR2(4) */
+			</if>
+			<if test="classNm != null and classNm != ''">
+			AND EZC_CLASS_CD.CLASS_NM = #{classNm, jdbcType=VARCHAR}	/* 분류 명, VARCHAR2(50) */
+			</if>
+			<if test="classDesc != null and classDesc != ''">
+			AND EZC_CLASS_CD.CLASS_DESC LIKE '%' || #{classDesc, jdbcType=VARCHAR} || '%'	/* 분류 설명, VARCHAR2(1000) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_CLASS_CD.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_CLASS_CD.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_CLASS_CD.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_CLASS_CD.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_CLASS_CD.CLASS_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcClassCd" parameterType="com.ezwel.htl.interfaces.server.entities.EzcClassCd">
+<update id="updateEzcClassCd" parameterType="ezcClassCd">
 UPDATE EZC_CLASS_CD SET	/* 공통 분류 코드 */
 	 CLASS_NM = #{classNm, jdbcType=VARCHAR}	/* 분류 명, VARCHAR2(50) */
 	,CLASS_DESC = #{classDesc, jdbcType=VARCHAR}	/* 분류 설명, VARCHAR2(1000) */
@@ -103,7 +142,7 @@ WHERE 1=1
 	AND CLASS_CD = #{classCd, jdbcType=VARCHAR}	/* 분류 코드, VARCHAR2(4) */
 </update>
 
-<update id="mergeEzcClassCd" parameterType="com.ezwel.htl.interfaces.server.entities.EzcClassCd">
+<update id="mergeEzcClassCd" parameterType="ezcClassCd">
 MERGE INTO EZC_CLASS_CD /* 공통 분류 코드 */
 	USING DUAL ON (
 		CLASS_CD = #{classCd, jdbcType=VARCHAR}	/* 분류 코드, VARCHAR2(4) */
@@ -133,7 +172,7 @@ MERGE INTO EZC_CLASS_CD /* 공통 분류 코드 */
 		)
 </update>
 
-<delete id="deleteEzcClassCd" parameterType="com.ezwel.htl.interfaces.server.entities.EzcClassCd">
+<delete id="deleteEzcClassCd" parameterType="ezcClassCd">
 DELETE FROM EZC_CLASS_CD /* 공통 분류 코드 */
 WHERE 1=1
 	AND CLASS_CD = #{classCd, jdbcType=VARCHAR}	/* 분류 코드, VARCHAR2(4) */

@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:03 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:43 	신규작성 
  * 
- * @since 2018-12-03 11:05:03
+ * @since 2018-12-03 14:47:43
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcHoliday" parameterType="com.ezwel.htl.interfaces.server.entities.EzcHoliday">
+<insert id="insertEzcHoliday" parameterType="ezcHoliday">
 INSERT INTO EZC_HOLIDAY(	/* 공휴일 정보 */
 	 HDAY_SEQ	/* 공휴일 일련번호, NUMBER(0,22) */
 	,HDAY_TYPE_GB	/* 공휴일 유형 GB, VARCHAR2(8) */
@@ -37,7 +37,7 @@ INSERT INTO EZC_HOLIDAY(	/* 공휴일 정보 */
 )
 </insert>
 
-<select id="selectEzcHoliday" parameterType="com.ezwel.htl.interfaces.server.entities.EzcHoliday" resultType="com.ezwel.htl.interfaces.server.entities.EzcHoliday">
+<select id="selectEzcHoliday" parameterType="ezcHoliday" resultType="ezcHoliday">
 SELECT
 	 EZC_HOLIDAY.HDAY_SEQ AS hdaySeq	/* 공휴일 일련번호, NUMBER(0,22) */
 	,EZC_HOLIDAY.HDAY_TYPE_GB AS hdayTypeGb	/* 공휴일 유형 GB, VARCHAR2(8) */
@@ -53,24 +53,54 @@ SELECT
 FROM
 	EZC_HOLIDAY	/* 공휴일 정보 */
 WHERE 1=1
-	AND EZC_HOLIDAY.HDAY_SEQ = #{hdaySeq, jdbcType=DECIMAL}	/* 공휴일 일련번호, NUMBER(0,22) */
+	<if test="lunarYn != null and lunarYn != ''">
+	AND EZC_HOLIDAY.LUNAR_YN = #{lunarYn, jdbcType=CHAR}	/* 음력 여부, CHAR(1) */
+	</if>
+	AND EZC_HOLIDAY.HDAY_SEQ = #{hdaySeq, jdbcType=DECIMAL}	/* 공휴일 일련번호, NUMBER(0,22), EZC_HOLIDAY_PK(P),SYS_C0011460(C) */
 </select>
 
-<select id="selectCountEzcHoliday" parameterType="com.ezwel.htl.interfaces.server.entities.EzcHoliday" resultType="java.lang.Integer">
+<select id="selectCountEzcHoliday" parameterType="ezcHoliday" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
 	EZC_HOLIDAY	/* 공휴일 정보 */
 WHERE 1=1
+	<if test="lunarYn != null and lunarYn != ''">
+	AND EZC_HOLIDAY.LUNAR_YN = #{lunarYn, jdbcType=CHAR}	/* 음력 여부, CHAR(1) */
+	</if>
 	<if test="hdaySeq != null and hdaySeq gt 0">
 	AND EZC_HOLIDAY.HDAY_SEQ = #{hdaySeq, jdbcType=DECIMAL}	/* 공휴일 일련번호, NUMBER(0,22) */
+	</if>
+	<if test="hdayTypeGb != null and hdayTypeGb != ''">
+	AND EZC_HOLIDAY.HDAY_TYPE_GB = #{hdayTypeGb, jdbcType=VARCHAR}	/* 공휴일 유형 GB, VARCHAR2(8) */
+	</if>
+	<if test="sholidayYy != null and sholidayYy != ''">
+	AND EZC_HOLIDAY.SHOLIDAY_YY = #{sholidayYy, jdbcType=VARCHAR}	/* 대체휴일 년도, VARCHAR2(4) */
+	</if>
+	<if test="hdayMmdd != null and hdayMmdd != ''">
+	AND EZC_HOLIDAY.HDAY_MMDD = #{hdayMmdd, jdbcType=VARCHAR}	/* 공휴일 월일, VARCHAR2(4) */
+	</if>
+	<if test="hdayNm != null and hdayNm != ''">
+	AND EZC_HOLIDAY.HDAY_NM = #{hdayNm, jdbcType=VARCHAR}	/* 공휴일 명, VARCHAR2(50) */
 	</if>
 	<if test="hdayDesc != null and hdayDesc != ''">
 	AND EZC_HOLIDAY.HDAY_DESC LIKE '%' || #{hdayDesc, jdbcType=VARCHAR} || '%'	/* 공휴일 설명, VARCHAR2(1000) */
 	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_HOLIDAY.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_HOLIDAY.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_HOLIDAY.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_HOLIDAY.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcHoliday" resultType="com.ezwel.htl.interfaces.server.entities.EzcHoliday">
+<select id="selectListEzcHoliday" resultType="ezcHoliday">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -89,22 +119,49 @@ SELECT * FROM (
 		FROM
 			EZC_HOLIDAY	/* 공휴일 정보 */
 		WHERE 1=1
-			<if test="param.hdaySeq != null and param.hdaySeq gt 0">
-			AND EZC_HOLIDAY.HDAY_SEQ = #{param.hdaySeq, jdbcType=DECIMAL}	/* 공휴일 일련번호, NUMBER(0,22) */
+			<if test="lunarYn != null and lunarYn != ''">
+			AND EZC_HOLIDAY.LUNAR_YN = #{lunarYn, jdbcType=CHAR}	/* 음력 여부, CHAR(1) */
 			</if>
-			<if test="param.hdayDesc != null and param.hdayDesc != ''">
-			AND EZC_HOLIDAY.HDAY_DESC LIKE '%' || #{param.hdayDesc, jdbcType=VARCHAR} || '%'	/* 공휴일 설명, VARCHAR2(1000) */
+			<if test="hdaySeq != null and hdaySeq gt 0">
+			AND EZC_HOLIDAY.HDAY_SEQ = #{hdaySeq, jdbcType=DECIMAL}	/* 공휴일 일련번호, NUMBER(0,22) */
+			</if>
+			<if test="hdayTypeGb != null and hdayTypeGb != ''">
+			AND EZC_HOLIDAY.HDAY_TYPE_GB = #{hdayTypeGb, jdbcType=VARCHAR}	/* 공휴일 유형 GB, VARCHAR2(8) */
+			</if>
+			<if test="sholidayYy != null and sholidayYy != ''">
+			AND EZC_HOLIDAY.SHOLIDAY_YY = #{sholidayYy, jdbcType=VARCHAR}	/* 대체휴일 년도, VARCHAR2(4) */
+			</if>
+			<if test="hdayMmdd != null and hdayMmdd != ''">
+			AND EZC_HOLIDAY.HDAY_MMDD = #{hdayMmdd, jdbcType=VARCHAR}	/* 공휴일 월일, VARCHAR2(4) */
+			</if>
+			<if test="hdayNm != null and hdayNm != ''">
+			AND EZC_HOLIDAY.HDAY_NM = #{hdayNm, jdbcType=VARCHAR}	/* 공휴일 명, VARCHAR2(50) */
+			</if>
+			<if test="hdayDesc != null and hdayDesc != ''">
+			AND EZC_HOLIDAY.HDAY_DESC LIKE '%' || #{hdayDesc, jdbcType=VARCHAR} || '%'	/* 공휴일 설명, VARCHAR2(1000) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_HOLIDAY.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_HOLIDAY.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_HOLIDAY.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_HOLIDAY.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_HOLIDAY.HDAY_SEQ DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcHoliday" parameterType="com.ezwel.htl.interfaces.server.entities.EzcHoliday">
+<update id="updateEzcHoliday" parameterType="ezcHoliday">
 UPDATE EZC_HOLIDAY SET	/* 공휴일 정보 */
 	 HDAY_TYPE_GB = #{hdayTypeGb, jdbcType=VARCHAR}	/* 공휴일 유형 GB, VARCHAR2(8) */
 	,SHOLIDAY_YY = #{sholidayYy, jdbcType=VARCHAR}	/* 대체휴일 년도, VARCHAR2(4) */
@@ -118,7 +175,7 @@ WHERE 1=1
 	AND HDAY_SEQ = #{hdaySeq, jdbcType=DECIMAL}	/* 공휴일 일련번호, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcHoliday" parameterType="com.ezwel.htl.interfaces.server.entities.EzcHoliday">
+<update id="mergeEzcHoliday" parameterType="ezcHoliday">
 MERGE INTO EZC_HOLIDAY /* 공휴일 정보 */
 	USING DUAL ON (
 		HDAY_SEQ = #{hdaySeq, jdbcType=DECIMAL}	/* 공휴일 일련번호, NUMBER(0,22) */
@@ -157,7 +214,7 @@ MERGE INTO EZC_HOLIDAY /* 공휴일 정보 */
 		)
 </update>
 
-<delete id="deleteEzcHoliday" parameterType="com.ezwel.htl.interfaces.server.entities.EzcHoliday">
+<delete id="deleteEzcHoliday" parameterType="ezcHoliday">
 DELETE FROM EZC_HOLIDAY /* 공휴일 정보 */
 WHERE 1=1
 	AND HDAY_SEQ = #{hdaySeq, jdbcType=DECIMAL}	/* 공휴일 일련번호, NUMBER(0,22) */

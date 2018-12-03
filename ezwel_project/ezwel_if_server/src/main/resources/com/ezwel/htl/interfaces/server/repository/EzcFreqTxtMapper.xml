@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:03 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:43 	신규작성 
  * 
- * @since 2018-12-03 11:05:03
+ * @since 2018-12-03 14:47:43
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcFreqTxt" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFreqTxt">
+<insert id="insertEzcFreqTxt" parameterType="ezcFreqTxt">
 INSERT INTO EZC_FREQ_TXT(	/* 상용구 관리 */
 	 FREQ_TXT_CD	/* 상용구 코드, NUMBER(0,22) */
 	,FREQ_TXT_CLASS	/* 상용구 분류, VARCHAR2(8) */
@@ -29,7 +29,7 @@ INSERT INTO EZC_FREQ_TXT(	/* 상용구 관리 */
 )
 </insert>
 
-<select id="selectEzcFreqTxt" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFreqTxt" resultType="com.ezwel.htl.interfaces.server.entities.EzcFreqTxt">
+<select id="selectEzcFreqTxt" parameterType="ezcFreqTxt" resultType="ezcFreqTxt">
 SELECT
 	 EZC_FREQ_TXT.FREQ_TXT_CD AS freqTxtCd	/* 상용구 코드, NUMBER(0,22) */
 	,EZC_FREQ_TXT.FREQ_TXT_CLASS AS freqTxtClass	/* 상용구 분류, VARCHAR2(8) */
@@ -41,10 +41,10 @@ SELECT
 FROM
 	EZC_FREQ_TXT	/* 상용구 관리 */
 WHERE 1=1
-	AND EZC_FREQ_TXT.FREQ_TXT_CD = #{freqTxtCd, jdbcType=DECIMAL}	/* 상용구 코드, NUMBER(0,22) */
+	AND EZC_FREQ_TXT.FREQ_TXT_CD = #{freqTxtCd, jdbcType=DECIMAL}	/* 상용구 코드, NUMBER(0,22), EZC_FREQ_TXT_PK(P),SYS_C0011455(C) */
 </select>
 
-<select id="selectCountEzcFreqTxt" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFreqTxt" resultType="java.lang.Integer">
+<select id="selectCountEzcFreqTxt" parameterType="ezcFreqTxt" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -53,12 +53,27 @@ WHERE 1=1
 	<if test="freqTxtCd != null and freqTxtCd gt 0">
 	AND EZC_FREQ_TXT.FREQ_TXT_CD = #{freqTxtCd, jdbcType=DECIMAL}	/* 상용구 코드, NUMBER(0,22) */
 	</if>
+	<if test="freqTxtClass != null and freqTxtClass != ''">
+	AND EZC_FREQ_TXT.FREQ_TXT_CLASS = #{freqTxtClass, jdbcType=VARCHAR}	/* 상용구 분류, VARCHAR2(8) */
+	</if>
 	<if test="freqTxt != null and freqTxt != ''">
 	AND EZC_FREQ_TXT.FREQ_TXT LIKE '%' || #{freqTxt, jdbcType=VARCHAR} || '%'	/* 상용구, VARCHAR2(1000) */
 	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_FREQ_TXT.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_FREQ_TXT.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_FREQ_TXT.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_FREQ_TXT.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcFreqTxt" resultType="com.ezwel.htl.interfaces.server.entities.EzcFreqTxt">
+<select id="selectListEzcFreqTxt" resultType="ezcFreqTxt">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -73,22 +88,37 @@ SELECT * FROM (
 		FROM
 			EZC_FREQ_TXT	/* 상용구 관리 */
 		WHERE 1=1
-			<if test="param.freqTxtCd != null and param.freqTxtCd gt 0">
-			AND EZC_FREQ_TXT.FREQ_TXT_CD = #{param.freqTxtCd, jdbcType=DECIMAL}	/* 상용구 코드, NUMBER(0,22) */
+			<if test="freqTxtCd != null and freqTxtCd gt 0">
+			AND EZC_FREQ_TXT.FREQ_TXT_CD = #{freqTxtCd, jdbcType=DECIMAL}	/* 상용구 코드, NUMBER(0,22) */
 			</if>
-			<if test="param.freqTxt != null and param.freqTxt != ''">
-			AND EZC_FREQ_TXT.FREQ_TXT LIKE '%' || #{param.freqTxt, jdbcType=VARCHAR} || '%'	/* 상용구, VARCHAR2(1000) */
+			<if test="freqTxtClass != null and freqTxtClass != ''">
+			AND EZC_FREQ_TXT.FREQ_TXT_CLASS = #{freqTxtClass, jdbcType=VARCHAR}	/* 상용구 분류, VARCHAR2(8) */
+			</if>
+			<if test="freqTxt != null and freqTxt != ''">
+			AND EZC_FREQ_TXT.FREQ_TXT LIKE '%' || #{freqTxt, jdbcType=VARCHAR} || '%'	/* 상용구, VARCHAR2(1000) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_FREQ_TXT.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_FREQ_TXT.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_FREQ_TXT.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_FREQ_TXT.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_FREQ_TXT.FREQ_TXT_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcFreqTxt" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFreqTxt">
+<update id="updateEzcFreqTxt" parameterType="ezcFreqTxt">
 UPDATE EZC_FREQ_TXT SET	/* 상용구 관리 */
 	 FREQ_TXT_CLASS = #{freqTxtClass, jdbcType=VARCHAR}	/* 상용구 분류, VARCHAR2(8) */
 	,FREQ_TXT = #{freqTxt, jdbcType=VARCHAR}	/* 상용구, VARCHAR2(1000) */
@@ -98,7 +128,7 @@ WHERE 1=1
 	AND FREQ_TXT_CD = #{freqTxtCd, jdbcType=DECIMAL}	/* 상용구 코드, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcFreqTxt" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFreqTxt">
+<update id="mergeEzcFreqTxt" parameterType="ezcFreqTxt">
 MERGE INTO EZC_FREQ_TXT /* 상용구 관리 */
 	USING DUAL ON (
 		FREQ_TXT_CD = #{freqTxtCd, jdbcType=DECIMAL}	/* 상용구 코드, NUMBER(0,22) */
@@ -125,7 +155,7 @@ MERGE INTO EZC_FREQ_TXT /* 상용구 관리 */
 		)
 </update>
 
-<delete id="deleteEzcFreqTxt" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFreqTxt">
+<delete id="deleteEzcFreqTxt" parameterType="ezcFreqTxt">
 DELETE FROM EZC_FREQ_TXT /* 상용구 관리 */
 WHERE 1=1
 	AND FREQ_TXT_CD = #{freqTxtCd, jdbcType=DECIMAL}	/* 상용구 코드, NUMBER(0,22) */

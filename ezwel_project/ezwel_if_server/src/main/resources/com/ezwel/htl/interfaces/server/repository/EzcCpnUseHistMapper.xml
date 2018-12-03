@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:02 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:42 	신규작성 
  * 
- * @since 2018-12-03 11:05:02
+ * @since 2018-12-03 14:47:42
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcCpnUseHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnUseHist">
+<insert id="insertEzcCpnUseHist" parameterType="ezcCpnUseHist">
 INSERT INTO EZC_CPN_USE_HIST(	/* 쿠폰 사용 내역 */
 	 CPN_CD	/* 쿠폰 코드, NUMBER(0,22) */
 	,USER_ID	/* 회원 ID, VARCHAR2(20) */
@@ -31,7 +31,7 @@ INSERT INTO EZC_CPN_USE_HIST(	/* 쿠폰 사용 내역 */
 )
 </insert>
 
-<select id="selectEzcCpnUseHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnUseHist" resultType="com.ezwel.htl.interfaces.server.entities.EzcCpnUseHist">
+<select id="selectEzcCpnUseHist" parameterType="ezcCpnUseHist" resultType="ezcCpnUseHist">
 SELECT
 	 EZC_CPN_USE_HIST.CPN_CD AS cpnCd	/* 쿠폰 코드, NUMBER(0,22) */
 	,EZC_CPN_USE_HIST.USER_ID AS userId	/* 회원 ID, VARCHAR2(20) */
@@ -61,21 +61,13 @@ WHERE 1=1
 	AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
 	AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
 	AND EZC_RESERV_BASE.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-	AND EZC_CPN_USE_HIST.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CHANNEL_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CPN.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_RESERV_BASE.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AREA_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CITY_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CPN_USE_HIST.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
-	AND EZC_CPN_USE_HIST.USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */
-	AND EZC_CPN_USE_HIST.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
-	AND EZC_CPN_USE_HIST.RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
+	AND EZC_CPN_USE_HIST.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22), EZC_CPN_USE_HIST_PK(P),FK_EZC_CPN_EZC_CPN_USE_HIST(R),SYS_C0011352(C) */
+	AND EZC_CPN_USE_HIST.USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20), EZC_CPN_USE_HIST_PK(P),SYS_C0011353(C) */
+	AND EZC_CPN_USE_HIST.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10), FK_EZC_CHANNEL_MNG_EZC_CPN_USE(R),SYS_C0011354(C) */
+	AND EZC_CPN_USE_HIST.RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22), FK_EZC_RESERV_BASE_EZC_CPN_USE(R),SYS_C0011355(C) */
 </select>
 
-<select id="selectCountEzcCpnUseHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnUseHist" resultType="java.lang.Integer">
+<select id="selectCountEzcCpnUseHist" parameterType="ezcCpnUseHist" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -98,14 +90,6 @@ WHERE 1=1
 	AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
 	AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
 	AND EZC_RESERV_BASE.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-	AND EZC_CPN_USE_HIST.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CHANNEL_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CPN.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_RESERV_BASE.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AREA_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CITY_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
 	<if test="cpnCd != null and cpnCd gt 0">
 	AND EZC_CPN_USE_HIST.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
 	</if>
@@ -118,9 +102,21 @@ WHERE 1=1
 	<if test="reservNum != null and reservNum gt 0">
 	AND EZC_CPN_USE_HIST.RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
 	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_CPN_USE_HIST.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_CPN_USE_HIST.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_CPN_USE_HIST.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_CPN_USE_HIST.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcCpnUseHist" resultType="com.ezwel.htl.interfaces.server.entities.EzcCpnUseHist">
+<select id="selectListEzcCpnUseHist" resultType="ezcCpnUseHist">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -153,36 +149,40 @@ SELECT * FROM (
 			AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
 			AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
 			AND EZC_RESERV_BASE.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-			AND EZC_CPN_USE_HIST.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CHANNEL_MNG.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CPN.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_RESERV_BASE.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_FACL.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_AREA_CD.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CITY_CD.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_PARTNER.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.cpnCd != null and param.cpnCd gt 0">
-			AND EZC_CPN_USE_HIST.CPN_CD = #{param.cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
+			<if test="cpnCd != null and cpnCd gt 0">
+			AND EZC_CPN_USE_HIST.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
 			</if>
-			<if test="param.userId != null and param.userId != ''">
-			AND EZC_CPN_USE_HIST.USER_ID = #{param.userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */
+			<if test="userId != null and userId != ''">
+			AND EZC_CPN_USE_HIST.USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */
 			</if>
-			<if test="param.channelCd != null and param.channelCd != ''">
-			AND EZC_CPN_USE_HIST.CHANNEL_CD = #{param.channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
+			<if test="channelCd != null and channelCd != ''">
+			AND EZC_CPN_USE_HIST.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 			</if>
-			<if test="param.reservNum != null and param.reservNum gt 0">
-			AND EZC_CPN_USE_HIST.RESERV_NUM = #{param.reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
+			<if test="reservNum != null and reservNum gt 0">
+			AND EZC_CPN_USE_HIST.RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_CPN_USE_HIST.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_CPN_USE_HIST.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_CPN_USE_HIST.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_CPN_USE_HIST.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_CPN_USE_HIST.CPN_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcCpnUseHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnUseHist">
+<update id="updateEzcCpnUseHist" parameterType="ezcCpnUseHist">
 UPDATE EZC_CPN_USE_HIST SET	/* 쿠폰 사용 내역 */
 	 MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
 	,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
@@ -193,7 +193,7 @@ WHERE 1=1
 	AND RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcCpnUseHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnUseHist">
+<update id="mergeEzcCpnUseHist" parameterType="ezcCpnUseHist">
 MERGE INTO EZC_CPN_USE_HIST /* 쿠폰 사용 내역 */
 	USING DUAL ON (
 		CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
@@ -223,7 +223,7 @@ MERGE INTO EZC_CPN_USE_HIST /* 쿠폰 사용 내역 */
 		)
 </update>
 
-<delete id="deleteEzcCpnUseHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnUseHist">
+<delete id="deleteEzcCpnUseHist" parameterType="ezcCpnUseHist">
 DELETE FROM EZC_CPN_USE_HIST /* 쿠폰 사용 내역 */
 WHERE 1=1
 	AND CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */

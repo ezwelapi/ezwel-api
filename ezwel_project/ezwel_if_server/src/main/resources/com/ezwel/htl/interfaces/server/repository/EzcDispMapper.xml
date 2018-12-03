@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:02 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:42 	신규작성 
  * 
- * @since 2018-12-03 11:05:02
+ * @since 2018-12-03 14:47:42
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcDisp" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDisp">
+<insert id="insertEzcDisp" parameterType="ezcDisp">
 INSERT INTO EZC_DISP(	/* 전시 */
 	 DISP_CD	/* 전시 코드, NUMBER(0,22) */
 	,DISP_NM	/* 전시 명, VARCHAR2(100) */
@@ -39,7 +39,7 @@ INSERT INTO EZC_DISP(	/* 전시 */
 )
 </insert>
 
-<select id="selectEzcDisp" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDisp" resultType="com.ezwel.htl.interfaces.server.entities.EzcDisp">
+<select id="selectEzcDisp" parameterType="ezcDisp" resultType="ezcDisp">
 SELECT
 	 EZC_DISP.DISP_CD AS dispCd	/* 전시 코드, NUMBER(0,22) */
 	,EZC_DISP.DISP_NM AS dispNm	/* 전시 명, VARCHAR2(100) */
@@ -56,10 +56,10 @@ SELECT
 FROM
 	EZC_DISP	/* 전시 */
 WHERE 1=1
-	AND EZC_DISP.DISP_CD = #{dispCd, jdbcType=DECIMAL}	/* 전시 코드, NUMBER(0,22) */
+	AND EZC_DISP.DISP_CD = #{dispCd, jdbcType=DECIMAL}	/* 전시 코드, NUMBER(0,22), EZC_DISP_PK(P),SYS_C0011388(C) */
 </select>
 
-<select id="selectCountEzcDisp" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDisp" resultType="java.lang.Integer">
+<select id="selectCountEzcDisp" parameterType="ezcDisp" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -68,15 +68,42 @@ WHERE 1=1
 	<if test="dispCd != null and dispCd gt 0">
 	AND EZC_DISP.DISP_CD = #{dispCd, jdbcType=DECIMAL}	/* 전시 코드, NUMBER(0,22) */
 	</if>
+	<if test="dispNm != null and dispNm != ''">
+	AND EZC_DISP.DISP_NM = #{dispNm, jdbcType=VARCHAR}	/* 전시 명, VARCHAR2(100) */
+	</if>
 	<if test="dispDesc != null and dispDesc != ''">
 	AND EZC_DISP.DISP_DESC LIKE '%' || #{dispDesc, jdbcType=VARCHAR} || '%'	/* 전시 설명, VARCHAR2(4000) */
+	</if>
+	<if test="imgPath != null and imgPath != ''">
+	AND EZC_DISP.IMG_PATH = #{imgPath, jdbcType=VARCHAR}	/* 이미지 경로, VARCHAR2(100) */
+	</if>
+	<if test="imgSysFilenm != null and imgSysFilenm != ''">
+	AND EZC_DISP.IMG_SYS_FILENM = #{imgSysFilenm, jdbcType=VARCHAR}	/* 이미지 시스템 파일명, VARCHAR2(100) */
+	</if>
+	<if test="imgFilenm != null and imgFilenm != ''">
+	AND EZC_DISP.IMG_FILENM = #{imgFilenm, jdbcType=VARCHAR}	/* 이미지 파일명, VARCHAR2(100) */
+	</if>
+	<if test="url != null and url != ''">
+	AND EZC_DISP.URL = #{url, jdbcType=VARCHAR}	/* URL, VARCHAR2(200) */
 	</if>
 	<if test="imgHtml != null and imgHtml != ''">
 	AND EZC_DISP.IMG_HTML LIKE '%' || #{imgHtml, jdbcType=VARCHAR} || '%'	/* 이미지 HTML, VARCHAR2(4000) */
 	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_DISP.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_DISP.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_DISP.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_DISP.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcDisp" resultType="com.ezwel.htl.interfaces.server.entities.EzcDisp">
+<select id="selectListEzcDisp" resultType="ezcDisp">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -96,25 +123,52 @@ SELECT * FROM (
 		FROM
 			EZC_DISP	/* 전시 */
 		WHERE 1=1
-			<if test="param.dispCd != null and param.dispCd gt 0">
-			AND EZC_DISP.DISP_CD = #{param.dispCd, jdbcType=DECIMAL}	/* 전시 코드, NUMBER(0,22) */
+			<if test="dispCd != null and dispCd gt 0">
+			AND EZC_DISP.DISP_CD = #{dispCd, jdbcType=DECIMAL}	/* 전시 코드, NUMBER(0,22) */
 			</if>
-			<if test="param.dispDesc != null and param.dispDesc != ''">
-			AND EZC_DISP.DISP_DESC LIKE '%' || #{param.dispDesc, jdbcType=VARCHAR} || '%'	/* 전시 설명, VARCHAR2(4000) */
+			<if test="dispNm != null and dispNm != ''">
+			AND EZC_DISP.DISP_NM = #{dispNm, jdbcType=VARCHAR}	/* 전시 명, VARCHAR2(100) */
 			</if>
-			<if test="param.imgHtml != null and param.imgHtml != ''">
-			AND EZC_DISP.IMG_HTML LIKE '%' || #{param.imgHtml, jdbcType=VARCHAR} || '%'	/* 이미지 HTML, VARCHAR2(4000) */
+			<if test="dispDesc != null and dispDesc != ''">
+			AND EZC_DISP.DISP_DESC LIKE '%' || #{dispDesc, jdbcType=VARCHAR} || '%'	/* 전시 설명, VARCHAR2(4000) */
+			</if>
+			<if test="imgPath != null and imgPath != ''">
+			AND EZC_DISP.IMG_PATH = #{imgPath, jdbcType=VARCHAR}	/* 이미지 경로, VARCHAR2(100) */
+			</if>
+			<if test="imgSysFilenm != null and imgSysFilenm != ''">
+			AND EZC_DISP.IMG_SYS_FILENM = #{imgSysFilenm, jdbcType=VARCHAR}	/* 이미지 시스템 파일명, VARCHAR2(100) */
+			</if>
+			<if test="imgFilenm != null and imgFilenm != ''">
+			AND EZC_DISP.IMG_FILENM = #{imgFilenm, jdbcType=VARCHAR}	/* 이미지 파일명, VARCHAR2(100) */
+			</if>
+			<if test="url != null and url != ''">
+			AND EZC_DISP.URL = #{url, jdbcType=VARCHAR}	/* URL, VARCHAR2(200) */
+			</if>
+			<if test="imgHtml != null and imgHtml != ''">
+			AND EZC_DISP.IMG_HTML LIKE '%' || #{imgHtml, jdbcType=VARCHAR} || '%'	/* 이미지 HTML, VARCHAR2(4000) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_DISP.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_DISP.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_DISP.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_DISP.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_DISP.DISP_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcDisp" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDisp">
+<update id="updateEzcDisp" parameterType="ezcDisp">
 UPDATE EZC_DISP SET	/* 전시 */
 	 DISP_NM = #{dispNm, jdbcType=VARCHAR}	/* 전시 명, VARCHAR2(100) */
 	,DISP_DESC = #{dispDesc, jdbcType=VARCHAR}	/* 전시 설명, VARCHAR2(4000) */
@@ -129,7 +183,7 @@ WHERE 1=1
 	AND DISP_CD = #{dispCd, jdbcType=DECIMAL}	/* 전시 코드, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcDisp" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDisp">
+<update id="mergeEzcDisp" parameterType="ezcDisp">
 MERGE INTO EZC_DISP /* 전시 */
 	USING DUAL ON (
 		DISP_CD = #{dispCd, jdbcType=DECIMAL}	/* 전시 코드, NUMBER(0,22) */
@@ -171,7 +225,7 @@ MERGE INTO EZC_DISP /* 전시 */
 		)
 </update>
 
-<delete id="deleteEzcDisp" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDisp">
+<delete id="deleteEzcDisp" parameterType="ezcDisp">
 DELETE FROM EZC_DISP /* 전시 */
 WHERE 1=1
 	AND DISP_CD = #{dispCd, jdbcType=DECIMAL}	/* 전시 코드, NUMBER(0,22) */

@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:01 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:40 	신규작성 
  * 
- * @since 2018-12-03 11:05:01
+ * @since 2018-12-03 14:47:40
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcApiLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcApiLog">
+<insert id="insertEzcApiLog" parameterType="ezcApiLog">
 INSERT INTO EZC_API_LOG(	/* API 로그 */
 	 API_LOG_SEQ	/* API 로그 일련번호, NUMBER(0,22) */
 	,API_TYPE	/* API 유형, VARCHAR2(8) */
@@ -41,7 +41,7 @@ INSERT INTO EZC_API_LOG(	/* API 로그 */
 )
 </insert>
 
-<select id="selectEzcApiLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcApiLog" resultType="com.ezwel.htl.interfaces.server.entities.EzcApiLog">
+<select id="selectEzcApiLog" parameterType="ezcApiLog" resultType="ezcApiLog">
 SELECT
 	 EZC_API_LOG.API_LOG_SEQ AS apiLogSeq	/* API 로그 일련번호, NUMBER(0,22) */
 	,EZC_API_LOG.API_TYPE AS apiType	/* API 유형, VARCHAR2(8) */
@@ -59,17 +59,35 @@ SELECT
 FROM
 	EZC_API_LOG	/* API 로그 */
 WHERE 1=1
-	AND EZC_API_LOG.API_LOG_SEQ = #{apiLogSeq, jdbcType=DECIMAL}	/* API 로그 일련번호, NUMBER(0,22) */
+	<if test="errYn != null and errYn != ''">
+	AND EZC_API_LOG.ERR_YN = #{errYn, jdbcType=CHAR}	/* 오류 여부, CHAR(1) */
+	</if>
+	AND EZC_API_LOG.API_LOG_SEQ = #{apiLogSeq, jdbcType=DECIMAL}	/* API 로그 일련번호, NUMBER(0,22), EZC_API_LOG_PK(P),SYS_C0011151(C) */
 </select>
 
-<select id="selectCountEzcApiLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcApiLog" resultType="java.lang.Integer">
+<select id="selectCountEzcApiLog" parameterType="ezcApiLog" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
 	EZC_API_LOG	/* API 로그 */
 WHERE 1=1
+	<if test="errYn != null and errYn != ''">
+	AND EZC_API_LOG.ERR_YN = #{errYn, jdbcType=CHAR}	/* 오류 여부, CHAR(1) */
+	</if>
 	<if test="apiLogSeq != null and apiLogSeq gt 0">
 	AND EZC_API_LOG.API_LOG_SEQ = #{apiLogSeq, jdbcType=DECIMAL}	/* API 로그 일련번호, NUMBER(0,22) */
+	</if>
+	<if test="apiType != null and apiType != ''">
+	AND EZC_API_LOG.API_TYPE = #{apiType, jdbcType=VARCHAR}	/* API 유형, VARCHAR2(8) */
+	</if>
+	<if test="apiResponDiv != null and apiResponDiv != ''">
+	AND EZC_API_LOG.API_RESPON_DIV = #{apiResponDiv, jdbcType=VARCHAR}	/* API 응답 구분, VARCHAR2(8) */
+	</if>
+	<if test="agentType != null and agentType != ''">
+	AND EZC_API_LOG.AGENT_TYPE = #{agentType, jdbcType=VARCHAR}	/* 에이전트 유형, VARCHAR2(8) */
+	</if>
+	<if test="logDt != null and logDt != ''">
+	AND EZC_API_LOG.LOG_DT = #{logDt, jdbcType=VARCHAR}	/* 로그 일시, VARCHAR2(14) */
 	</if>
 	<if test="errMsg != null and errMsg != ''">
 	AND EZC_API_LOG.ERR_MSG LIKE '%' || #{errMsg, jdbcType=VARCHAR} || '%'	/* 오류 메시지, VARCHAR2(4000) */
@@ -80,9 +98,21 @@ WHERE 1=1
 	<if test="resTxt != null and resTxt != ''">
 	AND EZC_API_LOG.RES_TXT LIKE '%' || #{resTxt, jdbcType=VARCHAR} || '%'	/* RES TXT, VARCHAR2(4000) */
 	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_API_LOG.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_API_LOG.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_API_LOG.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_API_LOG.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcApiLog" resultType="com.ezwel.htl.interfaces.server.entities.EzcApiLog">
+<select id="selectListEzcApiLog" resultType="ezcApiLog">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -103,28 +133,55 @@ SELECT * FROM (
 		FROM
 			EZC_API_LOG	/* API 로그 */
 		WHERE 1=1
-			<if test="param.apiLogSeq != null and param.apiLogSeq gt 0">
-			AND EZC_API_LOG.API_LOG_SEQ = #{param.apiLogSeq, jdbcType=DECIMAL}	/* API 로그 일련번호, NUMBER(0,22) */
+			<if test="errYn != null and errYn != ''">
+			AND EZC_API_LOG.ERR_YN = #{errYn, jdbcType=CHAR}	/* 오류 여부, CHAR(1) */
 			</if>
-			<if test="param.errMsg != null and param.errMsg != ''">
-			AND EZC_API_LOG.ERR_MSG LIKE '%' || #{param.errMsg, jdbcType=VARCHAR} || '%'	/* 오류 메시지, VARCHAR2(4000) */
+			<if test="apiLogSeq != null and apiLogSeq gt 0">
+			AND EZC_API_LOG.API_LOG_SEQ = #{apiLogSeq, jdbcType=DECIMAL}	/* API 로그 일련번호, NUMBER(0,22) */
 			</if>
-			<if test="param.reqTxt != null and param.reqTxt != ''">
-			AND EZC_API_LOG.REQ_TXT LIKE '%' || #{param.reqTxt, jdbcType=VARCHAR} || '%'	/* REQ TXT, VARCHAR2(4000) */
+			<if test="apiType != null and apiType != ''">
+			AND EZC_API_LOG.API_TYPE = #{apiType, jdbcType=VARCHAR}	/* API 유형, VARCHAR2(8) */
 			</if>
-			<if test="param.resTxt != null and param.resTxt != ''">
-			AND EZC_API_LOG.RES_TXT LIKE '%' || #{param.resTxt, jdbcType=VARCHAR} || '%'	/* RES TXT, VARCHAR2(4000) */
+			<if test="apiResponDiv != null and apiResponDiv != ''">
+			AND EZC_API_LOG.API_RESPON_DIV = #{apiResponDiv, jdbcType=VARCHAR}	/* API 응답 구분, VARCHAR2(8) */
+			</if>
+			<if test="agentType != null and agentType != ''">
+			AND EZC_API_LOG.AGENT_TYPE = #{agentType, jdbcType=VARCHAR}	/* 에이전트 유형, VARCHAR2(8) */
+			</if>
+			<if test="logDt != null and logDt != ''">
+			AND EZC_API_LOG.LOG_DT = #{logDt, jdbcType=VARCHAR}	/* 로그 일시, VARCHAR2(14) */
+			</if>
+			<if test="errMsg != null and errMsg != ''">
+			AND EZC_API_LOG.ERR_MSG LIKE '%' || #{errMsg, jdbcType=VARCHAR} || '%'	/* 오류 메시지, VARCHAR2(4000) */
+			</if>
+			<if test="reqTxt != null and reqTxt != ''">
+			AND EZC_API_LOG.REQ_TXT LIKE '%' || #{reqTxt, jdbcType=VARCHAR} || '%'	/* REQ TXT, VARCHAR2(4000) */
+			</if>
+			<if test="resTxt != null and resTxt != ''">
+			AND EZC_API_LOG.RES_TXT LIKE '%' || #{resTxt, jdbcType=VARCHAR} || '%'	/* RES TXT, VARCHAR2(4000) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_API_LOG.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_API_LOG.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_API_LOG.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_API_LOG.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_API_LOG.API_LOG_SEQ DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcApiLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcApiLog">
+<update id="updateEzcApiLog" parameterType="ezcApiLog">
 UPDATE EZC_API_LOG SET	/* API 로그 */
 	 API_TYPE = #{apiType, jdbcType=VARCHAR}	/* API 유형, VARCHAR2(8) */
 	,API_RESPON_DIV = #{apiResponDiv, jdbcType=VARCHAR}	/* API 응답 구분, VARCHAR2(8) */
@@ -140,7 +197,7 @@ WHERE 1=1
 	AND API_LOG_SEQ = #{apiLogSeq, jdbcType=DECIMAL}	/* API 로그 일련번호, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcApiLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcApiLog">
+<update id="mergeEzcApiLog" parameterType="ezcApiLog">
 MERGE INTO EZC_API_LOG /* API 로그 */
 	USING DUAL ON (
 		API_LOG_SEQ = #{apiLogSeq, jdbcType=DECIMAL}	/* API 로그 일련번호, NUMBER(0,22) */
@@ -185,7 +242,7 @@ MERGE INTO EZC_API_LOG /* API 로그 */
 		)
 </update>
 
-<delete id="deleteEzcApiLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcApiLog">
+<delete id="deleteEzcApiLog" parameterType="ezcApiLog">
 DELETE FROM EZC_API_LOG /* API 로그 */
 WHERE 1=1
 	AND API_LOG_SEQ = #{apiLogSeq, jdbcType=DECIMAL}	/* API 로그 일련번호, NUMBER(0,22) */

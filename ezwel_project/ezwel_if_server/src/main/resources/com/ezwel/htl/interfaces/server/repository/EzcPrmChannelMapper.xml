@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:04 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:43 	신규작성 
  * 
- * @since 2018-12-03 11:05:04
+ * @since 2018-12-03 14:47:43
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcPrmChannel" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmChannel">
+<insert id="insertEzcPrmChannel" parameterType="ezcPrmChannel">
 INSERT INTO EZC_PRM_CHANNEL(	/* 프로모션 채널 */
 	 PRM_CD	/* 프로모션 코드, VARCHAR2(10) */
 	,CHANNEL_CD	/* 채널 코드, VARCHAR2(10) */
@@ -27,7 +27,7 @@ INSERT INTO EZC_PRM_CHANNEL(	/* 프로모션 채널 */
 )
 </insert>
 
-<select id="selectEzcPrmChannel" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmChannel" resultType="com.ezwel.htl.interfaces.server.entities.EzcPrmChannel">
+<select id="selectEzcPrmChannel" parameterType="ezcPrmChannel" resultType="ezcPrmChannel">
 SELECT
 	 EZC_PRM_CHANNEL.PRM_CD AS prmCd	/* 프로모션 코드, VARCHAR2(10) */
 	,EZC_PRM_CHANNEL.CHANNEL_CD AS channelCd	/* 채널 코드, VARCHAR2(10) */
@@ -40,14 +40,11 @@ FROM
 WHERE 1=1
 	AND EZC_PRM_CHANNEL.CHANNEL_CD = EZC_CHANNEL_MNG.CHANNEL_CD
 	AND EZC_PRM_CHANNEL.PRM_CD = EZC_PRM_MNG.PRM_CD
-	AND EZC_PRM_CHANNEL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CHANNEL_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PRM_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PRM_CHANNEL.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
-	AND EZC_PRM_CHANNEL.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
+	AND EZC_PRM_CHANNEL.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10), EZC_PRM_CHANNEL_PK(P),FK_EZC_PRM_MNG_EZC_PRM_CHANNEL(R),SYS_C0011534(C) */
+	AND EZC_PRM_CHANNEL.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10), EZC_PRM_CHANNEL_PK(P),FK_EZC_CHANNEL_MNG_EZC_PRM_CHA(R),SYS_C0011535(C) */
 </select>
 
-<select id="selectCountEzcPrmChannel" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmChannel" resultType="java.lang.Integer">
+<select id="selectCountEzcPrmChannel" parameterType="ezcPrmChannel" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -57,18 +54,21 @@ FROM
 WHERE 1=1
 	AND EZC_PRM_CHANNEL.CHANNEL_CD = EZC_CHANNEL_MNG.CHANNEL_CD
 	AND EZC_PRM_CHANNEL.PRM_CD = EZC_PRM_MNG.PRM_CD
-	AND EZC_PRM_CHANNEL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CHANNEL_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PRM_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
 	<if test="prmCd != null and prmCd != ''">
 	AND EZC_PRM_CHANNEL.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
 	</if>
 	<if test="channelCd != null and channelCd != ''">
 	AND EZC_PRM_CHANNEL.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_PRM_CHANNEL.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_PRM_CHANNEL.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcPrmChannel" resultType="com.ezwel.htl.interfaces.server.entities.EzcPrmChannel">
+<select id="selectListEzcPrmChannel" resultType="ezcPrmChannel">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -84,32 +84,35 @@ SELECT * FROM (
 		WHERE 1=1
 			AND EZC_PRM_CHANNEL.CHANNEL_CD = EZC_CHANNEL_MNG.CHANNEL_CD
 			AND EZC_PRM_CHANNEL.PRM_CD = EZC_PRM_MNG.PRM_CD
-			AND EZC_PRM_CHANNEL.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CHANNEL_MNG.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_PRM_MNG.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.prmCd != null and param.prmCd != ''">
-			AND EZC_PRM_CHANNEL.PRM_CD = #{param.prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
+			<if test="prmCd != null and prmCd != ''">
+			AND EZC_PRM_CHANNEL.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
 			</if>
-			<if test="param.channelCd != null and param.channelCd != ''">
-			AND EZC_PRM_CHANNEL.CHANNEL_CD = #{param.channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
+			<if test="channelCd != null and channelCd != ''">
+			AND EZC_PRM_CHANNEL.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_PRM_CHANNEL.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_PRM_CHANNEL.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_PRM_CHANNEL.PRM_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcPrmChannel" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmChannel">
+<update id="updateEzcPrmChannel" parameterType="ezcPrmChannel">
 UPDATE EZC_PRM_CHANNEL SET	/* 프로모션 채널 */
 WHERE 1=1
 	AND PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
 	AND CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 </update>
 
-<update id="mergeEzcPrmChannel" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmChannel">
+<update id="mergeEzcPrmChannel" parameterType="ezcPrmChannel">
 MERGE INTO EZC_PRM_CHANNEL /* 프로모션 채널 */
 	USING DUAL ON (
 		PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
@@ -131,7 +134,7 @@ MERGE INTO EZC_PRM_CHANNEL /* 프로모션 채널 */
 		)
 </update>
 
-<delete id="deleteEzcPrmChannel" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmChannel">
+<delete id="deleteEzcPrmChannel" parameterType="ezcPrmChannel">
 DELETE FROM EZC_PRM_CHANNEL /* 프로모션 채널 */
 WHERE 1=1
 	AND PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */

@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:02 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:41 	신규작성 
  * 
- * @since 2018-12-03 11:05:02
+ * @since 2018-12-03 14:47:41
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcCacheSearchLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCacheSearchLog">
+<insert id="insertEzcCacheSearchLog" parameterType="ezcCacheSearchLog">
 INSERT INTO EZC_CACHE_SEARCH_LOG(	/* CACHE 검색 로그 */
 	 CHECK_IN_DD	/* 체크인 일자, VARCHAR2(8) */
 	,CHECK_OUT_DD	/* 체크아웃 일자, VARCHAR2(8) */
@@ -37,7 +37,7 @@ INSERT INTO EZC_CACHE_SEARCH_LOG(	/* CACHE 검색 로그 */
 )
 </insert>
 
-<select id="selectEzcCacheSearchLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCacheSearchLog" resultType="com.ezwel.htl.interfaces.server.entities.EzcCacheSearchLog">
+<select id="selectEzcCacheSearchLog" parameterType="ezcCacheSearchLog" resultType="ezcCacheSearchLog">
 SELECT
 	 EZC_CACHE_SEARCH_LOG.CHECK_IN_DD AS checkInDd	/* 체크인 일자, VARCHAR2(8) */
 	,EZC_CACHE_SEARCH_LOG.CHECK_OUT_DD AS checkOutDd	/* 체크아웃 일자, VARCHAR2(8) */
@@ -53,13 +53,13 @@ SELECT
 FROM
 	EZC_CACHE_SEARCH_LOG	/* CACHE 검색 로그 */
 WHERE 1=1
-	AND EZC_CACHE_SEARCH_LOG.CHECK_IN_DD = #{checkInDd, jdbcType=VARCHAR}	/* 체크인 일자, VARCHAR2(8) */
-	AND EZC_CACHE_SEARCH_LOG.CHECK_OUT_DD = #{checkOutDd, jdbcType=VARCHAR}	/* 체크아웃 일자, VARCHAR2(8) */
-	AND EZC_CACHE_SEARCH_LOG.CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10) */
-	AND EZC_CACHE_SEARCH_LOG.AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10) */
+	AND EZC_CACHE_SEARCH_LOG.CHECK_IN_DD = #{checkInDd, jdbcType=VARCHAR}	/* 체크인 일자, VARCHAR2(8), EZC_CACHE_SEARCH_LOG_PK(P),SYS_C0011169(C) */
+	AND EZC_CACHE_SEARCH_LOG.CHECK_OUT_DD = #{checkOutDd, jdbcType=VARCHAR}	/* 체크아웃 일자, VARCHAR2(8), EZC_CACHE_SEARCH_LOG_PK(P),SYS_C0011170(C) */
+	AND EZC_CACHE_SEARCH_LOG.CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10), EZC_CACHE_SEARCH_LOG_PK(P),SYS_C0011171(C) */
+	AND EZC_CACHE_SEARCH_LOG.AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10), EZC_CACHE_SEARCH_LOG_PK(P),SYS_C0011172(C) */
 </select>
 
-<select id="selectCountEzcCacheSearchLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCacheSearchLog" resultType="java.lang.Integer">
+<select id="selectCountEzcCacheSearchLog" parameterType="ezcCacheSearchLog" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -77,9 +77,30 @@ WHERE 1=1
 	<if test="areaCd != null and areaCd != ''">
 	AND EZC_CACHE_SEARCH_LOG.AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10) */
 	</if>
+	<if test="exeDt != null and exeDt != ''">
+	AND EZC_CACHE_SEARCH_LOG.EXE_DT = #{exeDt, jdbcType=VARCHAR}	/* 실행 일시, VARCHAR2(14) */
+	</if>
+	<if test="cacheEndTm != null and cacheEndTm != ''">
+	AND EZC_CACHE_SEARCH_LOG.CACHE_END_TM = #{cacheEndTm, jdbcType=VARCHAR}	/* CACHE 만료 시간, VARCHAR2(4) */
+	</if>
+	<if test="exeStatus != null and exeStatus != ''">
+	AND EZC_CACHE_SEARCH_LOG.EXE_STATUS = #{exeStatus, jdbcType=VARCHAR}	/* 실행 상태, VARCHAR2(8) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_CACHE_SEARCH_LOG.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_CACHE_SEARCH_LOG.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_CACHE_SEARCH_LOG.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_CACHE_SEARCH_LOG.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcCacheSearchLog" resultType="com.ezwel.htl.interfaces.server.entities.EzcCacheSearchLog">
+<select id="selectListEzcCacheSearchLog" resultType="ezcCacheSearchLog">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -98,28 +119,49 @@ SELECT * FROM (
 		FROM
 			EZC_CACHE_SEARCH_LOG	/* CACHE 검색 로그 */
 		WHERE 1=1
-			<if test="param.checkInDd != null and param.checkInDd != ''">
-			AND EZC_CACHE_SEARCH_LOG.CHECK_IN_DD = #{param.checkInDd, jdbcType=VARCHAR}	/* 체크인 일자, VARCHAR2(8) */
+			<if test="checkInDd != null and checkInDd != ''">
+			AND EZC_CACHE_SEARCH_LOG.CHECK_IN_DD = #{checkInDd, jdbcType=VARCHAR}	/* 체크인 일자, VARCHAR2(8) */
 			</if>
-			<if test="param.checkOutDd != null and param.checkOutDd != ''">
-			AND EZC_CACHE_SEARCH_LOG.CHECK_OUT_DD = #{param.checkOutDd, jdbcType=VARCHAR}	/* 체크아웃 일자, VARCHAR2(8) */
+			<if test="checkOutDd != null and checkOutDd != ''">
+			AND EZC_CACHE_SEARCH_LOG.CHECK_OUT_DD = #{checkOutDd, jdbcType=VARCHAR}	/* 체크아웃 일자, VARCHAR2(8) */
 			</if>
-			<if test="param.cityCd != null and param.cityCd != ''">
-			AND EZC_CACHE_SEARCH_LOG.CITY_CD = #{param.cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10) */
+			<if test="cityCd != null and cityCd != ''">
+			AND EZC_CACHE_SEARCH_LOG.CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10) */
 			</if>
-			<if test="param.areaCd != null and param.areaCd != ''">
-			AND EZC_CACHE_SEARCH_LOG.AREA_CD = #{param.areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10) */
+			<if test="areaCd != null and areaCd != ''">
+			AND EZC_CACHE_SEARCH_LOG.AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10) */
+			</if>
+			<if test="exeDt != null and exeDt != ''">
+			AND EZC_CACHE_SEARCH_LOG.EXE_DT = #{exeDt, jdbcType=VARCHAR}	/* 실행 일시, VARCHAR2(14) */
+			</if>
+			<if test="cacheEndTm != null and cacheEndTm != ''">
+			AND EZC_CACHE_SEARCH_LOG.CACHE_END_TM = #{cacheEndTm, jdbcType=VARCHAR}	/* CACHE 만료 시간, VARCHAR2(4) */
+			</if>
+			<if test="exeStatus != null and exeStatus != ''">
+			AND EZC_CACHE_SEARCH_LOG.EXE_STATUS = #{exeStatus, jdbcType=VARCHAR}	/* 실행 상태, VARCHAR2(8) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_CACHE_SEARCH_LOG.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_CACHE_SEARCH_LOG.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_CACHE_SEARCH_LOG.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_CACHE_SEARCH_LOG.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_CACHE_SEARCH_LOG.CHECK_IN_DD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcCacheSearchLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCacheSearchLog">
+<update id="updateEzcCacheSearchLog" parameterType="ezcCacheSearchLog">
 UPDATE EZC_CACHE_SEARCH_LOG SET	/* CACHE 검색 로그 */
 	 EXE_DT = #{exeDt, jdbcType=VARCHAR}	/* 실행 일시, VARCHAR2(14) */
 	,CACHE_END_TM = #{cacheEndTm, jdbcType=VARCHAR}	/* CACHE 만료 시간, VARCHAR2(4) */
@@ -133,7 +175,7 @@ WHERE 1=1
 	AND AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10) */
 </update>
 
-<update id="mergeEzcCacheSearchLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCacheSearchLog">
+<update id="mergeEzcCacheSearchLog" parameterType="ezcCacheSearchLog">
 MERGE INTO EZC_CACHE_SEARCH_LOG /* CACHE 검색 로그 */
 	USING DUAL ON (
 		CHECK_IN_DD = #{checkInDd, jdbcType=VARCHAR}	/* 체크인 일자, VARCHAR2(8) */
@@ -172,7 +214,7 @@ MERGE INTO EZC_CACHE_SEARCH_LOG /* CACHE 검색 로그 */
 		)
 </update>
 
-<delete id="deleteEzcCacheSearchLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCacheSearchLog">
+<delete id="deleteEzcCacheSearchLog" parameterType="ezcCacheSearchLog">
 DELETE FROM EZC_CACHE_SEARCH_LOG /* CACHE 검색 로그 */
 WHERE 1=1
 	AND CHECK_IN_DD = #{checkInDd, jdbcType=VARCHAR}	/* 체크인 일자, VARCHAR2(8) */

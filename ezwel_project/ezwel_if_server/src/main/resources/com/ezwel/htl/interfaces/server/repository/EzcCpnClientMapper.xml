@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:02 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:42 	신규작성 
  * 
- * @since 2018-12-03 11:05:02
+ * @since 2018-12-03 14:47:42
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcCpnClient" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnClient">
+<insert id="insertEzcCpnClient" parameterType="ezcCpnClient">
 INSERT INTO EZC_CPN_CLIENT(	/* 쿠폰 고객사 */
 	 CPN_CD	/* 쿠폰 코드, NUMBER(0,22) */
 	,CHANNEL_CD	/* 채널 코드, VARCHAR2(10) */
@@ -29,7 +29,7 @@ INSERT INTO EZC_CPN_CLIENT(	/* 쿠폰 고객사 */
 )
 </insert>
 
-<select id="selectEzcCpnClient" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnClient" resultType="com.ezwel.htl.interfaces.server.entities.EzcCpnClient">
+<select id="selectEzcCpnClient" parameterType="ezcCpnClient" resultType="ezcCpnClient">
 SELECT
 	 EZC_CPN_CLIENT.CPN_CD AS cpnCd	/* 쿠폰 코드, NUMBER(0,22) */
 	,EZC_CPN_CLIENT.CHANNEL_CD AS channelCd	/* 채널 코드, VARCHAR2(10) */
@@ -46,16 +46,12 @@ WHERE 1=1
 	AND EZC_CPN_CHANNEL.CHANNEL_CD = EZC_CHANNEL_MNG.CHANNEL_CD
 	AND EZC_CPN_CHANNEL.CPN_CD = EZC_CPN.CPN_CD
 	AND EZC_CPN_CLIENT.CHANNEL_CD = EZC_CPN_CHANNEL.CHANNEL_CD
-	AND EZC_CPN_CLIENT.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CPN_CHANNEL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CHANNEL_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CPN.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CPN_CLIENT.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
-	AND EZC_CPN_CLIENT.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
-	AND EZC_CPN_CLIENT.CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
+	AND EZC_CPN_CLIENT.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22), EZC_CPN_CLIENT_PK(P),FK_EZC_CPN_CHANNEL_EZC_CPN_CLI(R),SYS_C0011331(C) */
+	AND EZC_CPN_CLIENT.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10), EZC_CPN_CLIENT_PK(P),FK_EZC_CPN_CHANNEL_EZC_CPN_CLI(R),SYS_C0011332(C) */
+	AND EZC_CPN_CLIENT.CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20), EZC_CPN_CLIENT_PK(P),SYS_C0011333(C) */
 </select>
 
-<select id="selectCountEzcCpnClient" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnClient" resultType="java.lang.Integer">
+<select id="selectCountEzcCpnClient" parameterType="ezcCpnClient" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -68,10 +64,6 @@ WHERE 1=1
 	AND EZC_CPN_CHANNEL.CHANNEL_CD = EZC_CHANNEL_MNG.CHANNEL_CD
 	AND EZC_CPN_CHANNEL.CPN_CD = EZC_CPN.CPN_CD
 	AND EZC_CPN_CLIENT.CHANNEL_CD = EZC_CPN_CHANNEL.CHANNEL_CD
-	AND EZC_CPN_CLIENT.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CPN_CHANNEL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CHANNEL_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CPN.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
 	<if test="cpnCd != null and cpnCd gt 0">
 	AND EZC_CPN_CLIENT.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
 	</if>
@@ -81,9 +73,15 @@ WHERE 1=1
 	<if test="clientCd != null and clientCd != ''">
 	AND EZC_CPN_CLIENT.CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
 	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_CPN_CLIENT.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_CPN_CLIENT.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcCpnClient" resultType="com.ezwel.htl.interfaces.server.entities.EzcCpnClient">
+<select id="selectListEzcCpnClient" resultType="ezcCpnClient">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -103,29 +101,31 @@ SELECT * FROM (
 			AND EZC_CPN_CHANNEL.CHANNEL_CD = EZC_CHANNEL_MNG.CHANNEL_CD
 			AND EZC_CPN_CHANNEL.CPN_CD = EZC_CPN.CPN_CD
 			AND EZC_CPN_CLIENT.CHANNEL_CD = EZC_CPN_CHANNEL.CHANNEL_CD
-			AND EZC_CPN_CLIENT.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CPN_CHANNEL.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CHANNEL_MNG.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CPN.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.cpnCd != null and param.cpnCd gt 0">
-			AND EZC_CPN_CLIENT.CPN_CD = #{param.cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
+			<if test="cpnCd != null and cpnCd gt 0">
+			AND EZC_CPN_CLIENT.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
 			</if>
-			<if test="param.channelCd != null and param.channelCd != ''">
-			AND EZC_CPN_CLIENT.CHANNEL_CD = #{param.channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
+			<if test="channelCd != null and channelCd != ''">
+			AND EZC_CPN_CLIENT.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 			</if>
-			<if test="param.clientCd != null and param.clientCd != ''">
-			AND EZC_CPN_CLIENT.CLIENT_CD = #{param.clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
+			<if test="clientCd != null and clientCd != ''">
+			AND EZC_CPN_CLIENT.CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_CPN_CLIENT.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_CPN_CLIENT.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_CPN_CLIENT.CPN_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcCpnClient" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnClient">
+<update id="updateEzcCpnClient" parameterType="ezcCpnClient">
 UPDATE EZC_CPN_CLIENT SET	/* 쿠폰 고객사 */
 WHERE 1=1
 	AND CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
@@ -133,7 +133,7 @@ WHERE 1=1
 	AND CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
 </update>
 
-<update id="mergeEzcCpnClient" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnClient">
+<update id="mergeEzcCpnClient" parameterType="ezcCpnClient">
 MERGE INTO EZC_CPN_CLIENT /* 쿠폰 고객사 */
 	USING DUAL ON (
 		CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
@@ -158,7 +158,7 @@ MERGE INTO EZC_CPN_CLIENT /* 쿠폰 고객사 */
 		)
 </update>
 
-<delete id="deleteEzcCpnClient" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnClient">
+<delete id="deleteEzcCpnClient" parameterType="ezcCpnClient">
 DELETE FROM EZC_CPN_CLIENT /* 쿠폰 고객사 */
 WHERE 1=1
 	AND CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */

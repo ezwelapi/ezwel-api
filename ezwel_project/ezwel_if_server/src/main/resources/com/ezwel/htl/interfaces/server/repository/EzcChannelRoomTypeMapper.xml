@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:02 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:41 	신규작성 
  * 
- * @since 2018-12-03 11:05:02
+ * @since 2018-12-03 14:47:41
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcChannelRoomType" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelRoomType">
+<insert id="insertEzcChannelRoomType" parameterType="ezcChannelRoomType">
 INSERT INTO EZC_CHANNEL_ROOM_TYPE(	/* 채널 숙소 유형 */
 	 CHANNEL_CD	/* 채널 코드, VARCHAR2(10) */
 	,ROOM_TYPE	/* 숙소 유형, VARCHAR2(8) */
@@ -27,7 +27,7 @@ INSERT INTO EZC_CHANNEL_ROOM_TYPE(	/* 채널 숙소 유형 */
 )
 </insert>
 
-<select id="selectEzcChannelRoomType" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelRoomType" resultType="com.ezwel.htl.interfaces.server.entities.EzcChannelRoomType">
+<select id="selectEzcChannelRoomType" parameterType="ezcChannelRoomType" resultType="ezcChannelRoomType">
 SELECT
 	 EZC_CHANNEL_ROOM_TYPE.CHANNEL_CD AS channelCd	/* 채널 코드, VARCHAR2(10) */
 	,EZC_CHANNEL_ROOM_TYPE.ROOM_TYPE AS roomType	/* 숙소 유형, VARCHAR2(8) */
@@ -36,11 +36,11 @@ SELECT
 FROM
 	EZC_CHANNEL_ROOM_TYPE	/* 채널 숙소 유형 */
 WHERE 1=1
-	AND EZC_CHANNEL_ROOM_TYPE.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
-	AND EZC_CHANNEL_ROOM_TYPE.ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
+	AND EZC_CHANNEL_ROOM_TYPE.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10), EZC_CHANNEL_ROOM_TYPE_PK(P),SYS_C0011262(C) */
+	AND EZC_CHANNEL_ROOM_TYPE.ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8), EZC_CHANNEL_ROOM_TYPE_PK(P),SYS_C0011263(C) */
 </select>
 
-<select id="selectCountEzcChannelRoomType" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelRoomType" resultType="java.lang.Integer">
+<select id="selectCountEzcChannelRoomType" parameterType="ezcChannelRoomType" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -52,9 +52,15 @@ WHERE 1=1
 	<if test="roomType != null and roomType != ''">
 	AND EZC_CHANNEL_ROOM_TYPE.ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
 	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_CHANNEL_ROOM_TYPE.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_CHANNEL_ROOM_TYPE.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcChannelRoomType" resultType="com.ezwel.htl.interfaces.server.entities.EzcChannelRoomType">
+<select id="selectListEzcChannelRoomType" resultType="ezcChannelRoomType">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -66,29 +72,35 @@ SELECT * FROM (
 		FROM
 			EZC_CHANNEL_ROOM_TYPE	/* 채널 숙소 유형 */
 		WHERE 1=1
-			<if test="param.channelCd != null and param.channelCd != ''">
-			AND EZC_CHANNEL_ROOM_TYPE.CHANNEL_CD = #{param.channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
+			<if test="channelCd != null and channelCd != ''">
+			AND EZC_CHANNEL_ROOM_TYPE.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 			</if>
-			<if test="param.roomType != null and param.roomType != ''">
-			AND EZC_CHANNEL_ROOM_TYPE.ROOM_TYPE = #{param.roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
+			<if test="roomType != null and roomType != ''">
+			AND EZC_CHANNEL_ROOM_TYPE.ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_CHANNEL_ROOM_TYPE.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_CHANNEL_ROOM_TYPE.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_CHANNEL_ROOM_TYPE.CHANNEL_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcChannelRoomType" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelRoomType">
+<update id="updateEzcChannelRoomType" parameterType="ezcChannelRoomType">
 UPDATE EZC_CHANNEL_ROOM_TYPE SET	/* 채널 숙소 유형 */
 WHERE 1=1
 	AND CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 	AND ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
 </update>
 
-<update id="mergeEzcChannelRoomType" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelRoomType">
+<update id="mergeEzcChannelRoomType" parameterType="ezcChannelRoomType">
 MERGE INTO EZC_CHANNEL_ROOM_TYPE /* 채널 숙소 유형 */
 	USING DUAL ON (
 		CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
@@ -110,7 +122,7 @@ MERGE INTO EZC_CHANNEL_ROOM_TYPE /* 채널 숙소 유형 */
 		)
 </update>
 
-<delete id="deleteEzcChannelRoomType" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelRoomType">
+<delete id="deleteEzcChannelRoomType" parameterType="ezcChannelRoomType">
 DELETE FROM EZC_CHANNEL_ROOM_TYPE /* 채널 숙소 유형 */
 WHERE 1=1
 	AND CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */

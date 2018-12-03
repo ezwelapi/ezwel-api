@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:03 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:43 	신규작성 
  * 
- * @since 2018-12-03 11:05:03
+ * @since 2018-12-03 14:47:43
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcMgrNotice" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrNotice">
+<insert id="insertEzcMgrNotice" parameterType="ezcMgrNotice">
 INSERT INTO EZC_MGR_NOTICE(	/* 운영자 공지사항 */
 	 NOTICE_SEQ	/* 공지사항 일련번호, NUMBER(0,22) */
 	,NOTICE_RANGE	/* 공지 대상, VARCHAR2(8) */
@@ -37,7 +37,7 @@ INSERT INTO EZC_MGR_NOTICE(	/* 운영자 공지사항 */
 )
 </insert>
 
-<select id="selectEzcMgrNotice" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrNotice" resultType="com.ezwel.htl.interfaces.server.entities.EzcMgrNotice">
+<select id="selectEzcMgrNotice" parameterType="ezcMgrNotice" resultType="ezcMgrNotice">
 SELECT
 	 EZC_MGR_NOTICE.NOTICE_SEQ AS noticeSeq	/* 공지사항 일련번호, NUMBER(0,22) */
 	,EZC_MGR_NOTICE.NOTICE_RANGE AS noticeRange	/* 공지 대상, VARCHAR2(8) */
@@ -53,11 +53,11 @@ SELECT
 FROM
 	EZC_MGR_NOTICE	/* 운영자 공지사항 */
 WHERE 1=1
-	AND EZC_MGR_NOTICE.NOTICE_SEQ = #{noticeSeq, jdbcType=DECIMAL}	/* 공지사항 일련번호, NUMBER(0,22) */
-	AND EZC_MGR_NOTICE.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+	AND EZC_MGR_NOTICE.NOTICE_SEQ = #{noticeSeq, jdbcType=DECIMAL}	/* 공지사항 일련번호, NUMBER(0,22), EZC_MGR_NOTICE_PK(P),SYS_C0011492(C) */
+	AND EZC_MGR_NOTICE.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8), FK_EZC_PARTNER_EZC_MGR_NOTICE(R),SYS_C0011494(C) */
 </select>
 
-<select id="selectCountEzcMgrNotice" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrNotice" resultType="java.lang.Integer">
+<select id="selectCountEzcMgrNotice" parameterType="ezcMgrNotice" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -66,15 +66,39 @@ WHERE 1=1
 	<if test="noticeSeq != null and noticeSeq gt 0">
 	AND EZC_MGR_NOTICE.NOTICE_SEQ = #{noticeSeq, jdbcType=DECIMAL}	/* 공지사항 일련번호, NUMBER(0,22) */
 	</if>
+	<if test="noticeRange != null and noticeRange != ''">
+	AND EZC_MGR_NOTICE.NOTICE_RANGE = #{noticeRange, jdbcType=VARCHAR}	/* 공지 대상, VARCHAR2(8) */
+	</if>
 	<if test="partnerCdType != null and partnerCdType != ''">
 	AND EZC_MGR_NOTICE.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+	</if>
+	<if test="title != null and title != ''">
+	AND EZC_MGR_NOTICE.TITLE = #{title, jdbcType=VARCHAR}	/* 제목, VARCHAR2(100) */
 	</if>
 	<if test="content != null and content != ''">
 	AND EZC_MGR_NOTICE.CONTENT LIKE '%' || #{content, jdbcType=VARCHAR} || '%'	/* 내용, VARCHAR2(2000) */
 	</if>
+	<if test="viewCnt != null and viewCnt gt 0">
+	AND EZC_MGR_NOTICE.VIEW_CNT = #{viewCnt, jdbcType=NUMERIC}	/* 조회수, NUMBER(0,22) */
+	</if>
+	<if test="writerId != null and writerId != ''">
+	AND EZC_MGR_NOTICE.WRITER_ID = #{writerId, jdbcType=VARCHAR}	/* 작성자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_MGR_NOTICE.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_MGR_NOTICE.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_MGR_NOTICE.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_MGR_NOTICE.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcMgrNotice" resultType="com.ezwel.htl.interfaces.server.entities.EzcMgrNotice">
+<select id="selectListEzcMgrNotice" resultType="ezcMgrNotice">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -93,25 +117,49 @@ SELECT * FROM (
 		FROM
 			EZC_MGR_NOTICE	/* 운영자 공지사항 */
 		WHERE 1=1
-			<if test="param.noticeSeq != null and param.noticeSeq gt 0">
-			AND EZC_MGR_NOTICE.NOTICE_SEQ = #{param.noticeSeq, jdbcType=DECIMAL}	/* 공지사항 일련번호, NUMBER(0,22) */
+			<if test="noticeSeq != null and noticeSeq gt 0">
+			AND EZC_MGR_NOTICE.NOTICE_SEQ = #{noticeSeq, jdbcType=DECIMAL}	/* 공지사항 일련번호, NUMBER(0,22) */
 			</if>
-			<if test="param.partnerCdType != null and param.partnerCdType != ''">
-			AND EZC_MGR_NOTICE.PARTNER_CD_TYPE = #{param.partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+			<if test="noticeRange != null and noticeRange != ''">
+			AND EZC_MGR_NOTICE.NOTICE_RANGE = #{noticeRange, jdbcType=VARCHAR}	/* 공지 대상, VARCHAR2(8) */
 			</if>
-			<if test="param.content != null and param.content != ''">
-			AND EZC_MGR_NOTICE.CONTENT LIKE '%' || #{param.content, jdbcType=VARCHAR} || '%'	/* 내용, VARCHAR2(2000) */
+			<if test="partnerCdType != null and partnerCdType != ''">
+			AND EZC_MGR_NOTICE.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+			</if>
+			<if test="title != null and title != ''">
+			AND EZC_MGR_NOTICE.TITLE = #{title, jdbcType=VARCHAR}	/* 제목, VARCHAR2(100) */
+			</if>
+			<if test="content != null and content != ''">
+			AND EZC_MGR_NOTICE.CONTENT LIKE '%' || #{content, jdbcType=VARCHAR} || '%'	/* 내용, VARCHAR2(2000) */
+			</if>
+			<if test="viewCnt != null and viewCnt gt 0">
+			AND EZC_MGR_NOTICE.VIEW_CNT = #{viewCnt, jdbcType=NUMERIC}	/* 조회수, NUMBER(0,22) */
+			</if>
+			<if test="writerId != null and writerId != ''">
+			AND EZC_MGR_NOTICE.WRITER_ID = #{writerId, jdbcType=VARCHAR}	/* 작성자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_MGR_NOTICE.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_MGR_NOTICE.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_MGR_NOTICE.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_MGR_NOTICE.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_MGR_NOTICE.NOTICE_SEQ DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcMgrNotice" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrNotice">
+<update id="updateEzcMgrNotice" parameterType="ezcMgrNotice">
 UPDATE EZC_MGR_NOTICE SET	/* 운영자 공지사항 */
 	 NOTICE_RANGE = #{noticeRange, jdbcType=VARCHAR}	/* 공지 대상, VARCHAR2(8) */
 	,TITLE = #{title, jdbcType=VARCHAR}	/* 제목, VARCHAR2(100) */
@@ -125,7 +173,7 @@ WHERE 1=1
 	AND PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
 </update>
 
-<update id="mergeEzcMgrNotice" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrNotice">
+<update id="mergeEzcMgrNotice" parameterType="ezcMgrNotice">
 MERGE INTO EZC_MGR_NOTICE /* 운영자 공지사항 */
 	USING DUAL ON (
 		NOTICE_SEQ = #{noticeSeq, jdbcType=DECIMAL}	/* 공지사항 일련번호, NUMBER(0,22) */
@@ -164,7 +212,7 @@ MERGE INTO EZC_MGR_NOTICE /* 운영자 공지사항 */
 		)
 </update>
 
-<delete id="deleteEzcMgrNotice" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrNotice">
+<delete id="deleteEzcMgrNotice" parameterType="ezcMgrNotice">
 DELETE FROM EZC_MGR_NOTICE /* 운영자 공지사항 */
 WHERE 1=1
 	AND NOTICE_SEQ = #{noticeSeq, jdbcType=DECIMAL}	/* 공지사항 일련번호, NUMBER(0,22) */

@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:03 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:43 	신규작성 
  * 
- * @since 2018-12-03 11:05:03
+ * @since 2018-12-03 14:47:43
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcMem" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMem">
+<insert id="insertEzcMem" parameterType="ezcMem">
 INSERT INTO EZC_MEM(	/* 회원 정보 */
 	 USER_ID	/* 회원 ID, VARCHAR2(20) */
 	,CLIENT_CD	/* 고객사 코드, VARCHAR2(20) */
@@ -29,7 +29,7 @@ INSERT INTO EZC_MEM(	/* 회원 정보 */
 )
 </insert>
 
-<select id="selectEzcMem" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMem" resultType="com.ezwel.htl.interfaces.server.entities.EzcMem">
+<select id="selectEzcMem" parameterType="ezcMem" resultType="ezcMem">
 SELECT
 	 EZC_MEM.USER_ID AS userId	/* 회원 ID, VARCHAR2(20) */
 	,EZC_MEM.CLIENT_CD AS clientCd	/* 고객사 코드, VARCHAR2(20) */
@@ -43,13 +43,11 @@ FROM
 	,EZC_CLIENT_INFO	/* 고객사 */
 WHERE 1=1
 	AND EZC_MEM.CLIENT_CD = EZC_CLIENT_INFO.CLIENT_CD
-	AND EZC_MEM.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CLIENT_INFO.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_MEM.USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */
-	AND EZC_MEM.CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
+	AND EZC_MEM.USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20), EZC_MEM_PK(P),SYS_C0011467(C) */
+	AND EZC_MEM.CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20), FK_EZC_CLIENT_INFO_EZC_MEM(R),SYS_C0011468(C) */
 </select>
 
-<select id="selectCountEzcMem" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMem" resultType="java.lang.Integer">
+<select id="selectCountEzcMem" parameterType="ezcMem" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -57,17 +55,30 @@ FROM
 	,EZC_CLIENT_INFO	/* 고객사 */
 WHERE 1=1
 	AND EZC_MEM.CLIENT_CD = EZC_CLIENT_INFO.CLIENT_CD
-	AND EZC_MEM.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CLIENT_INFO.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
 	<if test="userId != null and userId != ''">
 	AND EZC_MEM.USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */
 	</if>
 	<if test="clientCd != null and clientCd != ''">
 	AND EZC_MEM.CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
 	</if>
+	<if test="userKey != null and userKey gt 0">
+	AND EZC_MEM.USER_KEY = #{userKey, jdbcType=DECIMAL}	/* USER_KEY, NUMBER(0,22) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_MEM.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_MEM.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_MEM.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_MEM.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcMem" resultType="com.ezwel.htl.interfaces.server.entities.EzcMem">
+<select id="selectListEzcMem" resultType="ezcMem">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -84,24 +95,37 @@ SELECT * FROM (
 			,EZC_CLIENT_INFO	/* 고객사 */
 		WHERE 1=1
 			AND EZC_MEM.CLIENT_CD = EZC_CLIENT_INFO.CLIENT_CD
-			AND EZC_MEM.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CLIENT_INFO.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.userId != null and param.userId != ''">
-			AND EZC_MEM.USER_ID = #{param.userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */
+			<if test="userId != null and userId != ''">
+			AND EZC_MEM.USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */
 			</if>
-			<if test="param.clientCd != null and param.clientCd != ''">
-			AND EZC_MEM.CLIENT_CD = #{param.clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
+			<if test="clientCd != null and clientCd != ''">
+			AND EZC_MEM.CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
+			</if>
+			<if test="userKey != null and userKey gt 0">
+			AND EZC_MEM.USER_KEY = #{userKey, jdbcType=DECIMAL}	/* USER_KEY, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_MEM.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_MEM.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_MEM.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_MEM.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_MEM.USER_ID DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcMem" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMem">
+<update id="updateEzcMem" parameterType="ezcMem">
 UPDATE EZC_MEM SET	/* 회원 정보 */
 	 USER_KEY = #{userKey, jdbcType=DECIMAL}	/* USER_KEY, NUMBER(0,22) */
 	,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
@@ -111,7 +135,7 @@ WHERE 1=1
 	AND CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
 </update>
 
-<update id="mergeEzcMem" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMem">
+<update id="mergeEzcMem" parameterType="ezcMem">
 MERGE INTO EZC_MEM /* 회원 정보 */
 	USING DUAL ON (
 		USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */
@@ -138,7 +162,7 @@ MERGE INTO EZC_MEM /* 회원 정보 */
 		)
 </update>
 
-<delete id="deleteEzcMem" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMem">
+<delete id="deleteEzcMem" parameterType="ezcMem">
 DELETE FROM EZC_MEM /* 회원 정보 */
 WHERE 1=1
 	AND USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */

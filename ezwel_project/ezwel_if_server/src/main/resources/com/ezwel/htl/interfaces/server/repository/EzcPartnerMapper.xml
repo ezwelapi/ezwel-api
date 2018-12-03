@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:04 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:43 	신규작성 
  * 
- * @since 2018-12-03 11:05:04
+ * @since 2018-12-03 14:47:43
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPartner">
+<insert id="insertEzcPartner" parameterType="ezcPartner">
 INSERT INTO EZC_PARTNER(	/* 제휴사 정보 */
 	 PARTNER_CD	/* 제휴사 코드, VARCHAR2(20) */
 	,PARTNER_TYPE	/* 제휴사 유형, VARCHAR2(8) */
@@ -51,7 +51,7 @@ INSERT INTO EZC_PARTNER(	/* 제휴사 정보 */
 )
 </insert>
 
-<select id="selectEzcPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPartner" resultType="com.ezwel.htl.interfaces.server.entities.EzcPartner">
+<select id="selectEzcPartner" parameterType="ezcPartner" resultType="ezcPartner">
 SELECT
 	 EZC_PARTNER.PARTNER_CD AS partnerCd	/* 제휴사 코드, VARCHAR2(20) */
 	,EZC_PARTNER.PARTNER_TYPE AS partnerType	/* 제휴사 유형, VARCHAR2(8) */
@@ -74,10 +74,10 @@ SELECT
 FROM
 	EZC_PARTNER	/* 제휴사 정보 */
 WHERE 1=1
-	AND EZC_PARTNER.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
+	AND EZC_PARTNER.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20), EZC_PARTNER_PK(P),SYS_C0011512(C) */
 </select>
 
-<select id="selectCountEzcPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPartner" resultType="java.lang.Integer">
+<select id="selectCountEzcPartner" parameterType="ezcPartner" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -86,9 +86,60 @@ WHERE 1=1
 	<if test="partnerCd != null and partnerCd != ''">
 	AND EZC_PARTNER.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
 	</if>
+	<if test="partnerType != null and partnerType != ''">
+	AND EZC_PARTNER.PARTNER_TYPE = #{partnerType, jdbcType=VARCHAR}	/* 제휴사 유형, VARCHAR2(8) */
+	</if>
+	<if test="partnerCdType != null and partnerCdType != ''">
+	AND EZC_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+	</if>
+	<if test="payDiv != null and payDiv != ''">
+	AND EZC_PARTNER.PAY_DIV = #{payDiv, jdbcType=VARCHAR}	/* 지불 구분, VARCHAR2(8) */
+	</if>
+	<if test="calStdType != null and calStdType != ''">
+	AND EZC_PARTNER.CAL_STD_TYPE = #{calStdType, jdbcType=VARCHAR}	/* 정산 기준 유형, VARCHAR2(8) */
+	</if>
+	<if test="amtStdType != null and amtStdType != ''">
+	AND EZC_PARTNER.AMT_STD_TYPE = #{amtStdType, jdbcType=VARCHAR}	/* 금액 기준 유형, VARCHAR2(8) */
+	</if>
+	<if test="partnerNm != null and partnerNm != ''">
+	AND EZC_PARTNER.PARTNER_NM = #{partnerNm, jdbcType=VARCHAR}	/* 제휴사 명, VARCHAR2(100) */
+	</if>
+	<if test="licRegnum != null and licRegnum != ''">
+	AND EZC_PARTNER.LIC_REGNUM = #{licRegnum, jdbcType=VARCHAR}	/* 사업자 등록번호, VARCHAR2(12) */
+	</if>
+	<if test="ceonm != null and ceonm != ''">
+	AND EZC_PARTNER.CEONM = #{ceonm, jdbcType=VARCHAR}	/* 대표자명, VARCHAR2(20) */
+	</if>
+	<if test="telNum != null and telNum != ''">
+	AND EZC_PARTNER.TEL_NUM = #{telNum, jdbcType=VARCHAR}	/* 전화 번호, VARCHAR2(20) */
+	</if>
+	<if test="faxNum != null and faxNum != ''">
+	AND EZC_PARTNER.FAX_NUM = #{faxNum, jdbcType=VARCHAR}	/* 팩스 번호, VARCHAR2(100) */
+	</if>
+	<if test="addr != null and addr != ''">
+	AND EZC_PARTNER.ADDR = #{addr, jdbcType=VARCHAR}	/* 주소, VARCHAR2(100) */
+	</if>
+	<if test="detailAddr != null and detailAddr != ''">
+	AND EZC_PARTNER.DETAIL_ADDR = #{detailAddr, jdbcType=VARCHAR}	/* 상세 주소, VARCHAR2(100) */
+	</if>
+	<if test="ezwelMgrId != null and ezwelMgrId != ''">
+	AND EZC_PARTNER.EZWEL_MGR_ID = #{ezwelMgrId, jdbcType=VARCHAR}	/* 이지웰 담당자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_PARTNER.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_PARTNER.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_PARTNER.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_PARTNER.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcPartner" resultType="com.ezwel.htl.interfaces.server.entities.EzcPartner">
+<select id="selectListEzcPartner" resultType="ezcPartner">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -114,19 +165,70 @@ SELECT * FROM (
 		FROM
 			EZC_PARTNER	/* 제휴사 정보 */
 		WHERE 1=1
-			<if test="param.partnerCd != null and param.partnerCd != ''">
-			AND EZC_PARTNER.PARTNER_CD = #{param.partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
+			<if test="partnerCd != null and partnerCd != ''">
+			AND EZC_PARTNER.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
+			</if>
+			<if test="partnerType != null and partnerType != ''">
+			AND EZC_PARTNER.PARTNER_TYPE = #{partnerType, jdbcType=VARCHAR}	/* 제휴사 유형, VARCHAR2(8) */
+			</if>
+			<if test="partnerCdType != null and partnerCdType != ''">
+			AND EZC_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+			</if>
+			<if test="payDiv != null and payDiv != ''">
+			AND EZC_PARTNER.PAY_DIV = #{payDiv, jdbcType=VARCHAR}	/* 지불 구분, VARCHAR2(8) */
+			</if>
+			<if test="calStdType != null and calStdType != ''">
+			AND EZC_PARTNER.CAL_STD_TYPE = #{calStdType, jdbcType=VARCHAR}	/* 정산 기준 유형, VARCHAR2(8) */
+			</if>
+			<if test="amtStdType != null and amtStdType != ''">
+			AND EZC_PARTNER.AMT_STD_TYPE = #{amtStdType, jdbcType=VARCHAR}	/* 금액 기준 유형, VARCHAR2(8) */
+			</if>
+			<if test="partnerNm != null and partnerNm != ''">
+			AND EZC_PARTNER.PARTNER_NM = #{partnerNm, jdbcType=VARCHAR}	/* 제휴사 명, VARCHAR2(100) */
+			</if>
+			<if test="licRegnum != null and licRegnum != ''">
+			AND EZC_PARTNER.LIC_REGNUM = #{licRegnum, jdbcType=VARCHAR}	/* 사업자 등록번호, VARCHAR2(12) */
+			</if>
+			<if test="ceonm != null and ceonm != ''">
+			AND EZC_PARTNER.CEONM = #{ceonm, jdbcType=VARCHAR}	/* 대표자명, VARCHAR2(20) */
+			</if>
+			<if test="telNum != null and telNum != ''">
+			AND EZC_PARTNER.TEL_NUM = #{telNum, jdbcType=VARCHAR}	/* 전화 번호, VARCHAR2(20) */
+			</if>
+			<if test="faxNum != null and faxNum != ''">
+			AND EZC_PARTNER.FAX_NUM = #{faxNum, jdbcType=VARCHAR}	/* 팩스 번호, VARCHAR2(100) */
+			</if>
+			<if test="addr != null and addr != ''">
+			AND EZC_PARTNER.ADDR = #{addr, jdbcType=VARCHAR}	/* 주소, VARCHAR2(100) */
+			</if>
+			<if test="detailAddr != null and detailAddr != ''">
+			AND EZC_PARTNER.DETAIL_ADDR = #{detailAddr, jdbcType=VARCHAR}	/* 상세 주소, VARCHAR2(100) */
+			</if>
+			<if test="ezwelMgrId != null and ezwelMgrId != ''">
+			AND EZC_PARTNER.EZWEL_MGR_ID = #{ezwelMgrId, jdbcType=VARCHAR}	/* 이지웰 담당자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_PARTNER.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_PARTNER.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_PARTNER.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_PARTNER.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_PARTNER.PARTNER_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPartner">
+<update id="updateEzcPartner" parameterType="ezcPartner">
 UPDATE EZC_PARTNER SET	/* 제휴사 정보 */
 	 PARTNER_TYPE = #{partnerType, jdbcType=VARCHAR}	/* 제휴사 유형, VARCHAR2(8) */
 	,PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
@@ -147,7 +249,7 @@ WHERE 1=1
 	AND PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
 </update>
 
-<update id="mergeEzcPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPartner">
+<update id="mergeEzcPartner" parameterType="ezcPartner">
 MERGE INTO EZC_PARTNER /* 제휴사 정보 */
 	USING DUAL ON (
 		PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
@@ -207,7 +309,7 @@ MERGE INTO EZC_PARTNER /* 제휴사 정보 */
 		)
 </update>
 
-<delete id="deleteEzcPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPartner">
+<delete id="deleteEzcPartner" parameterType="ezcPartner">
 DELETE FROM EZC_PARTNER /* 제휴사 정보 */
 WHERE 1=1
 	AND PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */

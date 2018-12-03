@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:04 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:44 	신규작성 
  * 
- * @since 2018-12-03 11:05:04
+ * @since 2018-12-03 14:47:44
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcReservRulePenalty" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservRulePenalty">
+<insert id="insertEzcReservRulePenalty" parameterType="ezcReservRulePenalty">
 INSERT INTO EZC_RESERV_RULE_PENALTY(	/* 예약 규정 패널티 */
 	 RESERV_PENALTY_SEQ	/* 예약 패널티 일련번호, NUMBER(0,22) */
 	,RESERV_ROOM_NUM	/* 예약 객실 번호, NUMBER(0,22) */
@@ -33,7 +33,7 @@ INSERT INTO EZC_RESERV_RULE_PENALTY(	/* 예약 규정 패널티 */
 )
 </insert>
 
-<select id="selectEzcReservRulePenalty" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservRulePenalty" resultType="com.ezwel.htl.interfaces.server.entities.EzcReservRulePenalty">
+<select id="selectEzcReservRulePenalty" parameterType="ezcReservRulePenalty" resultType="ezcReservRulePenalty">
 SELECT
 	 EZC_RESERV_RULE_PENALTY.RESERV_PENALTY_SEQ AS reservPenaltySeq	/* 예약 패널티 일련번호, NUMBER(0,22) */
 	,EZC_RESERV_RULE_PENALTY.RESERV_ROOM_NUM AS reservRoomNum	/* 예약 객실 번호, NUMBER(0,22) */
@@ -47,10 +47,10 @@ SELECT
 FROM
 	EZC_RESERV_RULE_PENALTY	/* 예약 규정 패널티 */
 WHERE 1=1
-	AND EZC_RESERV_RULE_PENALTY.RESERV_PENALTY_SEQ = #{reservPenaltySeq, jdbcType=DECIMAL}	/* 예약 패널티 일련번호, NUMBER(0,22) */
+	AND EZC_RESERV_RULE_PENALTY.RESERV_PENALTY_SEQ = #{reservPenaltySeq, jdbcType=DECIMAL}	/* 예약 패널티 일련번호, NUMBER(0,22), EZC_RESERV_RULE_PENALTY_PK(P),SYS_C0011665(C) */
 </select>
 
-<select id="selectCountEzcReservRulePenalty" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservRulePenalty" resultType="java.lang.Integer">
+<select id="selectCountEzcReservRulePenalty" parameterType="ezcReservRulePenalty" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -62,9 +62,30 @@ WHERE 1=1
 	<if test="reservRoomNum != null and reservRoomNum gt 0">
 	AND EZC_RESERV_RULE_PENALTY.RESERV_ROOM_NUM = #{reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22) */
 	</if>
+	<if test="penaltyApplyDd != null and penaltyApplyDd != ''">
+	AND EZC_RESERV_RULE_PENALTY.PENALTY_APPLY_DD = #{penaltyApplyDd, jdbcType=VARCHAR}	/* 패널티 적용 일자, VARCHAR2(8) */
+	</if>
+	<if test="feeRate != null and feeRate gt 0">
+	AND EZC_RESERV_RULE_PENALTY.FEE_RATE = #{feeRate, jdbcType=NUMERIC}	/* 수수료 율, NUMBER(0,22) */
+	</if>
+	<if test="feeAmt != null and feeAmt gt 0">
+	AND EZC_RESERV_RULE_PENALTY.FEE_AMT = #{feeAmt, jdbcType=NUMERIC}	/* 수수료 금액, NUMBER(0,22) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_RESERV_RULE_PENALTY.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_RESERV_RULE_PENALTY.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_RESERV_RULE_PENALTY.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_RESERV_RULE_PENALTY.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcReservRulePenalty" resultType="com.ezwel.htl.interfaces.server.entities.EzcReservRulePenalty">
+<select id="selectListEzcReservRulePenalty" resultType="ezcReservRulePenalty">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -81,22 +102,43 @@ SELECT * FROM (
 		FROM
 			EZC_RESERV_RULE_PENALTY	/* 예약 규정 패널티 */
 		WHERE 1=1
-			<if test="param.reservPenaltySeq != null and param.reservPenaltySeq gt 0">
-			AND EZC_RESERV_RULE_PENALTY.RESERV_PENALTY_SEQ = #{param.reservPenaltySeq, jdbcType=DECIMAL}	/* 예약 패널티 일련번호, NUMBER(0,22) */
+			<if test="reservPenaltySeq != null and reservPenaltySeq gt 0">
+			AND EZC_RESERV_RULE_PENALTY.RESERV_PENALTY_SEQ = #{reservPenaltySeq, jdbcType=DECIMAL}	/* 예약 패널티 일련번호, NUMBER(0,22) */
 			</if>
-			<if test="param.reservRoomNum != null and param.reservRoomNum gt 0">
-			AND EZC_RESERV_RULE_PENALTY.RESERV_ROOM_NUM = #{param.reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22) */
+			<if test="reservRoomNum != null and reservRoomNum gt 0">
+			AND EZC_RESERV_RULE_PENALTY.RESERV_ROOM_NUM = #{reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22) */
+			</if>
+			<if test="penaltyApplyDd != null and penaltyApplyDd != ''">
+			AND EZC_RESERV_RULE_PENALTY.PENALTY_APPLY_DD = #{penaltyApplyDd, jdbcType=VARCHAR}	/* 패널티 적용 일자, VARCHAR2(8) */
+			</if>
+			<if test="feeRate != null and feeRate gt 0">
+			AND EZC_RESERV_RULE_PENALTY.FEE_RATE = #{feeRate, jdbcType=NUMERIC}	/* 수수료 율, NUMBER(0,22) */
+			</if>
+			<if test="feeAmt != null and feeAmt gt 0">
+			AND EZC_RESERV_RULE_PENALTY.FEE_AMT = #{feeAmt, jdbcType=NUMERIC}	/* 수수료 금액, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_RESERV_RULE_PENALTY.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_RESERV_RULE_PENALTY.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_RESERV_RULE_PENALTY.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_RESERV_RULE_PENALTY.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_RESERV_RULE_PENALTY.RESERV_PENALTY_SEQ DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcReservRulePenalty" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservRulePenalty">
+<update id="updateEzcReservRulePenalty" parameterType="ezcReservRulePenalty">
 UPDATE EZC_RESERV_RULE_PENALTY SET	/* 예약 규정 패널티 */
 	 RESERV_ROOM_NUM = #{reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22) */
 	,PENALTY_APPLY_DD = #{penaltyApplyDd, jdbcType=VARCHAR}	/* 패널티 적용 일자, VARCHAR2(8) */
@@ -108,7 +150,7 @@ WHERE 1=1
 	AND RESERV_PENALTY_SEQ = #{reservPenaltySeq, jdbcType=DECIMAL}	/* 예약 패널티 일련번호, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcReservRulePenalty" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservRulePenalty">
+<update id="mergeEzcReservRulePenalty" parameterType="ezcReservRulePenalty">
 MERGE INTO EZC_RESERV_RULE_PENALTY /* 예약 규정 패널티 */
 	USING DUAL ON (
 		RESERV_PENALTY_SEQ = #{reservPenaltySeq, jdbcType=DECIMAL}	/* 예약 패널티 일련번호, NUMBER(0,22) */
@@ -141,7 +183,7 @@ MERGE INTO EZC_RESERV_RULE_PENALTY /* 예약 규정 패널티 */
 		)
 </update>
 
-<delete id="deleteEzcReservRulePenalty" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservRulePenalty">
+<delete id="deleteEzcReservRulePenalty" parameterType="ezcReservRulePenalty">
 DELETE FROM EZC_RESERV_RULE_PENALTY /* 예약 규정 패널티 */
 WHERE 1=1
 	AND RESERV_PENALTY_SEQ = #{reservPenaltySeq, jdbcType=DECIMAL}	/* 예약 패널티 일련번호, NUMBER(0,22) */

@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:04 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:43 	신규작성 
  * 
- * @since 2018-12-03 11:05:04
+ * @since 2018-12-03 14:47:43
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcPrmComment" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmComment">
+<insert id="insertEzcPrmComment" parameterType="ezcPrmComment">
 INSERT INTO EZC_PRM_COMMENT(	/* 프로모션 댓글 */
 	 PRM_COMMENT_SEQ	/* 프로모션 댓글 일련번호, NUMBER(0,22) */
 	,PRM_CD	/* 프로모션 코드, VARCHAR2(10) */
@@ -29,7 +29,7 @@ INSERT INTO EZC_PRM_COMMENT(	/* 프로모션 댓글 */
 )
 </insert>
 
-<select id="selectEzcPrmComment" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmComment" resultType="com.ezwel.htl.interfaces.server.entities.EzcPrmComment">
+<select id="selectEzcPrmComment" parameterType="ezcPrmComment" resultType="ezcPrmComment">
 SELECT
 	 EZC_PRM_COMMENT.PRM_COMMENT_SEQ AS prmCommentSeq	/* 프로모션 댓글 일련번호, NUMBER(0,22) */
 	,EZC_PRM_COMMENT.PRM_CD AS prmCd	/* 프로모션 코드, VARCHAR2(10) */
@@ -41,13 +41,11 @@ FROM
 	,EZC_PRM_MNG	/* 프로모션 관리 */
 WHERE 1=1
 	AND EZC_PRM_COMMENT.PRM_CD = EZC_PRM_MNG.PRM_CD
-	AND EZC_PRM_COMMENT.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PRM_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PRM_COMMENT.PRM_COMMENT_SEQ = #{prmCommentSeq, jdbcType=DECIMAL}	/* 프로모션 댓글 일련번호, NUMBER(0,22) */
-	AND EZC_PRM_COMMENT.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
+	AND EZC_PRM_COMMENT.PRM_COMMENT_SEQ = #{prmCommentSeq, jdbcType=DECIMAL}	/* 프로모션 댓글 일련번호, NUMBER(0,22), EZC_PRM_COMMENT_PK(P),SYS_C0011545(C) */
+	AND EZC_PRM_COMMENT.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10), FK_EZC_PRM_MNG_EZC_PRM_COMMENT(R),SYS_C0011546(C) */
 </select>
 
-<select id="selectCountEzcPrmComment" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmComment" resultType="java.lang.Integer">
+<select id="selectCountEzcPrmComment" parameterType="ezcPrmComment" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -55,8 +53,6 @@ FROM
 	,EZC_PRM_MNG	/* 프로모션 관리 */
 WHERE 1=1
 	AND EZC_PRM_COMMENT.PRM_CD = EZC_PRM_MNG.PRM_CD
-	AND EZC_PRM_COMMENT.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PRM_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
 	<if test="prmCommentSeq != null and prmCommentSeq gt 0">
 	AND EZC_PRM_COMMENT.PRM_COMMENT_SEQ = #{prmCommentSeq, jdbcType=DECIMAL}	/* 프로모션 댓글 일련번호, NUMBER(0,22) */
 	</if>
@@ -66,9 +62,15 @@ WHERE 1=1
 	<if test="content != null and content != ''">
 	AND EZC_PRM_COMMENT.CONTENT LIKE '%' || #{content, jdbcType=VARCHAR} || '%'	/* 내용, VARCHAR2(1000) */
 	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_PRM_COMMENT.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_PRM_COMMENT.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcPrmComment" resultType="com.ezwel.htl.interfaces.server.entities.EzcPrmComment">
+<select id="selectListEzcPrmComment" resultType="ezcPrmComment">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -83,27 +85,31 @@ SELECT * FROM (
 			,EZC_PRM_MNG	/* 프로모션 관리 */
 		WHERE 1=1
 			AND EZC_PRM_COMMENT.PRM_CD = EZC_PRM_MNG.PRM_CD
-			AND EZC_PRM_COMMENT.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_PRM_MNG.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.prmCommentSeq != null and param.prmCommentSeq gt 0">
-			AND EZC_PRM_COMMENT.PRM_COMMENT_SEQ = #{param.prmCommentSeq, jdbcType=DECIMAL}	/* 프로모션 댓글 일련번호, NUMBER(0,22) */
+			<if test="prmCommentSeq != null and prmCommentSeq gt 0">
+			AND EZC_PRM_COMMENT.PRM_COMMENT_SEQ = #{prmCommentSeq, jdbcType=DECIMAL}	/* 프로모션 댓글 일련번호, NUMBER(0,22) */
 			</if>
-			<if test="param.prmCd != null and param.prmCd != ''">
-			AND EZC_PRM_COMMENT.PRM_CD = #{param.prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
+			<if test="prmCd != null and prmCd != ''">
+			AND EZC_PRM_COMMENT.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
 			</if>
-			<if test="param.content != null and param.content != ''">
-			AND EZC_PRM_COMMENT.CONTENT LIKE '%' || #{param.content, jdbcType=VARCHAR} || '%'	/* 내용, VARCHAR2(1000) */
+			<if test="content != null and content != ''">
+			AND EZC_PRM_COMMENT.CONTENT LIKE '%' || #{content, jdbcType=VARCHAR} || '%'	/* 내용, VARCHAR2(1000) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_PRM_COMMENT.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_PRM_COMMENT.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_PRM_COMMENT.PRM_COMMENT_SEQ DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcPrmComment" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmComment">
+<update id="updateEzcPrmComment" parameterType="ezcPrmComment">
 UPDATE EZC_PRM_COMMENT SET	/* 프로모션 댓글 */
 	 CONTENT = #{content, jdbcType=VARCHAR}	/* 내용, VARCHAR2(1000) */
 WHERE 1=1
@@ -111,7 +117,7 @@ WHERE 1=1
 	AND PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
 </update>
 
-<update id="mergeEzcPrmComment" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmComment">
+<update id="mergeEzcPrmComment" parameterType="ezcPrmComment">
 MERGE INTO EZC_PRM_COMMENT /* 프로모션 댓글 */
 	USING DUAL ON (
 		PRM_COMMENT_SEQ = #{prmCommentSeq, jdbcType=DECIMAL}	/* 프로모션 댓글 일련번호, NUMBER(0,22) */
@@ -136,7 +142,7 @@ MERGE INTO EZC_PRM_COMMENT /* 프로모션 댓글 */
 		)
 </update>
 
-<delete id="deleteEzcPrmComment" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmComment">
+<delete id="deleteEzcPrmComment" parameterType="ezcPrmComment">
 DELETE FROM EZC_PRM_COMMENT /* 프로모션 댓글 */
 WHERE 1=1
 	AND PRM_COMMENT_SEQ = #{prmCommentSeq, jdbcType=DECIMAL}	/* 프로모션 댓글 일련번호, NUMBER(0,22) */

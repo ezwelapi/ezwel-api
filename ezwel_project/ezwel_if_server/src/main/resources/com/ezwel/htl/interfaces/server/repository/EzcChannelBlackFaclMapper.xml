@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:02 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:41 	신규작성 
  * 
- * @since 2018-12-03 11:05:02
+ * @since 2018-12-03 14:47:41
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcChannelBlackFacl" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelBlackFacl">
+<insert id="insertEzcChannelBlackFacl" parameterType="ezcChannelBlackFacl">
 INSERT INTO EZC_CHANNEL_BLACK_FACL(	/* 채널 블랙 시설 */
 	 CHANNEL_CD	/* 채널 코드, VARCHAR2(10) */
 	,GRP_FACL_YN	/* 그룹 시설 여부, CHAR(1) */
@@ -29,7 +29,7 @@ INSERT INTO EZC_CHANNEL_BLACK_FACL(	/* 채널 블랙 시설 */
 )
 </insert>
 
-<select id="selectEzcChannelBlackFacl" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelBlackFacl" resultType="com.ezwel.htl.interfaces.server.entities.EzcChannelBlackFacl">
+<select id="selectEzcChannelBlackFacl" parameterType="ezcChannelBlackFacl" resultType="ezcChannelBlackFacl">
 SELECT
 	 EZC_CHANNEL_BLACK_FACL.CHANNEL_CD AS channelCd	/* 채널 코드, VARCHAR2(10) */
 	,EZC_CHANNEL_BLACK_FACL.GRP_FACL_YN AS grpFaclYn	/* 그룹 시설 여부, CHAR(1) */
@@ -41,14 +41,15 @@ FROM
 	,EZC_CHANNEL_MNG	/* 채널 */
 WHERE 1=1
 	AND EZC_CHANNEL_BLACK_FACL.CHANNEL_CD = EZC_CHANNEL_MNG.CHANNEL_CD
-	AND EZC_CHANNEL_BLACK_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CHANNEL_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CHANNEL_BLACK_FACL.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
+	<if test="grpFaclYn != null and grpFaclYn != ''">
 	AND EZC_CHANNEL_BLACK_FACL.GRP_FACL_YN = #{grpFaclYn, jdbcType=CHAR}	/* 그룹 시설 여부, CHAR(1) */
-	AND EZC_CHANNEL_BLACK_FACL.CON_FACL_CD = #{conFaclCd, jdbcType=DECIMAL}	/* 연계 시설 코드, NUMBER(0,22) */
+	</if>
+	AND EZC_CHANNEL_BLACK_FACL.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10), EZC_CHANNEL_BLACK_FACL_PK(P),FK_EZC_CHANNEL_MNG_EZC_CHANNEL(R),SYS_C0011225(C) */
+	AND EZC_CHANNEL_BLACK_FACL.GRP_FACL_YN = #{grpFaclYn, jdbcType=CHAR}	/* 그룹 시설 여부, CHAR(1), EZC_CHANNEL_BLACK_FACL_PK(P),SYS_C0011226(C) */
+	AND EZC_CHANNEL_BLACK_FACL.CON_FACL_CD = #{conFaclCd, jdbcType=DECIMAL}	/* 연계 시설 코드, NUMBER(0,22), EZC_CHANNEL_BLACK_FACL_PK(P),SYS_C0011227(C) */
 </select>
 
-<select id="selectCountEzcChannelBlackFacl" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelBlackFacl" resultType="java.lang.Integer">
+<select id="selectCountEzcChannelBlackFacl" parameterType="ezcChannelBlackFacl" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -56,20 +57,24 @@ FROM
 	,EZC_CHANNEL_MNG	/* 채널 */
 WHERE 1=1
 	AND EZC_CHANNEL_BLACK_FACL.CHANNEL_CD = EZC_CHANNEL_MNG.CHANNEL_CD
-	AND EZC_CHANNEL_BLACK_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CHANNEL_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	<if test="channelCd != null and channelCd != ''">
-	AND EZC_CHANNEL_BLACK_FACL.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
-	</if>
 	<if test="grpFaclYn != null and grpFaclYn != ''">
 	AND EZC_CHANNEL_BLACK_FACL.GRP_FACL_YN = #{grpFaclYn, jdbcType=CHAR}	/* 그룹 시설 여부, CHAR(1) */
+	</if>
+	<if test="channelCd != null and channelCd != ''">
+	AND EZC_CHANNEL_BLACK_FACL.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 	</if>
 	<if test="conFaclCd != null and conFaclCd gt 0">
 	AND EZC_CHANNEL_BLACK_FACL.CON_FACL_CD = #{conFaclCd, jdbcType=DECIMAL}	/* 연계 시설 코드, NUMBER(0,22) */
 	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_CHANNEL_BLACK_FACL.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_CHANNEL_BLACK_FACL.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcChannelBlackFacl" resultType="com.ezwel.htl.interfaces.server.entities.EzcChannelBlackFacl">
+<select id="selectListEzcChannelBlackFacl" resultType="ezcChannelBlackFacl">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -84,27 +89,31 @@ SELECT * FROM (
 			,EZC_CHANNEL_MNG	/* 채널 */
 		WHERE 1=1
 			AND EZC_CHANNEL_BLACK_FACL.CHANNEL_CD = EZC_CHANNEL_MNG.CHANNEL_CD
-			AND EZC_CHANNEL_BLACK_FACL.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CHANNEL_MNG.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.channelCd != null and param.channelCd != ''">
-			AND EZC_CHANNEL_BLACK_FACL.CHANNEL_CD = #{param.channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
+			<if test="grpFaclYn != null and grpFaclYn != ''">
+			AND EZC_CHANNEL_BLACK_FACL.GRP_FACL_YN = #{grpFaclYn, jdbcType=CHAR}	/* 그룹 시설 여부, CHAR(1) */
 			</if>
-			<if test="param.grpFaclYn != null and param.grpFaclYn != ''">
-			AND EZC_CHANNEL_BLACK_FACL.GRP_FACL_YN = #{param.grpFaclYn, jdbcType=CHAR}	/* 그룹 시설 여부, CHAR(1) */
+			<if test="channelCd != null and channelCd != ''">
+			AND EZC_CHANNEL_BLACK_FACL.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 			</if>
-			<if test="param.conFaclCd != null and param.conFaclCd gt 0">
-			AND EZC_CHANNEL_BLACK_FACL.CON_FACL_CD = #{param.conFaclCd, jdbcType=DECIMAL}	/* 연계 시설 코드, NUMBER(0,22) */
+			<if test="conFaclCd != null and conFaclCd gt 0">
+			AND EZC_CHANNEL_BLACK_FACL.CON_FACL_CD = #{conFaclCd, jdbcType=DECIMAL}	/* 연계 시설 코드, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_CHANNEL_BLACK_FACL.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_CHANNEL_BLACK_FACL.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_CHANNEL_BLACK_FACL.CHANNEL_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcChannelBlackFacl" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelBlackFacl">
+<update id="updateEzcChannelBlackFacl" parameterType="ezcChannelBlackFacl">
 UPDATE EZC_CHANNEL_BLACK_FACL SET	/* 채널 블랙 시설 */
 WHERE 1=1
 	AND CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
@@ -112,7 +121,7 @@ WHERE 1=1
 	AND CON_FACL_CD = #{conFaclCd, jdbcType=DECIMAL}	/* 연계 시설 코드, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcChannelBlackFacl" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelBlackFacl">
+<update id="mergeEzcChannelBlackFacl" parameterType="ezcChannelBlackFacl">
 MERGE INTO EZC_CHANNEL_BLACK_FACL /* 채널 블랙 시설 */
 	USING DUAL ON (
 		CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
@@ -137,7 +146,7 @@ MERGE INTO EZC_CHANNEL_BLACK_FACL /* 채널 블랙 시설 */
 		)
 </update>
 
-<delete id="deleteEzcChannelBlackFacl" parameterType="com.ezwel.htl.interfaces.server.entities.EzcChannelBlackFacl">
+<delete id="deleteEzcChannelBlackFacl" parameterType="ezcChannelBlackFacl">
 DELETE FROM EZC_CHANNEL_BLACK_FACL /* 채널 블랙 시설 */
 WHERE 1=1
 	AND CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */

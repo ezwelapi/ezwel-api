@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:01 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:41 	신규작성 
  * 
- * @since 2018-12-03 11:05:01
+ * @since 2018-12-03 14:47:41
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcAuth" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuth">
+<insert id="insertEzcAuth" parameterType="ezcAuth">
 INSERT INTO EZC_AUTH(	/* 권한 정보 */
 	 MENU_ID	/* 메뉴 ID, VARCHAR2(6) */
 	,AUTH_GRP_CD	/* 권한 그룹 코드, VARCHAR2(10) */
@@ -39,7 +39,7 @@ INSERT INTO EZC_AUTH(	/* 권한 정보 */
 )
 </insert>
 
-<select id="selectEzcAuth" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuth" resultType="com.ezwel.htl.interfaces.server.entities.EzcAuth">
+<select id="selectEzcAuth" parameterType="ezcAuth" resultType="ezcAuth">
 SELECT
 	 EZC_AUTH.MENU_ID AS menuId	/* 메뉴 ID, VARCHAR2(6) */
 	,EZC_AUTH.AUTH_GRP_CD AS authGrpCd	/* 권한 그룹 코드, VARCHAR2(10) */
@@ -60,14 +60,11 @@ FROM
 WHERE 1=1
 	AND EZC_AUTH.AUTH_GRP_CD = EZC_AUTH_GRP.AUTH_GRP_CD
 	AND EZC_AUTH.MENU_ID = EZC_MENU.MENU_ID
-	AND EZC_AUTH.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AUTH_GRP.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_MENU.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AUTH.MENU_ID = #{menuId, jdbcType=VARCHAR}	/* 메뉴 ID, VARCHAR2(6) */
-	AND EZC_AUTH.AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */
+	AND EZC_AUTH.MENU_ID = #{menuId, jdbcType=VARCHAR}	/* 메뉴 ID, VARCHAR2(6), EZC_AUTH_PK(P),FK_EZC_MENU_EZC_AUTH(R),SYS_C0011203(C) */
+	AND EZC_AUTH.AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10), EZC_AUTH_PK(P),FK_EZC_AUTH_GRP_EZC_AUTH(R),SYS_C0011204(C) */
 </select>
 
-<select id="selectCountEzcAuth" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuth" resultType="java.lang.Integer">
+<select id="selectCountEzcAuth" parameterType="ezcAuth" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -77,18 +74,45 @@ FROM
 WHERE 1=1
 	AND EZC_AUTH.AUTH_GRP_CD = EZC_AUTH_GRP.AUTH_GRP_CD
 	AND EZC_AUTH.MENU_ID = EZC_MENU.MENU_ID
-	AND EZC_AUTH.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AUTH_GRP.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_MENU.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
 	<if test="menuId != null and menuId != ''">
 	AND EZC_AUTH.MENU_ID = #{menuId, jdbcType=VARCHAR}	/* 메뉴 ID, VARCHAR2(6) */
 	</if>
 	<if test="authGrpCd != null and authGrpCd != ''">
 	AND EZC_AUTH.AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */
 	</if>
+	<if test="authC != null and authC != ''">
+	AND EZC_AUTH.AUTH_C = #{authC, jdbcType=CHAR}	/* 권한 C, CHAR(1) */
+	</if>
+	<if test="authR != null and authR != ''">
+	AND EZC_AUTH.AUTH_R = #{authR, jdbcType=CHAR}	/* 권한 R, CHAR(1) */
+	</if>
+	<if test="authU != null and authU != ''">
+	AND EZC_AUTH.AUTH_U = #{authU, jdbcType=CHAR}	/* 권한 U, CHAR(1) */
+	</if>
+	<if test="authD != null and authD != ''">
+	AND EZC_AUTH.AUTH_D = #{authD, jdbcType=CHAR}	/* 권한 D, CHAR(1) */
+	</if>
+	<if test="authX != null and authX != ''">
+	AND EZC_AUTH.AUTH_X = #{authX, jdbcType=CHAR}	/* 권한 X, CHAR(1) */
+	</if>
+	<if test="authP != null and authP != ''">
+	AND EZC_AUTH.AUTH_P = #{authP, jdbcType=CHAR}	/* 권한 P, CHAR(1) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_AUTH.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_AUTH.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_AUTH.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_AUTH.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcAuth" resultType="com.ezwel.htl.interfaces.server.entities.EzcAuth">
+<select id="selectListEzcAuth" resultType="ezcAuth">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -112,25 +136,52 @@ SELECT * FROM (
 		WHERE 1=1
 			AND EZC_AUTH.AUTH_GRP_CD = EZC_AUTH_GRP.AUTH_GRP_CD
 			AND EZC_AUTH.MENU_ID = EZC_MENU.MENU_ID
-			AND EZC_AUTH.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_AUTH_GRP.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_MENU.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.menuId != null and param.menuId != ''">
-			AND EZC_AUTH.MENU_ID = #{param.menuId, jdbcType=VARCHAR}	/* 메뉴 ID, VARCHAR2(6) */
+			<if test="menuId != null and menuId != ''">
+			AND EZC_AUTH.MENU_ID = #{menuId, jdbcType=VARCHAR}	/* 메뉴 ID, VARCHAR2(6) */
 			</if>
-			<if test="param.authGrpCd != null and param.authGrpCd != ''">
-			AND EZC_AUTH.AUTH_GRP_CD = #{param.authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */
+			<if test="authGrpCd != null and authGrpCd != ''">
+			AND EZC_AUTH.AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */
+			</if>
+			<if test="authC != null and authC != ''">
+			AND EZC_AUTH.AUTH_C = #{authC, jdbcType=CHAR}	/* 권한 C, CHAR(1) */
+			</if>
+			<if test="authR != null and authR != ''">
+			AND EZC_AUTH.AUTH_R = #{authR, jdbcType=CHAR}	/* 권한 R, CHAR(1) */
+			</if>
+			<if test="authU != null and authU != ''">
+			AND EZC_AUTH.AUTH_U = #{authU, jdbcType=CHAR}	/* 권한 U, CHAR(1) */
+			</if>
+			<if test="authD != null and authD != ''">
+			AND EZC_AUTH.AUTH_D = #{authD, jdbcType=CHAR}	/* 권한 D, CHAR(1) */
+			</if>
+			<if test="authX != null and authX != ''">
+			AND EZC_AUTH.AUTH_X = #{authX, jdbcType=CHAR}	/* 권한 X, CHAR(1) */
+			</if>
+			<if test="authP != null and authP != ''">
+			AND EZC_AUTH.AUTH_P = #{authP, jdbcType=CHAR}	/* 권한 P, CHAR(1) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_AUTH.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_AUTH.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_AUTH.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_AUTH.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_AUTH.MENU_ID DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcAuth" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuth">
+<update id="updateEzcAuth" parameterType="ezcAuth">
 UPDATE EZC_AUTH SET	/* 권한 정보 */
 	 AUTH_C = #{authC, jdbcType=CHAR}	/* 권한 C, CHAR(1) */
 	,AUTH_R = #{authR, jdbcType=CHAR}	/* 권한 R, CHAR(1) */
@@ -145,7 +196,7 @@ WHERE 1=1
 	AND AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */
 </update>
 
-<update id="mergeEzcAuth" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuth">
+<update id="mergeEzcAuth" parameterType="ezcAuth">
 MERGE INTO EZC_AUTH /* 권한 정보 */
 	USING DUAL ON (
 		MENU_ID = #{menuId, jdbcType=VARCHAR}	/* 메뉴 ID, VARCHAR2(6) */
@@ -187,7 +238,7 @@ MERGE INTO EZC_AUTH /* 권한 정보 */
 		)
 </update>
 
-<delete id="deleteEzcAuth" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuth">
+<delete id="deleteEzcAuth" parameterType="ezcAuth">
 DELETE FROM EZC_AUTH /* 권한 정보 */
 WHERE 1=1
 	AND MENU_ID = #{menuId, jdbcType=VARCHAR}	/* 메뉴 ID, VARCHAR2(6) */

@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:04 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:44 	신규작성 
  * 
- * @since 2018-12-03 11:05:04
+ * @since 2018-12-03 14:47:44
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcPrmSurvey" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmSurvey">
+<insert id="insertEzcPrmSurvey" parameterType="ezcPrmSurvey">
 INSERT INTO EZC_PRM_SURVEY(	/* 프로모션 설문 */
 	 PRM_CD	/* 프로모션 코드, VARCHAR2(10) */
 	,SURVEY_TITLE	/* 설문 제목, VARCHAR2(100) */
@@ -27,7 +27,7 @@ INSERT INTO EZC_PRM_SURVEY(	/* 프로모션 설문 */
 )
 </insert>
 
-<select id="selectEzcPrmSurvey" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmSurvey" resultType="com.ezwel.htl.interfaces.server.entities.EzcPrmSurvey">
+<select id="selectEzcPrmSurvey" parameterType="ezcPrmSurvey" resultType="ezcPrmSurvey">
 SELECT
 	 EZC_PRM_SURVEY.PRM_CD AS prmCd	/* 프로모션 코드, VARCHAR2(10) */
 	,EZC_PRM_SURVEY.SURVEY_TITLE AS surveyTitle	/* 설문 제목, VARCHAR2(100) */
@@ -38,12 +38,10 @@ FROM
 	,EZC_PRM_MNG	/* 프로모션 관리 */
 WHERE 1=1
 	AND EZC_PRM_SURVEY.PRM_CD = EZC_PRM_MNG.PRM_CD
-	AND EZC_PRM_SURVEY.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PRM_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PRM_SURVEY.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
+	AND EZC_PRM_SURVEY.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10), EZC_PRM_SURVEY_PK(P),FK_EZC_PRM_MNG_EZC_PRM_SURVEY(R),SYS_C0011572(C) */
 </select>
 
-<select id="selectCountEzcPrmSurvey" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmSurvey" resultType="java.lang.Integer">
+<select id="selectCountEzcPrmSurvey" parameterType="ezcPrmSurvey" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -51,14 +49,21 @@ FROM
 	,EZC_PRM_MNG	/* 프로모션 관리 */
 WHERE 1=1
 	AND EZC_PRM_SURVEY.PRM_CD = EZC_PRM_MNG.PRM_CD
-	AND EZC_PRM_SURVEY.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PRM_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
 	<if test="prmCd != null and prmCd != ''">
 	AND EZC_PRM_SURVEY.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
 	</if>
+	<if test="surveyTitle != null and surveyTitle != ''">
+	AND EZC_PRM_SURVEY.SURVEY_TITLE = #{surveyTitle, jdbcType=VARCHAR}	/* 설문 제목, VARCHAR2(100) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_PRM_SURVEY.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_PRM_SURVEY.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcPrmSurvey" resultType="com.ezwel.htl.interfaces.server.entities.EzcPrmSurvey">
+<select id="selectListEzcPrmSurvey" resultType="ezcPrmSurvey">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -72,28 +77,35 @@ SELECT * FROM (
 			,EZC_PRM_MNG	/* 프로모션 관리 */
 		WHERE 1=1
 			AND EZC_PRM_SURVEY.PRM_CD = EZC_PRM_MNG.PRM_CD
-			AND EZC_PRM_SURVEY.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_PRM_MNG.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.prmCd != null and param.prmCd != ''">
-			AND EZC_PRM_SURVEY.PRM_CD = #{param.prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
+			<if test="prmCd != null and prmCd != ''">
+			AND EZC_PRM_SURVEY.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
+			</if>
+			<if test="surveyTitle != null and surveyTitle != ''">
+			AND EZC_PRM_SURVEY.SURVEY_TITLE = #{surveyTitle, jdbcType=VARCHAR}	/* 설문 제목, VARCHAR2(100) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_PRM_SURVEY.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_PRM_SURVEY.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_PRM_SURVEY.PRM_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcPrmSurvey" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmSurvey">
+<update id="updateEzcPrmSurvey" parameterType="ezcPrmSurvey">
 UPDATE EZC_PRM_SURVEY SET	/* 프로모션 설문 */
 	 SURVEY_TITLE = #{surveyTitle, jdbcType=VARCHAR}	/* 설문 제목, VARCHAR2(100) */
 WHERE 1=1
 	AND PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
 </update>
 
-<update id="mergeEzcPrmSurvey" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmSurvey">
+<update id="mergeEzcPrmSurvey" parameterType="ezcPrmSurvey">
 MERGE INTO EZC_PRM_SURVEY /* 프로모션 설문 */
 	USING DUAL ON (
 		PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
@@ -115,7 +127,7 @@ MERGE INTO EZC_PRM_SURVEY /* 프로모션 설문 */
 		)
 </update>
 
-<delete id="deleteEzcPrmSurvey" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmSurvey">
+<delete id="deleteEzcPrmSurvey" parameterType="ezcPrmSurvey">
 DELETE FROM EZC_PRM_SURVEY /* 프로모션 설문 */
 WHERE 1=1
 	AND PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */

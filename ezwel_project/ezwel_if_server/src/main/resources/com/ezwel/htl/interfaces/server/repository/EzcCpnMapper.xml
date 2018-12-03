@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:02 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:42 	신규작성 
  * 
- * @since 2018-12-03 11:05:02
+ * @since 2018-12-03 14:47:42
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcCpn" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpn">
+<insert id="insertEzcCpn" parameterType="ezcCpn">
 INSERT INTO EZC_CPN(	/* 쿠폰 */
 	 CPN_CD	/* 쿠폰 코드, NUMBER(0,22) */
 	,CPN_NM	/* 쿠폰 명, VARCHAR2(100) */
@@ -53,7 +53,7 @@ INSERT INTO EZC_CPN(	/* 쿠폰 */
 )
 </insert>
 
-<select id="selectEzcCpn" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpn" resultType="com.ezwel.htl.interfaces.server.entities.EzcCpn">
+<select id="selectEzcCpn" parameterType="ezcCpn" resultType="ezcCpn">
 SELECT
 	 EZC_CPN.CPN_CD AS cpnCd	/* 쿠폰 코드, NUMBER(0,22) */
 	,EZC_CPN.CPN_NM AS cpnNm	/* 쿠폰 명, VARCHAR2(100) */
@@ -77,10 +77,10 @@ SELECT
 FROM
 	EZC_CPN	/* 쿠폰 */
 WHERE 1=1
-	AND EZC_CPN.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
+	AND EZC_CPN.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22), EZC_CPN_PK(P),SYS_C0011310(C) */
 </select>
 
-<select id="selectCountEzcCpn" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpn" resultType="java.lang.Integer">
+<select id="selectCountEzcCpn" parameterType="ezcCpn" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -89,9 +89,63 @@ WHERE 1=1
 	<if test="cpnCd != null and cpnCd gt 0">
 	AND EZC_CPN.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
 	</if>
+	<if test="cpnNm != null and cpnNm != ''">
+	AND EZC_CPN.CPN_NM = #{cpnNm, jdbcType=VARCHAR}	/* 쿠폰 명, VARCHAR2(100) */
+	</if>
+	<if test="deviceDiv != null and deviceDiv != ''">
+	AND EZC_CPN.DEVICE_DIV = #{deviceDiv, jdbcType=VARCHAR}	/* 디바이스 구분, VARCHAR2(8) */
+	</if>
+	<if test="dcType != null and dcType != ''">
+	AND EZC_CPN.DC_TYPE = #{dcType, jdbcType=VARCHAR}	/* 할인 유형, VARCHAR2(8) */
+	</if>
+	<if test="dcValue != null and dcValue gt 0">
+	AND EZC_CPN.DC_VALUE = #{dcValue, jdbcType=NUMERIC}	/* 할인 값, NUMBER(0,22) */
+	</if>
+	<if test="issueStartDd != null and issueStartDd != ''">
+	AND EZC_CPN.ISSUE_START_DD = #{issueStartDd, jdbcType=VARCHAR}	/* 발행 시작 일자, VARCHAR2(8) */
+	</if>
+	<if test="issueEndDd != null and issueEndDd != ''">
+	AND EZC_CPN.ISSUE_END_DD = #{issueEndDd, jdbcType=VARCHAR}	/* 발행 만료 일자, VARCHAR2(8) */
+	</if>
+	<if test="issueStartTm != null and issueStartTm != ''">
+	AND EZC_CPN.ISSUE_START_TM = #{issueStartTm, jdbcType=VARCHAR}	/* 발행 시작 시간, VARCHAR2(4) */
+	</if>
+	<if test="issueEndTm != null and issueEndTm != ''">
+	AND EZC_CPN.ISSUE_END_TM = #{issueEndTm, jdbcType=VARCHAR}	/* 발행 만료 시간, VARCHAR2(4) */
+	</if>
+	<if test="purchaseLimit != null and purchaseLimit gt 0">
+	AND EZC_CPN.PURCHASE_LIMIT = #{purchaseLimit, jdbcType=NUMERIC}	/* 매수 제한, NUMBER(0,22) */
+	</if>
+	<if test="minApplyAmt != null and minApplyAmt gt 0">
+	AND EZC_CPN.MIN_APPLY_AMT = #{minApplyAmt, jdbcType=NUMERIC}	/* 최소 적용 금액, NUMBER(0,22) */
+	</if>
+	<if test="cpnImgPath != null and cpnImgPath != ''">
+	AND EZC_CPN.CPN_IMG_PATH = #{cpnImgPath, jdbcType=VARCHAR}	/* 쿠폰 이미지 경로, VARCHAR2(100) */
+	</if>
+	<if test="cpnImgFilenm != null and cpnImgFilenm != ''">
+	AND EZC_CPN.CPN_IMG_FILENM = #{cpnImgFilenm, jdbcType=VARCHAR}	/* 쿠폰 이미지 파일명, VARCHAR2(100) */
+	</if>
+	<if test="issueDt != null and issueDt != ''">
+	AND EZC_CPN.ISSUE_DT = #{issueDt, jdbcType=VARCHAR}	/* 발행 일시, VARCHAR2(14) */
+	</if>
+	<if test="issueQty != null and issueQty gt 0">
+	AND EZC_CPN.ISSUE_QTY = #{issueQty, jdbcType=NUMERIC}	/* 발생 수량, NUMBER(0,22) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_CPN.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_CPN.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_CPN.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_CPN.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcCpn" resultType="com.ezwel.htl.interfaces.server.entities.EzcCpn">
+<select id="selectListEzcCpn" resultType="ezcCpn">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -118,19 +172,73 @@ SELECT * FROM (
 		FROM
 			EZC_CPN	/* 쿠폰 */
 		WHERE 1=1
-			<if test="param.cpnCd != null and param.cpnCd gt 0">
-			AND EZC_CPN.CPN_CD = #{param.cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
+			<if test="cpnCd != null and cpnCd gt 0">
+			AND EZC_CPN.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
+			</if>
+			<if test="cpnNm != null and cpnNm != ''">
+			AND EZC_CPN.CPN_NM = #{cpnNm, jdbcType=VARCHAR}	/* 쿠폰 명, VARCHAR2(100) */
+			</if>
+			<if test="deviceDiv != null and deviceDiv != ''">
+			AND EZC_CPN.DEVICE_DIV = #{deviceDiv, jdbcType=VARCHAR}	/* 디바이스 구분, VARCHAR2(8) */
+			</if>
+			<if test="dcType != null and dcType != ''">
+			AND EZC_CPN.DC_TYPE = #{dcType, jdbcType=VARCHAR}	/* 할인 유형, VARCHAR2(8) */
+			</if>
+			<if test="dcValue != null and dcValue gt 0">
+			AND EZC_CPN.DC_VALUE = #{dcValue, jdbcType=NUMERIC}	/* 할인 값, NUMBER(0,22) */
+			</if>
+			<if test="issueStartDd != null and issueStartDd != ''">
+			AND EZC_CPN.ISSUE_START_DD = #{issueStartDd, jdbcType=VARCHAR}	/* 발행 시작 일자, VARCHAR2(8) */
+			</if>
+			<if test="issueEndDd != null and issueEndDd != ''">
+			AND EZC_CPN.ISSUE_END_DD = #{issueEndDd, jdbcType=VARCHAR}	/* 발행 만료 일자, VARCHAR2(8) */
+			</if>
+			<if test="issueStartTm != null and issueStartTm != ''">
+			AND EZC_CPN.ISSUE_START_TM = #{issueStartTm, jdbcType=VARCHAR}	/* 발행 시작 시간, VARCHAR2(4) */
+			</if>
+			<if test="issueEndTm != null and issueEndTm != ''">
+			AND EZC_CPN.ISSUE_END_TM = #{issueEndTm, jdbcType=VARCHAR}	/* 발행 만료 시간, VARCHAR2(4) */
+			</if>
+			<if test="purchaseLimit != null and purchaseLimit gt 0">
+			AND EZC_CPN.PURCHASE_LIMIT = #{purchaseLimit, jdbcType=NUMERIC}	/* 매수 제한, NUMBER(0,22) */
+			</if>
+			<if test="minApplyAmt != null and minApplyAmt gt 0">
+			AND EZC_CPN.MIN_APPLY_AMT = #{minApplyAmt, jdbcType=NUMERIC}	/* 최소 적용 금액, NUMBER(0,22) */
+			</if>
+			<if test="cpnImgPath != null and cpnImgPath != ''">
+			AND EZC_CPN.CPN_IMG_PATH = #{cpnImgPath, jdbcType=VARCHAR}	/* 쿠폰 이미지 경로, VARCHAR2(100) */
+			</if>
+			<if test="cpnImgFilenm != null and cpnImgFilenm != ''">
+			AND EZC_CPN.CPN_IMG_FILENM = #{cpnImgFilenm, jdbcType=VARCHAR}	/* 쿠폰 이미지 파일명, VARCHAR2(100) */
+			</if>
+			<if test="issueDt != null and issueDt != ''">
+			AND EZC_CPN.ISSUE_DT = #{issueDt, jdbcType=VARCHAR}	/* 발행 일시, VARCHAR2(14) */
+			</if>
+			<if test="issueQty != null and issueQty gt 0">
+			AND EZC_CPN.ISSUE_QTY = #{issueQty, jdbcType=NUMERIC}	/* 발생 수량, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_CPN.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_CPN.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_CPN.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_CPN.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_CPN.CPN_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcCpn" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpn">
+<update id="updateEzcCpn" parameterType="ezcCpn">
 UPDATE EZC_CPN SET	/* 쿠폰 */
 	 CPN_NM = #{cpnNm, jdbcType=VARCHAR}	/* 쿠폰 명, VARCHAR2(100) */
 	,DEVICE_DIV = #{deviceDiv, jdbcType=VARCHAR}	/* 디바이스 구분, VARCHAR2(8) */
@@ -152,7 +260,7 @@ WHERE 1=1
 	AND CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcCpn" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpn">
+<update id="mergeEzcCpn" parameterType="ezcCpn">
 MERGE INTO EZC_CPN /* 쿠폰 */
 	USING DUAL ON (
 		CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
@@ -215,7 +323,7 @@ MERGE INTO EZC_CPN /* 쿠폰 */
 		)
 </update>
 
-<delete id="deleteEzcCpn" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpn">
+<delete id="deleteEzcCpn" parameterType="ezcCpn">
 DELETE FROM EZC_CPN /* 쿠폰 */
 WHERE 1=1
 	AND CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */

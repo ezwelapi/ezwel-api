@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:01 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:41 	신규작성 
  * 
- * @since 2018-12-03 11:05:01
+ * @since 2018-12-03 14:47:41
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcCacheDayPriceLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCacheDayPriceLog">
+<insert id="insertEzcCacheDayPriceLog" parameterType="ezcCacheDayPriceLog">
 INSERT INTO EZC_CACHE_DAY_PRICE_LOG(	/* CACHE 당일특가 로그 */
 	 DAY_PRICE_LOG_SEQ	/* 당일특가 로그 일련번호, NUMBER(0,22) */
 	,EXE_DT	/* 실행 일시, VARCHAR2(14) */
@@ -31,7 +31,7 @@ INSERT INTO EZC_CACHE_DAY_PRICE_LOG(	/* CACHE 당일특가 로그 */
 )
 </insert>
 
-<select id="selectEzcCacheDayPriceLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCacheDayPriceLog" resultType="com.ezwel.htl.interfaces.server.entities.EzcCacheDayPriceLog">
+<select id="selectEzcCacheDayPriceLog" parameterType="ezcCacheDayPriceLog" resultType="ezcCacheDayPriceLog">
 SELECT
 	 EZC_CACHE_DAY_PRICE_LOG.DAY_PRICE_LOG_SEQ AS dayPriceLogSeq	/* 당일특가 로그 일련번호, NUMBER(0,22) */
 	,EZC_CACHE_DAY_PRICE_LOG.EXE_DT AS exeDt	/* 실행 일시, VARCHAR2(14) */
@@ -44,10 +44,10 @@ SELECT
 FROM
 	EZC_CACHE_DAY_PRICE_LOG	/* CACHE 당일특가 로그 */
 WHERE 1=1
-	AND EZC_CACHE_DAY_PRICE_LOG.DAY_PRICE_LOG_SEQ = #{dayPriceLogSeq, jdbcType=DECIMAL}	/* 당일특가 로그 일련번호, NUMBER(0,22) */
+	AND EZC_CACHE_DAY_PRICE_LOG.DAY_PRICE_LOG_SEQ = #{dayPriceLogSeq, jdbcType=DECIMAL}	/* 당일특가 로그 일련번호, NUMBER(0,22), EZC_CACHE_DAY_PRICE_LOG_PK(P),SYS_C0011144(C) */
 </select>
 
-<select id="selectCountEzcCacheDayPriceLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCacheDayPriceLog" resultType="java.lang.Integer">
+<select id="selectCountEzcCacheDayPriceLog" parameterType="ezcCacheDayPriceLog" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -56,9 +56,30 @@ WHERE 1=1
 	<if test="dayPriceLogSeq != null and dayPriceLogSeq gt 0">
 	AND EZC_CACHE_DAY_PRICE_LOG.DAY_PRICE_LOG_SEQ = #{dayPriceLogSeq, jdbcType=DECIMAL}	/* 당일특가 로그 일련번호, NUMBER(0,22) */
 	</if>
+	<if test="exeDt != null and exeDt != ''">
+	AND EZC_CACHE_DAY_PRICE_LOG.EXE_DT = #{exeDt, jdbcType=VARCHAR}	/* 실행 일시, VARCHAR2(14) */
+	</if>
+	<if test="cacheEndTm != null and cacheEndTm != ''">
+	AND EZC_CACHE_DAY_PRICE_LOG.CACHE_END_TM = #{cacheEndTm, jdbcType=VARCHAR}	/* CACHE 만료 시간, VARCHAR2(4) */
+	</if>
+	<if test="exeStatus != null and exeStatus != ''">
+	AND EZC_CACHE_DAY_PRICE_LOG.EXE_STATUS = #{exeStatus, jdbcType=VARCHAR}	/* 실행 상태, VARCHAR2(8) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_CACHE_DAY_PRICE_LOG.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_CACHE_DAY_PRICE_LOG.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_CACHE_DAY_PRICE_LOG.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_CACHE_DAY_PRICE_LOG.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcCacheDayPriceLog" resultType="com.ezwel.htl.interfaces.server.entities.EzcCacheDayPriceLog">
+<select id="selectListEzcCacheDayPriceLog" resultType="ezcCacheDayPriceLog">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -74,19 +95,40 @@ SELECT * FROM (
 		FROM
 			EZC_CACHE_DAY_PRICE_LOG	/* CACHE 당일특가 로그 */
 		WHERE 1=1
-			<if test="param.dayPriceLogSeq != null and param.dayPriceLogSeq gt 0">
-			AND EZC_CACHE_DAY_PRICE_LOG.DAY_PRICE_LOG_SEQ = #{param.dayPriceLogSeq, jdbcType=DECIMAL}	/* 당일특가 로그 일련번호, NUMBER(0,22) */
+			<if test="dayPriceLogSeq != null and dayPriceLogSeq gt 0">
+			AND EZC_CACHE_DAY_PRICE_LOG.DAY_PRICE_LOG_SEQ = #{dayPriceLogSeq, jdbcType=DECIMAL}	/* 당일특가 로그 일련번호, NUMBER(0,22) */
+			</if>
+			<if test="exeDt != null and exeDt != ''">
+			AND EZC_CACHE_DAY_PRICE_LOG.EXE_DT = #{exeDt, jdbcType=VARCHAR}	/* 실행 일시, VARCHAR2(14) */
+			</if>
+			<if test="cacheEndTm != null and cacheEndTm != ''">
+			AND EZC_CACHE_DAY_PRICE_LOG.CACHE_END_TM = #{cacheEndTm, jdbcType=VARCHAR}	/* CACHE 만료 시간, VARCHAR2(4) */
+			</if>
+			<if test="exeStatus != null and exeStatus != ''">
+			AND EZC_CACHE_DAY_PRICE_LOG.EXE_STATUS = #{exeStatus, jdbcType=VARCHAR}	/* 실행 상태, VARCHAR2(8) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_CACHE_DAY_PRICE_LOG.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_CACHE_DAY_PRICE_LOG.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_CACHE_DAY_PRICE_LOG.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_CACHE_DAY_PRICE_LOG.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_CACHE_DAY_PRICE_LOG.DAY_PRICE_LOG_SEQ DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcCacheDayPriceLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCacheDayPriceLog">
+<update id="updateEzcCacheDayPriceLog" parameterType="ezcCacheDayPriceLog">
 UPDATE EZC_CACHE_DAY_PRICE_LOG SET	/* CACHE 당일특가 로그 */
 	 EXE_DT = #{exeDt, jdbcType=VARCHAR}	/* 실행 일시, VARCHAR2(14) */
 	,CACHE_END_TM = #{cacheEndTm, jdbcType=VARCHAR}	/* CACHE 만료 시간, VARCHAR2(4) */
@@ -97,7 +139,7 @@ WHERE 1=1
 	AND DAY_PRICE_LOG_SEQ = #{dayPriceLogSeq, jdbcType=DECIMAL}	/* 당일특가 로그 일련번호, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcCacheDayPriceLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCacheDayPriceLog">
+<update id="mergeEzcCacheDayPriceLog" parameterType="ezcCacheDayPriceLog">
 MERGE INTO EZC_CACHE_DAY_PRICE_LOG /* CACHE 당일특가 로그 */
 	USING DUAL ON (
 		DAY_PRICE_LOG_SEQ = #{dayPriceLogSeq, jdbcType=DECIMAL}	/* 당일특가 로그 일련번호, NUMBER(0,22) */
@@ -127,7 +169,7 @@ MERGE INTO EZC_CACHE_DAY_PRICE_LOG /* CACHE 당일특가 로그 */
 		)
 </update>
 
-<delete id="deleteEzcCacheDayPriceLog" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCacheDayPriceLog">
+<delete id="deleteEzcCacheDayPriceLog" parameterType="ezcCacheDayPriceLog">
 DELETE FROM EZC_CACHE_DAY_PRICE_LOG /* CACHE 당일특가 로그 */
 WHERE 1=1
 	AND DAY_PRICE_LOG_SEQ = #{dayPriceLogSeq, jdbcType=DECIMAL}	/* 당일특가 로그 일련번호, NUMBER(0,22) */

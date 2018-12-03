@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:01 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:41 	신규작성 
  * 
- * @since 2018-12-03 11:05:01
+ * @since 2018-12-03 14:47:41
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcAuthMapping" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuthMapping">
+<insert id="insertEzcAuthMapping" parameterType="ezcAuthMapping">
 INSERT INTO EZC_AUTH_MAPPING(	/* 권한 맵핑 */
 	 AUTH_GRP_CD	/* 권한 그룹 코드, VARCHAR2(10) */
 	,MGR_ID	/* 운영자 ID, VARCHAR2(20) */
@@ -27,7 +27,7 @@ INSERT INTO EZC_AUTH_MAPPING(	/* 권한 맵핑 */
 )
 </insert>
 
-<select id="selectEzcAuthMapping" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuthMapping" resultType="com.ezwel.htl.interfaces.server.entities.EzcAuthMapping">
+<select id="selectEzcAuthMapping" parameterType="ezcAuthMapping" resultType="ezcAuthMapping">
 SELECT
 	 EZC_AUTH_MAPPING.AUTH_GRP_CD AS authGrpCd	/* 권한 그룹 코드, VARCHAR2(10) */
 	,EZC_AUTH_MAPPING.MGR_ID AS mgrId	/* 운영자 ID, VARCHAR2(20) */
@@ -44,16 +44,11 @@ WHERE 1=1
 	AND EZC_AUTH_MAPPING.MGR_ID = EZC_MGR.MGR_ID
 	AND EZC_MGR.CLIENT_CD = EZC_CLIENT_INFO.CLIENT_CD
 	AND EZC_MGR.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-	AND EZC_AUTH_MAPPING.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AUTH_GRP.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_MGR.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CLIENT_INFO.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AUTH_MAPPING.AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */
-	AND EZC_AUTH_MAPPING.MGR_ID = #{mgrId, jdbcType=VARCHAR}	/* 운영자 ID, VARCHAR2(20) */
+	AND EZC_AUTH_MAPPING.AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10), EZC_AUTH_MAPPING_PK(P),FK_EZC_AUTH_GRP_EZC_AUTH_MAPPI(R),SYS_C0011220(C) */
+	AND EZC_AUTH_MAPPING.MGR_ID = #{mgrId, jdbcType=VARCHAR}	/* 운영자 ID, VARCHAR2(20), EZC_AUTH_MAPPING_PK(P),FK_EZC_MGR_EZC_AUTH_MAPPING(R),SYS_C0011221(C) */
 </select>
 
-<select id="selectCountEzcAuthMapping" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuthMapping" resultType="java.lang.Integer">
+<select id="selectCountEzcAuthMapping" parameterType="ezcAuthMapping" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -67,20 +62,21 @@ WHERE 1=1
 	AND EZC_AUTH_MAPPING.MGR_ID = EZC_MGR.MGR_ID
 	AND EZC_MGR.CLIENT_CD = EZC_CLIENT_INFO.CLIENT_CD
 	AND EZC_MGR.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-	AND EZC_AUTH_MAPPING.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AUTH_GRP.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_MGR.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CLIENT_INFO.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
 	<if test="authGrpCd != null and authGrpCd != ''">
 	AND EZC_AUTH_MAPPING.AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */
 	</if>
 	<if test="mgrId != null and mgrId != ''">
 	AND EZC_AUTH_MAPPING.MGR_ID = #{mgrId, jdbcType=VARCHAR}	/* 운영자 ID, VARCHAR2(20) */
 	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_AUTH_MAPPING.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_AUTH_MAPPING.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcAuthMapping" resultType="com.ezwel.htl.interfaces.server.entities.EzcAuthMapping">
+<select id="selectListEzcAuthMapping" resultType="ezcAuthMapping">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -100,34 +96,35 @@ SELECT * FROM (
 			AND EZC_AUTH_MAPPING.MGR_ID = EZC_MGR.MGR_ID
 			AND EZC_MGR.CLIENT_CD = EZC_CLIENT_INFO.CLIENT_CD
 			AND EZC_MGR.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-			AND EZC_AUTH_MAPPING.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_AUTH_GRP.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_MGR.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CLIENT_INFO.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_PARTNER.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.authGrpCd != null and param.authGrpCd != ''">
-			AND EZC_AUTH_MAPPING.AUTH_GRP_CD = #{param.authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */
+			<if test="authGrpCd != null and authGrpCd != ''">
+			AND EZC_AUTH_MAPPING.AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */
 			</if>
-			<if test="param.mgrId != null and param.mgrId != ''">
-			AND EZC_AUTH_MAPPING.MGR_ID = #{param.mgrId, jdbcType=VARCHAR}	/* 운영자 ID, VARCHAR2(20) */
+			<if test="mgrId != null and mgrId != ''">
+			AND EZC_AUTH_MAPPING.MGR_ID = #{mgrId, jdbcType=VARCHAR}	/* 운영자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_AUTH_MAPPING.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_AUTH_MAPPING.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_AUTH_MAPPING.AUTH_GRP_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcAuthMapping" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuthMapping">
+<update id="updateEzcAuthMapping" parameterType="ezcAuthMapping">
 UPDATE EZC_AUTH_MAPPING SET	/* 권한 맵핑 */
 WHERE 1=1
 	AND AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */
 	AND MGR_ID = #{mgrId, jdbcType=VARCHAR}	/* 운영자 ID, VARCHAR2(20) */
 </update>
 
-<update id="mergeEzcAuthMapping" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuthMapping">
+<update id="mergeEzcAuthMapping" parameterType="ezcAuthMapping">
 MERGE INTO EZC_AUTH_MAPPING /* 권한 맵핑 */
 	USING DUAL ON (
 		AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */
@@ -149,7 +146,7 @@ MERGE INTO EZC_AUTH_MAPPING /* 권한 맵핑 */
 		)
 </update>
 
-<delete id="deleteEzcAuthMapping" parameterType="com.ezwel.htl.interfaces.server.entities.EzcAuthMapping">
+<delete id="deleteEzcAuthMapping" parameterType="ezcAuthMapping">
 DELETE FROM EZC_AUTH_MAPPING /* 권한 맵핑 */
 WHERE 1=1
 	AND AUTH_GRP_CD = #{authGrpCd, jdbcType=VARCHAR}	/* 권한 그룹 코드, VARCHAR2(10) */

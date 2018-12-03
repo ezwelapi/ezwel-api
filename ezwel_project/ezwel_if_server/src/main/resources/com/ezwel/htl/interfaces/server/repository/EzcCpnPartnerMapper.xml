@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:02 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:42 	신규작성 
  * 
- * @since 2018-12-03 11:05:02
+ * @since 2018-12-03 14:47:42
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcCpnPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnPartner">
+<insert id="insertEzcCpnPartner" parameterType="ezcCpnPartner">
 INSERT INTO EZC_CPN_PARTNER(	/* 쿠폰 제휴사 */
 	 CPN_CD	/* 쿠폰 코드, NUMBER(0,22) */
 	,PARTNER_CD_TYPE	/* 제휴사 코드 유형, VARCHAR2(8) */
@@ -29,7 +29,7 @@ INSERT INTO EZC_CPN_PARTNER(	/* 쿠폰 제휴사 */
 )
 </insert>
 
-<select id="selectEzcCpnPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnPartner" resultType="com.ezwel.htl.interfaces.server.entities.EzcCpnPartner">
+<select id="selectEzcCpnPartner" parameterType="ezcCpnPartner" resultType="ezcCpnPartner">
 SELECT
 	 EZC_CPN_PARTNER.CPN_CD AS cpnCd	/* 쿠폰 코드, NUMBER(0,22) */
 	,EZC_CPN_PARTNER.PARTNER_CD_TYPE AS partnerCdType	/* 제휴사 코드 유형, VARCHAR2(8) */
@@ -41,13 +41,11 @@ FROM
 	,EZC_CPN	/* 쿠폰 */
 WHERE 1=1
 	AND EZC_CPN_PARTNER.CPN_CD = EZC_CPN.CPN_CD
-	AND EZC_CPN_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CPN.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CPN_PARTNER.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
-	AND EZC_CPN_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+	AND EZC_CPN_PARTNER.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22), EZC_CPN_PARTNER_PK(P),FK_EZC_CPN_EZC_CPN_PARTNER(R),SYS_C0011342(C) */
+	AND EZC_CPN_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8), EZC_CPN_PARTNER_PK(P),SYS_C0011343(C) */
 </select>
 
-<select id="selectCountEzcCpnPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnPartner" resultType="java.lang.Integer">
+<select id="selectCountEzcCpnPartner" parameterType="ezcCpnPartner" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -55,17 +53,24 @@ FROM
 	,EZC_CPN	/* 쿠폰 */
 WHERE 1=1
 	AND EZC_CPN_PARTNER.CPN_CD = EZC_CPN.CPN_CD
-	AND EZC_CPN_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CPN.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
 	<if test="cpnCd != null and cpnCd gt 0">
 	AND EZC_CPN_PARTNER.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
 	</if>
 	<if test="partnerCdType != null and partnerCdType != ''">
 	AND EZC_CPN_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
 	</if>
+	<if test="calRatio != null and calRatio gt 0">
+	AND EZC_CPN_PARTNER.CAL_RATIO = #{calRatio, jdbcType=NUMERIC}	/* 정산 비율, NUMBER(0,22) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_CPN_PARTNER.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_CPN_PARTNER.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcCpnPartner" resultType="com.ezwel.htl.interfaces.server.entities.EzcCpnPartner">
+<select id="selectListEzcCpnPartner" resultType="ezcCpnPartner">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -80,24 +85,31 @@ SELECT * FROM (
 			,EZC_CPN	/* 쿠폰 */
 		WHERE 1=1
 			AND EZC_CPN_PARTNER.CPN_CD = EZC_CPN.CPN_CD
-			AND EZC_CPN_PARTNER.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CPN.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.cpnCd != null and param.cpnCd gt 0">
-			AND EZC_CPN_PARTNER.CPN_CD = #{param.cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
+			<if test="cpnCd != null and cpnCd gt 0">
+			AND EZC_CPN_PARTNER.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
 			</if>
-			<if test="param.partnerCdType != null and param.partnerCdType != ''">
-			AND EZC_CPN_PARTNER.PARTNER_CD_TYPE = #{param.partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+			<if test="partnerCdType != null and partnerCdType != ''">
+			AND EZC_CPN_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+			</if>
+			<if test="calRatio != null and calRatio gt 0">
+			AND EZC_CPN_PARTNER.CAL_RATIO = #{calRatio, jdbcType=NUMERIC}	/* 정산 비율, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_CPN_PARTNER.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_CPN_PARTNER.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_CPN_PARTNER.CPN_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcCpnPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnPartner">
+<update id="updateEzcCpnPartner" parameterType="ezcCpnPartner">
 UPDATE EZC_CPN_PARTNER SET	/* 쿠폰 제휴사 */
 	 CAL_RATIO = #{calRatio, jdbcType=NUMERIC}	/* 정산 비율, NUMBER(0,22) */
 WHERE 1=1
@@ -105,7 +117,7 @@ WHERE 1=1
 	AND PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
 </update>
 
-<update id="mergeEzcCpnPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnPartner">
+<update id="mergeEzcCpnPartner" parameterType="ezcCpnPartner">
 MERGE INTO EZC_CPN_PARTNER /* 쿠폰 제휴사 */
 	USING DUAL ON (
 		CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
@@ -130,7 +142,7 @@ MERGE INTO EZC_CPN_PARTNER /* 쿠폰 제휴사 */
 		)
 </update>
 
-<delete id="deleteEzcCpnPartner" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCpnPartner">
+<delete id="deleteEzcCpnPartner" parameterType="ezcCpnPartner">
 DELETE FROM EZC_CPN_PARTNER /* 쿠폰 제휴사 */
 WHERE 1=1
 	AND CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */

@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:02 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:42 	신규작성 
  * 
- * @since 2018-12-03 11:05:02
+ * @since 2018-12-03 14:47:42
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcCnclientRoomType" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCnclientRoomType">
+<insert id="insertEzcCnclientRoomType" parameterType="ezcCnclientRoomType">
 INSERT INTO EZC_CNCLIENT_ROOM_TYPE(	/* 채널고객사 숙소 유형 */
 	 ROOM_TYPE	/* 숙소 유형, VARCHAR2(8) */
 	,CLIENT_CD	/* 고객사 코드, VARCHAR2(20) */
@@ -29,7 +29,7 @@ INSERT INTO EZC_CNCLIENT_ROOM_TYPE(	/* 채널고객사 숙소 유형 */
 )
 </insert>
 
-<select id="selectEzcCnclientRoomType" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCnclientRoomType" resultType="com.ezwel.htl.interfaces.server.entities.EzcCnclientRoomType">
+<select id="selectEzcCnclientRoomType" parameterType="ezcCnclientRoomType" resultType="ezcCnclientRoomType">
 SELECT
 	 EZC_CNCLIENT_ROOM_TYPE.ROOM_TYPE AS roomType	/* 숙소 유형, VARCHAR2(8) */
 	,EZC_CNCLIENT_ROOM_TYPE.CLIENT_CD AS clientCd	/* 고객사 코드, VARCHAR2(20) */
@@ -39,12 +39,12 @@ SELECT
 FROM
 	EZC_CNCLIENT_ROOM_TYPE	/* 채널고객사 숙소 유형 */
 WHERE 1=1
-	AND EZC_CNCLIENT_ROOM_TYPE.ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
-	AND EZC_CNCLIENT_ROOM_TYPE.CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
-	AND EZC_CNCLIENT_ROOM_TYPE.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
+	AND EZC_CNCLIENT_ROOM_TYPE.ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8), EZC_CNCLIENT_ROOM_TYPE_PK(P),SYS_C0011304(C) */
+	AND EZC_CNCLIENT_ROOM_TYPE.CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20), EZC_CNCLIENT_ROOM_TYPE_PK(P),SYS_C0011305(C) */
+	AND EZC_CNCLIENT_ROOM_TYPE.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10), EZC_CNCLIENT_ROOM_TYPE_PK(P),SYS_C0011306(C) */
 </select>
 
-<select id="selectCountEzcCnclientRoomType" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCnclientRoomType" resultType="java.lang.Integer">
+<select id="selectCountEzcCnclientRoomType" parameterType="ezcCnclientRoomType" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -59,9 +59,15 @@ WHERE 1=1
 	<if test="channelCd != null and channelCd != ''">
 	AND EZC_CNCLIENT_ROOM_TYPE.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_CNCLIENT_ROOM_TYPE.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_CNCLIENT_ROOM_TYPE.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcCnclientRoomType" resultType="com.ezwel.htl.interfaces.server.entities.EzcCnclientRoomType">
+<select id="selectListEzcCnclientRoomType" resultType="ezcCnclientRoomType">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -74,25 +80,31 @@ SELECT * FROM (
 		FROM
 			EZC_CNCLIENT_ROOM_TYPE	/* 채널고객사 숙소 유형 */
 		WHERE 1=1
-			<if test="param.roomType != null and param.roomType != ''">
-			AND EZC_CNCLIENT_ROOM_TYPE.ROOM_TYPE = #{param.roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
+			<if test="roomType != null and roomType != ''">
+			AND EZC_CNCLIENT_ROOM_TYPE.ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
 			</if>
-			<if test="param.clientCd != null and param.clientCd != ''">
-			AND EZC_CNCLIENT_ROOM_TYPE.CLIENT_CD = #{param.clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
+			<if test="clientCd != null and clientCd != ''">
+			AND EZC_CNCLIENT_ROOM_TYPE.CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
 			</if>
-			<if test="param.channelCd != null and param.channelCd != ''">
-			AND EZC_CNCLIENT_ROOM_TYPE.CHANNEL_CD = #{param.channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
+			<if test="channelCd != null and channelCd != ''">
+			AND EZC_CNCLIENT_ROOM_TYPE.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_CNCLIENT_ROOM_TYPE.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_CNCLIENT_ROOM_TYPE.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_CNCLIENT_ROOM_TYPE.ROOM_TYPE DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcCnclientRoomType" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCnclientRoomType">
+<update id="updateEzcCnclientRoomType" parameterType="ezcCnclientRoomType">
 UPDATE EZC_CNCLIENT_ROOM_TYPE SET	/* 채널고객사 숙소 유형 */
 WHERE 1=1
 	AND ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
@@ -100,7 +112,7 @@ WHERE 1=1
 	AND CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 </update>
 
-<update id="mergeEzcCnclientRoomType" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCnclientRoomType">
+<update id="mergeEzcCnclientRoomType" parameterType="ezcCnclientRoomType">
 MERGE INTO EZC_CNCLIENT_ROOM_TYPE /* 채널고객사 숙소 유형 */
 	USING DUAL ON (
 		ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
@@ -125,7 +137,7 @@ MERGE INTO EZC_CNCLIENT_ROOM_TYPE /* 채널고객사 숙소 유형 */
 		)
 </update>
 
-<delete id="deleteEzcCnclientRoomType" parameterType="com.ezwel.htl.interfaces.server.entities.EzcCnclientRoomType">
+<delete id="deleteEzcCnclientRoomType" parameterType="ezcCnclientRoomType">
 DELETE FROM EZC_CNCLIENT_ROOM_TYPE /* 채널고객사 숙소 유형 */
 WHERE 1=1
 	AND ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */

@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:04 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:44 	신규작성 
  * 
- * @since 2018-12-03 11:05:04
+ * @since 2018-12-03 14:47:44
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcPrmTab" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmTab">
+<insert id="insertEzcPrmTab" parameterType="ezcPrmTab">
 INSERT INTO EZC_PRM_TAB(	/* 프로모션 TAB */
 	 TAB_SEQ	/* TAB 일련번호, NUMBER(0,22) */
 	,PRM_CD	/* 프로모션 코드, VARCHAR2(10) */
@@ -31,7 +31,7 @@ INSERT INTO EZC_PRM_TAB(	/* 프로모션 TAB */
 )
 </insert>
 
-<select id="selectEzcPrmTab" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmTab" resultType="com.ezwel.htl.interfaces.server.entities.EzcPrmTab">
+<select id="selectEzcPrmTab" parameterType="ezcPrmTab" resultType="ezcPrmTab">
 SELECT
 	 EZC_PRM_TAB.TAB_SEQ AS tabSeq	/* TAB 일련번호, NUMBER(0,22) */
 	,EZC_PRM_TAB.PRM_CD AS prmCd	/* 프로모션 코드, VARCHAR2(10) */
@@ -44,13 +44,11 @@ FROM
 	,EZC_PRM_MNG	/* 프로모션 관리 */
 WHERE 1=1
 	AND EZC_PRM_TAB.PRM_CD = EZC_PRM_MNG.PRM_CD
-	AND EZC_PRM_TAB.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PRM_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PRM_TAB.TAB_SEQ = #{tabSeq, jdbcType=DECIMAL}	/* TAB 일련번호, NUMBER(0,22) */
-	AND EZC_PRM_TAB.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
+	AND EZC_PRM_TAB.TAB_SEQ = #{tabSeq, jdbcType=DECIMAL}	/* TAB 일련번호, NUMBER(0,22), EZC_PRM_TAB_PK(P),SYS_C0011586(C) */
+	AND EZC_PRM_TAB.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10), FK_EZC_PRM_MNG_EZC_PRM_TAB(R),SYS_C0011587(C) */
 </select>
 
-<select id="selectCountEzcPrmTab" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmTab" resultType="java.lang.Integer">
+<select id="selectCountEzcPrmTab" parameterType="ezcPrmTab" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -58,17 +56,27 @@ FROM
 	,EZC_PRM_MNG	/* 프로모션 관리 */
 WHERE 1=1
 	AND EZC_PRM_TAB.PRM_CD = EZC_PRM_MNG.PRM_CD
-	AND EZC_PRM_TAB.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PRM_MNG.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
 	<if test="tabSeq != null and tabSeq gt 0">
 	AND EZC_PRM_TAB.TAB_SEQ = #{tabSeq, jdbcType=DECIMAL}	/* TAB 일련번호, NUMBER(0,22) */
 	</if>
 	<if test="prmCd != null and prmCd != ''">
 	AND EZC_PRM_TAB.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
 	</if>
+	<if test="tabNm != null and tabNm != ''">
+	AND EZC_PRM_TAB.TAB_NM = #{tabNm, jdbcType=VARCHAR}	/* TAB 명, VARCHAR2(100) */
+	</if>
+	<if test="goodsDispArr != null and goodsDispArr gt 0">
+	AND EZC_PRM_TAB.GOODS_DISP_ARR = #{goodsDispArr, jdbcType=NUMERIC}	/* 상품 노출 배열, NUMBER(0,22) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_PRM_TAB.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_PRM_TAB.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcPrmTab" resultType="com.ezwel.htl.interfaces.server.entities.EzcPrmTab">
+<select id="selectListEzcPrmTab" resultType="ezcPrmTab">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -84,24 +92,34 @@ SELECT * FROM (
 			,EZC_PRM_MNG	/* 프로모션 관리 */
 		WHERE 1=1
 			AND EZC_PRM_TAB.PRM_CD = EZC_PRM_MNG.PRM_CD
-			AND EZC_PRM_TAB.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_PRM_MNG.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.tabSeq != null and param.tabSeq gt 0">
-			AND EZC_PRM_TAB.TAB_SEQ = #{param.tabSeq, jdbcType=DECIMAL}	/* TAB 일련번호, NUMBER(0,22) */
+			<if test="tabSeq != null and tabSeq gt 0">
+			AND EZC_PRM_TAB.TAB_SEQ = #{tabSeq, jdbcType=DECIMAL}	/* TAB 일련번호, NUMBER(0,22) */
 			</if>
-			<if test="param.prmCd != null and param.prmCd != ''">
-			AND EZC_PRM_TAB.PRM_CD = #{param.prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
+			<if test="prmCd != null and prmCd != ''">
+			AND EZC_PRM_TAB.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
+			</if>
+			<if test="tabNm != null and tabNm != ''">
+			AND EZC_PRM_TAB.TAB_NM = #{tabNm, jdbcType=VARCHAR}	/* TAB 명, VARCHAR2(100) */
+			</if>
+			<if test="goodsDispArr != null and goodsDispArr gt 0">
+			AND EZC_PRM_TAB.GOODS_DISP_ARR = #{goodsDispArr, jdbcType=NUMERIC}	/* 상품 노출 배열, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_PRM_TAB.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_PRM_TAB.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_PRM_TAB.TAB_SEQ DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcPrmTab" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmTab">
+<update id="updateEzcPrmTab" parameterType="ezcPrmTab">
 UPDATE EZC_PRM_TAB SET	/* 프로모션 TAB */
 	 TAB_NM = #{tabNm, jdbcType=VARCHAR}	/* TAB 명, VARCHAR2(100) */
 	,GOODS_DISP_ARR = #{goodsDispArr, jdbcType=NUMERIC}	/* 상품 노출 배열, NUMBER(0,22) */
@@ -110,7 +128,7 @@ WHERE 1=1
 	AND PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
 </update>
 
-<update id="mergeEzcPrmTab" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmTab">
+<update id="mergeEzcPrmTab" parameterType="ezcPrmTab">
 MERGE INTO EZC_PRM_TAB /* 프로모션 TAB */
 	USING DUAL ON (
 		TAB_SEQ = #{tabSeq, jdbcType=DECIMAL}	/* TAB 일련번호, NUMBER(0,22) */
@@ -138,7 +156,7 @@ MERGE INTO EZC_PRM_TAB /* 프로모션 TAB */
 		)
 </update>
 
-<delete id="deleteEzcPrmTab" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmTab">
+<delete id="deleteEzcPrmTab" parameterType="ezcPrmTab">
 DELETE FROM EZC_PRM_TAB /* 프로모션 TAB */
 WHERE 1=1
 	AND TAB_SEQ = #{tabSeq, jdbcType=DECIMAL}	/* TAB 일련번호, NUMBER(0,22) */

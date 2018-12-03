@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:01 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:41 	신규작성 
  * 
- * @since 2018-12-03 11:05:01
+ * @since 2018-12-03 14:47:41
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcApiReqTemplate" parameterType="com.ezwel.htl.interfaces.server.entities.EzcApiReqTemplate">
+<insert id="insertEzcApiReqTemplate" parameterType="ezcApiReqTemplate">
 INSERT INTO EZC_API_REQ_TEMPLATE(	/* API 요청 템플릿 */
 	 API_REQ_ID	/* API 요청 ID, VARCHAR2(5) */
 	,API_REQ_NUM	/* API 요청 번호, NUMBER(0,22) */
@@ -37,7 +37,7 @@ INSERT INTO EZC_API_REQ_TEMPLATE(	/* API 요청 템플릿 */
 )
 </insert>
 
-<select id="selectEzcApiReqTemplate" parameterType="com.ezwel.htl.interfaces.server.entities.EzcApiReqTemplate" resultType="com.ezwel.htl.interfaces.server.entities.EzcApiReqTemplate">
+<select id="selectEzcApiReqTemplate" parameterType="ezcApiReqTemplate" resultType="ezcApiReqTemplate">
 SELECT
 	 EZC_API_REQ_TEMPLATE.API_REQ_ID AS apiReqId	/* API 요청 ID, VARCHAR2(5) */
 	,EZC_API_REQ_TEMPLATE.API_REQ_NUM AS apiReqNum	/* API 요청 번호, NUMBER(0,22) */
@@ -55,13 +55,14 @@ FROM
 	,EZC_API_REQ	/* API 요청 */
 WHERE 1=1
 	AND EZC_API_REQ_TEMPLATE.API_REQ_NUM = EZC_API_REQ.API_REQ_NUM
-	AND EZC_API_REQ_TEMPLATE.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_API_REQ.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_API_REQ_TEMPLATE.API_REQ_ID = #{apiReqId, jdbcType=VARCHAR}	/* API 요청 ID, VARCHAR2(5) */
-	AND EZC_API_REQ_TEMPLATE.API_REQ_NUM = #{apiReqNum, jdbcType=DECIMAL}	/* API 요청 번호, NUMBER(0,22) */
+	<if test="useYn != null and useYn != ''">
+	AND EZC_API_REQ_TEMPLATE.USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
+	</if>
+	AND EZC_API_REQ_TEMPLATE.API_REQ_ID = #{apiReqId, jdbcType=VARCHAR}	/* API 요청 ID, VARCHAR2(5), EZC_API_REQ_TEMPLATE_PK(P),SYS_C0011190(C) */
+	AND EZC_API_REQ_TEMPLATE.API_REQ_NUM = #{apiReqNum, jdbcType=DECIMAL}	/* API 요청 번호, NUMBER(0,22), EZC_API_REQ_TEMPLATE_PK(P),FK_EZC_API_REQ_EZC_API_REQ_TEM(R),SYS_C0011191(C) */
 </select>
 
-<select id="selectCountEzcApiReqTemplate" parameterType="com.ezwel.htl.interfaces.server.entities.EzcApiReqTemplate" resultType="java.lang.Integer">
+<select id="selectCountEzcApiReqTemplate" parameterType="ezcApiReqTemplate" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -69,8 +70,9 @@ FROM
 	,EZC_API_REQ	/* API 요청 */
 WHERE 1=1
 	AND EZC_API_REQ_TEMPLATE.API_REQ_NUM = EZC_API_REQ.API_REQ_NUM
-	AND EZC_API_REQ_TEMPLATE.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_API_REQ.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
+	<if test="useYn != null and useYn != ''">
+	AND EZC_API_REQ_TEMPLATE.USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
+	</if>
 	<if test="apiReqId != null and apiReqId != ''">
 	AND EZC_API_REQ_TEMPLATE.API_REQ_ID = #{apiReqId, jdbcType=VARCHAR}	/* API 요청 ID, VARCHAR2(5) */
 	</if>
@@ -83,9 +85,27 @@ WHERE 1=1
 	<if test="reqSampleData != null and reqSampleData != ''">
 	AND EZC_API_REQ_TEMPLATE.REQ_SAMPLE_DATA LIKE '%' || #{reqSampleData, jdbcType=VARCHAR} || '%'	/* 요청 샘플 데이타, VARCHAR2(2000) */
 	</if>
+	<if test="connTimeOut != null and connTimeOut gt 0">
+	AND EZC_API_REQ_TEMPLATE.CONN_TIME_OUT = #{connTimeOut, jdbcType=NUMERIC}	/* 접속 타임 아웃, NUMBER(0,22) */
+	</if>
+	<if test="readTimeOut != null and readTimeOut gt 0">
+	AND EZC_API_REQ_TEMPLATE.READ_TIME_OUT = #{readTimeOut, jdbcType=NUMERIC}	/* 리드 타임 아웃, NUMBER(0,22) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_API_REQ_TEMPLATE.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_API_REQ_TEMPLATE.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_API_REQ_TEMPLATE.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_API_REQ_TEMPLATE.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcApiReqTemplate" resultType="com.ezwel.htl.interfaces.server.entities.EzcApiReqTemplate">
+<select id="selectListEzcApiReqTemplate" resultType="ezcApiReqTemplate">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -106,30 +126,49 @@ SELECT * FROM (
 			,EZC_API_REQ	/* API 요청 */
 		WHERE 1=1
 			AND EZC_API_REQ_TEMPLATE.API_REQ_NUM = EZC_API_REQ.API_REQ_NUM
-			AND EZC_API_REQ_TEMPLATE.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_API_REQ.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.apiReqId != null and param.apiReqId != ''">
-			AND EZC_API_REQ_TEMPLATE.API_REQ_ID = #{param.apiReqId, jdbcType=VARCHAR}	/* API 요청 ID, VARCHAR2(5) */
+			<if test="useYn != null and useYn != ''">
+			AND EZC_API_REQ_TEMPLATE.USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
 			</if>
-			<if test="param.apiReqNum != null and param.apiReqNum gt 0">
-			AND EZC_API_REQ_TEMPLATE.API_REQ_NUM = #{param.apiReqNum, jdbcType=DECIMAL}	/* API 요청 번호, NUMBER(0,22) */
+			<if test="apiReqId != null and apiReqId != ''">
+			AND EZC_API_REQ_TEMPLATE.API_REQ_ID = #{apiReqId, jdbcType=VARCHAR}	/* API 요청 ID, VARCHAR2(5) */
 			</if>
-			<if test="param.reqContent != null and param.reqContent != ''">
-			AND EZC_API_REQ_TEMPLATE.REQ_CONTENT LIKE '%' || #{param.reqContent, jdbcType=VARCHAR} || '%'	/* 요청 내용, VARCHAR2(4000) */
+			<if test="apiReqNum != null and apiReqNum gt 0">
+			AND EZC_API_REQ_TEMPLATE.API_REQ_NUM = #{apiReqNum, jdbcType=DECIMAL}	/* API 요청 번호, NUMBER(0,22) */
 			</if>
-			<if test="param.reqSampleData != null and param.reqSampleData != ''">
-			AND EZC_API_REQ_TEMPLATE.REQ_SAMPLE_DATA LIKE '%' || #{param.reqSampleData, jdbcType=VARCHAR} || '%'	/* 요청 샘플 데이타, VARCHAR2(2000) */
+			<if test="reqContent != null and reqContent != ''">
+			AND EZC_API_REQ_TEMPLATE.REQ_CONTENT LIKE '%' || #{reqContent, jdbcType=VARCHAR} || '%'	/* 요청 내용, VARCHAR2(4000) */
+			</if>
+			<if test="reqSampleData != null and reqSampleData != ''">
+			AND EZC_API_REQ_TEMPLATE.REQ_SAMPLE_DATA LIKE '%' || #{reqSampleData, jdbcType=VARCHAR} || '%'	/* 요청 샘플 데이타, VARCHAR2(2000) */
+			</if>
+			<if test="connTimeOut != null and connTimeOut gt 0">
+			AND EZC_API_REQ_TEMPLATE.CONN_TIME_OUT = #{connTimeOut, jdbcType=NUMERIC}	/* 접속 타임 아웃, NUMBER(0,22) */
+			</if>
+			<if test="readTimeOut != null and readTimeOut gt 0">
+			AND EZC_API_REQ_TEMPLATE.READ_TIME_OUT = #{readTimeOut, jdbcType=NUMERIC}	/* 리드 타임 아웃, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_API_REQ_TEMPLATE.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_API_REQ_TEMPLATE.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_API_REQ_TEMPLATE.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_API_REQ_TEMPLATE.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_API_REQ_TEMPLATE.API_REQ_ID DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcApiReqTemplate" parameterType="com.ezwel.htl.interfaces.server.entities.EzcApiReqTemplate">
+<update id="updateEzcApiReqTemplate" parameterType="ezcApiReqTemplate">
 UPDATE EZC_API_REQ_TEMPLATE SET	/* API 요청 템플릿 */
 	 REQ_CONTENT = #{reqContent, jdbcType=VARCHAR}	/* 요청 내용, VARCHAR2(4000) */
 	,REQ_SAMPLE_DATA = #{reqSampleData, jdbcType=VARCHAR}	/* 요청 샘플 데이타, VARCHAR2(2000) */
@@ -143,7 +182,7 @@ WHERE 1=1
 	AND API_REQ_NUM = #{apiReqNum, jdbcType=DECIMAL}	/* API 요청 번호, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcApiReqTemplate" parameterType="com.ezwel.htl.interfaces.server.entities.EzcApiReqTemplate">
+<update id="mergeEzcApiReqTemplate" parameterType="ezcApiReqTemplate">
 MERGE INTO EZC_API_REQ_TEMPLATE /* API 요청 템플릿 */
 	USING DUAL ON (
 		API_REQ_ID = #{apiReqId, jdbcType=VARCHAR}	/* API 요청 ID, VARCHAR2(5) */
@@ -182,7 +221,7 @@ MERGE INTO EZC_API_REQ_TEMPLATE /* API 요청 템플릿 */
 		)
 </update>
 
-<delete id="deleteEzcApiReqTemplate" parameterType="com.ezwel.htl.interfaces.server.entities.EzcApiReqTemplate">
+<delete id="deleteEzcApiReqTemplate" parameterType="ezcApiReqTemplate">
 DELETE FROM EZC_API_REQ_TEMPLATE /* API 요청 템플릿 */
 WHERE 1=1
 	AND API_REQ_ID = #{apiReqId, jdbcType=VARCHAR}	/* API 요청 ID, VARCHAR2(5) */

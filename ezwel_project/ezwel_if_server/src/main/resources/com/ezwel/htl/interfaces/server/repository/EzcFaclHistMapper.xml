@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:03 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:43 	신규작성 
  * 
- * @since 2018-12-03 11:05:03
+ * @since 2018-12-03 14:47:43
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcFaclHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclHist">
+<insert id="insertEzcFaclHist" parameterType="ezcFaclHist">
 INSERT INTO EZC_FACL_HIST(	/* 시설 정보 내역 */
 	 FACL_HIST_SEQ	/* 시설 내역 일련번호, NUMBER(0,22) */
 	,PARTNER_CD	/* 제휴사 코드, VARCHAR2(20) */
@@ -91,7 +91,7 @@ INSERT INTO EZC_FACL_HIST(	/* 시설 정보 내역 */
 )
 </insert>
 
-<select id="selectEzcFaclHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclHist" resultType="com.ezwel.htl.interfaces.server.entities.EzcFaclHist">
+<select id="selectEzcFaclHist" parameterType="ezcFaclHist" resultType="ezcFaclHist">
 SELECT
 	 EZC_FACL_HIST.FACL_HIST_SEQ AS faclHistSeq	/* 시설 내역 일련번호, NUMBER(0,22) */
 	,EZC_FACL_HIST.PARTNER_CD AS partnerCd	/* 제휴사 코드, VARCHAR2(20) */
@@ -134,17 +134,92 @@ SELECT
 FROM
 	EZC_FACL_HIST	/* 시설 정보 내역 */
 WHERE 1=1
-	AND EZC_FACL_HIST.FACL_HIST_SEQ = #{faclHistSeq, jdbcType=DECIMAL}	/* 시설 내역 일련번호, NUMBER(0,22) */
+	<if test="imgChangeYn != null and imgChangeYn != ''">
+	AND EZC_FACL_HIST.IMG_CHANGE_YN = #{imgChangeYn, jdbcType=CHAR}	/* 이미지 변경 여부, CHAR(1) */
+	</if>
+	<if test="useYn != null and useYn != ''">
+	AND EZC_FACL_HIST.USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
+	</if>
+	AND EZC_FACL_HIST.FACL_HIST_SEQ = #{faclHistSeq, jdbcType=DECIMAL}	/* 시설 내역 일련번호, NUMBER(0,22), EZC_FACL_HIST_PK(P),SYS_C0011082(C) */
 </select>
 
-<select id="selectCountEzcFaclHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclHist" resultType="java.lang.Integer">
+<select id="selectCountEzcFaclHist" parameterType="ezcFaclHist" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
 	EZC_FACL_HIST	/* 시설 정보 내역 */
 WHERE 1=1
+	<if test="imgChangeYn != null and imgChangeYn != ''">
+	AND EZC_FACL_HIST.IMG_CHANGE_YN = #{imgChangeYn, jdbcType=CHAR}	/* 이미지 변경 여부, CHAR(1) */
+	</if>
+	<if test="useYn != null and useYn != ''">
+	AND EZC_FACL_HIST.USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
+	</if>
 	<if test="faclHistSeq != null and faclHistSeq gt 0">
 	AND EZC_FACL_HIST.FACL_HIST_SEQ = #{faclHistSeq, jdbcType=DECIMAL}	/* 시설 내역 일련번호, NUMBER(0,22) */
+	</if>
+	<if test="partnerCd != null and partnerCd != ''">
+	AND EZC_FACL_HIST.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
+	</if>
+	<if test="partnerCdType != null and partnerCdType != ''">
+	AND EZC_FACL_HIST.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+	</if>
+	<if test="faclDiv != null and faclDiv != ''">
+	AND EZC_FACL_HIST.FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
+	</if>
+	<if test="goodsCd != null and goodsCd != ''">
+	AND EZC_FACL_HIST.GOODS_CD = #{goodsCd, jdbcType=VARCHAR}	/* 상품 코드, VARCHAR2(100) */
+	</if>
+	<if test="faclNmKor != null and faclNmKor != ''">
+	AND EZC_FACL_HIST.FACL_NM_KOR = #{faclNmKor, jdbcType=VARCHAR}	/* 시설 명 한글, VARCHAR2(100) */
+	</if>
+	<if test="faclNmEng != null and faclNmEng != ''">
+	AND EZC_FACL_HIST.FACL_NM_ENG = #{faclNmEng, jdbcType=VARCHAR}	/* 시설 명 영문, VARCHAR2(100) */
+	</if>
+	<if test="roomType != null and roomType != ''">
+	AND EZC_FACL_HIST.ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
+	</if>
+	<if test="roomClass != null and roomClass != ''">
+	AND EZC_FACL_HIST.ROOM_CLASS = #{roomClass, jdbcType=VARCHAR}	/* 숙소 등급, VARCHAR2(8) */
+	</if>
+	<if test="saleStartDd != null and saleStartDd != ''">
+	AND EZC_FACL_HIST.SALE_START_DD = #{saleStartDd, jdbcType=VARCHAR}	/* 판매 시작 일자, VARCHAR2(8) */
+	</if>
+	<if test="saleEndDd != null and saleEndDd != ''">
+	AND EZC_FACL_HIST.SALE_END_DD = #{saleEndDd, jdbcType=VARCHAR}	/* 판매 종료 일자, VARCHAR2(8) */
+	</if>
+	<if test="checkInTm != null and checkInTm != ''">
+	AND EZC_FACL_HIST.CHECK_IN_TM = #{checkInTm, jdbcType=VARCHAR}	/* 체크인 시분, VARCHAR2(4) */
+	</if>
+	<if test="checkOutTm != null and checkOutTm != ''">
+	AND EZC_FACL_HIST.CHECK_OUT_TM = #{checkOutTm, jdbcType=VARCHAR}	/* 체크아웃 시분, VARCHAR2(4) */
+	</if>
+	<if test="areaCd != null and areaCd != ''">
+	AND EZC_FACL_HIST.AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10) */
+	</if>
+	<if test="cityCd != null and cityCd != ''">
+	AND EZC_FACL_HIST.CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10) */
+	</if>
+	<if test="addrType != null and addrType != ''">
+	AND EZC_FACL_HIST.ADDR_TYPE = #{addrType, jdbcType=VARCHAR}	/* 주소 유형, VARCHAR2(8) */
+	</if>
+	<if test="addr != null and addr != ''">
+	AND EZC_FACL_HIST.ADDR = #{addr, jdbcType=VARCHAR}	/* 주소, VARCHAR2(200) */
+	</if>
+	<if test="post != null and post != ''">
+	AND EZC_FACL_HIST.POST = #{post, jdbcType=VARCHAR}	/* 우편번호, VARCHAR2(7) */
+	</if>
+	<if test="telNum != null and telNum != ''">
+	AND EZC_FACL_HIST.TEL_NUM = #{telNum, jdbcType=VARCHAR}	/* 전화 번호, VARCHAR2(20) */
+	</if>
+	<if test="coordY != null and coordY != ''">
+	AND EZC_FACL_HIST.COORD_Y = #{coordY, jdbcType=VARCHAR}	/* 위도, VARCHAR2(20) */
+	</if>
+	<if test="coordX != null and coordX != ''">
+	AND EZC_FACL_HIST.COORD_X = #{coordX, jdbcType=VARCHAR}	/* 경도, VARCHAR2(20) */
+	</if>
+	<if test="minAmt != null and minAmt gt 0">
+	AND EZC_FACL_HIST.MIN_AMT = #{minAmt, jdbcType=NUMERIC}	/* 최저 금액, NUMBER(0,22) */
 	</if>
 	<if test="detailDescPc != null and detailDescPc != ''">
 	AND EZC_FACL_HIST.DETAIL_DESC_PC LIKE '%' || #{detailDescPc, jdbcType=VARCHAR} || '%'	/* 상세 설명 PC, VARCHAR2(4000) */
@@ -152,15 +227,45 @@ WHERE 1=1
 	<if test="detailDescM != null and detailDescM != ''">
 	AND EZC_FACL_HIST.DETAIL_DESC_M LIKE '%' || #{detailDescM, jdbcType=VARCHAR} || '%'	/* 상세 설명 모바일, VARCHAR2(4000) */
 	</if>
+	<if test="tripPropId != null and tripPropId != ''">
+	AND EZC_FACL_HIST.TRIP_PROP_ID = #{tripPropId, jdbcType=VARCHAR}	/* 트립어드바이저 프로퍼티 ID, VARCHAR2(100) */
+	</if>
+	<if test="mainImgUrl != null and mainImgUrl != ''">
+	AND EZC_FACL_HIST.MAIN_IMG_URL = #{mainImgUrl, jdbcType=VARCHAR}	/* 대표 이미지 URL, VARCHAR2(200) */
+	</if>
+	<if test="saleStopDt != null and saleStopDt != ''">
+	AND EZC_FACL_HIST.SALE_STOP_DT = #{saleStopDt, jdbcType=VARCHAR}	/* 판매 중지 일시, VARCHAR2(14) */
+	</if>
+	<if test="apiSyncDt != null and apiSyncDt != ''">
+	AND EZC_FACL_HIST.API_SYNC_DT = #{apiSyncDt, jdbcType=VARCHAR}	/* API 동기화 일시, VARCHAR2(14) */
+	</if>
+	<if test="confirmStatus != null and confirmStatus != ''">
+	AND EZC_FACL_HIST.CONFIRM_STATUS = #{confirmStatus, jdbcType=VARCHAR}	/* 확정 상태, VARCHAR2(8) */
+	</if>
+	<if test="faclStatus != null and faclStatus != ''">
+	AND EZC_FACL_HIST.FACL_STATUS = #{faclStatus, jdbcType=VARCHAR}	/* 시설 상태, VARCHAR2(8) */
+	</if>
 	<if test="rejectContent != null and rejectContent != ''">
 	AND EZC_FACL_HIST.REJECT_CONTENT LIKE '%' || #{rejectContent, jdbcType=VARCHAR} || '%'	/* 반려 내용, VARCHAR2(1000) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_FACL_HIST.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_FACL_HIST.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_FACL_HIST.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_FACL_HIST.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 	</if>
 	<if test="faclCd != null and faclCd gt 0">
 	AND EZC_FACL_HIST.FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
 	</if>
 </select>
 
-<select id="selectListEzcFaclHist" resultType="com.ezwel.htl.interfaces.server.entities.EzcFaclHist">
+<select id="selectListEzcFaclHist" resultType="ezcFaclHist">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -206,31 +311,130 @@ SELECT * FROM (
 		FROM
 			EZC_FACL_HIST	/* 시설 정보 내역 */
 		WHERE 1=1
-			<if test="param.faclHistSeq != null and param.faclHistSeq gt 0">
-			AND EZC_FACL_HIST.FACL_HIST_SEQ = #{param.faclHistSeq, jdbcType=DECIMAL}	/* 시설 내역 일련번호, NUMBER(0,22) */
+			<if test="imgChangeYn != null and imgChangeYn != ''">
+			AND EZC_FACL_HIST.IMG_CHANGE_YN = #{imgChangeYn, jdbcType=CHAR}	/* 이미지 변경 여부, CHAR(1) */
 			</if>
-			<if test="param.detailDescPc != null and param.detailDescPc != ''">
-			AND EZC_FACL_HIST.DETAIL_DESC_PC LIKE '%' || #{param.detailDescPc, jdbcType=VARCHAR} || '%'	/* 상세 설명 PC, VARCHAR2(4000) */
+			<if test="useYn != null and useYn != ''">
+			AND EZC_FACL_HIST.USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
 			</if>
-			<if test="param.detailDescM != null and param.detailDescM != ''">
-			AND EZC_FACL_HIST.DETAIL_DESC_M LIKE '%' || #{param.detailDescM, jdbcType=VARCHAR} || '%'	/* 상세 설명 모바일, VARCHAR2(4000) */
+			<if test="faclHistSeq != null and faclHistSeq gt 0">
+			AND EZC_FACL_HIST.FACL_HIST_SEQ = #{faclHistSeq, jdbcType=DECIMAL}	/* 시설 내역 일련번호, NUMBER(0,22) */
 			</if>
-			<if test="param.rejectContent != null and param.rejectContent != ''">
-			AND EZC_FACL_HIST.REJECT_CONTENT LIKE '%' || #{param.rejectContent, jdbcType=VARCHAR} || '%'	/* 반려 내용, VARCHAR2(1000) */
+			<if test="partnerCd != null and partnerCd != ''">
+			AND EZC_FACL_HIST.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
 			</if>
-			<if test="param.faclCd != null and param.faclCd gt 0">
-			AND EZC_FACL_HIST.FACL_CD = #{param.faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
+			<if test="partnerCdType != null and partnerCdType != ''">
+			AND EZC_FACL_HIST.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+			</if>
+			<if test="faclDiv != null and faclDiv != ''">
+			AND EZC_FACL_HIST.FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
+			</if>
+			<if test="goodsCd != null and goodsCd != ''">
+			AND EZC_FACL_HIST.GOODS_CD = #{goodsCd, jdbcType=VARCHAR}	/* 상품 코드, VARCHAR2(100) */
+			</if>
+			<if test="faclNmKor != null and faclNmKor != ''">
+			AND EZC_FACL_HIST.FACL_NM_KOR = #{faclNmKor, jdbcType=VARCHAR}	/* 시설 명 한글, VARCHAR2(100) */
+			</if>
+			<if test="faclNmEng != null and faclNmEng != ''">
+			AND EZC_FACL_HIST.FACL_NM_ENG = #{faclNmEng, jdbcType=VARCHAR}	/* 시설 명 영문, VARCHAR2(100) */
+			</if>
+			<if test="roomType != null and roomType != ''">
+			AND EZC_FACL_HIST.ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
+			</if>
+			<if test="roomClass != null and roomClass != ''">
+			AND EZC_FACL_HIST.ROOM_CLASS = #{roomClass, jdbcType=VARCHAR}	/* 숙소 등급, VARCHAR2(8) */
+			</if>
+			<if test="saleStartDd != null and saleStartDd != ''">
+			AND EZC_FACL_HIST.SALE_START_DD = #{saleStartDd, jdbcType=VARCHAR}	/* 판매 시작 일자, VARCHAR2(8) */
+			</if>
+			<if test="saleEndDd != null and saleEndDd != ''">
+			AND EZC_FACL_HIST.SALE_END_DD = #{saleEndDd, jdbcType=VARCHAR}	/* 판매 종료 일자, VARCHAR2(8) */
+			</if>
+			<if test="checkInTm != null and checkInTm != ''">
+			AND EZC_FACL_HIST.CHECK_IN_TM = #{checkInTm, jdbcType=VARCHAR}	/* 체크인 시분, VARCHAR2(4) */
+			</if>
+			<if test="checkOutTm != null and checkOutTm != ''">
+			AND EZC_FACL_HIST.CHECK_OUT_TM = #{checkOutTm, jdbcType=VARCHAR}	/* 체크아웃 시분, VARCHAR2(4) */
+			</if>
+			<if test="areaCd != null and areaCd != ''">
+			AND EZC_FACL_HIST.AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10) */
+			</if>
+			<if test="cityCd != null and cityCd != ''">
+			AND EZC_FACL_HIST.CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10) */
+			</if>
+			<if test="addrType != null and addrType != ''">
+			AND EZC_FACL_HIST.ADDR_TYPE = #{addrType, jdbcType=VARCHAR}	/* 주소 유형, VARCHAR2(8) */
+			</if>
+			<if test="addr != null and addr != ''">
+			AND EZC_FACL_HIST.ADDR = #{addr, jdbcType=VARCHAR}	/* 주소, VARCHAR2(200) */
+			</if>
+			<if test="post != null and post != ''">
+			AND EZC_FACL_HIST.POST = #{post, jdbcType=VARCHAR}	/* 우편번호, VARCHAR2(7) */
+			</if>
+			<if test="telNum != null and telNum != ''">
+			AND EZC_FACL_HIST.TEL_NUM = #{telNum, jdbcType=VARCHAR}	/* 전화 번호, VARCHAR2(20) */
+			</if>
+			<if test="coordY != null and coordY != ''">
+			AND EZC_FACL_HIST.COORD_Y = #{coordY, jdbcType=VARCHAR}	/* 위도, VARCHAR2(20) */
+			</if>
+			<if test="coordX != null and coordX != ''">
+			AND EZC_FACL_HIST.COORD_X = #{coordX, jdbcType=VARCHAR}	/* 경도, VARCHAR2(20) */
+			</if>
+			<if test="minAmt != null and minAmt gt 0">
+			AND EZC_FACL_HIST.MIN_AMT = #{minAmt, jdbcType=NUMERIC}	/* 최저 금액, NUMBER(0,22) */
+			</if>
+			<if test="detailDescPc != null and detailDescPc != ''">
+			AND EZC_FACL_HIST.DETAIL_DESC_PC LIKE '%' || #{detailDescPc, jdbcType=VARCHAR} || '%'	/* 상세 설명 PC, VARCHAR2(4000) */
+			</if>
+			<if test="detailDescM != null and detailDescM != ''">
+			AND EZC_FACL_HIST.DETAIL_DESC_M LIKE '%' || #{detailDescM, jdbcType=VARCHAR} || '%'	/* 상세 설명 모바일, VARCHAR2(4000) */
+			</if>
+			<if test="tripPropId != null and tripPropId != ''">
+			AND EZC_FACL_HIST.TRIP_PROP_ID = #{tripPropId, jdbcType=VARCHAR}	/* 트립어드바이저 프로퍼티 ID, VARCHAR2(100) */
+			</if>
+			<if test="mainImgUrl != null and mainImgUrl != ''">
+			AND EZC_FACL_HIST.MAIN_IMG_URL = #{mainImgUrl, jdbcType=VARCHAR}	/* 대표 이미지 URL, VARCHAR2(200) */
+			</if>
+			<if test="saleStopDt != null and saleStopDt != ''">
+			AND EZC_FACL_HIST.SALE_STOP_DT = #{saleStopDt, jdbcType=VARCHAR}	/* 판매 중지 일시, VARCHAR2(14) */
+			</if>
+			<if test="apiSyncDt != null and apiSyncDt != ''">
+			AND EZC_FACL_HIST.API_SYNC_DT = #{apiSyncDt, jdbcType=VARCHAR}	/* API 동기화 일시, VARCHAR2(14) */
+			</if>
+			<if test="confirmStatus != null and confirmStatus != ''">
+			AND EZC_FACL_HIST.CONFIRM_STATUS = #{confirmStatus, jdbcType=VARCHAR}	/* 확정 상태, VARCHAR2(8) */
+			</if>
+			<if test="faclStatus != null and faclStatus != ''">
+			AND EZC_FACL_HIST.FACL_STATUS = #{faclStatus, jdbcType=VARCHAR}	/* 시설 상태, VARCHAR2(8) */
+			</if>
+			<if test="rejectContent != null and rejectContent != ''">
+			AND EZC_FACL_HIST.REJECT_CONTENT LIKE '%' || #{rejectContent, jdbcType=VARCHAR} || '%'	/* 반려 내용, VARCHAR2(1000) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_FACL_HIST.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_FACL_HIST.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_FACL_HIST.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_FACL_HIST.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+			</if>
+			<if test="faclCd != null and faclCd gt 0">
+			AND EZC_FACL_HIST.FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
 			</if>
 		ORDER BY
 			EZC_FACL_HIST.FACL_HIST_SEQ DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcFaclHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclHist">
+<update id="updateEzcFaclHist" parameterType="ezcFaclHist">
 UPDATE EZC_FACL_HIST SET	/* 시설 정보 내역 */
 	 PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
 	,PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
@@ -271,7 +475,7 @@ WHERE 1=1
 	AND FACL_HIST_SEQ = #{faclHistSeq, jdbcType=DECIMAL}	/* 시설 내역 일련번호, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcFaclHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclHist">
+<update id="mergeEzcFaclHist" parameterType="ezcFaclHist">
 MERGE INTO EZC_FACL_HIST /* 시설 정보 내역 */
 	USING DUAL ON (
 		FACL_HIST_SEQ = #{faclHistSeq, jdbcType=DECIMAL}	/* 시설 내역 일련번호, NUMBER(0,22) */
@@ -391,7 +595,7 @@ MERGE INTO EZC_FACL_HIST /* 시설 정보 내역 */
 		)
 </update>
 
-<delete id="deleteEzcFaclHist" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclHist">
+<delete id="deleteEzcFaclHist" parameterType="ezcFaclHist">
 DELETE FROM EZC_FACL_HIST /* 시설 정보 내역 */
 WHERE 1=1
 	AND FACL_HIST_SEQ = #{faclHistSeq, jdbcType=DECIMAL}	/* 시설 내역 일련번호, NUMBER(0,22) */

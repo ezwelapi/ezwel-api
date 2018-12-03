@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:03 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:43 	신규작성 
  * 
- * @since 2018-12-03 11:05:03
+ * @since 2018-12-03 14:47:43
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcMgrNoticeAttach" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrNoticeAttach">
+<insert id="insertEzcMgrNoticeAttach" parameterType="ezcMgrNoticeAttach">
 INSERT INTO EZC_MGR_NOTICE_ATTACH(	/* 운영자 공지사항 첨부파일 */
 	 NOTICE_ATTACH_SEQ	/* 공지사항 첨부파일 일련번호, NUMBER(0,22) */
 	,NOTICE_SEQ	/* 공지사항 일련번호, NUMBER(0,22) */
@@ -33,7 +33,7 @@ INSERT INTO EZC_MGR_NOTICE_ATTACH(	/* 운영자 공지사항 첨부파일 */
 )
 </insert>
 
-<select id="selectEzcMgrNoticeAttach" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrNoticeAttach" resultType="com.ezwel.htl.interfaces.server.entities.EzcMgrNoticeAttach">
+<select id="selectEzcMgrNoticeAttach" parameterType="ezcMgrNoticeAttach" resultType="ezcMgrNoticeAttach">
 SELECT
 	 EZC_MGR_NOTICE_ATTACH.NOTICE_ATTACH_SEQ AS noticeAttachSeq	/* 공지사항 첨부파일 일련번호, NUMBER(0,22) */
 	,EZC_MGR_NOTICE_ATTACH.NOTICE_SEQ AS noticeSeq	/* 공지사항 일련번호, NUMBER(0,22) */
@@ -49,13 +49,11 @@ FROM
 	,EZC_MGR_NOTICE	/* 운영자 공지사항 */
 WHERE 1=1
 	AND EZC_MGR_NOTICE_ATTACH.NOTICE_SEQ = EZC_MGR_NOTICE.NOTICE_SEQ
-	AND EZC_MGR_NOTICE_ATTACH.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_MGR_NOTICE.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_MGR_NOTICE_ATTACH.NOTICE_ATTACH_SEQ = #{noticeAttachSeq, jdbcType=DECIMAL}	/* 공지사항 첨부파일 일련번호, NUMBER(0,22) */
-	AND EZC_MGR_NOTICE_ATTACH.NOTICE_SEQ = #{noticeSeq, jdbcType=DECIMAL}	/* 공지사항 일련번호, NUMBER(0,22) */
+	AND EZC_MGR_NOTICE_ATTACH.NOTICE_ATTACH_SEQ = #{noticeAttachSeq, jdbcType=DECIMAL}	/* 공지사항 첨부파일 일련번호, NUMBER(0,22), EZC_MGR_NOTICE_ATTACH_PK(P),SYS_C0011499(C) */
+	AND EZC_MGR_NOTICE_ATTACH.NOTICE_SEQ = #{noticeSeq, jdbcType=DECIMAL}	/* 공지사항 일련번호, NUMBER(0,22), FK_EZC_MGR_NOTICE_EZC_MGR_NOTI(R),SYS_C0011500(C) */
 </select>
 
-<select id="selectCountEzcMgrNoticeAttach" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrNoticeAttach" resultType="java.lang.Integer">
+<select id="selectCountEzcMgrNoticeAttach" parameterType="ezcMgrNoticeAttach" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -63,17 +61,36 @@ FROM
 	,EZC_MGR_NOTICE	/* 운영자 공지사항 */
 WHERE 1=1
 	AND EZC_MGR_NOTICE_ATTACH.NOTICE_SEQ = EZC_MGR_NOTICE.NOTICE_SEQ
-	AND EZC_MGR_NOTICE_ATTACH.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_MGR_NOTICE.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
 	<if test="noticeAttachSeq != null and noticeAttachSeq gt 0">
 	AND EZC_MGR_NOTICE_ATTACH.NOTICE_ATTACH_SEQ = #{noticeAttachSeq, jdbcType=DECIMAL}	/* 공지사항 첨부파일 일련번호, NUMBER(0,22) */
 	</if>
 	<if test="noticeSeq != null and noticeSeq gt 0">
 	AND EZC_MGR_NOTICE_ATTACH.NOTICE_SEQ = #{noticeSeq, jdbcType=DECIMAL}	/* 공지사항 일련번호, NUMBER(0,22) */
 	</if>
+	<if test="filePath != null and filePath != ''">
+	AND EZC_MGR_NOTICE_ATTACH.FILE_PATH = #{filePath, jdbcType=VARCHAR}	/* 파일 경로, VARCHAR2(100) */
+	</if>
+	<if test="sysFilenm != null and sysFilenm != ''">
+	AND EZC_MGR_NOTICE_ATTACH.SYS_FILENM = #{sysFilenm, jdbcType=VARCHAR}	/* 시스템 파일명, VARCHAR2(100) */
+	</if>
+	<if test="filenm != null and filenm != ''">
+	AND EZC_MGR_NOTICE_ATTACH.FILENM = #{filenm, jdbcType=VARCHAR}	/* 파일명, VARCHAR2(100) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_MGR_NOTICE_ATTACH.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_MGR_NOTICE_ATTACH.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_MGR_NOTICE_ATTACH.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_MGR_NOTICE_ATTACH.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcMgrNoticeAttach" resultType="com.ezwel.htl.interfaces.server.entities.EzcMgrNoticeAttach">
+<select id="selectListEzcMgrNoticeAttach" resultType="ezcMgrNoticeAttach">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -92,24 +109,43 @@ SELECT * FROM (
 			,EZC_MGR_NOTICE	/* 운영자 공지사항 */
 		WHERE 1=1
 			AND EZC_MGR_NOTICE_ATTACH.NOTICE_SEQ = EZC_MGR_NOTICE.NOTICE_SEQ
-			AND EZC_MGR_NOTICE_ATTACH.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_MGR_NOTICE.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.noticeAttachSeq != null and param.noticeAttachSeq gt 0">
-			AND EZC_MGR_NOTICE_ATTACH.NOTICE_ATTACH_SEQ = #{param.noticeAttachSeq, jdbcType=DECIMAL}	/* 공지사항 첨부파일 일련번호, NUMBER(0,22) */
+			<if test="noticeAttachSeq != null and noticeAttachSeq gt 0">
+			AND EZC_MGR_NOTICE_ATTACH.NOTICE_ATTACH_SEQ = #{noticeAttachSeq, jdbcType=DECIMAL}	/* 공지사항 첨부파일 일련번호, NUMBER(0,22) */
 			</if>
-			<if test="param.noticeSeq != null and param.noticeSeq gt 0">
-			AND EZC_MGR_NOTICE_ATTACH.NOTICE_SEQ = #{param.noticeSeq, jdbcType=DECIMAL}	/* 공지사항 일련번호, NUMBER(0,22) */
+			<if test="noticeSeq != null and noticeSeq gt 0">
+			AND EZC_MGR_NOTICE_ATTACH.NOTICE_SEQ = #{noticeSeq, jdbcType=DECIMAL}	/* 공지사항 일련번호, NUMBER(0,22) */
+			</if>
+			<if test="filePath != null and filePath != ''">
+			AND EZC_MGR_NOTICE_ATTACH.FILE_PATH = #{filePath, jdbcType=VARCHAR}	/* 파일 경로, VARCHAR2(100) */
+			</if>
+			<if test="sysFilenm != null and sysFilenm != ''">
+			AND EZC_MGR_NOTICE_ATTACH.SYS_FILENM = #{sysFilenm, jdbcType=VARCHAR}	/* 시스템 파일명, VARCHAR2(100) */
+			</if>
+			<if test="filenm != null and filenm != ''">
+			AND EZC_MGR_NOTICE_ATTACH.FILENM = #{filenm, jdbcType=VARCHAR}	/* 파일명, VARCHAR2(100) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_MGR_NOTICE_ATTACH.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_MGR_NOTICE_ATTACH.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_MGR_NOTICE_ATTACH.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_MGR_NOTICE_ATTACH.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_MGR_NOTICE_ATTACH.NOTICE_ATTACH_SEQ DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcMgrNoticeAttach" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrNoticeAttach">
+<update id="updateEzcMgrNoticeAttach" parameterType="ezcMgrNoticeAttach">
 UPDATE EZC_MGR_NOTICE_ATTACH SET	/* 운영자 공지사항 첨부파일 */
 	 FILE_PATH = #{filePath, jdbcType=VARCHAR}	/* 파일 경로, VARCHAR2(100) */
 	,SYS_FILENM = #{sysFilenm, jdbcType=VARCHAR}	/* 시스템 파일명, VARCHAR2(100) */
@@ -121,7 +157,7 @@ WHERE 1=1
 	AND NOTICE_SEQ = #{noticeSeq, jdbcType=DECIMAL}	/* 공지사항 일련번호, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcMgrNoticeAttach" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrNoticeAttach">
+<update id="mergeEzcMgrNoticeAttach" parameterType="ezcMgrNoticeAttach">
 MERGE INTO EZC_MGR_NOTICE_ATTACH /* 운영자 공지사항 첨부파일 */
 	USING DUAL ON (
 		NOTICE_ATTACH_SEQ = #{noticeAttachSeq, jdbcType=DECIMAL}	/* 공지사항 첨부파일 일련번호, NUMBER(0,22) */
@@ -154,7 +190,7 @@ MERGE INTO EZC_MGR_NOTICE_ATTACH /* 운영자 공지사항 첨부파일 */
 		)
 </update>
 
-<delete id="deleteEzcMgrNoticeAttach" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMgrNoticeAttach">
+<delete id="deleteEzcMgrNoticeAttach" parameterType="ezcMgrNoticeAttach">
 DELETE FROM EZC_MGR_NOTICE_ATTACH /* 운영자 공지사항 첨부파일 */
 WHERE 1=1
 	AND NOTICE_ATTACH_SEQ = #{noticeAttachSeq, jdbcType=DECIMAL}	/* 공지사항 첨부파일 일련번호, NUMBER(0,22) */

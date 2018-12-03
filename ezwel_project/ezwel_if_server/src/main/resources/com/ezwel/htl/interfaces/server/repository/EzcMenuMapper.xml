@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:03 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:43 	신규작성 
  * 
- * @since 2018-12-03 11:05:03
+ * @since 2018-12-03 14:47:43
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcMenu" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMenu">
+<insert id="insertEzcMenu" parameterType="ezcMenu">
 INSERT INTO EZC_MENU(	/* 메뉴 정보 */
 	 MENU_ID	/* 메뉴 ID, VARCHAR2(6) */
 	,HIGH_MENU_ID	/* 상위 메뉴 ID, VARCHAR2(6) */
@@ -37,7 +37,7 @@ INSERT INTO EZC_MENU(	/* 메뉴 정보 */
 )
 </insert>
 
-<select id="selectEzcMenu" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMenu" resultType="com.ezwel.htl.interfaces.server.entities.EzcMenu">
+<select id="selectEzcMenu" parameterType="ezcMenu" resultType="ezcMenu">
 SELECT
 	 EZC_MENU.MENU_ID AS menuId	/* 메뉴 ID, VARCHAR2(6) */
 	,EZC_MENU.HIGH_MENU_ID AS highMenuId	/* 상위 메뉴 ID, VARCHAR2(6) */
@@ -53,25 +53,55 @@ SELECT
 FROM
 	EZC_MENU	/* 메뉴 정보 */
 WHERE 1=1
-	AND EZC_MENU.MENU_ID = #{menuId, jdbcType=VARCHAR}	/* 메뉴 ID, VARCHAR2(6) */
-	AND EZC_MENU.HIGH_MENU_ID = #{highMenuId, jdbcType=VARCHAR}	/* 상위 메뉴 ID, VARCHAR2(6) */
+	<if test="useYn != null and useYn != ''">
+	AND EZC_MENU.USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
+	</if>
+	AND EZC_MENU.MENU_ID = #{menuId, jdbcType=VARCHAR}	/* 메뉴 ID, VARCHAR2(6), EZC_MENU_PK(P),SYS_C0011472(C) */
+	AND EZC_MENU.HIGH_MENU_ID = #{highMenuId, jdbcType=VARCHAR}	/* 상위 메뉴 ID, VARCHAR2(6), FK_EZC_MENU_EZC_MENU(R) */
 </select>
 
-<select id="selectCountEzcMenu" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMenu" resultType="java.lang.Integer">
+<select id="selectCountEzcMenu" parameterType="ezcMenu" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
 	EZC_MENU	/* 메뉴 정보 */
 WHERE 1=1
+	<if test="useYn != null and useYn != ''">
+	AND EZC_MENU.USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
+	</if>
 	<if test="menuId != null and menuId != ''">
 	AND EZC_MENU.MENU_ID = #{menuId, jdbcType=VARCHAR}	/* 메뉴 ID, VARCHAR2(6) */
 	</if>
 	<if test="highMenuId != null and highMenuId != ''">
 	AND EZC_MENU.HIGH_MENU_ID = #{highMenuId, jdbcType=VARCHAR}	/* 상위 메뉴 ID, VARCHAR2(6) */
 	</if>
+	<if test="menuLevel != null and menuLevel != ''">
+	AND EZC_MENU.MENU_LEVEL = #{menuLevel, jdbcType=VARCHAR}	/* 메뉴 레벨, VARCHAR2(18) */
+	</if>
+	<if test="menuNm != null and menuNm != ''">
+	AND EZC_MENU.MENU_NM = #{menuNm, jdbcType=VARCHAR}	/* 메뉴 명, VARCHAR2(50) */
+	</if>
+	<if test="menuUrl != null and menuUrl != ''">
+	AND EZC_MENU.MENU_URL = #{menuUrl, jdbcType=VARCHAR}	/* 메뉴 URL, VARCHAR2(200) */
+	</if>
+	<if test="dispOrder != null and dispOrder gt 0">
+	AND EZC_MENU.DISP_ORDER = #{dispOrder, jdbcType=NUMERIC}	/* 정렬순서, NUMBER(0,22) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_MENU.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_MENU.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_MENU.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_MENU.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcMenu" resultType="com.ezwel.htl.interfaces.server.entities.EzcMenu">
+<select id="selectListEzcMenu" resultType="ezcMenu">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -90,22 +120,49 @@ SELECT * FROM (
 		FROM
 			EZC_MENU	/* 메뉴 정보 */
 		WHERE 1=1
-			<if test="param.menuId != null and param.menuId != ''">
-			AND EZC_MENU.MENU_ID = #{param.menuId, jdbcType=VARCHAR}	/* 메뉴 ID, VARCHAR2(6) */
+			<if test="useYn != null and useYn != ''">
+			AND EZC_MENU.USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
 			</if>
-			<if test="param.highMenuId != null and param.highMenuId != ''">
-			AND EZC_MENU.HIGH_MENU_ID = #{param.highMenuId, jdbcType=VARCHAR}	/* 상위 메뉴 ID, VARCHAR2(6) */
+			<if test="menuId != null and menuId != ''">
+			AND EZC_MENU.MENU_ID = #{menuId, jdbcType=VARCHAR}	/* 메뉴 ID, VARCHAR2(6) */
+			</if>
+			<if test="highMenuId != null and highMenuId != ''">
+			AND EZC_MENU.HIGH_MENU_ID = #{highMenuId, jdbcType=VARCHAR}	/* 상위 메뉴 ID, VARCHAR2(6) */
+			</if>
+			<if test="menuLevel != null and menuLevel != ''">
+			AND EZC_MENU.MENU_LEVEL = #{menuLevel, jdbcType=VARCHAR}	/* 메뉴 레벨, VARCHAR2(18) */
+			</if>
+			<if test="menuNm != null and menuNm != ''">
+			AND EZC_MENU.MENU_NM = #{menuNm, jdbcType=VARCHAR}	/* 메뉴 명, VARCHAR2(50) */
+			</if>
+			<if test="menuUrl != null and menuUrl != ''">
+			AND EZC_MENU.MENU_URL = #{menuUrl, jdbcType=VARCHAR}	/* 메뉴 URL, VARCHAR2(200) */
+			</if>
+			<if test="dispOrder != null and dispOrder gt 0">
+			AND EZC_MENU.DISP_ORDER = #{dispOrder, jdbcType=NUMERIC}	/* 정렬순서, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_MENU.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_MENU.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_MENU.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_MENU.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_MENU.MENU_ID DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcMenu" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMenu">
+<update id="updateEzcMenu" parameterType="ezcMenu">
 UPDATE EZC_MENU SET	/* 메뉴 정보 */
 	 MENU_LEVEL = #{menuLevel, jdbcType=VARCHAR}	/* 메뉴 레벨, VARCHAR2(18) */
 	,MENU_NM = #{menuNm, jdbcType=VARCHAR}	/* 메뉴 명, VARCHAR2(50) */
@@ -119,7 +176,7 @@ WHERE 1=1
 	AND HIGH_MENU_ID = #{highMenuId, jdbcType=VARCHAR}	/* 상위 메뉴 ID, VARCHAR2(6) */
 </update>
 
-<update id="mergeEzcMenu" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMenu">
+<update id="mergeEzcMenu" parameterType="ezcMenu">
 MERGE INTO EZC_MENU /* 메뉴 정보 */
 	USING DUAL ON (
 		MENU_ID = #{menuId, jdbcType=VARCHAR}	/* 메뉴 ID, VARCHAR2(6) */
@@ -158,7 +215,7 @@ MERGE INTO EZC_MENU /* 메뉴 정보 */
 		)
 </update>
 
-<delete id="deleteEzcMenu" parameterType="com.ezwel.htl.interfaces.server.entities.EzcMenu">
+<delete id="deleteEzcMenu" parameterType="ezcMenu">
 DELETE FROM EZC_MENU /* 메뉴 정보 */
 WHERE 1=1
 	AND MENU_ID = #{menuId, jdbcType=VARCHAR}	/* 메뉴 ID, VARCHAR2(6) */

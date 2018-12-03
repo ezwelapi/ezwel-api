@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:04 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:44 	신규작성 
  * 
- * @since 2018-12-03 11:05:04
+ * @since 2018-12-03 14:47:44
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcReservRoom" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservRoom">
+<insert id="insertEzcReservRoom" parameterType="ezcReservRoom">
 INSERT INTO EZC_RESERV_ROOM(	/* 예약 객실 정보 */
 	 RESERV_ROOM_NUM	/* 예약 객실 번호, NUMBER(0,22) */
 	,RESERV_NUM	/* 예약 번호, NUMBER(0,22) */
@@ -63,7 +63,7 @@ INSERT INTO EZC_RESERV_ROOM(	/* 예약 객실 정보 */
 )
 </insert>
 
-<select id="selectEzcReservRoom" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservRoom" resultType="com.ezwel.htl.interfaces.server.entities.EzcReservRoom">
+<select id="selectEzcReservRoom" parameterType="ezcReservRoom" resultType="ezcReservRoom">
 SELECT
 	 EZC_RESERV_ROOM.RESERV_ROOM_NUM AS reservRoomNum	/* 예약 객실 번호, NUMBER(0,22) */
 	,EZC_RESERV_ROOM.RESERV_NUM AS reservNum	/* 예약 번호, NUMBER(0,22) */
@@ -92,27 +92,93 @@ SELECT
 FROM
 	EZC_RESERV_ROOM	/* 예약 객실 정보 */
 WHERE 1=1
-	AND EZC_RESERV_ROOM.RESERV_ROOM_NUM = #{reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22) */
+	<if test="breakfastIncludeYn != null and breakfastIncludeYn != ''">
+	AND EZC_RESERV_ROOM.BREAKFAST_INCLUDE_YN = #{breakfastIncludeYn, jdbcType=CHAR}	/* 조식 포함 여부, CHAR(1) */
+	</if>
+	AND EZC_RESERV_ROOM.RESERV_ROOM_NUM = #{reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22), EZC_RESERV_ROOM_PK(P),SYS_C0011644(C) */
 </select>
 
-<select id="selectCountEzcReservRoom" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservRoom" resultType="java.lang.Integer">
+<select id="selectCountEzcReservRoom" parameterType="ezcReservRoom" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
 	EZC_RESERV_ROOM	/* 예약 객실 정보 */
 WHERE 1=1
+	<if test="breakfastIncludeYn != null and breakfastIncludeYn != ''">
+	AND EZC_RESERV_ROOM.BREAKFAST_INCLUDE_YN = #{breakfastIncludeYn, jdbcType=CHAR}	/* 조식 포함 여부, CHAR(1) */
+	</if>
 	<if test="reservRoomNum != null and reservRoomNum gt 0">
 	AND EZC_RESERV_ROOM.RESERV_ROOM_NUM = #{reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22) */
 	</if>
 	<if test="reservNum != null and reservNum gt 0">
 	AND EZC_RESERV_ROOM.RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
 	</if>
+	<if test="partnerRoomOrderNum != null and partnerRoomOrderNum != ''">
+	AND EZC_RESERV_ROOM.PARTNER_ROOM_ORDER_NUM = #{partnerRoomOrderNum, jdbcType=VARCHAR}	/* 제휴사 객실 주문 번호, VARCHAR2(100) */
+	</if>
+	<if test="partnerRoomGoodsCd != null and partnerRoomGoodsCd != ''">
+	AND EZC_RESERV_ROOM.PARTNER_ROOM_GOODS_CD = #{partnerRoomGoodsCd, jdbcType=VARCHAR}	/* 제휴사 객실 상품 코드, VARCHAR2(100) */
+	</if>
+	<if test="roomNm != null and roomNm != ''">
+	AND EZC_RESERV_ROOM.ROOM_NM = #{roomNm, jdbcType=VARCHAR}	/* 객실 명, VARCHAR2(100) */
+	</if>
+	<if test="checkInDd != null and checkInDd != ''">
+	AND EZC_RESERV_ROOM.CHECK_IN_DD = #{checkInDd, jdbcType=VARCHAR}	/* 체크인 일자, VARCHAR2(8) */
+	</if>
+	<if test="checkOutDd != null and checkOutDd != ''">
+	AND EZC_RESERV_ROOM.CHECK_OUT_DD = #{checkOutDd, jdbcType=VARCHAR}	/* 체크아웃 일자, VARCHAR2(8) */
+	</if>
+	<if test="adtCnt != null and adtCnt gt 0">
+	AND EZC_RESERV_ROOM.ADT_CNT = #{adtCnt, jdbcType=NUMERIC}	/* 성인 수, NUMBER(0,22) */
+	</if>
+	<if test="childCnt != null and childCnt gt 0">
+	AND EZC_RESERV_ROOM.CHILD_CNT = #{childCnt, jdbcType=NUMERIC}	/* 소아 수, NUMBER(0,22) */
+	</if>
+	<if test="roomCnt != null and roomCnt gt 0">
+	AND EZC_RESERV_ROOM.ROOM_CNT = #{roomCnt, jdbcType=NUMERIC}	/* 객실 수, NUMBER(0,22) */
+	</if>
+	<if test="normalAmt != null and normalAmt gt 0">
+	AND EZC_RESERV_ROOM.NORMAL_AMT = #{normalAmt, jdbcType=NUMERIC}	/* 정상 금액, NUMBER(0,22) */
+	</if>
+	<if test="optAmt != null and optAmt gt 0">
+	AND EZC_RESERV_ROOM.OPT_AMT = #{optAmt, jdbcType=NUMERIC}	/* 옵션 금액, NUMBER(0,22) */
+	</if>
+	<if test="saleAmt != null and saleAmt gt 0">
+	AND EZC_RESERV_ROOM.SALE_AMT = #{saleAmt, jdbcType=NUMERIC}	/* 판매 금액, NUMBER(0,22) */
+	</if>
+	<if test="stdUser != null and stdUser gt 0">
+	AND EZC_RESERV_ROOM.STD_USER = #{stdUser, jdbcType=NUMERIC}	/* 기준 인원, NUMBER(0,22) */
+	</if>
+	<if test="maxUser != null and maxUser gt 0">
+	AND EZC_RESERV_ROOM.MAX_USER = #{maxUser, jdbcType=NUMERIC}	/* 최대 인원, NUMBER(0,22) */
+	</if>
+	<if test="bedType != null and bedType != ''">
+	AND EZC_RESERV_ROOM.BED_TYPE = #{bedType, jdbcType=VARCHAR}	/* 침대 유형, VARCHAR2(8) */
+	</if>
 	<if test="cancelFeeRule != null and cancelFeeRule != ''">
 	AND EZC_RESERV_ROOM.CANCEL_FEE_RULE LIKE '%' || #{cancelFeeRule, jdbcType=VARCHAR} || '%'	/* 취소 수수료 규정, VARCHAR2(4000) */
 	</if>
+	<if test="roomStatus != null and roomStatus != ''">
+	AND EZC_RESERV_ROOM.ROOM_STATUS = #{roomStatus, jdbcType=VARCHAR}	/* 객실 상태, VARCHAR2(8) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_RESERV_ROOM.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_RESERV_ROOM.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_RESERV_ROOM.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_RESERV_ROOM.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
+	<if test="distRoomCd != null and distRoomCd gt 0">
+	AND EZC_RESERV_ROOM.DIST_ROOM_CD = #{distRoomCd, jdbcType=DECIMAL}	/* 직영/숙박 객실 코드, NUMBER(0,22) */
+	</if>
 </select>
 
-<select id="selectListEzcReservRoom" resultType="com.ezwel.htl.interfaces.server.entities.EzcReservRoom">
+<select id="selectListEzcReservRoom" resultType="ezcReservRoom">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -144,25 +210,88 @@ SELECT * FROM (
 		FROM
 			EZC_RESERV_ROOM	/* 예약 객실 정보 */
 		WHERE 1=1
-			<if test="param.reservRoomNum != null and param.reservRoomNum gt 0">
-			AND EZC_RESERV_ROOM.RESERV_ROOM_NUM = #{param.reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22) */
+			<if test="breakfastIncludeYn != null and breakfastIncludeYn != ''">
+			AND EZC_RESERV_ROOM.BREAKFAST_INCLUDE_YN = #{breakfastIncludeYn, jdbcType=CHAR}	/* 조식 포함 여부, CHAR(1) */
 			</if>
-			<if test="param.reservNum != null and param.reservNum gt 0">
-			AND EZC_RESERV_ROOM.RESERV_NUM = #{param.reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
+			<if test="reservRoomNum != null and reservRoomNum gt 0">
+			AND EZC_RESERV_ROOM.RESERV_ROOM_NUM = #{reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22) */
 			</if>
-			<if test="param.cancelFeeRule != null and param.cancelFeeRule != ''">
-			AND EZC_RESERV_ROOM.CANCEL_FEE_RULE LIKE '%' || #{param.cancelFeeRule, jdbcType=VARCHAR} || '%'	/* 취소 수수료 규정, VARCHAR2(4000) */
+			<if test="reservNum != null and reservNum gt 0">
+			AND EZC_RESERV_ROOM.RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
+			</if>
+			<if test="partnerRoomOrderNum != null and partnerRoomOrderNum != ''">
+			AND EZC_RESERV_ROOM.PARTNER_ROOM_ORDER_NUM = #{partnerRoomOrderNum, jdbcType=VARCHAR}	/* 제휴사 객실 주문 번호, VARCHAR2(100) */
+			</if>
+			<if test="partnerRoomGoodsCd != null and partnerRoomGoodsCd != ''">
+			AND EZC_RESERV_ROOM.PARTNER_ROOM_GOODS_CD = #{partnerRoomGoodsCd, jdbcType=VARCHAR}	/* 제휴사 객실 상품 코드, VARCHAR2(100) */
+			</if>
+			<if test="roomNm != null and roomNm != ''">
+			AND EZC_RESERV_ROOM.ROOM_NM = #{roomNm, jdbcType=VARCHAR}	/* 객실 명, VARCHAR2(100) */
+			</if>
+			<if test="checkInDd != null and checkInDd != ''">
+			AND EZC_RESERV_ROOM.CHECK_IN_DD = #{checkInDd, jdbcType=VARCHAR}	/* 체크인 일자, VARCHAR2(8) */
+			</if>
+			<if test="checkOutDd != null and checkOutDd != ''">
+			AND EZC_RESERV_ROOM.CHECK_OUT_DD = #{checkOutDd, jdbcType=VARCHAR}	/* 체크아웃 일자, VARCHAR2(8) */
+			</if>
+			<if test="adtCnt != null and adtCnt gt 0">
+			AND EZC_RESERV_ROOM.ADT_CNT = #{adtCnt, jdbcType=NUMERIC}	/* 성인 수, NUMBER(0,22) */
+			</if>
+			<if test="childCnt != null and childCnt gt 0">
+			AND EZC_RESERV_ROOM.CHILD_CNT = #{childCnt, jdbcType=NUMERIC}	/* 소아 수, NUMBER(0,22) */
+			</if>
+			<if test="roomCnt != null and roomCnt gt 0">
+			AND EZC_RESERV_ROOM.ROOM_CNT = #{roomCnt, jdbcType=NUMERIC}	/* 객실 수, NUMBER(0,22) */
+			</if>
+			<if test="normalAmt != null and normalAmt gt 0">
+			AND EZC_RESERV_ROOM.NORMAL_AMT = #{normalAmt, jdbcType=NUMERIC}	/* 정상 금액, NUMBER(0,22) */
+			</if>
+			<if test="optAmt != null and optAmt gt 0">
+			AND EZC_RESERV_ROOM.OPT_AMT = #{optAmt, jdbcType=NUMERIC}	/* 옵션 금액, NUMBER(0,22) */
+			</if>
+			<if test="saleAmt != null and saleAmt gt 0">
+			AND EZC_RESERV_ROOM.SALE_AMT = #{saleAmt, jdbcType=NUMERIC}	/* 판매 금액, NUMBER(0,22) */
+			</if>
+			<if test="stdUser != null and stdUser gt 0">
+			AND EZC_RESERV_ROOM.STD_USER = #{stdUser, jdbcType=NUMERIC}	/* 기준 인원, NUMBER(0,22) */
+			</if>
+			<if test="maxUser != null and maxUser gt 0">
+			AND EZC_RESERV_ROOM.MAX_USER = #{maxUser, jdbcType=NUMERIC}	/* 최대 인원, NUMBER(0,22) */
+			</if>
+			<if test="bedType != null and bedType != ''">
+			AND EZC_RESERV_ROOM.BED_TYPE = #{bedType, jdbcType=VARCHAR}	/* 침대 유형, VARCHAR2(8) */
+			</if>
+			<if test="cancelFeeRule != null and cancelFeeRule != ''">
+			AND EZC_RESERV_ROOM.CANCEL_FEE_RULE LIKE '%' || #{cancelFeeRule, jdbcType=VARCHAR} || '%'	/* 취소 수수료 규정, VARCHAR2(4000) */
+			</if>
+			<if test="roomStatus != null and roomStatus != ''">
+			AND EZC_RESERV_ROOM.ROOM_STATUS = #{roomStatus, jdbcType=VARCHAR}	/* 객실 상태, VARCHAR2(8) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_RESERV_ROOM.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_RESERV_ROOM.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_RESERV_ROOM.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_RESERV_ROOM.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+			</if>
+			<if test="distRoomCd != null and distRoomCd gt 0">
+			AND EZC_RESERV_ROOM.DIST_ROOM_CD = #{distRoomCd, jdbcType=DECIMAL}	/* 직영/숙박 객실 코드, NUMBER(0,22) */
 			</if>
 		ORDER BY
 			EZC_RESERV_ROOM.RESERV_ROOM_NUM DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcReservRoom" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservRoom">
+<update id="updateEzcReservRoom" parameterType="ezcReservRoom">
 UPDATE EZC_RESERV_ROOM SET	/* 예약 객실 정보 */
 	 RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
 	,PARTNER_ROOM_ORDER_NUM = #{partnerRoomOrderNum, jdbcType=VARCHAR}	/* 제휴사 객실 주문 번호, VARCHAR2(100) */
@@ -189,7 +318,7 @@ WHERE 1=1
 	AND RESERV_ROOM_NUM = #{reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcReservRoom" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservRoom">
+<update id="mergeEzcReservRoom" parameterType="ezcReservRoom">
 MERGE INTO EZC_RESERV_ROOM /* 예약 객실 정보 */
 	USING DUAL ON (
 		RESERV_ROOM_NUM = #{reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22) */
@@ -267,7 +396,7 @@ MERGE INTO EZC_RESERV_ROOM /* 예약 객실 정보 */
 		)
 </update>
 
-<delete id="deleteEzcReservRoom" parameterType="com.ezwel.htl.interfaces.server.entities.EzcReservRoom">
+<delete id="deleteEzcReservRoom" parameterType="ezcReservRoom">
 DELETE FROM EZC_RESERV_ROOM /* 예약 객실 정보 */
 WHERE 1=1
 	AND RESERV_ROOM_NUM = #{reservRoomNum, jdbcType=DECIMAL}	/* 예약 객실 번호, NUMBER(0,22) */

@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:03 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:42 	신규작성 
  * 
- * @since 2018-12-03 11:05:03
+ * @since 2018-12-03 14:47:42
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcDistFaclDetail" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistFaclDetail">
+<insert id="insertEzcDistFaclDetail" parameterType="ezcDistFaclDetail">
 INSERT INTO EZC_DIST_FACL_DETAIL(	/* 직영/숙박 시설 상세 */
 	 FACL_CD	/* 시설 코드, NUMBER(0,22) */
 	,FAX_NUM	/* 팩스 번호, VARCHAR2(20) */
@@ -35,7 +35,7 @@ INSERT INTO EZC_DIST_FACL_DETAIL(	/* 직영/숙박 시설 상세 */
 )
 </insert>
 
-<select id="selectEzcDistFaclDetail" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistFaclDetail" resultType="com.ezwel.htl.interfaces.server.entities.EzcDistFaclDetail">
+<select id="selectEzcDistFaclDetail" parameterType="ezcDistFaclDetail" resultType="ezcDistFaclDetail">
 SELECT
 	 EZC_DIST_FACL_DETAIL.FACL_CD AS faclCd	/* 시설 코드, NUMBER(0,22) */
 	,EZC_DIST_FACL_DETAIL.FAX_NUM AS faxNum	/* 팩스 번호, VARCHAR2(20) */
@@ -59,15 +59,10 @@ WHERE 1=1
 	AND EZC_AREA_CD.CITY_CD = EZC_CITY_CD.CITY_CD
 	AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
 	AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-	AND EZC_DIST_FACL_DETAIL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AREA_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CITY_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_DIST_FACL_DETAIL.FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
+	AND EZC_DIST_FACL_DETAIL.FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22), EZC_DIST_FACL_DETAIL_PK(P),FK_EZC_FACL_EZC_DIST_FACL_DETA(R),SYS_C0011407(C) */
 </select>
 
-<select id="selectCountEzcDistFaclDetail" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistFaclDetail" resultType="java.lang.Integer">
+<select id="selectCountEzcDistFaclDetail" parameterType="ezcDistFaclDetail" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -82,17 +77,39 @@ WHERE 1=1
 	AND EZC_AREA_CD.CITY_CD = EZC_CITY_CD.CITY_CD
 	AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
 	AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-	AND EZC_DIST_FACL_DETAIL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AREA_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CITY_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
 	<if test="faclCd != null and faclCd gt 0">
 	AND EZC_DIST_FACL_DETAIL.FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
 	</if>
+	<if test="faxNum != null and faxNum != ''">
+	AND EZC_DIST_FACL_DETAIL.FAX_NUM = #{faxNum, jdbcType=VARCHAR}	/* 팩스 번호, VARCHAR2(20) */
+	</if>
+	<if test="homepage != null and homepage != ''">
+	AND EZC_DIST_FACL_DETAIL.HOMEPAGE = #{homepage, jdbcType=VARCHAR}	/* 홈페이지, VARCHAR2(200) */
+	</if>
+	<if test="addBreakfastAmt != null and addBreakfastAmt gt 0">
+	AND EZC_DIST_FACL_DETAIL.ADD_BREAKFAST_AMT = #{addBreakfastAmt, jdbcType=NUMERIC}	/* 추가 조식 요금, NUMBER(0,22) */
+	</if>
+	<if test="addUserAmt != null and addUserAmt gt 0">
+	AND EZC_DIST_FACL_DETAIL.ADD_USER_AMT = #{addUserAmt, jdbcType=NUMERIC}	/* 추가 인원 요금, NUMBER(0,22) */
+	</if>
+	<if test="addBedAmt != null and addBedAmt gt 0">
+	AND EZC_DIST_FACL_DETAIL.ADD_BED_AMT = #{addBedAmt, jdbcType=NUMERIC}	/* 추가 배드 요금, NUMBER(0,22) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_DIST_FACL_DETAIL.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_DIST_FACL_DETAIL.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_DIST_FACL_DETAIL.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_DIST_FACL_DETAIL.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcDistFaclDetail" resultType="com.ezwel.htl.interfaces.server.entities.EzcDistFaclDetail">
+<select id="selectListEzcDistFaclDetail" resultType="ezcDistFaclDetail">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -119,24 +136,46 @@ SELECT * FROM (
 			AND EZC_AREA_CD.CITY_CD = EZC_CITY_CD.CITY_CD
 			AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
 			AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-			AND EZC_DIST_FACL_DETAIL.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_FACL.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_AREA_CD.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CITY_CD.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_PARTNER.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.faclCd != null and param.faclCd gt 0">
-			AND EZC_DIST_FACL_DETAIL.FACL_CD = #{param.faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
+			<if test="faclCd != null and faclCd gt 0">
+			AND EZC_DIST_FACL_DETAIL.FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
+			</if>
+			<if test="faxNum != null and faxNum != ''">
+			AND EZC_DIST_FACL_DETAIL.FAX_NUM = #{faxNum, jdbcType=VARCHAR}	/* 팩스 번호, VARCHAR2(20) */
+			</if>
+			<if test="homepage != null and homepage != ''">
+			AND EZC_DIST_FACL_DETAIL.HOMEPAGE = #{homepage, jdbcType=VARCHAR}	/* 홈페이지, VARCHAR2(200) */
+			</if>
+			<if test="addBreakfastAmt != null and addBreakfastAmt gt 0">
+			AND EZC_DIST_FACL_DETAIL.ADD_BREAKFAST_AMT = #{addBreakfastAmt, jdbcType=NUMERIC}	/* 추가 조식 요금, NUMBER(0,22) */
+			</if>
+			<if test="addUserAmt != null and addUserAmt gt 0">
+			AND EZC_DIST_FACL_DETAIL.ADD_USER_AMT = #{addUserAmt, jdbcType=NUMERIC}	/* 추가 인원 요금, NUMBER(0,22) */
+			</if>
+			<if test="addBedAmt != null and addBedAmt gt 0">
+			AND EZC_DIST_FACL_DETAIL.ADD_BED_AMT = #{addBedAmt, jdbcType=NUMERIC}	/* 추가 배드 요금, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_DIST_FACL_DETAIL.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_DIST_FACL_DETAIL.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_DIST_FACL_DETAIL.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_DIST_FACL_DETAIL.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_DIST_FACL_DETAIL.FACL_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcDistFaclDetail" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistFaclDetail">
+<update id="updateEzcDistFaclDetail" parameterType="ezcDistFaclDetail">
 UPDATE EZC_DIST_FACL_DETAIL SET	/* 직영/숙박 시설 상세 */
 	 FAX_NUM = #{faxNum, jdbcType=VARCHAR}	/* 팩스 번호, VARCHAR2(20) */
 	,HOMEPAGE = #{homepage, jdbcType=VARCHAR}	/* 홈페이지, VARCHAR2(200) */
@@ -149,7 +188,7 @@ WHERE 1=1
 	AND FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcDistFaclDetail" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistFaclDetail">
+<update id="mergeEzcDistFaclDetail" parameterType="ezcDistFaclDetail">
 MERGE INTO EZC_DIST_FACL_DETAIL /* 직영/숙박 시설 상세 */
 	USING DUAL ON (
 		FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
@@ -185,7 +224,7 @@ MERGE INTO EZC_DIST_FACL_DETAIL /* 직영/숙박 시설 상세 */
 		)
 </update>
 
-<delete id="deleteEzcDistFaclDetail" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistFaclDetail">
+<delete id="deleteEzcDistFaclDetail" parameterType="ezcDistFaclDetail">
 DELETE FROM EZC_DIST_FACL_DETAIL /* 직영/숙박 시설 상세 */
 WHERE 1=1
 	AND FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */

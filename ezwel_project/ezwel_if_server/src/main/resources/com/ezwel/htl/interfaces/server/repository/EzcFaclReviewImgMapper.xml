@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:03 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:43 	신규작성 
  * 
- * @since 2018-12-03 11:05:03
+ * @since 2018-12-03 14:47:43
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcFaclReviewImg" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReviewImg">
+<insert id="insertEzcFaclReviewImg" parameterType="ezcFaclReviewImg">
 INSERT INTO EZC_FACL_REVIEW_IMG(	/* 시설 후기 이미지 */
 	 REVIEW_IMG_SEQ	/* 후기 이미지 일련번호, NUMBER(0,22) */
 	,FILE_PATH	/* 파일 경로, VARCHAR2(100) */
@@ -33,7 +33,7 @@ INSERT INTO EZC_FACL_REVIEW_IMG(	/* 시설 후기 이미지 */
 )
 </insert>
 
-<select id="selectEzcFaclReviewImg" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReviewImg" resultType="com.ezwel.htl.interfaces.server.entities.EzcFaclReviewImg">
+<select id="selectEzcFaclReviewImg" parameterType="ezcFaclReviewImg" resultType="ezcFaclReviewImg">
 SELECT
 	 EZC_FACL_REVIEW_IMG.REVIEW_IMG_SEQ AS reviewImgSeq	/* 후기 이미지 일련번호, NUMBER(0,22) */
 	,EZC_FACL_REVIEW_IMG.FILE_PATH AS filePath	/* 파일 경로, VARCHAR2(100) */
@@ -47,10 +47,10 @@ SELECT
 FROM
 	EZC_FACL_REVIEW_IMG	/* 시설 후기 이미지 */
 WHERE 1=1
-	AND EZC_FACL_REVIEW_IMG.REVIEW_IMG_SEQ = #{reviewImgSeq, jdbcType=DECIMAL}	/* 후기 이미지 일련번호, NUMBER(0,22) */
+	AND EZC_FACL_REVIEW_IMG.REVIEW_IMG_SEQ = #{reviewImgSeq, jdbcType=DECIMAL}	/* 후기 이미지 일련번호, NUMBER(0,22), EZC_FACL_REVIEW_IMG_PK(P),SYS_C0011447(C) */
 </select>
 
-<select id="selectCountEzcFaclReviewImg" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReviewImg" resultType="java.lang.Integer">
+<select id="selectCountEzcFaclReviewImg" parameterType="ezcFaclReviewImg" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -59,12 +59,33 @@ WHERE 1=1
 	<if test="reviewImgSeq != null and reviewImgSeq gt 0">
 	AND EZC_FACL_REVIEW_IMG.REVIEW_IMG_SEQ = #{reviewImgSeq, jdbcType=DECIMAL}	/* 후기 이미지 일련번호, NUMBER(0,22) */
 	</if>
+	<if test="filePath != null and filePath != ''">
+	AND EZC_FACL_REVIEW_IMG.FILE_PATH = #{filePath, jdbcType=VARCHAR}	/* 파일 경로, VARCHAR2(100) */
+	</if>
+	<if test="sysFilenm != null and sysFilenm != ''">
+	AND EZC_FACL_REVIEW_IMG.SYS_FILENM = #{sysFilenm, jdbcType=VARCHAR}	/* 시스템 파일명, VARCHAR2(100) */
+	</if>
+	<if test="filenm != null and filenm != ''">
+	AND EZC_FACL_REVIEW_IMG.FILENM = #{filenm, jdbcType=VARCHAR}	/* 파일명, VARCHAR2(100) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_FACL_REVIEW_IMG.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_FACL_REVIEW_IMG.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_FACL_REVIEW_IMG.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_FACL_REVIEW_IMG.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 	<if test="faclReviewSeq != null and faclReviewSeq gt 0">
 	AND EZC_FACL_REVIEW_IMG.FACL_REVIEW_SEQ = #{faclReviewSeq, jdbcType=DECIMAL}	/* 시설 후기 일련번호, NUMBER(0,22) */
 	</if>
 </select>
 
-<select id="selectListEzcFaclReviewImg" resultType="com.ezwel.htl.interfaces.server.entities.EzcFaclReviewImg">
+<select id="selectListEzcFaclReviewImg" resultType="ezcFaclReviewImg">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -81,22 +102,43 @@ SELECT * FROM (
 		FROM
 			EZC_FACL_REVIEW_IMG	/* 시설 후기 이미지 */
 		WHERE 1=1
-			<if test="param.reviewImgSeq != null and param.reviewImgSeq gt 0">
-			AND EZC_FACL_REVIEW_IMG.REVIEW_IMG_SEQ = #{param.reviewImgSeq, jdbcType=DECIMAL}	/* 후기 이미지 일련번호, NUMBER(0,22) */
+			<if test="reviewImgSeq != null and reviewImgSeq gt 0">
+			AND EZC_FACL_REVIEW_IMG.REVIEW_IMG_SEQ = #{reviewImgSeq, jdbcType=DECIMAL}	/* 후기 이미지 일련번호, NUMBER(0,22) */
 			</if>
-			<if test="param.faclReviewSeq != null and param.faclReviewSeq gt 0">
-			AND EZC_FACL_REVIEW_IMG.FACL_REVIEW_SEQ = #{param.faclReviewSeq, jdbcType=DECIMAL}	/* 시설 후기 일련번호, NUMBER(0,22) */
+			<if test="filePath != null and filePath != ''">
+			AND EZC_FACL_REVIEW_IMG.FILE_PATH = #{filePath, jdbcType=VARCHAR}	/* 파일 경로, VARCHAR2(100) */
+			</if>
+			<if test="sysFilenm != null and sysFilenm != ''">
+			AND EZC_FACL_REVIEW_IMG.SYS_FILENM = #{sysFilenm, jdbcType=VARCHAR}	/* 시스템 파일명, VARCHAR2(100) */
+			</if>
+			<if test="filenm != null and filenm != ''">
+			AND EZC_FACL_REVIEW_IMG.FILENM = #{filenm, jdbcType=VARCHAR}	/* 파일명, VARCHAR2(100) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_FACL_REVIEW_IMG.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_FACL_REVIEW_IMG.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_FACL_REVIEW_IMG.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_FACL_REVIEW_IMG.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+			</if>
+			<if test="faclReviewSeq != null and faclReviewSeq gt 0">
+			AND EZC_FACL_REVIEW_IMG.FACL_REVIEW_SEQ = #{faclReviewSeq, jdbcType=DECIMAL}	/* 시설 후기 일련번호, NUMBER(0,22) */
 			</if>
 		ORDER BY
 			EZC_FACL_REVIEW_IMG.REVIEW_IMG_SEQ DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcFaclReviewImg" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReviewImg">
+<update id="updateEzcFaclReviewImg" parameterType="ezcFaclReviewImg">
 UPDATE EZC_FACL_REVIEW_IMG SET	/* 시설 후기 이미지 */
 	 FILE_PATH = #{filePath, jdbcType=VARCHAR}	/* 파일 경로, VARCHAR2(100) */
 	,SYS_FILENM = #{sysFilenm, jdbcType=VARCHAR}	/* 시스템 파일명, VARCHAR2(100) */
@@ -108,7 +150,7 @@ WHERE 1=1
 	AND REVIEW_IMG_SEQ = #{reviewImgSeq, jdbcType=DECIMAL}	/* 후기 이미지 일련번호, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcFaclReviewImg" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReviewImg">
+<update id="mergeEzcFaclReviewImg" parameterType="ezcFaclReviewImg">
 MERGE INTO EZC_FACL_REVIEW_IMG /* 시설 후기 이미지 */
 	USING DUAL ON (
 		REVIEW_IMG_SEQ = #{reviewImgSeq, jdbcType=DECIMAL}	/* 후기 이미지 일련번호, NUMBER(0,22) */
@@ -141,7 +183,7 @@ MERGE INTO EZC_FACL_REVIEW_IMG /* 시설 후기 이미지 */
 		)
 </update>
 
-<delete id="deleteEzcFaclReviewImg" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReviewImg">
+<delete id="deleteEzcFaclReviewImg" parameterType="ezcFaclReviewImg">
 DELETE FROM EZC_FACL_REVIEW_IMG /* 시설 후기 이미지 */
 WHERE 1=1
 	AND REVIEW_IMG_SEQ = #{reviewImgSeq, jdbcType=DECIMAL}	/* 후기 이미지 일련번호, NUMBER(0,22) */

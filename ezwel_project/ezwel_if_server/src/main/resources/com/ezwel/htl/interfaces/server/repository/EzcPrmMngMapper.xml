@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:04 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:43 	신규작성 
  * 
- * @since 2018-12-03 11:05:04
+ * @since 2018-12-03 14:47:43
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcPrmMng" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmMng">
+<insert id="insertEzcPrmMng" parameterType="ezcPrmMng">
 INSERT INTO EZC_PRM_MNG(	/* 프로모션 관리 */
 	 PRM_CD	/* 프로모션 코드, VARCHAR2(10) */
 	,PRM_TYPE	/* 프로모션 유형, VARCHAR2(8) */
@@ -53,7 +53,7 @@ INSERT INTO EZC_PRM_MNG(	/* 프로모션 관리 */
 )
 </insert>
 
-<select id="selectEzcPrmMng" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmMng" resultType="com.ezwel.htl.interfaces.server.entities.EzcPrmMng">
+<select id="selectEzcPrmMng" parameterType="ezcPrmMng" resultType="ezcPrmMng">
 SELECT
 	 EZC_PRM_MNG.PRM_CD AS prmCd	/* 프로모션 코드, VARCHAR2(10) */
 	,EZC_PRM_MNG.PRM_TYPE AS prmType	/* 프로모션 유형, VARCHAR2(8) */
@@ -77,17 +77,62 @@ SELECT
 FROM
 	EZC_PRM_MNG	/* 프로모션 관리 */
 WHERE 1=1
-	AND EZC_PRM_MNG.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
+	<if test="prmUseYn != null and prmUseYn != ''">
+	AND EZC_PRM_MNG.PRM_USE_YN = #{prmUseYn, jdbcType=CHAR}	/* 프로모션 사용 여부, CHAR(1) */
+	</if>
+	<if test="famuserAccessYn != null and famuserAccessYn != ''">
+	AND EZC_PRM_MNG.FAMUSER_ACCESS_YN = #{famuserAccessYn, jdbcType=CHAR}	/* 가족회원 접근 여부, CHAR(1) */
+	</if>
+	<if test="goodUseYn != null and goodUseYn != ''">
+	AND EZC_PRM_MNG.GOOD_USE_YN = #{goodUseYn, jdbcType=CHAR}	/* 좋아요 사용 여부, CHAR(1) */
+	</if>
+	AND EZC_PRM_MNG.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10), EZC_PRM_MNG_PK(P),SYS_C0011560(C) */
 </select>
 
-<select id="selectCountEzcPrmMng" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmMng" resultType="java.lang.Integer">
+<select id="selectCountEzcPrmMng" parameterType="ezcPrmMng" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
 	EZC_PRM_MNG	/* 프로모션 관리 */
 WHERE 1=1
+	<if test="prmUseYn != null and prmUseYn != ''">
+	AND EZC_PRM_MNG.PRM_USE_YN = #{prmUseYn, jdbcType=CHAR}	/* 프로모션 사용 여부, CHAR(1) */
+	</if>
+	<if test="famuserAccessYn != null and famuserAccessYn != ''">
+	AND EZC_PRM_MNG.FAMUSER_ACCESS_YN = #{famuserAccessYn, jdbcType=CHAR}	/* 가족회원 접근 여부, CHAR(1) */
+	</if>
+	<if test="goodUseYn != null and goodUseYn != ''">
+	AND EZC_PRM_MNG.GOOD_USE_YN = #{goodUseYn, jdbcType=CHAR}	/* 좋아요 사용 여부, CHAR(1) */
+	</if>
 	<if test="prmCd != null and prmCd != ''">
 	AND EZC_PRM_MNG.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
+	</if>
+	<if test="prmType != null and prmType != ''">
+	AND EZC_PRM_MNG.PRM_TYPE = #{prmType, jdbcType=VARCHAR}	/* 프로모션 유형, VARCHAR2(8) */
+	</if>
+	<if test="prmConfigDiv != null and prmConfigDiv != ''">
+	AND EZC_PRM_MNG.PRM_CONFIG_DIV = #{prmConfigDiv, jdbcType=VARCHAR}	/* 프로모션 구성 구분, VARCHAR2(8) */
+	</if>
+	<if test="title != null and title != ''">
+	AND EZC_PRM_MNG.TITLE = #{title, jdbcType=VARCHAR}	/* 제목, VARCHAR2(100) */
+	</if>
+	<if test="prmStartDd != null and prmStartDd != ''">
+	AND EZC_PRM_MNG.PRM_START_DD = #{prmStartDd, jdbcType=VARCHAR}	/* 프로모션 시작 일자, VARCHAR2(8) */
+	</if>
+	<if test="prmEndDd != null and prmEndDd != ''">
+	AND EZC_PRM_MNG.PRM_END_DD = #{prmEndDd, jdbcType=VARCHAR}	/* 프로모션 종료 일자, VARCHAR2(8) */
+	</if>
+	<if test="prmStartTm != null and prmStartTm != ''">
+	AND EZC_PRM_MNG.PRM_START_TM = #{prmStartTm, jdbcType=VARCHAR}	/* 프로모션 시작 시간, VARCHAR2(4) */
+	</if>
+	<if test="prmEndTm != null and prmEndTm != ''">
+	AND EZC_PRM_MNG.PRM_END_TM = #{prmEndTm, jdbcType=VARCHAR}	/* 프로모션 종료 시간, VARCHAR2(4) */
+	</if>
+	<if test="deviceType != null and deviceType != ''">
+	AND EZC_PRM_MNG.DEVICE_TYPE = #{deviceType, jdbcType=VARCHAR}	/* 디바이스 유형, VARCHAR2(8) */
+	</if>
+	<if test="listImg != null and listImg != ''">
+	AND EZC_PRM_MNG.LIST_IMG = #{listImg, jdbcType=VARCHAR}	/* 목록 이미지, VARCHAR2(200) */
 	</if>
 	<if test="detailHtml != null and detailHtml != ''">
 	AND EZC_PRM_MNG.DETAIL_HTML LIKE '%' || #{detailHtml, jdbcType=VARCHAR} || '%'	/* 상세 HTML, VARCHAR2(4000) */
@@ -95,9 +140,21 @@ WHERE 1=1
 	<if test="notice != null and notice != ''">
 	AND EZC_PRM_MNG.NOTICE LIKE '%' || #{notice, jdbcType=VARCHAR} || '%'	/* 유의사항, VARCHAR2(2000) */
 	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_PRM_MNG.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_PRM_MNG.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_PRM_MNG.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_PRM_MNG.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcPrmMng" resultType="com.ezwel.htl.interfaces.server.entities.EzcPrmMng">
+<select id="selectListEzcPrmMng" resultType="ezcPrmMng">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -124,25 +181,73 @@ SELECT * FROM (
 		FROM
 			EZC_PRM_MNG	/* 프로모션 관리 */
 		WHERE 1=1
-			<if test="param.prmCd != null and param.prmCd != ''">
-			AND EZC_PRM_MNG.PRM_CD = #{param.prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
+			<if test="prmUseYn != null and prmUseYn != ''">
+			AND EZC_PRM_MNG.PRM_USE_YN = #{prmUseYn, jdbcType=CHAR}	/* 프로모션 사용 여부, CHAR(1) */
 			</if>
-			<if test="param.detailHtml != null and param.detailHtml != ''">
-			AND EZC_PRM_MNG.DETAIL_HTML LIKE '%' || #{param.detailHtml, jdbcType=VARCHAR} || '%'	/* 상세 HTML, VARCHAR2(4000) */
+			<if test="famuserAccessYn != null and famuserAccessYn != ''">
+			AND EZC_PRM_MNG.FAMUSER_ACCESS_YN = #{famuserAccessYn, jdbcType=CHAR}	/* 가족회원 접근 여부, CHAR(1) */
 			</if>
-			<if test="param.notice != null and param.notice != ''">
-			AND EZC_PRM_MNG.NOTICE LIKE '%' || #{param.notice, jdbcType=VARCHAR} || '%'	/* 유의사항, VARCHAR2(2000) */
+			<if test="goodUseYn != null and goodUseYn != ''">
+			AND EZC_PRM_MNG.GOOD_USE_YN = #{goodUseYn, jdbcType=CHAR}	/* 좋아요 사용 여부, CHAR(1) */
+			</if>
+			<if test="prmCd != null and prmCd != ''">
+			AND EZC_PRM_MNG.PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
+			</if>
+			<if test="prmType != null and prmType != ''">
+			AND EZC_PRM_MNG.PRM_TYPE = #{prmType, jdbcType=VARCHAR}	/* 프로모션 유형, VARCHAR2(8) */
+			</if>
+			<if test="prmConfigDiv != null and prmConfigDiv != ''">
+			AND EZC_PRM_MNG.PRM_CONFIG_DIV = #{prmConfigDiv, jdbcType=VARCHAR}	/* 프로모션 구성 구분, VARCHAR2(8) */
+			</if>
+			<if test="title != null and title != ''">
+			AND EZC_PRM_MNG.TITLE = #{title, jdbcType=VARCHAR}	/* 제목, VARCHAR2(100) */
+			</if>
+			<if test="prmStartDd != null and prmStartDd != ''">
+			AND EZC_PRM_MNG.PRM_START_DD = #{prmStartDd, jdbcType=VARCHAR}	/* 프로모션 시작 일자, VARCHAR2(8) */
+			</if>
+			<if test="prmEndDd != null and prmEndDd != ''">
+			AND EZC_PRM_MNG.PRM_END_DD = #{prmEndDd, jdbcType=VARCHAR}	/* 프로모션 종료 일자, VARCHAR2(8) */
+			</if>
+			<if test="prmStartTm != null and prmStartTm != ''">
+			AND EZC_PRM_MNG.PRM_START_TM = #{prmStartTm, jdbcType=VARCHAR}	/* 프로모션 시작 시간, VARCHAR2(4) */
+			</if>
+			<if test="prmEndTm != null and prmEndTm != ''">
+			AND EZC_PRM_MNG.PRM_END_TM = #{prmEndTm, jdbcType=VARCHAR}	/* 프로모션 종료 시간, VARCHAR2(4) */
+			</if>
+			<if test="deviceType != null and deviceType != ''">
+			AND EZC_PRM_MNG.DEVICE_TYPE = #{deviceType, jdbcType=VARCHAR}	/* 디바이스 유형, VARCHAR2(8) */
+			</if>
+			<if test="listImg != null and listImg != ''">
+			AND EZC_PRM_MNG.LIST_IMG = #{listImg, jdbcType=VARCHAR}	/* 목록 이미지, VARCHAR2(200) */
+			</if>
+			<if test="detailHtml != null and detailHtml != ''">
+			AND EZC_PRM_MNG.DETAIL_HTML LIKE '%' || #{detailHtml, jdbcType=VARCHAR} || '%'	/* 상세 HTML, VARCHAR2(4000) */
+			</if>
+			<if test="notice != null and notice != ''">
+			AND EZC_PRM_MNG.NOTICE LIKE '%' || #{notice, jdbcType=VARCHAR} || '%'	/* 유의사항, VARCHAR2(2000) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_PRM_MNG.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_PRM_MNG.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_PRM_MNG.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_PRM_MNG.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_PRM_MNG.PRM_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcPrmMng" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmMng">
+<update id="updateEzcPrmMng" parameterType="ezcPrmMng">
 UPDATE EZC_PRM_MNG SET	/* 프로모션 관리 */
 	 PRM_TYPE = #{prmType, jdbcType=VARCHAR}	/* 프로모션 유형, VARCHAR2(8) */
 	,PRM_CONFIG_DIV = #{prmConfigDiv, jdbcType=VARCHAR}	/* 프로모션 구성 구분, VARCHAR2(8) */
@@ -164,7 +269,7 @@ WHERE 1=1
 	AND PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
 </update>
 
-<update id="mergeEzcPrmMng" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmMng">
+<update id="mergeEzcPrmMng" parameterType="ezcPrmMng">
 MERGE INTO EZC_PRM_MNG /* 프로모션 관리 */
 	USING DUAL ON (
 		PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */
@@ -227,7 +332,7 @@ MERGE INTO EZC_PRM_MNG /* 프로모션 관리 */
 		)
 </update>
 
-<delete id="deleteEzcPrmMng" parameterType="com.ezwel.htl.interfaces.server.entities.EzcPrmMng">
+<delete id="deleteEzcPrmMng" parameterType="ezcPrmMng">
 DELETE FROM EZC_PRM_MNG /* 프로모션 관리 */
 WHERE 1=1
 	AND PRM_CD = #{prmCd, jdbcType=VARCHAR}	/* 프로모션 코드, VARCHAR2(10) */

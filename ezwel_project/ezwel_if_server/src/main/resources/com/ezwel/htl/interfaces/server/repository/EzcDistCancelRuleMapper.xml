@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:02 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:42 	신규작성 
  * 
- * @since 2018-12-03 11:05:02
+ * @since 2018-12-03 14:47:42
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcDistCancelRule" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistCancelRule">
+<insert id="insertEzcDistCancelRule" parameterType="ezcDistCancelRule">
 INSERT INTO EZC_DIST_CANCEL_RULE(	/* 직영/숙박 취소 규정 */
 	 ROOM_CD	/* 객실 코드, NUMBER(0,22) */
 	,PENALTY_ISSUEDD_CNT	/* 패널티 발생일 수, NUMBER(0,22) */
@@ -29,7 +29,7 @@ INSERT INTO EZC_DIST_CANCEL_RULE(	/* 직영/숙박 취소 규정 */
 )
 </insert>
 
-<select id="selectEzcDistCancelRule" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistCancelRule" resultType="com.ezwel.htl.interfaces.server.entities.EzcDistCancelRule">
+<select id="selectEzcDistCancelRule" parameterType="ezcDistCancelRule" resultType="ezcDistCancelRule">
 SELECT
 	 EZC_DIST_CANCEL_RULE.ROOM_CD AS roomCd	/* 객실 코드, NUMBER(0,22) */
 	,EZC_DIST_CANCEL_RULE.PENALTY_ISSUEDD_CNT AS penaltyIssueddCnt	/* 패널티 발생일 수, NUMBER(0,22) */
@@ -52,17 +52,11 @@ WHERE 1=1
 	AND EZC_AREA_CD.CITY_CD = EZC_CITY_CD.CITY_CD
 	AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
 	AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-	AND EZC_DIST_CANCEL_RULE.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_DIST_ROOM.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AREA_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CITY_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_DIST_CANCEL_RULE.ROOM_CD = #{roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22) */
-	AND EZC_DIST_CANCEL_RULE.PENALTY_ISSUEDD_CNT = #{penaltyIssueddCnt, jdbcType=NUMERIC}	/* 패널티 발생일 수, NUMBER(0,22) */
+	AND EZC_DIST_CANCEL_RULE.ROOM_CD = #{roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22), EZC_DIST_CANCEL_RULE_PK(P),FK_EZC_DIST_ROOM_EZC_DIST_CANC(R),SYS_C0011393(C) */
+	AND EZC_DIST_CANCEL_RULE.PENALTY_ISSUEDD_CNT = #{penaltyIssueddCnt, jdbcType=NUMERIC}	/* 패널티 발생일 수, NUMBER(0,22), EZC_DIST_CANCEL_RULE_PK(P),SYS_C0011394(C) */
 </select>
 
-<select id="selectCountEzcDistCancelRule" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistCancelRule" resultType="java.lang.Integer">
+<select id="selectCountEzcDistCancelRule" parameterType="ezcDistCancelRule" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -79,21 +73,30 @@ WHERE 1=1
 	AND EZC_AREA_CD.CITY_CD = EZC_CITY_CD.CITY_CD
 	AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
 	AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-	AND EZC_DIST_CANCEL_RULE.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_DIST_ROOM.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AREA_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CITY_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
 	<if test="roomCd != null and roomCd gt 0">
 	AND EZC_DIST_CANCEL_RULE.ROOM_CD = #{roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22) */
 	</if>
 	<if test="penaltyIssueddCnt != null and penaltyIssueddCnt gt 0">
 	AND EZC_DIST_CANCEL_RULE.PENALTY_ISSUEDD_CNT = #{penaltyIssueddCnt, jdbcType=NUMERIC}	/* 패널티 발생일 수, NUMBER(0,22) */
 	</if>
+	<if test="feeRate != null and feeRate gt 0">
+	AND EZC_DIST_CANCEL_RULE.FEE_RATE = #{feeRate, jdbcType=NUMERIC}	/* 수수료 율, NUMBER(0,22) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_DIST_CANCEL_RULE.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_DIST_CANCEL_RULE.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_DIST_CANCEL_RULE.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_DIST_CANCEL_RULE.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcDistCancelRule" resultType="com.ezwel.htl.interfaces.server.entities.EzcDistCancelRule">
+<select id="selectListEzcDistCancelRule" resultType="ezcDistCancelRule">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -119,28 +122,37 @@ SELECT * FROM (
 			AND EZC_AREA_CD.CITY_CD = EZC_CITY_CD.CITY_CD
 			AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
 			AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-			AND EZC_DIST_CANCEL_RULE.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_DIST_ROOM.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_FACL.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_AREA_CD.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CITY_CD.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_PARTNER.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.roomCd != null and param.roomCd gt 0">
-			AND EZC_DIST_CANCEL_RULE.ROOM_CD = #{param.roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22) */
+			<if test="roomCd != null and roomCd gt 0">
+			AND EZC_DIST_CANCEL_RULE.ROOM_CD = #{roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22) */
 			</if>
-			<if test="param.penaltyIssueddCnt != null and param.penaltyIssueddCnt gt 0">
-			AND EZC_DIST_CANCEL_RULE.PENALTY_ISSUEDD_CNT = #{param.penaltyIssueddCnt, jdbcType=NUMERIC}	/* 패널티 발생일 수, NUMBER(0,22) */
+			<if test="penaltyIssueddCnt != null and penaltyIssueddCnt gt 0">
+			AND EZC_DIST_CANCEL_RULE.PENALTY_ISSUEDD_CNT = #{penaltyIssueddCnt, jdbcType=NUMERIC}	/* 패널티 발생일 수, NUMBER(0,22) */
+			</if>
+			<if test="feeRate != null and feeRate gt 0">
+			AND EZC_DIST_CANCEL_RULE.FEE_RATE = #{feeRate, jdbcType=NUMERIC}	/* 수수료 율, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_DIST_CANCEL_RULE.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_DIST_CANCEL_RULE.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_DIST_CANCEL_RULE.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_DIST_CANCEL_RULE.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_DIST_CANCEL_RULE.ROOM_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcDistCancelRule" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistCancelRule">
+<update id="updateEzcDistCancelRule" parameterType="ezcDistCancelRule">
 UPDATE EZC_DIST_CANCEL_RULE SET	/* 직영/숙박 취소 규정 */
 	 FEE_RATE = #{feeRate, jdbcType=NUMERIC}	/* 수수료 율, NUMBER(0,22) */
 	,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
@@ -150,7 +162,7 @@ WHERE 1=1
 	AND PENALTY_ISSUEDD_CNT = #{penaltyIssueddCnt, jdbcType=NUMERIC}	/* 패널티 발생일 수, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcDistCancelRule" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistCancelRule">
+<update id="mergeEzcDistCancelRule" parameterType="ezcDistCancelRule">
 MERGE INTO EZC_DIST_CANCEL_RULE /* 직영/숙박 취소 규정 */
 	USING DUAL ON (
 		ROOM_CD = #{roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22) */
@@ -177,7 +189,7 @@ MERGE INTO EZC_DIST_CANCEL_RULE /* 직영/숙박 취소 규정 */
 		)
 </update>
 
-<delete id="deleteEzcDistCancelRule" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistCancelRule">
+<delete id="deleteEzcDistCancelRule" parameterType="ezcDistCancelRule">
 DELETE FROM EZC_DIST_CANCEL_RULE /* 직영/숙박 취소 규정 */
 WHERE 1=1
 	AND ROOM_CD = #{roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22) */

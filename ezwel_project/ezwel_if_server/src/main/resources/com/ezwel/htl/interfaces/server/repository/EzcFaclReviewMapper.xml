@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:03 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:43 	신규작성 
  * 
- * @since 2018-12-03 11:05:03
+ * @since 2018-12-03 14:47:43
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcFaclReview" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReview">
+<insert id="insertEzcFaclReview" parameterType="ezcFaclReview">
 INSERT INTO EZC_FACL_REVIEW(	/* 시설 후기 */
 	 FACL_REVIEW_SEQ	/* 시설 후기 일련번호, NUMBER(0,22) */
 	,RESERV_NUM	/* 예약 번호, NUMBER(0,22) */
@@ -31,7 +31,7 @@ INSERT INTO EZC_FACL_REVIEW(	/* 시설 후기 */
 )
 </insert>
 
-<select id="selectEzcFaclReview" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReview" resultType="com.ezwel.htl.interfaces.server.entities.EzcFaclReview">
+<select id="selectEzcFaclReview" parameterType="ezcFaclReview" resultType="ezcFaclReview">
 SELECT
 	 EZC_FACL_REVIEW.FACL_REVIEW_SEQ AS faclReviewSeq	/* 시설 후기 일련번호, NUMBER(0,22) */
 	,EZC_FACL_REVIEW.RESERV_NUM AS reservNum	/* 예약 번호, NUMBER(0,22) */
@@ -44,15 +44,21 @@ SELECT
 FROM
 	EZC_FACL_REVIEW	/* 시설 후기 */
 WHERE 1=1
-	AND EZC_FACL_REVIEW.FACL_REVIEW_SEQ = #{faclReviewSeq, jdbcType=DECIMAL}	/* 시설 후기 일련번호, NUMBER(0,22) */
+	<if test="imgYn != null and imgYn != ''">
+	AND EZC_FACL_REVIEW.IMG_YN = #{imgYn, jdbcType=CHAR}	/* 이미지 여부, CHAR(1) */
+	</if>
+	AND EZC_FACL_REVIEW.FACL_REVIEW_SEQ = #{faclReviewSeq, jdbcType=DECIMAL}	/* 시설 후기 일련번호, NUMBER(0,22), EZC_FACL_REVIEW_PK(P),SYS_C0011436(C) */
 </select>
 
-<select id="selectCountEzcFaclReview" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReview" resultType="java.lang.Integer">
+<select id="selectCountEzcFaclReview" parameterType="ezcFaclReview" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
 	EZC_FACL_REVIEW	/* 시설 후기 */
 WHERE 1=1
+	<if test="imgYn != null and imgYn != ''">
+	AND EZC_FACL_REVIEW.IMG_YN = #{imgYn, jdbcType=CHAR}	/* 이미지 여부, CHAR(1) */
+	</if>
 	<if test="faclReviewSeq != null and faclReviewSeq gt 0">
 	AND EZC_FACL_REVIEW.FACL_REVIEW_SEQ = #{faclReviewSeq, jdbcType=DECIMAL}	/* 시설 후기 일련번호, NUMBER(0,22) */
 	</if>
@@ -62,9 +68,21 @@ WHERE 1=1
 	<if test="reviewContent != null and reviewContent != ''">
 	AND EZC_FACL_REVIEW.REVIEW_CONTENT LIKE '%' || #{reviewContent, jdbcType=VARCHAR} || '%'	/* 후기 내용, VARCHAR2(1000) */
 	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_FACL_REVIEW.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_FACL_REVIEW.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_FACL_REVIEW.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_FACL_REVIEW.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcFaclReview" resultType="com.ezwel.htl.interfaces.server.entities.EzcFaclReview">
+<select id="selectListEzcFaclReview" resultType="ezcFaclReview">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -80,25 +98,40 @@ SELECT * FROM (
 		FROM
 			EZC_FACL_REVIEW	/* 시설 후기 */
 		WHERE 1=1
-			<if test="param.faclReviewSeq != null and param.faclReviewSeq gt 0">
-			AND EZC_FACL_REVIEW.FACL_REVIEW_SEQ = #{param.faclReviewSeq, jdbcType=DECIMAL}	/* 시설 후기 일련번호, NUMBER(0,22) */
+			<if test="imgYn != null and imgYn != ''">
+			AND EZC_FACL_REVIEW.IMG_YN = #{imgYn, jdbcType=CHAR}	/* 이미지 여부, CHAR(1) */
 			</if>
-			<if test="param.reservNum != null and param.reservNum gt 0">
-			AND EZC_FACL_REVIEW.RESERV_NUM = #{param.reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
+			<if test="faclReviewSeq != null and faclReviewSeq gt 0">
+			AND EZC_FACL_REVIEW.FACL_REVIEW_SEQ = #{faclReviewSeq, jdbcType=DECIMAL}	/* 시설 후기 일련번호, NUMBER(0,22) */
 			</if>
-			<if test="param.reviewContent != null and param.reviewContent != ''">
-			AND EZC_FACL_REVIEW.REVIEW_CONTENT LIKE '%' || #{param.reviewContent, jdbcType=VARCHAR} || '%'	/* 후기 내용, VARCHAR2(1000) */
+			<if test="reservNum != null and reservNum gt 0">
+			AND EZC_FACL_REVIEW.RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
+			</if>
+			<if test="reviewContent != null and reviewContent != ''">
+			AND EZC_FACL_REVIEW.REVIEW_CONTENT LIKE '%' || #{reviewContent, jdbcType=VARCHAR} || '%'	/* 후기 내용, VARCHAR2(1000) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_FACL_REVIEW.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_FACL_REVIEW.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_FACL_REVIEW.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_FACL_REVIEW.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_FACL_REVIEW.FACL_REVIEW_SEQ DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcFaclReview" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReview">
+<update id="updateEzcFaclReview" parameterType="ezcFaclReview">
 UPDATE EZC_FACL_REVIEW SET	/* 시설 후기 */
 	 RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
 	,REVIEW_CONTENT = #{reviewContent, jdbcType=VARCHAR}	/* 후기 내용, VARCHAR2(1000) */
@@ -109,7 +142,7 @@ WHERE 1=1
 	AND FACL_REVIEW_SEQ = #{faclReviewSeq, jdbcType=DECIMAL}	/* 시설 후기 일련번호, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcFaclReview" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReview">
+<update id="mergeEzcFaclReview" parameterType="ezcFaclReview">
 MERGE INTO EZC_FACL_REVIEW /* 시설 후기 */
 	USING DUAL ON (
 		FACL_REVIEW_SEQ = #{faclReviewSeq, jdbcType=DECIMAL}	/* 시설 후기 일련번호, NUMBER(0,22) */
@@ -139,7 +172,7 @@ MERGE INTO EZC_FACL_REVIEW /* 시설 후기 */
 		)
 </update>
 
-<delete id="deleteEzcFaclReview" parameterType="com.ezwel.htl.interfaces.server.entities.EzcFaclReview">
+<delete id="deleteEzcFaclReview" parameterType="ezcFaclReview">
 DELETE FROM EZC_FACL_REVIEW /* 시설 후기 */
 WHERE 1=1
 	AND FACL_REVIEW_SEQ = #{faclReviewSeq, jdbcType=DECIMAL}	/* 시설 후기 일련번호, NUMBER(0,22) */

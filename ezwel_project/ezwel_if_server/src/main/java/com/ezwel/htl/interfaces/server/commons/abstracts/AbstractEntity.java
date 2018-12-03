@@ -18,23 +18,23 @@ public abstract class AbstractEntity extends APIObject {
 	/** serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
-	private int pageNum = OperateConstants.INTEGER_ZERO_VALUE;
+	private long pageNum = OperateConstants.LONG_ZERO_VALUE;
 	
-	private int pageCount = OperateConstants.INTEGER_ZERO_VALUE;
+	private long pageCount = OperateConstants.LONG_MAX_VALUE;
 
-	public int getPageNum() {
+	public long getPageNum() {
 		return pageNum;
 	}
 
-	public void setPageNum(int pageNum) {
+	public void setPageNum(long pageNum) {
 		this.pageNum = pageNum;
 	}
 
-	public int getPageCount() {
+	public long getPageCount() {
 		return pageCount;
 	}
 
-	public void setPageCount(int pageCount) {
+	public void setPageCount(long pageCount) {
 		this.pageCount = pageCount;
 	}
 	

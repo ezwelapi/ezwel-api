@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:03 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:42 	신규작성 
  * 
- * @since 2018-12-03 11:05:03
+ * @since 2018-12-03 14:47:42
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcDistRoom" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistRoom">
+<insert id="insertEzcDistRoom" parameterType="ezcDistRoom">
 INSERT INTO EZC_DIST_ROOM(	/* 직영/숙박 객실 */
 	 ROOM_CD	/* 객실 코드, NUMBER(0,22) */
 	,FACL_CD	/* 시설 코드, NUMBER(0,22) */
@@ -69,7 +69,7 @@ INSERT INTO EZC_DIST_ROOM(	/* 직영/숙박 객실 */
 )
 </insert>
 
-<select id="selectEzcDistRoom" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistRoom" resultType="com.ezwel.htl.interfaces.server.entities.EzcDistRoom">
+<select id="selectEzcDistRoom" parameterType="ezcDistRoom" resultType="ezcDistRoom">
 SELECT
 	 EZC_DIST_ROOM.ROOM_CD AS roomCd	/* 객실 코드, NUMBER(0,22) */
 	,EZC_DIST_ROOM.FACL_CD AS faclCd	/* 시설 코드, NUMBER(0,22) */
@@ -110,16 +110,20 @@ WHERE 1=1
 	AND EZC_AREA_CD.CITY_CD = EZC_CITY_CD.CITY_CD
 	AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
 	AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-	AND EZC_DIST_ROOM.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AREA_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CITY_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_DIST_ROOM.ROOM_CD = #{roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22) */
-	AND EZC_DIST_ROOM.FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
+	<if test="specYn != null and specYn != ''">
+	AND EZC_DIST_ROOM.SPEC_YN = #{specYn, jdbcType=CHAR}	/* 특가 여부, CHAR(1) */
+	</if>
+	<if test="dayPriceYn != null and dayPriceYn != ''">
+	AND EZC_DIST_ROOM.DAY_PRICE_YN = #{dayPriceYn, jdbcType=CHAR}	/* 당일특가 여부, CHAR(1) */
+	</if>
+	<if test="breakfastIncludeYn != null and breakfastIncludeYn != ''">
+	AND EZC_DIST_ROOM.BREAKFAST_INCLUDE_YN = #{breakfastIncludeYn, jdbcType=CHAR}	/* 조식 포함 여부, CHAR(1) */
+	</if>
+	AND EZC_DIST_ROOM.ROOM_CD = #{roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22), EZC_DIST_ROOM_PK(P),SYS_C0011412(C) */
+	AND EZC_DIST_ROOM.FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22), FK_EZC_FACL_EZC_DIST_ROOM(R),SYS_C0011413(C) */
 </select>
 
-<select id="selectCountEzcDistRoom" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistRoom" resultType="java.lang.Integer">
+<select id="selectCountEzcDistRoom" parameterType="ezcDistRoom" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -134,19 +138,38 @@ WHERE 1=1
 	AND EZC_AREA_CD.CITY_CD = EZC_CITY_CD.CITY_CD
 	AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
 	AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-	AND EZC_DIST_ROOM.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_FACL.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_AREA_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_CITY_CD.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
+	<if test="specYn != null and specYn != ''">
+	AND EZC_DIST_ROOM.SPEC_YN = #{specYn, jdbcType=CHAR}	/* 특가 여부, CHAR(1) */
+	</if>
+	<if test="dayPriceYn != null and dayPriceYn != ''">
+	AND EZC_DIST_ROOM.DAY_PRICE_YN = #{dayPriceYn, jdbcType=CHAR}	/* 당일특가 여부, CHAR(1) */
+	</if>
+	<if test="breakfastIncludeYn != null and breakfastIncludeYn != ''">
+	AND EZC_DIST_ROOM.BREAKFAST_INCLUDE_YN = #{breakfastIncludeYn, jdbcType=CHAR}	/* 조식 포함 여부, CHAR(1) */
+	</if>
 	<if test="roomCd != null and roomCd gt 0">
 	AND EZC_DIST_ROOM.ROOM_CD = #{roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22) */
 	</if>
 	<if test="faclCd != null and faclCd gt 0">
 	AND EZC_DIST_ROOM.FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
 	</if>
+	<if test="roomNm != null and roomNm != ''">
+	AND EZC_DIST_ROOM.ROOM_NM = #{roomNm, jdbcType=VARCHAR}	/* 객실 명, VARCHAR2(100) */
+	</if>
+	<if test="normalAmt != null and normalAmt gt 0">
+	AND EZC_DIST_ROOM.NORMAL_AMT = #{normalAmt, jdbcType=NUMERIC}	/* 정상 금액, NUMBER(0,22) */
+	</if>
+	<if test="stdUserCnt != null and stdUserCnt gt 0">
+	AND EZC_DIST_ROOM.STD_USER_CNT = #{stdUserCnt, jdbcType=NUMERIC}	/* 기준 인원 수, NUMBER(0,22) */
+	</if>
+	<if test="maxUserCnt != null and maxUserCnt gt 0">
+	AND EZC_DIST_ROOM.MAX_USER_CNT = #{maxUserCnt, jdbcType=NUMERIC}	/* 최대 인원 수, NUMBER(0,22) */
+	</if>
 	<if test="viewer != null and viewer != ''">
 	AND EZC_DIST_ROOM.VIEWER LIKE '%' || #{viewer, jdbcType=VARCHAR} || '%'	/* 전망, VARCHAR2(1000) */
+	</if>
+	<if test="roomSize != null and roomSize != ''">
+	AND EZC_DIST_ROOM.ROOM_SIZE = #{roomSize, jdbcType=VARCHAR}	/* 객실 크기, VARCHAR2(100) */
 	</if>
 	<if test="roomSvc != null and roomSvc != ''">
 	AND EZC_DIST_ROOM.ROOM_SVC LIKE '%' || #{roomSvc, jdbcType=VARCHAR} || '%'	/* 객실 서비스, VARCHAR2(1000) */
@@ -157,15 +180,48 @@ WHERE 1=1
 	<if test="bathOfferItem != null and bathOfferItem != ''">
 	AND EZC_DIST_ROOM.BATH_OFFER_ITEM LIKE '%' || #{bathOfferItem, jdbcType=VARCHAR} || '%'	/* 욕실 구비 품목, VARCHAR2(1000) */
 	</if>
+	<if test="bathCnt != null and bathCnt gt 0">
+	AND EZC_DIST_ROOM.BATH_CNT = #{bathCnt, jdbcType=NUMERIC}	/* 욕실 수, NUMBER(0,22) */
+	</if>
+	<if test="livingCnt != null and livingCnt gt 0">
+	AND EZC_DIST_ROOM.LIVING_CNT = #{livingCnt, jdbcType=NUMERIC}	/* 거실 수, NUMBER(0,22) */
+	</if>
+	<if test="kitchenCnt != null and kitchenCnt gt 0">
+	AND EZC_DIST_ROOM.KITCHEN_CNT = #{kitchenCnt, jdbcType=NUMERIC}	/* 주방 수, NUMBER(0,22) */
+	</if>
+	<if test="terraceCnt != null and terraceCnt gt 0">
+	AND EZC_DIST_ROOM.TERRACE_CNT = #{terraceCnt, jdbcType=NUMERIC}	/* 테라스 수, NUMBER(0,22) */
+	</if>
 	<if test="roomInfo != null and roomInfo != ''">
 	AND EZC_DIST_ROOM.ROOM_INFO LIKE '%' || #{roomInfo, jdbcType=VARCHAR} || '%'	/* 객실 정보, VARCHAR2(1000) */
 	</if>
 	<if test="cancelFeeRule != null and cancelFeeRule != ''">
 	AND EZC_DIST_ROOM.CANCEL_FEE_RULE LIKE '%' || #{cancelFeeRule, jdbcType=VARCHAR} || '%'	/* 취소 수수료 규정, VARCHAR2(4000) */
 	</if>
+	<if test="lomtCnt != null and lomtCnt gt 0">
+	AND EZC_DIST_ROOM.LOMT_CNT = #{lomtCnt, jdbcType=NUMERIC}	/* 숙박 수, NUMBER(0,22) */
+	</if>
+	<if test="cutoffDdcnt != null and cutoffDdcnt gt 0">
+	AND EZC_DIST_ROOM.CUTOFF_DDCNT = #{cutoffDdcnt, jdbcType=NUMERIC}	/* 컷오프 일수, NUMBER(0,22) */
+	</if>
+	<if test="termDdcnt != null and termDdcnt gt 0">
+	AND EZC_DIST_ROOM.TERM_DDCNT = #{termDdcnt, jdbcType=NUMERIC}	/* 텀 일수, NUMBER(0,22) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_DIST_ROOM.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_DIST_ROOM.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_DIST_ROOM.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_DIST_ROOM.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcDistRoom" resultType="com.ezwel.htl.interfaces.server.entities.EzcDistRoom">
+<select id="selectListEzcDistRoom" resultType="ezcDistRoom">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -209,45 +265,97 @@ SELECT * FROM (
 			AND EZC_AREA_CD.CITY_CD = EZC_CITY_CD.CITY_CD
 			AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
 			AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-			AND EZC_DIST_ROOM.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_FACL.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_AREA_CD.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_CITY_CD.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_PARTNER.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.roomCd != null and param.roomCd gt 0">
-			AND EZC_DIST_ROOM.ROOM_CD = #{param.roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22) */
+			<if test="specYn != null and specYn != ''">
+			AND EZC_DIST_ROOM.SPEC_YN = #{specYn, jdbcType=CHAR}	/* 특가 여부, CHAR(1) */
 			</if>
-			<if test="param.faclCd != null and param.faclCd gt 0">
-			AND EZC_DIST_ROOM.FACL_CD = #{param.faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
+			<if test="dayPriceYn != null and dayPriceYn != ''">
+			AND EZC_DIST_ROOM.DAY_PRICE_YN = #{dayPriceYn, jdbcType=CHAR}	/* 당일특가 여부, CHAR(1) */
 			</if>
-			<if test="param.viewer != null and param.viewer != ''">
-			AND EZC_DIST_ROOM.VIEWER LIKE '%' || #{param.viewer, jdbcType=VARCHAR} || '%'	/* 전망, VARCHAR2(1000) */
+			<if test="breakfastIncludeYn != null and breakfastIncludeYn != ''">
+			AND EZC_DIST_ROOM.BREAKFAST_INCLUDE_YN = #{breakfastIncludeYn, jdbcType=CHAR}	/* 조식 포함 여부, CHAR(1) */
 			</if>
-			<if test="param.roomSvc != null and param.roomSvc != ''">
-			AND EZC_DIST_ROOM.ROOM_SVC LIKE '%' || #{param.roomSvc, jdbcType=VARCHAR} || '%'	/* 객실 서비스, VARCHAR2(1000) */
+			<if test="roomCd != null and roomCd gt 0">
+			AND EZC_DIST_ROOM.ROOM_CD = #{roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22) */
 			</if>
-			<if test="param.roomOfferItem != null and param.roomOfferItem != ''">
-			AND EZC_DIST_ROOM.ROOM_OFFER_ITEM LIKE '%' || #{param.roomOfferItem, jdbcType=VARCHAR} || '%'	/* 객실 구비 품목, VARCHAR2(1000) */
+			<if test="faclCd != null and faclCd gt 0">
+			AND EZC_DIST_ROOM.FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
 			</if>
-			<if test="param.bathOfferItem != null and param.bathOfferItem != ''">
-			AND EZC_DIST_ROOM.BATH_OFFER_ITEM LIKE '%' || #{param.bathOfferItem, jdbcType=VARCHAR} || '%'	/* 욕실 구비 품목, VARCHAR2(1000) */
+			<if test="roomNm != null and roomNm != ''">
+			AND EZC_DIST_ROOM.ROOM_NM = #{roomNm, jdbcType=VARCHAR}	/* 객실 명, VARCHAR2(100) */
 			</if>
-			<if test="param.roomInfo != null and param.roomInfo != ''">
-			AND EZC_DIST_ROOM.ROOM_INFO LIKE '%' || #{param.roomInfo, jdbcType=VARCHAR} || '%'	/* 객실 정보, VARCHAR2(1000) */
+			<if test="normalAmt != null and normalAmt gt 0">
+			AND EZC_DIST_ROOM.NORMAL_AMT = #{normalAmt, jdbcType=NUMERIC}	/* 정상 금액, NUMBER(0,22) */
 			</if>
-			<if test="param.cancelFeeRule != null and param.cancelFeeRule != ''">
-			AND EZC_DIST_ROOM.CANCEL_FEE_RULE LIKE '%' || #{param.cancelFeeRule, jdbcType=VARCHAR} || '%'	/* 취소 수수료 규정, VARCHAR2(4000) */
+			<if test="stdUserCnt != null and stdUserCnt gt 0">
+			AND EZC_DIST_ROOM.STD_USER_CNT = #{stdUserCnt, jdbcType=NUMERIC}	/* 기준 인원 수, NUMBER(0,22) */
+			</if>
+			<if test="maxUserCnt != null and maxUserCnt gt 0">
+			AND EZC_DIST_ROOM.MAX_USER_CNT = #{maxUserCnt, jdbcType=NUMERIC}	/* 최대 인원 수, NUMBER(0,22) */
+			</if>
+			<if test="viewer != null and viewer != ''">
+			AND EZC_DIST_ROOM.VIEWER LIKE '%' || #{viewer, jdbcType=VARCHAR} || '%'	/* 전망, VARCHAR2(1000) */
+			</if>
+			<if test="roomSize != null and roomSize != ''">
+			AND EZC_DIST_ROOM.ROOM_SIZE = #{roomSize, jdbcType=VARCHAR}	/* 객실 크기, VARCHAR2(100) */
+			</if>
+			<if test="roomSvc != null and roomSvc != ''">
+			AND EZC_DIST_ROOM.ROOM_SVC LIKE '%' || #{roomSvc, jdbcType=VARCHAR} || '%'	/* 객실 서비스, VARCHAR2(1000) */
+			</if>
+			<if test="roomOfferItem != null and roomOfferItem != ''">
+			AND EZC_DIST_ROOM.ROOM_OFFER_ITEM LIKE '%' || #{roomOfferItem, jdbcType=VARCHAR} || '%'	/* 객실 구비 품목, VARCHAR2(1000) */
+			</if>
+			<if test="bathOfferItem != null and bathOfferItem != ''">
+			AND EZC_DIST_ROOM.BATH_OFFER_ITEM LIKE '%' || #{bathOfferItem, jdbcType=VARCHAR} || '%'	/* 욕실 구비 품목, VARCHAR2(1000) */
+			</if>
+			<if test="bathCnt != null and bathCnt gt 0">
+			AND EZC_DIST_ROOM.BATH_CNT = #{bathCnt, jdbcType=NUMERIC}	/* 욕실 수, NUMBER(0,22) */
+			</if>
+			<if test="livingCnt != null and livingCnt gt 0">
+			AND EZC_DIST_ROOM.LIVING_CNT = #{livingCnt, jdbcType=NUMERIC}	/* 거실 수, NUMBER(0,22) */
+			</if>
+			<if test="kitchenCnt != null and kitchenCnt gt 0">
+			AND EZC_DIST_ROOM.KITCHEN_CNT = #{kitchenCnt, jdbcType=NUMERIC}	/* 주방 수, NUMBER(0,22) */
+			</if>
+			<if test="terraceCnt != null and terraceCnt gt 0">
+			AND EZC_DIST_ROOM.TERRACE_CNT = #{terraceCnt, jdbcType=NUMERIC}	/* 테라스 수, NUMBER(0,22) */
+			</if>
+			<if test="roomInfo != null and roomInfo != ''">
+			AND EZC_DIST_ROOM.ROOM_INFO LIKE '%' || #{roomInfo, jdbcType=VARCHAR} || '%'	/* 객실 정보, VARCHAR2(1000) */
+			</if>
+			<if test="cancelFeeRule != null and cancelFeeRule != ''">
+			AND EZC_DIST_ROOM.CANCEL_FEE_RULE LIKE '%' || #{cancelFeeRule, jdbcType=VARCHAR} || '%'	/* 취소 수수료 규정, VARCHAR2(4000) */
+			</if>
+			<if test="lomtCnt != null and lomtCnt gt 0">
+			AND EZC_DIST_ROOM.LOMT_CNT = #{lomtCnt, jdbcType=NUMERIC}	/* 숙박 수, NUMBER(0,22) */
+			</if>
+			<if test="cutoffDdcnt != null and cutoffDdcnt gt 0">
+			AND EZC_DIST_ROOM.CUTOFF_DDCNT = #{cutoffDdcnt, jdbcType=NUMERIC}	/* 컷오프 일수, NUMBER(0,22) */
+			</if>
+			<if test="termDdcnt != null and termDdcnt gt 0">
+			AND EZC_DIST_ROOM.TERM_DDCNT = #{termDdcnt, jdbcType=NUMERIC}	/* 텀 일수, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_DIST_ROOM.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_DIST_ROOM.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_DIST_ROOM.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_DIST_ROOM.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_DIST_ROOM.ROOM_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcDistRoom" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistRoom">
+<update id="updateEzcDistRoom" parameterType="ezcDistRoom">
 UPDATE EZC_DIST_ROOM SET	/* 직영/숙박 객실 */
 	 SPEC_YN = #{specYn, jdbcType=CHAR}	/* 특가 여부, CHAR(1) */
 	,DAY_PRICE_YN = #{dayPriceYn, jdbcType=CHAR}	/* 당일특가 여부, CHAR(1) */
@@ -277,7 +385,7 @@ WHERE 1=1
 	AND FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
 </update>
 
-<update id="mergeEzcDistRoom" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistRoom">
+<update id="mergeEzcDistRoom" parameterType="ezcDistRoom">
 MERGE INTO EZC_DIST_ROOM /* 직영/숙박 객실 */
 	USING DUAL ON (
 		ROOM_CD = #{roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22) */
@@ -364,7 +472,7 @@ MERGE INTO EZC_DIST_ROOM /* 직영/숙박 객실 */
 		)
 </update>
 
-<delete id="deleteEzcDistRoom" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDistRoom">
+<delete id="deleteEzcDistRoom" parameterType="ezcDistRoom">
 DELETE FROM EZC_DIST_ROOM /* 직영/숙박 객실 */
 WHERE 1=1
 	AND ROOM_CD = #{roomCd, jdbcType=DECIMAL}	/* 객실 코드, NUMBER(0,22) */

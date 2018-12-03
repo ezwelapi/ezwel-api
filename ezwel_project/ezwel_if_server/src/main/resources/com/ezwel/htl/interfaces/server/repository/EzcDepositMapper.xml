@@ -6,14 +6,14 @@
  *
  * 버전          성명                   일자              		변경내용
  * =======       ================       ===================		=================
- * 0.0.1         CodeSkeleton (ksw)     2018-12-03 11:05:02 	신규작성 
+ * 0.0.1         CodeSkeleton (ksw)     2018-12-03 14:47:42 	신규작성 
  * 
- * @since 2018-12-03 11:05:02
+ * @since 2018-12-03 14:47:42
  * @version 0.0.1
  * @author ksw
  * @see "DBIO Mapper"
  * -->
-<insert id="insertEzcDeposit" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDeposit">
+<insert id="insertEzcDeposit" parameterType="ezcDeposit">
 INSERT INTO EZC_DEPOSIT(	/* 예치금 */
 	 PARTNER_CD	/* 제휴사 코드, VARCHAR2(20) */
 	,DEPOSIT_AMT	/* 예치 금액, NUMBER(0,22) */
@@ -27,7 +27,7 @@ INSERT INTO EZC_DEPOSIT(	/* 예치금 */
 )
 </insert>
 
-<select id="selectEzcDeposit" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDeposit" resultType="com.ezwel.htl.interfaces.server.entities.EzcDeposit">
+<select id="selectEzcDeposit" parameterType="ezcDeposit" resultType="ezcDeposit">
 SELECT
 	 EZC_DEPOSIT.PARTNER_CD AS partnerCd	/* 제휴사 코드, VARCHAR2(20) */
 	,EZC_DEPOSIT.DEPOSIT_AMT AS depositAmt	/* 예치 금액, NUMBER(0,22) */
@@ -40,12 +40,10 @@ FROM
 	,EZC_PARTNER	/* 제휴사 정보 */
 WHERE 1=1
 	AND EZC_DEPOSIT.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-	AND EZC_DEPOSIT.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_DEPOSIT.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
+	AND EZC_DEPOSIT.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20), EZC_DEPOSIT_PK(P),FK_EZC_PARTNER_EZC_DEPOSIT(R),SYS_C0011359(C) */
 </select>
 
-<select id="selectCountEzcDeposit" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDeposit" resultType="java.lang.Integer">
+<select id="selectCountEzcDeposit" parameterType="ezcDeposit" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)
 FROM
@@ -53,14 +51,27 @@ FROM
 	,EZC_PARTNER	/* 제휴사 정보 */
 WHERE 1=1
 	AND EZC_DEPOSIT.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-	AND EZC_DEPOSIT.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-	AND EZC_PARTNER.REC_STAT = #{recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
 	<if test="partnerCd != null and partnerCd != ''">
 	AND EZC_DEPOSIT.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
 	</if>
+	<if test="depositAmt != null and depositAmt gt 0">
+	AND EZC_DEPOSIT.DEPOSIT_AMT = #{depositAmt, jdbcType=NUMERIC}	/* 예치 금액, NUMBER(0,22) */
+	</if>
+	<if test="regId != null and regId != ''">
+	AND EZC_DEPOSIT.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+	</if>
+	<if test="regDt != null and regDt != ''">
+	AND EZC_DEPOSIT.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+	</if>
+	<if test="modiId != null and modiId != ''">
+	AND EZC_DEPOSIT.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	</if>
+	<if test="modiDt != null and modiDt != ''">
+	AND EZC_DEPOSIT.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+	</if>
 </select>
 
-<select id="selectListEzcDeposit" resultType="com.ezwel.htl.interfaces.server.entities.EzcDeposit">
+<select id="selectListEzcDeposit" resultType="ezcDeposit">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* #### SQL Body [[ ################# */
@@ -76,21 +87,34 @@ SELECT * FROM (
 			,EZC_PARTNER	/* 제휴사 정보 */
 		WHERE 1=1
 			AND EZC_DEPOSIT.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-			AND EZC_DEPOSIT.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			AND EZC_PARTNER.REC_STAT = #{param.recStat, jdbcType=CHAR}	/* 레코드 상태, CHAR(1) */
-			<if test="param.partnerCd != null and param.partnerCd != ''">
-			AND EZC_DEPOSIT.PARTNER_CD = #{param.partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
+			<if test="partnerCd != null and partnerCd != ''">
+			AND EZC_DEPOSIT.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
+			</if>
+			<if test="depositAmt != null and depositAmt gt 0">
+			AND EZC_DEPOSIT.DEPOSIT_AMT = #{depositAmt, jdbcType=NUMERIC}	/* 예치 금액, NUMBER(0,22) */
+			</if>
+			<if test="regId != null and regId != ''">
+			AND EZC_DEPOSIT.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+			</if>
+			<if test="regDt != null and regDt != ''">
+			AND EZC_DEPOSIT.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+			</if>
+			<if test="modiId != null and modiId != ''">
+			AND EZC_DEPOSIT.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+			</if>
+			<if test="modiDt != null and modiDt != ''">
+			AND EZC_DEPOSIT.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
 			EZC_DEPOSIT.PARTNER_CD DESC
 		/* #### SQL Body ]] ################# */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{param.pageNum, jdbcType=NUMERIC}*#{param.pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )
-WHERE ROW__NUM &gt; (#{param.pageNum, jdbcType=NUMERIC}-1)*#{param.pageCount, jdbcType=NUMERIC}
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
 
-<update id="updateEzcDeposit" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDeposit">
+<update id="updateEzcDeposit" parameterType="ezcDeposit">
 UPDATE EZC_DEPOSIT SET	/* 예치금 */
 	 DEPOSIT_AMT = #{depositAmt, jdbcType=NUMERIC}	/* 예치 금액, NUMBER(0,22) */
 	,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
@@ -99,7 +123,7 @@ WHERE 1=1
 	AND PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
 </update>
 
-<update id="mergeEzcDeposit" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDeposit">
+<update id="mergeEzcDeposit" parameterType="ezcDeposit">
 MERGE INTO EZC_DEPOSIT /* 예치금 */
 	USING DUAL ON (
 		PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
@@ -123,7 +147,7 @@ MERGE INTO EZC_DEPOSIT /* 예치금 */
 		)
 </update>
 
-<delete id="deleteEzcDeposit" parameterType="com.ezwel.htl.interfaces.server.entities.EzcDeposit">
+<delete id="deleteEzcDeposit" parameterType="ezcDeposit">
 DELETE FROM EZC_DEPOSIT /* 예치금 */
 WHERE 1=1
 	AND PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
