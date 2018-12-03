@@ -18,5 +18,6 @@ import lombok.EqualsAndHashCode;
 @APIModel(modelNames="API SDO Super Class")
 public abstract class AbstractSDO extends APIObject {
 
+	/** serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 }

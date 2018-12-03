@@ -22,9 +22,7 @@ import lombok.EqualsAndHashCode;
 @APIModel(modelNames="API Model Super Class")
 public abstract class APIObject implements Serializable {
 	
-	/**
-	 * serialVersionUID
-	 */
+	/** serialVersionUID. */
 	private static final long serialVersionUID = -5668980456639902223L;
 	
 	@Override
