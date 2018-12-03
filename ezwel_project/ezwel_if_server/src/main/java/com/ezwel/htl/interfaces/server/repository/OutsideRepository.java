@@ -63,10 +63,6 @@ public class OutsideRepository extends DataAccessObjectUtil {
 			for(Integer i = 0; i < saveFaclRegDatas.size(); i++) {
 				ezcFacl = saveFaclRegDatas.get(i);
 
-				/**
-				 * 인터페이스 전문 필드명과 DB 테이블 컬럼 엔티티명 죄다 다름 아우 -_- 필드 별 일일이 확인 필요
-				 */
-				
 				/** 0. 시설 코드 (Number) Sequnce */
 				//sequnce
 				faclCdSeq = sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectEzcFaclSeq"));

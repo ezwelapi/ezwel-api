@@ -22,16 +22,16 @@ public class UserAgentSDO extends AbstractSDO {
 	@APIFields(description = "에이전트 그룹 아이디")
 	private String httpAgentGroupId;
 
-	@APIFields(description = "에이전트유형", required=true, httpHeader=true)
+	@APIFields(description = "에이전트유형", required=false, httpHeader=true)
 	private String httpAgentType;	
 	
-	@APIFields(description = "체널코드", required=true, httpHeader=true)
+	@APIFields(description = "체널코드", required=false, httpHeader=true)
 	private String httpChannelCd;	
 	
-	@APIFields(description = "클라이언트ID", required=true, httpHeader=true)
+	@APIFields(description = "클라이언트ID", required=false, httpHeader=true)
 	private String httpClientId;	
 	
-	@APIFields(description = "요청자ID", required=true, httpHeader=true)
+	@APIFields(description = "요청자ID", required=false, httpHeader=true)
 	private String httpRequestId;	
 	
 	@APIFields(description = "http connection timeout")

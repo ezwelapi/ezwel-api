@@ -73,6 +73,8 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		
 		if(thisJoinPoint.getTarget().getClass().getAnnotation(Controller.class) != null) {
 			
+			commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+			
 			HttpServletRequest request = LApplicationContext.getRequest();		
 			//1.ThreadLocal 초기화
 			CommonHeader header = Local.commonHeader();
@@ -86,12 +88,13 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			if(request.getHeaderNames() != null) {
 				String headerName = null;
 				String headerValue = null;
-				while(request.getHeaderNames().hasMoreElements()) {
-					headerName = request.getHeaderNames().nextElement();
-					headerValue = request.getHeader(headerName);
-					logger.debug("- requestHeader ■ {} : {}", headerName, headerValue);
-					header.addProperties(headerName, headerValue);
-				}
+				Enumeration<String> headerNames = request.getHeaderNames();
+		        while(headerNames.hasMoreElements()){
+		            headerName = (String) headerNames.nextElement();
+		            headerValue = request.getHeader(headerName);
+		            logger.debug("- requestHeader ■ {} : {}", headerName, headerValue);
+		            header.addProperties(headerName, headerValue);
+		        }
 			}
 		}
 	}

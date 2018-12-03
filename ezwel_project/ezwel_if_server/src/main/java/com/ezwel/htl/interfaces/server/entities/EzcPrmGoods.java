@@ -3,6 +3,8 @@ package com.ezwel.htl.interfaces.server.entities;
 //import lombok.Data;
 //import lombok.EqualsAndHashCode;
 import org.apache.ibatis.type.Alias;
+import com.ezwel.htl.interfaces.commons.thread.Local;
+import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractEntity;

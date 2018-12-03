@@ -42,7 +42,11 @@
 		<appender-ref ref="fileAppender" />
 	</logger>
 	
-	
+	<logger name="org.apache.ibatis.io">
+		<level value="WARN" />
+		<appender-ref ref="fileAppender" />
+	</logger>
+		
 	<!-- jdbc.sqlonly Loggers ( Real SQL Log ) -->
 	<logger name="jdbc.sqlonly">
 		<level value="DEBUG" />

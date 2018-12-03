@@ -29,7 +29,6 @@ import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
-import com.ezwel.htl.interfaces.server.repository.InterfaceCommRepository;
 import com.ezwel.htl.interfaces.server.repository.OutsideRepository;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
@@ -59,7 +58,6 @@ public class OutsideService {
 	
 	private OutsideRepository outsideRepository = (OutsideRepository) LApplicationContext.getBean(OutsideRepository.class);
 	
-	private InterfaceCommRepository interfaceCommRepository = (InterfaceCommRepository) LApplicationContext.getBean(InterfaceCommRepository.class);
 	
 	/** 제휴사 별 시설 정보 transaction commit 건수 */
 	private static final Integer FACL_REG_DATA_TX_COUNT = 50;
@@ -99,6 +97,7 @@ public class OutsideService {
 				
 				multi = new MultiHttpConfigSDO();
 				httpConfigSDO = InterfaceFactory.getChannel(ALL_REG_CHANNEL.concat(OperateConstants.STR_HYPHEN).concat(entry.getValue().getHttpAgentId()), entry.getValue().getHttpAgentId());
+				logger.debug("■■■■■■■■■■■■■■■■■■■ httpConfigSDO ■■■■■■■■■■■■■■■■■■■ {}", httpConfigSDO);
 				configureHelper.setupUserAgentInfo(httpConfigSDO, userAgentDTO);
 				//no input 
 				httpConfigSDO.setDoOutput(false);	

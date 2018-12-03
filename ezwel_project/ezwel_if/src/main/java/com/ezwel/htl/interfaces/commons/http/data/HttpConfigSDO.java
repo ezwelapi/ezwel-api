@@ -27,16 +27,16 @@ public class HttpConfigSDO extends AbstractSDO {
 	@APIFields(description = "에이전트 이름")
 	private String agentName;
 	
-	@APIFields(description = "체널 아이디", required=true)
+	@APIFields(description = "체널 아이디", required=false)
 	private String chanId;
 
 	@APIFields(description = "HTTP 체널 그룹 아이디")
 	private String httpAgentGroupId;
 	
-	@APIFields(description = "에이전트 아이디", required=true, httpHeader=true, headerName="http-agent-id")
+	@APIFields(description = "에이전트 아이디", required=false, httpHeader=true, headerName="http-agent-id")
 	private String httpAgentId;
 	
-	@APIFields(description = "고객사(파트너) 코드 유형", required=true)
+	@APIFields(description = "고객사(파트너) 코드 유형", required=false)
 	private String patnCdType;
 	
 	@APIFields(description = "API 키(ezwel발급)", required=false, httpHeader=false, headerName="http-api-key")
@@ -45,7 +45,7 @@ public class HttpConfigSDO extends AbstractSDO {
 	@APIFields(description = "API 시그니처", required=false, httpHeader=true, headerName="http-api-signature")
 	private String httpApiSignature; 
 
-	@APIFields(description = "요정시간(타임스탬프)", required=true, httpHeader=true, headerName="http-api-timestamp")
+	@APIFields(description = "요정시간(타임스탬프)", required=false, httpHeader=true, headerName="http-api-timestamp")
 	private String httpApiTimestamp;
 	
 	@APIFields(description = "에이전트유형", required=false, httpHeader=true, headerName="http-agent-type")
@@ -60,14 +60,15 @@ public class HttpConfigSDO extends AbstractSDO {
 	@APIFields(description = "요청자ID", required=false, httpHeader=true, headerName="http-request-id")
 	private String httpRequestId;	
 	
+	@APIFields(description = "http interface restfufl api uri", required=false)
+	private String restURI;
+
 	@APIFields(description = "HTTP 요청 파라메터 송신 여부")
 	private boolean isDoOutput;
 	
 	@APIFields(description = "HTTP 응답 결과 수신 여부")
 	private boolean isDoInput;
 	
-	@APIFields(description = "http interface restfufl api uri", required=true)
-	private String restURI;
 	
 	@APIFields(description = "http connection timeout")
 	private int connTimeout;

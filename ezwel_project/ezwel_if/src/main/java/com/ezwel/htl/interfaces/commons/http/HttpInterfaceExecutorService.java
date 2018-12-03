@@ -138,6 +138,9 @@ public class HttpInterfaceExecutorService {
 			if(in.isDoOutput() && APIUtil.isNotEmpty(inJsonParam)) {
 				conn.setRequestProperty("Content-Length", Integer.toString(util.getBytesLength(inJsonParam, in.getEncoding())) );
 			}
+			else {
+				conn.setRequestProperty("Content-Length", "0");
+			}
 			
 			logger.debug("\n■ RequestProperties : \n{}", beanConvert.toJSONString( conn.getRequestProperties()));
 		} catch(APIException e) {
@@ -280,7 +283,7 @@ public class HttpInterfaceExecutorService {
 			logger.debug("■ responseCode : {}", conn.getResponseCode());
 			if(conn.getResponseCode() != 200) {
 				/** 서버측 에러 발생시 에러메시지 세팅 */
-				logger.error("■ HttpServer Exception : {}", (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
+				logger.error("■ HttpServer Exception '{}'\n{}", in.getRestURI(), (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
 				throw new APIException(MessageConstants.RESPONSE_CODE_9200, "■ HTTP 통신 장애 발생 원격 서버 에러");
 	    	}
 			else {

@@ -161,7 +161,7 @@ public class PropertyUtil {
 	    					);
     					}
     					
-    					if( !Map.class.isAssignableFrom(readType) /* && readValue != null */ ) {
+    					if( !Map.class.isAssignableFrom(readType) && readValue != null ) {
     						BeanUtils.setProperty(writeBean, readName, readValue);
     						//setProperty(writeBean, readName, readValue);
     					}
