@@ -126,10 +126,8 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		String methodGuid = Local.startOperation();
 		/** method description */
 		String description = APIUtil.NVL(apiOperAnno.description(), className.concat(OperateConstants.STR_DOT).concat(methodName));
-		/** method full infomation */
-		String methodInfomation = getTargetMethodInfomation(typeMethodName, inputParam, description, methodGuid);
 
-		logger.debug("■■ [START APIOperation] {}\n■■ methodInfomation : {} ", typeMethodName, methodInfomation);
+		logger.debug("■■ [START APIOperation] {}, methodGuid : {} ", typeMethodName, methodGuid);
 
 		Object retVal = null;
 		
@@ -168,7 +166,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 
 		long executeLapTimeMillis = Local.endOperation(methodGuid).getLapTimeMillis();
 		
-		logger.debug("■■ [END APIOperation] {}, lapTime : {} sec\n■■ methodInfomation : {}", typeMethodName, APIUtil.getTimeMillisToSecond(executeLapTimeMillis), methodInfomation);
+		logger.debug("■■ [END APIOperation] {}, methodGuid : {}, lapTime : {} sec", typeMethodName, methodGuid, APIUtil.getTimeMillisToSecond(executeLapTimeMillis));
 		if(Local.commonHeader().isHandlerInterceptorComplete()) {
 			Local.remove();
 		}

@@ -241,6 +241,9 @@ public class OutsideService extends AbstractServiceObject {
 						//부대시설 세팅
 						ezcFacl.setEzcFaclAments(faclData.getServiceCodes());
 						
+						//execute paramValidate
+						new ParamValidate(new ParamValidateSDO(ezcFacl, new String[]{"faclCd"})).execute();
+						
 						//DB 엔티티에 전문 데이터 세팅
 						ezcFaclList.add(ezcFacl);
 					}
@@ -283,9 +286,6 @@ public class OutsideService extends AbstractServiceObject {
 	@APIOperation(description="제휴사 별 시설 데이터 입력")
 	public Integer insertFaclRegData(List<EzcFacl> ezcFacls/* 제휴사 별 시설 목록 */, Integer fromIndex, Integer txCount) {
 		logger.debug("[START] insertFaclRegData ezcFacls.size : {}, fromIndex : {}, txCount : {}", (ezcFacls != null ? ezcFacls.size() : 0), fromIndex, txCount);
-		
-		//execute paramValidate
-		new ParamValidate(new ParamValidateSDO(ezcFacls, new String[]{"faclCd", "confirmStatus"})).execute();
 		
 		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
 		

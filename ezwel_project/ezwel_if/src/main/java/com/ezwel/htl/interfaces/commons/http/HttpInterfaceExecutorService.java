@@ -59,9 +59,9 @@ public class HttpInterfaceExecutorService {
 	private final int urlConnTimeout = 3000;
 
 	/**
-	 * Default Read Time Out 3 Second
+	 * Default Read Time Out 10 Second
 	 */
-	private final int urlReadTimeout = 3000;
+	private final int urlReadTimeout = 10000;
 	
 	private APIUtil util;
 	
@@ -327,7 +327,7 @@ public class HttpInterfaceExecutorService {
 						responseOrgin = responseOrgin.trim();
 					} 
 					
-					logger.debug("■ responseOrgin : {}\n{}", in.getRestURI(), responseOrgin);
+					//logger.debug("■ responseOrgin : {}\n{}", in.getRestURI(), responseOrgin);
 					
 					if(APIUtil.isNotEmpty(responseOrgin)) {
 						
@@ -380,7 +380,7 @@ public class HttpInterfaceExecutorService {
 				conn.disconnect();
 			}
 
-			logger.debug("[END] sendJSON {} {}", in.getRestURI(), out);
+			logger.debug("[END] sendJSON {}", in.getRestURI());
 			return out;			
 		}
 	}
