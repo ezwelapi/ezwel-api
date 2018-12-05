@@ -279,7 +279,7 @@ WHERE 1=1
 <select id="selectListEzcFacl" resultType="ezcFacl">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_FACL.FACL_CD AS faclCd	/* 시설 코드, NUMBER(0,22) */
 			,EZC_FACL.PARTNER_CD AS partnerCd	/* 제휴사 코드, VARCHAR2(20) */
@@ -441,7 +441,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_FACL.FACL_CD DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

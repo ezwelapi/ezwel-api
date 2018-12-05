@@ -103,7 +103,7 @@ WHERE 1=1
 <select id="selectListEzcHoliday" resultType="ezcHoliday">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_HOLIDAY.HDAY_SEQ AS hdaySeq	/* 공휴일 일련번호, NUMBER(0,22) */
 			,EZC_HOLIDAY.HDAY_TYPE_GB AS hdayTypeGb	/* 공휴일 유형 GB, VARCHAR2(8) */
@@ -154,7 +154,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_HOLIDAY.HDAY_SEQ DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

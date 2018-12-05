@@ -32,6 +32,18 @@ public class RsvHistSendOutSDO extends AbstractSDO {
 	
 	@APIFields(description = "결제완료내역전송 output message", maxLength=100)
 	private String message;
+
+	@APIFields(description = "RestAPI URI")
+	private String restURI;
+
+	public String getRestURI() {
+		return restURI;
+	}
+
+	public void setRestURI(String restURI) {
+		this.restURI = restURI;
+	}
+
 	
 	@APIFields(description = "결제완료내역전송 output 주문번호(이지웰)", required=true, maxLength=100)
 	private String rsvNo;

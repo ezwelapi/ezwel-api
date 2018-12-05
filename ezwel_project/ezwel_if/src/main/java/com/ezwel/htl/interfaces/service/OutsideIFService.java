@@ -73,9 +73,9 @@ public class OutsideIFService {
 		try {
 			
 			HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("roomRead", userAgentDTO.getHttpAgentId());
-			configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
+			configureHelper.setupUserAgentInfo(userAgentDTO, httpConfigDTO);
 			/** execute interface */
-			out = (RoomReadOutSDO) inteface.sendPostJSON(httpConfigDTO, roomReadDTO, RoomReadOutSDO.class);
+			out = (RoomReadOutSDO) inteface.sendJSON(httpConfigDTO, roomReadDTO, RoomReadOutSDO.class);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "객실정보조회 인터페이스 장애발생.", e);
@@ -92,12 +92,12 @@ public class OutsideIFService {
 		try {
 			
 			HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("cancelFeePsrc", userAgentDTO.getHttpAgentId());
-			configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
+			configureHelper.setupUserAgentInfo(userAgentDTO, httpConfigDTO);
 			/** execute interface */
-			out = (CancelFeePsrcOutSDO) inteface.sendPostJSON(httpConfigDTO, cancelFeePsrcDTO, CancelFeePsrcOutSDO.class);
+			out = (CancelFeePsrcOutSDO) inteface.sendJSON(httpConfigDTO, cancelFeePsrcDTO, CancelFeePsrcOutSDO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "주문대사(제휴사) 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "취소수수규정 인터페이스 장애발생.", e);
 		}
 		
 		return out;		
@@ -111,9 +111,9 @@ public class OutsideIFService {
 		try {
 			
 			HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("rsvHistSend", userAgentDTO.getHttpAgentId());
-			configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
+			configureHelper.setupUserAgentInfo(userAgentDTO, httpConfigDTO);
 			/** execute interface */
-			out = (RsvHistSendOutSDO) inteface.sendPostJSON(httpConfigDTO, rsvHistSendDTO, RsvHistSendOutSDO.class);
+			out = (RsvHistSendOutSDO) inteface.sendJSON(httpConfigDTO, rsvHistSendDTO, RsvHistSendOutSDO.class);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "결재완료내역전송 인터페이스 장애발생.", e);
@@ -130,12 +130,12 @@ public class OutsideIFService {
 		try {
 			
 			HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("cancelFeeAmt", userAgentDTO.getHttpAgentId());
-			configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
+			configureHelper.setupUserAgentInfo(userAgentDTO, httpConfigDTO);
 			/** execute interface */
-			out = (CancelFeeAmtOutSDO) inteface.sendPostJSON(httpConfigDTO, cancelFeeAmtDTO, CancelFeeAmtOutSDO.class);
+			out = (CancelFeeAmtOutSDO) inteface.sendJSON(httpConfigDTO, cancelFeeAmtDTO, CancelFeeAmtOutSDO.class);
 		}
 		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "주문대사(제휴사) 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "취소수수료계산 인터페이스 장애발생.", e);
 		}
 		return out;
 	}
@@ -148,9 +148,9 @@ public class OutsideIFService {
 		try {
 			
 			HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("orderCancelReq", userAgentDTO.getHttpAgentId());
-			configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
+			configureHelper.setupUserAgentInfo(userAgentDTO, httpConfigDTO);
 			/** execute interface */
-			out = (OrderCancelReqOutSDO) inteface.sendPostJSON(httpConfigDTO, orderCancelReqDTO, OrderCancelReqOutSDO.class);
+			out = (OrderCancelReqOutSDO) inteface.sendJSON(httpConfigDTO, orderCancelReqDTO, OrderCancelReqOutSDO.class);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "주문취소요청 인터페이스 장애발생.", e);
@@ -167,9 +167,9 @@ public class OutsideIFService {
 		try {
 			
 			HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("omiNumIdn", userAgentDTO.getHttpAgentId());
-			configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
+			configureHelper.setupUserAgentInfo(userAgentDTO, httpConfigDTO);
 			/** execute interface */
-			out = (OmiNumIdnOutSDO) inteface.sendPostJSON(httpConfigDTO, omiNumIdnDTO, OmiNumIdnOutSDO.class);
+			out = (OmiNumIdnOutSDO) inteface.sendJSON(httpConfigDTO, omiNumIdnDTO, OmiNumIdnOutSDO.class);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "누락건확인 인터페이스 장애발생.", e);
@@ -186,9 +186,9 @@ public class OutsideIFService {
 		try {
 			
 			HttpConfigSDO httpConfigDTO = InterfaceFactory.getChannel("ezwelJob", userAgentDTO.getHttpAgentId());
-			configureHelper.setupUserAgentInfo(httpConfigDTO, userAgentDTO);
+			configureHelper.setupUserAgentInfo(userAgentDTO, httpConfigDTO);
 			/** execute interface */
-			out = (EzwelJobOutSDO) inteface.sendPostJSON(httpConfigDTO, ezwelJobDTO, EzwelJobOutSDO.class);
+			out = (EzwelJobOutSDO) inteface.sendJSON(httpConfigDTO, ezwelJobDTO, EzwelJobOutSDO.class);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "주문대사(이지웰) 인터페이스 장애발생.", e);

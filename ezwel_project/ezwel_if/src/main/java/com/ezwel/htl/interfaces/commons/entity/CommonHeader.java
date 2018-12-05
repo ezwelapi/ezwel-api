@@ -100,6 +100,8 @@ public class CommonHeader extends APIObject implements Serializable {
 	
 	private List<Object> errorItems;
 	
+	private boolean isHandlerInterceptorComplete;
+	
 	public CommonHeader() {
 		this.reset();
 	}
@@ -132,6 +134,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		requestMap = new LinkedHashMap<String, String[]>();
 		runtimeHeader = null;
 		errorItems = null;
+		isHandlerInterceptorComplete = false;
 	}
 	
 	
@@ -437,4 +440,14 @@ public class CommonHeader extends APIObject implements Serializable {
 	public void setExec(boolean exec) {
 		this.exec = exec;
 	}
+
+	public boolean isHandlerInterceptorComplete() {
+		return isHandlerInterceptorComplete;
+	}
+
+	public void setHandlerInterceptorComplete(boolean isHandlerInterceptorComplete) {
+		this.isHandlerInterceptorComplete = isHandlerInterceptorComplete;
+	}
+	
+	
 }

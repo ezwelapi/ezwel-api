@@ -88,7 +88,7 @@ WHERE 1=1
 <select id="selectListEzcReservRulePenalty" resultType="ezcReservRulePenalty">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_RESERV_RULE_PENALTY.RESERV_PENALTY_SEQ AS reservPenaltySeq	/* 예약 패널티 일련번호, NUMBER(0,22) */
 			,EZC_RESERV_RULE_PENALTY.RESERV_ROOM_NUM AS reservRoomNum	/* 예약 객실 번호, NUMBER(0,22) */
@@ -131,7 +131,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_RESERV_RULE_PENALTY.RESERV_PENALTY_SEQ DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

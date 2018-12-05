@@ -84,7 +84,7 @@ WHERE 1=1
 <select id="selectListEzcPrmClient" resultType="ezcPrmClient">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_PRM_CLIENT.PRM_CD AS prmCd	/* 프로모션 코드, VARCHAR2(10) */
 			,EZC_PRM_CLIENT.CHANNEL_CD AS channelCd	/* 채널 코드, VARCHAR2(10) */
@@ -118,7 +118,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_PRM_CLIENT.PRM_CD DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

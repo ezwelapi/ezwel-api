@@ -34,6 +34,14 @@ public class APIUtilTest {
 		apiUtil = new APIUtil();
 	}
 	
+	@Test
+	public void test() {
+		logger.debug(
+				apiUtil.getTimeMillisToDate(System.currentTimeMillis(), "yyyyMMddkkmmss")
+				);
+	}
+	
+	
 	/**
 	 * <pre>
 	 * [메서드 설명]
@@ -44,7 +52,7 @@ public class APIUtilTest {
 	 * @author swkim@ebsolution.co.kr
 	 * @since  2018. 11. 20.
 	 */
-	@Test
+	//@Test
 	public void createApiKey() {
 		String out = null;
 		// inside api key

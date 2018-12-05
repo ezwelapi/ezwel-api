@@ -124,7 +124,7 @@ WHERE 1=1
 <select id="selectListEzcDepositIssueHist" resultType="ezcDepositIssueHist">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_DEPOSIT_ISSUE_HIST.DEPOSIT_ISSUE_SEQ AS depositIssueSeq	/* 예치금 발생 일련번호, NUMBER(0,22) */
 			,EZC_DEPOSIT_ISSUE_HIST.PARTNER_CD AS partnerCd	/* 제휴사 코드, VARCHAR2(20) */
@@ -184,7 +184,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_DEPOSIT_ISSUE_HIST.DEPOSIT_ISSUE_SEQ DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

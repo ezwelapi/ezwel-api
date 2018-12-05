@@ -79,7 +79,7 @@ WHERE 1=1
 <select id="selectListEzcAuthMapping" resultType="ezcAuthMapping">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_AUTH_MAPPING.AUTH_GRP_CD AS authGrpCd	/* 권한 그룹 코드, VARCHAR2(10) */
 			,EZC_AUTH_MAPPING.MGR_ID AS mgrId	/* 운영자 ID, VARCHAR2(20) */
@@ -110,7 +110,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_AUTH_MAPPING.AUTH_GRP_CD DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

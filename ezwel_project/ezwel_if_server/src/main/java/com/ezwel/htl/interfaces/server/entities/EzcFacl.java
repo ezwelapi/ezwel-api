@@ -62,16 +62,16 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "숙소 등급", maxLength=8, required=true, constraints="SYS_C0011061(C)")
 	private String roomClass;
 
-	@APIFields(description = "판매 시작 일자", maxLength=8, required=true, constraints="SYS_C0011062(C)")
+	@APIFields(description = "판매 시작 일자", maxLength=8, required=true, isDate=true, dateFormat="yyyyMMdd", constraints="SYS_C0011062(C)")
 	private String saleStartDd;
 
-	@APIFields(description = "판매 종료 일자", maxLength=8, required=true, constraints="SYS_C0011063(C)")
+	@APIFields(description = "판매 종료 일자", maxLength=8, required=true, isDate=true, dateFormat="yyyyMMdd", constraints="SYS_C0011063(C)")
 	private String saleEndDd;
 
-	@APIFields(description = "체크인 시분", maxLength=4, required=true, constraints="SYS_C0011064(C)")
+	@APIFields(description = "체크인 시분", maxLength=4, required=false, isDate=true, dateFormat="HHmm", constraints="SYS_C0011064(C)")
 	private String checkInTm;
 
-	@APIFields(description = "체크아웃 시분", maxLength=4, required=true, constraints="SYS_C0011065(C)")
+	@APIFields(description = "체크아웃 시분", maxLength=4, required=false, isDate=true, dateFormat="HHmm", constraints="SYS_C0011065(C)")
 	private String checkOutTm;
 
 	@APIFields(description = "지역 코드", maxLength=10, required=true, constraints="FK_EZC_AREA_CD_EZC_FACL(R),SYS_C0011066(C) EZC_FACL_IF02(NONUNIQUE)")
@@ -116,10 +116,10 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "이미지 변경 여부", maxLength=1, required=true, constraints="SYS_C0011070(C)")
 	private String imgChangeYn;
 
-	@APIFields(description = "판매 중지 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
+	@APIFields(description = "판매 중지 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
 	private String saleStopDt;
 
-	@APIFields(description = "API 동기화 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHH24miss")
+	@APIFields(description = "API 동기화 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
 	private String apiSyncDt;
 
 	@APIFields(description = "확정 상태", maxLength=8, required=true, constraints="SYS_C0011071(C)")
@@ -137,16 +137,16 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011074(C)")
 	private String regId = Local.commonHeader().getSystemUserId();
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss", required=true, constraints="SYS_C0011075(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss", required=true, constraints="SYS_C0011075(C)")
 	private String regDt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
 
 	@APIFields(description = "수정자 ID", maxLength=20)
 	private String modiId = Local.commonHeader().getSystemUserId();
 
-	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
+	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
 	private String modiDt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
 
-	@APIFields(description = "시설 이미지")
+	@APIFields(description = "시설 이미지", required=true)
 	private List<EzcFaclImg> ezcFaclImgList = null;
 	
 	@APIFields(description = "시설 부대시설", maxLength=500)

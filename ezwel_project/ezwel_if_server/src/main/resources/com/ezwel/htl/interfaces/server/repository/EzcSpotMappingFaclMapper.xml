@@ -77,7 +77,7 @@ WHERE 1=1
 <select id="selectListEzcSpotMappingFacl" resultType="ezcSpotMappingFacl">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_SPOT_MAPPING_FACL.SPOT_CD AS spotCd	/* 스팟 코드, NUMBER(0,22) */
 			,EZC_SPOT_MAPPING_FACL.GRP_FACL_CD AS grpFaclCd	/* 그룹 시설 코드, NUMBER(0,22) */
@@ -108,7 +108,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_SPOT_MAPPING_FACL.SPOT_CD DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

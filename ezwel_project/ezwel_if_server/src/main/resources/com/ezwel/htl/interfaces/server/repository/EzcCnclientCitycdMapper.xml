@@ -70,7 +70,7 @@ WHERE 1=1
 <select id="selectListEzcCnclientCitycd" resultType="ezcCnclientCitycd">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_CNCLIENT_CITYCD.CITY_CD AS cityCd	/* 도시 코드, VARCHAR2(10) */
 			,EZC_CNCLIENT_CITYCD.CLIENT_CD AS clientCd	/* 고객사 코드, VARCHAR2(20) */
@@ -97,7 +97,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_CNCLIENT_CITYCD.CITY_CD DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

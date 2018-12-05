@@ -33,19 +33,22 @@ import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.sdo.ExceptionSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
+import com.ezwel.htl.interfaces.server.commons.utils.ResponseUtil;
 
 @Aspect
 public class MethodsAdvice implements MethodInterceptor, Ordered {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodsAdvice.class);
 
-	private static final boolean isLogging = true;
+	private static final boolean isLogging = false;
 
 	private BeanMarshaller beanMarshaller;
 	
 	private PropertyUtil propertyUtil;
 	
 	private CommonUtil commonUtil;
+	
+	private ResponseUtil responseUtil;
 	
 	private int order = 1;
 
@@ -69,33 +72,6 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 	public void beforeTargetMethod(JoinPoint thisJoinPoint) {
 		if (isLogging) {
 			logger.debug("■■ [AOP] MethodsAdvice.beforeTargetMethod executed.\n■ thisJoinPoint : {}", thisJoinPoint);
-		}
-		
-		if(thisJoinPoint.getTarget().getClass().getAnnotation(Controller.class) != null) {
-			
-			commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
-			
-			HttpServletRequest request = LApplicationContext.getRequest();		
-			//1.ThreadLocal 초기화
-			CommonHeader header = Local.commonHeader();
-			//2.Content Type 
-			header.setContentType(commonUtil.getRequestContentType(request));
-			//3.요청 인코딩
-			header.setEncoding(request.getCharacterEncoding());
-			//4.접속자 IP
-			header.setClientAddress(commonUtil.getClientAddress(request));
-			//5.Request Header 
-			if(request.getHeaderNames() != null) {
-				String headerName = null;
-				String headerValue = null;
-				Enumeration<String> headerNames = request.getHeaderNames();
-		        while(headerNames.hasMoreElements()){
-		            headerName = (String) headerNames.nextElement();
-		            headerValue = request.getHeader(headerName);
-		            logger.debug("- requestHeader ■ {} : {}", headerName, headerValue);
-		            header.addProperties(headerName, headerValue);
-		        }
-			}
 		}
 	}
 
@@ -129,6 +105,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
 		beanMarshaller = (BeanMarshaller) LApplicationContext.getBean(beanMarshaller, BeanMarshaller.class);
+		responseUtil = (ResponseUtil) LApplicationContext.getBean(responseUtil, ResponseUtil.class);
 		
 		Class<?> typeClass = thisJoinPoint.getTarget().getClass();
 		String className = typeClass.getSimpleName();
@@ -152,23 +129,26 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		/** method full infomation */
 		String methodInfomation = getTargetMethodInfomation(typeMethodName, inputParam, description, methodGuid);
 
-		logger.debug("■■ [AOP START Operation] {} ", methodInfomation);
+		logger.debug("■■ [START APIOperation] {}\n■■ methodInfomation : {} ", typeMethodName, methodInfomation);
 
 		Object retVal = null;
 		
 		try {
-			
-			if(controlAnno != null) {
+			logger.debug("■■ [INPUT] {} {}", typeMethodName, inputParam);
+			if(controlAnno != null || apiOperAnno.isInputBeanValidation()) {
+				logger.debug("■■ [VALIDATE] {} {}", controlAnno, apiOperAnno.isInputBeanValidation());
 				doMethodInputValidation(proccesMethod.getParameterTypes(), inputParam);
 			}
 			
 			retVal = thisJoinPoint.proceed(inputParam);
 			
-			if(controlAnno != null && apiOperAnno != null && apiOperAnno.isOutputJsonMarshall()) {
+			if(retVal != null && controlAnno != null && apiOperAnno.isOutputJsonMarshall()) {
 				propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_CODE_FIELD_NAME, MessageConstants.RESPONSE_CODE_1000);
 				propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_1000));
-				retVal = new ResponseEntity<String>((String) beanMarshaller.toJSONString(retVal), HttpStatus.CREATED);
+				retVal = responseUtil.getResponseEntity(beanMarshaller.toJSONString(retVal));
 			}
+			
+			logger.debug("■■ [OUTPUT] {} {}", typeMethodName, retVal);
 		}
 		catch(APIException e) {
 			
@@ -177,22 +157,21 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				ExceptionSDO output = new ExceptionSDO();
 				output.setCode(e.getResultCodeString());
 				output.setMessage(e.getMessages());
+				retVal = responseUtil.getResponseEntity(beanMarshaller.toJSONString(output));
 				
-				retVal = new ResponseEntity<String>((String) beanMarshaller.toJSONString(output), HttpStatus.CREATED);
 				e.printStackTrace();
 			}
-			else if(apiOperAnno != null){
-				throw new APIException("APIOperation '{}' {} 장애발생" , new Object[]{description, typeMethodName}, e);
-			}
 			else {
-				throw new APIException(e);
+				throw new APIException("■■ [AOP-APIException] {} ({}) 장애발생" , new Object[]{ typeMethodName, description }, e);
 			}
-		}
+		} 
 
 		long executeLapTimeMillis = Local.endOperation(methodGuid).getLapTimeMillis();
-
-		logger.debug("■■ [AOP] output : {}", retVal);
-		logger.debug("■■ [AOP] END Operation lapTime : {} sec, methodInfomation : {}", APIUtil.getTimeMillisToSecond(executeLapTimeMillis), methodInfomation);
+		
+		logger.debug("■■ [END APIOperation] {}, lapTime : {} sec\n■■ methodInfomation : {}", typeMethodName, APIUtil.getTimeMillisToSecond(executeLapTimeMillis), methodInfomation);
+		if(Local.commonHeader().isHandlerInterceptorComplete()) {
+			Local.remove();
+		}
 		return retVal;
 	}
 

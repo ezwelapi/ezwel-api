@@ -43,7 +43,7 @@ public class HttpInterfaceExecutorTest  {
 	}
 	
 	@Test
-	public void sendPostJSONTest() {
+	public void sendJSONTest() {
 		
 		/*
 		JSON out = JSONSerializer.toJSON( inputDTO );
@@ -58,7 +58,7 @@ public class HttpInterfaceExecutorTest  {
         }
         */
 		
-		RoomReadOutSDO singleOut = (RoomReadOutSDO) http.sendPostJSON(config, inputDTO, RoomReadOutSDO.class);
+		RoomReadOutSDO singleOut = (RoomReadOutSDO) http.sendJSON(config, inputDTO, RoomReadOutSDO.class);
 		logger.debug("###RoomReadOutDTO : {}", singleOut);
 		
 		
@@ -121,7 +121,7 @@ public class HttpInterfaceExecutorTest  {
 		}
 		
 		//멀티 쓰레드 인터페이스 실행
-		List<AbstractSDO> multiOut = http.sendMultiPostJSON(multiHttpConfigList);
+		List<AbstractSDO> multiOut = http.sendMultiJSON(multiHttpConfigList);
 		
 		int cnt = 0;
 		for(AbstractSDO out : multiOut) {

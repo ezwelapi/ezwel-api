@@ -106,7 +106,7 @@ WHERE 1=1
 <select id="selectListEzcDisp" resultType="ezcDisp">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_DISP.DISP_CD AS dispCd	/* 전시 코드, NUMBER(0,22) */
 			,EZC_DISP.DISP_NM AS dispNm	/* 전시 명, VARCHAR2(100) */
@@ -161,7 +161,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_DISP.DISP_CD DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

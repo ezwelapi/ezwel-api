@@ -50,6 +50,14 @@ public class LApplicationContext implements ApplicationContextAware, BeanNameAwa
 		LApplicationContext.applicationContext = context;
 	}
 
+	public static ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
+	
+	public static WebApplicationContext getWebApplicationContext() {
+		return (applicationContext != null ? (WebApplicationContext) applicationContext : null);
+	}
+	
 	/**
 	 * <pre>
 	 * [메서드 설명]

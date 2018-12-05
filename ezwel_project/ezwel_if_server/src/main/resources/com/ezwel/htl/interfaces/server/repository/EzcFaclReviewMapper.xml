@@ -85,7 +85,7 @@ WHERE 1=1
 <select id="selectListEzcFaclReview" resultType="ezcFaclReview">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_FACL_REVIEW.FACL_REVIEW_SEQ AS faclReviewSeq	/* 시설 후기 일련번호, NUMBER(0,22) */
 			,EZC_FACL_REVIEW.RESERV_NUM AS reservNum	/* 예약 번호, NUMBER(0,22) */
@@ -124,7 +124,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_FACL_REVIEW.FACL_REVIEW_SEQ DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

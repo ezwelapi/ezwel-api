@@ -58,16 +58,21 @@ public class ParamValidate {
 	
 	public ParamValidate(){
 		this.reset();
-		//ParamValidate를 @Autowired하지 않고 new ParamValidate() 하였을경우
-		if(regexUtil == null) this.regexUtil = new RegexUtil();
-		if(typeUtil == null) this.typeUtil = new TypeUtil();
-		if(propertyUtil == null) this.propertyUtil = new PropertyUtil();
-		if(apiUtil == null) this.apiUtil = new APIUtil();
+	}
+	
+	public ParamValidate(ParamValidateSDO paramValidateSDO) {
+		this.reset();
+		addParam(paramValidateSDO);
 	}
 	
 	@APIOperation(description="필드 밸류 리셋(초기화)")
 	private void reset(){
 		params = new ArrayList<ParamValidateSDO>();
+		//ParamValidate를 @Autowired하지 않고 new ParamValidate() 하였을경우
+		if(regexUtil == null) this.regexUtil = new RegexUtil();
+		if(typeUtil == null) this.typeUtil = new TypeUtil();
+		if(propertyUtil == null) this.propertyUtil = new PropertyUtil();
+		if(apiUtil == null) this.apiUtil = new APIUtil();		
 	}
 
 	@APIOperation(description="파라메터 유효성 검사 목록 DATA OBJECT를 리턴합니다.")
@@ -221,6 +226,11 @@ public class ParamValidate {
 	@APIOperation(description="바인드된 ParamValidateSDO설정값 중 설정된 모델의 필드를 유효성검사합니다.")
     private boolean validateField(ParamValidateSDO paramValidate, Object model, Field field) {
     	
+		if(paramValidate.getExcludeFieldList() != null && paramValidate.getExcludeFieldList().contains(field.getName())) {
+			//Pass excludeField 
+			return true;
+		}
+		
     	APIFields fieldAnno = field.getAnnotation(APIFields.class);
     	Collection<?> collection = typeUtil.getCollectionType(field.getType());
 		//@APIFields 어노테이션이있는 필드만 벨리데이션한다. 없는 필드는 패스 한다. 
@@ -245,7 +255,7 @@ public class ParamValidate {
 					//((String)field)
 					int byteLength = apiUtil.getBytesLength((String)value, this.encoding);
 					if(byteLength > fieldAnno.maxLength()) {
-						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 데이터는 ", Integer.toString(fieldAnno.maxLength()), " 바이트를 넘을수 없습니다."));
+						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 데이터는 ", Integer.toString(fieldAnno.maxLength()), " 바이트를 넘을수 없습니다. 입력값 : ", value));
 						paramValidate.setValidation(false);
 						return false;	
 					}
@@ -257,7 +267,7 @@ public class ParamValidate {
 					//((String)field)
 					int byteLength = apiUtil.getBytesLength((String)value, this.encoding);
 					if(byteLength < fieldAnno.minLength()) {
-						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 데이터는 ", Integer.toString(fieldAnno.minLength()), " 바이트보다 길게 입력되야 합니다."));
+						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 데이터는 ", Integer.toString(fieldAnno.minLength()), " 바이트보다 길게 입력되야 합니다. 입력값 : ", value));
 						paramValidate.setValidation(false);
 						return false;	
 					}
@@ -267,7 +277,7 @@ public class ParamValidate {
 				if( field.getType().isAssignableFrom(String.class) && APIUtil.isNotEmpty(fieldAnno.pattern()) && value != null ) {
 					
 					if(!regexUtil.testPattern((String) value, fieldAnno.pattern())) {
-						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 데이터가 유효하지 않습니다. 검증식은 '",fieldAnno.pattern() ,"' 입니다."));
+						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 데이터가 유효하지 않습니다. 검증식은 '",fieldAnno.pattern() ,"' 입니다. 입력값 : ", value));
 						paramValidate.setValidation(false);
 						return false;
 					}
@@ -276,8 +286,8 @@ public class ParamValidate {
 				/** isDate */
 				if( field.getType().isAssignableFrom(String.class) && fieldAnno.isDate() && value != null ) {
 					
-					if(!apiUtil.isValidDate((String) value)) {
-						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 날짜 데이터가 유효하지 않습니다."));
+					if(!apiUtil.isValidDate((String) value, (APIUtil.isNotEmpty(fieldAnno.dateFormat()) ? fieldAnno.dateFormat() : null))) {
+						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 날짜 데이터가 유효하지 않습니다. 입력값 : ", value));
 						paramValidate.setValidation(false);
 						return false;
 					}
@@ -285,7 +295,8 @@ public class ParamValidate {
 
 				/** collection or dto, vo 등의 User Object */
 				if(value != null && (collection != null || !typeUtil.isGeneralType(field.getType()) && typeUtil.isSupportedReferenceType(value.getClass().getCanonicalName()))) {
-					validateModel(new ParamValidateSDO(value));
+					logger.debug("[ReCall] this field is referenceType {} {}", field.getType().getSimpleName(), field.getName());
+					validateModel(new ParamValidateSDO(model));
 				}
 			}
 			catch (Exception e){
@@ -302,7 +313,9 @@ public class ParamValidate {
     	Object model = paramValidate.getModel();
 		
     	if(model != null) {
-
+			//logger.debug("[ValidateModel] modelClass : {}", model.getClass());
+			//logger.debug("[ValidateModel] modelData : {}", model);
+			
         	Class<?> modelClass = null;
     		APIModel modelAnno = null;
     		
@@ -312,13 +325,14 @@ public class ParamValidate {
 					
 					modelClass = items.getClass();
 		    		modelAnno = modelClass.getAnnotation(APIModel.class);
-		    		
+					//logger.debug("[CVD] modelClass : {}", modelClass);
+					//logger.debug("[CVD] modelAnno : {}", modelAnno);
 		    		//@APIModel 어노테이션이있는 DTO만 벨리데이션한다.
 	        		if(modelAnno != null) {
 	        			
 	        			for(Field field : modelClass.getDeclaredFields()) {
 	    					if(logger.isDebugEnabled()) {
-	    						logger.debug("[VALIDATE] DeclaredFields Name : " + field.getName());
+	    						logger.debug("[VALIDATE] DeclaredFields Name : {}", field.getName());
 	    					}
 	    					if(!validateField(paramValidate, items, field)) {
 	    						return paramValidate;
@@ -326,14 +340,15 @@ public class ParamValidate {
 	        			}	
 	        		}
 	        		else {
-	        			throw new APIException(MessageConstants.RESPONSE_CODE_2001, APIUtil.addString("유효성검사대상 클래스가 잘못되었습니다. @APIModel어노테이션이 설정된 모델만 가능합니다."));
+	        			throw new APIException(MessageConstants.RESPONSE_CODE_2001, "유효성검사대상 클래스가 잘못되었습니다. @APIModel어노테이션이 설정된 모델만 가능합니다.");
 	        		}
 				}
     		}
     		else {
     			modelClass = model.getClass();
         		modelAnno = modelClass.getAnnotation(APIModel.class);
-        		
+				//logger.debug("[VD] modelClass : {}", modelClass);
+				//logger.debug("[VD] modelAnno : {}", modelAnno);
         		//@APIModel 어노테이션이있는 DTO만 벨리데이션한다.
         		if(modelAnno != null) {
         			
@@ -420,7 +435,7 @@ public class ParamValidate {
         			}
         		}
         		else {
-        			throw new APIException(APIUtil.addString("유효성검사대상 클래스는 @APIModel어노테이션 클래스만 가능합니다."));
+        			throw new APIException("유효성검사대상 클래스는 @APIModel어노테이션 클래스만 가능합니다. current class is '{}'", modelClass.getCanonicalName());
         		}
     		}
     	}
@@ -546,4 +561,5 @@ public class ParamValidate {
     	
 		return paramValidate;
     }
+	
 }

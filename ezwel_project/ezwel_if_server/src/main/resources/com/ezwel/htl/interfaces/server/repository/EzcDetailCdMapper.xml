@@ -102,7 +102,7 @@ WHERE 1=1
 <select id="selectListEzcDetailCd" resultType="ezcDetailCd">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/* SQL Body Start  */
 		SELECT
 			 EZC_DETAIL_CD.MASTER_CD AS masterCd	/* 공통 코드, VARCHAR2(8) */
 			,EZC_DETAIL_CD.DETAIL_CD AS detailCd	/* 상세 코드, VARCHAR2(4) */
@@ -137,21 +137,21 @@ SELECT * FROM (
 			<if test="dispOrder != null and dispOrder gt 0">
 			AND EZC_DETAIL_CD.DISP_ORDER = #{dispOrder, jdbcType=NUMERIC}	/* 정렬순서, NUMBER(0,22) */
 			</if>
-			<if test="regId != null and regId != ''">
-			AND EZC_DETAIL_CD.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
-			</if>
-			<if test="regDt != null and regDt != ''">
-			AND EZC_DETAIL_CD.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
-			</if>
-			<if test="modiId != null and modiId != ''">
-			AND EZC_DETAIL_CD.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
-			</if>
-			<if test="modiDt != null and modiDt != ''">
-			AND EZC_DETAIL_CD.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
-			</if>
+			<if test="classCdList != null">
+				AND EZC_DETAIL_CD.CLASS_CD IN
+			    <foreach item="inClassCd" index="index" collection="classCdList" open="(" separator="," close=")">
+			    #{inClassCd, jdbcType=VARCHAR}
+			    </foreach>   			
+		    </if>
+		    <if test="detailCdList != null">
+		    	AND EZC_DETAIL_CD.DETAIL_CD IN
+			    <foreach item="inDetailCd" index="index" collection="detailCdList" open="(" separator="," close=")">
+			    #{inDetailCd, jdbcType=VARCHAR}
+			    </foreach>
+		    </if> 
 		ORDER BY
-			EZC_DETAIL_CD.MASTER_CD DESC
-		/* #### SQL Body ]] ################# */
+			EZC_DETAIL_CD.DISP_ORDER, EZC_DETAIL_CD.MASTER_CD
+		/* SQL Body End */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

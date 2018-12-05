@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -25,6 +26,7 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.constants.HttpHeaderConstants;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
@@ -84,7 +86,7 @@ public class HttpInterfaceExecutorService {
 	}
 	
 	@APIOperation(description="Getting Http URL Connection", isExecTest=true)
-	public HttpURLConnection getOpenHttpURLConnection(HttpConfigSDO in) {
+	public HttpURLConnection getOpenHttpURLConnection(HttpConfigSDO in, int contentLength) {
 		
 		HttpURLConnection conn = null;
 		URL url = null;
@@ -99,12 +101,17 @@ public class HttpInterfaceExecutorService {
 			conn.setDoOutput(in.isDoOutput()); //HTTP 요청 파라메터 송신 여부
 			conn.setUseCaches(false);
 			conn.setDefaultUseCaches(false);
-			conn.setRequestMethod(OperateConstants.HTTP_METHOD_POST);
+			if(in.isDoOutput() && contentLength > 0) {
+				conn.setRequestMethod(OperateConstants.HTTP_METHOD_POST);
+			}
+			else {
+				conn.setRequestMethod(OperateConstants.HTTP_METHOD_GET);
+			}
 			conn.setConnectTimeout(httpConnTimeout);
 			conn.setReadTimeout(httpReadTimeout);	
 			
 		} catch (ProtocolException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 연결이 불가능한 주소입니다.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 연결이 불가능한 주소입니다.", e); 
 		} catch (MalformedURLException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 프로토콜이 잘못되었습니다.", e);
 		} catch (IOException e) {
@@ -114,7 +121,9 @@ public class HttpInterfaceExecutorService {
 		return conn;
 	}
 	
-	void setJsonRequestHeader(HttpConfigSDO in, HttpURLConnection conn, String inJsonParam) {
+	@APIOperation(description="Setting Request Header", isExecTest=true)
+	void setRequestHeader(HttpConfigSDO in, HttpURLConnection conn, int contentLength) {
+		logger.debug("[START] setRequestHeader {}", in);
 		
 		Properties certifications = null;
 		
@@ -131,18 +140,21 @@ public class HttpInterfaceExecutorService {
 			}
 			
 			/** 강제 유지 프로퍼티 */
-			conn.setRequestProperty("Content-Type", APIUtil.addString("application/json; charset=", in.getEncoding()));
-			conn.setRequestProperty("Accept", "application/json");
-			conn.setRequestProperty("Cache-Control", "no-cache");
-			
-			if(in.isDoOutput() && APIUtil.isNotEmpty(inJsonParam)) {
-				conn.setRequestProperty("Content-Length", Integer.toString(util.getBytesLength(inJsonParam, in.getEncoding())) );
+			conn.setRequestProperty(HttpHeaderConstants.CONTENT_TYPE, APIUtil.addString(HttpHeaderConstants.CONTENT_TYPE_APP_JSON, in.getEncoding()));
+			conn.setRequestProperty(HttpHeaderConstants.ACCEPT, HttpHeaderConstants.ACCEPT_APP_JSON);
+			conn.setRequestProperty(HttpHeaderConstants.ACCEPT_CHARSET, in.getEncoding());
+			conn.setRequestProperty(HttpHeaderConstants.CHARSET, in.getEncoding());
+			conn.setRequestProperty(HttpHeaderConstants.DATE, APIUtil.getFastDate());
+			conn.setRequestProperty(HttpHeaderConstants.CACHE_CONTROL, HttpHeaderConstants.CACHE_CONTROL_NO_CACHE);
+			conn.setRequestProperty(HttpHeaderConstants.HTTP_REST_URI, in.getRestURI());
+			if(contentLength > 0) {
+				//in case that the content is not empty
+				conn.setRequestProperty(HttpHeaderConstants.CONTENT_LENGTH, Integer.toString(contentLength));
+		    } else {
+		    	conn.addRequestProperty(HttpHeaderConstants.CONTENT_LENGTH, "0");
 			}
-			else {
-				conn.setRequestProperty("Content-Length", "0");
-			}
 			
-			logger.debug("\n■ RequestProperties : \n{}", beanConvert.toJSONString( conn.getRequestProperties()));
+			//conn.connect();
 		} catch(APIException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 인터페이스 요청 헤더 작성중 장애발생.", e);
 		} finally {
@@ -153,8 +165,15 @@ public class HttpInterfaceExecutorService {
 				in.getRequestProperty().clear();
 			}			
 		}
+		
+		for(Entry<String, List<String>> header : conn.getRequestProperties().entrySet()) {
+			logger.debug("[HEADER] {} : {}", header.getKey(), header.getValue());
+		}
+		
+		logger.debug("[END] setRequestHeader");
 	}
 	
+	@APIOperation(description="InputStream To String", isExecTest=true)
 	String getInputStreamToString(HttpConfigSDO in, HttpURLConnection conn) {
 		
 		String out = null; 
@@ -179,12 +198,12 @@ public class HttpInterfaceExecutorService {
 	}
 	
 	
+	@APIOperation(description="InputBean To JSON", isExecTest=true)
 	<T extends AbstractSDO> String inputBeanToJSON(T inputObject) {
 		
 		String out = null;
-
 		try {
-		
+			
 			out = beanConvert.toJSONString(inputObject);
 			logger.debug("\n■ input parameter : \n{}", out);	
 		}
@@ -203,6 +222,8 @@ public class HttpInterfaceExecutorService {
 			os.write(inJsonParam.getBytes(in.getEncoding()));
 			os.flush();			
 		} catch (IOException e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ JSON Write 장애발생", e);
+		} catch (APIException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ JSON 파라메터 전송중 장애발생", e);
 		} finally {
 			if(os != null) {
@@ -216,25 +237,25 @@ public class HttpInterfaceExecutorService {
 	}
 	
 	@APIOperation(description="Http URL Communication API (output only)", isExecTest=true)
-	public <T extends AbstractSDO> T sendPostJSON(HttpConfigSDO in, Class<T> outputObject) {
+	public <T extends AbstractSDO> T sendJSON(HttpConfigSDO in, Class<T> outputObject) {
 		if(in == null) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_2000, "인터페이스 필수 입력 객체가 존재하지 않습니다.");
 		}
 		
 		/** 요청 파라메터 여부 */
 		in.setDoOutput(false); 
-		return sendPostJSON(in, null, outputObject);
+		return sendJSON(in, null, outputObject);
 	}
 	
 	@APIOperation(description="Http URL Communication API (input only)", isExecTest=true)
-	public <T extends AbstractSDO> T sendPostJSON(HttpConfigSDO in, T inputObject) {
+	public <T extends AbstractSDO> T sendJSON(HttpConfigSDO in, T inputObject) {
 		if(in == null) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_2000, "인터페이스 필수 입력 객체가 존재하지 않습니다.");
 		}
 		
 		/** 응답 결과 수신 여부 */
 		in.setDoInput(false);
-		return sendPostJSON(in, inputObject, null);
+		return sendJSON(in, inputObject, null);
 	}
 	
 	
@@ -245,7 +266,7 @@ public class HttpInterfaceExecutorService {
 	 */
 	@SuppressWarnings({ "unchecked", "finally" })
 	@APIOperation(description="Http URL Communication API", isExecTest=true)
-	public <T1 extends AbstractSDO, T2 extends AbstractSDO> T2 sendPostJSON(HttpConfigSDO in, T1 inputObject, Class<T2> outputType) {
+	public <T1 extends AbstractSDO, T2 extends AbstractSDO> T2 sendJSON(HttpConfigSDO in, T1 inputObject, Class<T2> outputType) {
 		logger.debug("[START] sendJSON\n[CHANNEL-INFO] {}\n[USER-INPUT] {}\n[USER-OUTPUT] {}", in, inputObject, outputType);
 		
 		//return value
@@ -263,24 +284,33 @@ public class HttpInterfaceExecutorService {
 				throw new APIException(MessageConstants.RESPONSE_CODE_2000, "■ 인터페이스 필수 입력 객체가 존재하지 않습니다.");
 			}
 			
-			/** input bean to json */
-			if(in.isDoOutput() && inputObject != null) {
+			if(in.isDoOutput()) {
+				if(inputObject == null) {
+					throw new APIException(MessageConstants.RESPONSE_CODE_2000, "■ HttpURLConnection의 isDoOutput가 true일때 inputObject 파라메터가 null일수 없습니다.");
+				}
+				/** input bean to json */	
 				inJsonParam = inputBeanToJSON(inputObject);
 			}
-
-			/** getOpenHttpURLConnection */
-			conn = getOpenHttpURLConnection(in);
-
-			/** Set Request Header */
-			setJsonRequestHeader(in, conn, inJsonParam);
+			else {
+				inJsonParam = OperateConstants.STR_BLANK;
+			}
 			
+			int contentLength = APIUtil.NVL(inJsonParam).getBytes(in.getEncoding()).length;
+			
+			/** getOpenHttpURLConnection */
+			conn = getOpenHttpURLConnection(in, contentLength);
+			
+			/** Set Request Header */
+			setRequestHeader(in, conn, contentLength);
+			
+			logger.debug("■ request isDoOutput : {}", in.isDoOutput());
 			/** send request json parameter */
-			if(in.isDoOutput() && inputObject != null) {
+			if(in.isDoOutput()) {
 				wrtieInputJSON(in, conn, inJsonParam);
 			}
 			
 			/** 응답 코드 채크 */
-			logger.debug("■ responseCode : {}", conn.getResponseCode());
+			logger.debug("■ responseCode : {}, URI : {}", conn.getResponseCode(), in.getRestURI());
 			if(conn.getResponseCode() != 200) {
 				/** 서버측 에러 발생시 에러메시지 세팅 */
 				logger.error("■ HttpServer Exception '{}'\n{}", in.getRestURI(), (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
@@ -297,6 +327,8 @@ public class HttpInterfaceExecutorService {
 						responseOrgin = responseOrgin.trim();
 					} 
 					
+					logger.debug("■ responseOrgin : {}\n{}", in.getRestURI(), responseOrgin);
+					
 					if(APIUtil.isNotEmpty(responseOrgin)) {
 						
 						if(outputType == null) {
@@ -305,7 +337,10 @@ public class HttpInterfaceExecutorService {
 
 						/** execute unmarshall */
 						logger.debug("■ outputType : {}", outputType);
-						out = (T2) beanConvert.fromJSONString/*fromJSON*/(responseOrgin, outputType);						
+						out = (T2) beanConvert.fromJSONString/*fromJSON*/(responseOrgin, outputType);
+						propertyUtil.setProperty(out, "restURI", in.getRestURI());
+						propertyUtil.setProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME, MessageConstants.RESPONSE_CODE_1000);
+						propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_1000));						
 					}
 					else {
 						logger.debug("■ 인터페이스 응답 내용이 존재하지 않습니다.");
@@ -317,21 +352,35 @@ public class HttpInterfaceExecutorService {
 		} catch (APIException e) {
 			
 			if(outputType != null) {
-				e.printStackTrace();
-				
 				out = outputType.newInstance();
 				propertyUtil.setProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME, e.getResultCode());
-				propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, e.getMessage());
+				propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, e.getMessages().concat(" : ").concat(in.getRestURI()));
+
+				logger.error("■ URL Exception : {}", e.getMessage());
+				e.printStackTrace();
 			}
 			else {
 				throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ 통신 장애 발생.", e);
 			}
-		}  finally {
+		} catch (Exception e) {
+			
+			if(outputType != null) {
+				out = outputType.newInstance();
+				propertyUtil.setProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME, MessageConstants.RESPONSE_CODE_9100);
+				propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, e.getMessage().concat(" : ").concat(in.getRestURI()));
+
+				logger.error("■ URL Exception : {}", e.getMessage());
+				e.printStackTrace();
+			}
+			else {
+				throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ 통신 장애 발생.", e);
+			}
+		} finally {
 			if(conn != null) {
 				conn.disconnect();
 			}
-			
-			logger.debug("[END] sendJSON");
+
+			logger.debug("[END] sendJSON {} {}", in.getRestURI(), out);
 			return out;			
 		}
 	}
@@ -381,8 +430,8 @@ public class HttpInterfaceExecutorService {
 	
 	@SuppressWarnings({ "unchecked", "finally" })
 	@APIOperation(description="Http URL Multi Communication API", isExecTest=true)
-	public <T extends AbstractSDO> List<T> sendMultiPostJSON(List<MultiHttpConfigSDO> in) {
-		logger.debug("[START] sendMultiPostJSON\nInput Signature : {}", in);
+	public <T extends AbstractSDO> List<T> sendMultiJSON(List<MultiHttpConfigSDO> in) {
+		logger.debug("[START] sendMultiJSON\nInput Signature : {}", in);
 		
 		List<T> out = null;
 		CallableExecutor executor = null;
@@ -410,7 +459,9 @@ public class HttpInterfaceExecutorService {
 				logger.debug("- futures.size() : {}", futures.size());
 				
 				for(Future<?> future : futures) {
-					out.add((T) future.get());
+					if(future.get() != null) {
+						out.add((T) future.get());
+					}
 				}
 			}
 			
@@ -422,7 +473,7 @@ public class HttpInterfaceExecutorService {
 				executor.clear();
 			}
 
-			logger.debug("[END] sendMultiPostJSON");		
+			logger.debug("[END] sendMultiJSON");		
 			return out;
 		}
 	}

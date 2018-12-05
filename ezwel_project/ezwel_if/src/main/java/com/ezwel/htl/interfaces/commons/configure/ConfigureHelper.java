@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
-import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -28,11 +27,12 @@ public class ConfigureHelper {
 	}
 	
 	@APIOperation(description="인터페이스 사용 유저 설정 정보 세팅")
-	public void setupUserAgentInfo(HttpConfigSDO config, UserAgentSDO userAgentDTO) {
+	public HttpConfigSDO setupUserAgentInfo(UserAgentSDO userAgentDTO, HttpConfigSDO config) {
 		/** conntime, readtime, httpAgentType, httpChannelCd, httpClientId, httpRequestId  */
 		propertyUtil.copySameProperty(userAgentDTO, config);
 		/** setup httpApiSignature */
 		config.setHttpApiSignature(APIUtil.getHttpSignature(config.getHttpAgentId(), config.getHttpApiKey(), config.getHttpApiTimestamp()));
+		return config;
 	}
 	
 	

@@ -44,17 +44,17 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
 public class APIUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(APIUtil.class);
-	
+	/*
 	public final static String DEF_DAY_FORMAT;
 	public final static String DEF_DATE_FORMAT;
-	public final static String DEF_DATE24_FORMAT;
+	public final static String DEF_DATE23_FORMAT;
 	
 	static {
 		DEF_DAY_FORMAT = "yyyyMMdd";
 		DEF_DATE_FORMAT = "yyyyMMddHHmmss";
-		DEF_DATE24_FORMAT = "yyyyMMddHH24miss";
+		DEF_DATE23_FORMAT = "yyyyMMddkkmmss";
 	}
-	
+	*/
 	/**
 	 * str의 isEmpty 여부를 체크하 고 false이면 ""을 반환합니다.
 	 * @param str
@@ -334,7 +334,7 @@ public class APIUtil {
     	int out = 0;
     	byte[] byteString = null;
     	String strEncoding = null;
-    	if( StringUtils.isNotEmpty(encoding) ) {
+    	if( APIUtil.isNotEmpty(encoding) ) {
     		strEncoding = encoding;
     	}
     	else {
@@ -472,7 +472,7 @@ public class APIUtil {
 			out = true;
 			
 			for(String str : strAry){
-				if(StringUtils.isEmpty(str)) {
+				if(APIUtil.isEmpty(str)) {
 					out = false;
 					break;
 				}
@@ -500,7 +500,7 @@ public class APIUtil {
 		}
 		String date = dateString;
 		String format = dateFormat;
-		SimpleDateFormat sdf = new SimpleDateFormat(((format == null || format.isEmpty()) ? DEF_DAY_FORMAT : format));
+		SimpleDateFormat sdf = new SimpleDateFormat(((format == null || format.isEmpty()) ? OperateConstants.DEF_DAY_FORMAT : format));
 		String confirmFormat = null;
 		try {
 			confirmFormat = sdf.format(sdf.parse(date));
@@ -536,17 +536,30 @@ public class APIUtil {
 		return getTimeMillisToDate(userTimeMillis, null);
 	}
 	
-	public static String getTimeMillisToDate(Long userTimeMillis, String dateFormat) {
+	public static String getTimeMillisToDate(Long userTimeMillis, String userDateFormat) {
+		logger.debug("[START] getTimeMillisToDate userTimeMillis : {}, userDateFormat : {}", userTimeMillis, userDateFormat);
 		if(userTimeMillis == null) {
 			logger.warn("[WARN] ThreadLocal is init");
 			return "";
 		}
+		String out = null;
 		long timeMillis = userTimeMillis;
-		String format = dateFormat;
-		Date resultdate = new Date(timeMillis);
-    	String dateformat = (format != null && !format.isEmpty()) ? format:OperateConstants.DEF_DATE_FORMAT;
-    	return FastDateFormat.getInstance(dateformat, TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA).format(resultdate);
+		String format = userDateFormat;
+
+		try {
+			Date resultDate = new Date(timeMillis);
+	    	String dateFormat = (format != null && !format.isEmpty()) ? format:OperateConstants.DEF_DATE_FORMAT;
+	    	out = FastDateFormat.getInstance(dateFormat, TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA).format(resultDate);
+		}
+		catch(APIException e) {
+			logger.error("- TimeMillisToDate API Exception [inputParameter userTimeMillis : {}, userDateFormat : {}]", new Object[]{timeMillis, format});
+			throw new APIException("- TimeMillisToDate API Exception [inputParameter userTimeMillis : {}, userDateFormat : {}]", new Object[]{timeMillis, format}, e);
+		}
+
+    	return out;
 	
 	}
+	
+	
 	
 }

@@ -3,6 +3,7 @@ package com.ezwel.htl.interfaces.server.repository;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +19,7 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
-import com.ezwel.htl.interfaces.server.commons.constants.NamespaceConstants;
-import com.ezwel.htl.interfaces.server.commons.mybatis.DataAccessObjectUtil;
+import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclAment;
@@ -36,11 +36,9 @@ import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
  */
 @Repository
 @APIType(description="내부 > 외부 인터페이스 데이터 핸들링 서비스")
-public class OutsideRepository extends DataAccessObjectUtil {
+public class OutsideRepository extends AbstractDataAccessObject {
 
 	private static final Logger logger = LoggerFactory.getLogger(OutsideRepository.class);
-	
-	private PropertyUtil propertyUtil = (PropertyUtil) LApplicationContext.getBean(PropertyUtil.class);
 	
 	/**
 	 * 맵핑 시설 : EZC_FACL, EZC_FACL_IMG, EZC_FACL_AMENT ( 1 : N : N ), 데이터 적제 
@@ -72,7 +70,7 @@ public class OutsideRepository extends DataAccessObjectUtil {
 				
 				/** 1. EZC_FACL 1건 저장 */
 				//insert
-				txSuccess = sqlSession.insert(getNamespace("EZC_FACL_MAPPER", "insertEzcFacl"), ezcFacl);
+				txSuccess = sqlSession.insert(getNamespace("FACL_MAPPER", "insertEzcFacl"), ezcFacl);
 				if(txSuccess > 0) {
 					txCount++;
 					
@@ -81,7 +79,7 @@ public class OutsideRepository extends DataAccessObjectUtil {
 					if(ezcFaclImgList != null) {
 						for(EzcFaclImg faclImg : ezcFaclImgList) {
 							//sequnce
-							faclImg.setFaclImgSeq((BigDecimal) sqlSession.selectOne(getNamespace("FACL_IMG_MAPPER", "sequnceEzcFaclImg")));
+							faclImg.setFaclImgSeq((BigDecimal) sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectEzcFaclImgSeq")));
 							faclImg.setFaclCd(ezcFacl.getFaclCd());
 							faclImg.setRegId(Local.commonHeader().getSystemUserId());
 							faclImg.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));							
@@ -103,7 +101,7 @@ public class OutsideRepository extends DataAccessObjectUtil {
 								ezcFaclAment.setRegId(Local.commonHeader().getSystemUserId());
 								ezcFaclAment.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
 								//insert
-								txCount += sqlSession.insert(getNamespace("FACL_IMG_MAPPER", "insertEzcFaclImg"), ezcFaclAment);
+								txCount += sqlSession.insert(getNamespace("FACL_AMENT_MAPPER", "insertEzcFaclAment"), ezcFaclAment);
 							}
 						}
 					}
@@ -111,6 +109,8 @@ public class OutsideRepository extends DataAccessObjectUtil {
 			}
 		}
 		catch(APIException e) {
+			logger.error("Code : {}", e.getResultCode());
+			logger.error("Message : {}", e.getMessage());
 			//에러 발생 레코드 errorItems에 저장후 runtimeException 없이 로깅후 종료
 			throw new APIException("시설정보 DB 저장 실패"); 
 		}
@@ -162,5 +162,4 @@ public class OutsideRepository extends DataAccessObjectUtil {
 		return out;
 	}
 	
-
 }

@@ -99,7 +99,7 @@ WHERE 1=1
 <select id="selectListEzcDistCancelRule" resultType="ezcDistCancelRule">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_DIST_CANCEL_RULE.ROOM_CD AS roomCd	/* 객실 코드, NUMBER(0,22) */
 			,EZC_DIST_CANCEL_RULE.PENALTY_ISSUEDD_CNT AS penaltyIssueddCnt	/* 패널티 발생일 수, NUMBER(0,22) */
@@ -145,7 +145,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_DIST_CANCEL_RULE.ROOM_CD DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

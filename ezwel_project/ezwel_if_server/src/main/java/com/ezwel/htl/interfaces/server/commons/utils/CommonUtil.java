@@ -3,36 +3,44 @@ package com.ezwel.htl.interfaces.server.commons.utils;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.Charsets;
+import org.apache.poi.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.util.WebUtils;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
-import com.ezwel.htl.interfaces.commons.configure.data.FileRepository;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.data.ImageSDO;
+import com.ezwel.htl.interfaces.server.entities.EzcDetailCd;
 import com.google.common.io.ByteSource;
 import com.google.common.io.ByteStreams;
 /**
@@ -47,6 +55,14 @@ import com.google.common.io.ByteStreams;
 public class CommonUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
+	
+	private WebApplicationContext context;
+	
+	public final static int DEFAULT_FLAGS; 
+	
+	static {
+		DEFAULT_FLAGS = Pattern.CASE_INSENSITIVE | Pattern.DOTALL;
+	}
 	
 	@APIOperation(description="요청 파라메터 바디를 BufferReader를 이용하여 읽고 내용을 문자열로 리턴합니다.", isExecTest=true)
     public String readReqeustBodyWithBufferedReader(HttpServletRequest request) {
@@ -305,7 +321,6 @@ public class CommonUtil {
 	 */
 	@APIOperation(description="URL 이미지를 바인드된 경로에 다운로드 하고 저장된 전체경로를 리턴합니다.")
 	public ImageSDO getImage(ImageSDO imageSDO, boolean verbose) {
-		logger.debug("[START] getImage imageSDO : {}, verbose : {}", imageSDO, verbose);
 		
 		String lodgeBuildingImageRootPath = InterfaceFactory.getFileRepository().getLodgeBuildingImageRootPath();
 		String toDate = APIUtil.getFastDate("yyyyMMdd");
@@ -390,7 +405,6 @@ public class CommonUtil {
 			throw new APIException(e);
 		}
 		
-		logger.debug("[END] getImage imageSDO : {}", imageSDO);
 		return imageSDO;
 	}
 	
@@ -410,7 +424,6 @@ public class CommonUtil {
      * @param verbose
      */
     public boolean doDirectoryMake(File directory, boolean verbose) {
-    	logger.debug("[START] doDirectoryMake directory : {}, verbose : {}", directory, verbose);
     	
     	boolean out = true;
     	
@@ -450,8 +463,204 @@ public class CommonUtil {
 			e.printStackTrace();
 		}
 
-    	logger.debug("[END] doDirectoryMake out : {}", out);
         return out;
     }
+    
+    @APIOperation(description="공통코드 목록에서 상세 코드에 해당하는 레코드를 리턴합니다.")
+	public EzcDetailCd getEzcDetailCdForCodeList(List<EzcDetailCd> detailCdList, String detailCd) {
+		EzcDetailCd out = null;
+		
+		if(detailCdList != null) {
+			for(EzcDetailCd detailCdItem : detailCdList) {
+				if(detailCdItem != null && detailCdItem.getDetailCd().equals(detailCd)) {
+					out = detailCdItem;
+					break;
+				}
+			}
+		}
+		
+		return out;
+	}
+    
+    @APIOperation(description="공통코드 목록에서 상세 코드에 해당하는 마스터 코드문자열을 리턴합니다.")
+	public String getMasterCdForCodeList(List<EzcDetailCd> detailCdList, String detailCd) {
+		String out = null;
+		
+		EzcDetailCd outEzcDetailCd = getEzcDetailCdForCodeList(detailCdList, detailCd);
+		if(outEzcDetailCd != null) {
+			out = outEzcDetailCd.getMasterCd();
+		}
+		return out;
+	}
+    
+    
+
+    /**
+     * 파일명을 제외한 파일 확장자를 반환
+     * @param fileName
+     * @return
+     */
+    public static String getExt(String canonicalPath) {
+        int idx;
+        String fileName = canonicalPath;
+        if (fileName == null || (idx = fileName.lastIndexOf(OperateConstants.EXT_DELIMETER)) == -1)
+            return "";
+        else
+            return fileName.substring(idx + 1);
+    }
+    
+    /**
+     * WebApplicationContext 의 ContextPath 를 구합니다.
+     * @return
+     * @throws FileNotFoundException
+     */
+    public String getContextPath() {
+    	return getContextRealPath(OperateConstants.STR_BLANK);
+    }
+
+	/**
+	 * 컨텍스트 패스 아래 파일에 대한 실제 경로를 얻기위한 명령은 
+	 * getRealPath 만을 사용하도록한다.
+	 * @param filePath
+	 * @return
+	 */
+    public String getRealPath(String filePath) {
+    	
+    	if(context != null) {
+    		context = LApplicationContext.getWebApplicationContext();
+    	}
+    	
+    	if(context == null && logger.isErrorEnabled()) {
+    		logger.error(" WebApplicationContext is null...");
+    	}
+    	return (context != null ? getContextRealPath(filePath) : filePath);
+    }
+
+    
+	public File getRealFile(String filePath){
+		
+		File out = null; 
+	
+		String canonicalPath = getRealPath(filePath);
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug(APIUtil.addString("canonicalPath : ", canonicalPath));
+		}
+	
+		out = new File(canonicalPath);
+	
+		if(!out.exists()) {  
+			throw new APIException(APIUtil.addString(OperateConstants.STR_DOUBLE_QUOTATION, canonicalPath, "\" file path does not exist."));
+		}
+
+		return out;
+	}    
+    
+    /**
+     * WebApplicationContext 의 ContextPath 에 문자열 Path 를 연결하여 반환합니다.
+     * @param path
+     * @return
+     * @throws FileNotFoundException
+     */
+    private String getContextRealPath(String currentPath) {
+    	
+    	String out = null;
+    	
+    	if(context != null) {
+    		context = LApplicationContext.getWebApplicationContext();
+    	}
+    	
+    	try {
+    		String current = APIUtil.NVL(currentPath, OperateConstants.STR_BLANK).trim();
+        	current = (current.equals(OperateConstants.STR_SLASH) ? OperateConstants.STR_BLANK : current);
+        	boolean isCanonicalPath = false;
+        	
+        	if(OperateConstants.FILE_SEPARATOR.equals(OperateConstants.STR_SLASH) && current.startsWith(OperateConstants.STR_SLASH)) {
+        		//linux, unix ( SystemUtil.FILE_SEPARATOR is / )
+        		isCanonicalPath = new File(currentPath).exists();
+        		if(logger.isDebugEnabled()) {
+    	    		logger.debug(" Linux, Unix path : " + isCanonicalPath);
+    	    	}
+        	}
+        	else {
+        		//window NT ( SystemUtil.FILE_SEPARATOR is (a-zA-Z):\\ ) 
+        		if( testPattern(currentPath, "^[a-zA-Z]:", DEFAULT_FLAGS) ) {
+        			isCanonicalPath = true;
+        	    	if(logger.isDebugEnabled()) {
+        	    		logger.debug(" Window NT path : " + isCanonicalPath);
+        	    	}
+        		}
+        	}
+        	
+    		if(!isCanonicalPath) {
+    			//WebUtils.getRealPath
+    			out = WebUtils.getRealPath(context.getServletContext(), OperateConstants.STR_SLASH.concat(current));	
+    		}
+    		else {
+    			//isCanonicalPath
+    			out = currentPath;
+    		}
+			
+		} catch (FileNotFoundException e) {
+			throw new APIException(e);
+		} catch (Exception e) {
+			throw new APIException(e);
+		}
+    	
+    	return out; 
+    }
+    
+	public boolean testPattern(String objectStr, String patternStr, int flags) {
+		
+		//if(logger.isDebugEnabled()) {
+		//	logger.debug(CommonUtil.mergeObjectString(new Object[]{" *- matcherPatternFind -* objectStr :  " , objectStr , ", patternStr : " , patternStr}));
+		//}
+		
+		boolean findMatcher = false;
+		if(APIUtil.isNotEmptyStringArray(new String[]{objectStr, patternStr})){
+			Matcher matcher = match(objectStr, patternStr, flags);
+			findMatcher = matcher.find();
+		}
+		return findMatcher;
+	}
+	
+	/**
+	 * 주어진 패턴컴파일, Matcher 실행 및 Matcher 리턴
+	 * @param contents
+	 * @param pattern
+	 * @return
+	 */
+	public Matcher match(String contents , String pattern, int flags) {
+		String contentStr = APIUtil.NVL(contents);
+		String patternStr = APIUtil.NVL(pattern);
+		Pattern regex = null;
+		if(flags == -1) {
+			regex = Pattern.compile(patternStr);
+		}
+		else {
+			regex = Pattern.compile(patternStr, flags);
+		}
+		return regex.matcher(contentStr);
+	}
+	
+	public static boolean existsClass(String... classType) {
+		boolean out = false;
+		try {
+			String[] clazzTypes = classType;
+			if( clazzTypes != null ) {
+				for(String clazzType : clazzTypes) {
+					Class.forName(clazzType);
+				}
+				out = true;
+			}
+		} catch (ClassNotFoundException e) {
+			if(logger.isDebugEnabled()) {
+				logger.debug("ClassNotFound : ".concat(e.getMessage()));
+			}
+		}
+		
+		return out;
+	}
+	
 }
 

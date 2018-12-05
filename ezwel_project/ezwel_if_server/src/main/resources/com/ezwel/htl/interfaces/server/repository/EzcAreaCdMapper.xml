@@ -108,7 +108,7 @@ WHERE 1=1
 <select id="selectListEzcAreaCd" resultType="ezcAreaCd">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_AREA_CD.AREA_CD AS areaCd	/* 지역 코드, VARCHAR2(10) */
 			,EZC_AREA_CD.CITY_CD AS cityCd	/* 도시 코드, VARCHAR2(10) */
@@ -161,7 +161,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_AREA_CD.AREA_CD DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

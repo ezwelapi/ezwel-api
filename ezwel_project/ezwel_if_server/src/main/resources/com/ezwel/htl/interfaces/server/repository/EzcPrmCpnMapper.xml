@@ -71,7 +71,7 @@ WHERE 1=1
 <select id="selectListEzcPrmCpn" resultType="ezcPrmCpn">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_PRM_CPN.PRM_CD AS prmCd	/* 프로모션 코드, VARCHAR2(10) */
 			,EZC_PRM_CPN.CPN_CD AS cpnCd	/* 쿠폰 코드, NUMBER(0,22) */
@@ -98,7 +98,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_PRM_CPN.PRM_CD DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

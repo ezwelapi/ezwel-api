@@ -88,7 +88,7 @@ WHERE 1=1
 <select id="selectListEzcPopulSearch" resultType="ezcPopulSearch">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_POPUL_SEARCH.SEARCH_SEQ AS searchSeq	/* 검색어 일련번호, NUMBER(0,22) */
 			,EZC_POPUL_SEARCH.SEARCH AS search	/* 검색어, VARCHAR2(100) */
@@ -131,7 +131,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_POPUL_SEARCH.SEARCH_SEQ DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

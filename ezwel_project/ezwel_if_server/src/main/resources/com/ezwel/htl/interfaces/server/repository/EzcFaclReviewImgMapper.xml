@@ -88,7 +88,7 @@ WHERE 1=1
 <select id="selectListEzcFaclReviewImg" resultType="ezcFaclReviewImg">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_FACL_REVIEW_IMG.REVIEW_IMG_SEQ AS reviewImgSeq	/* 후기 이미지 일련번호, NUMBER(0,22) */
 			,EZC_FACL_REVIEW_IMG.FILE_PATH AS filePath	/* 파일 경로, VARCHAR2(100) */
@@ -131,7 +131,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_FACL_REVIEW_IMG.REVIEW_IMG_SEQ DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

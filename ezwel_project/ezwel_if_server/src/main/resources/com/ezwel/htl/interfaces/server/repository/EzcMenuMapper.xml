@@ -104,7 +104,7 @@ WHERE 1=1
 <select id="selectListEzcMenu" resultType="ezcMenu">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_MENU.MENU_ID AS menuId	/* 메뉴 ID, VARCHAR2(6) */
 			,EZC_MENU.HIGH_MENU_ID AS highMenuId	/* 상위 메뉴 ID, VARCHAR2(6) */
@@ -155,7 +155,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_MENU.MENU_ID DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

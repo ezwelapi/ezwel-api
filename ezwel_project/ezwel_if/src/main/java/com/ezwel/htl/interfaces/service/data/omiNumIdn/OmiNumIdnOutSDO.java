@@ -27,6 +27,18 @@ public class OmiNumIdnOutSDO extends AbstractSDO {
 	
 	@APIFields(description = "누락건확인 output message", maxLength=100)
 	private String message;
+
+	@APIFields(description = "RestAPI URI")
+	private String restURI;
+
+	public String getRestURI() {
+		return restURI;
+	}
+
+	public void setRestURI(String restURI) {
+		this.restURI = restURI;
+	}
+
 	
 	@APIFields(description = "누락건확인 output reserves")
 	private OmiNumIdnReservesOutSDO reserves;

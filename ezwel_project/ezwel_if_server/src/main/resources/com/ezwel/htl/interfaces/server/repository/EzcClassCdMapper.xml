@@ -85,7 +85,7 @@ WHERE 1=1
 <select id="selectListEzcClassCd" resultType="ezcClassCd">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_CLASS_CD.CLASS_CD AS classCd	/* 분류 코드, VARCHAR2(4) */
 			,EZC_CLASS_CD.CLASS_NM AS classNm	/* 분류 명, VARCHAR2(50) */
@@ -124,7 +124,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_CLASS_CD.CLASS_CD DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

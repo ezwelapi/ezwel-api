@@ -73,7 +73,7 @@
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>
 			<version>${mybatis.spring.version}</version>
-		</dependency>			
+		</dependency>	
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
@@ -86,6 +86,8 @@
 			<version>1.10</version>
 		</dependency>
 
+		<!-- if_server only -->
+		
 		<!-- lucene 
 		<dependency>
 			<groupId>org.apache.lucene</groupId>

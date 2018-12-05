@@ -107,11 +107,11 @@
 	</insideChans>
 	
 	<outsideChans>
-
+<!-- 
 		<httpChan>
 			<chanId>allReg-10000495</chanId>
 			<description>호텔엔조이_메이트아이</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/allReg.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -119,7 +119,7 @@
 		<httpChan>
 			<chanId>allReg-10000496</chanId>
 			<description>펜션라이프_플레이스엠</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/allReg.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -127,7 +127,7 @@
 		<httpChan>
 			<chanId>allReg-10002654</chanId>
 			<description>인터파크투어_인터파크INT</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/allReg.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -135,7 +135,7 @@
 		<httpChan>
 			<chanId>allReg-10008365</chanId>
 			<description>펀앤비즈_샬레코리아</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/allReg.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -143,7 +143,7 @@
 		<httpChan>
 			<chanId>allReg-10030653</chanId>
 			<description>우리펜션(옐로트래블랩스)</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/allReg.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -151,7 +151,7 @@
 		<httpChan>
 			<chanId>allReg-10053461</chanId>
 			<description>인터치투어</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/allReg.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -159,11 +159,11 @@
 		<httpChan>
 			<chanId>allReg-10054233</chanId>
 			<description>웹투어</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/allReg.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
-		</httpChan>
+		</httpChan> -->
 		<httpChan>
 			<chanId>allReg-10055550</chanId>
 			<description>호텔패스글로벌</description>
@@ -172,10 +172,10 @@
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
 		</httpChan>
-		<httpChan>
+		<!-- <httpChan>
 			<chanId>allReg-10056562</chanId>
 			<description>(주)위드이노베이션_여기어때</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/allReg.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -183,12 +183,12 @@
 		<httpChan>
 			<chanId>allReg-99999999</chanId>
 			<description>제휴사협의중</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/allReg.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/allReg.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
 		</httpChan>		
-				
+				 -->
 		<httpChan>
 			<chanId>faclSearch</chanId>
 			<httpAgentGroupId>faclSearch-chanGroup</httpAgentGroupId>
@@ -202,7 +202,7 @@
 			<chanId>faclSearch</chanId>
 			<httpAgentGroupId>faclSearch-chanGroup</httpAgentGroupId>
 			<description>시설검색2</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/customerB/02faclSearch.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/customerB/02faclSearch.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -211,7 +211,7 @@
 			<chanId>faclSearch</chanId>
 			<httpAgentGroupId>faclSearch-chanGroup</httpAgentGroupId>
 			<description>시설검색3</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/customerA/03faclSearch.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/customerA/03faclSearch.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -222,7 +222,7 @@
 			<chanId>sddSearch1</chanId>
 			<httpAgentGroupId>chanGroup-02</httpAgentGroupId>
 			<description>당일특가검색1</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/sddSearch1.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/sddSearch1.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -231,7 +231,7 @@
 			<chanId>sddSearch2</chanId>
 			<httpAgentGroupId>chanGroup-02</httpAgentGroupId>
 			<description>당일특가검색2</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/sddSearch2.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/sddSearch2.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -240,7 +240,7 @@
 			<chanId>sddSearch3</chanId>
 			<httpAgentGroupId>chanGroup-02</httpAgentGroupId>
 			<description>당일특가검색3</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/sddSearch3.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/sddSearch3.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -256,7 +256,7 @@
 		<httpChan>
 			<chanId>cancelFeePsrc</chanId>
 			<description>취소수수규정</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/cancelFeePsrc.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/cancelFeePsrc.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -264,7 +264,7 @@
 		<httpChan>
 			<chanId>rsvHistSend</chanId>
 			<description>결재완료내역전송</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/rsvHistSend.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/rsvHistSend.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -272,7 +272,7 @@
 		<httpChan>
 			<chanId>cancelFeeAmt</chanId>
 			<description>취소수수료계산</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/cancelFeeAmt.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/cancelFeeAmt.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -280,7 +280,7 @@
 		<httpChan>
 			<chanId>orderCancelReq</chanId>
 			<description>주문취소요청</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/orderCancelReq.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/orderCancelReq.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -288,7 +288,7 @@
 		<httpChan>
 			<chanId>omiNumIdn</chanId>
 			<description>누락건확인</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/omiNumIdn.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/omiNumIdn.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>
@@ -296,7 +296,7 @@
 		<httpChan>
 			<chanId>ezwelJob</chanId>
 			<description>주문대사(이지웰)</description>
-			<restURI>http://localhost:9123/ezwel_if_demo/service/ezwelJob.jsp</restURI>
+			<restURI>http://localhost:8282/API1.0/service/ezwelJob.jsp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>3000</readTimeout>

@@ -1,6 +1,8 @@
 package com.ezwel.htl.interfaces.commons.validation.data;
 
-import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
@@ -33,6 +35,8 @@ public class ParamValidateSDO {
 	@APIFields(required = false, description = "유효성검사유형")
 	private int validateType;	
 
+	@APIFields(required = false, description = "유효성검사제외필드목록")
+	private List<String> excludeFieldList;
 	
 	public ParamValidateSDO() {
 		this.reset();
@@ -44,6 +48,20 @@ public class ParamValidateSDO {
 	 */
 	public ParamValidateSDO(Object model) {
 		this.validateType = OperateConstants.VALIDATE_DTO_FULL_FIELD_ANNO;
+		initialize(model, null, null, null, null);
+	}
+	
+	/**
+	 * DTO 오브젝트에 있는 필드의 @Field 어노테이션을 기준으로 모든 필드 벨리데이션 설정
+	 * @param model
+	 */
+	public ParamValidateSDO(Object model, String[] excludeField) {
+		this.validateType = OperateConstants.VALIDATE_DTO_FULL_FIELD_ANNO;
+		
+		if(excludeField != null && excludeField.length > 0) {
+			setExcludeFieldList(Arrays.asList(excludeField));
+		}
+		
 		initialize(model, null, null, null, null);
 	}
 	
@@ -78,6 +96,21 @@ public class ParamValidateSDO {
 	public ParamValidateSDO(Object model, String fieldName, Object fieldValue, String[] patterns, String message) {
 		this.validateType = OperateConstants.VALIDATE_DTO_SINGLE_FIELD_PATTERN;
 		initialize(model, fieldName, fieldValue, patterns, message);
+	}
+	
+	public List<String> getExcludeFieldList() {
+		return excludeFieldList;
+	}
+
+	public void setExcludeFieldList(List<String> excludeFieldList) {
+		this.excludeFieldList = excludeFieldList;
+	}
+
+	public void addExcludeFieldList(String excludeField) {
+		if(this.excludeFieldList == null) {
+			this.excludeFieldList = new ArrayList<String>();
+		}
+		this.excludeFieldList.add(excludeField);
 	}
 	
 	/**

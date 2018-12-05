@@ -86,7 +86,7 @@ WHERE 1=1
 <select id="selectListEzcCnclientBlackFacl" resultType="ezcCnclientBlackFacl">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_CNCLIENT_BLACK_FACL.GRP_FACL_YN AS grpFaclYn	/* 그룹 시설 여부, CHAR(1) */
 			,EZC_CNCLIENT_BLACK_FACL.CON_FACL_CD AS conFaclCd	/* 연계 시설 코드, NUMBER(0,22) */
@@ -120,7 +120,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_CNCLIENT_BLACK_FACL.GRP_FACL_YN DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

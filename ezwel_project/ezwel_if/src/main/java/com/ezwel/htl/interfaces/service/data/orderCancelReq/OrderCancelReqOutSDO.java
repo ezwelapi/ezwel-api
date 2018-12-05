@@ -29,6 +29,18 @@ public class OrderCancelReqOutSDO extends AbstractSDO {
 	@APIFields(description = "주문취소요청 output message", maxLength=100)
 	private String message;
 
+	@APIFields(description = "RestAPI URI")
+	private String restURI;
+
+	public String getRestURI() {
+		return restURI;
+	}
+
+	public void setRestURI(String restURI) {
+		this.restURI = restURI;
+	}
+
+
 	public String getCode() {
 		return code;
 	}

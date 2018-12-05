@@ -119,7 +119,7 @@ WHERE 1=1
 <select id="selectListEzcCpnUseHist" resultType="ezcCpnUseHist">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_CPN_USE_HIST.CPN_CD AS cpnCd	/* 쿠폰 코드, NUMBER(0,22) */
 			,EZC_CPN_USE_HIST.USER_ID AS userId	/* 회원 ID, VARCHAR2(20) */
@@ -175,7 +175,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_CPN_USE_HIST.CPN_CD DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

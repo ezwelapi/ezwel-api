@@ -101,7 +101,7 @@ WHERE 1=1
 <select id="selectListEzcMgrLog" resultType="ezcMgrLog">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_MGR_LOG.LOG_SEQ AS logSeq	/* 로그 일련번호, NUMBER(0,22) */
 			,EZC_MGR_LOG.MGR_ID AS mgrId	/* 운영자 ID, VARCHAR2(20) */
@@ -150,7 +150,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_MGR_LOG.LOG_SEQ DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

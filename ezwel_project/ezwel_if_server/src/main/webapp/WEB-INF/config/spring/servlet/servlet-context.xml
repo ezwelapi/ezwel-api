@@ -123,23 +123,20 @@
 	
 	<task:annotation-driven scheduler="taskScheduler"/>
 
-
 	<!-- ##################### INTERCEPTORS SETUP ###################### -->	
-	<beans:bean id="handlerInterceptor" class="com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor"/>
-
+	<interceptors>
+	    <interceptor> 
+	   	   <!-- <mapping path="/process/**/*"/> -->
+	   	   <!-- <mapping path="/process/**"/> -->
+	   	   <mapping path="/**"/>
+	       <beans:bean class="com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor"/>
+	    </interceptor>
+	</interceptors>
+	
 	<!-- ##################### SPRING DEFAULT HANDLER SETUP ###################### -->
 	
 	<beans:bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
-	
-	<beans:bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-		<beans:property name="order" value="1" />
-		<beans:property name="alwaysUseFullPath" value="true" />
-		<beans:property name="interceptors">
-			<beans:list>
-				<beans:ref bean="handlerInterceptor" />
-			</beans:list>
-		</beans:property>		
-	</beans:bean>
+
 	<!-- 
 	<beans:bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 		<beans:property name="order" value="2" />
@@ -176,9 +173,9 @@
 	</beans:bean> 
 	
 	<aop:config>
-		<!-- execution expression -->  <!-- and @annotation(remoteMethod) -->
+		<!-- execution expression -->  <!-- and @annotation(remoteMethod) --> 
 		<aop:pointcut id="targetMethod" expression="execution(* com.ezwel.htl.interfaces..*.*(..))"/>
-		 
+		 <!-- org.apache.ibatis.session -->
 		<!-- Before advice -->
 		<aop:aspect ref="methodsAdvice">
 			<aop:before pointcut-ref="targetMethod" method="beforeTargetMethod" />

@@ -25,6 +25,8 @@ public class Local {
 
 	private static final Logger logger = LoggerFactory.getLogger(Local.class);
 
+	private static boolean isAfterCompletion = false;
+	
 	/**
 	 * Thread local variable containing each thread's CommonHeader
 	 */
@@ -172,7 +174,7 @@ public class Local {
 	    		.toString()
 			);
     	}
-
+    	
     	threadLocalHeader.remove();
     }
 

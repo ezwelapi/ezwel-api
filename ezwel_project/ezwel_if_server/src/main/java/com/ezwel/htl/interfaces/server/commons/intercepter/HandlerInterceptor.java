@@ -1,26 +1,22 @@
 package com.ezwel.htl.interfaces.server.commons.intercepter;
 
+import java.util.Enumeration;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.MethodParameter;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
-import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
-import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.entity.CommonHeader;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
-import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
-import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 
@@ -29,36 +25,29 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
 	
-	private APIUtil apiUtil = (APIUtil) LApplicationContext.getBean(APIUtil.class);
-	
-	private CommonUtil commonUtil = (CommonUtil) LApplicationContext.getBean(CommonUtil.class);
-	
-	private BeanMarshaller marshaller = (BeanMarshaller) LApplicationContext.getBean(BeanMarshaller.class);
-	
-	private static final boolean isLogging = false;
-	
-	public HandlerInterceptor() { 
-		
-		logger.debug("# Init HandlerInterceptor");
-		
-		if(this.apiUtil == null) {
-			this.apiUtil = new APIUtil();
-		}
-		if(this.marshaller == null) {
-			this.marshaller = new BeanMarshaller();
-		}
-		if(this.commonUtil == null) {
-			this.commonUtil = new CommonUtil();
-		}
-	}
+	private static final boolean isLogging = true;
 
+	private APIUtil apiUtil;
+	
+	private CommonUtil commonUtil;
+	
+	private BeanMarshaller marshaller;
+	
+	public HandlerInterceptor() {
+		logger.debug("[HandlerInterceptor Init]");
+	}
 	
 	/**
 	 * This implementation always returns {@code true}.
 	 * preHandle - controller 이벤트 호출전
 	 */
+	@APIOperation(description="preHandle")
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
 
+		apiUtil = (APIUtil) LApplicationContext.getBean(apiUtil, APIUtil.class);
+		marshaller = (BeanMarshaller) LApplicationContext.getBean(marshaller, BeanMarshaller.class);
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+		
 		String typeMethodName = commonUtil.getMethodInfo(handler);
 		if(isLogging) {
 			logger.debug("[HANDLER START] 'preHandle' controller typeMethodName : {}", typeMethodName);
@@ -69,8 +58,9 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 		String headerReferer = request.getHeader("referer");
 		
 		if(isLogging) {
-			logger.debug("[HANDLER] RequestURI() : " + requestURI);
+			logger.debug("[HANDLER] RequestURI() : {}, Referer : {}", requestURI, headerReferer);
 		}
+		
 		try {
 				
 			//1.ThreadLocal 초기화
@@ -79,9 +69,22 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 			header.setControllerType(commonUtil.getControllerType(handler));
 			//3.Content Type 
 			header.setContentType(commonUtil.getRequestContentType(request));
-			//기타 정보 저장
+			//4.요청 인코딩
 			header.setEncoding(request.getCharacterEncoding());
+			//5.접속자 IP
 			header.setClientAddress(commonUtil.getClientAddress(request));
+			//6.Request Header 
+			if(request.getHeaderNames() != null) {
+				String headerName = null;
+				String headerValue = null;
+				Enumeration<String> headerNames = request.getHeaderNames();
+		        while(headerNames.hasMoreElements()){
+		            headerName = (String) headerNames.nextElement();
+		            headerValue = request.getHeader(headerName);
+		            logger.debug("- Intercepter RequestHeader ■ {} : {}", headerName, headerValue);
+		            header.addProperties(headerName, headerValue);
+		        }
+			}
 			
 			HandlerMethod handlerMethod = commonUtil.getHandlerMethod(handler);
 	
@@ -90,7 +93,8 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 			if(operationAnno == null) {
 				throw new APIException("■■ 유효하지 않은 API 오퍼레이션 APIOperation어노테이션이 존재하지 않습니다. '{}'", typeMethodName);
 			}
-
+			
+			/*
 			ParamValidate paramValidator = null;
 			APIModel apiModelAnno = null;
 			AbstractSDO inputParamObject = null;
@@ -127,6 +131,7 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 					}
 				}
 			}
+			*/
 			
 			out = true;
 		} catch (Exception e) {
@@ -144,7 +149,9 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 	 * This implementation is empty.
 	 * postHandle - controller 호출 후 view 페이지 출력전
 	 */
+	@APIOperation(description="postHandle")
 	public void postHandle( HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
 		String typeMethodName = commonUtil.getMethodInfo(handler);
 		if(isLogging) {
@@ -164,18 +171,20 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 	 * Exception ex : afterCompletion에 전달되는 Exception은 ExceptionResolver 가 처리하지 않는 예외,
 	 * 				  Intercepter와 Handler에서 발생하는 예외가 아닌 그 둘을 실행하는 DispatcherServlet이나 그외 부분에서 발생하는 예외를 담고있음.
 	 */
+	@APIOperation(description="afterCompletion")
 	public void afterCompletion( HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
 		String typeMethodName = commonUtil.getMethodInfo(handler);
 		if(isLogging) {
-			logger.debug("[HANDLER START] 'afterCompletion' controller typeMethodName : {}", typeMethodName);
+			logger.debug("[HANDLER START] 'afterCompletion' controller typeMethodName : {}, Exception : {}", typeMethodName, ex);
 		}
 		
 		/** 모든처리를 완료하였음 으로 ThreadLocal을 삭제한다. */ 
-		Local.remove();
+		Local.commonHeader().setHandlerInterceptorComplete(true);
 		
 		if(isLogging) {
-			logger.debug("[HANDLER END] 'afterCompletion' controller typeMethodName : {}", typeMethodName);
+			logger.debug("[HANDLER END] 'afterCompletion' controller typeMethodName : {}, Exception : {}", typeMethodName, ex);
 		}
 	}
 
@@ -183,7 +192,10 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 	 * This implementation is empty.
 	 * afterConcurrentHandlingStarted - 동시에 핸들링 해주는 메서드
 	 */
+	@APIOperation(description="afterConcurrentHandlingStarted")
 	public void afterConcurrentHandlingStarted( HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+		
 		String typeMethodName = commonUtil.getMethodInfo(handler);
 		if(isLogging) {
 			logger.debug("[HANDLER START] 'afterConcurrentHandlingStarted' controller typeMethodName : {}", typeMethodName);

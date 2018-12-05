@@ -9,6 +9,8 @@ import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 
 public class TransactionManager extends DefaultTransactionDefinition {
 
+	private static final long serialVersionUID = 1L;
+
 	private PlatformTransactionManager transactionManager = (PlatformTransactionManager) LApplicationContext.getBean(PlatformTransactionManager.class);
 
 	private TransactionStatus status;

@@ -238,7 +238,7 @@ WHERE 1=1
 <select id="selectListEzcReservBase" resultType="ezcReservBase">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_RESERV_BASE.RESERV_NUM AS reservNum	/* 예약 번호, NUMBER(0,22) */
 			,EZC_RESERV_BASE.FACL_CD AS faclCd	/* 시설 코드, NUMBER(0,22) */
@@ -373,7 +373,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_RESERV_BASE.RESERV_NUM DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

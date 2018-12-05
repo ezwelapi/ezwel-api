@@ -26,6 +26,18 @@ public class EzwelJobOutSDO extends AbstractSDO {
 	
 	@APIFields(description = "주문대사(이지웰) output message", maxLength=100)
 	private String message;
+
+	@APIFields(description = "RestAPI URI")
+	private String restURI;
+
+	public String getRestURI() {
+		return restURI;
+	}
+
+	public void setRestURI(String restURI) {
+		this.restURI = restURI;
+	}
+
 	
 	@APIFields(description = "주문대사(이지웰) output reserves")
 	private List<EzwelJobReservesOutSDO> reserves = null;

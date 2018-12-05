@@ -44,5 +44,9 @@ public @interface APIOperation {
     public abstract boolean isOutputJsonMarshall() default false;
     
     
+    public abstract boolean isInputBeanValidation() default false;
+    
+    
+    
     public abstract Class<?> returnType() default Object.class;
 }

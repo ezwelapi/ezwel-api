@@ -77,7 +77,7 @@ WHERE 1=1
 <select id="selectListEzcChannelBlackFacl" resultType="ezcChannelBlackFacl">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_CHANNEL_BLACK_FACL.CHANNEL_CD AS channelCd	/* 채널 코드, VARCHAR2(10) */
 			,EZC_CHANNEL_BLACK_FACL.GRP_FACL_YN AS grpFaclYn	/* 그룹 시설 여부, CHAR(1) */
@@ -106,7 +106,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_CHANNEL_BLACK_FACL.CHANNEL_CD DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

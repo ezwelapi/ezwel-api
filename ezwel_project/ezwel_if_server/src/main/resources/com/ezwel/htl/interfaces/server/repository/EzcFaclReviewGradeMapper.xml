@@ -77,7 +77,7 @@ WHERE 1=1
 <select id="selectListEzcFaclReviewGrade" resultType="ezcFaclReviewGrade">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_FACL_REVIEW_GRADE.FACL_REVIEW_TYPE AS faclReviewType	/* 시설 후기 유형, VARCHAR2(8) */
 			,EZC_FACL_REVIEW_GRADE.FACL_REVIEW_SEQ AS faclReviewSeq	/* 시설 후기 일련번호, NUMBER(0,22) */
@@ -112,7 +112,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_FACL_REVIEW_GRADE.FACL_REVIEW_TYPE DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

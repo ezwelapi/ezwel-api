@@ -82,7 +82,7 @@ WHERE 1=1
 <select id="selectListEzcCacheDayPriceLog" resultType="ezcCacheDayPriceLog">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_CACHE_DAY_PRICE_LOG.DAY_PRICE_LOG_SEQ AS dayPriceLogSeq	/* 당일특가 로그 일련번호, NUMBER(0,22) */
 			,EZC_CACHE_DAY_PRICE_LOG.EXE_DT AS exeDt	/* 실행 일시, VARCHAR2(14) */
@@ -121,7 +121,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_CACHE_DAY_PRICE_LOG.DAY_PRICE_LOG_SEQ DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

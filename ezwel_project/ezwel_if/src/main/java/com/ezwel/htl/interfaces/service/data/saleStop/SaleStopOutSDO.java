@@ -29,6 +29,18 @@ public class SaleStopOutSDO extends AbstractSDO {
 	@APIFields(description = "시설판매중지설정 output message", maxLength=100)
 	private String message;
 
+	@APIFields(description = "RestAPI URI")
+	private String restURI;
+
+	public String getRestURI() {
+		return restURI;
+	}
+
+	public void setRestURI(String restURI) {
+		this.restURI = restURI;
+	}
+
+
 	public String getCode() {
 		return code;
 	}

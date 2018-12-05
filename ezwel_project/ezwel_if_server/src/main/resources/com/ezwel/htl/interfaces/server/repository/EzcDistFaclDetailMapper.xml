@@ -112,7 +112,7 @@ WHERE 1=1
 <select id="selectListEzcDistFaclDetail" resultType="ezcDistFaclDetail">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_DIST_FACL_DETAIL.FACL_CD AS faclCd	/* 시설 코드, NUMBER(0,22) */
 			,EZC_DIST_FACL_DETAIL.FAX_NUM AS faxNum	/* 팩스 번호, VARCHAR2(20) */
@@ -168,7 +168,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_DIST_FACL_DETAIL.FACL_CD DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

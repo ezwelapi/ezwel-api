@@ -1,14 +1,19 @@
 package com.ezwel.htl.interfaces.server.entities;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 //import lombok.Data;
 //import lombok.EqualsAndHashCode;
 import org.apache.ibatis.type.Alias;
+
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
+import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
-import com.ezwel.htl.interfaces.commons.annotation.APIModel;
-import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractEntity;
-import java.math.BigDecimal;
 
 
 /**
@@ -39,9 +44,15 @@ public class EzcDetailCd extends AbstractEntity {
 	@APIFields(description = "상세 코드", maxLength=4, required=true, constraints="SYS_C0011382(C)")
 	private String detailCd;
 
+	@APIFields(description = "상세 코드 IN 목록", maxLength=0, required=false, constraints="SYS_C0011382(C)")
+	private List<String> detailCdList;
+	
 	@APIFields(description = "분류 코드", maxLength=4, required=true, constraints="FK_EZC_CLASS_CD_EZC_DETAIL_CD(R),SYS_C0011383(C) EZC_DETAIL_CD_IF01(NONUNIQUE)")
 	private String classCd;
 
+	@APIFields(description = "분류 코드 IN 목록", maxLength=0, required=false, constraints="FK_EZC_CLASS_CD_EZC_DETAIL_CD(R),SYS_C0011383(C) EZC_DETAIL_CD_IF01(NONUNIQUE)")
+	private List<String> classCdList;
+	
 	@APIFields(description = "상세 명", maxLength=50)
 	private String detailNm;
 
@@ -145,5 +156,37 @@ public class EzcDetailCd extends AbstractEntity {
 		this.modiDt = modiDt;
 	}
 
+	public List<String> getDetailCdList() {
+		return detailCdList;
+	}
 
+	public void setDetailCdList(List<String> detailCdList) {
+		this.detailCdList = detailCdList;
+	}
+
+	public void addDetailCdList(String... detailCd) {
+		if(this.detailCdList == null) {
+			this.detailCdList = new ArrayList<String>();
+		}
+		if(detailCd != null && detailCd.length > 0) {
+			this.detailCdList.addAll(Arrays.asList(detailCd));
+		}
+	}
+	
+	public List<String> getClassCdList() {
+		return classCdList;
+	}
+
+	public void setClassCdList(List<String> classCdList) {
+		this.classCdList = classCdList;
+	}
+
+	public void addClassCdList(String... classCd) {
+		if(this.classCdList == null) {
+			this.classCdList = new ArrayList<String>();
+		}
+		if(classCd != null && classCd.length > 0) {
+			this.classCdList.addAll(Arrays.asList(classCd));
+		}
+	}
 }	

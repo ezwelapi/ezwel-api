@@ -69,21 +69,16 @@ public class OperateConstants {
 	public static final String JAVA_SPECIFICATION_VERSION;
 	public final static String SPRING_CONTROLLER;
 	public final static String DEFAULT_SERVLET;
-	/** ORACLE, IBM JDK 존재함, HP JDK 에서 존재하지 않음 */
-	public static final String USER_COUNTRY;
+
 	public static final String USER_DIR;
-	public static final String USER_LANGUAGE;
 	public static final String FILE_ENCODING;
 	/** TypeUtil use exclude package starts array */
 	public static final List<String> EXCLUDE_PACKAGE_STARTS;
-	/** Use annotation value */
-	public static final String META_COMM_HEADER = "commonHeader";
 	/** VALIDATION TYPE */
 	public static final int VALIDATE_DTO_FULL_FIELD_ANNO;
 	public static final int VALIDATE_DTO_SINGLE_FIELD_ANNO;
 	public static final int VALIDATE_SINGLE_VALUE_PATTERN;
 	public static final int VALIDATE_DTO_SINGLE_FIELD_PATTERN;
-	
 	//Request Contents Type
 	public static final String CONTENT_TYPE_MULTIPART_FORM_DATA;
 	public static final String CONTENT_TYPE_APPLICATION_JSON;
@@ -101,7 +96,30 @@ public class OperateConstants {
 	public static final String FIELD_HTTP_AGENT_ID;
 	public static final String FIELD_PATN_CD_TYPE;
 	
+	public final static String RESOURCE_LASTMODIFIED_KEY;
+	public final static String RESOURCE_PROPERTIES_KEY;
+	
+	public final static String STR_ASTERISK;
+	public final static String SYSTEM_LOCALE;
+	public final static String EXT_DELIMETER;
+	public final static String STR_DOUBLE_QUOTATION;
+	public final static String STR_ZERO;
+	
+	/** Use annotation value */
+	public static final String META_COMM_HEADER = "commonHeader";
+	/** ORACLE, IBM JDK 존재함, HP JDK 에서 존재하지 않음 */
+	public static final String USER_COUNTRY = APIUtil.getProperty("user.country");
+	public static final String USER_LANGUAGE = APIUtil.getProperty("user.language");
+	
 	static {
+		STR_ZERO = "0";
+		STR_DOUBLE_QUOTATION = "\"";
+		EXT_DELIMETER = ".";
+		SYSTEM_LOCALE = (USER_LANGUAGE != null && USER_COUNTRY != null) ? USER_LANGUAGE.concat("_").concat(USER_COUNTRY) : "ko_KR";
+		STR_ASTERISK = "*";
+		RESOURCE_LASTMODIFIED_KEY = "lastModified";
+		RESOURCE_PROPERTIES_KEY = "properties";
+		
 		FIELD_HTTP_AGENT_ID = "httpAgentId";
 		FIELD_PATN_CD_TYPE = "patnCdType";
 		
@@ -134,8 +152,8 @@ public class OperateConstants {
 		DELIM_STR = "{}";
 		DELIM_IN_NUMBER = "(\\{[0-9]?+\\})";
 		STR_BLANK = "";
-		DEF_DAY_FORMAT = "yyyy-MM-dd";
-		DEF_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+		DEF_DAY_FORMAT = "yyyyMMdd";
+		DEF_DATE_FORMAT = "yyyyMMddHHmmss";
 		DEFAULT_ENCODING = "UTF-8";
 		STR_COLON = ":";
 		STR_WHITE_SPACE = " ";
@@ -181,9 +199,8 @@ public class OperateConstants {
 		SPRING_CONTROLLER = "SPRING";
 		DEFAULT_SERVLET = "DEFAULT_SERVLET";
 		/** ORACLE, IBM JDK 존재함, HP JDK 에서 존재하지 않음 */
-		USER_COUNTRY = APIUtil.getProperty("user.country");
 		USER_DIR = APIUtil.getProperty("user.dir");
-		USER_LANGUAGE = APIUtil.getProperty("user.language");
 		FILE_ENCODING = APIUtil.getProperty("file.encoding");
+
 	}
 }

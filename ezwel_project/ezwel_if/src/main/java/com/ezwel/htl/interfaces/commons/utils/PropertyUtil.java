@@ -78,7 +78,10 @@ public class PropertyUtil {
      */
 	@APIOperation(description="주어진 bean에 propertyName이 존재한다면 propertyName 에 result 를 setting합니다.")
     public boolean setProperty(Object bean, String propertyName, Object setValue) {
-        if(bean == null || APIUtil.isEmpty(propertyName)) {
+        if(bean == null) {
+        	throw new APIException(" bean Object is null ");
+        }
+        else if(APIUtil.isEmpty(propertyName)) {
         	throw new APIException(" The parameter was null or invalid. ");
         }
 

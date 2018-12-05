@@ -50,7 +50,6 @@ public class OutsideController {
 	@APIOperation(description="전체시설일괄등록 인터페이스", isOutputJsonMarshall=true, returnType=AllRegOutSDO.class)
 	@RequestMapping(value="/service/allReg")
 	public Object callAllReg(UserAgentSDO userAgentSDO, HttpServletRequest request, HttpServletResponse response) {
-		logger.debug("[START] callAllReg {}", userAgentSDO);
 		
 		AllRegOutSDO out = null;
 
@@ -58,20 +57,14 @@ public class OutsideController {
 			throw new APIException("입력값이 존재하지 않습니다.");
 		}
 
-		/**
-		 * 1. 파라메터 및 헤더 유효성 검사 2. 인터 페이스 요청에 따른 DB핸들링 3. 결과 응답(JSON)
-		 */
-
 		out = outsideService.callAllReg(userAgentSDO);
 
-		logger.debug("[END] callAllReg {}", out);
 		return out;
 	}
 	
 	@APIOperation(description="시설검색 인터페이스", isOutputJsonMarshall=true, returnType=FaclSearchOutSDO.class)
 	@RequestMapping(value="/service/callFaclSearch")
 	public Object callFaclSearch(UserAgentSDO userAgentDTO, FaclSearchInSDO faclSearchDTO, HttpServletRequest request, HttpServletResponse response) {
-		logger.debug("[START] callFaclSearch {} {}", userAgentDTO, faclSearchDTO);
 		
 		FaclSearchOutSDO out = null;
 		
@@ -82,7 +75,6 @@ public class OutsideController {
 		// Advice & Interceptor 최적화후 작업 추가 진행
 		out = outsideService.callFaclSearch(userAgentDTO, faclSearchDTO);
 
-		logger.debug("[END] callFaclSearch {}", out);
 		return out;
 	}
 	
@@ -90,7 +82,6 @@ public class OutsideController {
 	@APIOperation(description="당일특가검색 인터페이스", isOutputJsonMarshall=true, returnType=SddSearchOutSDO.class)
 	@RequestMapping(value="/service/callSddSearch")
 	public Object callSddSearch(UserAgentSDO userAgentDTO, HttpServletRequest request, HttpServletResponse response) {
-		logger.debug("[START] callView {}", userAgentDTO);
 		
 		SddSearchOutSDO out = null;
 
@@ -101,9 +92,9 @@ public class OutsideController {
 		// Advice & Interceptor 최적화후 작업 추가 진행
 		out = outsideService.callSddSearch(userAgentDTO);
 		
-		logger.debug("[END] callView {}", out);
 		return out;
 	}
+	
 	
 	
 }

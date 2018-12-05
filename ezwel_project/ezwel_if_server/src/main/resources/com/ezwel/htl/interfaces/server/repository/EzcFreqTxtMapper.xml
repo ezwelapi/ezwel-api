@@ -76,7 +76,7 @@ WHERE 1=1
 <select id="selectListEzcFreqTxt" resultType="ezcFreqTxt">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_FREQ_TXT.FREQ_TXT_CD AS freqTxtCd	/* 상용구 코드, NUMBER(0,22) */
 			,EZC_FREQ_TXT.FREQ_TXT_CLASS AS freqTxtClass	/* 상용구 분류, VARCHAR2(8) */
@@ -111,7 +111,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_FREQ_TXT.FREQ_TXT_CD DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

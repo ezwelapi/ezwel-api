@@ -66,7 +66,7 @@ WHERE 1=1
 <select id="selectListEzcPrmSurvey" resultType="ezcPrmSurvey">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_PRM_SURVEY.PRM_CD AS prmCd	/* 프로모션 코드, VARCHAR2(10) */
 			,EZC_PRM_SURVEY.SURVEY_TITLE AS surveyTitle	/* 설문 제목, VARCHAR2(100) */
@@ -91,7 +91,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_PRM_SURVEY.PRM_CD DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

@@ -74,7 +74,7 @@ WHERE 1=1
 <select id="selectListEzcDeposit" resultType="ezcDeposit">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_DEPOSIT.PARTNER_CD AS partnerCd	/* 제휴사 코드, VARCHAR2(20) */
 			,EZC_DEPOSIT.DEPOSIT_AMT AS depositAmt	/* 예치 금액, NUMBER(0,22) */
@@ -107,7 +107,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_DEPOSIT.PARTNER_CD DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

@@ -108,7 +108,7 @@ WHERE 1=1
 <select id="selectListEzcApiReqTemplate" resultType="ezcApiReqTemplate">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
-		/* #### SQL Body [[ ################# */
+		/*  SQL Body Start  */
 		SELECT
 			 EZC_API_REQ_TEMPLATE.API_REQ_ID AS apiReqId	/* API 요청 ID, VARCHAR2(5) */
 			,EZC_API_REQ_TEMPLATE.API_REQ_NUM AS apiReqNum	/* API 요청 번호, NUMBER(0,22) */
@@ -161,7 +161,7 @@ SELECT * FROM (
 			</if>
 		ORDER BY
 			EZC_API_REQ_TEMPLATE.API_REQ_ID DESC
-		/* #### SQL Body ]] ################# */
+		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
 )

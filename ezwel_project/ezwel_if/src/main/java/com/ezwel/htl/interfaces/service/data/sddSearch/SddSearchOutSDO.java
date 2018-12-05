@@ -30,6 +30,18 @@ public class SddSearchOutSDO extends AbstractSDO {
 	
 	@APIFields(description = "당일특가검색 output message", maxLength=100)
 	private String message;
+
+	@APIFields(description = "RestAPI URI")
+	private String restURI;
+
+	public String getRestURI() {
+		return restURI;
+	}
+
+	public void setRestURI(String restURI) {
+		this.restURI = restURI;
+	}
+
 	
 	@APIFields(description = "당일특가검색 output data")
 	private List<SddSearchDataOutSDO> data = null;

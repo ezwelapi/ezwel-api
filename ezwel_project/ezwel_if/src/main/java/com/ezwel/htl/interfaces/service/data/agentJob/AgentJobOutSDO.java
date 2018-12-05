@@ -29,6 +29,18 @@ public class AgentJobOutSDO extends AbstractSDO {
 	
 	@APIFields(description = "주문대사(제휴사) output message", maxLength=100)
 	private String message;
+
+	@APIFields(description = "RestAPI URI")
+	private String restURI;
+
+	public String getRestURI() {
+		return restURI;
+	}
+
+	public void setRestURI(String restURI) {
+		this.restURI = restURI;
+	}
+
 	
 	@APIFields(description = "주문대사(제휴사) output reserves")
 	private List<AgentJobReservesOutSDO> reserves = null;
