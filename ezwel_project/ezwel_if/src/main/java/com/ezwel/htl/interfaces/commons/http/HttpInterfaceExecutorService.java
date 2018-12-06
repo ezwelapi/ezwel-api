@@ -350,31 +350,9 @@ public class HttpInterfaceExecutorService {
 			
 			
 		} catch (APIException e) {
-			
-			if(outputType != null) {
-				out = outputType.newInstance();
-				propertyUtil.setProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME, e.getResultCode());
-				propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, e.getMessages().concat(" : ").concat(in.getRestURI()));
-
-				logger.error("■ URL Exception : {}", e.getMessage());
-				e.printStackTrace();
-			}
-			else {
-				throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ 통신 장애 발생.", e);
-			}
+			setSendJSONException(e, in, outputType);
 		} catch (Exception e) {
-			
-			if(outputType != null) {
-				out = outputType.newInstance();
-				propertyUtil.setProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME, MessageConstants.RESPONSE_CODE_9100);
-				propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, e.getMessage().concat(" : ").concat(in.getRestURI()));
-
-				logger.error("■ URL Exception : {}", e.getMessage());
-				e.printStackTrace();
-			}
-			else {
-				throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ 통신 장애 발생.", e);
-			}
+			setSendJSONException(e, in, outputType);
 		} finally {
 			if(conn != null) {
 				conn.disconnect();
@@ -383,6 +361,42 @@ public class HttpInterfaceExecutorService {
 			logger.debug("[END] sendJSON {}", in.getRestURI());
 			return out;			
 		}
+	}
+	
+	private <T extends AbstractSDO> T setSendJSONException(Exception e, HttpConfigSDO in, Class<T> outputType) {
+		T out = null;
+		if(outputType != null) {
+			try {
+				out = outputType.newInstance();
+				
+				Integer code = null;
+				String message = null;
+				if(APIException.class.isAssignableFrom(e.getClass())) {
+					code = ((APIException) e).getResultCode();
+					message = ((APIException) e).getMessages();
+				}
+				else {
+					code = MessageConstants.RESPONSE_CODE_9100;
+					message = ((Exception) e).getMessage();				
+				}
+
+				propertyUtil.setProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME, code);
+				propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, message.concat(" : ").concat(in.getRestURI()));
+
+				
+				logger.error("■ URL Exception : {}", e.getMessage());
+				e.printStackTrace();
+				
+			} catch (InstantiationException e1) {
+				throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ 통신 장애 발생.", e);
+			} catch (IllegalAccessException e1) {
+				throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ 통신 장애 발생.", e);
+			}
+		}
+		else {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ 통신 장애 발생.", e);
+		}
+		return out;
 	}
 	
 	/**
