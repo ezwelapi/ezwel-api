@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
 /**
  * <pre>

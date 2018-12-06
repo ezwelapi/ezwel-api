@@ -186,7 +186,7 @@ public class OutsideService extends AbstractServiceObject {
 						ezcFacl.setPartnerCd(allReg.getHttpAgentId()); // 에이전트 ID
 						ezcFacl.setPartnerCdType(allReg.getPatnCdType());
 						ezcFacl.setFaclDiv(CodeDataConstants.CD_API_G0010001); //시설 구분 ( API )
-						ezcFacl.setPartnerGoodsCd(faclData.getPdtNo());
+						ezcFacl.setPartnerGoodsCd( APIUtil.NVL(faclData.getPdtNo())); /* 제휴사 ID => 호텔패스글로벌 전문에 제휴사ID 가 전달되어오지 않기때문에 임시로 NVL 처리함 */
 						ezcFacl.setFaclNmKor(faclData.getPdtName()); //시설 한글 명
 						ezcFacl.setFaclNmEng(faclData.getPdtNameEng());
 						ezcFacl.setRoomType( APIUtil.NVL(commonUtil.getMasterCdForCodeList(detailCdList, faclData.getTypeCode()), "testG002") ); // -> DB 공통코드 (테이블 : EZC_DETAIL_CD.DETAIL_CD  = '#{typeCode}' AND EZC_DETAIL_CD.CLASS_CD = 'G002' )

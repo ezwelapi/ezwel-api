@@ -2,9 +2,11 @@ package com.ezwel.htl.interfaces.commons.utils;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.rmi.dgc.VMID;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -532,10 +534,12 @@ public class APIUtil {
 	}
 	
 	
+	@APIOperation(description="TimeMillis를 문자열Date로 변환합니다.")
 	public static String getTimeMillisToDate(Long userTimeMillis) {
 		return getTimeMillisToDate(userTimeMillis, null);
 	}
 	
+	@APIOperation(description="TimeMillis를 주어진 날짜포멧의 문자열Date로 변환합니다.")
 	public static String getTimeMillisToDate(Long userTimeMillis, String userDateFormat) {
 		logger.debug("[START] getTimeMillisToDate userTimeMillis : {}, userDateFormat : {}", userTimeMillis, userDateFormat);
 		if(userTimeMillis == null) {
@@ -560,6 +564,18 @@ public class APIUtil {
 	
 	}
 	
-	
+	@APIOperation(description="로컬 호스트 InetAddress를 리턴합니다.")
+	public static InetAddress getLocalHost() {
+		
+		InetAddress local = null;
+
+		try {
+			local = InetAddress.getLocalHost();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} 
+
+		return local;
+	}
 	
 }

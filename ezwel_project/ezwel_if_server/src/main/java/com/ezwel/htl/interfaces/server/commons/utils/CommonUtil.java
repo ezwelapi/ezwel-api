@@ -313,6 +313,44 @@ public class CommonUtil {
 		}
 	}
 	
+	@APIOperation(description="서버 IP 대역")
+	public static String getServerAddress() {
+		String out = null;
+		String prodServerIpRange = InterfaceFactory.getServerAddress().getProdServerIpRange(); 
+		String devServerIpRange = InterfaceFactory.getServerAddress().getDevServerIpRange();
+		
+		if(APIUtil.isNotEmpty(prodServerIpRange)) {
+			
+			if(prodServerIpRange.endsWith(".*")) {
+				prodServerIpRange = prodServerIpRange.substring(0, prodServerIpRange.indexOf(".*"));
+				
+				if(InterfaceFactory.LOCAL_HOST_ADDRESS.startsWith(prodServerIpRange)) {
+					out = OperateConstants.CURRENT_PROD_SERVER;
+				}
+			}
+			else if(InterfaceFactory.LOCAL_HOST_ADDRESS.equals(prodServerIpRange)) {
+				out = OperateConstants.CURRENT_PROD_SERVER;
+			}
+		}
+		else if(APIUtil.isNotEmpty(devServerIpRange)) {
+			
+			if(devServerIpRange.endsWith(".*")) {
+				devServerIpRange = devServerIpRange.substring(0, devServerIpRange.indexOf(".*"));
+				
+				if(InterfaceFactory.LOCAL_HOST_ADDRESS.startsWith(devServerIpRange)) {
+					out = OperateConstants.CURRENT_DEV_SERVER;
+				}
+			}
+			else if(InterfaceFactory.LOCAL_HOST_ADDRESS.equals(devServerIpRange)) {
+				out = OperateConstants.CURRENT_DEV_SERVER;
+			}
+		}
+		else {
+			out = OperateConstants.CURRENT_PC_SERVER;
+		}
+
+		return out;
+	}
 	/**
 	 * URL 이미지를 바인드된 경로에 다운로드 하고 저장된 전체경로를 리턴합니다.
 	 * @param imageSDO.getImageURL() 다운로드 할 이미지 URL
@@ -322,7 +360,7 @@ public class CommonUtil {
 	@APIOperation(description="URL 이미지를 바인드된 경로에 다운로드 하고 저장된 전체경로를 리턴합니다.")
 	public ImageSDO getImage(ImageSDO imageSDO, boolean verbose) {
 		
-		String lodgeBuildingImageRootPath = InterfaceFactory.getFileRepository().getLodgeBuildingImageRootPath();
+		String lodgeBuildingImageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getLocalRootPath();
 		String toDate = APIUtil.getFastDate("yyyyMMdd");
 		File outputFile = new File(lodgeBuildingImageRootPath, toDate);
 		

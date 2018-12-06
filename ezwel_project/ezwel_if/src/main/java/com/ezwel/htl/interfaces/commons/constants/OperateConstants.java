@@ -105,6 +105,10 @@ public class OperateConstants {
 	public final static String STR_DOUBLE_QUOTATION;
 	public final static String STR_ZERO;
 	
+	public final static String CURRENT_DEV_SERVER;
+	public final static String CURRENT_PROD_SERVER;
+	public final static String CURRENT_PC_SERVER;
+	
 	/** Use annotation value */
 	public static final String META_COMM_HEADER = "commonHeader";
 	/** ORACLE, IBM JDK 존재함, HP JDK 에서 존재하지 않음 */
@@ -112,6 +116,10 @@ public class OperateConstants {
 	public static final String USER_LANGUAGE = APIUtil.getProperty("user.language");
 	
 	static {
+		CURRENT_DEV_SERVER = "DEV-SERVER";
+		CURRENT_PROD_SERVER = "PROD-SERVER";
+		CURRENT_PC_SERVER = "DEVELOPER-PC";
+		
 		STR_ZERO = "0";
 		STR_DOUBLE_QUOTATION = "\"";
 		EXT_DELIMETER = ".";

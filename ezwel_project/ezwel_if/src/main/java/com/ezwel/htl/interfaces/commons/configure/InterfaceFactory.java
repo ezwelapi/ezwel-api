@@ -18,8 +18,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.configure.data.FileRepository;
-import com.ezwel.htl.interfaces.commons.configure.data.InterfaceConfigure;
+import com.ezwel.htl.interfaces.commons.configure.data.FileRepositoryConfig;
+import com.ezwel.htl.interfaces.commons.configure.data.InterfaceRootConfig;
+import com.ezwel.htl.interfaces.commons.configure.data.ServerAddressConfig;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
@@ -44,13 +45,23 @@ public class InterfaceFactory {
 	
 	private static Map<String, AgentInfoSDO> interfaceAgents;
 	
-	private static FileRepository fileRepository;
+	private static FileRepositoryConfig fileRepository;
+	
+	private static ServerAddressConfig serverAddress;
 	
 	private PropertyUtil propertyUtil;
+	
+	public final static String LOCAL_HOST_ADDRESS; 
+	public final static String LOCAL_HOST_NAME;
+	public final static String LOCAL_CANONICAL_HOST_NAME;
 	
 	static {
 		interfaceChannels = new LinkedHashMap<String, List<HttpConfigSDO>>();
 		interfaceAgents = new LinkedHashMap<String, AgentInfoSDO>();
+		
+		LOCAL_HOST_ADDRESS = APIUtil.getLocalHost().getHostAddress();
+		LOCAL_HOST_NAME = APIUtil.getLocalHost().getHostName();
+		LOCAL_CANONICAL_HOST_NAME = APIUtil.getLocalHost().getCanonicalHostName();
 	}
 	
 	private String configXmlPath;
@@ -101,7 +112,11 @@ public class InterfaceFactory {
 		return out;
 	}
 	
-	public static FileRepository getFileRepository() {
+	public static ServerAddressConfig getServerAddress() {
+		return serverAddress;
+	}
+
+	public static FileRepositoryConfig getFileRepository() {
 		return fileRepository;
 	}
 	
@@ -133,14 +148,14 @@ public class InterfaceFactory {
 		Unmarshaller unmarshaller = null;
 		String classesRoot = null;
 		File configureXml = null;
-		InterfaceConfigure ifc = null;
+		InterfaceRootConfig ifc = null;
 		String xmlPath = null;
 		ChannelListData cld = null;
 		URL resourceURL = null;
 
 		try {
 			
-			jaxbc = JAXBContext.newInstance(InterfaceConfigure.class);
+			jaxbc = JAXBContext.newInstance(InterfaceRootConfig.class);
 			unmarshaller = jaxbc.createUnmarshaller();
 			
 			// 1. xmlPath를 canonical로 채크
@@ -187,7 +202,7 @@ public class InterfaceFactory {
 				resourceURL = Paths.get(configureXml.getCanonicalPath()).toUri().toURL();
 			}
 			
-			ifc = (InterfaceConfigure) unmarshaller.unmarshal(resourceURL);
+			ifc = (InterfaceRootConfig) unmarshaller.unmarshal(resourceURL);
 			
 			if(ifc != null) {
 				
@@ -204,10 +219,16 @@ public class InterfaceFactory {
 					
 					initInterfaceChannels(cld);
 					
+					InterfaceFactory.serverAddress = ifc.getServerAddress();
 					InterfaceFactory.fileRepository = ifc.getFileRepository();
-					
+
+					logger.debug("# LOCAL_HOST_ADDRESS : {}", LOCAL_HOST_ADDRESS);
+					logger.debug("# LOCAL_HOST_NAME : {}", LOCAL_HOST_NAME);
+					logger.debug("# LOCAL_CANONICAL_HOST_NAME : {}", LOCAL_CANONICAL_HOST_NAME);
+					logger.debug("# serverAddress : {}", InterfaceFactory.serverAddress);
 					logger.debug("# Real Cached Size : {}", interfaceChannels.size());
 					logger.debug("# interfaceChannels : {}", interfaceChannels);
+					logger.debug("# fileRepository : {}", InterfaceFactory.fileRepository);
 				}
 			}
 		} catch (JAXBException e) {
