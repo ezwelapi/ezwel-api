@@ -3,7 +3,6 @@ package com.ezwel.htl.interfaces.commons.http.data;
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
-import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
 /**
  * <pre>
@@ -15,6 +14,8 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
  */
 @APIModel
 public class UserAgentSDO extends AbstractSDO {
+
+	private static final long serialVersionUID = 1L;
 
 	@APIFields(description = "에이전트 아이디", httpHeader=true, headerName="http-agent-id")
 	private String httpAgentId;
@@ -35,10 +36,10 @@ public class UserAgentSDO extends AbstractSDO {
 	private String httpRequestId;	
 	
 	@APIFields(description = "http connection timeout")
-	private int connTimeout;
+	private Integer connTimeout;
 	
 	@APIFields(description = "http read timeout")
-	private int readTimeout;
+	private Integer readTimeout;
 	
 	
 	public UserAgentSDO() {
@@ -48,8 +49,8 @@ public class UserAgentSDO extends AbstractSDO {
 	private void reset() {
 		httpAgentId = null;
 		httpAgentGroupId = null;
-		connTimeout = OperateConstants.INTEGER_MINUS_ONE;
-		readTimeout = OperateConstants.INTEGER_MINUS_ONE;
+		connTimeout = null;
+		readTimeout = null;
 		httpAgentType = null;	
 		httpChannelCd = null;	
 		httpClientId = null;	
@@ -71,15 +72,6 @@ public class UserAgentSDO extends AbstractSDO {
 	public void setHttpAgentId(String httpAgentId) {
 		this.httpAgentId = httpAgentId;
 	}
-
-	public int getConnTimeout() {
-		return connTimeout;
-	}
-
-	public void setConnTimeout(int connTimeout) {
-		this.connTimeout = connTimeout;
-	}
-
 
 	public String getHttpAgentType() {
 		return httpAgentType;
@@ -113,21 +105,20 @@ public class UserAgentSDO extends AbstractSDO {
 		this.httpRequestId = httpRequestId;
 	}
 
-	public void setConnTimeout(Integer connTimeout) {
-		this.connTimeout = connTimeout;
+	public Integer getReadTimeout() {
+		return readTimeout;
 	}
 
 	public void setReadTimeout(Integer readTimeout) {
 		this.readTimeout = readTimeout;
 	}
 
-	public int getReadTimeout() {
-		return readTimeout;
+	public Integer getConnTimeout() {
+		return connTimeout;
 	}
 
-	public void setReadTimeout(int readTimeout) {
-		this.readTimeout = readTimeout;
+	public void setConnTimeout(Integer connTimeout) {
+		this.connTimeout = connTimeout;
 	}
-	
-	
+
 }

@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
@@ -21,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.Charsets;
-import org.apache.poi.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -351,6 +351,28 @@ public class CommonUtil {
 
 		return out;
 	}
+	
+	public static String getImageRootPath() {
+		String out = null;
+		
+		if(getServerAddress() == null) {
+			throw new APIException("인터페이스 환경파일에 설정된 개발 또는 운영서버의 IP또는 IP대역과 현제 서버의 IP가 일치하지 않습니다.");
+		}
+		else if(getServerAddress().equals(OperateConstants.CURRENT_PROD_SERVER)) {
+			// prod server
+			out = InterfaceFactory.getFileRepository().getBuildImage().getProdRootPath();
+		}
+		else if(getServerAddress().equals(OperateConstants.CURRENT_DEV_SERVER)) {
+			// dev server
+			out = InterfaceFactory.getFileRepository().getBuildImage().getDevRootPath();
+		}
+		else {
+			// developer local pc server
+			out = InterfaceFactory.getFileRepository().getBuildImage().getLocalRootPath();
+		}
+		
+		return out;
+	}
 	/**
 	 * URL 이미지를 바인드된 경로에 다운로드 하고 저장된 전체경로를 리턴합니다.
 	 * @param imageSDO.getImageURL() 다운로드 할 이미지 URL
@@ -360,9 +382,10 @@ public class CommonUtil {
 	@APIOperation(description="URL 이미지를 바인드된 경로에 다운로드 하고 저장된 전체경로를 리턴합니다.")
 	public ImageSDO getImage(ImageSDO imageSDO, boolean verbose) {
 		
-		String lodgeBuildingImageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getLocalRootPath();
+		String imageRootPath = getImageRootPath();
+		
 		String toDate = APIUtil.getFastDate("yyyyMMdd");
-		File outputFile = new File(lodgeBuildingImageRootPath, toDate);
+		File outputFile = new File(imageRootPath, toDate);
 		
 		URL url = null;
 		BufferedImage bufferedImage = null;
@@ -538,6 +561,7 @@ public class CommonUtil {
      * @param fileName
      * @return
      */
+    @APIOperation
     public static String getExt(String canonicalPath) {
         int idx;
         String fileName = canonicalPath;
@@ -552,6 +576,7 @@ public class CommonUtil {
      * @return
      * @throws FileNotFoundException
      */
+    @APIOperation
     public String getContextPath() {
     	return getContextRealPath(OperateConstants.STR_BLANK);
     }
@@ -562,6 +587,7 @@ public class CommonUtil {
 	 * @param filePath
 	 * @return
 	 */
+    @APIOperation
     public String getRealPath(String filePath) {
     	
     	if(context != null) {
@@ -574,7 +600,7 @@ public class CommonUtil {
     	return (context != null ? getContextRealPath(filePath) : filePath);
     }
 
-    
+    @APIOperation
 	public File getRealFile(String filePath){
 		
 		File out = null; 
@@ -600,6 +626,7 @@ public class CommonUtil {
      * @return
      * @throws FileNotFoundException
      */
+    @APIOperation
     private String getContextRealPath(String currentPath) {
     	
     	String out = null;
@@ -648,6 +675,7 @@ public class CommonUtil {
     	return out; 
     }
     
+    @APIOperation
 	public boolean testPattern(String objectStr, String patternStr, int flags) {
 		
 		//if(logger.isDebugEnabled()) {
@@ -668,6 +696,7 @@ public class CommonUtil {
 	 * @param pattern
 	 * @return
 	 */
+    @APIOperation
 	public Matcher match(String contents , String pattern, int flags) {
 		String contentStr = APIUtil.NVL(contents);
 		String patternStr = APIUtil.NVL(pattern);
@@ -681,6 +710,7 @@ public class CommonUtil {
 		return regex.matcher(contentStr);
 	}
 	
+    @APIOperation
 	public static boolean existsClass(String... classType) {
 		boolean out = false;
 		try {
@@ -698,6 +728,59 @@ public class CommonUtil {
 		}
 		
 		return out;
+	}
+	
+    @APIOperation
+	public static String byteSubstring(String str, int sPoint, int length, String encoding) {
+	    String out = null;
+
+	    try {
+			
+			byte[] bytes = str.getBytes(encoding);
+			byte[] value = new byte[length];
+			
+			if(bytes.length < sPoint + length){
+				logger.warn("[VALIDATE] byteSubstring => Length of bytes is less. length : {}, sPoint : {}, length : {}", bytes.length, sPoint, length);
+				return str;
+			}
+			
+			for(int i = 0; i < length; i++){
+				value[i] = bytes[sPoint + i];
+			}
+			
+			/* 
+			    logger.debug("utf-8 -> euc-kr        : " + new String(word.getBytes("utf-8"), "euc-kr"));
+			    logger.debug("utf-8 -> ksc5601       : " + new String(word.getBytes("utf-8"), "ksc5601"));
+			    logger.debug("utf-8 -> x-windows-949 : " + new String(word.getBytes("utf-8"), "x-windows-949"));
+			    logger.debug("utf-8 -> iso-8859-1    : " + new String(word.getBytes("utf-8"), "iso-8859-1"));
+			    logger.debug("iso-8859-1 -> euc-kr        : " + new String(word.getBytes("iso-8859-1"), "euc-kr"));
+			    logger.debug("iso-8859-1 -> ksc5601       : " + new String(word.getBytes("iso-8859-1"), "ksc5601"));
+			    logger.debug("iso-8859-1 -> x-windows-949 : " + new String(word.getBytes("iso-8859-1"), "x-windows-949"));
+			    logger.debug("iso-8859-1 -> utf-8         : " + new String(word.getBytes("iso-8859-1"), "utf-8"));
+			    logger.debug("euc-kr -> utf-8         : " + new String(word.getBytes("euc-kr"), "utf-8"));
+			    logger.debug("euc-kr -> ksc5601       : " + new String(word.getBytes("euc-kr"), "ksc5601"));
+			    logger.debug("euc-kr -> x-windows-949 : " + new String(word.getBytes("euc-kr"), "x-windows-949"));
+			    logger.debug("euc-kr -> iso-8859-1    : " + new String(word.getBytes("euc-kr"), "iso-8859-1"));
+			    logger.debug("ksc5601 -> euc-kr        : " + new String(word.getBytes("ksc5601"), "euc-kr"));
+			    logger.debug("ksc5601 -> utf-8         : " + new String(word.getBytes("ksc5601"), "utf-8"));
+			    logger.debug("ksc5601 -> x-windows-949 : " + new String(word.getBytes("ksc5601"), "x-windows-949"));
+			    logger.debug("ksc5601 -> iso-8859-1    : " + new String(word.getBytes("ksc5601"), "iso-8859-1"));
+			    logger.debug("x-windows-949 -> euc-kr     : " + new String(word.getBytes("x-windows-949"), "euc-kr"));
+			    logger.debug("x-windows-949 -> utf-8      : " + new String(word.getBytes("x-windows-949"), "utf-8"));
+			    logger.debug("x-windows-949 -> ksc5601    : " + new String(word.getBytes("x-windows-949"), "ksc5601"));
+			    logger.debug("x-windows-949 -> iso-8859-1 : " + new String(word.getBytes("x-windows-949"), "iso-8859-1"));
+			*/
+			
+			out = new String(value, encoding).trim();
+		}
+	    catch (UnsupportedEncodingException e) {
+			throw new APIException(e);
+		}
+		catch(Exception e) {
+			throw new APIException(e);
+		} 
+	    
+	    return out;
 	}
 	
 }

@@ -145,19 +145,12 @@
 		<appender-ref ref="fileAppender" />
 	</logger>	
 
-  	<!-- All DWR session information will be written here --> 
-	<logger name="org.directwebremoting.spring.DwrAnnotationPostProcessor">
-	   <level value="WARN"/>
-	   <appender-ref ref="fileAppender" />
-	</logger>
-
   	<!-- ######################################################### -->
   	
 	<!-- root Loggers -->  
 	<root>
 		<level value="DEBUG" />
 		<appender-ref ref="defaultConsole" />
-		<appender-ref ref="fileAppender" />
 	</root>
 	
 </log4j:configuration>

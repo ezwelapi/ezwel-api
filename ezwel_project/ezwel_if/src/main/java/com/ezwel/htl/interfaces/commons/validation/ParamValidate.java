@@ -243,7 +243,7 @@ public class ParamValidate {
 				//필수 값 존재 여부채크
 				if( fieldAnno.required() ) {
 					if(value == null || (field.getType().isAssignableFrom(String.class) && APIUtil.isEmpty((String)value))) {
-						paramValidate.setMessage("'".concat(fieldAnno.description()).concat("'는/은 필수 입력 사항합니다."));
+						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "'는/은 필수 입력 사항합니다. [", field.getName(), "]"));
 						paramValidate.setValidation(false);
 						return false;
 					}
@@ -255,7 +255,7 @@ public class ParamValidate {
 					//((String)field)
 					int byteLength = apiUtil.getBytesLength((String)value, this.encoding);
 					if(byteLength > fieldAnno.maxLength()) {
-						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 데이터는 ", Integer.toString(fieldAnno.maxLength()), " 바이트를 넘을수 없습니다. 입력값 : ", value));
+						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 데이터는 ", Integer.toString(fieldAnno.maxLength()), " 바이트를 넘을수 없습니다. [", field.getName(), "] 입력값 : ", value));
 						paramValidate.setValidation(false);
 						return false;	
 					}
@@ -267,7 +267,7 @@ public class ParamValidate {
 					//((String)field)
 					int byteLength = apiUtil.getBytesLength((String)value, this.encoding);
 					if(byteLength < fieldAnno.minLength()) {
-						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 데이터는 ", Integer.toString(fieldAnno.minLength()), " 바이트보다 길게 입력되야 합니다. 입력값 : ", value));
+						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 데이터는 ", Integer.toString(fieldAnno.minLength()), " 바이트보다 길게 입력되야 합니다. [", field.getName(), "] 입력값 : ", value));
 						paramValidate.setValidation(false);
 						return false;	
 					}
@@ -277,7 +277,7 @@ public class ParamValidate {
 				if( field.getType().isAssignableFrom(String.class) && APIUtil.isNotEmpty(fieldAnno.pattern()) && value != null ) {
 					
 					if(!regexUtil.testPattern((String) value, fieldAnno.pattern())) {
-						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 데이터가 유효하지 않습니다. 검증식은 '",fieldAnno.pattern() ,"' 입니다. 입력값 : ", value));
+						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 데이터가 유효하지 않습니다. 검증식은 '",fieldAnno.pattern() ,"' 입니다. [", field.getName(), "] 입력값 : ", value));
 						paramValidate.setValidation(false);
 						return false;
 					}
@@ -287,7 +287,7 @@ public class ParamValidate {
 				if( field.getType().isAssignableFrom(String.class) && fieldAnno.isDate() && value != null ) {
 					
 					if(!apiUtil.isValidDate((String) value, (APIUtil.isNotEmpty(fieldAnno.dateFormat()) ? fieldAnno.dateFormat() : null))) {
-						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 날짜 데이터가 유효하지 않습니다. 입력값 : ", value));
+						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "' 필드 날짜 데이터가 유효하지 않습니다. [", field.getName(), "] 입력값 : ", value));
 						paramValidate.setValidation(false);
 						return false;
 					}
@@ -409,11 +409,11 @@ public class ParamValidate {
     					    
     					    if(!isValidatedField) {
     	    					//해당 필드가 없음
-    	    					throw new APIException(APIUtil.addString("유효성검사대상 필드 '", fieldName, "'가 존재하지 않습니다."));
+    	    					throw new APIException(MessageConstants.RESPONSE_CODE_2001, APIUtil.addString("유효성검사대상 필드 '", fieldName, "'가 존재하지 않습니다."));
     	    				}
         				}
         				else {
-        					throw new APIException(APIUtil.addString("유효성검사대상 필드명이 잘못되었습니다."));
+        					throw new APIException(MessageConstants.RESPONSE_CODE_2001, "유효성검사대상 필드명이 잘못되었습니다.");
         				}
         				/*
         				if(APIUtil.isNotEmpty(fieldName)) {
@@ -440,7 +440,7 @@ public class ParamValidate {
     		}
     	}
     	else{
-    		throw new APIException(APIUtil.addString("유효성검사대상 DTO가 존재하지 않습니다."));
+    		throw new APIException(MessageConstants.RESPONSE_CODE_2001, "유효성검사대상 객체가 존재하지 않습니다.");
     	}
     	
     	return paramValidate;
@@ -527,7 +527,7 @@ public class ParamValidate {
     					}
     				}
     				else {
-    					throw new APIException("SIZE 유효성채크 대상은 Collection, Map 타입만 가능합니다.");
+    					throw new APIException(MessageConstants.RESPONSE_CODE_2001, "SIZE 유효성채크 대상은 Collection, Map 타입만 가능합니다.");
     				}
     			}
     			else if( pattern.toLowerCase().startsWith(VP_LENGTH) ) {
@@ -554,7 +554,7 @@ public class ParamValidate {
     			}
     			else {
     				//잘못된 유효성 검사 패턴
-    				throw new APIException("유효성검사 유형이 잘못되었습니다.");
+    				throw new APIException(MessageConstants.RESPONSE_CODE_2001, "유효성검사 유형이 잘못되었습니다.");
     			}
     		}
     	}

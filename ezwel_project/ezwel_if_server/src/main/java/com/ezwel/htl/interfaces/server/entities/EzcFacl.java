@@ -146,7 +146,7 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
 	private String modiDt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
 
-	@APIFields(description = "시설 이미지", required=true)
+	@APIFields(description = "시설 이미지", required=false)
 	private List<EzcFaclImg> ezcFaclImgList = null;
 	
 	@APIFields(description = "시설 부대시설", maxLength=500)
