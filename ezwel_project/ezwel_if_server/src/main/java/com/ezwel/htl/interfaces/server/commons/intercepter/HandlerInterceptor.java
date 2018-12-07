@@ -7,16 +7,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.MethodParameter;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
+import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.entity.CommonHeader;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
+import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 
@@ -97,52 +103,13 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 				throw new APIException("■■ 유효하지 않은 API 오퍼레이션 APIOperation어노테이션이 존재하지 않습니다. '{}'", typeMethodName);
 			}
 			
-			/*
-			ParamValidate paramValidator = null;
-			APIModel apiModelAnno = null;
-			AbstractSDO inputParamObject = null;
-			String inputStreamData = null;
-			if(header.getContentType().equals(OperateConstants.CONTENT_TYPE_APPLICATION_JSON)) {
-				inputStreamData = commonUtil.readReqeustBodyWithBufferedReader(request);
-			
-				if(inputStreamData != null) {
-					
-					//List<AbstractDTO> inputParameters = new ArrayList<AbstractDTO>();
-					MethodParameter[] methodParameter = handlerMethod.getMethodParameters();
-					if(methodParameter.length > 0) {
-						//parameter validator
-						paramValidator = new ParamValidate(); 
-						for(MethodParameter input : methodParameter) {
-							
-							if(AbstractSDO.class.isAssignableFrom(input.getParameterType())) {
-								//밸리데이션 대상 클래스이면
-								apiModelAnno = input.getParameterType().getAnnotation(APIModel.class);
-								if(apiModelAnno != null) {
-									
-									inputParamObject = (AbstractSDO) marshaller.fromJSON(inputStreamData, input.getParameterType());
-									//inputParameters.add(inputParamObject);
-									//validation inputParamObject
-									paramValidator.addParam(new ParamValidateSDO(inputParamObject));
-								}
-							}
-						}
-
-						if(paramValidator.getParams() != null && paramValidator.getParams().size() > 0) {
-							//execute validator
-							paramValidator.execute();
-						}
-					}
-				}
-			}
-			*/
-			
-			out = true;
+			out = true;	
 		} catch (Exception e) {
 			throw new APIException("인터페이스 인터셉터 장애발생", e);
 		}
 		
 		if(isLogging) {
-			logger.debug("[HANDLER END] 'preHandle' controller typeMethodName : {}", typeMethodName);
+			logger.debug("[HANDLER END] 'preHandle' controller typeMethodName : {} {}", typeMethodName, out);
 		}
 		return out;
 	}
@@ -154,10 +121,12 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 	 */
 	@APIOperation(description="postHandle")
 	public void postHandle( HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+		String typeMethodName = null;
 		
-		String typeMethodName = commonUtil.getMethodInfo(handler);
 		if(isLogging) {
+			commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+			typeMethodName = commonUtil.getMethodInfo(handler);
+			
 			logger.debug("[HANDLER START] 'postHandle' controller typeMethodName : {}", typeMethodName);
 		}
 		
@@ -176,10 +145,13 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 	 */
 	@APIOperation(description="afterCompletion")
 	public void afterCompletion( HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
-		
-		String typeMethodName = commonUtil.getMethodInfo(handler);
+
+		String typeMethodName = null;
+
 		if(isLogging) {
+			commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+			typeMethodName = commonUtil.getMethodInfo(handler);
+			
 			logger.debug("[HANDLER START] 'afterCompletion' controller typeMethodName : {}, Exception : {}", typeMethodName, ex);
 		}
 		
@@ -197,10 +169,14 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 	 */
 	@APIOperation(description="afterConcurrentHandlingStarted")
 	public void afterConcurrentHandlingStarted( HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
-		String typeMethodName = commonUtil.getMethodInfo(handler);
+		String typeMethodName = null;
+		
 		if(isLogging) {
+			
+			commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+			typeMethodName = commonUtil.getMethodInfo(handler);
+
 			logger.debug("[HANDLER START] 'afterConcurrentHandlingStarted' controller typeMethodName : {}", typeMethodName);
 		}
 		
@@ -211,6 +187,45 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 		}
 	}
 	
-	
-	
+	@APIOperation(description="Request Body의 내용을 읽어 Bean에 담은후 Bean Fields 어노테이션 설정에 따른 유효성 검사 수행")
+	private void doValidateInputObject(HttpServletRequest request, CommonHeader header, HandlerMethod handlerMethod) {
+		
+		ParamValidate paramValidator = null;
+		APIModel apiModelAnno = null;
+		AbstractSDO inputParamObject = null;
+		String inputStreamData = null;
+		if(header.getContentType().equals(OperateConstants.CONTENT_TYPE_APPLICATION_JSON)) {
+			inputStreamData = commonUtil.readReqeustBodyWithBufferedReader(request);
+		
+			if(inputStreamData != null) {
+				
+				//List<AbstractDTO> inputParameters = new ArrayList<AbstractDTO>();
+				MethodParameter[] methodParameter = handlerMethod.getMethodParameters();
+				if(methodParameter.length > 0) {
+					//parameter validator
+					paramValidator = new ParamValidate(); 
+					for(MethodParameter input : methodParameter) {
+						
+						if(AbstractSDO.class.isAssignableFrom(input.getParameterType())) {
+							//밸리데이션 대상 클래스이면
+							apiModelAnno = input.getParameterType().getAnnotation(APIModel.class);
+							if(apiModelAnno != null) {
+								
+								inputParamObject = (AbstractSDO) marshaller.fromJSON(inputStreamData, input.getParameterType());
+								//inputParameters.add(inputParamObject);
+								//validation inputParamObject
+								paramValidator.addParam(new ParamValidateSDO(inputParamObject));
+							}
+						}
+					}
+
+					if(paramValidator.getParams() != null && paramValidator.getParams().size() > 0) {
+						//execute validator
+						paramValidator.execute();
+					}
+				}
+			}
+		}
+		
+	}
 }
