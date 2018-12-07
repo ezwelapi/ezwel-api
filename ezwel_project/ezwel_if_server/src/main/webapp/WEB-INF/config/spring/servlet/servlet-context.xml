@@ -47,15 +47,19 @@
 
 	<!-- 로컬 톰켓 -->
 	<default-servlet-handler />
-		
-	<!-- Enables the Spring MVC @Controller programming model
-	<annotation-driven>
-        <argument-resolvers>
-            <beans:bean class="com.universal.core.spring.resolver.CommandMapArgumentResolver" />       
-        </argument-resolvers>
-	</annotation-driven>
-	-->
 	
+	<!-- ##################### ApplicationContextAware SETUP ###################### -->
+
+	<beans:bean id="springApplicationContext" class="com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext" />
+		
+	<!-- ##################### JSP VIEW RESOLVER ###################### -->
+	
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+		
 	<!-- ##################### SPRING CONTEXT SETUP ###################### -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
@@ -64,10 +68,6 @@
 	<tx:annotation-driven />
 	
 	<context:annotation-config />
-	
-	<!-- ##################### ApplicationContextAware SETUP ###################### -->
-
-	<beans:bean id="springApplicationContext" class="com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext" />
 		
 	<!-- ##################### SPRING ANNOTATION SCAN SETUP ###################### -->
 	<!-- 
@@ -85,13 +85,13 @@
 		<beans:property name="configXmlPath" value="/interfaces/interface-configure.xml" />
 	</beans:bean>
 	
-	<!-- ##################### JSP VIEW RESOLVER ###################### -->
+	<!-- ##################### SPRING DEFAULT HANDLER SETUP ###################### -->
 	
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/views/" />
-		<beans:property name="suffix" value=".jsp" />
-	</beans:bean>
+	<beans:bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+	
+	<beans:bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<beans:property name="order" value="1" />
+	</beans:bean>	
 	
 	<!-- Controller for Homepage -->
 	<!-- <view-controller path="/" view-name="index" /> -->
@@ -112,6 +112,16 @@
 	</bean>
 	-->
 
+	<!-- ##################### INTERCEPTORS SETUP ###################### -->	
+	<interceptors>
+	    <interceptor> 
+	   	   <!-- <mapping path="/process/**/*"/> -->
+	   	   <!-- <mapping path="/process/**"/> -->
+	   	   <mapping path="/**"/>
+	       <beans:bean class="com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor"/>
+	    </interceptor>
+	</interceptors>
+	
 	<!-- ##################### TASK SCHEDULER SETUP ###################### -->
 	
 	<beans:bean id="taskScheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
@@ -123,25 +133,6 @@
 	
 	<task:annotation-driven scheduler="taskScheduler"/>
 
-	<!-- ##################### INTERCEPTORS SETUP ###################### -->	
-	<interceptors>
-	    <interceptor> 
-	   	   <!-- <mapping path="/process/**/*"/> -->
-	   	   <!-- <mapping path="/process/**"/> -->
-	   	   <mapping path="/**"/>
-	       <beans:bean class="com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor"/>
-	    </interceptor>
-	</interceptors>
-	
-	<!-- ##################### SPRING DEFAULT HANDLER SETUP ###################### -->
-	
-	<beans:bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
-
-	<!-- 
-	<beans:bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-		<beans:property name="order" value="2" />
-	</beans:bean>
-	-->
 <!-- 
 	<interceptors>
 		<interceptor>

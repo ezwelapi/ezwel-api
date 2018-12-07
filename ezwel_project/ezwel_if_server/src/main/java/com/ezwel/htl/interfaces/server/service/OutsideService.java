@@ -186,16 +186,16 @@ public class OutsideService extends AbstractServiceObject {
 						ezcFacl.setPartnerCd(allReg.getHttpAgentId()); // 에이전트 ID
 						ezcFacl.setPartnerCdType(allReg.getPatnCdType());
 						ezcFacl.setFaclDiv(CodeDataConstants.CD_API_G0010001); //시설 구분 ( API )
-						ezcFacl.setPartnerGoodsCd( APIUtil.NVL(faclData.getPdtNo(), "EMPTY") ); /* 제휴사 ID => 호텔패스글로벌 전문에 데이터가  전달되어오지 않기때문에 임시로 EMPTY 처리함 */
-						ezcFacl.setFaclNmKor( APIUtil.NVL(faclData.getPdtName(), "EMPTY") ); /* 시설 한글 명 => 호텔패스글로벌 전문에 데이터가 전달되어오지 않기때문에 임시로 EMPTY 처리함 */
+						ezcFacl.setPartnerGoodsCd( APIUtil.NVL(faclData.getPdtNo(), OperateConstants.STR_EMPTY) ); /* 제휴사 ID => 호텔패스글로벌 전문에 데이터가  전달되어오지 않기때문에 임시로 EMPTY 처리함 */
+						ezcFacl.setFaclNmKor( APIUtil.NVL(faclData.getPdtName(), OperateConstants.STR_EMPTY) ); /* 시설 한글 명 => 호텔패스글로벌 전문에 데이터가 전달되어오지 않기때문에 임시로 EMPTY 처리함 */
 						ezcFacl.setFaclNmEng(faclData.getPdtNameEng());
 						ezcFacl.setRoomType( APIUtil.NVL(commonUtil.getMasterCdForCodeList(detailCdList, faclData.getTypeCode()), "NA-G002") ); // -> DB 공통코드 (테이블 : EZC_DETAIL_CD.DETAIL_CD  = '#{typeCode}' AND EZC_DETAIL_CD.CLASS_CD = 'G002' )
 						ezcFacl.setRoomClass( APIUtil.NVL(commonUtil.getMasterCdForCodeList(detailCdList, faclData.getGradeCode()), "NA-G003") ); // -> DB 공통코드 (테이블 : EZC_DETAIL_CD.DETAIL_CD  = '#{gradeCode}' AND EZC_DETAIL_CD.CLASS_CD = 'G003')
 						ezcFacl.setSaleStartDd(faclData.getSellStartDate()); // 판매시작일
 						ezcFacl.setSaleEndDd(faclData.getSellEndDate());	// 판매종료일
-						ezcFacl.setCheckInTm( APIUtil.isNotEmpty(faclData.getCheckInTime()) ? faclData.getCheckInTime().replace(":", "") : "1300" );	//채크인시간 ( 임시 필터 )
-						ezcFacl.setCheckOutTm( APIUtil.isNotEmpty(faclData.getCheckOutTime()) ? faclData.getCheckOutTime().replace(":","") : "1100" );	//채크아웃시간 ( 임시 필터 )
-						ezcFacl.setAreaCd( APIUtil.NVL(faclData.getGunguCode(), "EMPTY") );	//지역코드(군구코드) => 호텔패스글로벌 전문에 데이터가  전달되어오지 않기때문에 임시로 EMPTY 처리함 */
+						ezcFacl.setCheckInTm( APIUtil.isNotEmpty(faclData.getCheckInTime()) ? faclData.getCheckInTime().replace(":", "") : null );	//채크인시간 ( 임시 필터 )
+						ezcFacl.setCheckOutTm( APIUtil.isNotEmpty(faclData.getCheckOutTime()) ? faclData.getCheckOutTime().replace(":","") : null );	//채크아웃시간 ( 임시 필터 )
+						ezcFacl.setAreaCd( APIUtil.NVL(faclData.getGunguCode(), OperateConstants.STR_EMPTY) );	//지역코드(군구코드) => 호텔패스글로벌 전문에 데이터가  전달되어오지 않기때문에 임시로 EMPTY 처리함 */
 						ezcFacl.setCityCd(faclData.getSidoCode());	//도시코드(시도코드)
 						ezcFacl.setAddrType(faclData.getAddressType());  // -> DB 공통코드 (테이블 : EZC_DETAIL_CD)
 						ezcFacl.setAddr(faclData.getAddress());	//주소
@@ -203,7 +203,7 @@ public class OutsideService extends AbstractServiceObject {
 						ezcFacl.setTelNum(faclData.getTelephone());	//전화 번호
 						ezcFacl.setCoordY(faclData.getMapX());	//위도
 						ezcFacl.setCoordX(faclData.getMapY());	//경도
-						ezcFacl.setMinAmt((faclData.getSellPrice() != null ? new BigDecimal(faclData.getSellPrice()) : OperateConstants.BIGDECIMAL_ZERO_VALUE)); // 최저 금액
+						ezcFacl.setMinAmt((faclData.getSellPrice() != null ? new BigDecimal(faclData.getSellPrice()) : null)); // 최저 금액
 						if(faclData.getDescHTML() != null) {
 							ezcFacl.setDetailDescPc(CommonUtil.byteSubstring(faclData.getDescHTML(), 0, 4000, OperateConstants.DEFAULT_ENCODING));	//상세 설명 PC 전문 값이 4000바이트를 넘어서 임시 byteSubstring
 						}

@@ -51,6 +51,8 @@ public class InterfaceFactory {
 	
 	private PropertyUtil propertyUtil;
 	
+	private final static boolean IS_LOGGING = false;
+	
 	public final static String LOCAL_HOST_ADDRESS; 
 	public final static String LOCAL_HOST_NAME;
 	public final static String LOCAL_CANONICAL_HOST_NAME;
@@ -89,7 +91,9 @@ public class InterfaceFactory {
 	}
 	
 	public static HttpConfigSDO getChannel(String chanId, String httpAgentId) {
-		logger.debug("[PROC] getChannel chanId : {}, httpAgentId : {}", chanId, httpAgentId);
+		if(IS_LOGGING) {
+			logger.debug("[PROC] getChannel chanId : {}, httpAgentId : {}", chanId, httpAgentId);
+		}
 		
 		HttpConfigSDO out = null;
 		List<HttpConfigSDO> channels = null;
@@ -103,7 +107,9 @@ public class InterfaceFactory {
 	}
 	
 	public static List<HttpConfigSDO> getChannelGroup(String chanId, String httpAgentGroupId) {
-		logger.debug("[PROC] getChannelGroup chanId : {}, httpAgentGroupId : {}", chanId, httpAgentGroupId);
+		if(IS_LOGGING) {
+			logger.debug("[PROC] getChannelGroup chanId : {}, httpAgentGroupId : {}", chanId, httpAgentGroupId);
+		}
 		
 		List<HttpConfigSDO> out = null;
 		if(interfaceChannels != null && httpAgentGroupId != null) {
@@ -137,7 +143,6 @@ public class InterfaceFactory {
 			throw new APIException("[getCacheId] 채널 아이디 또는 에이전트 아이디가 존재하지 않습니다. 'chanId : {}, agentId : {}'", chanId, agentId); 
 		}
 		String cacheId = chanId.concat(OperateConstants.STR_HYPHEN).concat(agentId);
-		logger.debug("- cacheId key : {}", cacheId);
 		return cacheId;
 	}
 	
@@ -221,14 +226,16 @@ public class InterfaceFactory {
 					
 					InterfaceFactory.serverAddress = ifc.getServerAddress();
 					InterfaceFactory.fileRepository = ifc.getFileRepository();
-
+					
+					
 					logger.debug("# LOCAL_HOST_ADDRESS : {}", LOCAL_HOST_ADDRESS);
 					logger.debug("# LOCAL_HOST_NAME : {}", LOCAL_HOST_NAME);
 					logger.debug("# LOCAL_CANONICAL_HOST_NAME : {}", LOCAL_CANONICAL_HOST_NAME);
 					logger.debug("# serverAddress : {}", InterfaceFactory.serverAddress);
-					logger.debug("# Real Cached Size : {}", interfaceChannels.size());
-					logger.debug("# interfaceChannels : {}", interfaceChannels);
 					logger.debug("# fileRepository : {}", InterfaceFactory.fileRepository);
+					logger.debug("# Real Cached Size : {}", interfaceChannels.size());
+					//logger.debug("# interfaceChannels : {}", interfaceChannels);
+					
 				}
 			}
 		} catch (JAXBException e) {
@@ -249,12 +256,16 @@ public class InterfaceFactory {
 	
 	
 	private void initInterfaceChannels(ChannelListData channelListData) {
-		logger.debug("[START] initInterfaceChannels");
+		if(IS_LOGGING)  {
+			logger.debug("[START] initInterfaceChannels");
+		}
 		initInterfaceChannels(channelListData, 0);
 	}
 	
 	private void initInterfaceChannels(ChannelListData channelListData, int index) {
-		logger.debug("[PROC] agentItemList.size : {}, index : {}", channelListData.getAgentList().size(), index);
+		if(IS_LOGGING) {
+			logger.debug("[PROC] agentItemList.size : {}, index : {}", channelListData.getAgentList().size(), index);
+		}
 		
 		AgentInfoSDO agent = (AgentInfoSDO) propertyUtil.copySameProperty(channelListData.getAgentList().get(index), AgentInfoSDO.class);
 		//에이전트(제휴사)캐쉬
@@ -287,7 +298,9 @@ public class InterfaceFactory {
         	initInterfaceChannels(channelListData, index);
         }
         else {
-        	logger.debug("[END] initInterfaceChannels");
+        	if(IS_LOGGING) {
+        		logger.debug("[END] initInterfaceChannels");
+        	}
         }
 	}
 	
@@ -309,7 +322,7 @@ public class InterfaceFactory {
 			item.setCacheId(cacheId);
 			//add cacheId '{}' item -> channelList 
 			channelList.add(item);
-			logger.debug("# Channel Cache Id : {}, channelList({})", cacheId, channelList.size());
+			//logger.debug("# Channel Cache Id : {}, channelList({})", cacheId, channelList.size());
 			//set local cache 
 			interfaceChannels.put(cacheId, channelList);
 			
@@ -326,7 +339,9 @@ public class InterfaceFactory {
 					List<HttpConfigSDO> groupChannelList = getChannelList(cacheId);				
 					//add cacheId '{}' item -> channelList 
 					groupChannelList.add(agentGroup);
-					logger.debug("# Group Channel Cache Id : {}, groupChannelList({})", cacheId, groupChannelList.size());
+					if(IS_LOGGING) {
+						logger.debug("# Group Channel Cache Id : {}, groupChannelList({})", cacheId, groupChannelList.size());
+					}
 					//set local cache 
 					interfaceChannels.put(cacheId, groupChannelList);					
 				}

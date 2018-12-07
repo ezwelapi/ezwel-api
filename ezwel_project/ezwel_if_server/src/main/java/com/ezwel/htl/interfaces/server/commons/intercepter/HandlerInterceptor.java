@@ -87,7 +87,10 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 			}
 			
 			HandlerMethod handlerMethod = commonUtil.getHandlerMethod(handler);
-	
+			if(handlerMethod == null) {
+				throw new APIException("■■ 잘못된 URI 요청 입니다. URI에 해당하는 APIOperation존재하지 않습니다. '{}'", typeMethodName);
+			}
+			
 			APIOperation operationAnno = handlerMethod.getMethodAnnotation(APIOperation.class);
 	
 			if(operationAnno == null) {

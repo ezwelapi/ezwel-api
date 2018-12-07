@@ -13,16 +13,16 @@
 		DEBUG : 일반 정보를 상세히 나타낼 때 사용합니다.
 	 -->
 
-	<!-- console -->
+	<!-- console -->  
 	<appender name="defaultConsole" class="org.apache.log4j.ConsoleAppender">
 		<param name="Target" value="System.out" />
 		<param name="encoding" value="UTF-8" />
 		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%5p] %m [%c@%M:%L]%n" />
 			<!-- <param name="ConversionPattern" value="%5p [%d{HH:mm:ss}] [%t] (%c{1}.%M) %m [%c][%F:%L]%n" /> -->
 			<!-- <param name="ConversionPattern" value="%5p [%d{HH:mm:ss}] [%t] %m [%c@%M:%L][%F:%L]%n" /> -->
-			<param name="ConversionPattern" value="%5p [%t] %m [%c@%M:%L]%n" />
 		</layout>
-	</appender>
+	</appender> 
 
 	<!-- File -->
 	<appender name="fileAppender" class="org.apache.log4j.DailyRollingFileAppender">
@@ -37,7 +37,18 @@
 			<param name="ConversionPattern" value="%5p [%t] %m [%c@%M:%L]%n" />
 		</layout>
 	</appender>
-			
+	
+	<!-- table Appender 
+	<appender name="DB" class="org.apache.log4j.jdbc.JDBCAppender">
+	   <param name="url" value="jdbc:mysql://localhost/DBNAME"/>
+	   <param name="driver" value="com.mysql.jdbc.Driver"/>
+	   <param name="user" value="user_id"/>
+	   <param name="password" value="password"/>
+	   <param name="sql" value="INSERT INTO LOGS VALUES('%x','%d','%C','%p','%m')"/>
+	   <layout class="org.apache.log4j.PatternLayout"></layout>
+	</appender>
+	-->
+	
 	<!-- jdbc Loggers -->
 	<logger name="jdbc">
 		<level value="WARN" />
@@ -144,6 +155,27 @@
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>	
+
+	<logger name="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+		<level value="WARN" />
+		<appender-ref ref="fileAppender" />
+	</logger>	
+
+	<logger name="org.springframework.aop.framework.CglibAopProxy">
+		<level value="WARN" />
+		<appender-ref ref="fileAppender" />
+	</logger>	
+
+	<logger name="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator">
+		<level value="WARN" />
+		<appender-ref ref="fileAppender" />
+	</logger>
+
+	<logger name="org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor">
+		<level value="WARN" />
+		<appender-ref ref="fileAppender" />
+	</logger>
+
 
   	<!-- ######################################################### -->
   	

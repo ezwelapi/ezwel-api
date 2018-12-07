@@ -109,6 +109,8 @@ public class OperateConstants {
 	public final static String CURRENT_PROD_SERVER;
 	public final static String CURRENT_PC_SERVER;
 	
+	public final static String STR_EMPTY;
+	
 	/** Use annotation value */
 	public static final String META_COMM_HEADER = "commonHeader";
 	/** ORACLE, IBM JDK 존재함, HP JDK 에서 존재하지 않음 */
@@ -116,6 +118,7 @@ public class OperateConstants {
 	public static final String USER_LANGUAGE = APIUtil.getProperty("user.language");
 	
 	static {
+		STR_EMPTY = "EMPTY";
 		CURRENT_DEV_SERVER = "DEV-SERVER";
 		CURRENT_PROD_SERVER = "PROD-SERVER";
 		CURRENT_PC_SERVER = "DEVELOPER-PC";

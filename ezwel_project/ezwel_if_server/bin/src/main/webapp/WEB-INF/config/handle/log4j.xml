@@ -26,13 +26,14 @@
 	<!-- File -->
 	<appender name="fileAppender" class="org.apache.log4j.DailyRollingFileAppender">
 		<!-- 톰켓 -->
-		<param name="File" value="${catalina.base}\\log4j\\ezwel_if_server.log" /> 
+		<param name="File" value="${catalina.base}/log4j/ezwel_if_server.log" /> 
 		<!-- ${servicename.webapp.root}/ -->
 		<param name="Append" value="true" />
 		<param name="encoding" value="UTF-8" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%5p [%d{HH:mm:ss}] [%t] (%c{1}.%M) %m [%c][%F:%L]%n" />
+			<!-- <param name="ConversionPattern" value="[%5p] [%d{HH:mm:ss}] [%t] (%c{1}.%M) %m [%c][%F:%L]%n" /> -->
+			<param name="ConversionPattern" value="[%5p] %m (%c{1}.%M)[%c][%F:%L] [%d{HH:mm:ss}]%n" />
 		</layout>
 	</appender>
 			
@@ -113,6 +114,11 @@
 		<appender-ref ref="fileAppender" />
 	</logger>
 	
+	<logger name="org.springframework.web.servlet.handler">
+		<level value="WARN" />
+		<appender-ref ref="fileAppender" />
+	</logger>	
+	
 	<!-- 3rdparty Loggers [ org.springframework ] -->
 	<logger name="org.springframework.aop.framework.JdkDynamicAopProxy">
 		<level value="WARN" />
@@ -150,7 +156,7 @@
 	<!-- root Loggers -->  
 	<root>
 		<level value="DEBUG" />
-		<appender-ref ref="defaultConsole" />
+		<appender-ref ref="fileAppender" />
 	</root>
 	
 </log4j:configuration>

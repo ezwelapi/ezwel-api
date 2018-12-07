@@ -1,9 +1,6 @@
 package com.ezwel.htl.interfaces.server.commons.aop;
 
 import java.lang.reflect.Method;
-import java.util.Enumeration;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -14,15 +11,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.MethodProxy;
 import org.springframework.core.Ordered;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
-import com.ezwel.htl.interfaces.commons.entity.CommonHeader;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.commons.thread.Local;
@@ -40,13 +34,11 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodsAdvice.class);
 
-	private static final boolean isLogging = false;
+	private final static boolean IS_LOGGING = false;
 
 	private BeanMarshaller beanMarshaller;
 	
 	private PropertyUtil propertyUtil;
-	
-	private CommonUtil commonUtil;
 	
 	private ResponseUtil responseUtil;
 	
@@ -64,27 +56,29 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 	@Override
 	public Object intercept(Object arg0, Method arg1, Object[] arg2, MethodProxy arg3) throws Throwable {
 
-		logger.debug("■■ [AOP] intercept\narg0 : {}\n■ arg1 : {}\n■ arg2 : {}\n■ arg3 : {}", arg0, arg1, arg2, arg3);
+		if(IS_LOGGING) {
+			logger.debug("■■ [AOP] intercept\narg0 : {}\n■ arg1 : {}\n■ arg2 : {}\n■ arg3 : {}", arg0, arg1, arg2, arg3);
+		}
 		return null;
 	}
 
 	//order:1
 	public void beforeTargetMethod(JoinPoint thisJoinPoint) {
-		if (isLogging) {
+		if (IS_LOGGING) {
 			logger.debug("■■ [AOP] MethodsAdvice.beforeTargetMethod executed.\n■ thisJoinPoint : {}", thisJoinPoint);
 		}
 	}
 
 	//order:2, methodend > order:1
 	public void afterTargetMethod(JoinPoint thisJoinPoint) {
-		if (isLogging) {
+		if (IS_LOGGING) {
 			logger.debug("■■ [AOP] MethodsAdvice.afterTargetMethod (finally) executed.\n■ thisJoinPoint : {}", thisJoinPoint);
 		}
 	}
 	
 	//order:3
 	public void afterThrowingTargetMethod(JoinPoint thisJoinPoint, Exception exception) throws Exception {
-		if (isLogging) {
+		if (IS_LOGGING) {
 			logger.debug("■■ [AOP] MethodsAdvice.afterThrowingTargetMethod executed.\n■ thisJoinPoint : {}\n■ exception : ", thisJoinPoint, exception);
 		}
 		// throw new ApplicationException("어플리케이션 장애발생", exception);
@@ -92,14 +86,14 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 	
 	//methodend > order:2
 	public void afterReturningTargetMethod(JoinPoint thisJoinPoint, Object retVal) {
-		if (isLogging) {
+		if (IS_LOGGING) {
 			logger.debug("■■ [AOP] MethodsAdvice.afterReturningTargetMethod executed.\n■ thisJoinPoint : {}\n■ retVal : {}", thisJoinPoint, retVal);
 		}
 	}
 
 	//method execute
 	public Object aroundTargetMethod(ProceedingJoinPoint thisJoinPoint) throws Throwable {
-		if (isLogging) {
+		if (IS_LOGGING) {
 			logger.debug("■■ [AOP] MethodsAdvice.aroundTargetMethod executed. thisJoinPoint : {}", thisJoinPoint);
 		}
 		
@@ -174,7 +168,9 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 	}
 
 	private void doMethodInputValidation(Class<?>[] inputParamTypes, Object[] inputParamObjects) {
-		logger.debug("■■ [AOP] doMethodInputValidation");
+		if(IS_LOGGING) {
+			logger.debug("■■ [AOP] doMethodInputValidation");
+		}
 		
 		if(inputParamTypes != null && inputParamObjects != null) {
 			
