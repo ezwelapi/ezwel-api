@@ -204,10 +204,11 @@ public class OutsideService extends AbstractServiceObject {
 						ezcFacl.setCoordY(faclData.getMapX());	//위도
 						ezcFacl.setCoordX(faclData.getMapY());	//경도
 						ezcFacl.setMinAmt((faclData.getSellPrice() != null ? new BigDecimal(faclData.getSellPrice()) : null)); // 최저 금액
-						if(faclData.getDescHTML() != null) {
-							ezcFacl.setDetailDescPc(CommonUtil.byteSubstring(faclData.getDescHTML(), 0, 4000, OperateConstants.DEFAULT_ENCODING));	//상세 설명 PC 전문 값이 4000바이트를 넘어서 임시 byteSubstring
-						}
-						ezcFacl.setDetailDescM(faclData.getDescMobile());	//상세 설명 모바일
+						//if(faclData.getDescHTML() != null) {
+						//	ezcFacl.setDetailDescPc(CommonUtil.byteSubstring(faclData.getDescHTML(), 0, 4000, OperateConstants.DEFAULT_ENCODING));	//상세 설명 PC 전문 값이 4000바이트를 넘어서 임시 byteSubstring
+						//}
+						ezcFacl.setDetailDescPc(faclData.getDescHTML());	//상세 설명 PC 		(제휴사 텍스트 OR HTML 설명 데이터)
+						ezcFacl.setDetailDescM(faclData.getDescMobile());	//상세 설명 모바일	(제휴사 텍스트 OR HTML 설명 데이터)
 						ezcFacl.setTripPropId(faclData.getTripadvisorId());	//트립어드바이저 프로퍼티 ID
 						ezcFacl.setMainImgUrl(faclData.getMainImage());		//대표 이미지 URL
 						ezcFacl.setImgChangeYn(faclData.getChangeImage());	//이미지 변경 여부
@@ -309,19 +310,14 @@ public class OutsideService extends AbstractServiceObject {
 				txCount += outsideRepository.insertAllReg(saveFaclRegDatas);
 			}
 			
-			Integer nextIndex = toIndex + 1;
-			if(ezcFacls != null && ezcFacls.size() > nextIndex) {
-				insertFaclRegData(ezcFacls/* 제휴사 별 시설 목록 */, nextIndex, txCount);
+			if(ezcFacls != null && ezcFacls.size() > toIndex) {
+				insertFaclRegData(ezcFacls/* 제휴사 별 시설 목록 */, toIndex, txCount);
 			}
 		}
 		catch(APIException e) {
 			throw new APIException("제휴사 별 시설 데이터 입력 장애발생 (입력 구간 from/to : {} ~ {})", new Object[]{fromIndex, toIndex}, e);
 		}
-		finally {
-			//if(saveFaclRegDatas != null) {
-			//	saveFaclRegDatas.clear();
-			//}
-		}
+
 		logger.debug("[END] insertFaclRegData txCount : {}", txCount);
 		return txCount;
 	}

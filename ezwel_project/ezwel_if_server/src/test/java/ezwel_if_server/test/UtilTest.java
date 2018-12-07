@@ -22,37 +22,44 @@ public class UtilTest {
 		factory.initFactory();
 	}
 	*/
+	
 	@Test
 	public void test() {
 		
 		List<Integer> ezcFacls = new ArrayList<Integer>();
-		ezcFacls.add(1);
-		ezcFacls.add(2);
-		ezcFacls.add(3);
-		ezcFacls.add(4);
-		ezcFacls.add(5);
-		ezcFacls.add(6);
-		ezcFacls.add(7);
-		ezcFacls.add(8);
-		ezcFacls.add(9);
-		ezcFacls.add(10);
-		ezcFacls.add(11);
-		ezcFacls.add(12);
-		ezcFacls.add(13);
 		
-		Integer fromIndex = 10;
-		Integer toIndex = fromIndex + 5;
+		for(int i = 0; i < 2251; i++) {
+			ezcFacls.add(i);
+			logger.debug("{}", i);
+		}
 		
+		testSubList(ezcFacls, 0);
+	}
+	
+	public void testSubList(List<Integer> ezcFacls, int fromIndex) {
+		
+		Integer toIndex = fromIndex + 50;
+		
+		List<Integer> saveFaclRegDatas = null;
 		if(toIndex > ezcFacls.size()) {
 			toIndex = ezcFacls.size();
 		}
+		
+		
+		saveFaclRegDatas = ezcFacls.subList(fromIndex, toIndex);
+		
+		logger.debug("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
 		logger.debug("{} ~ {}", fromIndex, toIndex);
-		
-		List<Integer> saveFaclRegDatas = ezcFacls.subList(fromIndex, toIndex);
-		
 		logger.debug("saveFaclRegDatas : {}",  saveFaclRegDatas.size());
 		logger.debug("saveFaclRegDatas : {}",  saveFaclRegDatas);
 		
+		if(ezcFacls != null && ezcFacls.size() > toIndex) {
+			testSubList(ezcFacls/* 제휴사 별 시설 목록 */, toIndex);
+		}
+		
+		if(saveFaclRegDatas != null) {
+			saveFaclRegDatas.removeAll(saveFaclRegDatas);
+		}
 	}
 	
 	//@Test
