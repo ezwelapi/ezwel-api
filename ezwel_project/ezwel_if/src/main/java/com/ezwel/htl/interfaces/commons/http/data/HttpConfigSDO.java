@@ -71,10 +71,10 @@ public class HttpConfigSDO extends AbstractSDO {
 	
 	
 	@APIFields(description = "http connection timeout")
-	private int connTimeout;
+	private Integer connTimeout;
 	
 	@APIFields(description = "http read timeout")
-	private int readTimeout;
+	private Integer readTimeout;
 	
 	@APIFields(description = "HTTP HEADER PROPERTY")
 	private Properties requestProperty;
@@ -99,6 +99,9 @@ public class HttpConfigSDO extends AbstractSDO {
 	
 	@APIFields(description = "HTTP 인터페이스 API 총 실행시간")
 	private Long lapTimeMillis;
+
+	@APIFields(description = "HTTP 인터페이스 호출 회수")
+	private Integer callCount;
 	
 	public HttpConfigSDO() {
 		this.reset();
@@ -131,6 +134,7 @@ public class HttpConfigSDO extends AbstractSDO {
 		responseException = null;
 		description = null;
 		lapTimeMillis = OperateConstants.LONG_ZERO_VALUE;
+		callCount = OperateConstants.INTEGER_ZERO_VALUE;
 	}
 	
 	
@@ -203,21 +207,21 @@ public class HttpConfigSDO extends AbstractSDO {
 		this.restURI = restURI;
 	}
 	
-	public int getConnTimeout() {
+	public Integer getConnTimeout() {
 		return connTimeout;
 	}
 
 	@XmlElement
-	public void setConnTimeout(int connTimeout) {
+	public void setConnTimeout(Integer connTimeout) {
 		this.connTimeout = connTimeout;
 	}
 
-	public int getReadTimeout() {
+	public Integer getReadTimeout() {
 		return readTimeout;
 	}
 
 	@XmlElement
-	public void setReadTimeout(int readTimeout) {
+	public void setReadTimeout(Integer readTimeout) {
 		this.readTimeout = readTimeout;
 	}
 
@@ -360,6 +364,14 @@ public class HttpConfigSDO extends AbstractSDO {
 
 	public void setHttpRequestId(String httpRequestId) {
 		this.httpRequestId = httpRequestId;
+	}
+
+	public Integer getCallCount() {
+		return callCount;
+	}
+
+	public void setCallCount(Integer callCount) {
+		this.callCount = callCount;
 	}
 	
 	

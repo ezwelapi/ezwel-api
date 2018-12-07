@@ -56,6 +56,8 @@ public class ParamValidate {
 	
 	private String encoding = OperateConstants.DEFAULT_ENCODING;
 	
+	private static final boolean IS_LOGGING = false;
+	
 	public ParamValidate(){
 		this.reset();
 	}
@@ -307,6 +309,7 @@ public class ParamValidate {
     }
     
 	
+	@SuppressWarnings("unused")
 	@APIOperation(description="바인드된 ParamValidateSDO설정값 중 설정된 모델의 모든 필드를 유효성검사합니다.")
     private ParamValidateSDO validateModel(ParamValidateSDO paramValidate) {
     	
@@ -331,7 +334,7 @@ public class ParamValidate {
 	        		if(modelAnno != null) {
 	        			
 	        			for(Field field : modelClass.getDeclaredFields()) {
-	    					if(logger.isDebugEnabled()) {
+	    					if(IS_LOGGING && logger.isDebugEnabled()) {
 	    						logger.debug("[VALIDATE] DeclaredFields Name : {}", field.getName());
 	    					}
 	    					if(!validateField(paramValidate, items, field)) {
@@ -355,7 +358,7 @@ public class ParamValidate {
         			if(paramValidate.getValidateType() == OperateConstants.VALIDATE_DTO_FULL_FIELD_ANNO) {
         				//DeclaredFields field validate
         				for(Field field : modelClass.getDeclaredFields()) {
-        					if(logger.isDebugEnabled()) {
+        					if(IS_LOGGING && logger.isDebugEnabled()) {
         						logger.debug("[VALIDATE] DeclaredFields Name : {}", field.getName());
         					}
         					if(!validateField(paramValidate, model, field)){
@@ -369,7 +372,7 @@ public class ParamValidate {
         				//validate field 
         				String fieldName = paramValidate.getFieldName();
         				boolean isValidatedField = false;
-        				if(logger.isDebugEnabled()) {
+        				if(IS_LOGGING && logger.isDebugEnabled()) {
         					logger.debug("[VALIDATE] SuperClass Field Name : {}", fieldName);
         				}
         				
@@ -383,16 +386,16 @@ public class ParamValidate {
     					        for(Field field : modeClass.getDeclaredFields()){
     					        	if(field.getName().equals(fieldName)) {
     					        		
-    					        		if(logger.isDebugEnabled()) {
+    					        		if(IS_LOGGING && logger.isDebugEnabled()) {
     					        			logger.debug("[VALIDATE] Find Field Name : {}", fieldName);
     					        		}
     					        		if(!validateField(paramValidate, model, field)){
-    					        			if(logger.isDebugEnabled()) {
+    					        			if(IS_LOGGING && logger.isDebugEnabled()) {
     					        				logger.debug("[VALIDATE] Field validation Fail!! : {}", fieldName);
     					        			}
     		        						return paramValidate;
     		        					}
-    					        		if(logger.isDebugEnabled()) {
+    					        		if(IS_LOGGING && logger.isDebugEnabled()) {
     					        			logger.debug("[VALIDATE] Field validation OK!! : {}", fieldName);
     					        		}
     					        		
@@ -447,6 +450,7 @@ public class ParamValidate {
     }
     
     
+	@SuppressWarnings("unused")
 	@APIOperation(description="바인드된 ParamValidateSDO설정값으로 유효성 검사를 실행합니다.")
     private ParamValidateSDO validate(ParamValidateSDO paramValidate){
     	
@@ -454,7 +458,7 @@ public class ParamValidate {
     	
     	if( paramValidate.isRequired() && ( values == null || values.toString().isEmpty()) ) {
 			//required
-			if(logger.isDebugEnabled()) {
+			if(IS_LOGGING && logger.isDebugEnabled()) {
     			logger.debug(" - Required Validate");
     		}
 			paramValidate.setValidation(false);
@@ -474,13 +478,13 @@ public class ParamValidate {
     				continue;
     			}
     			else if( pattern.toLowerCase().startsWith(VP_REGEX) ) {
-    				if(logger.isDebugEnabled()) {
+    				if(IS_LOGGING && logger.isDebugEnabled()) {
     	    			logger.debug(" - Regex Validate");
     	    		}
     				//regex
     				vPattern = pattern.substring(pattern.toLowerCase().indexOf(VP_REGEX) + VP_REGEX.length()).trim();
 					
-					if(logger.isDebugEnabled()) {
+					if(IS_LOGGING && logger.isDebugEnabled()) {
 		    			logger.debug(APIUtil.addString( OperateConstants.LINE_SEPARATOR, " regexp : ", vPattern ,OperateConstants.LINE_SEPARATOR, " values : ", values.toString()));
 		    		}
 
@@ -490,13 +494,13 @@ public class ParamValidate {
 					}
     			}
     			else if( pattern.toLowerCase().startsWith(VP_TYPE) ) {
-    				if(logger.isDebugEnabled()) {
+    				if(IS_LOGGING && logger.isDebugEnabled()) {
     	    			logger.debug(" - Type Validate");
     	    		}
     				//type
     				vPattern = pattern.substring(pattern.toLowerCase().indexOf(VP_TYPE) + VP_TYPE.length()).trim();
     				
-    				if(logger.isDebugEnabled()) {
+    				if(IS_LOGGING && logger.isDebugEnabled()) {
     	    			logger.debug(APIUtil.addString( OperateConstants.LINE_SEPARATOR, " value type : ", valueClass.getCanonicalName() ,OperateConstants.LINE_SEPARATOR, " validate type : ", vPattern));
     	    		}
     				
@@ -506,7 +510,7 @@ public class ParamValidate {
     				}
     			}
     			else if( pattern.toLowerCase().startsWith(VP_SIZE) ) {
-    				if(logger.isDebugEnabled()) {
+    				if(IS_LOGGING && logger.isDebugEnabled()) {
     	    			logger.debug(" - Size Validate");
     	    		}
     				//size
@@ -531,7 +535,7 @@ public class ParamValidate {
     				}
     			}
     			else if( pattern.toLowerCase().startsWith(VP_LENGTH) ) {
-    				if(logger.isDebugEnabled()) {
+    				if(IS_LOGGING && logger.isDebugEnabled()) {
     	    			logger.debug(" - Length Validate");
     	    		}
     				//length

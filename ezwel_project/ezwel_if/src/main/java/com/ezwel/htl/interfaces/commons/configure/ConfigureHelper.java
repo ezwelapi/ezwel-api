@@ -29,7 +29,7 @@ public class ConfigureHelper {
 	@APIOperation(description="인터페이스 사용 유저 설정 정보 세팅")
 	public HttpConfigSDO setupUserAgentInfo(UserAgentSDO userAgentDTO, HttpConfigSDO config) {
 		/** conntime, readtime, httpAgentType, httpChannelCd, httpClientId, httpRequestId  */
-		propertyUtil.copySameProperty(userAgentDTO, config);
+		propertyUtil.copySameProperty(userAgentDTO, config, true);
 		/** setup httpApiSignature */
 		config.setHttpApiSignature(APIUtil.getHttpSignature(config.getHttpAgentId(), config.getHttpApiKey(), config.getHttpApiTimestamp()));
 		return config;

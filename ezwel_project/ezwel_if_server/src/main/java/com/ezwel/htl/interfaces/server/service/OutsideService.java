@@ -95,7 +95,10 @@ public class OutsideService extends AbstractServiceObject {
 
 				if(httpConfigSDO != null) {
 					
-					configureHelper.setupUserAgentInfo(userAgentDTO, httpConfigSDO);
+					
+					httpConfigSDO = configureHelper.setupUserAgentInfo(userAgentDTO, httpConfigSDO);
+					logger.debug(" After setupUserAgentInfo process : {}{}", userAgentDTO, httpConfigSDO);
+					
 					//no input 
 					httpConfigSDO.setDoOutput(false);	
 					//config

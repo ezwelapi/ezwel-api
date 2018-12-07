@@ -4,11 +4,11 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,12 +87,13 @@ public class HttpInterfaceExecutorService {
 	
 	@APIOperation(description="Getting Http URL Connection", isExecTest=true)
 	public HttpURLConnection getOpenHttpURLConnection(HttpConfigSDO in, int contentLength) {
-		
+				
 		HttpURLConnection conn = null;
 		URL url = null;
 		
 		int httpConnTimeout = (in.getConnTimeout() > -1 ? in.getConnTimeout() : urlConnTimeout);
 		int httpReadTimeout = (in.getReadTimeout() > -1 ? in.getReadTimeout() : urlReadTimeout);
+		logger.debug("\n# httpConnTimeout : {}\n# httpReadTimeout : {}", httpConnTimeout, httpReadTimeout);
 		
 		try {
 			url = new URL(in.getRestURI());
@@ -147,6 +148,8 @@ public class HttpInterfaceExecutorService {
 			conn.setRequestProperty(HttpHeaderConstants.DATE, APIUtil.getFastDate());
 			conn.setRequestProperty(HttpHeaderConstants.CACHE_CONTROL, HttpHeaderConstants.CACHE_CONTROL_NO_CACHE);
 			conn.setRequestProperty(HttpHeaderConstants.HTTP_REST_URI, in.getRestURI());
+			conn.setRequestProperty(HttpHeaderConstants.USER_AGENT, HttpHeaderConstants.USER_AGENT_VALUE);
+			
 			if(contentLength > 0) {
 				//in case that the content is not empty
 				conn.setRequestProperty(HttpHeaderConstants.CONTENT_LENGTH, Integer.toString(contentLength));
@@ -166,9 +169,9 @@ public class HttpInterfaceExecutorService {
 			}			
 		}
 		
-		for(Entry<String, List<String>> header : conn.getRequestProperties().entrySet()) {
-			logger.debug("[HEADER] {} : {}", header.getKey(), header.getValue());
-		}
+		//for(Entry<String, List<String>> header : conn.getRequestProperties().entrySet()) {
+		//	logger.debug("[HEADER] {} : {}", header.getKey(), header.getValue());
+		//}
 		
 		logger.debug("[END] setRequestHeader");
 	}
@@ -348,7 +351,22 @@ public class HttpInterfaceExecutorService {
 				}
 			}
 			
+		} catch (SocketTimeoutException e) {
+			// Read timed out 이후 1 회 다시 호출
+			logger.debug("* callCount : {}", in.getCallCount());
 			
+			if(in.getCallCount() > 0) {
+				setSendJSONException(e, in, outputType);
+			}
+			else {
+				logger.debug("* Thread.sleep(5000) *");
+				Thread.sleep(5000);
+				
+				in.setCallCount(1);
+				sendJSON(in, inputObject, outputType);
+				
+				setSendJSONException(e, in, outputType);
+			}
 		} catch (APIException e) {
 			setSendJSONException(e, in, outputType);
 		} catch (Exception e) {
@@ -364,6 +382,8 @@ public class HttpInterfaceExecutorService {
 	}
 	
 	private <T extends AbstractSDO> T setSendJSONException(Exception e, HttpConfigSDO in, Class<T> outputType) {
+		logger.debug("# setSendJSONException e class : {}", e.getClass().getCanonicalName());
+		
 		T out = null;
 		if(outputType != null) {
 			try {

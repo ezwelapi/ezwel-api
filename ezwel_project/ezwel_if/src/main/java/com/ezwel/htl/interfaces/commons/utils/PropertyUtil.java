@@ -2,6 +2,8 @@ package com.ezwel.htl.interfaces.commons.utils;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -30,6 +32,12 @@ public class PropertyUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(PropertyUtil.class);
 	
+	private static final List<Class<?>> EXCLUDE_PROPERTY_TYPES;
+	
+	static {
+		EXCLUDE_PROPERTY_TYPES = new ArrayList<Class<?>>();
+		EXCLUDE_PROPERTY_TYPES.add(java.lang.Class.class);
+	}
 	
 	/**
 	 * 주어진 bean 에 propertyName 이 존재한다면 propertyName 의 value 를 반환
@@ -123,6 +131,8 @@ public class PropertyUtil {
     	return (out != null ? true : false);
     }
     
+	
+	
     /**
      * readBean의 프로퍼티 명과 이름이 일치하는 writeBean의 프로퍼티에 값을 담아줌. 
      * @param readBean
@@ -143,6 +153,10 @@ public class PropertyUtil {
     		for (PropertyDescriptor read : readProperties) {
     			readName = read.getName();
     			readType = read.getPropertyType();
+    			
+    			if(EXCLUDE_PROPERTY_TYPES.contains(readType)) {
+    				continue;
+    			}
     			
     			for (PropertyDescriptor write : writeProperties) {
     			

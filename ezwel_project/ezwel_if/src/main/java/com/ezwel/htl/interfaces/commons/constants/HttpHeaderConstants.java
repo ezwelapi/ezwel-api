@@ -44,4 +44,8 @@ public class HttpHeaderConstants {
 	
 	public static final String HTTP_REST_URI = "http-rest-uri";
 	
+	public static final String USER_AGENT = "User-Agent";
+	
+	public static final String USER_AGENT_VALUE = "EZWel-Java-Agent";
+	
 }
