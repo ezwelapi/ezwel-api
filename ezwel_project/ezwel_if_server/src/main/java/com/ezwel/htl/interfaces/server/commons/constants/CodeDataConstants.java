@@ -15,6 +15,9 @@ public class CodeDataConstants {
 	//시설 상태 : 완료
 	public final static String CD_FACL_STATUS_G0040003;
 	
+	public final static String CD_CLASS_CD_G002;
+	public final static String CD_CLASS_CD_G003;
+	
 	static { 
 		CD_API_G0010001 = "G0010001";
 		CD_FACL_IMG_TYPE_G0080001 = "G0080001";
@@ -22,5 +25,7 @@ public class CodeDataConstants {
 		CD_N = "N";
 		CD_CONFIRM_STATUS_G0060003 = "G0060003"; 
 		CD_FACL_STATUS_G0040003 = "G0040003";
+		CD_CLASS_CD_G002 = "G002";
+		CD_CLASS_CD_G003 = "G003";
 	}
 }

@@ -100,11 +100,11 @@ public class EzcFacl extends AbstractEntity {
 
 	@APIFields(description = "최저 금액", maxLength=8)
 	private BigDecimal minAmt;
-
-	@APIFields(description = "상세 설명 PC", maxLength=4000)
+	//maxLength가 0 이면 길이체크를 하지 않습니다.
+	@APIFields(description = "상세 설명 PC", maxLength=0)
 	private String detailDescPc;
-
-	@APIFields(description = "상세 설명 모바일", maxLength=4000)
+	//maxLength가 0 이면 길이체크를 하지 않습니다.
+	@APIFields(description = "상세 설명 모바일", maxLength=0)
 	private String detailDescM;
 
 	@APIFields(description = "트립어드바이저 프로퍼티 ID", maxLength=100)

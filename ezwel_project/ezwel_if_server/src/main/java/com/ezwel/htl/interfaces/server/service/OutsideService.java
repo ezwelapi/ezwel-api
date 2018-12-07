@@ -30,6 +30,7 @@ import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractServiceObject;
 import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
+import com.ezwel.htl.interfaces.server.commons.utils.data.ImageSDO;
 import com.ezwel.htl.interfaces.server.entities.EzcDetailCd;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
@@ -111,7 +112,7 @@ public class OutsideService extends AbstractServiceObject {
 			if(assets != null && assets.size() > 0) {
 				/** execute code select transaction */ 
 				EzcDetailCd inEzcDetailCd = new EzcDetailCd();
-				inEzcDetailCd.addClassCdList("G002", "G003");
+				inEzcDetailCd.addClassCdList(CodeDataConstants.CD_CLASS_CD_G002, CodeDataConstants.CD_CLASS_CD_G003);
 				/** execute save transaction */
 				out = insertAllFacl(assets, new AllRegOutSDO(), commonRepository.selectListCommonCode(inEzcDetailCd), 0);
 			}
@@ -151,6 +152,7 @@ public class OutsideService extends AbstractServiceObject {
 		EzcFaclImg ezcFaclImg = null;
 		List<EzcFaclImg> ezcFaclImgList = null;
 		Integer nextIndex = null;
+		ImageSDO imageSDO = null;
 		try {
 			/**
 			 * 1. 제휴사 별 TX 실행
@@ -160,6 +162,7 @@ public class OutsideService extends AbstractServiceObject {
 			allFacl.addMultiExecCodeList(allReg.getCode());
 			allFacl.addMultiExecMessageList(allReg.getMessage());
 			
+			logger.debug("- 멀티쓰레드 내 현제 쓰레드의 실행결과 : {}", allReg.getCode());
 			nextIndex = faclIndex + 1;
 			if(!allReg.getCode().equals(Integer.toString(MessageConstants.RESPONSE_CODE_1000))) {
 				
@@ -204,9 +207,6 @@ public class OutsideService extends AbstractServiceObject {
 						ezcFacl.setCoordY(faclData.getMapX());	//위도
 						ezcFacl.setCoordX(faclData.getMapY());	//경도
 						ezcFacl.setMinAmt((faclData.getSellPrice() != null ? new BigDecimal(faclData.getSellPrice()) : null)); // 최저 금액
-						//if(faclData.getDescHTML() != null) {
-						//	ezcFacl.setDetailDescPc(CommonUtil.byteSubstring(faclData.getDescHTML(), 0, 4000, OperateConstants.DEFAULT_ENCODING));	//상세 설명 PC 전문 값이 4000바이트를 넘어서 임시 byteSubstring
-						//}
 						ezcFacl.setDetailDescPc(faclData.getDescHTML());	//상세 설명 PC 		(제휴사 텍스트 OR HTML 설명 데이터)
 						ezcFacl.setDetailDescM(faclData.getDescMobile());	//상세 설명 모바일	(제휴사 텍스트 OR HTML 설명 데이터)
 						ezcFacl.setTripPropId(faclData.getTripadvisorId());	//트립어드바이저 프로퍼티 ID
@@ -235,7 +235,15 @@ public class OutsideService extends AbstractServiceObject {
 								else {
 									ezcFaclImg.setMainImgYn(CodeDataConstants.CD_N); // 메인 이미지 여부
 								}
-		
+								
+								if(APIUtil.isNotEmpty(subImages.getImage())) {
+									//이미지 다운로드
+									imageSDO = new ImageSDO();
+									imageSDO.setImageURL(subImages.getImage());
+									imageSDO = commonUtil.getImageDownload(imageSDO, true);
+									ezcFaclImg.setImgUrl(imageSDO.getCanonicalPath());
+								}
+								
 								ezcFaclImgList.add(ezcFaclImg);
 							}
 						}
@@ -259,7 +267,7 @@ public class OutsideService extends AbstractServiceObject {
 							allFacl.setData(new ArrayList<AllRegDataOutSDO>());
 						}
 						/** 제휴사의 시설 데이터를 output sdo 의 목록에 저장 */
-						allFacl.getData().addAll(faclDataList);
+						//allFacl.getData().addAll(faclDataList); // 대량 로그 이슈로 세팅하지 않도록함.
 						/** 트렌젝션 성공 개수 */
 						allFacl.setTxCount(allFacl.getTxCount() + txCount);
 					}
@@ -280,7 +288,7 @@ public class OutsideService extends AbstractServiceObject {
 			}
 		}
 		
-		logger.debug("[END] insertAllFacl out : {}", allFacl);
+		logger.debug("[END] insertAllFacl " /* out : {}", allFacl*/);
 		return allFacl;
 	}
 	
@@ -314,7 +322,7 @@ public class OutsideService extends AbstractServiceObject {
 				insertFaclRegData(ezcFacls/* 제휴사 별 시설 목록 */, toIndex, txCount);
 			}
 		}
-		catch(APIException e) {
+		catch(Exception e) {
 			throw new APIException("제휴사 별 시설 데이터 입력 장애발생 (입력 구간 from/to : {} ~ {})", new Object[]{fromIndex, toIndex}, e);
 		}
 

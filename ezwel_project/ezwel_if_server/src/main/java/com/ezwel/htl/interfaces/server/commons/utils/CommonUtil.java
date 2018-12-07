@@ -319,6 +319,7 @@ public class CommonUtil {
 		String prodServerIpRange = InterfaceFactory.getServerAddress().getProdServerIpRange(); 
 		String devServerIpRange = InterfaceFactory.getServerAddress().getDevServerIpRange();
 		
+		//운영서버인지 IP대역 확인
 		if(APIUtil.isNotEmpty(prodServerIpRange)) {
 			
 			if(prodServerIpRange.endsWith(".*")) {
@@ -332,7 +333,9 @@ public class CommonUtil {
 				out = OperateConstants.CURRENT_PROD_SERVER;
 			}
 		}
-		else if(APIUtil.isNotEmpty(devServerIpRange)) {
+		
+		//운영서버가 아니면 개발서버 IP대역에서 확인
+		if(out == null && APIUtil.isNotEmpty(devServerIpRange)) {
 			
 			if(devServerIpRange.endsWith(".*")) {
 				devServerIpRange = devServerIpRange.substring(0, devServerIpRange.indexOf(".*"));
@@ -345,7 +348,9 @@ public class CommonUtil {
 				out = OperateConstants.CURRENT_DEV_SERVER;
 			}
 		}
-		else {
+		
+		//운영/개발 서버가 모두 아니면 개발자 PC
+		if(out == null) {
 			out = OperateConstants.CURRENT_PC_SERVER;
 		}
 
@@ -380,12 +385,16 @@ public class CommonUtil {
 	 * @return
 	 */
 	@APIOperation(description="URL 이미지를 바인드된 경로에 다운로드 하고 저장된 전체경로를 리턴합니다.")
-	public ImageSDO getImage(ImageSDO imageSDO, boolean verbose) {
-		
+	public ImageSDO getImageDownload(ImageSDO imageSDO, boolean verbose) {
+		logger.debug("[START] getImageDownload {}", imageSDO);
 		String imageRootPath = getImageRootPath();
 		
-		String toDate = APIUtil.getFastDate("yyyyMMdd");
-		File outputFile = new File(imageRootPath, toDate);
+		String subPath = new StringBuffer().append("buildImage").append(File.separator)
+				.append(APIUtil.getFastDate("yyyy")).append(File.separator)
+				.append(APIUtil.getFastDate("MM")).append(File.separator)
+				.append(APIUtil.getFastDate("dd")).toString();
+		
+		File outputFile = new File(imageRootPath, subPath);
 		
 		URL url = null;
 		BufferedImage bufferedImage = null;
@@ -394,16 +403,23 @@ public class CommonUtil {
 		String chngFileName = null;
 		String orgFileName = null;
 		String tempImageURL = null;
+		String lowerImageURL = null;
 		try {
-						
+
+			if( APIUtil.isEmpty(imageSDO.getImageURL()) ) {
+				throw new APIException(MessageConstants.RESPONSE_CODE_2000, "이미지 URL이 존재하지 않습니다.");
+			}
+			
 			if(doDirectoryMake(outputFile, true)) {
+				lowerImageURL = imageSDO.getImageURL().toLowerCase();
 				
-				if(imageSDO.getImageURL().startsWith(OperateConstants.DATA_IMAGE_PREFIX) && imageSDO.getImageURL().contains(OperateConstants.STR_BASE64)) {
+				if(lowerImageURL.startsWith(OperateConstants.DATA_IMAGE_PREFIX) && lowerImageURL.contains(OperateConstants.STR_BASE64)) {
 					if(verbose) {
 						logger.debug("- base64 data:image 제휴사에서 데이터 이미지URL을 리턴할경우 추가작업 현재(20181129) 전용필차장과 의논해본결과 리턴URL 패턴 파악이 불가능함");
 					}
 				}
-				else {
+				else if(lowerImageURL.startsWith("http")) {
+					
 					for(Entry<String, String> entry : OperateConstants.IMAGE_EXT.entrySet()) {
 						tempImageURL = imageSDO.getImageURL().toLowerCase(); 
 						if(tempImageURL.indexOf("?") > -1) {
@@ -432,7 +448,7 @@ public class CommonUtil {
 					}
 					
 					outputFile = new File(outputFile, chngFileName);
-					url = new URL(imageSDO.getImageURL());
+					url = new URL(imageSDO.getImageURL().trim());
 					bufferedImage = ImageIO.read(url);
 					
 					if(verbose) {
@@ -449,11 +465,20 @@ public class CommonUtil {
 							logger.debug("- 이미지 다운로드 성공...");
 						}
 					}
+					else {
+						imageSDO.setSave(false);
+						if(verbose) {
+							logger.debug("- 이미지 다운로드 실패...");
+						}
+					}
 					
 					imageSDO.setFileExt(fileExt);
 					imageSDO.setChngFileName(chngFileName);
 					imageSDO.setOrgFileName(orgFileName);
 					imageSDO.setCanonicalPath(canonicalPath);
+				}
+				else {
+					throw new APIException("이미지 URL이 잘못되었습니다.{}", imageSDO.getImageURL());
 				}
 			}
 			
@@ -465,7 +490,7 @@ public class CommonUtil {
 		} catch (Exception e) {
 			throw new APIException(e);
 		}
-		
+		logger.debug("[END] getImageDownload {}", canonicalPath);
 		return imageSDO;
 	}
 	

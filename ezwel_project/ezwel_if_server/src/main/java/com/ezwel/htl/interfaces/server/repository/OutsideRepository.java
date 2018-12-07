@@ -3,7 +3,6 @@ package com.ezwel.htl.interfaces.server.repository;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +17,10 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
-import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
-import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
+import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
+import com.ezwel.htl.interfaces.server.commons.utils.data.ImageSDO;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclAment;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
@@ -39,6 +39,8 @@ import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 public class OutsideRepository extends AbstractDataAccessObject {
 
 	private static final Logger logger = LoggerFactory.getLogger(OutsideRepository.class);
+	
+	private CommonUtil commonUtil;
 	
 	/**
 	 * 맵핑 시설 : EZC_FACL, EZC_FACL_IMG, EZC_FACL_AMENT ( 1 : N : N ), 데이터 적제 
@@ -118,6 +120,44 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		return txCount;
 	}	
 	
+
+	@Transactional
+	@APIOperation(description="시설 이미지 다운로드 '사용 보류'")
+	public Integer downloadBuildImage(EzcFaclImg ezcFaclImg) {
+		
+		int txCount = 0;
+		String imageURL = null;
+		List<EzcFaclImg> ezcFaclImgList = null;
+		ImageSDO imageSDO = null;
+		try {
+		
+			ezcFaclImgList = sqlSession.selectList(getNamespace("FACL_IMG_MAPPER", "selectEzcFaclImg"), ezcFaclImg);
+			
+			if(ezcFaclImgList != null) {
+				for(EzcFaclImg item : ezcFaclImgList) {
+					
+					//시설 이미지 http url
+					imageURL = item.getPartnerImgUrl();
+					
+					imageSDO = new ImageSDO();
+					imageSDO.setImageURL(imageURL);
+					imageSDO = commonUtil.getImageDownload(imageSDO, true);
+					item.setImgUrl(imageSDO.getCanonicalPath());
+					item.setRegId(Local.commonHeader().getSystemUserId());
+					item.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));	
+					
+					txCount += sqlSession.update(getNamespace("FACL_IMG_MAPPER", "updateEzcFaclImg"), item);
+				}
+			}
+		}
+		catch(Exception e) {
+			logger.error("Message : {}", e.getMessage());
+			//에러 발생 레코드 errorItems에 저장후 runtimeException 없이 로깅후 종료
+			throw new APIException("이미지 다운르드 경로 DB 저장 실패 {}", new Object[] {e.getMessage()}, e) ; 
+		}
+
+		return txCount;
+	}
 	
 	/**
 	 * 멀티쓰레드

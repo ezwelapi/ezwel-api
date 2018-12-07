@@ -339,8 +339,8 @@ public class HttpInterfaceExecutorService {
 						logger.debug("■ outputType : {}", outputType);
 						out = (T2) beanConvert.fromJSONString/*fromJSON*/(responseOrgin, outputType);
 						propertyUtil.setProperty(out, "restURI", in.getRestURI());
-						propertyUtil.setProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME, MessageConstants.RESPONSE_CODE_1000);
-						propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_1000));						
+						propertyUtil.setProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME, Integer.toString(MessageConstants.RESPONSE_CODE_1000));
+						propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_1000).concat(", ").concat(in.getRestURI()));						
 					}
 					else {
 						logger.debug("■ 인터페이스 응답 내용이 존재하지 않습니다.");
@@ -380,9 +380,8 @@ public class HttpInterfaceExecutorService {
 					message = ((Exception) e).getMessage();				
 				}
 
-				propertyUtil.setProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME, code);
-				propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, message.concat(" : ").concat(in.getRestURI()));
-
+				propertyUtil.setProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME, Integer.toString(code));
+				propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, message.concat(", ").concat(in.getRestURI()));
 				
 				logger.error("■ URL Exception : {}", e.getMessage());
 				e.printStackTrace();

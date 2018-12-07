@@ -140,7 +140,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				retVal = responseUtil.getResponseEntity(beanMarshaller.toJSONString(retVal));
 			}
 			
-			logger.debug("■■ [OUTPUT] {} {}", typeMethodName, retVal);
+			//logger.debug("■■ [OUTPUT] {} {}", typeMethodName, retVal);
 		}
 		catch(APIException e) {
 			
