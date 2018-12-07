@@ -1,5 +1,6 @@
 package com.ezwel.htl.interfaces.server.service;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -178,6 +179,8 @@ public class OutsideService extends AbstractServiceObject {
 			}
 			else {
 				
+				String partnerGoodsCd = null;
+				
 				/** 제휴사 1건 별 이하 프로세스 실행 */
 				if(allReg != null && allReg.getData() != null && allReg.getData().size() > 0) {
 					/** 제휴사 별 시설 목록 */
@@ -187,12 +190,14 @@ public class OutsideService extends AbstractServiceObject {
 					
 					for(AllRegDataOutSDO faclData : faclDataList) {
 						/** 제휴사 별 시설 데이터 세팅 */
+						partnerGoodsCd = APIUtil.NVL(faclData.getPdtNo(), OperateConstants.STR_EMPTY);
+						
 						ezcFacl = new EzcFacl(); 
 						//ezcFacl.setFaclCd(faclCd); //sequnce
 						ezcFacl.setPartnerCd(allReg.getHttpAgentId()); // 에이전트 ID
 						ezcFacl.setPartnerCdType(allReg.getPatnCdType());
 						ezcFacl.setFaclDiv(CodeDataConstants.CD_API_G0010001); //시설 구분 ( API )
-						ezcFacl.setPartnerGoodsCd( APIUtil.NVL(faclData.getPdtNo(), OperateConstants.STR_EMPTY) ); /* 제휴사 ID => 호텔패스글로벌 전문에 데이터가  전달되어오지 않기때문에 임시로 EMPTY 처리함 */
+						ezcFacl.setPartnerGoodsCd( partnerGoodsCd ); /* 제휴사 ID => 호텔패스글로벌 전문에 데이터가  전달되어오지 않기때문에 임시로 EMPTY 처리함 */
 						ezcFacl.setFaclNmKor( APIUtil.NVL(faclData.getPdtName(), OperateConstants.STR_EMPTY) ); /* 시설 한글 명 => 호텔패스글로벌 전문에 데이터가 전달되어오지 않기때문에 임시로 EMPTY 처리함 */
 						ezcFacl.setFaclNmEng(faclData.getPdtNameEng());
 						ezcFacl.setRoomType( APIUtil.NVL(commonUtil.getMasterCdForCodeList(detailCdList, faclData.getTypeCode()), "NA-G002") ); // -> DB 공통코드 (테이블 : EZC_DETAIL_CD.DETAIL_CD  = '#{typeCode}' AND EZC_DETAIL_CD.CLASS_CD = 'G002' )
@@ -232,7 +237,7 @@ public class OutsideService extends AbstractServiceObject {
 								ezcFaclImg.setFaclImgType(CodeDataConstants.CD_FACL_IMG_TYPE_G0080001);
 								ezcFaclImg.setPartnerImgUrl(subImages.getImage()); // 이미지 URL 
 								ezcFaclImg.setImgDesc(subImages.getDesc()); // 이미지 설명
-								if(faclData.getMainImage().equals(subImages.getImage())) {
+								if(faclData.getMainImage() != null && subImages.getImage() != null && faclData.getMainImage().equals(subImages.getImage())) {
 									ezcFaclImg.setMainImgYn(CodeDataConstants.CD_Y); // 메인 이미지 여부
 								}
 								else {
@@ -242,6 +247,7 @@ public class OutsideService extends AbstractServiceObject {
 								if(APIUtil.isNotEmpty(subImages.getImage())) {
 									//이미지 다운로드
 									imageSDO = new ImageSDO();
+									imageSDO.setPathPrefix(new StringBuffer().append(ezcFacl.getPartnerCd()).append(File.separator).append(ezcFacl.getCityCd()).toString());
 									imageSDO.setImageURL(subImages.getImage());
 									imageSDO = commonUtil.getImageDownload(imageSDO, true);
 									ezcFaclImg.setImgUrl(imageSDO.getCanonicalPath());

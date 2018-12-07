@@ -25,6 +25,9 @@ public class ImageSDO  extends AbstractSDO {
 	@APIFields(description="저장 여부")
 	private boolean isSave;
 	
+	@APIFields(description="경로 접두사")
+	private String pathPrefix;
+	
 	public ImageSDO() {
 		this.reset();	
 	}
@@ -36,6 +39,7 @@ public class ImageSDO  extends AbstractSDO {
 		canonicalPath = "";	
 		imageURL = "";
 		isSave = false;
+		pathPrefix = "";
 	}
 
 	public String getFileExt() {
@@ -85,6 +89,12 @@ public class ImageSDO  extends AbstractSDO {
 	public void setSave(boolean isSave) {
 		this.isSave = isSave;
 	}
-	
-	
+
+	public String getPathPrefix() {
+		return pathPrefix;
+	}
+
+	public void setPathPrefix(String pathPrefix) {
+		this.pathPrefix = pathPrefix;
+	}
 }

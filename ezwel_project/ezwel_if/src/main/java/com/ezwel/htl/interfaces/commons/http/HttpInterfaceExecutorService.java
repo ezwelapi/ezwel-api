@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -270,7 +271,7 @@ public class HttpInterfaceExecutorService {
 	@SuppressWarnings({ "unchecked", "finally" })
 	@APIOperation(description="Http URL Communication API", isExecTest=true)
 	public <T1 extends AbstractSDO, T2 extends AbstractSDO> T2 sendJSON(HttpConfigSDO in, T1 inputObject, Class<T2> outputType) {
-		logger.debug("[START] sendJSON\n[CHANNEL-INFO] {}\n[USER-INPUT] {}\n[USER-OUTPUT] {}", in, inputObject, outputType);
+		logger.debug("[START] sendJSON {}\n[CHANNEL-INFO] {}\n[USER-INPUT] {}\n[USER-OUTPUT] {}", in.getRestURI(), in, inputObject, outputType);
 		
 		//return value
 		T2 out = null;
@@ -286,6 +287,8 @@ public class HttpInterfaceExecutorService {
 			if(in == null) {
 				throw new APIException(MessageConstants.RESPONSE_CODE_2000, "■ 인터페이스 필수 입력 객체가 존재하지 않습니다.");
 			}
+			
+			//in.setRestURI("http://www.naver.comm");
 			
 			if(in.isDoOutput()) {
 				if(inputObject == null) {
@@ -350,7 +353,6 @@ public class HttpInterfaceExecutorService {
 					}
 				}
 			}
-			
 		} catch (SocketTimeoutException e) {
 			// Read timed out 이후 1 회 다시 호출
 			logger.debug("* callCount : {}", in.getCallCount());

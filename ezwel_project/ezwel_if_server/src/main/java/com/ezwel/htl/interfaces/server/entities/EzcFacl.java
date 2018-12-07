@@ -53,7 +53,7 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "시설 명 한글", maxLength=100, required=true, constraints="SYS_C0011058(C)")
 	private String faclNmKor;
 
-	@APIFields(description = "시설 명 영문", maxLength=100, required=true, constraints="SYS_C0011059(C)")
+	@APIFields(description = "시설 명 영문", maxLength=100, required=false, constraints="SYS_C0011059(C)")
 	private String faclNmEng;
 
 	@APIFields(description = "숙소 유형", maxLength=8, required=true, constraints="SYS_C0011060(C)")

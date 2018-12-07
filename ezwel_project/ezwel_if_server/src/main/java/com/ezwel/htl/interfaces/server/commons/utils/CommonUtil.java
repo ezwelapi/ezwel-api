@@ -388,8 +388,8 @@ public class CommonUtil {
 	public ImageSDO getImageDownload(ImageSDO imageSDO, boolean verbose) {
 		logger.debug("[START] getImageDownload {}", imageSDO);
 		String imageRootPath = getImageRootPath();
-		
-		String subPath = new StringBuffer().append("buildImage").append(File.separator)
+		// EZWEL 시설코드 / 상품 시설코드 / 년 / 월 / 일 / 파일
+		String subPath = new StringBuffer().append(imageSDO.getPathPrefix()).append(File.separator)
 				.append(APIUtil.getFastDate("yyyy")).append(File.separator)
 				.append(APIUtil.getFastDate("MM")).append(File.separator)
 				.append(APIUtil.getFastDate("dd")).toString();
@@ -478,17 +478,17 @@ public class CommonUtil {
 					imageSDO.setCanonicalPath(canonicalPath);
 				}
 				else {
-					throw new APIException("이미지 URL이 잘못되었습니다.{}", imageSDO.getImageURL());
+					logger.error("이미지 URL이 잘못되었습니다.{}", imageSDO.getImageURL());
 				}
 			}
 			
 		 
 		} catch (MalformedURLException e) {
-			throw new APIException(e);
+			logger.error("MalformedURLException : {}", e.getMessage());
 		} catch (IOException e) {
-			throw new APIException(e);
+			logger.error("IOException : {}", e.getMessage());
 		} catch (Exception e) {
-			throw new APIException(e);
+			logger.error("Exception : {}", e.getMessage());
 		}
 		logger.debug("[END] getImageDownload {}", canonicalPath);
 		return imageSDO;
