@@ -57,18 +57,25 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		EzcFaclAment ezcFaclAment = null;
 		BigDecimal faclCdSeq = null;
 		EzcFacl ezcFacl = null;
-
+		EzcFacl dbEzcFacl = null;
 		try {
 			
 			for(Integer i = 0; i < saveFaclRegDatas.size(); i++) {
 				ezcFacl = saveFaclRegDatas.get(i);
 
+				dbEzcFacl = sqlSession.selectOne(getNamespace("FACL_MAPPER", "selectEzcFacl"), ezcFacl);
+				
 				/** 0. 시설 코드 (Number) Sequnce */
-				//sequnce
-				faclCdSeq = sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectEzcFaclSeq"));
-				ezcFacl.setFaclCd(faclCdSeq);
+				if(dbEzcFacl == null) {
+					//sequnce
+					faclCdSeq = sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectEzcFaclSeq"));
+					ezcFacl.setFaclCd(faclCdSeq);
+				}
+				
 				ezcFacl.setRegId(Local.commonHeader().getSystemUserId());
 				ezcFacl.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
+				ezcFacl.setModiId(Local.commonHeader().getSystemUserId());
+				ezcFacl.setModiDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
 				
 				/** 1. EZC_FACL 1건 저장 */
 				//insert
@@ -85,6 +92,8 @@ public class OutsideRepository extends AbstractDataAccessObject {
 							faclImg.setFaclCd(ezcFacl.getFaclCd());
 							faclImg.setRegId(Local.commonHeader().getSystemUserId());
 							faclImg.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));							
+							faclImg.setModiId(Local.commonHeader().getSystemUserId());
+							faclImg.setModiDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
 							//insert
 							txCount += sqlSession.insert(getNamespace("FACL_IMG_MAPPER", "insertEzcFaclImg"), faclImg);
 						}
@@ -102,6 +111,8 @@ public class OutsideRepository extends AbstractDataAccessObject {
 								ezcFaclAment.setAmentType(faclAment.trim());
 								ezcFaclAment.setRegId(Local.commonHeader().getSystemUserId());
 								ezcFaclAment.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
+								ezcFaclAment.setModiId(Local.commonHeader().getSystemUserId());
+								ezcFaclAment.setModiDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
 								//insert
 								txCount += sqlSession.insert(getNamespace("FACL_AMENT_MAPPER", "insertEzcFaclAment"), ezcFaclAment);
 							}

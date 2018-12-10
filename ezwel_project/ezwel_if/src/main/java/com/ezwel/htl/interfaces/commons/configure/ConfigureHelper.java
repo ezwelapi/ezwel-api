@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -30,8 +31,16 @@ public class ConfigureHelper {
 	public HttpConfigSDO setupUserAgentInfo(UserAgentSDO userAgentDTO, HttpConfigSDO config) {
 		/** conntime, readtime, httpAgentType, httpChannelCd, httpClientId, httpRequestId  */
 		propertyUtil.copySameProperty(userAgentDTO, config, true);
+		
 		/** setup httpApiSignature */
-		config.setHttpApiSignature(APIUtil.getHttpSignature(config.getHttpAgentId(), config.getHttpApiKey(), config.getHttpApiTimestamp()));
+		if(!config.isEzwelInsideInterface()) {
+			config.setHttpApiSignature(APIUtil.getHttpSignature(config.getHttpAgentId(), config.getHttpApiKey(), config.getHttpApiTimestamp()));
+		}
+		else if(config.isEzwelInsideInterface() && APIUtil.isNotEmpty(config.getReceiverRestURI())){
+			// isEzwel InsideInterface Receiver URI
+			config.setRestURI(InterfaceFactory.getServerHttpDomainURI().concat(config.getReceiverRestURI()));
+		}
+		
 		return config;
 	}
 	

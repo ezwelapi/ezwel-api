@@ -14,9 +14,10 @@ public class CodeDataConstants {
 	public final static String CD_CONFIRM_STATUS_G0060003;
 	//시설 상태 : 완료
 	public final static String CD_FACL_STATUS_G0040003;
-	
+	//공통코드 (그룹 코드) 
 	public final static String CD_CLASS_CD_G002;
 	public final static String CD_CLASS_CD_G003;
+	public final static String CD_CLASS_CD_C007;
 	
 	static { 
 		CD_API_G0010001 = "G0010001";
@@ -27,5 +28,6 @@ public class CodeDataConstants {
 		CD_FACL_STATUS_G0040003 = "G0040003";
 		CD_CLASS_CD_G002 = "G002";
 		CD_CLASS_CD_G003 = "G003";
+		CD_CLASS_CD_C007 = "C007";
 	}
 }

@@ -223,6 +223,13 @@ var testAssets = {
 				"readTimeout": 100000
 				/* 실제 입력 필드 추가 */
 			}
+		},
+		"인터페이스 API KEY 발급" : {
+			 url : "/agent/apiKey"
+			,input : {
+				 "agentName" : ""
+				,"httpAgentId" : ""
+			}
 		}
 		
 	}

@@ -7,6 +7,8 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 @APIModel(description="파일 다운로드 데이터")
 public class ImageSDO  extends AbstractSDO {
 	
+	private static final long serialVersionUID = 1L;
+
 	@APIFields(description="파일 확장자")
 	private String fileExt;
 	
@@ -28,6 +30,9 @@ public class ImageSDO  extends AbstractSDO {
 	@APIFields(description="경로 접두사")
 	private String pathPrefix;
 	
+	@APIFields(description="이미지 저장 상대 경로")
+	private String relativePath;
+	
 	public ImageSDO() {
 		this.reset();	
 	}
@@ -40,6 +45,17 @@ public class ImageSDO  extends AbstractSDO {
 		imageURL = "";
 		isSave = false;
 		pathPrefix = "";
+		relativePath = "";
+	}
+
+	
+	
+	public String getRelativePath() {
+		return relativePath;
+	}
+
+	public void setRelativePath(String relativePath) {
+		this.relativePath = relativePath;
 	}
 
 	public String getFileExt() {

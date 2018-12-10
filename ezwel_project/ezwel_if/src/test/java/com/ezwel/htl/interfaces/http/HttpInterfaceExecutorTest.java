@@ -7,7 +7,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ezwel.htl.interfaces.adapter.OutsideIFAdapter;
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
@@ -40,9 +42,34 @@ public class HttpInterfaceExecutorTest  {
 		this.setHttpConfigDTO();
 		this.setInputDTO();
 		this.setRestURI();
+		this.interfaceInit();
 	}
 	
+	private void interfaceInit() {
+		InterfaceFactory factory = new InterfaceFactory();
+		factory.setConfigXmlPath("/interfaces/interface-configure.xml");
+		factory.initFactory();		
+	}
+	
+	
 	@Test
+	public void receiveInsideInterfaceTest() {
+		
+		OutsideIFAdapter ifAdapter = new OutsideIFAdapter();
+		
+		UserAgentSDO userAgentSDO = new UserAgentSDO(); 
+		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
+		
+		
+		
+		
+		
+		ifAdapter.callRoomRead(userAgentSDO, roomReadSDO);
+	}
+	
+	
+			
+	//@Test
 	public void sendJSONTest() {
 		
 		/*

@@ -10,9 +10,10 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.concurrent.Callable;
@@ -21,6 +22,7 @@ import java.util.concurrent.Future;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
@@ -33,6 +35,7 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -64,10 +67,13 @@ public class HttpInterfaceExecutorService {
 	 */
 	private final int urlReadTimeout = 10000;
 	
+	@Autowired
 	private APIUtil util;
 	
+	@Autowired
 	private BeanMarshaller beanConvert;
 	
+	@Autowired
 	private PropertyUtil propertyUtil;
 	
 	public HttpInterfaceExecutorService() {
@@ -203,16 +209,29 @@ public class HttpInterfaceExecutorService {
 	
 	
 	@APIOperation(description="InputBean To JSON", isExecTest=true)
-	<T extends AbstractSDO> String inputBeanToJSON(T inputObject) {
+	<T extends AbstractSDO> String inputBeanToJSON(HttpConfigSDO config, T inputObject) {
 		
 		String out = null;
 		try {
-			
-			out = beanConvert.toJSONString(inputObject);
-			logger.debug("\n■ input parameter : \n{}", out);	
+
+			if(config.isEzwelInsideInterface()) {
+				UserAgentSDO userAgentSDO = new UserAgentSDO();
+				propertyUtil.copySameProperty(config, userAgentSDO, true);
+				
+				Map<String, Object> insideObject = new LinkedHashMap<String, Object>();
+				insideObject.put(APIUtil.getFirstCharLowerCase(userAgentSDO.getClass().getSimpleName()), userAgentSDO);
+				insideObject.put(APIUtil.getFirstCharLowerCase(inputObject.getClass().getSimpleName()), inputObject);   
+				
+				out = beanConvert.toJSONString(insideObject);
+				logger.debug("\n■ input parameter : \n{}", out);
+			}
+			else {
+				out = beanConvert.toJSONString(inputObject);
+				logger.debug("\n■ input parameter : \n{}", out);
+			}
 		}
 		catch(APIException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 입력 DTO를 JSON으로 변환과정에 장애발생", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 입력 SDO를 JSON으로 변환과정에 장애발생", e);
 		}
 		
 		return out;
@@ -268,10 +287,14 @@ public class HttpInterfaceExecutorService {
 	 * @param in
 	 * @return
 	 */
-	@SuppressWarnings({ "unchecked", "finally" })
+	@SuppressWarnings({ "unchecked", "finally", "unused" })
 	@APIOperation(description="Http URL Communication API", isExecTest=true)
 	public <T1 extends AbstractSDO, T2 extends AbstractSDO> T2 sendJSON(HttpConfigSDO in, T1 inputObject, Class<T2> outputType) {
 		logger.debug("[START] sendJSON {}\n[CHANNEL-INFO] {}\n[USER-INPUT] {}\n[USER-OUTPUT] {}", in.getRestURI(), in, inputObject, outputType);
+
+		if(in == null) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_2000, "■ 인터페이스 필수 입력 객체가 존재하지 않습니다.");
+		}
 		
 		//return value
 		T2 out = null;
@@ -283,19 +306,15 @@ public class HttpInterfaceExecutorService {
 		String responseOrgin = null;
 		
 		try {
-			
-			if(in == null) {
-				throw new APIException(MessageConstants.RESPONSE_CODE_2000, "■ 인터페이스 필수 입력 객체가 존재하지 않습니다.");
-			}
-			
-			//in.setRestURI("http://www.naver.comm");
+			// 에러 테스트 용
+			//in.setRestURI("https://translate.google.com/?hl=ko");
 			
 			if(in.isDoOutput()) {
 				if(inputObject == null) {
 					throw new APIException(MessageConstants.RESPONSE_CODE_2000, "■ HttpURLConnection의 isDoOutput가 true일때 inputObject 파라메터가 null일수 없습니다.");
 				}
 				/** input bean to json */	
-				inJsonParam = inputBeanToJSON(inputObject);
+				inJsonParam = inputBeanToJSON(in, inputObject);
 			}
 			else {
 				inJsonParam = OperateConstants.STR_BLANK;
@@ -338,7 +357,7 @@ public class HttpInterfaceExecutorService {
 					if(APIUtil.isNotEmpty(responseOrgin)) {
 						
 						if(outputType == null) {
-							throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 인터페이스 응답 결과를 담을 CLASS정보가 존재하지 않습니다. HttpDTO의 outputType class를 설정하세요.");
+							throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 인터페이스 응답 결과를 담을 CLASS정보가 존재하지 않습니다. HttpSDO의 outputType class를 설정하세요.");
 						}
 
 						/** execute unmarshall */
@@ -354,7 +373,7 @@ public class HttpInterfaceExecutorService {
 				}
 			}
 		} catch (SocketTimeoutException e) {
-			// Read timed out 이후 1 회 다시 호출
+			// Connect | Read timed out 이후 1 회 다시 호출
 			logger.debug("* callCount : {}", in.getCallCount());
 			
 			if(in.getCallCount() > 0) {
@@ -455,7 +474,7 @@ public class HttpInterfaceExecutorService {
 				}				
 			}
 		} catch (IllegalAccessException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ HttpConfigDTO필드에 접근할수 없습니다.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ HttpConfigSDO필드에 접근할수 없습니다.", e);
 		} 
 		
 		logger.debug("[END] getCert");

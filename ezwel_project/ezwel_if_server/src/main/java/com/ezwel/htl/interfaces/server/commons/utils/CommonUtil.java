@@ -313,71 +313,7 @@ public class CommonUtil {
 		}
 	}
 	
-	@APIOperation(description="서버 IP 대역")
-	public static String getServerAddress() {
-		String out = null;
-		String prodServerIpRange = InterfaceFactory.getServerAddress().getProdServerIpRange(); 
-		String devServerIpRange = InterfaceFactory.getServerAddress().getDevServerIpRange();
-		
-		//운영서버인지 IP대역 확인
-		if(APIUtil.isNotEmpty(prodServerIpRange)) {
-			
-			if(prodServerIpRange.endsWith(".*")) {
-				prodServerIpRange = prodServerIpRange.substring(0, prodServerIpRange.indexOf(".*"));
-				
-				if(InterfaceFactory.LOCAL_HOST_ADDRESS.startsWith(prodServerIpRange)) {
-					out = OperateConstants.CURRENT_PROD_SERVER;
-				}
-			}
-			else if(InterfaceFactory.LOCAL_HOST_ADDRESS.equals(prodServerIpRange)) {
-				out = OperateConstants.CURRENT_PROD_SERVER;
-			}
-		}
-		
-		//운영서버가 아니면 개발서버 IP대역에서 확인
-		if(out == null && APIUtil.isNotEmpty(devServerIpRange)) {
-			
-			if(devServerIpRange.endsWith(".*")) {
-				devServerIpRange = devServerIpRange.substring(0, devServerIpRange.indexOf(".*"));
-				
-				if(InterfaceFactory.LOCAL_HOST_ADDRESS.startsWith(devServerIpRange)) {
-					out = OperateConstants.CURRENT_DEV_SERVER;
-				}
-			}
-			else if(InterfaceFactory.LOCAL_HOST_ADDRESS.equals(devServerIpRange)) {
-				out = OperateConstants.CURRENT_DEV_SERVER;
-			}
-		}
-		
-		//운영/개발 서버가 모두 아니면 개발자 PC
-		if(out == null) {
-			out = OperateConstants.CURRENT_PC_SERVER;
-		}
-
-		return out;
-	}
 	
-	public static String getImageRootPath() {
-		String out = null;
-		
-		if(getServerAddress() == null) {
-			throw new APIException("인터페이스 환경파일에 설정된 개발 또는 운영서버의 IP또는 IP대역과 현제 서버의 IP가 일치하지 않습니다.");
-		}
-		else if(getServerAddress().equals(OperateConstants.CURRENT_PROD_SERVER)) {
-			// prod server
-			out = InterfaceFactory.getFileRepository().getBuildImage().getProdRootPath();
-		}
-		else if(getServerAddress().equals(OperateConstants.CURRENT_DEV_SERVER)) {
-			// dev server
-			out = InterfaceFactory.getFileRepository().getBuildImage().getDevRootPath();
-		}
-		else {
-			// developer local pc server
-			out = InterfaceFactory.getFileRepository().getBuildImage().getLocalRootPath();
-		}
-		
-		return out;
-	}
 	/**
 	 * URL 이미지를 바인드된 경로에 다운로드 하고 저장된 전체경로를 리턴합니다.
 	 * @param imageSDO.getImageURL() 다운로드 할 이미지 URL
@@ -386,15 +322,15 @@ public class CommonUtil {
 	 */
 	@APIOperation(description="URL 이미지를 바인드된 경로에 다운로드 하고 저장된 전체경로를 리턴합니다.")
 	public ImageSDO getImageDownload(ImageSDO imageSDO, boolean verbose) {
-		logger.debug("[START] getImageDownload {}", imageSDO);
-		String imageRootPath = getImageRootPath();
-		// EZWEL 시설코드 / 상품 시설코드 / 년 / 월 / 일 / 파일
-		String subPath = new StringBuffer().append(imageSDO.getPathPrefix()).append(File.separator)
+		logger.debug("[START] getImageDownload URL : {}", imageSDO.getImageURL());
+		String imageRootPath = InterfaceFactory.getImageRootPath();
+		// 에이젼트ID / 도시코드 / 년 / 월 / 일 / 파일
+		String childPath = new StringBuffer().append(imageSDO.getPathPrefix()).append(File.separator)
 				.append(APIUtil.getFastDate("yyyy")).append(File.separator)
 				.append(APIUtil.getFastDate("MM")).append(File.separator)
 				.append(APIUtil.getFastDate("dd")).toString();
 		
-		File outputFile = new File(imageRootPath, subPath);
+		File outputFile = new File(imageRootPath, childPath);
 		
 		URL url = null;
 		BufferedImage bufferedImage = null;
@@ -471,7 +407,8 @@ public class CommonUtil {
 							logger.debug("- 이미지 다운로드 실패...");
 						}
 					}
-					
+					// 저장소 루트를 제외한 경로
+					imageSDO.setRelativePath(byteSubstring(canonicalPath, imageRootPath.getBytes(OperateConstants.DEFAULT_ENCODING).length, OperateConstants.DEFAULT_ENCODING));
 					imageSDO.setFileExt(fileExt);
 					imageSDO.setChngFileName(chngFileName);
 					imageSDO.setOrgFileName(orgFileName);
@@ -481,16 +418,16 @@ public class CommonUtil {
 					logger.error("이미지 URL이 잘못되었습니다.{}", imageSDO.getImageURL());
 				}
 			}
-			
 		 
 		} catch (MalformedURLException e) {
-			logger.error("MalformedURLException : {}", e.getMessage());
+			logger.error("MalformedURLException : {}\n{}", e.getMessage(), e.getStackTrace());
 		} catch (IOException e) {
-			logger.error("IOException : {}", e.getMessage());
+			logger.error("IOException : {}\n{}", e.getMessage(), e.getStackTrace());
 		} catch (Exception e) {
-			logger.error("Exception : {}", e.getMessage());
+			logger.error("Exception : {}\n{}", e.getMessage(), e.getStackTrace());
 		}
-		logger.debug("[END] getImageDownload {}", canonicalPath);
+		logger.debug("[END] getImageDownload {}", imageSDO);
+		
 		return imageSDO;
 	}
 	
@@ -755,22 +692,36 @@ public class CommonUtil {
 		return out;
 	}
 	
+    
+    public static String byteSubstring(String str, int sPoint, String encoding) {
+    	return byteSubstring(str, sPoint, -1, encoding);
+    }
+    
     @APIOperation
-	public static String byteSubstring(String str, int sPoint, int length, String encoding) {
+	public static String byteSubstring(String userSentence, int userStartPoint, int userEndPoint, String userEncoding) {
 	    String out = null;
 
 	    try {
+	    	String sentence = userSentence; 
+	    	int startPoint = userStartPoint;
+	    	int endPoint = userEndPoint;
+	    	String encoding = userEncoding;
+	    	
+			byte[] bytes = sentence.getBytes(encoding);
+
+	    	if(endPoint < 0) {
+	    		endPoint = bytes.length;
+	    	}
+	    	
+			byte[] value = new byte[endPoint];
 			
-			byte[] bytes = str.getBytes(encoding);
-			byte[] value = new byte[length];
-			
-			if(bytes.length < sPoint + length){
-				logger.warn("[VALIDATE] byteSubstring => Length of bytes is less. length : {}, sPoint : {}, length : {}", bytes.length, sPoint, length);
-				return str;
+			if(bytes.length < startPoint + endPoint){
+				logger.warn("[VALIDATE] byteSubstring => Length of bytes is less. length : {}, startPoint : {}, endPoint : {}", bytes.length, startPoint, endPoint);
+				return sentence;
 			}
 			
-			for(int i = 0; i < length; i++){
-				value[i] = bytes[sPoint + i];
+			for(int i = 0; i < endPoint; i++){
+				value[i] = bytes[startPoint + i];
 			}
 			
 			/* 

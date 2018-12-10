@@ -21,6 +21,8 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 @APIModel
 public class HttpConfigSDO extends AbstractSDO {
 
+	private static final long serialVersionUID = 1L;
+
 	@APIFields(description = "캐쉬 아이디")
 	private String cacheId;
 
@@ -63,12 +65,14 @@ public class HttpConfigSDO extends AbstractSDO {
 	@APIFields(description = "http interface restfufl api uri", required=false)
 	private String restURI;
 
+	@APIFields(description = "interface receiver restfufl api uri", required=false)
+	private String receiverRestURI;
+	
 	@APIFields(description = "HTTP 요청 파라메터 송신 여부")
 	private boolean isDoOutput;
 	
 	@APIFields(description = "HTTP 응답 결과 수신 여부")
 	private boolean isDoInput;
-	
 	
 	@APIFields(description = "http connection timeout")
 	private Integer connTimeout;
@@ -103,6 +107,10 @@ public class HttpConfigSDO extends AbstractSDO {
 	@APIFields(description = "HTTP 인터페이스 호출 회수")
 	private Integer callCount;
 	
+	@APIFields(description = "HTTP 시그니처 생성 여부")
+	private boolean isEzwelInsideInterface;
+	
+	
 	public HttpConfigSDO() {
 		this.reset();
 	}
@@ -115,6 +123,7 @@ public class HttpConfigSDO extends AbstractSDO {
 		isDoOutput = true;
 		isDoInput = true;
 		restURI = null;
+		receiverRestURI = null;
 		connTimeout = 3000;
 		readTimeout = 3000;
 		requestProperty = null;
@@ -135,6 +144,7 @@ public class HttpConfigSDO extends AbstractSDO {
 		description = null;
 		lapTimeMillis = OperateConstants.LONG_ZERO_VALUE;
 		callCount = OperateConstants.INTEGER_ZERO_VALUE;
+		isEzwelInsideInterface = false;
 	}
 	
 	
@@ -205,6 +215,15 @@ public class HttpConfigSDO extends AbstractSDO {
 	@XmlElement
 	public void setRestURI(String restURI) {
 		this.restURI = restURI;
+	}
+	
+	public String getReceiverRestURI() {
+		return receiverRestURI;
+	}
+
+	@XmlElement
+	public void setReceiverRestURI(String receiverRestURI) {
+		this.receiverRestURI = receiverRestURI;
 	}
 	
 	public Integer getConnTimeout() {
@@ -373,6 +392,13 @@ public class HttpConfigSDO extends AbstractSDO {
 	public void setCallCount(Integer callCount) {
 		this.callCount = callCount;
 	}
-	
-	
+
+	public boolean isEzwelInsideInterface() {
+		return isEzwelInsideInterface;
+	}
+
+	public void setEzwelInsideInterface(boolean isEzwelInsideInterface) {
+		this.isEzwelInsideInterface = isEzwelInsideInterface;
+	}
+
 }

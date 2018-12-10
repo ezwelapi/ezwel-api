@@ -1,5 +1,6 @@
 package com.ezwel.htl.interfaces.commons.constants;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
+import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
 /**
@@ -118,6 +121,8 @@ public class OperateConstants {
 	public static final String USER_LANGUAGE = APIUtil.getProperty("user.language");
 	
 	static {
+
+		
 		STR_EMPTY = "EMPTY";
 		CURRENT_DEV_SERVER = "DEV-SERVER";
 		CURRENT_PROD_SERVER = "PROD-SERVER";
@@ -212,6 +217,5 @@ public class OperateConstants {
 		/** ORACLE, IBM JDK 존재함, HP JDK 에서 존재하지 않음 */
 		USER_DIR = APIUtil.getProperty("user.dir");
 		FILE_ENCODING = APIUtil.getProperty("file.encoding");
-
 	}
 }

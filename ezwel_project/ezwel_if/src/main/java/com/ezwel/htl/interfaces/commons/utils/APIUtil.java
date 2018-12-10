@@ -29,6 +29,7 @@ import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 
@@ -331,20 +332,19 @@ public class APIUtil {
      * @since  2018. 11. 14.
      */
 	@APIOperation(description="문자열의 바이트를 리턴합니다.", isExecTest=true)
-    public int getBytesLength(String str, String encoding) {
+    public int getBytesLength(String userSentence, String userEncoding) {
     	
     	int out = 0;
     	byte[] byteString = null;
-    	String strEncoding = null;
-    	if( APIUtil.isNotEmpty(encoding) ) {
-    		strEncoding = encoding;
-    	}
-    	else {
-    		strEncoding = OperateConstants.FILE_ENCODING;
+    	String encoding = userEncoding;
+    	String sentence = userSentence;
+    	
+    	if( APIUtil.isEmpty(encoding) ) {
+    		encoding = OperateConstants.DEFAULT_ENCODING;
     	}
     	
     	try {
-    		byteString = str.getBytes(strEncoding);
+    		byteString = sentence.getBytes(encoding);
     		out = byteString.length;
     	} catch (UnsupportedEncodingException e) {
 			throw new APIException("지원하지 않는 인코딩", e);
@@ -576,6 +576,75 @@ public class APIUtil {
 		} 
 
 		return local;
+	}
+
+	
+	@APIOperation(description="서버 IP 대역")
+	public static String getServerAddress() {
+		String out = null;
+		String prodServerIpRange = InterfaceFactory.getServerAddress().getProdServerIpRange(); 
+		String devServerIpRange = InterfaceFactory.getServerAddress().getDevServerIpRange();
+		
+		//운영서버인지 IP대역 확인
+		if(APIUtil.isNotEmpty(prodServerIpRange)) {
+			
+			if(prodServerIpRange.endsWith(".*")) {
+				prodServerIpRange = prodServerIpRange.substring(0, prodServerIpRange.indexOf(".*"));
+				
+				if(InterfaceFactory.LOCAL_HOST_ADDRESS.startsWith(prodServerIpRange)) {
+					out = OperateConstants.CURRENT_PROD_SERVER;
+				}
+			}
+			else if(InterfaceFactory.LOCAL_HOST_ADDRESS.equals(prodServerIpRange)) {
+				out = OperateConstants.CURRENT_PROD_SERVER;
+			}
+		}
+		
+		//운영서버가 아니면 개발서버 IP대역에서 확인
+		if(out == null && APIUtil.isNotEmpty(devServerIpRange)) {
+			
+			if(devServerIpRange.endsWith(".*")) {
+				devServerIpRange = devServerIpRange.substring(0, devServerIpRange.indexOf(".*"));
+				
+				if(InterfaceFactory.LOCAL_HOST_ADDRESS.startsWith(devServerIpRange)) {
+					out = OperateConstants.CURRENT_DEV_SERVER;
+				}
+			}
+			else if(InterfaceFactory.LOCAL_HOST_ADDRESS.equals(devServerIpRange)) {
+				out = OperateConstants.CURRENT_DEV_SERVER;
+			}
+		}
+		
+		//운영/개발 서버가 모두 아니면 개발자 PC
+		if(out == null) {
+			out = OperateConstants.CURRENT_PC_SERVER;
+		}
+
+		return out;
+	}
+	
+	
+	@APIOperation(description="서버별 이미지 저장루트 디렉토리를 바인드된 이미지 상대경로앞에 붙여 리턴하여줌")
+	public static String getImageCanonicalPath(String userRelativePath) {
+		String imageRootPath = InterfaceFactory.getImageRootPath();
+		String relativePath = userRelativePath;
+		return imageRootPath.concat(File.separator).concat(relativePath);
+	}	
+	
+	@APIOperation
+	public static String getFirstCharLowerCase(String strWord) {
+		
+		String out = null;
+		
+		String word = NVL(strWord, "").trim();
+		if(word.length() > 1) {
+			out = word.substring(0,1).toLowerCase() + word.substring(1);
+		}
+		else {
+			out = word.toLowerCase();
+		}
+		
+		return out;
 	}
 	
 }

@@ -73,11 +73,11 @@ public class OutsideController {
 	
 	@APIOperation(description="시설검색 인터페이스", isOutputJsonMarshall=true, returnType=FaclSearchOutSDO.class)
 	@RequestMapping(value="/service/callFaclSearch")
-	public Object callFaclSearch(UserAgentSDO userAgentDTO, FaclSearchInSDO faclSearchDTO) {
+	public Object callFaclSearch(UserAgentSDO userAgentSDO, FaclSearchInSDO faclSearchSDO) {
 		
 		FaclSearchOutSDO out = null;
 
-		out = outsideService.callFaclSearch(userAgentDTO, faclSearchDTO);
+		out = outsideService.callFaclSearch(userAgentSDO, faclSearchSDO);
 
 		return out;
 	}
@@ -85,11 +85,11 @@ public class OutsideController {
 
 	@APIOperation(description="당일특가검색 인터페이스", isOutputJsonMarshall=true, returnType=SddSearchOutSDO.class)
 	@RequestMapping(value="/service/callSddSearch")
-	public Object callSddSearch(UserAgentSDO userAgentDTO) {
+	public Object callSddSearch(UserAgentSDO userAgentSDO) {
 		
 		SddSearchOutSDO out = null;
 
-		out = outsideService.callSddSearch(userAgentDTO);
+		out = outsideService.callSddSearch(userAgentSDO);
 		
 		return out;
 	}
@@ -99,78 +99,64 @@ public class OutsideController {
 	 **************************************/
 	
 	@RequestMapping(value="/service/callRoomRead")
-	@APIOperation(description="객실정보조회 인터페이스", returnType=RoomReadOutSDO.class)
-	public Object callRoomRead(UserAgentSDO userAgentDTO, RoomReadInSDO roomReadDTO) {
+	@APIOperation(description="객실정보조회 인터페이스", isOutputJsonMarshall=true, returnType=RoomReadOutSDO.class)
+	public Object callRoomRead(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
 		
-		RoomReadOutSDO out = null;
-
-		out = outsideIFService.callRoomRead(userAgentDTO, roomReadDTO);
+		RoomReadOutSDO out = outsideIFService.callRoomRead(userAgentSDO, roomReadSDO);
 					
 		return out;		
 	}
 	
 	@RequestMapping(value="/service/callCancelFeePsrc")
-	@APIOperation(description="취소수수규정 인터페이스", returnType=CancelFeePsrcOutSDO.class)
-	public Object callCancelFeePsrc(UserAgentSDO userAgentDTO, CancelFeePsrcInSDO cancelFeePsrcDTO) {
+	@APIOperation(description="취소수수규정 인터페이스", isOutputJsonMarshall=true, returnType=CancelFeePsrcOutSDO.class)
+	public Object callCancelFeePsrc(UserAgentSDO userAgentSDO, CancelFeePsrcInSDO cancelFeePsrcSDO) {
 		
-		CancelFeePsrcOutSDO out = null;
-		
-		out = outsideIFService.callCancelFeePsrc(userAgentDTO, cancelFeePsrcDTO);
+		CancelFeePsrcOutSDO out = outsideIFService.callCancelFeePsrc(userAgentSDO, cancelFeePsrcSDO);
 		
 		return out;		
 	}
 	
 	@RequestMapping(value="/service/callRsvHistSend")
-	@APIOperation(description="결재완료내역전송 인터페이스", returnType=RsvHistSendOutSDO.class)
-	public Object callRsvHistSend(UserAgentSDO userAgentDTO, RsvHistSendInSDO rsvHistSendDTO) {
+	@APIOperation(description="결재완료내역전송 인터페이스", isOutputJsonMarshall=true, returnType=RsvHistSendOutSDO.class)
+	public Object callRsvHistSend(UserAgentSDO userAgentSDO, RsvHistSendInSDO rsvHistSendSDO) {
 		
-		RsvHistSendOutSDO out = null;
-		
-		out = outsideIFService.callRsvHistSend(userAgentDTO, rsvHistSendDTO);
+		RsvHistSendOutSDO out = outsideIFService.callRsvHistSend(userAgentSDO, rsvHistSendSDO);
 		
 		return out;
 	}
 	
 	@RequestMapping(value="/service/callCancelFeeAmt")
-	@APIOperation(description="취소수수료계산 인터페이스", returnType=CancelFeeAmtOutSDO.class)
-	public Object callCancelFeeAmt(UserAgentSDO userAgentDTO, CancelFeeAmtInSDO cancelFeeAmtDTO) {
+	@APIOperation(description="취소수수료계산 인터페이스", isOutputJsonMarshall=true, returnType=CancelFeeAmtOutSDO.class)
+	public Object callCancelFeeAmt(UserAgentSDO userAgentSDO, CancelFeeAmtInSDO cancelFeeAmtSDO) {
 		
-		CancelFeeAmtOutSDO out = null;
-		
-		out = outsideIFService.callCancelFeeAmt(userAgentDTO, cancelFeeAmtDTO);
+		CancelFeeAmtOutSDO out = outsideIFService.callCancelFeeAmt(userAgentSDO, cancelFeeAmtSDO);
 		
 		return out;
 	}
 	
 	@RequestMapping(value="/service/callOrderCancelReq")
-	@APIOperation(description="주문취소요청 인터페이스", returnType=OrderCancelReqOutSDO.class)
-	public Object callOrderCancelReq(UserAgentSDO userAgentDTO, OrderCancelReqInSDO orderCancelReqDTO) {
+	@APIOperation(description="주문취소요청 인터페이스", isOutputJsonMarshall=true, returnType=OrderCancelReqOutSDO.class)
+	public Object callOrderCancelReq(UserAgentSDO userAgentSDO, OrderCancelReqInSDO orderCancelReqSDO) {
 		
-		OrderCancelReqOutSDO out = null;
-		
-		out = outsideIFService.callOrderCancelReq(userAgentDTO, orderCancelReqDTO);
+		OrderCancelReqOutSDO out = outsideIFService.callOrderCancelReq(userAgentSDO, orderCancelReqSDO);
 		
 		return out;
 	}
 
 	@RequestMapping(value="/service/callOmiNumIdn")
-	@APIOperation(description="누락건확인 인터페이스", returnType=OmiNumIdnOutSDO.class)
-	public Object callOmiNumIdn(UserAgentSDO userAgentDTO, OmiNumIdnInSDO omiNumIdnDTO) {
+	@APIOperation(description="누락건확인 인터페이스", isOutputJsonMarshall=true, returnType=OmiNumIdnOutSDO.class)
+	public Object callOmiNumIdn(UserAgentSDO userAgentSDO, OmiNumIdnInSDO omiNumIdnSDO) {
 		
-		OmiNumIdnOutSDO out = null;
-		
-		out = outsideIFService.callOmiNumIdn(userAgentDTO, omiNumIdnDTO);
+		OmiNumIdnOutSDO out = outsideIFService.callOmiNumIdn(userAgentSDO, omiNumIdnSDO);
 		
 		return out;
 	}
 
 	@RequestMapping(value="/service/callEzwelJob")
-	@APIOperation(description="주문대사(이지웰) 인터페이스", returnType=EzwelJobOutSDO.class)
-	public Object callEzwelJob(UserAgentSDO userAgentDTO, EzwelJobInSDO ezwelJobDTO) {
+	@APIOperation(description="주문대사(이지웰) 인터페이스", isOutputJsonMarshall=true, returnType=EzwelJobOutSDO.class)
+	public Object callEzwelJob(UserAgentSDO userAgentSDO, EzwelJobInSDO ezwelJobSDO) {
 		
-		EzwelJobOutSDO out = null;
-		
-		out = outsideIFService.callEzwelJob(userAgentDTO, ezwelJobDTO);
+		EzwelJobOutSDO out = outsideIFService.callEzwelJob(userAgentSDO, ezwelJobSDO);
 		
 		return out;
 	}	

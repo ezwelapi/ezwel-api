@@ -107,8 +107,6 @@ public class EzcFaclImg extends AbstractEntity {
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
 	}
-
-	
 	
 	public String getPartnerImgUrl() {
 		return partnerImgUrl;

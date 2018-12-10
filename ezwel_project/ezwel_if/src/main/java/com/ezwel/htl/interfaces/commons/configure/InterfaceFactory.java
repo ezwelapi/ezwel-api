@@ -56,6 +56,9 @@ public class InterfaceFactory {
 	public final static String LOCAL_HOST_ADDRESS; 
 	public final static String LOCAL_HOST_NAME;
 	public final static String LOCAL_CANONICAL_HOST_NAME;
+
+	private static String imageRootPath;
+	private static String serverHttpDomainURI;
 	
 	static {
 		interfaceChannels = new LinkedHashMap<String, List<HttpConfigSDO>>();
@@ -118,6 +121,17 @@ public class InterfaceFactory {
 		return out;
 	}
 	
+	
+	
+	
+	public static String getImageRootPath() {
+		return imageRootPath;
+	}
+
+	public static String getServerHttpDomainURI() {
+		return serverHttpDomainURI;
+	}
+
 	public static ServerAddressConfig getServerAddress() {
 		return serverAddress;
 	}
@@ -235,6 +249,43 @@ public class InterfaceFactory {
 					logger.debug("# fileRepository : {}", InterfaceFactory.fileRepository);
 					logger.debug("# Real Cached Size : {}", interfaceChannels.size());
 					//logger.debug("# interfaceChannels : {}", interfaceChannels);
+					
+					
+					/**
+					 * 초기화 서버 별 이미지 경로 & 도메인 URI 세팅 
+					 */
+					String imageRootPath = null;
+					String serverHttpDomainUri = null;
+					
+					if(APIUtil.getServerAddress() == null) {
+						throw new APIException("인터페이스 환경파일에 설정된 개발 또는 운영서버의 IP또는 IP대역과 현제 서버의 IP가 일치하지 않습니다.");
+					}
+					else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_PROD_SERVER)) {
+						// prod server
+						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getProdRootPath();
+						serverHttpDomainUri = InterfaceFactory.getServerAddress().getProdServerDomain();
+					}
+					else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_DEV_SERVER)) {
+						// dev server
+						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getDevRootPath();
+						serverHttpDomainUri = InterfaceFactory.getServerAddress().getDevServerDomain();
+					}
+					else {
+						// developer local pc server
+						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getLocalRootPath();
+						serverHttpDomainUri = InterfaceFactory.getServerAddress().getDevServerDomain();
+					}
+					
+					if(imageRootPath.endsWith(File.separator)) {
+						imageRootPath = imageRootPath.substring(0, imageRootPath.lastIndexOf(File.separator));
+					}
+					else if(imageRootPath.endsWith(OperateConstants.STR_SLASH)) {
+						// 동작 머신의 OS가 윈도우일때 /로 세팅된 경우
+						imageRootPath = imageRootPath.substring(0, imageRootPath.lastIndexOf(OperateConstants.STR_SLASH));
+					}
+					
+					InterfaceFactory.imageRootPath = imageRootPath;
+					InterfaceFactory.serverHttpDomainURI = serverHttpDomainUri;
 					
 				}
 			}

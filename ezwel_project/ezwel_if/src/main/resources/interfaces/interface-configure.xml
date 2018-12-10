@@ -2,8 +2,10 @@
 <interfaceConfigure>
 
 	<serverAddress>
-		<devServerIpRange>192.168.110.83</devServerIpRange>
 		<prodServerIpRange>xxx.xxx.xxx.*</prodServerIpRange>
+		<prodServerDomain>http://ezc-api.ezwel.com/API1.0</prodServerDomain>
+		<devServerIpRange>192.168.110.83</devServerIpRange>
+		<devServerDomain>http://ezc-api.dev.ezwel.com/API1.0</devServerDomain>
 	</serverAddress>
 
 	<agentList>
@@ -150,7 +152,7 @@
 		<httpChan>
 			<chanId>allReg-10030653</chanId>
 			<description>우리펜션(옐로트래블랩스) (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allRegWoori</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -256,6 +258,7 @@
 			<description>객실정보조회</description>
 			<chanId>roomRead</chanId>
 			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/RoomInfoRQ.ashx</restURI>
+			<receiverRestURI>/service/callRoomRead</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -264,6 +267,7 @@
 			<chanId>cancelFeePsrc</chanId>
 			<description>취소수수규정</description>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/cancelFeePsrc</restURI>
+			<receiverRestURI>/service/callCancelFeePsrc</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -272,6 +276,7 @@
 			<chanId>rsvHistSend</chanId>
 			<description>결재완료내역전송</description>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/rsvHistSend</restURI>
+			<receiverRestURI>/service/callRsvHistSend</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -280,6 +285,7 @@
 			<chanId>cancelFeeAmt</chanId>
 			<description>취소수수료계산</description>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/cancelFeeAmt</restURI>
+			<receiverRestURI>/service/callCancelFeeAmt</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -288,6 +294,7 @@
 			<chanId>orderCancelReq</chanId>
 			<description>주문취소요청</description>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/orderCancelReq</restURI>
+			<receiverRestURI>/service/callOrderCancelReq</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -296,14 +303,16 @@
 			<chanId>omiNumIdn</chanId>
 			<description>누락건확인</description>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/omiNumIdn</restURI>
+			<receiverRestURI>/service/callOmiNumIdn</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
-		</httpChan>	
+		</httpChan>
 		<httpChan>
 			<chanId>ezwelJob</chanId>
 			<description>주문대사(이지웰)</description>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/ezwelJob</restURI>
+			<receiverRestURI>/service/callEzwelJob</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -318,4 +327,6 @@
 		</buildImage>
 	</fileRepository>
 	
+
+		
 </interfaceConfigure>
