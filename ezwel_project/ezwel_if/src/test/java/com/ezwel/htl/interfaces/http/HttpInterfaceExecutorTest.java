@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ezwel.htl.interfaces.adapter.OutsideIFAdapter;
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
@@ -22,6 +21,8 @@ import com.ezwel.htl.interfaces.http.dto.InputDTOSub02;
 import com.ezwel.htl.interfaces.http.dto.OutputDTO;
 import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInSDO;
+import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtOutSDO;
+import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 
 
@@ -55,16 +56,30 @@ public class HttpInterfaceExecutorTest  {
 	@Test
 	public void receiveInsideInterfaceTest() {
 		
-		OutsideIFAdapter ifAdapter = new OutsideIFAdapter();
+		InterfaceDemoService service = new InterfaceDemoService();
 		
-		UserAgentSDO userAgentSDO = new UserAgentSDO(); 
-		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
+		RoomReadOutSDO roomReadOutSDO = service.callRoomRead();
+		
+		logger.debug("[roomReadOutSDO]");
+		logger.debug("Code : {}", roomReadOutSDO.getCode());
+		logger.debug("Message : {}", roomReadOutSDO.getMessage());
+		logger.debug("Data : {}", roomReadOutSDO.getData());
 		
 		
+		CancelFeePsrcOutSDO cancelFeePsrcOutSDO = service.callCancelFeePsrc();
+		
+		logger.debug("[roomReadOutSDO]");
+		logger.debug("Code : {}", cancelFeePsrcOutSDO.getCode());
+		logger.debug("Message : {}", cancelFeePsrcOutSDO.getMessage());
+		logger.debug("Data : {}", cancelFeePsrcOutSDO.getData());
 		
 		
-		
-		ifAdapter.callRoomRead(userAgentSDO, roomReadSDO);
+		CancelFeeAmtOutSDO cancelFeeAmtOutSDO = service.callCancelFeeAmt();
+
+		logger.debug("[cancelFeeAmtOutSDO]");
+		logger.debug("Code : {}", cancelFeeAmtOutSDO.getCode());
+		logger.debug("Message : {}", cancelFeeAmtOutSDO.getMessage());
+		logger.debug("Data : {}", cancelFeeAmtOutSDO.getData());
 	}
 	
 	

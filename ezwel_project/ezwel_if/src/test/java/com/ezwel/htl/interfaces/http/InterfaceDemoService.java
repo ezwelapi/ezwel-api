@@ -1,18 +1,18 @@
-package com.ezwel.interfaces.demo;
+package com.ezwel.htl.interfaces.http;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ezwel.htl.interfaces.adapter.OutsideIFAdapter;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
-import com.ezwel.htl.interfaces.server.service.OutsideService;
-import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
+import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtOutSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcInSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
+import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendInSDO;
+import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendOutSDO;
 
 /**
  * <pre>
@@ -25,42 +25,23 @@ public class InterfaceDemoService {
 
 	private static final Logger logger = LoggerFactory.getLogger(InterfaceDemoService.class);
 	
-	private OutsideIFAdapter outIfService; // if
-	private OutsideService outIfServerService;  // if_server
+	private OutsideIFService outIfService; 
 	
 	public InterfaceDemoService() {
-		outIfService = new OutsideIFAdapter();
-		outIfServerService = new OutsideService();
+		outIfService = new OutsideIFService();
 	}
 	
-	public AllRegOutSDO callAllReg() {		
-		logger.debug("[START] callAllReg");
-		
-		UserAgentSDO userAgentDTO = new UserAgentSDO();
-		
-		//User agent set
-		userAgentDTO.setHttpAgentType("httpAgentType-sample");
-		userAgentDTO.setHttpChannelCd("httpChannelCd-sample");
-		userAgentDTO.setHttpClientId("httpClientId-sample");
-		userAgentDTO.setHttpRequestId("httpRequestId-sample");
-		
-		//interface api call
-		AllRegOutSDO out = outIfServerService.callAllReg(userAgentDTO);
-		
-		logger.debug("[END] callAllReg");
-		return out;
-	}	
 
 	public CancelFeePsrcOutSDO callCancelFeePsrc() {
 		logger.debug("[START] callCancelFeePsrc");
 		
-		UserAgentSDO userAgentDTO = new UserAgentSDO();
+		UserAgentSDO userAgentSDO = new UserAgentSDO();
 		//펜션라이프_플레이스엠
-		userAgentDTO.setHttpAgentId("10000496");
-		userAgentDTO.setHttpAgentType("httpAgentType-sample");
-		userAgentDTO.setHttpChannelCd("httpChannelCd-sample");
-		userAgentDTO.setHttpClientId("httpClientId-sample");
-		userAgentDTO.setHttpRequestId("httpRequestId-sample");
+		userAgentSDO.setHttpAgentId("10000496");
+		userAgentSDO.setHttpAgentType("httpAgentType-sample");
+		userAgentSDO.setHttpChannelCd("httpChannelCd-sample");
+		userAgentSDO.setHttpClientId("httpClientId-sample");
+		userAgentSDO.setHttpRequestId("httpRequestId-sample");
 		
 		//Input parameter
 		CancelFeePsrcInSDO sdo = new CancelFeePsrcInSDO();
@@ -73,7 +54,7 @@ public class InterfaceDemoService {
 		sdo.setRoomCnt(1);
 		
 		//interface api call
-		CancelFeePsrcOutSDO out = outIfService.callCancelFeePsrc(userAgentDTO, sdo);
+		CancelFeePsrcOutSDO out = outIfService.callCancelFeePsrc(userAgentSDO, sdo);
 		
 		logger.debug("[END] callCancelFeePsrc");
 		return out;
@@ -82,13 +63,13 @@ public class InterfaceDemoService {
 	public CancelFeeAmtOutSDO callCancelFeeAmt() {
 		logger.debug("[START] callCancelFeeAmt");
 		
-		UserAgentSDO userAgentDTO = new UserAgentSDO();
+		UserAgentSDO userAgentSDO = new UserAgentSDO();
 		//펜션라이프_플레이스엠
-		userAgentDTO.setHttpAgentId("10000496");
-		userAgentDTO.setHttpAgentType("httpAgentType-sample");
-		userAgentDTO.setHttpChannelCd("httpChannelCd-sample");
-		userAgentDTO.setHttpClientId("httpClientId-sample");
-		userAgentDTO.setHttpRequestId("httpRequestId-sample");
+		userAgentSDO.setHttpAgentId("10000496");
+		userAgentSDO.setHttpAgentType("httpAgentType-sample");
+		userAgentSDO.setHttpChannelCd("httpChannelCd-sample");
+		userAgentSDO.setHttpClientId("httpClientId-sample");
+		userAgentSDO.setHttpRequestId("httpRequestId-sample");
 		
 		//Input parameter
 		CancelFeeAmtInSDO sdo = new CancelFeeAmtInSDO();
@@ -97,7 +78,7 @@ public class InterfaceDemoService {
 		sdo.setRsvNo("rsv-no");
 		
 		//interface api call
-		CancelFeeAmtOutSDO out = outIfService.callCancelFeeAmt(userAgentDTO, sdo);
+		CancelFeeAmtOutSDO out = outIfService.callCancelFeeAmt(userAgentSDO, sdo);
 		
 		logger.debug("[END] callCancelFeeAmt");
 		return out;
@@ -106,13 +87,13 @@ public class InterfaceDemoService {
 	public RoomReadOutSDO callRoomRead() {		
 		logger.debug("[START] callRoomRead");
 		
-		UserAgentSDO userAgentDTO = new UserAgentSDO();
+		UserAgentSDO userAgentSDO = new UserAgentSDO();
 		//펜션라이프_플레이스엠
-		userAgentDTO.setHttpAgentId("10000496");
-		userAgentDTO.setHttpAgentType("httpAgentType-sample");
-		userAgentDTO.setHttpChannelCd("httpChannelCd-sample");
-		userAgentDTO.setHttpClientId("httpClientId-sample");
-		userAgentDTO.setHttpRequestId("httpRequestId-sample");
+		userAgentSDO.setHttpAgentId("10000496");
+		userAgentSDO.setHttpAgentType("httpAgentType-sample");
+		userAgentSDO.setHttpChannelCd("httpChannelCd-sample");
+		userAgentSDO.setHttpClientId("httpClientId-sample");
+		userAgentSDO.setHttpRequestId("httpRequestId-sample");
 		
 		//Input parameter
 		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
@@ -127,27 +108,27 @@ public class InterfaceDemoService {
 		roomReadSDO.setChildCnt(1);
 		
 		//interface api call
-		RoomReadOutSDO out = outIfService.callRoomRead(userAgentDTO, roomReadSDO);
+		RoomReadOutSDO out = outIfService.callRoomRead(userAgentSDO, roomReadSDO);
 		
 		logger.debug("[END] callRoomRead");
 		return out;
 	}
 	
-	/*public RsvHistSendOutSDO callRsvHistSend() {		
+	public RsvHistSendOutSDO callRsvHistSend() {		
 		logger.debug("[START] callRsvHistSend");
 		
-		UserAgentDTO userAgentDTO = new UserAgentDTO();
+		UserAgentSDO userAgentSDO = new UserAgentSDO();
 		
 		//
-		userAgentDTO.setHttpAgentId("10000496");
-		userAgentDTO.setHttpAgentType("httpAgentType-sample");
-		userAgentDTO.setHttpChannelCd("httpChannelCd-sample");
-		userAgentDTO.setHttpClientId("httpClientId-sample");
-		userAgentDTO.setHttpRequestId("httpRequestId-sample");
+		userAgentSDO.setHttpAgentId("10000496");
+		userAgentSDO.setHttpAgentType("httpAgentType-sample");
+		userAgentSDO.setHttpChannelCd("httpChannelCd-sample");
+		userAgentSDO.setHttpClientId("httpClientId-sample");
+		userAgentSDO.setHttpRequestId("httpRequestId-sample");
 		
 		//Input parameter
 		RsvHistSendInSDO sdo = new RsvHistSendInSDO();
-		
+		/*
 		sdo.setRsvNo("123456789");		
 		sdo.setRsvDatetime("20181113152332");
 		sdo.setRsvPrice(200000);
@@ -171,12 +152,12 @@ public class InterfaceDemoService {
 		sdo.setUserCmt("전망 좋은 방으로 요청 드립니다");
 		sdo.setAdultCnt(2);
 		sdo.setChildCnt(1);
-		
+		*/
 		//interface api call
-		RsvHistSendOutSDO out = service.callRsvHistSend(userAgentDTO, rsvHistSendSDO);
+		RsvHistSendOutSDO out = outIfService.callRsvHistSend(userAgentSDO, sdo);
 		
 		logger.debug("[END] callRsvHistSend");
 		return out;
-	}*/
+	}
 	
 }
