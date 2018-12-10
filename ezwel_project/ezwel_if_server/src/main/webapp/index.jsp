@@ -136,13 +136,20 @@ var testAssets = {
 		"OUT-객실정보조회 인터페이스" : {
 			 url : "/service/callRoomRead"
 			,input : {
-				"httpAgentId": "",
+				"httpAgentId": "10055550",
 				"httpAgentType": "TEST VALUE",
 				"httpChannelCd": "TEST VALUE",
 				"httpClientId": "TEST VALUE",
 				"httpRequestId": "TEST VALUE",
 				"connTimeout": 1000,
-				"readTimeout": 100000
+				"readTimeout": 100000,
+				"otaId": "10055550",
+				"pdtNo": "KRANA002",
+				"checkInDate": "20190101",
+				"checkOutDate": "20190102",
+				"roomCnt": 1,
+				"adultCnt": 2,
+				"childCnt": 0
 				/* 실제 입력 필드 추가 */
 			}
 		},
