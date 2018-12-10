@@ -58,6 +58,14 @@ public class ParamValidate {
 	
 	private static final boolean IS_LOGGING = false;
 	
+	public static final List<String> PASS_FIELDS;  
+	
+	
+	static {
+		PASS_FIELDS = new ArrayList<String>();
+		PASS_FIELDS.add("serialVersionUID");
+	}
+	
 	public ParamValidate(){
 		this.reset();
 	}

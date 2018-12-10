@@ -40,6 +40,7 @@ import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
+import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
 
 
 
@@ -458,6 +459,11 @@ public class HttpInterfaceExecutorService {
 			field = request.getClass().getDeclaredFields();
 			
 			for(Field item : field) {
+				
+				if(ParamValidate.PASS_FIELDS.contains(item.getName())) {
+					continue;
+				}
+				
 				item.setAccessible(true);
 				fieldAnno = item.getAnnotation(APIFields.class);
 			
