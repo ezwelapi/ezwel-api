@@ -389,7 +389,7 @@ public class CommonUtil {
 				lowerImageURL = imageSDO.getImageURL().toLowerCase();
 				
 				if(lowerImageURL.startsWith(OperateConstants.DATA_IMAGE_PREFIX) && lowerImageURL.contains(OperateConstants.STR_BASE64)) {
-					logger.warn("- base64 data:image 제휴사에서 데이터 이미지URL을 리턴할경우 추가작업 현재(20181129) 전용필차장과 의논해본결과 리턴URL 패턴 파악이 불가능함");
+					logger.warn("- base64 data:image 제휴사에서 이미지URL을 데이터:이미지 base64 URL로 리턴할경우 추가작업 필요. 현재(20181129) 전용필차장과 의논해본결과 리턴URL 패턴 파악이 불가능하다고함.");
 				}
 				else if(lowerImageURL.startsWith("http")) {
 					

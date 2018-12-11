@@ -38,7 +38,6 @@ import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
 import com.ezwel.htl.interfaces.server.repository.CommonRepository;
 import com.ezwel.htl.interfaces.server.repository.OutsideRepository;
-import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegSubImagesOutSDO;
@@ -64,6 +63,8 @@ public class OutsideService extends AbstractServiceObject {
 	private ConfigureHelper configureHelper;
 	
 	private OutsideRepository outsideRepository;
+	
+	private DownloadService downloadService;
 	
 	/** 제휴사 별 시설 정보 transaction commit 건수 */
 	private static final Integer FACL_REG_DATA_TX_COUNT = 50;
@@ -159,6 +160,7 @@ public class OutsideService extends AbstractServiceObject {
 		Integer nextIndex = null;
 		ImageSDO imageSDO = null;
 		List<String> ezcFaclAmentArrays = null;
+		List<ImageSDO> imageList = null;
 		
 		try {
 			/**
@@ -232,7 +234,9 @@ public class OutsideService extends AbstractServiceObject {
 						if(faclData.getSubImages() != null) {
 							
 							//시설 이미지 DB 엔티티
-							ezcFaclImgList = new ArrayList<EzcFaclImg>();					
+							ezcFaclImgList = new ArrayList<EzcFaclImg>();
+							imageList = new ArrayList<ImageSDO>();
+							
 							for(AllRegSubImagesOutSDO subImages : faclData.getSubImages()) {
 								ezcFaclImg = new EzcFaclImg();
 								//ezcFaclImg.setFaclCd(faclCd); sequnce
@@ -254,7 +258,8 @@ public class OutsideService extends AbstractServiceObject {
 									imageSDO.setImageURL(subImages.getImage());
 									imageSDO = commonUtil.getSaveImagePath(imageSDO, true);
 									// 이미지 저장경로 루트를 제외한 하위경로로 세팅 ( 월요일에 작업 )
-									ezcFaclImg.setImgUrl( APIUtil.NVL(imageSDO.getRelativePath(), "Image Not Found") );
+									ezcFaclImg.setImgUrl( APIUtil.NVL(imageSDO.getRelativePath(), MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_9400)) );
+									imageList.add(imageSDO);
 								}
 								
 								ezcFaclImgList.add(ezcFaclImg);
@@ -284,6 +289,8 @@ public class OutsideService extends AbstractServiceObject {
 					
 					/** 제휴사 별 시설 데이터 입력 실행 */
 					txCount = insertFaclRegData(ezcFaclList, 0, 0);
+					/** 제휴사 별 별도 멀티쓰레드 이미지 다운로드 실행 */
+					downloadService.downloadMultiImage(imageList);
 					/** 저장 개수가 존재하면 */
 					if(txCount > 0) {
 						if(allFacl.getData() == null) {
@@ -308,6 +315,9 @@ public class OutsideService extends AbstractServiceObject {
 			
 			if(allReg != null && allReg.getData() != null) {
 				allReg.getData().clear();
+			}
+			if(imageList != null) {
+				imageList.clear();
 			}
 		}
 		

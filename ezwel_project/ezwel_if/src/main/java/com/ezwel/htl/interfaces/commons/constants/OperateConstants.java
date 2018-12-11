@@ -1,6 +1,5 @@
 package com.ezwel.htl.interfaces.commons.constants;
 
-import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
-import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
 /**
