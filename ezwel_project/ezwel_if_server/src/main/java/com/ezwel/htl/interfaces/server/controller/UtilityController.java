@@ -82,7 +82,11 @@ public class UtilityController {
 		CharTermAttribute termAtt = null;
 		List<String> morphemeList = new ArrayList<String>();
 		for(String input : morphemeSDO.getSentenceList()) {
-		
+			
+			if(APIUtil.isEmpty(input)) {
+				continue;
+			}
+			
 			actual = new StringBuilder();
 			try {
 				

@@ -252,7 +252,7 @@ public class OutsideService extends AbstractServiceObject {
 									imageSDO = new ImageSDO();
 									imageSDO.setPathPrefix(new StringBuffer().append(ezcFacl.getPartnerCd()).append(File.separator).append(ezcFacl.getCityCd()).toString());
 									imageSDO.setImageURL(subImages.getImage());
-									imageSDO = commonUtil.getImageDownload(imageSDO, true);
+									imageSDO = commonUtil.getSaveImagePath(imageSDO, true);
 									// 이미지 저장경로 루트를 제외한 하위경로로 세팅 ( 월요일에 작업 )
 									ezcFaclImg.setImgUrl( APIUtil.NVL(imageSDO.getRelativePath(), "Image Not Found") );
 								}

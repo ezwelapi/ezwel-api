@@ -1,5 +1,8 @@
 package ezwel_if_server.test;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
+import com.ezwel.htl.interfaces.server.commons.utils.UnicodeUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.data.ImageSDO;
 
 public class UtilTest {
@@ -21,7 +25,7 @@ public class UtilTest {
 	}
 	*/
 	
-	@Test
+	//@Test
 	public void test() {
 		
 		List<Integer> ezcFacls = new ArrayList<Integer>();
@@ -69,4 +73,25 @@ public class UtilTest {
 		ImageSDO out = comm.getImageDownload(imageSDO, true);
 		logger.debug("ImageSDO out : {}", out);
 	}
+	
+	
+
+
+    //@Test
+    public void unicodeTest() throws Exception {
+    	
+        String str = UnicodeUtil.encode("한 글");
+        System.out.println(str);
+        System.out.println(UnicodeUtil.decode("\u3141 \uc785\uc2e4 \ubc0f \ud1f4\uc2e4\uc2dc\uac04\uc740 \ubc18\ub4dc\uc2dc \uc9c0\ucf1c\uc8fc\uc138\uc694."));
+    }
+
+    @Test
+    public void urlTest() {
+    	
+    	CommonUtil common = new CommonUtil();
+    	
+    	logger.debug( "common : {}" , common.isValidURL("http://naver.com"));
+    	
+    	
+    }
 }

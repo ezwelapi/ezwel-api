@@ -262,6 +262,36 @@ var testAssets = {
 				 "agentName" : ""
 				,"httpAgentId" : ""
 			}
+		},
+		"한글형태소분석" : {
+			url : "/morp/korean"
+			,input : {
+				sentenceList : [
+					 "(주)신라호텔"
+					,"신라 호텔 (주)"
+					,"입실 및 퇴실시간은 반드시 지켜주세요."
+					,"[펜션라이프] 국내숙박 연동 개발완료 확인"
+					,"정보화용역사업"
+					,"실라스테이서초"
+					,"켄싱턴리조트제주"
+					,"더플라자호텔"
+					,"하이원리조트"
+					,"인터컨티넨탈호텔"
+					,"세종호텔"
+					,"오라카이 인사동스위츠"
+					,"더케이호텔서울"
+					,"CS Premier Hotel"
+					,"쉐라톤 서울 디큐브시티"
+					,"신림 호텔 어반(Sillim Hotel Urban)"
+					,"베스트 웨스턴 프리미어 구로 호텔"
+					,"라마다 서울"
+					,"서울해군호텔"
+					,"강남아르누보씨티"
+					,"베스트 웨스턴 프리미어 서울가든호텔"
+					,"알티호텔"
+					,"新罗首尔"					
+				]
+			}
 		}
 		
 	}
@@ -331,11 +361,13 @@ var testAssets = {
 			
 			var httpAgentId = $.trim($("#httpAgentId").val());
 			var inputJson = $("#inputJson").val();
-			
-			if(restURL.indexOf("{httpAgentId}") > -1 && (!httpAgentId || httpAgentId == "")) {
-				alert("에이전트 아이디를 입력하세요");
-				return false;
-			}			
+
+			if(restURL.indexOf("/{httpAgentId}/") > -1 || restURL.indexOf("/service/") > -1) {
+				if(restURL.indexOf("{httpAgentId}") > -1 && (!httpAgentId || httpAgentId == "")) {
+					alert("에이전트 아이디를 선택하세요");
+					return false;
+				}			
+			}
 			restURL = restURL.replace("{httpAgentId}", httpAgentId);
 			testAssets.send( httpAgentId, restURL, inputJson );
 		});
@@ -370,6 +402,7 @@ $(document).ready(function() {
 	</span>
 	<span style="padding-left:2px;width:10%;">
 		<select id="httpAgentId" name="httpAgentId">
+			<option value="">:: 선택 ::</option>
 			<option value="10000495">호텔엔조이 메이트아이 10000495</option>
 			<option value="10000496">펜션라이프 플레이스엠 10000496</option>
 			<option value="10002654">인터파크투어 10002654</option>

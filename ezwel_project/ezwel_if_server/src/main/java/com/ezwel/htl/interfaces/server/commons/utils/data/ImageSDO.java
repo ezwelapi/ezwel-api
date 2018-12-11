@@ -33,6 +33,7 @@ public class ImageSDO  extends AbstractSDO {
 	@APIFields(description="이미지 저장 상대 경로")
 	private String relativePath;
 	
+	
 	public ImageSDO() {
 		this.reset();	
 	}
@@ -47,9 +48,8 @@ public class ImageSDO  extends AbstractSDO {
 		pathPrefix = "";
 		relativePath = "";
 	}
+	
 
-	
-	
 	public String getRelativePath() {
 		return relativePath;
 	}

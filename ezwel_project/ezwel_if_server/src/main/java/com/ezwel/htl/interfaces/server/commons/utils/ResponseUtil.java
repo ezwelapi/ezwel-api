@@ -13,7 +13,7 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
 /**
  * <pre>
- * 
+ * Http ResponseEntiry 핸들링 유틸 
  * </pre>
  * @author swkim@ebsolution.co.kr
  * @date   2018. 11. 16.
