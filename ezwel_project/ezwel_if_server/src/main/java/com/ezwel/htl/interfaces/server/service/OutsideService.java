@@ -3,6 +3,7 @@ package com.ezwel.htl.interfaces.server.service;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -116,7 +117,7 @@ public class OutsideService extends AbstractServiceObject {
 			if(assets != null && assets.size() > 0) {
 				/** execute code select transaction */ 
 				EzcDetailCd inEzcDetailCd = new EzcDetailCd();
-				inEzcDetailCd.addClassCdList(CodeDataConstants.CD_CLASS_CD_G002, CodeDataConstants.CD_CLASS_CD_G003, CodeDataConstants.CD_CLASS_CD_C007);
+				inEzcDetailCd.addClassCdList(CodeDataConstants.CD_CLASS_CD_G002, CodeDataConstants.CD_CLASS_CD_G003, CodeDataConstants.CD_CLASS_CD_C007, CodeDataConstants.CD_CLASS_CD_G005);
 				/** execute save transaction */
 				out = insertAllFacl(assets, new AllRegOutSDO(), commonRepository.selectListCommonCode(inEzcDetailCd), 0);
 			}
@@ -157,6 +158,8 @@ public class OutsideService extends AbstractServiceObject {
 		List<EzcFaclImg> ezcFaclImgList = null;
 		Integer nextIndex = null;
 		ImageSDO imageSDO = null;
+		List<String> ezcFaclAmentArrays = null;
+		
 		try {
 			/**
 			 * 1. 제휴사 별 TX 실행
@@ -257,10 +260,20 @@ public class OutsideService extends AbstractServiceObject {
 								ezcFaclImgList.add(ezcFaclImg);
 							}
 						}
+						
 						ezcFacl.setEzcFaclImgList(ezcFaclImgList);
 						
 						//부대시설 세팅
 						ezcFacl.setEzcFaclAments(faclData.getServiceCodes());
+						//부대시설 유형이 전문에 존재하면
+						if(faclData.getServiceCodes() != null) {
+							//부대시설 전문 코드 목록
+							ezcFaclAmentArrays = Arrays.asList(faclData.getServiceCodes().split(OperateConstants.STR_COMA));
+							//공통코드와 매핑 되는 부대시설 유형 코드
+							for(String amentCd : ezcFaclAmentArrays) {
+								ezcFacl.addEzcFaclAmentList( APIUtil.NVL(commonUtil.getMasterCdForCodeList(detailCdList, amentCd), "NA-G005") );
+							}
+						}
 						
 						//execute paramValidate
 						new ParamValidate(new ParamValidateSDO(ezcFacl, new String[]{"faclCd"})).execute();

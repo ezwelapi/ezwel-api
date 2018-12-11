@@ -17,6 +17,7 @@ public class CodeDataConstants {
 	//공통코드 (그룹 코드) 
 	public final static String CD_CLASS_CD_G002;
 	public final static String CD_CLASS_CD_G003;
+	public final static String CD_CLASS_CD_G005;
 	public final static String CD_CLASS_CD_C007;
 	
 	static { 
@@ -28,6 +29,7 @@ public class CodeDataConstants {
 		CD_FACL_STATUS_G0040003 = "G0040003";
 		CD_CLASS_CD_G002 = "G002";
 		CD_CLASS_CD_G003 = "G003";
+		CD_CLASS_CD_G005 = "G005";
 		CD_CLASS_CD_C007 = "C007";
 	}
 }

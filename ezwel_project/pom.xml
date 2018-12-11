@@ -145,13 +145,14 @@
 			</exclusions>
 			<scope>test</scope>
 		</dependency>
-
+		<!-- 
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>${org.mickito-version}</version>
 			<scope>test</scope>
 		</dependency>
+		 -->
 		<!--// END TEST API -->
 
 		<!--// START SPRING API -->
@@ -346,23 +347,26 @@
 
 		<!--// START THIRDPARTY LIB -->
 
-		<!-- joda -->
+		<!-- joda 
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>${joda-version}</version>
-		</dependency>
+		</dependency> -->
 		<!-- collection -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>18.0</version>
 		</dependency>
+		
+		<!-- 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.3.2</version>
 		</dependency>
+		 -->
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
@@ -378,11 +382,13 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.4</version>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>commons-configuration</groupId>
 			<artifactId>commons-configuration</artifactId>
 			<version>1.10</version>
 		</dependency>
+		 -->
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
@@ -398,6 +404,7 @@
 			<artifactId>commons-beanutils</artifactId>
 			<version>1.8.0</version>
 		</dependency>
+		<!--  
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils-bean-collections</artifactId>
@@ -408,17 +415,19 @@
 			<artifactId>commons-collections4</artifactId>
 			<version>4.0</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>commons-validator</groupId>
 			<artifactId>commons-validator</artifactId>
 			<version>1.4.1</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.codehaus.plexus</groupId>
 			<artifactId>plexus-utils</artifactId>
 			<version>3.0.21</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
@@ -434,7 +443,7 @@
 			<artifactId>jboss-logging</artifactId>
 			<version>3.2.1.Final</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>com.fasterxml</groupId>
 			<artifactId>classmate</artifactId>
@@ -467,6 +476,7 @@
 			<artifactId>xmlbeans</artifactId>
 			<version>2.6.0</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
@@ -477,23 +487,26 @@
 			<artifactId>axis</artifactId>
 			<version>1.4</version>
 		</dependency>
+		-->
 		<dependency>
 			<groupId>commons-discovery</groupId>
 			<artifactId>commons-discovery</artifactId>
 			<version>0.2</version>
 		</dependency>
+		<!--  
 		<dependency>
 			<groupId>javax.xml</groupId>
 			<artifactId>jaxrpc-api</artifactId>
 			<version>1.1</version>
 		</dependency>
-
+ 		-->
+		<!-- 
 		<dependency>
 			<groupId>com.softwareloop</groupId>
 			<artifactId>mybatis-generator-lombok-plugin</artifactId>
 			<version>1.0</version>
 		</dependency>
-
+ 		-->
 		<!--// END THIRDPARTY LIB -->
 
 		<!-- Servlet 3.0 

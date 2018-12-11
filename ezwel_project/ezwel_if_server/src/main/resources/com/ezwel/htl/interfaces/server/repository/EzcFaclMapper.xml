@@ -494,9 +494,6 @@ UPDATE EZC_FACL SET	/* 시설 정보 */
 	,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 WHERE 1=1
 	AND FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
-	AND PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
-	AND AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10) */
-	AND CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10) */
 </update>
 
 <update id="mergeEzcFacl" parameterType="ezcFacl">

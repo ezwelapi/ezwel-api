@@ -1,16 +1,18 @@
 package com.ezwel.htl.interfaces.server.entities;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 //import lombok.Data;
 //import lombok.EqualsAndHashCode;
 import org.apache.ibatis.type.Alias;
+
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
+import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
-import com.ezwel.htl.interfaces.commons.annotation.APIModel;
-import com.ezwel.htl.interfaces.service.data.allReg.AllRegSubImagesOutSDO;
-import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractEntity;
-import java.math.BigDecimal;
-import java.util.List;
 
 
 /**
@@ -149,10 +151,11 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "시설 이미지", required=false)
 	private List<EzcFaclImg> ezcFaclImgList = null;
 	
-	@APIFields(description = "시설 부대시설", maxLength=500)
+	@APIFields(description = "시설 부대시설 전문(,)구분", maxLength=500)
 	private String ezcFaclAments;
 	
-	
+	@APIFields(description = "시설 부대시설 목록")
+	private List<String> ezcFaclAmentList;	
 	
 	public String getEzcFaclAments() {
 		return ezcFaclAments;
@@ -466,5 +469,18 @@ public class EzcFacl extends AbstractEntity {
 		this.ezcFaclImgList = ezcFaclImgList;
 	}
 
+	public List<String> getEzcFaclAmentList() {
+		return ezcFaclAmentList;
+	}
 
+	public void setEzcFaclAmentList(List<String> ezcFaclAmentList) {
+		this.ezcFaclAmentList = ezcFaclAmentList;
+	}
+
+	public void addEzcFaclAmentList(String ezcFaclAment) {
+		if(this.ezcFaclAmentList == null) {
+			this.ezcFaclAmentList = new ArrayList<String>();
+		}
+		this.ezcFaclAmentList.add(ezcFaclAment);
+	}
 }	

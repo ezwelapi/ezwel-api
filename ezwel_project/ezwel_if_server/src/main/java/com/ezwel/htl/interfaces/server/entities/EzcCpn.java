@@ -72,7 +72,7 @@ public class EzcCpn extends AbstractEntity {
 	@APIFields(description = "쿠폰 이미지 파일명", maxLength=100)
 	private String cpnImgFilenm;
 
-	@APIFields(description = "발행 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss", required=true, constraints="SYS_C0011317(C)")
+	@APIFields(description = "발행 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss", required=true, constraints="SYS_C0011317(C)")
 	private String issueDt;
 
 	@APIFields(description = "발생 수량", maxLength=4)
@@ -81,13 +81,13 @@ public class EzcCpn extends AbstractEntity {
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011318(C)")
 	private String regId = Local.commonHeader().getSystemUserId();
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss", required=true, constraints="SYS_C0011319(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss", required=true, constraints="SYS_C0011319(C)")
 	private String regDt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
 
 	@APIFields(description = "수정자 ID", maxLength=20)
 	private String modiId = Local.commonHeader().getSystemUserId();
 
-	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
+	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
 	private String modiDt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
 
 

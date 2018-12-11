@@ -18,7 +18,6 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
-import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.data.ImageSDO;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
@@ -53,68 +52,79 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		Integer txCount = 0;
 		Integer txSuccess = 0;
 		List<EzcFaclImg> ezcFaclImgList = null;
-		List<String> ezcFaclAmentList = null;
 		EzcFaclAment ezcFaclAment = null;
 		BigDecimal faclCdSeq = null;
+		EzcFacl inEzcFacl = null;
+		EzcFacl outEzcFacl = null;
 		EzcFacl ezcFacl = null;
-		EzcFacl dbEzcFacl = null;
+		EzcFaclImg inEzcFaclImg = null;
+		
 		try {
 			
 			for(Integer i = 0; i < saveFaclRegDatas.size(); i++) {
 				ezcFacl = saveFaclRegDatas.get(i);
-
-				dbEzcFacl = sqlSession.selectOne(getNamespace("FACL_MAPPER", "selectEzcFacl"), ezcFacl);
+				inEzcFacl = new EzcFacl();
+				inEzcFacl.setPartnerCd(ezcFacl.getPartnerCd());
+				inEzcFacl.setPartnerGoodsCd(ezcFacl.getPartnerGoodsCd());
+				
+				outEzcFacl = sqlSession.selectOne(getNamespace("FACL_MAPPER", "selectEzcFacl"), inEzcFacl);
 				
 				/** 0. 시설 코드 (Number) Sequnce */
-				if(dbEzcFacl == null) {
-					//sequnce
+				if(outEzcFacl == null) {
+					//sequnce ( 하단의  이미지 저장시 전달되어야 함으로 시퀀스 선행함 )
 					faclCdSeq = sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectEzcFaclSeq"));
+					txCount++; //sequnce transaction 
 					ezcFacl.setFaclCd(faclCdSeq);
+					/** 1. EZC_FACL 1건 저장 */
+					//insert
+					txCount += sqlSession.insert(getNamespace("FACL_MAPPER", "insertEzcFacl"), ezcFacl);
+				}
+				else {
+					// 이미 존재함
+					ezcFacl.setFaclCd(outEzcFacl.getFaclCd());
+					/** 1. EZC_FACL 1건 변경 */
+					//insert
+					txCount += sqlSession.update(getNamespace("FACL_MAPPER", "updateEzcFacl"), ezcFacl);
 				}
 				
-				ezcFacl.setRegId(Local.commonHeader().getSystemUserId());
-				ezcFacl.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
-				ezcFacl.setModiId(Local.commonHeader().getSystemUserId());
-				ezcFacl.setModiDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
-				
-				/** 1. EZC_FACL 1건 저장 */
-				//insert
-				txSuccess = sqlSession.insert(getNamespace("FACL_MAPPER", "insertEzcFacl"), ezcFacl);
 				if(txSuccess > 0) {
-					txCount++;
 					
 					/** 2. EZC_FACL_IMG N건 저장 */
 					ezcFaclImgList = ezcFacl.getEzcFaclImgList();
 					if(ezcFaclImgList != null) {
+						/** 
+						 * EZC_FACL_IMG 테이블에는 KEY가 FACL_IMG_SEQ, FACL_CD 두개인데 FACL_CD는 같은 데이터가 N개저장되어있고
+						 * FACL_IMG_SEQ는 DB테이블을 조회하기전에 알수 없는 불완전한 설계 상태임으로 merge문을 실행할 수 있는 환경이 되지 못함\
+						 * 그럼으로 상단의 faclCd에 해당하는 이미지 데이터를 모두 삭제후 새로 insert함
+						 **/
+						inEzcFaclImg = new EzcFaclImg();
+						inEzcFaclImg.setFaclCd(ezcFacl.getFaclCd());
+						txCount += sqlSession.delete(getNamespace("FACL_IMG_MAPPER", "deleteEzcFaclImg"), inEzcFaclImg);
+						
 						for(EzcFaclImg faclImg : ezcFaclImgList) {
 							//sequnce
 							faclImg.setFaclImgSeq((BigDecimal) sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectEzcFaclImgSeq")));
+							txCount++; //sequnce transaction 
 							faclImg.setFaclCd(ezcFacl.getFaclCd());
-							faclImg.setRegId(Local.commonHeader().getSystemUserId());
-							faclImg.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));							
-							faclImg.setModiId(Local.commonHeader().getSystemUserId());
-							faclImg.setModiDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
-							//insert
+
+							//insert => merge 변경
 							txCount += sqlSession.insert(getNamespace("FACL_IMG_MAPPER", "insertEzcFaclImg"), faclImg);
 						}
 					}
 					
 					/** 3. EZC_FACL_AMENT N건 저장 */
-					if(APIUtil.isNotEmpty(ezcFacl.getEzcFaclAments())) {
-						ezcFaclAmentList = Arrays.asList(ezcFacl.getEzcFaclAments().split(OperateConstants.STR_COMA));
-						
-						for(String faclAment : ezcFaclAmentList) {
+					if(ezcFacl.getEzcFaclAmentList() != null) {
+
+						for(String faclAment : ezcFacl.getEzcFaclAmentList()) {
+							
 							if(APIUtil.isNotEmpty(faclAment)) {
 								
 								ezcFaclAment = new EzcFaclAment();
 								ezcFaclAment.setFaclCd(ezcFacl.getFaclCd());
-								ezcFaclAment.setAmentType(faclAment.trim());
-								ezcFaclAment.setRegId(Local.commonHeader().getSystemUserId());
-								ezcFaclAment.setRegDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
-								ezcFaclAment.setModiId(Local.commonHeader().getSystemUserId());
-								ezcFaclAment.setModiDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis()));
-								//insert
-								txCount += sqlSession.insert(getNamespace("FACL_AMENT_MAPPER", "insertEzcFaclAment"), ezcFaclAment);
+								ezcFaclAment.setAmentType(faclAment);
+
+								//insert => merge 변경
+								txCount += sqlSession.update(getNamespace("FACL_AMENT_MAPPER", "mergeEzcFaclAment"), ezcFaclAment);
 							}
 						}
 					}

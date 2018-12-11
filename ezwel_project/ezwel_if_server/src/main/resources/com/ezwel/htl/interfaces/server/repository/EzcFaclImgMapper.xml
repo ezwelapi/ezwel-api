@@ -245,7 +245,9 @@ MERGE INTO EZC_FACL_IMG /* 시설 이미지 */
 <delete id="deleteEzcFaclImg" parameterType="ezcFaclImg">
 DELETE FROM EZC_FACL_IMG /* 시설 이미지 */
 WHERE 1=1
+	<if test="faclImgSeq != null and faclImgSeq gt 0">
 	AND FACL_IMG_SEQ = #{faclImgSeq, jdbcType=DECIMAL}	/* 시설 이미지 일련번호, NUMBER(0,22) */
+	</if>
 	AND FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
 </delete>
 

@@ -45,7 +45,7 @@ import com.google.common.io.ByteSource;
 import com.google.common.io.ByteStreams;
 /**
  * <pre>
- * 
+ * if server 공통 유틸
  * </pre>
  * @author swkim@ebsolution.co.kr
  * @date   2018. 11. 21.

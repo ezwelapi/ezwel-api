@@ -114,10 +114,10 @@ public class EzcFaclHist extends AbstractEntity {
 	@APIFields(description = "이미지 변경 여부", maxLength=1, required=true, constraints="SYS_C0011099(C)")
 	private String imgChangeYn;
 
-	@APIFields(description = "판매 중지 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
+	@APIFields(description = "판매 중지 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
 	private String saleStopDt;
 
-	@APIFields(description = "API 동기화 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
+	@APIFields(description = "API 동기화 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
 	private String apiSyncDt;
 
 	@APIFields(description = "확정 상태", maxLength=8, required=true, constraints="SYS_C0011100(C)")
@@ -135,13 +135,13 @@ public class EzcFaclHist extends AbstractEntity {
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011103(C)")
 	private String regId = Local.commonHeader().getSystemUserId();
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss", required=true, constraints="SYS_C0011104(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss", required=true, constraints="SYS_C0011104(C)")
 	private String regDt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
 
 	@APIFields(description = "수정자 ID", maxLength=20)
 	private String modiId = Local.commonHeader().getSystemUserId();
 
-	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
+	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
 	private String modiDt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
 
 	@APIFields(description = "시설 코드", maxLength=10, constraints="EZC_FACL_HIST_IF01(NONUNIQUE)")

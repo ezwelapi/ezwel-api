@@ -36,7 +36,7 @@ public class EzcCacheDayPriceLog extends AbstractEntity {
 	@APIFields(description = "당일특가 로그 일련번호", maxLength=10, required=true, constraints="EZC_CACHE_DAY_PRICE_LOG_PK(P),SYS_C0011144(C) EZC_CACHE_DAY_PRICE_LOG_PK(UNIQUE)")
 	private BigDecimal dayPriceLogSeq;
 
-	@APIFields(description = "실행 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss", required=true, constraints="SYS_C0011145(C)")
+	@APIFields(description = "실행 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss", required=true, constraints="SYS_C0011145(C)")
 	private String exeDt;
 
 	@APIFields(description = "CACHE 만료 시간", maxLength=4, required=true, constraints="SYS_C0011146(C)")
@@ -48,13 +48,13 @@ public class EzcCacheDayPriceLog extends AbstractEntity {
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011148(C)")
 	private String regId = Local.commonHeader().getSystemUserId();
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss", required=true, constraints="SYS_C0011149(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss", required=true, constraints="SYS_C0011149(C)")
 	private String regDt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
 
 	@APIFields(description = "수정자 ID", maxLength=20)
 	private String modiId = Local.commonHeader().getSystemUserId();
 
-	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
+	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
 	private String modiDt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
 
 

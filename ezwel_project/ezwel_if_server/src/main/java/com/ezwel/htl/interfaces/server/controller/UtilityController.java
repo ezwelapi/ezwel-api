@@ -1,11 +1,16 @@
 package com.ezwel.htl.interfaces.server.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -15,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzer;
+import com.ezwel.htl.interfaces.server.commons.sdo.MorphemeSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 
 @Controller
@@ -34,7 +41,7 @@ public class UtilityController {
 	
 	@APIOperation(description="에이젼트 키 발급", isOutputJsonMarshall=true, returnType=Map.class)
 	@RequestMapping(value="/agent/apiKey")
-	public Object agentApiKey(Model model, HttpServletRequest request, HttpServletResponse response) {
+	public Object agentApiKey(HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] agentApiKey \n{}", request.getParameterMap());
 		
 		apiUtil = (APIUtil) LApplicationContext.getBean(apiUtil, APIUtil.class);
@@ -59,4 +66,55 @@ public class UtilityController {
 		return out;
 	}
 	
+	
+	@APIOperation(description="한글 형태소 분석", isOutputJsonMarshall=true, returnType=MorphemeSDO.class)
+	@RequestMapping(value="/morp/korean")
+	public Object morpKorean(MorphemeSDO morphemeSDO, HttpServletRequest request, HttpServletResponse response) {
+		logger.debug("[START] morpKorean {}", morphemeSDO);
+		
+		MorphemeSDO out = new MorphemeSDO();
+		
+		KoreanAnalyzer korean = new KoreanAnalyzer();
+		logger.debug("korean : {}", korean);
+		korean.setQueryMode(false);
+		StringBuilder actual = null;
+		TokenStream ts = null;
+		CharTermAttribute termAtt = null;
+		List<String> morphemeList = new ArrayList<String>();
+		for(String input : morphemeSDO.getSentenceList()) {
+		
+			actual = new StringBuilder();
+			try {
+				
+				ts = korean.tokenStream("bogus", input);
+			    termAtt = ts.addAttribute(CharTermAttribute.class);
+			    ts.reset();
+			    
+			    while (ts.incrementToken()) {
+			      actual.append(termAtt.toString());
+			      actual.append(", ");
+			    }
+			    
+			    logger.debug("{}", actual);
+			    morphemeList.add(actual.toString());
+			    
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			finally {
+				if(ts != null) {
+				    try {
+						ts.end();
+						ts.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+		}		
+		
+		logger.debug("[END] morpKorean ");
+		return out;
+	}	
 }

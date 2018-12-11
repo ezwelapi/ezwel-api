@@ -90,16 +90,16 @@ public class EzcReservBase extends AbstractEntity {
 	@APIFields(description = "투숙자 이메일", maxLength=100)
 	private String guestEmail;
 
-	@APIFields(description = "예약 팩스 발송 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
+	@APIFields(description = "예약 팩스 발송 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
 	private String reservFaxSendDt;
 
-	@APIFields(description = "예약 팩스 수신 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
+	@APIFields(description = "예약 팩스 수신 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
 	private String reservFaxRecvDt;
 
-	@APIFields(description = "예약 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss", required=true, constraints="SYS_C0011610(C)")
+	@APIFields(description = "예약 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss", required=true, constraints="SYS_C0011610(C)")
 	private String reservDt;
 
-	@APIFields(description = "예약 취소 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
+	@APIFields(description = "예약 취소 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
 	private String reservCancelDt;
 
 	@APIFields(description = "예약 상태", maxLength=8, required=true, constraints="SYS_C0011611(C)")
@@ -108,13 +108,13 @@ public class EzcReservBase extends AbstractEntity {
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011612(C)")
 	private String regId = Local.commonHeader().getSystemUserId();
 
-	@APIFields(description = "등록 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss", required=true, constraints="SYS_C0011613(C)")
+	@APIFields(description = "등록 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss", required=true, constraints="SYS_C0011613(C)")
 	private String regDt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
 
 	@APIFields(description = "수정자 ID", maxLength=20)
 	private String modiId = Local.commonHeader().getSystemUserId();
 
-	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyy-MM-dd HH24:mi:ss")
+	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
 	private String modiDt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
 
 	@APIFields(description = "회원 ID", maxLength=20, constraints="EZC_RESERV_BASE_IF07(NONUNIQUE)")

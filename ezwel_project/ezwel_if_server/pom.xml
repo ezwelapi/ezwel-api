@@ -17,7 +17,7 @@
 	</build>
 	
 	<properties>
-		<lucene-version>6.6.0</lucene-version>
+		<lucene-version>5.0.0</lucene-version>
 		<lucene-analyzers-version>3.6.2</lucene-analyzers-version>
 		<arirang.morph-version>1.1.0</arirang.morph-version>
 		<morphology-version>1.1</morphology-version>
@@ -79,13 +79,55 @@
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>1.10</version>
 		</dependency>
-
+		
+		<!-- 형태소 분석 관련 라이브러리 추가 시작 -->
+	  	<dependency>
+	  		<groupId>org.apache.lucene</groupId>
+	  		<artifactId>lucene-core</artifactId>
+	  		<version>${lucene-version}</version>
+	  	</dependency>
+	  	<dependency>
+	  		<groupId>org.apache.lucene</groupId>
+	  		<artifactId>lucene-analyzers-common</artifactId>
+	  		<version>${lucene-version}</version>
+	  	</dependency>
+	  	<!-- parent project 에있음
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+			<scope>provided</scope>
+		</dependency>	  	
+	  	 -->
+	  	<!-- WEB-INF/lib 에있음 --><!-- 
+	   	<dependency>
+	  		<groupId>com.argo</groupId>
+	  		<artifactId>arirang-morph</artifactId>
+	  		<version>1.1.0</version>
+	  		<scope>system</scope>
+	        <systemPath>${project.basedir}/lib/arirang-morph-1.1.0.jar</systemPath>
+	   	</dependency> -->
+		<!-- 형태소 분석 관련 라이브러리 추가 종료 -->
+		
+		
+		<!-- seunjeon 형태소 분석기 
+	    <dependency>
+	        <groupId>org.bitbucket.eunjeon</groupId>
+	        <artifactId>seunjeon_2.12</artifactId>
+	        <version>1.5.0</version>
+	    </dependency>
+    -->
 		<!-- if_server only -->
 		
 		<!-- lucene 
