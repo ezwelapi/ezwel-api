@@ -1,8 +1,5 @@
 package ezwel_if_server.test;
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +7,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.UnicodeUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.data.ImageSDO;
@@ -92,6 +90,19 @@ public class UtilTest {
     	
     	logger.debug( "common : {}" , common.isValidURL("http://naver.com"));
     	
+    	//  ?졻뼚 StartTimeMillis : 1544519083799
+    	//  ?졻뼚 EndTimeMillis : 1544519530414
+    	// 	446615 > 7.43 분
+    	
+		//	StartTimeMillis : 1544520973174
+		//	EndTimeMillis : 1544521184768
+
+    	 //?졻뼚 StartTimeMillis : 1544521871856
+		 //?졻뼚 EndTimeMillis : 1544522483798
+    	
+    	long diff = 1544522483798L - 1544521871856L;
+    	logger.debug( "{}", (APIUtil.getTimeMillisToSecond(diff) / 60) );
+
     	
     }
 }

@@ -7,8 +7,6 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 @APIModel(description="파일 다운로드 데이터")
 public class ImageSDO  extends AbstractSDO {
 	
-	private static final long serialVersionUID = 1L;
-
 	@APIFields(description="파일 확장자")
 	private String fileExt;
 	

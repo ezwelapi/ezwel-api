@@ -1,7 +1,7 @@
 package com.ezwel.htl.interfaces.server.repository;
 
+import java.io.File;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,12 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
+import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.data.ImageSDO;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
@@ -47,7 +49,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	 */
 	@Transactional(propagation=Propagation.REQUIRED)
 	@APIOperation(description="전체시설일괄등록 인터페이스")
-	public Integer insertAllReg(List<EzcFacl> saveFaclRegDatas) {
+	public Integer insertAllReg(List<EzcFacl> saveFaclRegDatas, Integer fromIndex, Integer toIndex) {
 		
 		Integer txCount = 0;
 		Integer txSuccess = 0;
@@ -58,16 +60,21 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		EzcFacl outEzcFacl = null;
 		EzcFacl ezcFacl = null;
 		EzcFaclImg inEzcFaclImg = null;
+		Integer i = 0;
 		
 		try {
 			
-			for(Integer i = 0; i < saveFaclRegDatas.size(); i++) {
+			for(i = 0; i < saveFaclRegDatas.size(); i++) {
+				// 시설 정보
 				ezcFacl = saveFaclRegDatas.get(i);
+				
 				inEzcFacl = new EzcFacl();
 				inEzcFacl.setPartnerCd(ezcFacl.getPartnerCd());
 				inEzcFacl.setPartnerGoodsCd(ezcFacl.getPartnerGoodsCd());
+				txSuccess = 0;
 				
-				outEzcFacl = sqlSession.selectOne(getNamespace("FACL_MAPPER", "selectEzcFacl"), inEzcFacl);
+				outEzcFacl = sqlSession.selectOne(getNamespace("FACL_MAPPER", "selectEzcFaclMeta"), inEzcFacl);
+				txCount++; //selectOne transaction
 				
 				/** 0. 시설 코드 (Number) Sequnce */
 				if(outEzcFacl == null) {
@@ -77,17 +84,18 @@ public class OutsideRepository extends AbstractDataAccessObject {
 					ezcFacl.setFaclCd(faclCdSeq);
 					/** 1. EZC_FACL 1건 저장 */
 					//insert
-					txCount += sqlSession.insert(getNamespace("FACL_MAPPER", "insertEzcFacl"), ezcFacl);
+					txSuccess = sqlSession.insert(getNamespace("FACL_MAPPER", "insertEzcFacl"), ezcFacl);
 				}
 				else {
 					// 이미 존재함
 					ezcFacl.setFaclCd(outEzcFacl.getFaclCd());
 					/** 1. EZC_FACL 1건 변경 */
 					//insert
-					txCount += sqlSession.update(getNamespace("FACL_MAPPER", "updateEzcFacl"), ezcFacl);
+					txSuccess = sqlSession.update(getNamespace("FACL_MAPPER", "updateEzcFacl"), ezcFacl);
 				}
 				
 				if(txSuccess > 0) {
+					txCount++; //insert/update transaction 
 					
 					/** 2. EZC_FACL_IMG N건 저장 */
 					ezcFaclImgList = ezcFacl.getEzcFaclImgList();
@@ -131,11 +139,48 @@ public class OutsideRepository extends AbstractDataAccessObject {
 				}
 			}
 		}
-		catch(APIException e) {
-			logger.error("Code : {}", e.getResultCode());
+		catch(Exception e) {
+			
+			commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+			
+			StringBuffer txErrorSection = new StringBuffer();
+			txErrorSection.append(OperateConstants.STR_MAX_BRACKET_R);
+			txErrorSection.append(this.getClass().getCanonicalName());
+			txErrorSection.append(OperateConstants.STR_AT);
+			txErrorSection.append("insertAllReg");
+			txErrorSection.append(OperateConstants.STR_MAX_BRACKET_L);
+			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
+			txErrorSection.append("[전체시설일괄등록 인터페이스]");
+			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
+			txErrorSection.append("에러 발생 구간(index) from : ");
+			txErrorSection.append(fromIndex);
+			txErrorSection.append(" ~ to : ");
+			txErrorSection.append(toIndex);
+			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
+			txErrorSection.append("에러 발생 시설 index : ");
+			txErrorSection.append(i);
+			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
+			txErrorSection.append("시설명(한글) : ");
+			txErrorSection.append(ezcFacl.getFaclNmKor());			
+			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
+			txErrorSection.append("시설명(영문) : ");
+			txErrorSection.append(ezcFacl.getFaclNmEng());
+			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
+			txErrorSection.append("Exception Message : ");
+			txErrorSection.append(e.getMessage());
+			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
+			txErrorSection.append("Exception Cause : ");
+			txErrorSection.append(e.getStackTrace());
+			txErrorSection.append(OperateConstants.LINE_SEPARATOR);	
+			txErrorSection.append(OperateConstants.LINE_SEPARATOR);	
+			
+			/** 에러 발생 레코드 errorItems에 저장후 runtimeException 없이 로깅후 종료 */
+			String logFileName = this.getClass().getSimpleName().concat(OperateConstants.STR_AT).concat("insertAllReg-").concat(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).concat(".log");
+			commonUtil.mkfile(InterfaceFactory.getInterfaceBatchErrorLogPath(), logFileName, txErrorSection.toString(), OperateConstants.DEFAULT_ENCODING, true, true);
+
+			logger.error("Code : {}", MessageConstants.RESPONSE_CODE_9500);
 			logger.error("Message : {}", e.getMessage());
-			//에러 발생 레코드 errorItems에 저장후 runtimeException 없이 로깅후 종료
-			throw new APIException("시설정보 DB 저장 실패"); 
+			e.getStackTrace();
 		}
 		
 		return txCount;
@@ -145,6 +190,8 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	@Transactional
 	@APIOperation(description="시설 이미지 다운로드 '사용 보류'")
 	public Integer downloadBuildImage(EzcFaclImg ezcFaclImg) {
+		
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
 		int txCount = 0;
 		String imageURL = null;

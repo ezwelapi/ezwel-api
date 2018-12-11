@@ -321,12 +321,15 @@
 
 	<fileRepository>
 		<buildImage>
-			<localRootPath>C:/ezwel-repository/lodgeBuilding</localRootPath>
-			<devRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository</devRootPath>
-			<prodRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository</prodRootPath>
+			<localRootPath>D:/ezwel-repository/tempFileRepository/image/</localRootPath>
+			<devRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/image/</devRootPath>
+			<prodRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/image/</prodRootPath>
 		</buildImage>
+		<errorLog>
+			<localRootPath>D:/ezwel-repository/tempFileRepository/batchLog/</localRootPath>
+			<devRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/batchLog/</devRootPath>
+			<prodRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/batchLog/</prodRootPath>
+		</errorLog>
 	</fileRepository>
-	
 
-		
 </interfaceConfigure>

@@ -126,7 +126,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		Object retVal = null;
 		
 		try {
-			logger.debug("■■ [INPUT] {} {}", typeMethodName, inputParam);
+			logger.debug("■■ [INPUT] {}", typeMethodName/*, inputParam*/);
 			if(controlAnno != null || apiOperAnno.isInputBeanValidation()) {
 				logger.debug("■■ [VALIDATE] {} {}", controlAnno, apiOperAnno.isInputBeanValidation());
 				doMethodInputValidation(proccesMethod.getParameterTypes(), inputParam);

@@ -161,6 +161,49 @@ WHERE 1=1
 	</if>
 </select>
 
+
+<select id="selectEzcFaclMeta" parameterType="ezcFacl" resultType="ezcFacl">
+SELECT
+	 EZC_FACL.FACL_CD AS faclCd	/* 시설 코드, NUMBER(0,22) */
+	,EZC_FACL.PARTNER_CD AS partnerCd	/* 제휴사 코드, VARCHAR2(20) */
+	,EZC_FACL.PARTNER_GOODS_CD AS partnerGoodsCd	/* 제휴사 상품 코드, VARCHAR2(100) */
+FROM
+	 EZC_FACL	/* 시설 정보 */
+	,EZC_AREA_CD	/* 지역 코드 */
+	,EZC_CITY_CD	/* 도시 코드 */
+	,EZC_PARTNER	/* 제휴사 정보 */
+WHERE 1=1
+    AND EZC_FACL.AREA_CD = EZC_AREA_CD.AREA_CD(+)
+    AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD(+)
+    AND EZC_FACL.CITY_CD = EZC_AREA_CD.CITY_CD(+)
+    AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD(+)
+	<if test="partnerCd != null and partnerCd != ''">
+	AND EZC_FACL.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20), FK_EZC_PARTNER_EZC_FACL(R),SYS_C0011054(C) */
+	</if>
+	<if test="partnerGoodsCd != null and partnerGoodsCd != ''">
+	AND EZC_FACL.PARTNER_GOODS_CD = #{partnerGoodsCd, jdbcType=VARCHAR}	/* 제휴사 상품 코드, VARCHAR2(100), UK_EZC_FACL_01(UK) */
+	</if>	
+	<if test="imgChangeYn != null and imgChangeYn != ''">
+	AND EZC_FACL.IMG_CHANGE_YN = #{imgChangeYn, jdbcType=CHAR}	/* 이미지 변경 여부, CHAR(1) */
+	</if>
+	<if test="useYn != null and useYn != ''">
+	AND EZC_FACL.USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
+	</if>
+	<if test="faclCd != null and faclCd gt 0">
+	AND EZC_FACL.FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22), EZC_FACL_PK(P),SYS_C0011053(C) */
+	</if>
+	<if test="areaCd != null and areaCd != ''">
+	AND EZC_FACL.AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10), FK_EZC_AREA_CD_EZC_FACL(R),SYS_C0011066(C) */
+	</if>
+	<if test="cityCd != null and cityCd != ''">	
+	AND EZC_FACL.CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10), FK_EZC_CITY_CD_EZC_FACL(R),SYS_C0011067(C) */
+	</if>
+GROUP BY
+	 EZC_FACL.FACL_CD
+	,EZC_FACL.PARTNER_CD
+	,EZC_FACL.PARTNER_GOODS_CD	
+</select>
+
 <select id="selectCountEzcFacl" parameterType="ezcFacl" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)

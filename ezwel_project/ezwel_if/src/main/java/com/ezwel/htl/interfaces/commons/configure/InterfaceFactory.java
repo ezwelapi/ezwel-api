@@ -59,6 +59,7 @@ public class InterfaceFactory {
 
 	private static String imageRootPath;
 	private static String serverHttpDomainURI;
+	private static String interfaceBatchErrorLogPath;
 	
 	static {
 		interfaceChannels = new LinkedHashMap<String, List<HttpConfigSDO>>();
@@ -130,6 +131,10 @@ public class InterfaceFactory {
 
 	public static String getServerHttpDomainURI() {
 		return serverHttpDomainURI;
+	}
+
+	public static String getInterfaceBatchErrorLogPath() {
+		return interfaceBatchErrorLogPath;
 	}
 
 	public static ServerAddressConfig getServerAddress() {
@@ -241,7 +246,6 @@ public class InterfaceFactory {
 					InterfaceFactory.serverAddress = ifc.getServerAddress();
 					InterfaceFactory.fileRepository = ifc.getFileRepository();
 					
-					
 					logger.debug("# LOCAL_HOST_ADDRESS : {}", LOCAL_HOST_ADDRESS);
 					logger.debug("# LOCAL_HOST_NAME : {}", LOCAL_HOST_NAME);
 					logger.debug("# LOCAL_CANONICAL_HOST_NAME : {}", LOCAL_CANONICAL_HOST_NAME);
@@ -250,12 +254,12 @@ public class InterfaceFactory {
 					logger.debug("# Real Cached Size : {}", interfaceChannels.size());
 					//logger.debug("# interfaceChannels : {}", interfaceChannels);
 					
-					
 					/**
 					 * 초기화 서버 별 이미지 경로 & 도메인 URI 세팅 
 					 */
 					String imageRootPath = null;
 					String serverHttpDomainUri = null;
+					String interfaceBatchErrorLogPath = null;
 					
 					if(APIUtil.getServerAddress() == null) {
 						throw new APIException("인터페이스 환경파일에 설정된 개발 또는 운영서버의 IP또는 IP대역과 현제 서버의 IP가 일치하지 않습니다.");
@@ -264,29 +268,28 @@ public class InterfaceFactory {
 						// prod server
 						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getProdRootPath();
 						serverHttpDomainUri = InterfaceFactory.getServerAddress().getProdServerDomain();
+						interfaceBatchErrorLogPath = InterfaceFactory.getFileRepository().getErrorLog().getProdRootPath();
 					}
 					else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_DEV_SERVER)) {
 						// dev server
 						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getDevRootPath();
 						serverHttpDomainUri = InterfaceFactory.getServerAddress().getDevServerDomain();
+						interfaceBatchErrorLogPath = InterfaceFactory.getFileRepository().getErrorLog().getDevRootPath();
 					}
 					else {
 						// developer local pc server
 						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getLocalRootPath();
 						serverHttpDomainUri = InterfaceFactory.getServerAddress().getDevServerDomain();
+						interfaceBatchErrorLogPath = InterfaceFactory.getFileRepository().getErrorLog().getLocalRootPath();
 					}
 					
-					if(imageRootPath.endsWith(File.separator)) {
-						imageRootPath = imageRootPath.substring(0, imageRootPath.lastIndexOf(File.separator));
-					}
-					else if(imageRootPath.endsWith(OperateConstants.STR_SLASH)) {
-						// 동작 머신의 OS가 윈도우일때 /로 세팅된 경우
-						imageRootPath = imageRootPath.substring(0, imageRootPath.lastIndexOf(OperateConstants.STR_SLASH));
-					}
-					
-					InterfaceFactory.imageRootPath = imageRootPath;
 					InterfaceFactory.serverHttpDomainURI = serverHttpDomainUri;
+					InterfaceFactory.imageRootPath = getRevisionPath(imageRootPath);
+					InterfaceFactory.interfaceBatchErrorLogPath = getRevisionPath(interfaceBatchErrorLogPath);
 					
+					logger.debug("# imageRootPath : {}", InterfaceFactory.imageRootPath);
+					logger.debug("# serverHttpDomainURI : {}", InterfaceFactory.serverHttpDomainURI);
+					logger.debug("# interfaceBatchErrorLogPath : {}", InterfaceFactory.interfaceBatchErrorLogPath);	
 				}
 			}
 		} catch (JAXBException e) {
@@ -305,6 +308,20 @@ public class InterfaceFactory {
 		}
 	}
 	
+	
+	private String getRevisionPath(String path) {
+		
+		if(path != null) {
+			if(path.endsWith(File.separator)) {
+				path = path.substring(0, path.lastIndexOf(File.separator));
+			}
+			else if(path.endsWith(OperateConstants.STR_SLASH)) {
+				// 동작 머신의 OS가 윈도우일때 /로 세팅된 경우
+				path = path.substring(0, path.lastIndexOf(OperateConstants.STR_SLASH));
+			}
+		}
+		return path;
+	}
 	
 	private void initInterfaceChannels(ChannelListData channelListData) {
 		if(IS_LOGGING)  {

@@ -51,94 +51,94 @@
 	-->
 	
 	<!-- jdbc Loggers -->
-	<logger name="jdbc">
+	<logger name="jdbc" additivity="false">
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>
 	
-	<logger name="org.apache.ibatis.io">
+	<logger name="org.apache.ibatis.io" additivity="false">
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>
 		
 	<!-- jdbc.sqlonly Loggers ( Real SQL Log ) -->
-	<logger name="jdbc.sqlonly">
+	<logger name="jdbc.sqlonly" additivity="false">
 		<level value="DEBUG" />
 		<appender-ref ref="fileAppender" />
 	</logger>
 	
-	<logger name="jdbc.audit">
+	<logger name="jdbc.audit" additivity="false">
 		<level value="OFF" />
 		<appender-ref ref="fileAppender" />
 	</logger>	
 	
-	<logger name="jdbc.sqltiming">
+	<logger name="jdbc.sqltiming"  additivity="false">
 		<level value="OFF" />
 		<appender-ref ref="fileAppender" />
 	</logger>	
 	
 	<!-- jdbc.resultsettable Loggers ( Real SQL Result Log ) -->
-	<logger name="jdbc.resultsettable">
+	<logger name="jdbc.resultsettable"  additivity="false">
 		<level value="DEBUG" />
 		<appender-ref ref="fileAppender" />
 	</logger>
 	
 	<!-- log4jdbc Loggers -->
-	<logger name="log4jdbc">
+	<logger name="log4jdbc"  additivity="false">
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>
 	
 	<!-- 3rdparty Loggers --> 
-	<logger name="org.apache.commons.beanutils.converters">
+	<logger name="org.apache.commons.beanutils.converters"  additivity="false">
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>
 
 	<!-- 3rdparty Loggers --> 
-	<logger name="org.apache.commons.beanutils.ConvertUtils">
+	<logger name="org.apache.commons.beanutils.ConvertUtils"  additivity="false">
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>
 			
 	<!-- 3rdparty Loggers --> 
-	<logger name="org.apache.commons.beanutils.BeanUtils">
+	<logger name="org.apache.commons.beanutils.BeanUtils"  additivity="false">
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>
 	
 	<!-- 3rdparty Loggers [ org.springframework ] -->
-	<logger name="org.springframework.web">
+	<logger name="org.springframework.web"  additivity="false">
 		<level value="DEBUG" />
 		<appender-ref ref="fileAppender" />
 	</logger>
 	
 	<!-- 3rdparty Loggers [ org.springframework ] -->
-	<logger name="org.springframework.beans">
+	<logger name="org.springframework.beans"  additivity="false">
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>
 		
 	<!-- 3rdparty Loggers [ org.springframework ] -->
-	<logger name="org.springframework.core">
+	<logger name="org.springframework.core"  additivity="false">
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>
 	
 	<!-- 3rdparty Loggers [ org.springframework ] -->
-	<logger name="org.springframework.context">
+	<logger name="org.springframework.context"  additivity="false">
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>
 	
 	<!-- 3rdparty Loggers [ org.springframework ] -->
-	<logger name="org.springframework.aop.framework.JdkDynamicAopProxy">
+	<logger name="org.springframework.aop.framework.JdkDynamicAopProxy"  additivity="false">
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>	
 	
 	<!-- 3rdparty Loggers [ org.mybatis.spring.SqlSessionFactoryBean ] --> 
-	<logger name="org.mybatis.spring.SqlSessionFactoryBean">
+	<logger name="org.mybatis.spring.SqlSessionFactoryBean"  additivity="false">
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>
@@ -146,33 +146,33 @@
   	<!-- ######################################################### -->
 
 	<!-- 3rdparty Loggers [ org.springframework ] -->
-	<logger name="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource">
+	<logger name="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"  additivity="false">
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>	
 	
 	<!-- 3rdparty Loggers [ org.springframework ] -->
-	<logger name="org.springframework.aop.framework.autoproxy.InfrastructureAdvisorAutoProxyCreator">
+	<logger name="org.springframework.aop.framework.autoproxy.InfrastructureAdvisorAutoProxyCreator"  additivity="false">
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>	
 
-	<logger name="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+	<logger name="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"  additivity="false">
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>	
 
-	<logger name="org.springframework.aop.framework.CglibAopProxy">
+	<logger name="org.springframework.aop.framework.CglibAopProxy"  additivity="false">
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>	
 
-	<logger name="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator">
+	<logger name="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator"  additivity="false">
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>
 
-	<logger name="org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor">
+	<logger name="org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor"  additivity="false">
 		<level value="WARN" />
 		<appender-ref ref="fileAppender" />
 	</logger>
