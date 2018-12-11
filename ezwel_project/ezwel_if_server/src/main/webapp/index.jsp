@@ -116,7 +116,11 @@ var testAssets = {
 				"httpClientId": "TEST VALUE",
 				"httpRequestId": "TEST VALUE",
 				"connTimeout": 1000,
-				"readTimeout": 100000
+				"readTimeout": 100000,
+				"otaId": "10055550",
+				"checkInDate": "20190101",
+				"checkOutDate": "20190102",
+				"sidoCode": "11"
 			}
 		},
 		"OUT-당일특가검색 인터페이스" : {
@@ -128,7 +132,8 @@ var testAssets = {
 				"httpClientId": "TEST VALUE",
 				"httpRequestId": "TEST VALUE",
 				"connTimeout": 1000,
-				"readTimeout": 100000
+				"readTimeout": 100000,
+				"otaId": "10055550"
 			}
 		}
 		
@@ -156,13 +161,19 @@ var testAssets = {
 		"OUT-취소수수규정 인터페이스" : {
 			 url : "/service/callCancelFeePsrc"
 			,input : {
-				"httpAgentId": "",
+				"httpAgentId": "10055550",
 				"httpAgentType": "TEST VALUE",
 				"httpChannelCd": "TEST VALUE",
 				"httpClientId": "TEST VALUE",
 				"httpRequestId": "TEST VALUE",
 				"connTimeout": 1000,
-				"readTimeout": 100000
+				"readTimeout": 100000,
+				"otaId": "10055550",
+				"pdtNo": "KRANA002",
+				"roomNo": "SV0000000052461",
+				"checkInDate": "20190101",
+				"checkOutDate": "20190102",
+				"roomCnt": 1
 				/* 실제 입력 필드 추가 */
 			}
 		},
@@ -182,52 +193,66 @@ var testAssets = {
 		"OUT-취소수수료계산 인터페이스" : {
 			 url : "/service/callCancelFeeAmt"
 			,input : {
-				"httpAgentId": "",
+				"httpAgentId": "10055550",
 				"httpAgentType": "TEST VALUE",
 				"httpChannelCd": "TEST VALUE",
 				"httpClientId": "TEST VALUE",
 				"httpRequestId": "TEST VALUE",
 				"connTimeout": 1000,
-				"readTimeout": 100000
+				"readTimeout": 100000,
+				"otaId": "10055550",
+				"rsvNo": "123456789"
 				/* 실제 입력 필드 추가 */
 			}
 		},
 		"OUT-주문취소요청 인터페이스" : {
 			 url : "/service/callOrderCancelReq"
 			,input : {
-				"httpAgentId": "",
+				"httpAgentId": "10055550",
 				"httpAgentType": "TEST VALUE",
 				"httpChannelCd": "TEST VALUE",
 				"httpClientId": "TEST VALUE",
 				"httpRequestId": "TEST VALUE",
 				"connTimeout": 1000,
-				"readTimeout": 100000
+				"readTimeout": 100000,
+				"otaId": "10055550",
+				"rsvNo": "123456789",
+				"otaRsvNo": "000000123",
+				"rsvPrice": 0,
+				"cancelCharge": 0
 				/* 실제 입력 필드 추가 */
 			}
 		},
 		"OUT-누락건확인 인터페이스" : {
 			 url : "/service/callOmiNumIdn"
 			,input : {
-				"httpAgentId": "",
+				"httpAgentId": "10055550",
 				"httpAgentType": "TEST VALUE",
 				"httpChannelCd": "TEST VALUE",
 				"httpClientId": "TEST VALUE",
 				"httpRequestId": "TEST VALUE",
 				"connTimeout": 1000,
-				"readTimeout": 100000
+				"readTimeout": 100000,
+				"otaId": "10055550",
+				"rsvNo": "123456789",
+				"rsvStat": "o01"
 				/* 실제 입력 필드 추가 */
 			}
 		},
 		"OUT-주문대사(이지웰) 인터페이스" : {
 			 url : "/service/callEzwelJob"
 			,input : {
-				"httpAgentId": "",
+				"httpAgentId": "10055550",
 				"httpAgentType": "TEST VALUE",
 				"httpChannelCd": "TEST VALUE",
 				"httpClientId": "TEST VALUE",
 				"httpRequestId": "TEST VALUE",
 				"connTimeout": 1000,
-				"readTimeout": 100000
+				"readTimeout": 100000,
+				"otaId": "10055550",
+				"rsvNo": "",
+				"rsvDateStart": "",
+				"rsvDateEnd": ""
 				/* 실제 입력 필드 추가 */
 			}
 		},
