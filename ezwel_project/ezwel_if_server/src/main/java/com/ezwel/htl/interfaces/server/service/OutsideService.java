@@ -364,21 +364,21 @@ public class OutsideService extends AbstractServiceObject {
 	}
 	
 	@APIOperation(description="Http URL Image Download Multi Communication API", isExecTest=true)
-	public void downloadMultiImage(List<ImageSDO> imageList) {
-		logger.debug("[START] downloadMultiImage\nInput Signature : {}", imageList);
+	public void downloadMultiImage(AllRegOutSDO allRegOutSDO) {
+		logger.debug("[START] downloadMultiImage target count : {}", (allRegOutSDO.getImageList() != null ? allRegOutSDO.getImageList().size() : 0));
 		
 		CallableExecutor executor = null;
 		
 		try {
 			
-			if(imageList != null && imageList.size() > 0) {
+			if(allRegOutSDO.getImageList() != null && allRegOutSDO.getImageList().size() > 0) {
 				
 				executor = new CallableExecutor();
 				executor.initThreadPool(40);
 				ImageSDO imageConfig = null;
 
-				for(int i = 0; i < imageList.size(); i++) {
-					imageConfig = imageList.get(i);
+				for(int i = 0; i < allRegOutSDO.getImageList().size(); i++) {
+					imageConfig = allRegOutSDO.getImageList().get(i);
 					//실존하는 이미지로 확인된 URL만 다운로드를 실행한다.
 					if(APIUtil.isNotEmpty(imageConfig.getCanonicalPath())) {
 						Callable<ImageSDO> callable = new DownloadMultiService(imageConfig, (i+1));
