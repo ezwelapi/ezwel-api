@@ -412,7 +412,7 @@ public class OutsideService extends AbstractServiceObject {
 				executor.clear();
 			}
 			if(allRegOutSDO.getImageList() != null) {
-				allRegOutSDO.getImageList().claer();
+				allRegOutSDO.getImageList().clear();
 			}
 		}
 		
