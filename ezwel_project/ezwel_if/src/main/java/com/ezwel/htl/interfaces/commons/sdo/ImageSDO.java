@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.server.commons.utils.data;
+package com.ezwel.htl.interfaces.commons.sdo;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
@@ -7,8 +7,6 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 @APIModel(description="파일 다운로드 데이터")
 public class ImageSDO  extends AbstractSDO {
 	
-	private static final long serialVersionUID = 1L;
-
 	@APIFields(description="파일 확장자")
 	private String fileExt;
 	
@@ -21,6 +19,9 @@ public class ImageSDO  extends AbstractSDO {
 	@APIFields(description="저장된 파일 일반 경로")
 	private String canonicalPath;
 
+	@APIFields(description="저장 파일 디렉토리")
+	private String directoryPath;
+	
 	@APIFields(description="이미지 URL")
 	private String imageURL;
 	
@@ -47,6 +48,7 @@ public class ImageSDO  extends AbstractSDO {
 		isSave = false;
 		pathPrefix = "";
 		relativePath = "";
+		directoryPath = "";
 	}
 	
 
@@ -113,4 +115,13 @@ public class ImageSDO  extends AbstractSDO {
 	public void setPathPrefix(String pathPrefix) {
 		this.pathPrefix = pathPrefix;
 	}
+
+	public String getDirectoryPath() {
+		return directoryPath;
+	}
+
+	public void setDirectoryPath(String directoryPath) {
+		this.directoryPath = directoryPath;
+	}
+	
 }

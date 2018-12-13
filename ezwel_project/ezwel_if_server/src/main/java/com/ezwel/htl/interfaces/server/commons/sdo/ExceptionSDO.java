@@ -30,6 +30,4 @@ public class ExceptionSDO extends AbstractSDO {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-
-	
 }

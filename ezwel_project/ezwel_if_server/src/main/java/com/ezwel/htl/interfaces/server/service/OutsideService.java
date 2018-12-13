@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,8 @@ import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
+import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
+import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
@@ -32,13 +36,11 @@ import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractServiceObject;
 import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
-import com.ezwel.htl.interfaces.server.commons.utils.data.ImageSDO;
 import com.ezwel.htl.interfaces.server.entities.EzcDetailCd;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
 import com.ezwel.htl.interfaces.server.repository.CommonRepository;
 import com.ezwel.htl.interfaces.server.repository.OutsideRepository;
-import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegSubImagesOutSDO;
@@ -146,7 +148,7 @@ public class OutsideService extends AbstractServiceObject {
 		}
 		
 		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
-		 
+		
 		Integer txCount = 0;
 		AllRegOutSDO allReg = null;
 		List<AllRegDataOutSDO> faclDataList = null;	// 제휴사 및에 시설 목록 ( 인터페이스 전문 SDO )
@@ -159,6 +161,7 @@ public class OutsideService extends AbstractServiceObject {
 		Integer nextIndex = null;
 		ImageSDO imageSDO = null;
 		List<String> ezcFaclAmentArrays = null;
+		List<ImageSDO> imageList = null;
 		
 		try {
 			/**
@@ -232,7 +235,9 @@ public class OutsideService extends AbstractServiceObject {
 						if(faclData.getSubImages() != null) {
 							
 							//시설 이미지 DB 엔티티
-							ezcFaclImgList = new ArrayList<EzcFaclImg>();					
+							ezcFaclImgList = new ArrayList<EzcFaclImg>();
+							imageList = new ArrayList<ImageSDO>();
+							
 							for(AllRegSubImagesOutSDO subImages : faclData.getSubImages()) {
 								ezcFaclImg = new EzcFaclImg();
 								//ezcFaclImg.setFaclCd(faclCd); sequnce
@@ -252,9 +257,13 @@ public class OutsideService extends AbstractServiceObject {
 									imageSDO = new ImageSDO();
 									imageSDO.setPathPrefix(new StringBuffer().append(ezcFacl.getPartnerCd()).append(File.separator).append(ezcFacl.getCityCd()).toString());
 									imageSDO.setImageURL(subImages.getImage());
-									imageSDO = commonUtil.getSaveImagePath(imageSDO, true);
-									// 이미지 저장경로 루트를 제외한 하위경로로 세팅 ( 월요일에 작업 )
-									ezcFaclImg.setImgUrl( APIUtil.NVL(imageSDO.getRelativePath(), "Image Not Found") );
+									imageSDO = commonUtil.getSaveImagePath(imageSDO, false);
+									
+									ezcFaclImg.setImgUrl( APIUtil.NVL(imageSDO.getRelativePath(), MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_9400)) );
+									
+									if(!ezcFaclImg.getImgUrl().equals(MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_9400))) {
+										allFacl.addImageList(imageSDO);
+									}
 								}
 								
 								ezcFaclImgList.add(ezcFaclImg);
@@ -289,8 +298,6 @@ public class OutsideService extends AbstractServiceObject {
 						if(allFacl.getData() == null) {
 							allFacl.setData(new ArrayList<AllRegDataOutSDO>());
 						}
-						/** 제휴사의 시설 데이터를 output sdo 의 목록에 저장 */
-						//allFacl.getData().addAll(faclDataList); // 대량 로그 이슈로 세팅하지 않도록함.
 						/** 트렌젝션 성공 개수 */
 						allFacl.setTxCount(allFacl.getTxCount() + txCount);
 					}
@@ -308,6 +315,9 @@ public class OutsideService extends AbstractServiceObject {
 			
 			if(allReg != null && allReg.getData() != null) {
 				allReg.getData().clear();
+			}
+			if(imageList != null) {
+				imageList.clear();
 			}
 		}
 		
@@ -338,7 +348,7 @@ public class OutsideService extends AbstractServiceObject {
 			saveFaclRegDatas = ezcFacls.subList(fromIndex, toIndex);
 			logger.debug("* insertFaclRegData saveFaclRegDatas.size {}", (saveFaclRegDatas != null ? saveFaclRegDatas.size() : 0));
 			if(saveFaclRegDatas != null && saveFaclRegDatas.size() > 0) {
-				txCount += outsideRepository.insertAllReg(saveFaclRegDatas);
+				txCount += outsideRepository.insertAllReg(saveFaclRegDatas, fromIndex, txCount);
 			}
 			
 			if(ezcFacls != null && ezcFacls.size() > toIndex) {
@@ -353,6 +363,58 @@ public class OutsideService extends AbstractServiceObject {
 		return txCount;
 	}
 	
+	@APIOperation(description="Http URL Image Download Multi Communication API", isExecTest=true)
+	public void downloadMultiImage(List<ImageSDO> imageList) {
+		logger.debug("[START] downloadMultiImage\nInput Signature : {}", imageList);
+		
+		CallableExecutor executor = null;
+		
+		try {
+			
+			if(imageList != null && imageList.size() > 0) {
+				
+				executor = new CallableExecutor();
+				executor.initThreadPool(40);
+				ImageSDO imageConfig = null;
+
+				for(int i = 0; i < imageList.size(); i++) {
+					imageConfig = imageList.get(i);
+					//실존하는 이미지로 확인된 URL만 다운로드를 실행한다.
+					if(APIUtil.isNotEmpty(imageConfig.getCanonicalPath())) {
+						Callable<ImageSDO> callable = new DownloadMultiService(imageConfig, (i+1));
+						//설정된 멀티쓰레드 개수만큼 반복 실행
+						executor.addCall(callable);
+					}
+				}
+				
+				//현재(20181211)는 결과를 받아 사용하지 않음.
+				/*
+				List<Future<?>> futures = executor.getResult();
+				if(futures != null) {
+					logger.debug("- futures.size() : {}", futures.size());
+					
+					for(Future<?> future : futures) {
+						if(future.get() != null) {
+							logger.debug("[IMAGE-DOWNLOAD-OUTPUT] {}", future.get());
+						}
+					}
+				}
+				*/
+			}
+			
+		} catch (APIException e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9401, "■ 이미지 다운로드 다중 인터페이스 장애 발생", e);
+		} catch (Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9401, "■ 이미지 다운로드 다중 인터페이스 장애 발생", e);
+		} 
+		finally {
+			if(executor != null) {
+				executor.clear();
+			}
+		}
+		
+		logger.debug("[END] downloadMultiImage");		
+	}
 	
 	
 	/**

@@ -1,7 +1,6 @@
 package com.ezwel.htl.interfaces.server.repository;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,14 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
+import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
-import com.ezwel.htl.interfaces.server.commons.utils.data.ImageSDO;
+import com.ezwel.htl.interfaces.server.commons.utils.ExceptionUtil;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclAment;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
@@ -47,7 +49,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	 */
 	@Transactional(propagation=Propagation.REQUIRED)
 	@APIOperation(description="전체시설일괄등록 인터페이스")
-	public Integer insertAllReg(List<EzcFacl> saveFaclRegDatas) {
+	public Integer insertAllReg(List<EzcFacl> saveFaclRegDatas, Integer fromIndex, Integer toIndex) {
 		
 		Integer txCount = 0;
 		Integer txSuccess = 0;
@@ -58,16 +60,21 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		EzcFacl outEzcFacl = null;
 		EzcFacl ezcFacl = null;
 		EzcFaclImg inEzcFaclImg = null;
+		Integer i = 0;
 		
 		try {
 			
-			for(Integer i = 0; i < saveFaclRegDatas.size(); i++) {
+			for(i = 0; i < saveFaclRegDatas.size(); i++) {
+				// 시설 정보
 				ezcFacl = saveFaclRegDatas.get(i);
+				
 				inEzcFacl = new EzcFacl();
 				inEzcFacl.setPartnerCd(ezcFacl.getPartnerCd());
 				inEzcFacl.setPartnerGoodsCd(ezcFacl.getPartnerGoodsCd());
+				txSuccess = 0;
 				
-				outEzcFacl = sqlSession.selectOne(getNamespace("FACL_MAPPER", "selectEzcFacl"), inEzcFacl);
+				outEzcFacl = sqlSession.selectOne(getNamespace("FACL_MAPPER", "selectEzcFaclMeta"), inEzcFacl);
+				txCount++; //selectOne transaction
 				
 				/** 0. 시설 코드 (Number) Sequnce */
 				if(outEzcFacl == null) {
@@ -77,17 +84,18 @@ public class OutsideRepository extends AbstractDataAccessObject {
 					ezcFacl.setFaclCd(faclCdSeq);
 					/** 1. EZC_FACL 1건 저장 */
 					//insert
-					txCount += sqlSession.insert(getNamespace("FACL_MAPPER", "insertEzcFacl"), ezcFacl);
+					txSuccess = sqlSession.insert(getNamespace("FACL_MAPPER", "insertEzcFacl"), ezcFacl);
 				}
 				else {
 					// 이미 존재함
 					ezcFacl.setFaclCd(outEzcFacl.getFaclCd());
 					/** 1. EZC_FACL 1건 변경 */
-					//insert
-					txCount += sqlSession.update(getNamespace("FACL_MAPPER", "updateEzcFacl"), ezcFacl);
+					//update
+					txSuccess = sqlSession.update(getNamespace("FACL_MAPPER", "updateEzcFacl"), ezcFacl);
 				}
 				
 				if(txSuccess > 0) {
+					txCount++; //insert/update transaction 
 					
 					/** 2. EZC_FACL_IMG N건 저장 */
 					ezcFaclImgList = ezcFacl.getEzcFaclImgList();
@@ -107,7 +115,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 							txCount++; //sequnce transaction 
 							faclImg.setFaclCd(ezcFacl.getFaclCd());
 
-							//insert => merge 변경
+							//insert
 							txCount += sqlSession.insert(getNamespace("FACL_IMG_MAPPER", "insertEzcFaclImg"), faclImg);
 						}
 					}
@@ -123,7 +131,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 								ezcFaclAment.setFaclCd(ezcFacl.getFaclCd());
 								ezcFaclAment.setAmentType(faclAment);
 
-								//insert => merge 변경
+								//merge
 								txCount += sqlSession.update(getNamespace("FACL_AMENT_MAPPER", "mergeEzcFaclAment"), ezcFaclAment);
 							}
 						}
@@ -131,11 +139,19 @@ public class OutsideRepository extends AbstractDataAccessObject {
 				}
 			}
 		}
-		catch(APIException e) {
-			logger.error("Code : {}", e.getResultCode());
+		catch(Exception e) {
+			
+			exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
+			
+			/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
+			exceptionUtil.writeBatchErrorLog("{}\n{}@{}\n에러 발생 구간(index) from : {} ~ to : {}\n에러 발생 시설 index : {}\n에이전트코드 : {}\n시설코드 : {}\n시설명(한글) : {}\n시설명(영문) : {}", 
+					new Object[] {"[전체시설일괄등록 인터페이스 데이터 저장 장애발생]", this.getClass().getCanonicalName(), "insertAllReg", fromIndex, toIndex, i, ezcFacl.getPartnerCd(), ezcFacl.getPartnerGoodsCd(), ezcFacl.getFaclNmKor(), ezcFacl.getFaclNmEng()},
+					new StringBuffer().append(this.getClass().getSimpleName()).append(OperateConstants.STR_AT).append("insertAllReg-").append(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).toString(), 
+					e);
+			
+			logger.error("Code : {}", MessageConstants.RESPONSE_CODE_9500);
 			logger.error("Message : {}", e.getMessage());
-			//에러 발생 레코드 errorItems에 저장후 runtimeException 없이 로깅후 종료
-			throw new APIException("시설정보 DB 저장 실패"); 
+			e.getStackTrace();
 		}
 		
 		return txCount;
@@ -145,6 +161,8 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	@Transactional
 	@APIOperation(description="시설 이미지 다운로드 '사용 보류'")
 	public Integer downloadBuildImage(EzcFaclImg ezcFaclImg) {
+		
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
 		int txCount = 0;
 		String imageURL = null;

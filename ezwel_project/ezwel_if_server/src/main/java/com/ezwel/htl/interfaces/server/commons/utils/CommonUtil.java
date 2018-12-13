@@ -4,15 +4,16 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -39,10 +40,10 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
-import com.ezwel.htl.interfaces.server.commons.utils.data.ImageSDO;
 import com.ezwel.htl.interfaces.server.entities.EzcDetailCd;
 import com.google.common.io.ByteSource;
 import com.google.common.io.ByteStreams;
@@ -323,25 +324,25 @@ public class CommonUtil {
 		boolean out = false;
 		
 		URL url = null;
-		URLConnection conn = null;
+		//URLConnection conn = null;
 		try {
 			
 			url = new URL(urlString);
 			//Java의 표준을 엄격히 준수하여 URL 유효성 검사를 수행
 			url.toURI().parseServerAuthority();
 			//실존하는 URL인지 검증
-		    conn = url.openConnection();
+		    //conn = url.openConnection();
 		    //커넥션 타임아웃 1초
-		    conn.setConnectTimeout(1000);
-		    conn.connect();
+		    //conn.setConnectTimeout(1000);
+		    //conn.connect();
 			out = true;
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			logger.error("[Ignore] isValidURL MalformedURLException : {}", e.getMessage());
 		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			logger.error("[Ignore] isValidURL URISyntaxException : {}", e.getMessage());
+		} /*catch (IOException e) {
+			logger.error("[Ignore] isValidURL IOException : {}", e.getMessage());
+		}*/
 		
 		return out;
 	}
@@ -355,10 +356,10 @@ public class CommonUtil {
 	 */
 	@APIOperation(description="URL 이미지를 저장할 디렉토리를 만들고 FS에 저장할 실제 파일경로를 포함한 Object를 리턴합니다. (다운로드는 하지 않습니다.)")
 	public ImageSDO getSaveImagePath(ImageSDO imageSDO, boolean verbose) {
-		logger.debug("[START] getSaveImagePath {}", imageSDO);
 		if(imageSDO == null) {
 			throw new APIException("[getSaveImagePath] Input Prameter ImageSDO is Null...");
 		}
+		logger.debug("[START] getSaveImagePath URL : {}", imageSDO.getImageURL());
 		
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
 		
@@ -382,14 +383,19 @@ public class CommonUtil {
 		try {
 			
 			if( APIUtil.isEmpty(imageSDO.getImageURL()) ) {
-				throw new APIException(MessageConstants.RESPONSE_CODE_2000, "이미지 URL이 존재하지 않습니다.");
+				logger.error("이미지 URL이 존재하지 않습니다.");
 			}
-			
-			if(doDirectoryMake(outputFile, true)) {
-				lowerImageURL = imageSDO.getImageURL().toLowerCase();
+			else {
+				if(verbose) {
+					logger.debug("starting image url download...");
+				}
 				
+				//Directory Setting
+				imageSDO.setDirectoryPath(outputFile.getPath());
+			
+				lowerImageURL = imageSDO.getImageURL().toLowerCase();
 				if(lowerImageURL.startsWith(OperateConstants.DATA_IMAGE_PREFIX) && lowerImageURL.contains(OperateConstants.STR_BASE64)) {
-					logger.warn("- base64 data:image 제휴사에서 데이터 이미지URL을 리턴할경우 추가작업 현재(20181129) 전용필차장과 의논해본결과 리턴URL 패턴 파악이 불가능함");
+					logger.warn("- base64 data:image 제휴사에서 이미지URL을 데이터:이미지 base64 URL로 리턴할경우 추가작업 필요. 현재(20181129) 전용필차장과 의논해본결과 리턴URL 패턴 파악이 불가능하다고함.");
 				}
 				else if(lowerImageURL.startsWith("http")) {
 					
@@ -454,8 +460,8 @@ public class CommonUtil {
 		} catch (Exception e) {
 			logger.error("Exception : {}\n{}", e.getMessage(), e.getStackTrace());
 		}
-		logger.debug("[END] getSaveImagePath {}", namedSDO);
 		
+		logger.debug("[END] getSaveImagePath {} : {}", imageRootPath, namedSDO.getRelativePath());
 		return namedSDO;
 	}
 	
@@ -489,27 +495,30 @@ public class CommonUtil {
 				downloadSDO = (ImageSDO) propertyUtil.copySameProperty(imageSDO, ImageSDO.class);
 			}
 			
-			outputFile = new File(downloadSDO.getCanonicalPath());
-			url = new URL(downloadSDO.getImageURL().trim());
-			bufferedImage = ImageIO.read(url);
-			
-			if(verbose) {
-				logger.debug("- 이미지 URL : '{}'", url);
-				logger.debug("- 이미지 bufferedImage : {}", bufferedImage);
-				logger.debug("- 이미지 파일 확장자 : {}", downloadSDO.getFileExt());
-				logger.debug("- 저장할 파일명 전체 경로를 생성합니다. {}", outputFile.getCanonicalPath());
-			}
-			
-			if(ImageIO.write(bufferedImage, downloadSDO.getFileExt(), outputFile)) {
-				downloadSDO.setSave(true);
+			//설정된 디렉토리의 존제 여부 채크.. 없으면 생성
+			outputFile = new File(downloadSDO.getDirectoryPath());
+			if(doDirectoryMake(outputFile, true)) {
+				
+				url = new URL(downloadSDO.getImageURL().trim());
+				bufferedImage = ImageIO.read(url);
+				
 				if(verbose) {
-					logger.debug("- 이미지 다운로드 성공...");
+					logger.debug("- 이미지 URL : '{}'", url);
+					logger.debug("- 이미지 bufferedImage : {}", bufferedImage);
+					logger.debug("- 이미지 파일 확장자 : {}", downloadSDO.getFileExt());
+					logger.debug("- 이미지를 저장할 전체 경로 {}", outputFile.getCanonicalPath());
 				}
-			}
-			else {
-				downloadSDO.setSave(false);
-				if(verbose) {
-					logger.debug("- 이미지 다운로드 실패...");
+				
+				downloadSDO.setSave(ImageIO.write(bufferedImage, downloadSDO.getFileExt(), outputFile));
+				if(downloadSDO.isSave()) {
+					if(verbose) {
+						logger.debug("- 이미지 다운로드 성공...");
+					}
+				}
+				else {
+					if(verbose) {
+						logger.debug("- 이미지 다운로드 실패...");
+					}
 				}
 			}
 		 
@@ -549,7 +558,7 @@ public class CommonUtil {
     		File dir = directory;
 
 	        if(verbose) {
-	        	logger.debug("..디렉토리 존재여부 : " , dir.isDirectory());
+	        	logger.debug("..디렉토리 존재여부 : {}" , dir.isDirectory());
 	        }
 	        
 			if(dir.isFile()) {
@@ -561,7 +570,7 @@ public class CommonUtil {
 			else if(!dir.isDirectory()){
 	        	
 	        	if(verbose) {
-	        		logger.debug("..디렉토리가 존재하지 않음으로 디렉토리를 생성합니다.");
+	        		logger.debug("..디렉토리가 존재하지 않음으로 디렉토리를 생성합니다. {}", directory.getPath());
 	        	}
 	        	
 	            if(!dir.mkdirs()){
@@ -786,7 +795,7 @@ public class CommonUtil {
 		return out;
 	}
 	
-    
+    @APIOperation
     public static String byteSubstring(String str, int sPoint, String encoding) {
     	return byteSubstring(str, sPoint, -1, encoding);
     }
@@ -804,7 +813,7 @@ public class CommonUtil {
 			byte[] bytes = sentence.getBytes(encoding);
 
 	    	if(endPoint < 0) {
-	    		endPoint = bytes.length;
+	    		endPoint = bytes.length - startPoint;
 	    	}
 	    	
 			byte[] value = new byte[endPoint];
@@ -853,5 +862,145 @@ public class CommonUtil {
 	    return out;
 	}
 	
+	/**
+	 * 파일 생성
+	 * @param fileDir	: 생성할파일 이름을 포함한 전체경로
+	 * @param fileName	: 생성할파일 이름을 포함한 전체경로
+	 * @param contents	: 생성한 파일에 쓰기할 내용
+	 * @param encoding	: 파일인코딩
+	 * @param inheritfile	: 파일이 존재할 경우 파일안에 내용을 추가할것인지 여부
+	 * @param verbose	: 파일 생성 로깅을 할것인지 여부
+	 * @return
+	 */
+    @APIOperation
+    public File mkfile(String fileDir, String fileName, String contents, String encoding, boolean inheritfile, boolean verbose) {
+
+    	if (logger.isDebugEnabled() && verbose) {
+    		logger.debug("[START] mkfile\n mkfile fileDir : {}\n mkfile fileName : {}\n mkfile fileContents : {}" , fileDir , fileName , contents);
+    		logger.debug("..wget() mkfile start.. ");
+    	}
+
+    	String mkfileName = "";		// 파일 이름
+
+    	if(fileDir != null) {
+    		//mkdir(fileDir, verbose);
+    		doDirectoryMake(fileDir, true); // 디렉토리를 채크하고 없으면 생성한다.
+    		mkfileName = fileDir.concat(OperateConstants.STR_SLASH).concat(fileName);	// 경로를 포함한 파일 이름
+    	}else{
+    		mkfileName = fileName;	// 경로를 포함한 파일 이름
+    	}
+
+        File file = new File(mkfileName);	// 파일 생성
+        OutputStreamWriter out = null;
+        String fileContent = APIUtil.NVL(contents);
+
+        if (logger.isDebugEnabled() && verbose) {
+        	logger.debug(APIUtil.addString("..new file() will save to ", mkfileName));
+        }
+		try {
+			out = new OutputStreamWriter(new FileOutputStream(file, inheritfile), encoding); // 파일에 문자를 적을 스트림 생성
+			if (logger.isDebugEnabled() && verbose) {
+				logger.debug ("..new file() make stream ");
+			}
+			
+			out.write(fileContent); // 파일에 쓰기
+			if (logger.isDebugEnabled() && verbose) {
+				logger.debug ("..new file() write contents. ");
+			}
+			
+			out.flush(); // 파일 에 문자열전달
+			if (logger.isDebugEnabled() && verbose) {
+				logger.debug ("..new file() flush ");
+			}
+		}
+		catch (UnsupportedEncodingException e) {
+			throw new APIException(e);
+		}
+		catch (FileNotFoundException e) {
+			throw new APIException(e);
+		}
+		catch (IOException e) {
+			throw new APIException(e);
+		}
+		finally {
+	        try {
+				if(out != null) {
+					out.close(); // 스트림 닫기
+					if (logger.isDebugEnabled() && verbose) {
+						logger.debug ("..new file() close ");
+					}
+				}
+			} catch (IOException e) {
+				throw new APIException(e);
+			}
+		}
+		if (logger.isDebugEnabled() && verbose) {
+			logger.debug ("..wget() end ");
+		}
+		
+        return file;
+    }
+    
+
+	/**
+	 * 반각문자로 변경한다
+	 * 
+	 * @param src 변경할값
+	 * @return String 변경된값
+	 */
+	public String toHalfChar(String str) {
+		if (APIUtil.NVL(str).equals("")) return "";
+		
+		String target = str.trim();
+
+		StringBuffer strBuf = new StringBuffer();
+
+		char c = 0;
+		int nSrcLength = target.length();
+		for (int i = 0; i < nSrcLength; i++) {
+			c = target.charAt(i);
+			// 영문이거나 특수 문자 일경우.
+			if (c >= '！' && c <= '～') {
+				c -= 0xfee0;
+			} else if (c == '　') {
+				c = 0x20;
+			}
+			// 문자열 버퍼에 변환된 문자를 쌓는다
+			strBuf.append(c);
+		}
+		return strBuf.toString();
+	}
+
+	/**
+	 * 전각문자로 변경한다.
+	 * 
+	 * @param src 변경할값
+	 * @return String 변경된값
+	 */
+	public String toFullChar(String str) {
+		if (APIUtil.NVL(str).equals("")) return "";
+		
+		String target = str.trim();
+
+		// 변환된 문자들을 쌓아놓을 StringBuffer 를 마련한다
+		StringBuffer strBuf = new StringBuffer();
+		char c = 0;
+		int nSrcLength = target.length();
+		for (int i = 0; i < nSrcLength; i++) {
+			c = target.charAt(i);
+			// 영문이거나 특수 문자 일경우.
+			if (c >= 0x21 && c <= 0x7e) {
+				c += 0xfee0;
+			}
+			// 공백일경우
+			else if (c == 0x20) {
+				c = 0x3000;
+			}
+			// 문자열 버퍼에 변환된 문자를 쌓는다
+			strBuf.append(c);
+		}
+		return strBuf.toString();
+	}
+    
 }
 

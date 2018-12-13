@@ -22,7 +22,7 @@ import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
  * @date   2018. 11. 14.
  */
 @XmlRootElement( name = "interfaceConfigure" )
-@XmlType (propOrder={"serverAddress", "agentList", "insideChans", "outsideChans", "fileRepository"})
+@XmlType (propOrder={"serverAddress", "fileRepository", "agentList", "insideChans", "outsideChans"})
 @APIModel(description="인터페이스 설정")
 public class InterfaceRootConfig extends APIObject {
 

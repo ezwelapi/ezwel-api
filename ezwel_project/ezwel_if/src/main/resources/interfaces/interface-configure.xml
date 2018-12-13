@@ -8,6 +8,19 @@
 		<devServerDomain>http://ezc-api.dev.ezwel.com/API1.0</devServerDomain>
 	</serverAddress>
 
+	<fileRepository>
+		<buildImage>
+			<localRootPath>D:/ezwel-repository/tempFileRepository/image/</localRootPath>
+			<devRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/image/</devRootPath>
+			<prodRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/image/</prodRootPath>
+		</buildImage>
+		<errorLog>
+			<localRootPath>D:/ezwel-repository/tempFileRepository/batchLog/</localRootPath>
+			<devRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/batchLog/</devRootPath>
+			<prodRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/batchLog/</prodRootPath>
+		</errorLog>
+	</fileRepository>
+	
 	<agentList>
 		<agentInfo>
 			<agentName>호텔엔조이 메이트아이</agentName>
@@ -319,14 +332,6 @@
 		</httpChan>
 	</outsideChans>
 
-	<fileRepository>
-		<buildImage>
-			<localRootPath>C:/ezwel-repository/lodgeBuilding</localRootPath>
-			<devRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository</devRootPath>
-			<prodRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository</prodRootPath>
-		</buildImage>
-	</fileRepository>
-	
 
-		
+
 </interfaceConfigure>

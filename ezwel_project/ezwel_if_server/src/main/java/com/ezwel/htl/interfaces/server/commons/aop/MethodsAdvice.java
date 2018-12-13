@@ -26,7 +26,6 @@ import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
 import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.sdo.ExceptionSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
-import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.ResponseUtil;
 
 @Aspect
@@ -126,7 +125,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		Object retVal = null;
 		
 		try {
-			logger.debug("■■ [INPUT] {} {}", typeMethodName, inputParam);
+			logger.debug("■■ [INPUT] {}", typeMethodName/*, inputParam*/);
 			if(controlAnno != null || apiOperAnno.isInputBeanValidation()) {
 				logger.debug("■■ [VALIDATE] {} {}", controlAnno, apiOperAnno.isInputBeanValidation());
 				doMethodInputValidation(proccesMethod.getParameterTypes(), inputParam);
@@ -160,7 +159,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 
 		long executeLapTimeMillis = Local.endOperation(methodGuid).getLapTimeMillis();
 		
-		logger.debug("■■ [END APIOperation] {}, methodGuid : {}, lapTime : {} sec", typeMethodName, methodGuid, APIUtil.getTimeMillisToSecond(executeLapTimeMillis));
+		logger.debug("■■ [END APIOperation] {}, lapTime : {} sec, methodGuid : {}", typeMethodName, APIUtil.getTimeMillisToSecond(executeLapTimeMillis), methodGuid);
 		if(Local.commonHeader().isHandlerInterceptorComplete()) {
 			Local.remove();
 		}

@@ -1,6 +1,5 @@
 package com.ezwel.htl.interfaces.commons.constants;
 
-import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
-import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
 /**
@@ -29,6 +26,7 @@ public class OperateConstants {
 	public static final String STR_BLANK;
 	public static final String DEF_DAY_FORMAT;
 	public static final String DEF_DATE_FORMAT;
+	public static final String GENERAL_DATE_FORMAT;
 	public static final String DEFAULT_ENCODING;
 	public static final String STR_COLON;
 	public static final String STR_WHITE_SPACE;
@@ -170,6 +168,7 @@ public class OperateConstants {
 		STR_BLANK = "";
 		DEF_DAY_FORMAT = "yyyyMMdd";
 		DEF_DATE_FORMAT = "yyyyMMddHHmmss";
+		GENERAL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 		DEFAULT_ENCODING = "UTF-8";
 		STR_COLON = ":";
 		STR_WHITE_SPACE = " ";
