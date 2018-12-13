@@ -297,6 +297,8 @@ var testAssets = {
 	}
 	,send : function( httpAgentId, restURL, jsonString ) {
 		
+		console.info(arguments);
+		
 		var inputJson = null;
 		try {
 			if(!jsonString || $.trim(jsonString) === "") {
@@ -306,7 +308,7 @@ var testAssets = {
 				inputJson = JSON.parse(jsonString);
 			}
 			
-			if( inputJson.httpAgentId && inputJson.httpAgentId !== "" ) {
+			if( restURL !== "/agent/apiKey" && inputJson.httpAgentId && inputJson.httpAgentId !== "" ) {
 				inputJson.httpAgentId = httpAgentId;
 			}
 		}
@@ -314,6 +316,10 @@ var testAssets = {
 			alert("입력 파라메터 필드의 JSON 문자열이 잘못되었습니다.\n" + e.message);
 			return false;
 		}
+		
+		
+		console.info("Input Parameter");
+		console.info(inputJson);
 		
 		$.ajax({ 
 			type: "POST", 

@@ -11,10 +11,10 @@ public class MorphemeSDO extends AbstractSDO {
 
 	private static final long serialVersionUID = 1L;
 
-	@APIFields(description = "단어/문장 목록", required=true, maxLength=4)
+	@APIFields(description = "단어/문장 목록", required=true)
 	private List<String> sentenceList;
 	
-	@APIFields(description = "형태소 분석 결과 목록", maxLength=100)
+	@APIFields(description = "형태소 분석 결과 목록")
 	private List<String> morphemeList;
 
 	public List<String> getSentenceList() {

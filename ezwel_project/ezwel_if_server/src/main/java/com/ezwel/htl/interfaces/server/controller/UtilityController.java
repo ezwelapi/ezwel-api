@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzer;
+import com.ezwel.htl.interfaces.server.commons.sdo.AgentApiKeySDO;
 import com.ezwel.htl.interfaces.server.commons.sdo.MorphemeSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 
@@ -39,29 +40,23 @@ public class UtilityController {
 	}
 
 	
-	@APIOperation(description="에이젼트 키 발급", isOutputJsonMarshall=true, returnType=Map.class)
+	@APIOperation(description="에이젼트 키 발급", isOutputJsonMarshall=true, returnType=AgentApiKeySDO.class)
 	@RequestMapping(value="/agent/apiKey")
-	public Object agentApiKey(HttpServletRequest request, HttpServletResponse response) {
-		logger.debug("[START] agentApiKey \n{}", request.getParameterMap());
+	public Object agentApiKey(AgentApiKeySDO in) {
+		logger.debug("[START] agentApiKey \n{}", in);
 		
 		apiUtil = (APIUtil) LApplicationContext.getBean(apiUtil, APIUtil.class);
 		
-		Map<String, String[]> requestMap = request.getParameterMap();
+		AgentApiKeySDO out = new AgentApiKeySDO();
 		
-		String agentName = APIUtil.NVL(requestMap.get("agentName")[0]);
-		String httpAgentId = APIUtil.NVL(requestMap.get("httpAgentId")[0]);
+		out.setAgentName(in.getAgentName());
+		out.setHttpAgentId(in.getHttpAgentId());
+		// inside api key
+		out.setInsideKey(apiUtil.createApiKey("i", in.getAgentName(), in.getHttpAgentId()));
 		
-		Map<String, String> out = new LinkedHashMap<String, String>();
+		// outside api key
+		out.setOutsideKey(apiUtil.createApiKey("o", in.getAgentName(), in.getHttpAgentId()));
 		
-		if(!agentName.isEmpty() && !httpAgentId.isEmpty()) {
-			// inside api key
-			out.put("inside", apiUtil.createApiKey("i", agentName, httpAgentId));
-			logger.debug("{}({}) : {}", out.get("inside").length(), out);
-			
-			// outside api key
-			out.put("outside", apiUtil.createApiKey("o", agentName, httpAgentId));
-			logger.debug("{}({}) : {}", agentName, out.get("outside").length(), out);
-		}
 		logger.debug("[END] agentApiKey \n{}", out);
 		return out;
 	}
@@ -69,7 +64,7 @@ public class UtilityController {
 	
 	@APIOperation(description="한글 형태소 분석", isOutputJsonMarshall=true, returnType=MorphemeSDO.class)
 	@RequestMapping(value="/morp/korean")
-	public Object morpKorean(MorphemeSDO morphemeSDO, HttpServletRequest request, HttpServletResponse response) {
+	public Object morpKorean(MorphemeSDO morphemeSDO) {
 		logger.debug("[START] morpKorean {}", morphemeSDO);
 		
 		MorphemeSDO out = new MorphemeSDO();

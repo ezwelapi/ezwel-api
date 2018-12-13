@@ -136,7 +136,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				
 			if(controlAnno != null && !Local.commonHeader().isControlMarshalling()) {
 
-				logger.debug("■■ [INPUTSTREAM] {}");
+				logger.debug("■■ [INPUTSTREAM]");
 				doMethodInputStream(proccesMethod.getParameterTypes(), inputParamObjects);
 				Local.commonHeader().setControlMarshalling(true);
 			}

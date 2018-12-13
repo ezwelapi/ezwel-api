@@ -120,9 +120,9 @@ public class BeanMarshaller {
 			out = mapper.readValue(jsonString, new TypeReference<LinkedHashMap<String, Object>>(){});
 
 		} catch (JsonParseException e) {
-			throw new APIException("(JSON)전문 분석 장애 발생. 전문 데이터 표현이 잘못되었습니다.\n{}", new Object[] {jsonString}, e);
+			throw new APIException("(JSON)전문 분석 장애 발생. 전문 데이터 표현이 잘못되었습니다. {}", new Object[] {jsonString}, e);
 		} catch (JsonGenerationException e) {
-			throw new APIException("(JSON)전문 언마샬과정에 JsonGenerationException발생.\n{}", new Object[] {jsonString}, e);
+			throw new APIException("(JSON)전문 언마샬과정에 JsonGenerationException발생. {}", new Object[] {jsonString}, e);
 		} catch (JsonMappingException e) {
 			throw new APIException("(JSON)전문의 EZWEL(BEAN)에 언마샬과정에 장애 발생. (JSON)전문 데이터 표현이 잘못되었습니다.\n{}", new Object[] {jsonString}, e) ;
 		} catch (IOException e) {
