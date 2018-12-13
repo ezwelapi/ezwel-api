@@ -90,7 +90,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 					// 이미 존재함
 					ezcFacl.setFaclCd(outEzcFacl.getFaclCd());
 					/** 1. EZC_FACL 1건 변경 */
-					//insert
+					//update
 					txSuccess = sqlSession.update(getNamespace("FACL_MAPPER", "updateEzcFacl"), ezcFacl);
 				}
 				
@@ -115,7 +115,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 							txCount++; //sequnce transaction 
 							faclImg.setFaclCd(ezcFacl.getFaclCd());
 
-							//insert => merge 변경
+							//insert
 							txCount += sqlSession.insert(getNamespace("FACL_IMG_MAPPER", "insertEzcFaclImg"), faclImg);
 						}
 					}
@@ -131,7 +131,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 								ezcFaclAment.setFaclCd(ezcFacl.getFaclCd());
 								ezcFaclAment.setAmentType(faclAment);
 
-								//insert => merge 변경
+								//merge
 								txCount += sqlSession.update(getNamespace("FACL_AMENT_MAPPER", "mergeEzcFaclAment"), ezcFaclAment);
 							}
 						}
@@ -144,6 +144,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 			
 			StringBuffer txErrorSection = new StringBuffer();
+			
 			txErrorSection.append(OperateConstants.STR_MAX_BRACKET_R);
 			txErrorSection.append(this.getClass().getCanonicalName());
 			txErrorSection.append(OperateConstants.STR_AT);
@@ -160,6 +161,12 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			txErrorSection.append("에러 발생 시설 index : ");
 			txErrorSection.append(i);
 			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
+			txErrorSection.append("에이전트코드 : ");
+			txErrorSection.append(ezcFacl.getPartnerCd());
+			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
+			txErrorSection.append("시설코드 : ");
+			txErrorSection.append(ezcFacl.getPartnerGoodsCd());
+			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
 			txErrorSection.append("시설명(한글) : ");
 			txErrorSection.append(ezcFacl.getFaclNmKor());			
 			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
@@ -174,7 +181,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			txErrorSection.append(OperateConstants.LINE_SEPARATOR);	
 			txErrorSection.append(OperateConstants.LINE_SEPARATOR);	
 			
-			/** 에러 발생 레코드 errorItems에 저장후 runtimeException 없이 로깅후 종료 */
+			/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
 			String logFileName = this.getClass().getSimpleName().concat(OperateConstants.STR_AT).concat("insertAllReg-").concat(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).concat(".log");
 			commonUtil.mkfile(InterfaceFactory.getInterfaceBatchErrorLogPath(), logFileName, txErrorSection.toString(), OperateConstants.DEFAULT_ENCODING, true, true);
 
