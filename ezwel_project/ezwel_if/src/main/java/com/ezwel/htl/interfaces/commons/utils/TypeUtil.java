@@ -164,7 +164,8 @@ public class TypeUtil {
     	
     	String[] excludes = null;
     	if( excludePackages == null || excludePackages.length == 0) {
-    		excludes = (String[]) OperateConstants.EXCLUDE_PACKAGE_STARTS.toArray(); //{"java.","javax."}
+    		//excludes = (String[]) OperateConstants.EXCLUDE_PACKAGE_STARTS.toArray(); //{"java.","javax."}
+    		excludes = OperateConstants.EXCLUDE_PACKAGE_STARTS.toArray(new String[OperateConstants.EXCLUDE_PACKAGE_STARTS.size()]);
     	}
     	else {
     		excludes = excludePackages;

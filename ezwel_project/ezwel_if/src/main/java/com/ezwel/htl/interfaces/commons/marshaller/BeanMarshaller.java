@@ -5,7 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,14 +50,17 @@ public class BeanMarshaller {
 			mapper = new ObjectMapper();
 			out = mapper.writeValueAsString(bean);
 		} catch (JsonProcessingException e) {
-			throw new APIException("JSON 변환과정에 장애발생", e);
+			throw new APIException("BEAN을 JSON으로 변환과정에 장애발생", e);
+		} catch (Exception e) {
+			throw new APIException("BEAN을 JSON으로 변환과정에 장애발생", e);
 		}
 			
 		return out;
 	}
 	
+	
 	@APIOperation(description="바인드된 MAP객체를 빈 오브젝트에 담아줍니다.", isExecTest=true)
-	public Object fromMap(Map<String, ? extends Object> readMap, Class<?> writeBean) {
+	public Object mapToBean(Map<String, ? extends Object> readMap, Class<?> writeBean) {
 		if (readMap == null) {
 			throw new APIException("Map데이터가 존재하지 않습니다.");
 		}
@@ -67,53 +69,21 @@ public class BeanMarshaller {
 		}
 
 		Object out = null;
+		String jsonString = null;
+		
 		try {
-			if(readMap.getClass().isAssignableFrom(LinkedHashMap.class)) {
-				logger.debug("순서(인덱스)를 보장하는 맵으로 구현된 Map객체입니다. ");
-			}
-			else {
-				logger.warn("순서(인덱스)가 보장 되지 않는 맵으로 구현된 Map객체입니다. ");
-			}
+			jsonString = toJSONString(readMap);
+			logger.debug("-mapToBean : {}", jsonString);
 			
-			out = writeBean.newInstance();
-			BeanUtils.populate(out, readMap);
-		} catch (IllegalAccessException e) {
-			throw new APIException(e);
-		} catch (InvocationTargetException e) {
-			throw new APIException(e);
-		} catch (InstantiationException e) {
-			throw new APIException(e);
+			out = fromJSONString(jsonString, writeBean);
+			
+		} catch(Exception e) {
+			throw new APIException("맵을 빈으로 변환하는과정에 장애발생.\n{}", new Object[] {jsonString}, e);
 		}
-		
 		return out;
-	}	
+	}
 	
-
 	
-	@APIOperation(description="바인드된 JSON객체를 Class객체에 담아줍니다.", isExecTest=true)
-	public Object fromJSON(String jsonString, Class<?> writeBean){
-		logger.debug("[START] fromJSON jsonString : {}\nwriteBean : {}", jsonString, writeBean);
-		
-		 Object out = null;
-		 ObjectMapper mapper = null;
-		 Map<String, Object> jsonMap = null;
-		 
-		if(jsonString != null) {
-			mapper = new ObjectMapper();
-			try {
-				jsonMap = mapper.readValue(jsonString, new TypeReference<Map<String, Object>>(){});
-				out = fromMap(jsonMap, writeBean);
-			} catch (JsonParseException e) {
-				throw new APIException(e);
-			} catch (JsonMappingException e) {
-				throw new APIException(e);
-			} catch (IOException e) {
-				throw new APIException(e);
-			}
-		}
-		
- 		return out;
-	}	 
 	
 	@APIOperation(description="바인드된 JSON 문자열을 Class객체에 담아줍니다.", isExecTest=true)
 	public Object fromJSONString(String jsonString, Class<?> writeBean) {
@@ -146,15 +116,19 @@ public class BeanMarshaller {
 		Map<String, Object> out = null;
 		try {
 
-			// convert JSON string to Map
+			// convert JSON string to LinkedHashMap
 			out = mapper.readValue(jsonString, new TypeReference<LinkedHashMap<String, Object>>(){});
 
+		} catch (JsonParseException e) {
+			throw new APIException("(JSON)전문 분석 장애 발생. 전문 데이터 표현이 잘못되었습니다.\n{}", new Object[] {jsonString}, e);
 		} catch (JsonGenerationException e) {
-			throw new APIException(e);
+			throw new APIException("(JSON)전문 언마샬과정에 JsonGenerationException발생.\n{}", new Object[] {jsonString}, e);
 		} catch (JsonMappingException e) {
-			throw new APIException(e);
+			throw new APIException("(JSON)전문의 EZWEL(BEAN)에 언마샬과정에 장애 발생. (JSON)전문 데이터 표현이 잘못되었습니다.\n{}", new Object[] {jsonString}, e) ;
 		} catch (IOException e) {
-			throw new APIException(e);
+			throw new APIException("(JSON)전문 언마샬과정에 IOException발생.\n{}", new Object[] {jsonString}, e);
+		} catch (Exception e) {
+			throw new APIException("(JSON)전문 데이터 표현이 잘못되었습니다.\n{}", new Object[] {jsonString}, e);
 		}
 		
 		return out;

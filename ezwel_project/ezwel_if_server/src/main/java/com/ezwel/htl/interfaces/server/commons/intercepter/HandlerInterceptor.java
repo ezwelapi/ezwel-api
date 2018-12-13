@@ -211,7 +211,7 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 							apiModelAnno = input.getParameterType().getAnnotation(APIModel.class);
 							if(apiModelAnno != null) {
 								
-								inputParamObject = (AbstractSDO) marshaller.fromJSON(inputStreamData, input.getParameterType());
+								inputParamObject = (AbstractSDO) marshaller.fromJSONString(inputStreamData, input.getParameterType());
 								//inputParameters.add(inputParamObject);
 								//validation inputParamObject
 								paramValidator.addParam(new ParamValidateSDO(inputParamObject));

@@ -105,5 +105,14 @@ public class UtilTest {
     	long diff = 1544522483798L - 1544521871856L;
     	logger.debug( "{}", (APIUtil.getTimeMillisToSecond(643325) / 60) );
 
+    	
+    	String[] test = OperateConstants.EXCLUDE_PACKAGE_STARTS.toArray(new String[OperateConstants.EXCLUDE_PACKAGE_STARTS.size()]);
+    	
+    	logger.debug("test : {}", test);
+    	
+    	for(String item : test) {
+    		logger.debug("item : {}", item);	
+    	}
+
     }
 }

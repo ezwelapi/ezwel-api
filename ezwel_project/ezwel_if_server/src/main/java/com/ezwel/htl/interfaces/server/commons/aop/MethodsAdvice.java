@@ -133,25 +133,29 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		long executeLapTimeMillis = 0L;
 		
 		try {
+				
+			if(controlAnno != null && !Local.commonHeader().isControlMarshalling()) {
+
+				logger.debug("■■ [INPUTSTREAM] {}");
+				doMethodInputStream(proccesMethod.getParameterTypes(), inputParamObjects);
+				Local.commonHeader().setControlMarshalling(true);
+			}
 			
 			if(controlAnno != null || apiOperAnno.isInputBeanValidation()) {
 				
-				Class<?>[] inputParamTypes = proccesMethod.getParameterTypes();
-
-				logger.debug("■■ [INPUTSTREAM] {}");
-				doMethodInputStream(inputParamTypes, inputParamObjects);
-
 				logger.debug("■■ [VALIDATE] {} {}", controlAnno, apiOperAnno.isInputBeanValidation());
-				doMethodInputValidation(inputParamTypes, inputParamObjects);
+				doMethodInputValidation(proccesMethod.getParameterTypes(), inputParamObjects);
 			}
 			
+			//Execute Operation
 			retVal = thisJoinPoint.proceed(inputParamObjects);
 			
-			if(retVal != null && controlAnno != null && apiOperAnno.isOutputJsonMarshall()) {
+			if(controlAnno != null && retVal != null && Local.commonHeader().isControlMarshalling() && apiOperAnno.isOutputJsonMarshall()) {
 				
 				if(APIUtil.isEmpty((String) propertyUtil.getProperty(retVal, MessageConstants.RESPONSE_CODE_FIELD_NAME))) {
 					propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_CODE_FIELD_NAME, Integer.toString(MessageConstants.RESPONSE_CODE_1000));
 				}
+				
 				if(APIUtil.isEmpty((String) propertyUtil.getProperty(retVal, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME))) {
 					propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_1000));						
 				}
@@ -185,6 +189,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				Local.remove();
 			}
 		}
+		
 		return retVal;
 	}
 
@@ -225,7 +230,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 						}
 						
 						if(jsonMap.get(APIUtil.getFirstCharLowerCase(inputType.getSimpleName())) != null) {
-							inputParamObjects[i] = beanMarshaller.fromMap((Map<String, Object>) jsonMap.get(APIUtil.getFirstCharLowerCase(inputType.getSimpleName())), inputType);
+							inputParamObjects[i] = beanMarshaller.mapToBean((Map<String, Object>) jsonMap.get(APIUtil.getFirstCharLowerCase(inputType.getSimpleName())), inputType);
 						}
 						
 						logger.debug("[INPUT-APIModel({})] {}", i, inputParamObjects[i]);

@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
 @APIModel(description = "유효성검증정보")
-public class ParamValidateSDO {
+public class ParamValidateSDO extends AbstractSDO {
 
 	@APIFields(required = false, description = "DTO")
 	private Object model;

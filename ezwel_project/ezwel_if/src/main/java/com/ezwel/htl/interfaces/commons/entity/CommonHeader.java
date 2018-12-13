@@ -102,6 +102,8 @@ public class CommonHeader extends APIObject implements Serializable {
 	
 	private boolean isHandlerInterceptorComplete;
 	
+	private boolean isControlMarshalling;
+	
 	public CommonHeader() {
 		this.reset();
 	}
@@ -135,6 +137,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		runtimeHeader = null;
 		errorItems = null;
 		isHandlerInterceptorComplete = false;
+		isControlMarshalling = false;
 	}
 	
 	
@@ -453,6 +456,14 @@ public class CommonHeader extends APIObject implements Serializable {
 
 	public void setHandlerInterceptorComplete(boolean isHandlerInterceptorComplete) {
 		this.isHandlerInterceptorComplete = isHandlerInterceptorComplete;
+	}
+
+	public boolean isControlMarshalling() {
+		return isControlMarshalling;
+	}
+
+	public void setControlMarshalling(boolean isControlMarshalling) {
+		this.isControlMarshalling = isControlMarshalling;
 	}
 	
 	
