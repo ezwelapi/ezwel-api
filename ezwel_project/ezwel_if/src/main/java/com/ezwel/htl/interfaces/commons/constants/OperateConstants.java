@@ -26,6 +26,7 @@ public class OperateConstants {
 	public static final String STR_BLANK;
 	public static final String DEF_DAY_FORMAT;
 	public static final String DEF_DATE_FORMAT;
+	public static final String GENERAL_DATE_FORMAT;
 	public static final String DEFAULT_ENCODING;
 	public static final String STR_COLON;
 	public static final String STR_WHITE_SPACE;
@@ -167,6 +168,7 @@ public class OperateConstants {
 		STR_BLANK = "";
 		DEF_DAY_FORMAT = "yyyyMMdd";
 		DEF_DATE_FORMAT = "yyyyMMddHHmmss";
+		GENERAL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 		DEFAULT_ENCODING = "UTF-8";
 		STR_COLON = ":";
 		STR_WHITE_SPACE = " ";

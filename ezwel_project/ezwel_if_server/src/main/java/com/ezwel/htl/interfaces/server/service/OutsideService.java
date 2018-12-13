@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
+import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -34,7 +36,6 @@ import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractServiceObject;
 import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
-import com.ezwel.htl.interfaces.server.commons.utils.data.ImageSDO;
 import com.ezwel.htl.interfaces.server.entities.EzcDetailCd;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
@@ -258,11 +259,10 @@ public class OutsideService extends AbstractServiceObject {
 									imageSDO.setImageURL(subImages.getImage());
 									imageSDO = commonUtil.getSaveImagePath(imageSDO, false);
 									
-									// 이미지 저장경로 루트를 제외한 하위경로로 세팅 ( 월요일에 작업 )
 									ezcFaclImg.setImgUrl( APIUtil.NVL(imageSDO.getRelativePath(), MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_9400)) );
 									
 									if(!ezcFaclImg.getImgUrl().equals(MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_9400))) {
-										imageList.add(imageSDO);
+										allFacl.addImageList(imageSDO);
 									}
 								}
 								
@@ -293,15 +293,11 @@ public class OutsideService extends AbstractServiceObject {
 					
 					/** 제휴사 별 시설 데이터 입력 실행 */
 					txCount = insertFaclRegData(ezcFaclList, 0, 0);
-					/** 제휴사 별 별도 멀티쓰레드 이미지 다운로드 실행 */
-					downloadMultiImage(imageList);
 					/** 저장 개수가 존재하면 */
 					if(txCount > 0) {
 						if(allFacl.getData() == null) {
 							allFacl.setData(new ArrayList<AllRegDataOutSDO>());
 						}
-						/** 제휴사의 시설 데이터를 output sdo 의 목록에 저장 */
-						//allFacl.getData().addAll(faclDataList); // 대량 로그 이슈로 세팅하지 않도록함.
 						/** 트렌젝션 성공 개수 */
 						allFacl.setTxCount(allFacl.getTxCount() + txCount);
 					}
@@ -378,22 +374,39 @@ public class OutsideService extends AbstractServiceObject {
 			if(imageList != null && imageList.size() > 0) {
 				
 				executor = new CallableExecutor();
-				executor.initThreadPool(30);
-				
-				for(ImageSDO imageConfig : imageList) {
+				executor.initThreadPool(40);
+				ImageSDO imageConfig = null;
+
+				for(int i = 0; i < imageList.size(); i++) {
+					imageConfig = imageList.get(i);
 					//실존하는 이미지로 확인된 URL만 다운로드를 실행한다.
 					if(APIUtil.isNotEmpty(imageConfig.getCanonicalPath())) {
-						Callable<ImageSDO> callable = new DownloadService(imageConfig);
+						Callable<ImageSDO> callable = new DownloadMultiService(imageConfig, (i+1));
 						//설정된 멀티쓰레드 개수만큼 반복 실행
 						executor.addCall(callable);
 					}
 				}
+				
 				//현재(20181211)는 결과를 받아 사용하지 않음.
+				/*
+				List<Future<?>> futures = executor.getResult();
+				if(futures != null) {
+					logger.debug("- futures.size() : {}", futures.size());
+					
+					for(Future<?> future : futures) {
+						if(future.get() != null) {
+							logger.debug("[IMAGE-DOWNLOAD-OUTPUT] {}", future.get());
+						}
+					}
+				}
+				*/
 			}
 			
 		} catch (APIException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ 이미지 다운로드 다중 인터페이스 장애 발생", e);
-		}
+			throw new APIException(MessageConstants.RESPONSE_CODE_9401, "■ 이미지 다운로드 다중 인터페이스 장애 발생", e);
+		} catch (Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9401, "■ 이미지 다운로드 다중 인터페이스 장애 발생", e);
+		} 
 		finally {
 			if(executor != null) {
 				executor.clear();

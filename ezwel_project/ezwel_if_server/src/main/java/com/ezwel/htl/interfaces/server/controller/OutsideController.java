@@ -68,6 +68,9 @@ public class OutsideController {
 
 		out = outsideService.callAllReg(userAgentSDO);
 
+		/** 데이터 저장이 모두 끝난후 제휴사 별 별도 멀티쓰레드 이미지 다운로드 실행 */
+		outsideService.downloadMultiImage(out.getImageList());	
+		
 		return out;
 	}
 	

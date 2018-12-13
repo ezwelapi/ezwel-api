@@ -6,6 +6,7 @@ import java.util.List;
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -37,6 +38,9 @@ public class AllRegOutSDO extends AbstractSDO {
 	@APIFields(description = "RestAPI URI")
 	private String restURI;
 
+	@APIFields(description = "Download Target ImageList")
+	private List<ImageSDO> imageList;
+	
 	public String getRestURI() {
 		return restURI;
 	}
@@ -134,5 +138,20 @@ public class AllRegOutSDO extends AbstractSDO {
 			this.multiExecMessageList = new ArrayList<String>();
 		}
 		this.multiExecMessageList.add(multiExecMessage);
+	}
+
+	public List<ImageSDO> getImageList() {
+		return imageList;
+	}
+
+	public void setImageList(List<ImageSDO> imageList) {
+		this.imageList = imageList;
+	}
+	
+	public void addImageList(ImageSDO imageSDO) {
+		if(this.imageList == null) {
+			this.imageList = new ArrayList<ImageSDO>();
+		}
+		this.imageList.add(imageSDO);
 	}
 }

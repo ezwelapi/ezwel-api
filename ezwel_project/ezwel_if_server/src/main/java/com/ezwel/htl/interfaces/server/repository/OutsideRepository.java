@@ -1,6 +1,5 @@
 package com.ezwel.htl.interfaces.server.repository;
 
-import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -16,12 +15,13 @@ import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
-import com.ezwel.htl.interfaces.server.commons.utils.data.ImageSDO;
+import com.ezwel.htl.interfaces.server.commons.utils.ExceptionUtil;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclAment;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
@@ -141,50 +141,14 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		}
 		catch(Exception e) {
 			
-			commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
-			
-			StringBuffer txErrorSection = new StringBuffer();
-			
-			txErrorSection.append(OperateConstants.STR_MAX_BRACKET_R);
-			txErrorSection.append(this.getClass().getCanonicalName());
-			txErrorSection.append(OperateConstants.STR_AT);
-			txErrorSection.append("insertAllReg");
-			txErrorSection.append(OperateConstants.STR_MAX_BRACKET_L);
-			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
-			txErrorSection.append("[전체시설일괄등록 인터페이스]");
-			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
-			txErrorSection.append("에러 발생 구간(index) from : ");
-			txErrorSection.append(fromIndex);
-			txErrorSection.append(" ~ to : ");
-			txErrorSection.append(toIndex);
-			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
-			txErrorSection.append("에러 발생 시설 index : ");
-			txErrorSection.append(i);
-			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
-			txErrorSection.append("에이전트코드 : ");
-			txErrorSection.append(ezcFacl.getPartnerCd());
-			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
-			txErrorSection.append("시설코드 : ");
-			txErrorSection.append(ezcFacl.getPartnerGoodsCd());
-			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
-			txErrorSection.append("시설명(한글) : ");
-			txErrorSection.append(ezcFacl.getFaclNmKor());			
-			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
-			txErrorSection.append("시설명(영문) : ");
-			txErrorSection.append(ezcFacl.getFaclNmEng());
-			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
-			txErrorSection.append("Exception Message : ");
-			txErrorSection.append(e.getMessage());
-			txErrorSection.append(OperateConstants.LINE_SEPARATOR);
-			txErrorSection.append("Exception Cause : ");
-			txErrorSection.append(e.getStackTrace());
-			txErrorSection.append(OperateConstants.LINE_SEPARATOR);	
-			txErrorSection.append(OperateConstants.LINE_SEPARATOR);	
+			exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
 			
 			/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
-			String logFileName = this.getClass().getSimpleName().concat(OperateConstants.STR_AT).concat("insertAllReg-").concat(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).concat(".log");
-			commonUtil.mkfile(InterfaceFactory.getInterfaceBatchErrorLogPath(), logFileName, txErrorSection.toString(), OperateConstants.DEFAULT_ENCODING, true, true);
-
+			exceptionUtil.writeBatchErrorLog("{}\n{}@{}\n에러 발생 구간(index) from : {} ~ to : {}\n에러 발생 시설 index : {}\n에이전트코드 : {}\n시설코드 : {}\n시설명(한글) : {}\n시설명(영문) : {}", 
+					new Object[] {"[전체시설일괄등록 인터페이스 데이터 저장 장애발생]", this.getClass().getCanonicalName(), "insertAllReg", fromIndex, toIndex, i, ezcFacl.getPartnerCd(), ezcFacl.getPartnerGoodsCd(), ezcFacl.getFaclNmKor(), ezcFacl.getFaclNmEng()},
+					new StringBuffer().append(this.getClass().getSimpleName()).append(OperateConstants.STR_AT).append("insertAllReg-").append(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).toString(), 
+					e);
+			
 			logger.error("Code : {}", MessageConstants.RESPONSE_CODE_9500);
 			logger.error("Message : {}", e.getMessage());
 			e.getStackTrace();

@@ -15,7 +15,7 @@ public class FileRepositoryConfig extends APIObject {
 	private BuildImageConfig buildImage;
 
 	@APIFields(description="배치 수행중 발생하는 로그 적제 경로(인터페이스 배치 전용)")
-	private ErrorLogConfig errorLog;
+	private ErrorLogPathConfig errorLog;
 	
 	public FileRepositoryConfig() {
 		this.reset();
@@ -35,14 +35,12 @@ public class FileRepositoryConfig extends APIObject {
 		this.buildImage = buildImage;
 	}
 
-	public ErrorLogConfig getErrorLog() {
+	public ErrorLogPathConfig getErrorLog() {
 		return errorLog;
 	}
 
 	@XmlElement
-	public void setErrorLog(ErrorLogConfig errorLog) {
+	public void setErrorLog(ErrorLogPathConfig errorLog) {
 		this.errorLog = errorLog;
 	}
-	
-	
 }

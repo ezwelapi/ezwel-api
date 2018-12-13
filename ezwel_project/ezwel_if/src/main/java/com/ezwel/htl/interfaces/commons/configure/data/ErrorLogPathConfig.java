@@ -7,7 +7,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
 @APIModel(description="인터페이스 배치 에러 로그 저장 경로")
-public class ErrorLogConfig extends APIObject {
+public class ErrorLogPathConfig extends APIObject {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -20,7 +20,7 @@ public class ErrorLogConfig extends APIObject {
 	@APIFields(description="운영서버 경로 루트")
 	private String prodRootPath;
 	
-	public ErrorLogConfig() {
+	public ErrorLogPathConfig() {
 		this.reset();
 	}
 	

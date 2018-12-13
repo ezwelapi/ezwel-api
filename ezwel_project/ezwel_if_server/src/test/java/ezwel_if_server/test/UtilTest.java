@@ -7,10 +7,12 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
+import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
+import com.ezwel.htl.interfaces.server.commons.utils.ExceptionUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.UnicodeUtil;
-import com.ezwel.htl.interfaces.server.commons.utils.data.ImageSDO;
 
 public class UtilTest {
 
@@ -101,8 +103,7 @@ public class UtilTest {
 		 //?졻뼚 EndTimeMillis : 1544522483798
     	
     	long diff = 1544522483798L - 1544521871856L;
-    	logger.debug( "{}", (APIUtil.getTimeMillisToSecond(diff) / 60) );
+    	logger.debug( "{}", (APIUtil.getTimeMillisToSecond(643325) / 60) );
 
-    	
     }
 }

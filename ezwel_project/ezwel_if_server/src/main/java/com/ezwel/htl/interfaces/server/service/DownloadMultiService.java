@@ -6,25 +6,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
-import com.ezwel.htl.interfaces.server.commons.utils.data.ImageSDO;
 
 @APIType(description="시설 이미지 멀티쓰레드 다운로드 서비스")
-public class DownloadService implements Callable<ImageSDO> {
+public class DownloadMultiService implements Callable<ImageSDO> {
 
-	private static final Logger logger = LoggerFactory.getLogger(DownloadService.class);
+	private static final Logger logger = LoggerFactory.getLogger(DownloadMultiService.class);
 	
 	private CommonUtil commonUtil;
 	
 	private ImageSDO imageParam;
 	
-	public DownloadService(ImageSDO inImageParam) {
+	public DownloadMultiService(ImageSDO inImageParam, Integer count) {
 		/** 필요 한 지역변수 세팅 */
 		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
-		logger.debug("- DownloadService Constructor : {}", commonUtil);
+		logger.debug("- DownloadService Initialized : {}", count);
 		this.imageParam = inImageParam;
 	}
 	
@@ -36,20 +35,20 @@ public class DownloadService implements Callable<ImageSDO> {
 		ImageSDO out = null;
 		
 		try {
+			logger.debug("[DOWNLOAD-START] BUILD IMAGE : {}", imageParam.getImageURL());
 			out = commonUtil.getImageDownload(imageParam, true);
-			logger.debug("★ download execute : {}", out);
+			logger.debug("[DOWNLOAD-END] BUILD IMAGE : {}", imageParam.isSave());
 		}
 		catch(APIException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9401, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_9401), e);
+			//이미지 다운로드중 발생한 익셉션 무시
+			logger.error("[APIException] Build Image Download : {}\n{}", e.getMessage(), e.getStackTrace());
 		}
 		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9401, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_9401), e);
+			//이미지 다운로드중 발생한 익셉션 무시
+			logger.error("[Exception] Build Image Download : {}\n{}", e.getMessage(), e.getStackTrace());
 		}
 		
 		return out;
 	}
 	
-	public void test() { 
-		
-	}
 }
