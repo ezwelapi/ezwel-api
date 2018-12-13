@@ -44,5 +44,7 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/russian-1.1.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/javax.inject-1.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/arirang-morph-1.1.0.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-analyzers-common-5.0.0.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-core-5.0.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

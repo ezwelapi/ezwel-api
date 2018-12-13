@@ -86,16 +86,20 @@
 		</dependency>
 		
 		<!-- 형태소 분석 관련 라이브러리 추가 시작 -->
+		<!-- to /lib 
 	  	<dependency>
 	  		<groupId>org.apache.lucene</groupId>
 	  		<artifactId>lucene-core</artifactId>
 	  		<version>${lucene-version}</version>
 	  	</dependency>
+	  	 -->
+	  	<!-- to /lib 
 	  	<dependency>
 	  		<groupId>org.apache.lucene</groupId>
 	  		<artifactId>lucene-analyzers-common</artifactId>
 	  		<version>${lucene-version}</version>
 	  	</dependency>
+	  	 -->
 	  	<!-- parent project 에있음
 		<dependency>
 			<groupId>commons-io</groupId>
