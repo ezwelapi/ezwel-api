@@ -422,7 +422,7 @@ $(document).ready(function() {
 </div>
 <span>Output Data</span>
 <div>
-	<textarea id="outputJson" name="outputJson" style="width:100%;height:200px;"></textarea>
+	<textarea id="outputJson" name="outputJson" style="width:100%;height:200px;" readonly></textarea>
 </div>
 </body>
 </html>

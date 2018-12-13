@@ -31,6 +31,9 @@ public class OmiNumIdnOutSDO extends AbstractSDO {
 	@APIFields(description = "RestAPI URI")
 	private String restURI;
 
+	@APIFields(description = "누락건확인 output reserves")
+	private OmiNumIdnReservesOutSDO reserves;
+
 	public String getRestURI() {
 		return restURI;
 	}
@@ -40,9 +43,6 @@ public class OmiNumIdnOutSDO extends AbstractSDO {
 	}
 
 	
-	@APIFields(description = "누락건확인 output reserves")
-	private OmiNumIdnReservesOutSDO reserves;
-
 	public String getCode() {
 		return code;
 	}

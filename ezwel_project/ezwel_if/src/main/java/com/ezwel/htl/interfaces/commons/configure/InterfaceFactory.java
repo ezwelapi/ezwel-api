@@ -51,7 +51,7 @@ public class InterfaceFactory {
 	
 	private PropertyUtil propertyUtil;
 	
-	private final static boolean IS_LOGGING = false;
+	private final static boolean IS_LOGGING = true;
 	
 	public final static String LOCAL_HOST_ADDRESS; 
 	public final static String LOCAL_HOST_NAME;
@@ -107,6 +107,11 @@ public class InterfaceFactory {
 				out = channels.get(0); 
 			}
 		}
+		
+		if(out == null) {
+			throw new APIException("인터페이스 체널정보가 존재하지 않습니다. 채널아이디 : {}, 에이전트아이디 : {}", chanId, httpAgentId);
+		}
+		
 		return out;
 	}
 	
@@ -119,12 +124,14 @@ public class InterfaceFactory {
 		if(interfaceChannels != null && httpAgentGroupId != null) {
 			out = interfaceChannels.get(getCacheId(chanId, httpAgentGroupId)); 
 		}
+		
+		if(out == null || out.size() == 0) {
+			throw new APIException("인터페이스 그룹 체널정보가 존재하지 않습니다. 채널아이디 : {}, 에이전트그룹아이디 : {}", chanId, httpAgentGroupId); 
+		}
+		
 		return out;
 	}
-	
-	
-	
-	
+
 	public static String getImageRootPath() {
 		return imageRootPath;
 	}
@@ -252,7 +259,9 @@ public class InterfaceFactory {
 					logger.debug("# serverAddress : {}", InterfaceFactory.serverAddress);
 					logger.debug("# fileRepository : {}", InterfaceFactory.fileRepository);
 					logger.debug("# Real Cached Size : {}", interfaceChannels.size());
-					//logger.debug("# interfaceChannels : {}", interfaceChannels);
+					if(IS_LOGGING)  {
+						//logger.debug("# interfaceChannels : {}", interfaceChannels);
+					}
 					
 					/**
 					 * 초기화 서버 별 이미지 경로 & 도메인 URI 세팅 

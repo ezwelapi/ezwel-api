@@ -2,13 +2,11 @@ package com.ezwel.htl.interfaces.service.data.roomRead;
 
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-
-
-import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -23,7 +21,6 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @Data
 @EqualsAndHashCode(callSuper=true)
 public class RoomReadInSDO extends AbstractSDO {
-
 
 	@APIFields(description = "객실정보조회 Input 제휴사아이디", required=true, maxLength=100)
 	private String otaId;

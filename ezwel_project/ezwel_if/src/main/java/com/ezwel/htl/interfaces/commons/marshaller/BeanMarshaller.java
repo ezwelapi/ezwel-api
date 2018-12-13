@@ -123,6 +123,31 @@ public class BeanMarshaller {
 		try {
 			// Convert JSON string to Object
 			out = mapper.readValue(jsonString, writeBean);
+			
+		} catch (JsonParseException e) {
+			throw new APIException("(JSON)전문 분석 장애 발생. 제휴사 서버의 응답(JSON)전문 데이터 표현이 잘못되었습니다.\n{}", new Object[] {jsonString}, e);
+		} catch (JsonGenerationException e) {
+			throw new APIException("제휴사 서버의 응답(JSON)전문 언마샬과정에 JsonGenerationException발생.\n{}", new Object[] {jsonString}, e);
+		} catch (JsonMappingException e) {
+			throw new APIException("(JSON)전문의 EZWEL(BEAN)에 언마샬과정에 장애 발생. 제휴사 서버의 응답(JSON)전문 데이터 표현이 잘못되었습니다.\n{}", new Object[] {jsonString}, e) ;
+		} catch (IOException e) {
+			throw new APIException("제휴사 서버의 응답(JSON)전문 언마샬과정에 IOException발생.\n{}", new Object[] {jsonString}, e);
+		} catch (Exception e) {
+			throw new APIException("제휴사 서버의 응답(JSON)전문 데이터 표현이 잘못되었습니다.\n{}", new Object[] {jsonString}, e);
+		}
+		
+		return out;
+	}
+	
+	@APIOperation(description="바인드된 JSON 문자열을 Map객체에 담아줍니다.", isExecTest=true)
+	public Map<String, Object> fromJSONStringToMap(String jsonString) {
+
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> out = null;
+		try {
+
+			// convert JSON string to Map
+			out = mapper.readValue(jsonString, new TypeReference<LinkedHashMap<String, Object>>(){});
 
 		} catch (JsonGenerationException e) {
 			throw new APIException(e);

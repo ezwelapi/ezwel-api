@@ -69,7 +69,7 @@ public class OutsideController {
 		out = outsideService.callAllReg(userAgentSDO);
 
 		/** 데이터 저장이 모두 끝난후 제휴사 별 별도 멀티쓰레드 이미지 다운로드 실행 */
-		outsideService.downloadMultiImage(out.getImageList());	
+		outsideService.downloadMultiImage(out);	
 		
 		return out;
 	}
@@ -104,7 +104,7 @@ public class OutsideController {
 	@RequestMapping(value="/service/callRoomRead")
 	@APIOperation(description="객실정보조회 인터페이스", isOutputJsonMarshall=true, returnType=RoomReadOutSDO.class)
 	public Object callRoomRead(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
-		
+		logger.debug("[START] callRoomRead {} {}", userAgentSDO, roomReadSDO);
 		RoomReadOutSDO out = outsideIFService.callRoomRead(userAgentSDO, roomReadSDO);
 					
 		return out;		

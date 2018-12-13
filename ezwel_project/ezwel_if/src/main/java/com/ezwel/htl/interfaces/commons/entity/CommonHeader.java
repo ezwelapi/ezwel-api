@@ -285,7 +285,7 @@ public class CommonHeader extends APIObject implements Serializable {
 
 	public void setMessage(String message) {
 		if(logger.isDebugEnabled()) {
-			logger.debug(" [SET COMMON HEADER MESSAGE] : " + message);
+			//logger.debug(" [SET COMMON HEADER MESSAGE] : {}", message);
 		}
 		this.message = message;
 	}
@@ -299,7 +299,9 @@ public class CommonHeader extends APIObject implements Serializable {
 	}
 
 	public void addProperties(String key, String value) {
-		if( properties == null ) properties = new Properties();
+		if( properties == null ) {
+			properties = new Properties();
+		}
 		this.properties.setProperty(key, (value == null ? OperateConstants.MESSAGE_ISNULL : value));
 	} 
 	
@@ -330,7 +332,9 @@ public class CommonHeader extends APIObject implements Serializable {
 	}
 
 	public void addTraceMessages(String traceMessages) {
-		if( this.traceMessages == null ) this.traceMessages = new ArrayList<String>();
+		if( this.traceMessages == null ) {
+			this.traceMessages = new ArrayList<String>();
+		}
 		this.traceMessages.add(traceMessages);
 	}
 	
@@ -343,7 +347,9 @@ public class CommonHeader extends APIObject implements Serializable {
 	}
 
 	public void addErrorItems(Object errorItem) {
-		if( this.errorItems == null ) this.errorItems = new ArrayList<Object>();
+		if( this.errorItems == null ) {
+			this.errorItems = new ArrayList<Object>();
+		}
 		this.errorItems.add(errorItem);
 	}
 	

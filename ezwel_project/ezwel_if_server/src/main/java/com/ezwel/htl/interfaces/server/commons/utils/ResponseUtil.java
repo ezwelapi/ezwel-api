@@ -43,7 +43,7 @@ public class ResponseUtil {
         responseHeaders.add("Content-Type", "application/json;charset=".concat(charset));
 		
         logger.debug("[END] responseEntity");
-		return new ResponseEntity<String>(jsonString, responseHeaders, HttpStatus.CREATED);
+		return new ResponseEntity<String>(jsonString, responseHeaders, HttpStatus.OK);
 	}
 	
 }

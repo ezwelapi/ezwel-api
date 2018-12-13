@@ -4,9 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.adapter.OutsideIFAdapter;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
-import com.ezwel.htl.interfaces.server.service.OutsideService;
-import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtOutSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcInSDO;
@@ -23,6 +22,8 @@ import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendDataInSDO;
 import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendInSDO;
 import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendOutSDO;
 
+import junit.framework.TestCase;
+
 /**
  * <pre>
  * 
@@ -30,38 +31,26 @@ import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendOutSDO;
  * @author swkim@ebsolution.co.kr
  * @date   2018. 11. 19.
  */
-public class InterfaceDemoService {
+public class BOInterfaceDemoService extends TestCase {
 
-	private static final Logger logger = LoggerFactory.getLogger(InterfaceDemoService.class);
+	private static final Logger logger = LoggerFactory.getLogger(BOInterfaceDemoService.class);
 	
-	private OutsideIFAdapter outIfService; // if
-	private OutsideService outIfServerService;  // if_server
+	private OutsideIFAdapter outIfAdapter; // if
 	
-	public InterfaceDemoService() {
-		outIfService = new OutsideIFAdapter();
-		outIfServerService = new OutsideService();
-	}
-	
-	public AllRegOutSDO callAllReg() {		
-		logger.debug("[START] callAllReg");
+	/**
+	 * 아레 컨트스럭터는 로컬테스트 떄만 사용한다.
+	 * InterfaceFactory는 스프링 어플리케이션 초기화시 스프링 빈으로 초기화된다.
+	 */
+	public BOInterfaceDemoService()  throws Exception {
+		InterfaceFactory factory = new InterfaceFactory();
+		factory.setConfigXmlPath("/interfaces/interface-configure.xml");
+		factory.initFactory();
 		
-		UserAgentSDO userAgentDTO = new UserAgentSDO();
-		
-		//User agent set
-		userAgentDTO.setHttpAgentType("AP02PO");
-		userAgentDTO.setHttpChannelCd("1");
-		userAgentDTO.setHttpClientId("ez1");
-		userAgentDTO.setHttpRequestId("test");
-		
-		//interface api call
-		AllRegOutSDO out = outIfServerService.callAllReg(userAgentDTO);
-		
-		logger.debug("[END] callAllReg");
-		return out;
+		outIfAdapter = new OutsideIFAdapter();
 	}
 	
 	// 객실정보조회
-	public RoomReadOutSDO callRoomRead() {		
+	public void testRoomRead()  throws Exception {
 		logger.debug("[START] callRoomRead");
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
@@ -76,22 +65,25 @@ public class InterfaceDemoService {
 		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
 		
 		roomReadSDO.setOtaId("10000496");
-		roomReadSDO.setPdtNo("1");
+		roomReadSDO.setPdtNo("KRSEL112");
 		roomReadSDO.setCheckInDate("20190101");
 		roomReadSDO.setCheckOutDate("20190102");
 		roomReadSDO.setRoomCnt(1);
-		roomReadSDO.setAdultCnt(1);
-		roomReadSDO.setChildCnt(1);
+		roomReadSDO.setAdultCnt(2);
+		roomReadSDO.setChildCnt(0);
 		
 		//interface api call
-		RoomReadOutSDO out = outIfService.callRoomRead(userAgentDTO, roomReadSDO);
+		RoomReadOutSDO out = outIfAdapter.callRoomRead(userAgentDTO, roomReadSDO);
+		
+		logger.debug("Code : {}", out.getCode());
+		logger.debug("Message : {}", out.getMessage());
+		logger.debug("Data : {}", out.getData());
 		
 		logger.debug("[END] callRoomRead");
-		return out;
 	}
 	
 	// 취소수수료규정
-	public CancelFeePsrcOutSDO callCancelFeePsrc() {
+	public void testCancelFeePsrc()  throws Exception {
 		logger.debug("[START] callCancelFeePsrc");
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
@@ -113,14 +105,17 @@ public class InterfaceDemoService {
 		sdo.setRoomCnt(1);
 		
 		//interface api call
-		CancelFeePsrcOutSDO out = outIfService.callCancelFeePsrc(userAgentDTO, sdo);
+		CancelFeePsrcOutSDO out = outIfAdapter.callCancelFeePsrc(userAgentDTO, sdo);
 		
+		logger.debug("Code : {}", out.getCode());
+		logger.debug("Message : {}", out.getMessage());
+		logger.debug("Data : {}", out.getData());
+
 		logger.debug("[END] callCancelFeePsrc");
-		return out;
 	}
 	
 	// 결제완료내역전송
-	public RsvHistSendOutSDO callRsvHistSend() {		
+	public void testRsvHistSend()  throws Exception {		
 		logger.debug("[START] callRsvHistSend");
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
@@ -134,7 +129,7 @@ public class InterfaceDemoService {
 		//Input parameter
 		RsvHistSendInSDO rsvHistSendInSDO = new RsvHistSendInSDO();
 		
-		RsvHistSendDataInSDO data = rsvHistSendInSDO.getData();
+		RsvHistSendDataInSDO data = new RsvHistSendDataInSDO();
 		
 		data.setRsvNo("123456789");		
 		data.setRsvDatetime("20181113152332");
@@ -163,14 +158,15 @@ public class InterfaceDemoService {
 		rsvHistSendInSDO.setData(data);
 		
 		//interface api call
-		RsvHistSendOutSDO out = outIfService.callRsvHistSend(userAgentDTO, rsvHistSendInSDO);
+		RsvHistSendOutSDO out = outIfAdapter.callRsvHistSend(userAgentDTO, rsvHistSendInSDO);
 		
+		logger.debug("Code : {}", out.getCode());
+		logger.debug("Message : {}", out.getMessage());
 		logger.debug("[END] callRsvHistSend");
-		return out;
 	}
 	
 	// 취소수수료계산
-	public CancelFeeAmtOutSDO callCancelFeeAmt() {
+	public void testCancelFeeAmt()  throws Exception {
 		logger.debug("[START] callCancelFeeAmt");
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
@@ -188,14 +184,16 @@ public class InterfaceDemoService {
 		sdo.setRsvNo("12345678");
 		
 		//interface api call
-		CancelFeeAmtOutSDO out = outIfService.callCancelFeeAmt(userAgentDTO, sdo);
+		CancelFeeAmtOutSDO out = outIfAdapter.callCancelFeeAmt(userAgentDTO, sdo);
 		
+		logger.debug("Code : {}", out.getCode());
+		logger.debug("Message : {}", out.getMessage());
+		logger.debug("Data : {}", out.getData());
 		logger.debug("[END] callCancelFeeAmt");
-		return out;
 	}
 	
 	// 주문취소요청
-	public OrderCancelReqOutSDO callOrderCancelReq() {		
+	public void testOrderCancelReq()  throws Exception {		
 		logger.debug("[START] callOrderCancelReq");
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
@@ -216,14 +214,15 @@ public class InterfaceDemoService {
 		orderCancelReqInSDO.setCancelCharge(0);
 		
 		//interface api call
-		OrderCancelReqOutSDO out = outIfService.callOrderCancelReq(userAgentDTO, orderCancelReqInSDO);
+		OrderCancelReqOutSDO out = outIfAdapter.callOrderCancelReq(userAgentDTO, orderCancelReqInSDO);
 		
+		logger.debug("Code : {}", out.getCode());
+		logger.debug("Message : {}", out.getMessage());
 		logger.debug("[END] callOrderCancelReq");
-		return out;
 	}
 	
 	// 누락건확인
-	public OmiNumIdnOutSDO callOmiNumIdn() {		
+	public void testOmiNumIdn()  throws Exception {		
 		logger.debug("[START] callOmiNumIdn");
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
@@ -242,14 +241,16 @@ public class InterfaceDemoService {
 		omiNumIdnInSDO.setRsvStat("Y");
 		
 		//interface api call
-		OmiNumIdnOutSDO out = outIfService.callOmiNumIdn(userAgentDTO, omiNumIdnInSDO);
+		OmiNumIdnOutSDO out = outIfAdapter.callOmiNumIdn(userAgentDTO, omiNumIdnInSDO);
 		
+		logger.debug("Code : {}", out.getCode());
+		logger.debug("Message : {}", out.getMessage());
+		logger.debug("Reserves : {}", out.getReserves());
 		logger.debug("[END] callOmiNumIdn");
-		return out;
 	}
 	
 	// 주문대사(이지웰)
-	public EzwelJobOutSDO callEzwelJob() {		
+	public void testEzwelJob()  throws Exception {		
 		logger.debug("[START] callEzwelJob");
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
@@ -268,10 +269,11 @@ public class InterfaceDemoService {
 		ezwelJobInSDO.setRsvDateEnd("20181211");
 		
 		//interface api call
-		EzwelJobOutSDO out = outIfService.callEzwelJob(userAgentDTO, ezwelJobInSDO);
+		EzwelJobOutSDO out = outIfAdapter.callEzwelJob(userAgentDTO, ezwelJobInSDO);
 		
+		logger.debug("Code : {}", out.getCode());
+		logger.debug("Message : {}", out.getMessage());
 		logger.debug("[END] callEzwelJob");
-		return out;
 	}
 	
 }

@@ -5,7 +5,7 @@
 		<prodServerIpRange>xxx.xxx.xxx.*</prodServerIpRange>
 		<prodServerDomain>http://ezc-api.ezwel.com/API1.0</prodServerDomain>
 		<devServerIpRange>192.168.110.83</devServerIpRange>
-		<devServerDomain>http://ezc-api.dev.ezwel.com/API1.0</devServerDomain>
+		<devServerDomain>http://localhost:8282/API1.0</devServerDomain>
 	</serverAddress>
 
 	<fileRepository>
@@ -42,7 +42,7 @@
 			<patnCdType>C0130004</patnCdType>
 			<insideApiKey>2abcbc439f7d84747b370776de4aa3d1i</insideApiKey>
 			<outsideApiKey>b6fe756656118f6e4cfaa724e728df2bo</outsideApiKey>
-		</agentInfo>		
+		</agentInfo>
 		<agentInfo>
 			<agentName>펀앤비즈 샬레코리아</agentName>
 			<httpAgentId>10008365</httpAgentId>

@@ -132,7 +132,7 @@ public class HttpInterfaceExecutorService {
 	
 	@APIOperation(description="Setting Request Header", isExecTest=true)
 	void setRequestHeader(HttpConfigSDO in, HttpURLConnection conn, int contentLength) {
-		logger.debug("[START] setRequestHeader {}", in);
+		logger.debug("[START] setRequestHeader {}", in.getRestURI());
 		
 		Properties certifications = null;
 		
@@ -157,7 +157,7 @@ public class HttpInterfaceExecutorService {
 			conn.setRequestProperty(HttpHeaderConstants.CACHE_CONTROL, HttpHeaderConstants.CACHE_CONTROL_NO_CACHE);
 			conn.setRequestProperty(HttpHeaderConstants.HTTP_REST_URI, in.getRestURI());
 			conn.setRequestProperty(HttpHeaderConstants.USER_AGENT, HttpHeaderConstants.USER_AGENT_VALUE);
-			
+
 			if(contentLength > 0) {
 				//in case that the content is not empty
 				conn.setRequestProperty(HttpHeaderConstants.CONTENT_LENGTH, Integer.toString(contentLength));
@@ -217,18 +217,18 @@ public class HttpInterfaceExecutorService {
 
 			if(config.isEzwelInsideInterface()) {
 				UserAgentSDO userAgentSDO = new UserAgentSDO();
-				propertyUtil.copySameProperty(config, userAgentSDO, true);
+				propertyUtil.copySameProperty(config, userAgentSDO, false);
 				
 				Map<String, Object> insideObject = new LinkedHashMap<String, Object>();
 				insideObject.put(APIUtil.getFirstCharLowerCase(userAgentSDO.getClass().getSimpleName()), userAgentSDO);
 				insideObject.put(APIUtil.getFirstCharLowerCase(inputObject.getClass().getSimpleName()), inputObject);   
 				
 				out = beanConvert.toJSONString(insideObject);
-				logger.debug("\n■ input parameter : \n{}", out);
+				//logger.debug("\n■ input parameter : \n{}", out);
 			}
 			else {
 				out = beanConvert.toJSONString(inputObject);
-				logger.debug("\n■ input parameter : \n{}", out);
+				//logger.debug("\n■ input parameter : \n{}", out);
 			}
 		}
 		catch(APIException e) {
@@ -244,7 +244,8 @@ public class HttpInterfaceExecutorService {
 		try {
 			os = conn.getOutputStream();
 			os.write(inJsonParam.getBytes(in.getEncoding()));
-			os.flush();			
+			os.flush();	
+			logger.debug("[wrtieInputJSON] OutputStream flush!\n{}", inJsonParam);
 		} catch (IOException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ JSON Write 장애발생", e);
 		} catch (APIException e) {
@@ -337,10 +338,11 @@ public class HttpInterfaceExecutorService {
 			
 			/** 응답 코드 채크 */
 			logger.debug("■ responseCode : {}, URI : {}", conn.getResponseCode(), in.getRestURI());
-			if(conn.getResponseCode() != 200) {
+			//200 : ok, 201 : created
+			if(conn.getResponseCode() != 200 && conn.getResponseCode() != 201) {
 				/** 서버측 에러 발생시 에러메시지 세팅 */
-				logger.error("■ HttpServer Exception '{}'\n{}", in.getRestURI(), (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
-				throw new APIException(MessageConstants.RESPONSE_CODE_9200, "■ HTTP 통신 장애 발생 원격 서버 에러");
+				//logger.error("■ HttpServer Exception '{}'\n{}", in.getRestURI(), (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
+				throw new APIException(MessageConstants.RESPONSE_CODE_9200, "■ 원격 서버 통신 장애 발생({})\n{}", in.getRestURI(), (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
 	    	}
 			else {
 				/** 응답 수신 및 리턴타입 빈으로 변환 */
@@ -353,7 +355,7 @@ public class HttpInterfaceExecutorService {
 						responseOrgin = responseOrgin.trim();
 					} 
 					
-					//logger.debug("■ responseOrgin : {}\n{}", in.getRestURI(), responseOrgin);
+					logger.debug("■ responseOrgin : {}\n{}", in.getRestURI(), responseOrgin);
 					
 					if(APIUtil.isNotEmpty(responseOrgin)) {
 						
@@ -365,8 +367,14 @@ public class HttpInterfaceExecutorService {
 						logger.debug("■ outputType : {}", outputType);
 						out = (T2) beanConvert.fromJSONString/*fromJSON*/(responseOrgin, outputType);
 						propertyUtil.setProperty(out, "restURI", in.getRestURI());
-						propertyUtil.setProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME, Integer.toString(MessageConstants.RESPONSE_CODE_1000));
-						propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_1000).concat(", ").concat(in.getRestURI()));						
+						logger.debug("■ outputType result before : {}", out);
+						if(APIUtil.isEmpty((String) propertyUtil.getProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME))) {
+							propertyUtil.setProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME, Integer.toString(MessageConstants.RESPONSE_CODE_1000));
+						}
+						if(APIUtil.isEmpty((String) propertyUtil.getProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME))) {
+							propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_1000).concat(", ").concat(in.getRestURI()));						
+						}
+						logger.debug("■ outputType result after : {}", out);
 					}
 					else {
 						logger.debug("■ 인터페이스 응답 내용이 존재하지 않습니다.");
@@ -378,7 +386,7 @@ public class HttpInterfaceExecutorService {
 			logger.debug("* callCount : {}", in.getCallCount());
 			
 			if(in.getCallCount() > 0) {
-				setSendJSONException(e, in, outputType);
+				out = setSendJSONException(e, in, outputType);
 			}
 			else {
 				logger.debug("* Thread.sleep(5000) *");
@@ -387,12 +395,12 @@ public class HttpInterfaceExecutorService {
 				in.setCallCount(1);
 				sendJSON(in, inputObject, outputType);
 				
-				setSendJSONException(e, in, outputType);
+				out = setSendJSONException(e, in, outputType);
 			}
 		} catch (APIException e) {
-			setSendJSONException(e, in, outputType);
+			out = setSendJSONException(e, in, outputType);
 		} catch (Exception e) {
-			setSendJSONException(e, in, outputType);
+			out = setSendJSONException(e, in, outputType);
 		} finally {
 			if(conn != null) {
 				conn.disconnect();
@@ -404,7 +412,7 @@ public class HttpInterfaceExecutorService {
 	}
 	
 	private <T extends AbstractSDO> T setSendJSONException(Exception e, HttpConfigSDO in, Class<T> outputType) {
-		logger.debug("# setSendJSONException e class : {}", e.getClass().getCanonicalName());
+		//logger.debug("# setSendJSONException e class : {}", e.getClass().getCanonicalName());
 		
 		T out = null;
 		if(outputType != null) {

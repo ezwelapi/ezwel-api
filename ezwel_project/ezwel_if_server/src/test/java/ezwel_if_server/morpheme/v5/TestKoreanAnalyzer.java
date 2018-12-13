@@ -69,4 +69,6 @@ public class TestKoreanAnalyzer extends TestCase {
 		
 		logger.debug("{}", Character.getType('&'));
 	}
+	
+	
 }

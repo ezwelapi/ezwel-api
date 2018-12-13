@@ -19,7 +19,7 @@
 		<param name="encoding" value="UTF-8" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<!-- <param name="ConversionPattern" value=" %m [%5p %c{1}.%M] [%F:%L] [%d{HH:mm:ss}] [%t] [%c]%n" /> -->
-			<param name="ConversionPattern" value="%m%n" />
+			<param name="ConversionPattern" value="%5p [%t] %m [%c@%M:%L]%n" />
 		</layout>
 	</appender>
 

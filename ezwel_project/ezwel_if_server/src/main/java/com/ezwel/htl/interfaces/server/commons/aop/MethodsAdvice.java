@@ -1,6 +1,8 @@
 package com.ezwel.htl.interfaces.server.commons.aop;
 
 import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -26,6 +28,7 @@ import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
 import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.sdo.ExceptionSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.ResponseUtil;
 
 @Aspect
@@ -40,6 +43,8 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 	private PropertyUtil propertyUtil;
 	
 	private ResponseUtil responseUtil;
+	
+	private CommonUtil commonUtil;
 	
 	private int order = 1;
 
@@ -99,6 +104,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
 		beanMarshaller = (BeanMarshaller) LApplicationContext.getBean(beanMarshaller, BeanMarshaller.class);
 		responseUtil = (ResponseUtil) LApplicationContext.getBean(responseUtil, ResponseUtil.class);
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
 		Class<?> typeClass = thisJoinPoint.getTarget().getClass();
 		String className = typeClass.getSimpleName();
@@ -113,7 +119,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		}
 		
 		// inputParam 변경가능
-		Object[] inputParam = thisJoinPoint.getArgs();
+		Object[] inputParamObjects = thisJoinPoint.getArgs();
 		
 		/** method당 실행시간 세팅 및 쓰레드내 메소드의 고유 값 생성 */
 		String methodGuid = Local.startOperation();
@@ -123,19 +129,33 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		logger.debug("■■ [START APIOperation] {}, methodGuid : {} ", typeMethodName, methodGuid);
 
 		Object retVal = null;
+		ExceptionSDO output = null;
+		long executeLapTimeMillis = 0L;
 		
 		try {
-			logger.debug("■■ [INPUT] {}", typeMethodName/*, inputParam*/);
+			
 			if(controlAnno != null || apiOperAnno.isInputBeanValidation()) {
+				
+				Class<?>[] inputParamTypes = proccesMethod.getParameterTypes();
+
+				logger.debug("■■ [INPUTSTREAM] {}");
+				doMethodInputStream(inputParamTypes, inputParamObjects);
+
 				logger.debug("■■ [VALIDATE] {} {}", controlAnno, apiOperAnno.isInputBeanValidation());
-				doMethodInputValidation(proccesMethod.getParameterTypes(), inputParam);
+				doMethodInputValidation(inputParamTypes, inputParamObjects);
 			}
 			
-			retVal = thisJoinPoint.proceed(inputParam);
+			retVal = thisJoinPoint.proceed(inputParamObjects);
 			
 			if(retVal != null && controlAnno != null && apiOperAnno.isOutputJsonMarshall()) {
-				propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_CODE_FIELD_NAME, MessageConstants.RESPONSE_CODE_1000);
-				propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_1000));
+				
+				if(APIUtil.isEmpty((String) propertyUtil.getProperty(retVal, MessageConstants.RESPONSE_CODE_FIELD_NAME))) {
+					propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_CODE_FIELD_NAME, Integer.toString(MessageConstants.RESPONSE_CODE_1000));
+				}
+				if(APIUtil.isEmpty((String) propertyUtil.getProperty(retVal, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME))) {
+					propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_1000));						
+				}
+				
 				retVal = responseUtil.getResponseEntity(beanMarshaller.toJSONString(retVal));
 			}
 			
@@ -145,7 +165,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			
 			if(controlAnno != null && apiOperAnno != null && apiOperAnno.isOutputJsonMarshall()) {
 				
-				ExceptionSDO output = new ExceptionSDO();
+				output = new ExceptionSDO();
 				output.setCode(e.getResultCodeString());
 				output.setMessage(e.getMessages());
 				retVal = responseUtil.getResponseEntity(beanMarshaller.toJSONString(output));
@@ -156,16 +176,66 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				throw new APIException("■■ [AOP-APIException] {} ({}) 장애발생" , new Object[]{ typeMethodName, description }, e);
 			}
 		} 
-
-		long executeLapTimeMillis = Local.endOperation(methodGuid).getLapTimeMillis();
-		
-		logger.debug("■■ [END APIOperation] {}, lapTime : {} sec, methodGuid : {}", typeMethodName, APIUtil.getTimeMillisToSecond(executeLapTimeMillis), methodGuid);
-		if(Local.commonHeader().isHandlerInterceptorComplete()) {
-			Local.remove();
+		finally {
+			
+			executeLapTimeMillis = Local.endOperation(methodGuid).getLapTimeMillis();
+			
+			logger.debug("■■ [END APIOperation] {}, lapTime : {} sec, methodGuid : {}", typeMethodName, APIUtil.getTimeMillisToSecond(executeLapTimeMillis), methodGuid);
+			if(Local.commonHeader().isHandlerInterceptorComplete()) {
+				Local.remove();
+			}
 		}
 		return retVal;
 	}
 
+	@SuppressWarnings("unchecked")
+	private void doMethodInputStream(Class<?>[] inputParamTypes, Object[] inputParamObjects) {
+		if(IS_LOGGING) {
+			logger.debug("■■ [AOP] doMethodInputStream");
+		}
+		 
+		beanMarshaller = (BeanMarshaller) LApplicationContext.getBean(beanMarshaller, BeanMarshaller.class);
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+		
+		if(inputParamTypes != null && inputParamObjects != null) {
+
+			if(inputParamTypes.length != inputParamObjects.length) {
+				throw new APIException("컨트롤러 오퍼레이션의 입력 파라메터 타입 개수와 입력 오브젝트 개수가 다를 수 없습니다.");
+			}
+			String inputStreamData = commonUtil.readReqeustBodyWithBufferedReader();
+			
+			Map<String, Object> jsonMap = null;
+			if(inputStreamData != null && APIUtil.isNotEmpty(inputStreamData)) {
+				logger.debug("inputStreamData : \n{}", inputStreamData);
+				jsonMap = (Map<String, Object>) beanMarshaller.fromJSONStringToMap(inputStreamData);
+				
+				Class<?> inputType = null;
+				APIModel modelAnno = null;
+				for(int i = 0; i < inputParamTypes.length; i++) {
+					inputType = inputParamTypes[i];
+					modelAnno = inputType.getAnnotation(APIModel.class);
+					
+					if(modelAnno != null) {
+						if(inputParamObjects[i] == null) {
+							throw new APIException("필수 입력 APIModel Parameter {}이/가 입력되지 않았습니다. ", APIUtil.NVL(modelAnno.description(), inputType.getSimpleName()));
+						}
+						
+						if(!inputType.isAssignableFrom(inputParamObjects[i].getClass())) {
+							throw new APIException("오퍼레이션 입력 파라메터순서가 일치하지 않습니다. inputType : {}, inputObject : {}", inputType, inputParamObjects[i].getClass());
+						}
+						
+						if(jsonMap.get(APIUtil.getFirstCharLowerCase(inputType.getSimpleName())) != null) {
+							inputParamObjects[i] = beanMarshaller.fromMap((Map<String, Object>) jsonMap.get(APIUtil.getFirstCharLowerCase(inputType.getSimpleName())), inputType);
+						}
+						
+						logger.debug("[INPUT-APIModel({})] {}", i, inputParamObjects[i]);
+					}
+				}
+			}
+		}
+	}
+	
+	
 	private void doMethodInputValidation(Class<?>[] inputParamTypes, Object[] inputParamObjects) {
 		if(IS_LOGGING) {
 			logger.debug("■■ [AOP] doMethodInputValidation");
@@ -201,6 +271,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			}			
 		}
 	}
+	
 	
 	private String getTargetMethodInfomation(String typeMethodName, Object[] inputParam, String description, String methodGuid) {
 

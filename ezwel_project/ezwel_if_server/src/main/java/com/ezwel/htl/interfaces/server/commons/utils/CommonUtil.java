@@ -71,15 +71,29 @@ public class CommonUtil {
 	}
 	
 	@APIOperation(description="요청 파라메터 바디를 BufferReader를 이용하여 읽고 내용을 문자열로 리턴합니다.", isExecTest=true)
+	public String readReqeustBodyWithBufferedReader() {
+		return readReqeustBodyWithBufferedReader(null);
+	}
+	
+	@APIOperation(description="요청 파라메터 바디를 BufferReader를 이용하여 읽고 내용을 문자열로 리턴합니다.", isExecTest=true)
     public String readReqeustBodyWithBufferedReader(HttpServletRequest request) {
     	
+		HttpServletRequest currentRequest = null;
+		if(request == null) {
+			currentRequest = LApplicationContext.getRequest();
+		}
+		else {
+			currentRequest = request; 
+		}
     	StringBuilder builder = null;
     	
     	try {
-    		if(request.getInputStream() != null) {
+
+    		logger.debug("[InputStream] : {}", currentRequest.getInputStream());
+    		if(currentRequest.getInputStream() != null) {
     			
     			builder = new StringBuilder();
-    			BufferedReader input = new BufferedReader(new InputStreamReader(request.getInputStream(), OperateConstants.DEFAULT_ENCODING));
+    			BufferedReader input = new BufferedReader(new InputStreamReader(currentRequest.getInputStream(), OperateConstants.DEFAULT_ENCODING));
     			String buffer = null;
     			while ((buffer = input.readLine()) != null) {
     				if (builder.length() > 0) {
@@ -91,7 +105,7 @@ public class CommonUtil {
 		} catch (IOException e) {
 			throw new APIException(e);
 		}		
-		return (builder != null ? builder.toString() : null);
+		return (builder != null ? builder.toString().trim() : null);
     }
  
     

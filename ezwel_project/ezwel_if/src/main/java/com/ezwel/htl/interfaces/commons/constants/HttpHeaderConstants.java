@@ -42,10 +42,12 @@ public class HttpHeaderConstants {
 	
 	public final static String CONTENT_TYPE_APP_JSON = "application/json; charset=";
 	
+	public final static String CONTENT_TYPE_WWW_FORM = "application/x-www-form-urlencoded; charset=";
+	
 	public static final String HTTP_REST_URI = "http-rest-uri";
 	
 	public static final String USER_AGENT = "User-Agent";
 	
-	public static final String USER_AGENT_VALUE = "EZWel-Java-Agent";
+	public static final String USER_AGENT_VALUE = "Mozilla";
 	
 }

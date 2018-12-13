@@ -40,7 +40,7 @@ public class HttpConfigSDO extends AbstractSDO {
 	
 	@APIFields(description = "고객사(파트너) 코드 유형", required=false)
 	private String patnCdType;
-	
+
 	@APIFields(description = "API 키(ezwel발급)", required=false, httpHeader=false, headerName="http-api-key")
 	private String httpApiKey; 
 
