@@ -411,6 +411,9 @@ public class OutsideService extends AbstractServiceObject {
 			if(executor != null) {
 				executor.clear();
 			}
+			if(allRegOutSDO.getImageList() != null) {
+				allRegOutSDO.getImageList().claer();
+			}
 		}
 		
 		logger.debug("[END] downloadMultiImage");		
