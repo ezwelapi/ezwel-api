@@ -348,7 +348,7 @@ var testAssets = {
 		$.ajax({ 
 			type: "POST", 
 			url : testAssets.contextPath + restURL, 
-			data: inputJson, 
+			data: JSON.stringify(inputJson),
 			headers : headerJson,
 			dataType: "json", 
 			async: true,
