@@ -65,14 +65,21 @@ public class OutsideIFService {
 		}
 	}
 	
-	@APIOperation(description="객실정보조회 인터페이스")
+	
+	@APIOperation(description="객실정보조회 인터페이스 (외부로직접나감)")
 	public RoomReadOutSDO callRoomRead(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
+		return callRoomRead(userAgentSDO, roomReadSDO, false);
+	}
+	
+	@APIOperation(description="객실정보조회 인터페이스")
+	public RoomReadOutSDO callRoomRead(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO, boolean isEzwelInsideInterface) {
 		
 		RoomReadOutSDO out = null;
 		
 		try {
 			
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("roomRead", userAgentSDO.getHttpAgentId());
+			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
 			out = (RoomReadOutSDO) inteface.sendJSON(httpConfigSDO, roomReadSDO, RoomReadOutSDO.class);
@@ -84,14 +91,20 @@ public class OutsideIFService {
 		return out;		
 	}
 	
-	@APIOperation(description="취소수수규정 인터페이스")
+	@APIOperation(description="취소수수규정 인터페이스 (외부로직접나감)")
 	public CancelFeePsrcOutSDO callCancelFeePsrc(UserAgentSDO userAgentSDO, CancelFeePsrcInSDO cancelFeePsrcSDO) {
+		return callCancelFeePsrc(userAgentSDO, cancelFeePsrcSDO, false);
+	}
+	
+	@APIOperation(description="취소수수규정 인터페이스")
+	public CancelFeePsrcOutSDO callCancelFeePsrc(UserAgentSDO userAgentSDO, CancelFeePsrcInSDO cancelFeePsrcSDO, boolean isEzwelInsideInterface) {
 		
 		CancelFeePsrcOutSDO out = null;
 		
 		try {
 			
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("cancelFeePsrc", userAgentSDO.getHttpAgentId());
+			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
 			out = (CancelFeePsrcOutSDO) inteface.sendJSON(httpConfigSDO, cancelFeePsrcSDO, CancelFeePsrcOutSDO.class);
@@ -102,15 +115,21 @@ public class OutsideIFService {
 		
 		return out;		
 	}
+
+	@APIOperation(description="결재완료내역전송 인터페이스 (외부로직접나감)")
+	public RsvHistSendOutSDO callRsvHistSend(UserAgentSDO userAgentSDO, RsvHistSendInSDO rsvHistSendSDO) {
+		return callRsvHistSend(userAgentSDO, rsvHistSendSDO, false);
+	}
 	
 	@APIOperation(description="결재완료내역전송 인터페이스")
-	public RsvHistSendOutSDO callRsvHistSend(UserAgentSDO userAgentSDO, RsvHistSendInSDO rsvHistSendSDO) {
+	public RsvHistSendOutSDO callRsvHistSend(UserAgentSDO userAgentSDO, RsvHistSendInSDO rsvHistSendSDO, boolean isEzwelInsideInterface) {
 		
 		RsvHistSendOutSDO out = null;
 		
 		try {
 			
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("rsvHistSend", userAgentSDO.getHttpAgentId());
+			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
 			out = (RsvHistSendOutSDO) inteface.sendJSON(httpConfigSDO, rsvHistSendSDO, RsvHistSendOutSDO.class);
@@ -121,15 +140,22 @@ public class OutsideIFService {
 		
 		return out;
 	}
+
+	
+	@APIOperation(description="취소수수료계산 인터페이스 (외부로직접나감)")
+	public CancelFeeAmtOutSDO callCancelFeeAmt(UserAgentSDO userAgentSDO, CancelFeeAmtInSDO cancelFeeAmtSDO) {
+		return callCancelFeeAmt(userAgentSDO, cancelFeeAmtSDO, false);
+	}
 	
 	@APIOperation(description="취소수수료계산 인터페이스")
-	public CancelFeeAmtOutSDO callCancelFeeAmt(UserAgentSDO userAgentSDO, CancelFeeAmtInSDO cancelFeeAmtSDO) {
+	public CancelFeeAmtOutSDO callCancelFeeAmt(UserAgentSDO userAgentSDO, CancelFeeAmtInSDO cancelFeeAmtSDO, boolean isEzwelInsideInterface) {
 		
 		CancelFeeAmtOutSDO out = null;
 		
 		try {
 			
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("cancelFeeAmt", userAgentSDO.getHttpAgentId());
+			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
 			out = (CancelFeeAmtOutSDO) inteface.sendJSON(httpConfigSDO, cancelFeeAmtSDO, CancelFeeAmtOutSDO.class);
@@ -140,14 +166,21 @@ public class OutsideIFService {
 		return out;
 	}
 	
-	@APIOperation(description="주문취소요청 인터페이스")
+	
+	@APIOperation(description="주문취소요청 인터페이스 (외부로직접나감)")
 	public OrderCancelReqOutSDO callOrderCancelReq(UserAgentSDO userAgentSDO, OrderCancelReqInSDO orderCancelReqSDO) {
+		return callOrderCancelReq(userAgentSDO, orderCancelReqSDO, false);
+	}
+	
+	@APIOperation(description="주문취소요청 인터페이스")
+	public OrderCancelReqOutSDO callOrderCancelReq(UserAgentSDO userAgentSDO, OrderCancelReqInSDO orderCancelReqSDO, boolean isEzwelInsideInterface) {
 		
 		OrderCancelReqOutSDO out = null;
 		
 		try {
 			
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("orderCancelReq", userAgentSDO.getHttpAgentId());
+			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
 			out = (OrderCancelReqOutSDO) inteface.sendJSON(httpConfigSDO, orderCancelReqSDO, OrderCancelReqOutSDO.class);
@@ -159,14 +192,21 @@ public class OutsideIFService {
 		return out;
 	}
 
-	@APIOperation(description="누락건확인 인터페이스")
+	
+	@APIOperation(description="누락건확인 인터페이스 (외부로 직접나감)")
 	public OmiNumIdnOutSDO callOmiNumIdn(UserAgentSDO userAgentSDO, OmiNumIdnInSDO omiNumIdnSDO) {
+		return callOmiNumIdn(userAgentSDO, omiNumIdnSDO, false);
+	}
+	
+	@APIOperation(description="누락건확인 인터페이스")
+	public OmiNumIdnOutSDO callOmiNumIdn(UserAgentSDO userAgentSDO, OmiNumIdnInSDO omiNumIdnSDO, boolean isEzwelInsideInterface) {
 		
 		OmiNumIdnOutSDO out = null;
 		
 		try {
 			
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("omiNumIdn", userAgentSDO.getHttpAgentId());
+			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
 			out = (OmiNumIdnOutSDO) inteface.sendJSON(httpConfigSDO, omiNumIdnSDO, OmiNumIdnOutSDO.class);
@@ -178,14 +218,20 @@ public class OutsideIFService {
 		return out;
 	}
 
-	@APIOperation(description="주문대사(이지웰) 인터페이스")
+	@APIOperation(description="주문대사(이지웰) 인터페이스 (외부로직접나감)")
 	public EzwelJobOutSDO callEzwelJob(UserAgentSDO userAgentSDO, EzwelJobInSDO ezwelJobSDO) {
+		return callEzwelJob(userAgentSDO, ezwelJobSDO, false);
+	}
+	
+	@APIOperation(description="주문대사(이지웰) 인터페이스")
+	public EzwelJobOutSDO callEzwelJob(UserAgentSDO userAgentSDO, EzwelJobInSDO ezwelJobSDO, boolean isEzwelInsideInterface) {
 		
 		EzwelJobOutSDO out = null;
 		
 		try {
 			
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("ezwelJob", userAgentSDO.getHttpAgentId());
+			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
 			out = (EzwelJobOutSDO) inteface.sendJSON(httpConfigSDO, ezwelJobSDO, EzwelJobOutSDO.class);

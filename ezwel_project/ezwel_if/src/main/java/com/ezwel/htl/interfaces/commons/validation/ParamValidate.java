@@ -10,6 +10,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
@@ -26,6 +27,7 @@ import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 
 
 @APIType
+@Component
 public class ParamValidate {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -573,5 +575,4 @@ public class ParamValidate {
     	
 		return paramValidate;
     }
-	
 }

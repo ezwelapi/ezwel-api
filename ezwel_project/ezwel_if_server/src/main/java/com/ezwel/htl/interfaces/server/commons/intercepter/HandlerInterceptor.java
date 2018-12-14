@@ -79,7 +79,9 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 			header.setEncoding(request.getCharacterEncoding());
 			//5.접속자 IP
 			header.setClientAddress(commonUtil.getClientAddress(request));
-			//6.Request Header 
+			//6.HTTP METHOD
+			logger.debug("- Intercepter RequestMethod : {}", request.getMethod());
+			//7.Request Header 
 			if(request.getHeaderNames() != null) {
 				String headerName = null;
 				String headerValue = null;

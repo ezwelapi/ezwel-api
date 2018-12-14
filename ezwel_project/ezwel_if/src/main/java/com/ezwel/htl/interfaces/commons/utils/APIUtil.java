@@ -2,6 +2,8 @@ package com.ezwel.htl.interfaces.commons.utils;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -647,4 +649,18 @@ public class APIUtil {
 		return out;
 	}
 	
+	
+	@APIOperation(description="핸들링 패스 필드인지 여부를 리턴합니다.", isExecTest=true)
+	public boolean isPassField(Field field) {
+		boolean out = false;
+
+		if (Modifier.isTransient(field.getModifiers()) || Modifier.isFinal(field.getModifiers()) || Modifier.isStatic(field.getModifiers())) {
+			/* if (logger.isDebugEnabled()) {
+				logger.debug("[ field name : " + field.getName()+ " ] modifiers \"" + field.getModifiers()+ "\" is pass");
+			} */
+			out = true;
+		}
+
+		return out;
+	}
 }

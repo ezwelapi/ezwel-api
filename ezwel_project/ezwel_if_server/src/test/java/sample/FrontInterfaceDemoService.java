@@ -48,7 +48,8 @@ public class FrontInterfaceDemoService extends TestCase {
 		
 		outIfService = new OutsideIFService();
 	}
-	
+
+
 	// 객실정보조회
 	public void testRoomRead()  throws Exception {
 		logger.debug("[START] callRoomRead");
@@ -162,6 +163,9 @@ public class FrontInterfaceDemoService extends TestCase {
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
+		logger.debug("RsvNo : {}", out.getRsvNo());
+		logger.debug("OtaRsvNo : {}", out.getOtaRsvNo());
+		
 		logger.debug("[END] callRsvHistSend");
 	}
 	
@@ -249,6 +253,8 @@ public class FrontInterfaceDemoService extends TestCase {
 		logger.debug("[END] callOmiNumIdn");
 	}
 	
+
+
 	// 주문대사(이지웰)
 	public void testEzwelJob()  throws Exception {		
 		logger.debug("[START] callEzwelJob");
@@ -265,6 +271,7 @@ public class FrontInterfaceDemoService extends TestCase {
 		EzwelJobInSDO ezwelJobInSDO = new EzwelJobInSDO();
 		
 		ezwelJobInSDO.setOtaId("10000496");
+		ezwelJobInSDO.setRsvNo("111111-1111111-1111");
 		ezwelJobInSDO.setRsvDateStart("20181201");
 		ezwelJobInSDO.setRsvDateEnd("20181211");
 		
@@ -273,6 +280,8 @@ public class FrontInterfaceDemoService extends TestCase {
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
+		logger.debug("Reserves : {}", out.getReserves());
+		
 		logger.debug("[END] callEzwelJob");
 	}
 	

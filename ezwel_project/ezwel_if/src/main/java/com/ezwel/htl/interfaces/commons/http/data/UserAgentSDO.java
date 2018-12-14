@@ -17,7 +17,7 @@ public class UserAgentSDO extends AbstractSDO {
 
 	private static final long serialVersionUID = 1L;
 
-	@APIFields(description = "에이전트 아이디", httpHeader=true, headerName="http-agent-id")
+	@APIFields(description = "에이전트 아이디", httpHeader=true)
 	private String httpAgentId;
 	
 	@APIFields(description = "에이전트 그룹 아이디")

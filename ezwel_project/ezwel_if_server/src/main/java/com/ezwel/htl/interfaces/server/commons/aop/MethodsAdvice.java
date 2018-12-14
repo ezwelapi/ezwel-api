@@ -1,8 +1,6 @@
 package com.ezwel.htl.interfaces.server.commons.aop;
 
 import java.lang.reflect.Method;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -15,7 +13,6 @@ import org.springframework.cglib.proxy.MethodProxy;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Controller;
 
-import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
@@ -24,11 +21,8 @@ import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
-import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
-import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.sdo.ExceptionSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
-import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.ResponseUtil;
 
 @Aspect
@@ -44,7 +38,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 	
 	private ResponseUtil responseUtil;
 	
-	private CommonUtil commonUtil;
+	private MethodsAdviceHelper methodsAdviceHelper;
 	
 	private int order = 1;
 
@@ -104,7 +98,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
 		beanMarshaller = (BeanMarshaller) LApplicationContext.getBean(beanMarshaller, BeanMarshaller.class);
 		responseUtil = (ResponseUtil) LApplicationContext.getBean(responseUtil, ResponseUtil.class);
-		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+		methodsAdviceHelper = (MethodsAdviceHelper) LApplicationContext.getBean(methodsAdviceHelper, MethodsAdviceHelper.class);
 		
 		Class<?> typeClass = thisJoinPoint.getTarget().getClass();
 		String className = typeClass.getSimpleName();
@@ -137,14 +131,14 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			if(controlAnno != null && !Local.commonHeader().isControlMarshalling()) {
 
 				logger.debug("■■ [INPUTSTREAM]");
-				doMethodInputStream(proccesMethod.getParameterTypes(), inputParamObjects);
+				methodsAdviceHelper.doMethodInputUnmarshall(proccesMethod.getParameterTypes(), inputParamObjects);
 				Local.commonHeader().setControlMarshalling(true);
 			}
 			
 			if(controlAnno != null || apiOperAnno.isInputBeanValidation()) {
 				
 				logger.debug("■■ [VALIDATE] {} {}", controlAnno, apiOperAnno.isInputBeanValidation());
-				doMethodInputValidation(proccesMethod.getParameterTypes(), inputParamObjects);
+				methodsAdviceHelper.doMethodInputValidation(proccesMethod.getParameterTypes(), inputParamObjects);
 			}
 			
 			//Execute Operation
@@ -193,118 +187,4 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		return retVal;
 	}
 
-	@SuppressWarnings("unchecked")
-	private void doMethodInputStream(Class<?>[] inputParamTypes, Object[] inputParamObjects) {
-		if(IS_LOGGING) {
-			logger.debug("■■ [AOP] doMethodInputStream");
-		}
-		 
-		beanMarshaller = (BeanMarshaller) LApplicationContext.getBean(beanMarshaller, BeanMarshaller.class);
-		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
-		
-		if(inputParamTypes != null && inputParamObjects != null) {
-
-			if(inputParamTypes.length != inputParamObjects.length) {
-				throw new APIException("컨트롤러 오퍼레이션의 입력 파라메터 타입 개수와 입력 오브젝트 개수가 다를 수 없습니다.");
-			}
-			String inputStreamData = commonUtil.readReqeustBodyWithBufferedReader();
-			
-			Map<String, Object> jsonMap = null;
-			if(inputStreamData != null && APIUtil.isNotEmpty(inputStreamData)) {
-				logger.debug("inputStreamData : \n{}", inputStreamData);
-				jsonMap = (Map<String, Object>) beanMarshaller.fromJSONStringToMap(inputStreamData);
-				
-				Class<?> inputType = null;
-				APIModel modelAnno = null;
-				for(int i = 0; i < inputParamTypes.length; i++) {
-					inputType = inputParamTypes[i];
-					modelAnno = inputType.getAnnotation(APIModel.class);
-					
-					if(modelAnno != null) {
-						if(inputParamObjects[i] == null) {
-							throw new APIException("필수 입력 APIModel Parameter {}이/가 입력되지 않았습니다. ", APIUtil.NVL(modelAnno.description(), inputType.getSimpleName()));
-						}
-						
-						if(!inputType.isAssignableFrom(inputParamObjects[i].getClass())) {
-							throw new APIException("오퍼레이션 입력 파라메터순서가 일치하지 않습니다. inputType : {}, inputObject : {}", inputType, inputParamObjects[i].getClass());
-						}
-						
-						if(jsonMap.get(APIUtil.getFirstCharLowerCase(inputType.getSimpleName())) != null) {
-							inputParamObjects[i] = beanMarshaller.mapToBean((Map<String, Object>) jsonMap.get(APIUtil.getFirstCharLowerCase(inputType.getSimpleName())), inputType);
-						}
-						
-						logger.debug("[INPUT-APIModel({})] {}", i, inputParamObjects[i]);
-					}
-				}
-			}
-		}
-	}
-	
-	
-	private void doMethodInputValidation(Class<?>[] inputParamTypes, Object[] inputParamObjects) {
-		if(IS_LOGGING) {
-			logger.debug("■■ [AOP] doMethodInputValidation");
-		}
-		
-		if(inputParamTypes != null && inputParamObjects != null) {
-			
-			if(inputParamTypes.length != inputParamObjects.length) {
-				throw new APIException("컨트롤러 오퍼레이션의 입력 파라메터 타입 개수와 입력 오브젝트 개수가 다를 수 없습니다.");
-			}
-			
-			ParamValidate paramValidator = new ParamValidate();
-			Class<?> inputType = null;
-			Object inputObject = null;
-			APIModel modelAnno = null;
-			for(int i = 0; i < inputParamTypes.length; i++) {
-				inputType = inputParamTypes[i];
-				inputObject = inputParamObjects[i];
-				modelAnno = inputType.getAnnotation(APIModel.class);
-				if(modelAnno != null) {
-					if(inputObject == null) {
-						throw new APIException("필수 입력 APIModel Parameter {}이/가 입력되지 않았습니다. ", APIUtil.NVL(modelAnno.description(), inputType.getSimpleName()));
-					}
-					
-					//setup validation object    
-					paramValidator.addParam(new ParamValidateSDO(inputObject));					
-				}
-			}
-			
-			if(paramValidator.getParams() != null && paramValidator.getParams().size() > 0) {
-				//execute validator
-				paramValidator.execute();
-			}			
-		}
-	}
-	
-	
-	private String getTargetMethodInfomation(String typeMethodName, Object[] inputParam, String description, String methodGuid) {
-
-		StringBuilder strb = new StringBuilder();
-		strb.append("DESCRIPTION : ");
-		strb.append(description);
-		strb.append(OperateConstants.STR_COMA);
-		strb.append(OperateConstants.STR_WHITE_SPACE);
-		strb.append("METHOD GUID : ");
-		strb.append(methodGuid);
-		strb.append(OperateConstants.STR_COMA);
-		strb.append(OperateConstants.STR_WHITE_SPACE);
-		strb.append(typeMethodName);
-		strb.append(OperateConstants.STR_PAREN_START);
-		if (inputParam != null) {
-			for (int i = 0; i < inputParam.length; i++) {
-
-				if(inputParam[i] != null) {
-				
-					if (i > 0) {
-						strb.append(", ");
-					}
-					strb.append(inputParam[i].getClass().getSimpleName());
-				}
-			}
-		}
-		strb.append(OperateConstants.STR_PAREN_END);
-		
-		return strb.toString();
-	}
 }

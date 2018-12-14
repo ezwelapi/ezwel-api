@@ -145,35 +145,6 @@ public class InsideController {
 		return out;
 	}
 	
-	/*@ResponseBody
-	@APIOperation(description="예약내역조회 인터페이스")
-	@RequestMapping(value="/{httpAgentId}/rsv/view")
-	public ResponseEntity<ViewOutSDO> callView(@PathVariable("httpAgentId") String httpAgentId, ViewInSDO viewInSDO, HttpServletRequest request, HttpServletResponse response) {
-		logger.debug("[START] callView {}", viewInSDO);
-		
-		ResponseEntity<ViewOutSDO> out = null;
-		ViewOutSDO serviceOut = null;
-
-		try {
-			if(viewInSDO == null) {
-				throw new APIException("입력값이 존재하지 않습니다.");
-			}
-			
-			//Advice & Interceptor 최적화후 작업 추가 진행
-			serviceOut = intefaceService.callView(viewInSDO);
-
-			out = new ResponseEntity<ViewOutSDO>(serviceOut, HttpStatus.CREATED);
-		}
-		catch(Exception e) {
-			serviceOut = new ViewOutSDO(); 
-		
-			out = new ResponseEntity<ViewOutSDO>(serviceOut, HttpStatus.CREATED);
-			e.printStackTrace();
-		}
-		
-		logger.debug("[END] callView {}", out);
-		return out;
-	}*/
 	
 	@APIOperation(description="예약내역조회 인터페이스", isOutputJsonMarshall=true, returnType=ViewOutSDO.class)
 	@RequestMapping(value="/{httpAgentId}/facl/view")

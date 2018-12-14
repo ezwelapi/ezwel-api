@@ -140,6 +140,9 @@ public class HttpInterfaceExecutorService {
 			
 			//Certifications Property
 			certifications = getCert(in);
+			for(Entry<Object, Object> prop : certifications.entrySet()) {
+				logger.debug("- certifications : {}", prop);
+			}
 			
 			if(in.getRequestProperty() == null) in.setRequestProperty(new Properties());
 			in.getRequestProperty().putAll(certifications);
@@ -163,6 +166,10 @@ public class HttpInterfaceExecutorService {
 				conn.setRequestProperty(HttpHeaderConstants.CONTENT_LENGTH, Integer.toString(contentLength));
 		    } else {
 		    	conn.addRequestProperty(HttpHeaderConstants.CONTENT_LENGTH, "0");
+			}
+			
+			for(Entry<String, List<String>> header : conn.getRequestProperties().entrySet()) {
+				logger.debug("★ RequestHeader : {}", header);
 			}
 			
 			//conn.connect();
@@ -390,7 +397,7 @@ public class HttpInterfaceExecutorService {
 				out = setSendJSONException(e, in, outputType);
 			}
 			else {
-				logger.debug("* Thread.sleep(5000) *");
+				logger.debug("* 고객 요청으로 인하여 Connection/Read Timeout 발생시 5초후 1회 재시도 ");
 				Thread.sleep(5000);
 				
 				in.setCallCount(1);
@@ -469,7 +476,7 @@ public class HttpInterfaceExecutorService {
 			
 			for(Field item : field) {
 				
-				if(ParamValidate.PASS_FIELDS.contains(item.getName())) {
+				if(util.isPassField(item) || ParamValidate.PASS_FIELDS.contains(item.getName())) {
 					continue;
 				}
 				
@@ -486,7 +493,7 @@ public class HttpInterfaceExecutorService {
 				}
 				if(fieldAnno.httpHeader() && fieldValue != null) {
 					out.setProperty(fieldAnno.headerName(), (String) fieldValue);
-				}				
+				}
 			}
 		} catch (IllegalAccessException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ HttpConfigSDO필드에 접근할수 없습니다.", e);

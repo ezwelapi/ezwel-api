@@ -87,24 +87,33 @@ public class CommonUtil {
 		}
     	StringBuilder builder = null;
     	
+    	
     	try {
 
-    		logger.debug("[InputStream] : {}", currentRequest.getInputStream());
-    		if(currentRequest.getInputStream() != null) {
+    		if(currentRequest.getMethod().equals(OperateConstants.HTTP_METHOD_POST)) {
     			
-    			builder = new StringBuilder();
-    			BufferedReader input = new BufferedReader(new InputStreamReader(currentRequest.getInputStream(), OperateConstants.DEFAULT_ENCODING));
-    			String buffer = null;
-    			while ((buffer = input.readLine()) != null) {
-    				if (builder.length() > 0) {
-    					builder.append(OperateConstants.LINE_SEPARATOR);
-    				}
-    				builder.append(buffer);
-    			}
+    			logger.debug("[InputStream] : {}", currentRequest.getInputStream());
+        		if(currentRequest.getInputStream() != null) {
+        			
+        			builder = new StringBuilder();
+        			//BufferedReader input = currentRequest.getReader();
+        			BufferedReader input = new BufferedReader(new InputStreamReader(currentRequest.getInputStream(), OperateConstants.DEFAULT_ENCODING));
+        			String buffer = null;
+        			while ((buffer = input.readLine()) != null) {
+        				//if (builder.length() > 0) {
+        				//	builder.append(OperateConstants.LINE_SEPARATOR);
+        				//}
+        				builder.append(buffer);
+        			}
+        		}	
+        	}
+    		else if(currentRequest.getMethod().equals(OperateConstants.HTTP_METHOD_GET)) {
+    		    			
     		}
+    		
 		} catch (IOException e) {
 			throw new APIException(e);
-		}		
+		}
 		return (builder != null ? builder.toString().trim() : null);
     }
  
@@ -254,23 +263,6 @@ public class CommonUtil {
 		return method;
 	}
 	
-	
-	@APIOperation(description="핸들링 패스 필드인지 여부를 리턴합니다.", isExecTest=true)
-	public boolean isPassField(Field field) {
-		boolean out = false;
-
-		if (!Modifier.isPublic(field.getModifiers())
-				|| Modifier.isTransient(field.getModifiers())
-				|| Modifier.isFinal(field.getModifiers())
-				|| Modifier.isStatic(field.getModifiers())) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("[ field name : " + field.getName()+ " ] modifiers \"" + field.getModifiers()+ "\" is pass");
-			}
-			out = true;
-		}
-
-		return out;
-	}	
 	
 	@APIOperation(description="문자열의 첫번째 문자를 소문자로 변환하여 리턴합니다.", isExecTest=true)
 	public static String getFirstCharLowerCase(String strWord) {

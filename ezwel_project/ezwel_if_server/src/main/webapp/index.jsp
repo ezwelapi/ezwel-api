@@ -56,7 +56,7 @@ var testAssets = {
 			$("body").css("background-color", color);
 		}		
 	}
-	 ,contextPath : "/API1.0" // testAssets.contextPath
+	,contextPath : "/API1.0" // testAssets.contextPath
 	,datas : {
 		"IN-신규시설등록수정" : {
 			 url : "/{httpAgentId}/facl/record"
@@ -294,12 +294,20 @@ var testAssets = {
 			}
 		}
 		
+	},
+	requestHeader : {
+		"http-client-id" : "",
+		"http-request-id" : "",
+		"http-channel-cd" : "",
+		"http-agent-id" : "",
+		"http-agent-type" : "",
 	}
 	,send : function( httpAgentId, restURL, jsonString ) {
 		
 		console.info(arguments);
 		
 		var inputJson = null;
+		var headerJson = null;
 		try {
 			if(!jsonString || $.trim(jsonString) === "") {
 				inputJson = JSON.parse("{}");
@@ -311,13 +319,29 @@ var testAssets = {
 			if( restURL !== "/agent/apiKey" && inputJson.httpAgentId && inputJson.httpAgentId !== "" ) {
 				inputJson.httpAgentId = httpAgentId;
 			}
+			
+			headerJson = $("#inputHeader").val();
+			if(!headerJson || $.trim(headerJson) === "") {
+				headerJson = JSON.parse("{}");
+			}
+			else {
+				headerJson = JSON.parse(headerJson);
+			}
+			
+			if( restURL !== "/agent/apiKey" && ((headerJson["http-agent-id"] && headerJson["http-agent-id"] !== "") || !headerJson["http-agent-id"]) ) {
+				headerJson["http-agent-id"] = httpAgentId;
+			}	
+			
+			headerJson["Accept"] = "application/json";
+			headerJson["Content-Type"] = "application/json; charset=UTF-8";			
 		}
 		catch( e ) {
 			alert("입력 파라메터 필드의 JSON 문자열이 잘못되었습니다.\n" + e.message);
 			return false;
 		}
-		
-		
+
+		console.info("Request Header");
+		console.info(headerJson);
 		console.info("Input Parameter");
 		console.info(inputJson);
 		
@@ -325,26 +349,55 @@ var testAssets = {
 			type: "POST", 
 			url : testAssets.contextPath + restURL, 
 			data: inputJson, 
-			dataType:"json", 
+			headers : headerJson,
+			dataType: "json", 
+			async: true,
+			cache: false,
+			processData: true,
+			beforeSend: function ( xhr ) {
+				console.info( "[TRANSACTION.AJAX BEFORESEND]");
+				console.warn(xhr);
+			},			
+			timeout : function(){
+				console.error( "[TRANSACTION TIMEOUT]");
+			},
 			success : function(data, status, xhr) {
-				console.log("success");
-				console.log(data);
+				console.info("[SUCCESS]");
+				console.info(data);
 				$('#outputJson').text(JSON.stringify(data, undefined, 4));
 			}, 
 			error: function(jqXHR, textStatus, errorThrown) {
-				console.log("error");
+				console.error("[ERROR]");
+				
 				var output = "";
 				output += JSON.stringify(jqXHR, undefined, 4);
 				output += "\n";
 				output += JSON.stringify(textStatus, undefined, 4);
 				output += "\n";
 				output += JSON.stringify(errorThrown, undefined, 4);
-				console.log(jqXHR);
-				console.log(textStatus);
-				console.log(errorThrown);
+				console.error(jqXHR);
+				console.error(textStatus);
+				console.error(errorThrown);
 
 				$('#outputJson').text(output);
-			}
+			},
+			statusCode : {
+				404 : function() {
+					console.error("*- transaction statusCode 404 page not found 페이지가 존재하지않습니다.");
+				},
+				403 : function(){
+					console.error("*- transaction statusCode 403 Forbidden 접근권한없습니다.");
+				},
+				500 : function(){
+					console.error("*- transaction statusCode 500 Internal Server Error 소프트웨어 장애가 발생하였습니다.");
+				},
+				503 : function(){
+					console.error("*- transaction statusCode 503 Overhead Service Maintenance 접속량초과입니다 잠시후 다시 시도하세요.");
+				}
+			},
+			complete : function(){
+				console.debug( "[TRANSACTION COMPLETE]" );
+			}			
 		}); 
 	}
 	,bind : function() {
@@ -352,10 +405,12 @@ var testAssets = {
 		$("#restURL").on("change", function( e ) {
 			var selectText = $("#restURL option:selected").text();
 			console.debug("text : " + selectText);
-
+			
+			var userHeader = testAssets.requestHeader;
 			var datas = testAssets.datas;
 			var input = datas[selectText].input;
 			$("#inputJson").val(JSON.stringify(input, undefined, 4));
+			$("#inputHeader").val(JSON.stringify(userHeader, undefined, 4));
 		});
 		
 		$("#sendBtn").on("click", function(e) {
@@ -424,11 +479,12 @@ $(document).ready(function() {
 	<span style="padding-left:2px;"><button id="sendBtn">SEND</button></span>
 </div>
 <div>
-<textarea id="inputJson" name="inputJson" style="width:100%;height:200px;"></textarea>
+<textarea placeholder="API 입력 파라메터(JSON)" id="inputJson" name="inputJson" style="float:left;width:69%;height:200px;"></textarea>
+<textarea placeholder="API 요청 헤더(JSON)" id="inputHeader" name="inputHeader" style="float:right;width:30%;height:200px;"></textarea>
 </div>
 <span>Output Data</span>
-<div>
-	<textarea id="outputJson" name="outputJson" style="width:100%;height:200px;" readonly></textarea>
+<div> 
+	<textarea placeholder="API 응답 결과(JSON)" id="outputJson" name="outputJson" style="width:100%;height:200px;" readonly></textarea>
 </div>
 </body>
 </html>
