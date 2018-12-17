@@ -76,7 +76,7 @@ WHERE 1=1
 	</if>
 </select>
 
-<select id="selectListEzcPrmTab" resultType="ezcPrmTab">
+<select id="selectListEzcPrmTab" parameterType="ezcPrmTab" resultType="ezcPrmTab">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/*  SQL Body Start  */
@@ -114,7 +114,7 @@ SELECT * FROM (
 			EZC_PRM_TAB.TAB_SEQ DESC
 		/*  SQL Body End  */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})) 
 )
 WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>

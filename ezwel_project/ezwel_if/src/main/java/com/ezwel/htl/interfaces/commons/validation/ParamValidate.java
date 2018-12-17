@@ -251,10 +251,15 @@ public class ParamValidate {
 			try {
 				Object value = propertyUtil.getProperty(model, field.getName());
 				
+				/** 문자열일 경우 trim 처리 */
+				if( field.getType().isAssignableFrom(String.class) && APIUtil.isNotEmpty((String) value) ) {
+					propertyUtil.setProperty(model, field.getName(), ((String) value).trim());
+				}
+				
 				/** required */
 				//필수 값 존재 여부채크
 				if( fieldAnno.required() ) {
-					if(value == null || (field.getType().isAssignableFrom(String.class) && APIUtil.isEmpty((String)value))) {
+					if( value == null || (field.getType().isAssignableFrom(String.class) && APIUtil.isEmpty((String)value) ) ) {
 						paramValidate.setMessage(APIUtil.addString("'", fieldAnno.description(), "'는/은 필수 입력 사항합니다. [", field.getName(), "]"));
 						paramValidate.setValidation(false);
 						return false;

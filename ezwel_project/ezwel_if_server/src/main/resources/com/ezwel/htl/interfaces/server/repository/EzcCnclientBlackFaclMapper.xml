@@ -83,7 +83,7 @@ WHERE 1=1
 	</if>
 </select>
 
-<select id="selectListEzcCnclientBlackFacl" resultType="ezcCnclientBlackFacl">
+<select id="selectListEzcCnclientBlackFacl" parameterType="ezcCnclientBlackFacl" resultType="ezcCnclientBlackFacl">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/*  SQL Body Start  */
@@ -122,7 +122,7 @@ SELECT * FROM (
 			EZC_CNCLIENT_BLACK_FACL.GRP_FACL_YN DESC
 		/*  SQL Body End  */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})) 
 )
 WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>

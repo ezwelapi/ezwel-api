@@ -33,36 +33,61 @@ public class AllRegFaclImgOutSDO extends AbstractSDO {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
-	@APIFields(description = "수정자 ID", maxLength=20)
-	private String modiId = Local.commonHeader().getSystemUserId();
+	@APIFields(description = "실행자 ID", maxLength=20)
+	private String execId = Local.commonHeader().getSystemUserId();
 
-	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
-	private String modiDt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
+	@APIFields(description = "실행 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
+	private String execDt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
 
-	@APIFields(description = "다운로드 개수", maxLength=9)
-	private Integer downloadCount;
+	@APIFields(description = "다운로드 성공 개수", maxLength=9)
+	private Integer downSuceCount;
+	
+	@APIFields(description = "다운로드 실패 개수", maxLength=9)
+	private Integer downFailCount;
 
-	public String getModiId() {
-		return modiId;
+	@APIFields(description = "이미지 데이터 DB TX개수", maxLength=9)
+	private Integer txCount;
+	
+	public String getExecId() {
+		return execId;
 	}
 
-	public void setModiId(String modiId) {
-		this.modiId = modiId;
+	public void setExecId(String execId) {
+		this.execId = execId;
 	}
 
-	public String getModiDt() {
-		return modiDt;
+	public String getExecDt() {
+		return execDt;
 	}
 
-	public void setModiDt(String modiDt) {
-		this.modiDt = modiDt;
+	public void setExecDt(String execDt) {
+		this.execDt = execDt;
 	}
 
-	public Integer getDownloadCount() {
-		return downloadCount;
+	public Integer getDownSuceCount() {
+		return downSuceCount;
 	}
 
-	public void setDownloadCount(Integer downloadCount) {
-		this.downloadCount = downloadCount;
+	public void setDownSuceCount(Integer downSuceCount) {
+		this.downSuceCount = downSuceCount;
 	}
+
+	public Integer getDownFailCount() {
+		return downFailCount;
+	}
+
+	public void setDownFailCount(Integer downFailCount) {
+		this.downFailCount = downFailCount;
+	}
+
+	public Integer getTxCount() {
+		return txCount;
+	}
+
+	public void setTxCount(Integer txCount) {
+		this.txCount = txCount;
+	}
+
+	
+	
 }	

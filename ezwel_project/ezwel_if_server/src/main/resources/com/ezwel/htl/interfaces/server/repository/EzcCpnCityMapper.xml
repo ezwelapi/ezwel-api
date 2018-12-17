@@ -64,7 +64,7 @@ WHERE 1=1
 	</if>
 </select>
 
-<select id="selectListEzcCpnCity" resultType="ezcCpnCity">
+<select id="selectListEzcCpnCity" parameterType="ezcCpnCity" resultType="ezcCpnCity">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/*  SQL Body Start  */
@@ -94,7 +94,7 @@ SELECT * FROM (
 			EZC_CPN_CITY.CPN_CD DESC
 		/*  SQL Body End  */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})) 
 )
 WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>

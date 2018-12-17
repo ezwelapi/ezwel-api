@@ -256,6 +256,9 @@ var testAssets = {
 				/* 실제 입력 필드 추가 */
 			}
 		},
+		"시설이미지 전체다운로드 인터페이스" : {
+			 url : "/service/allReg/imageDownload"
+		},
 		"인터페이스 API KEY 발급" : {
 			 url : "/agent/apiKey"
 			,input : {

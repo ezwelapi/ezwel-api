@@ -65,10 +65,10 @@ public class OutsideController {
 	@RequestMapping(value="/service/allReg")
 	public Object callAllReg(UserAgentSDO userAgentSDO) {
 		
-		AllRegOutSDO out = null;
-
-		out = outsideService.callAllReg(userAgentSDO);
-
+		AllRegOutSDO out = outsideService.callAllReg(userAgentSDO);
+		/** 데이터 저장이 모두 끝난후 제휴사 별 별도 멀티쓰레드 이미지 다운로드 실행 */
+		outsideService.downloadMultiImage(out);	
+		
 		return out;
 	}
 	
@@ -77,10 +77,8 @@ public class OutsideController {
 	@RequestMapping(value="/service/allReg/imageDownload")
 	public Object callAllRegImageDownload() {
 		
-		AllRegFaclImgOutSDO out = null;
-
 		/** 데이터 저장이 모두 끝난후 제휴사 별 별도 멀티쓰레드 이미지 다운로드 실행 */
-		out = outsideService.downloadMultiImage();	
+		AllRegFaclImgOutSDO out = outsideService.downloadMultiImage();	
 		
 		return out;
 	}

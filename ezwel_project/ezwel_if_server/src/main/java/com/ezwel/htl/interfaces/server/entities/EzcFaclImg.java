@@ -66,8 +66,29 @@ public class EzcFaclImg extends AbstractEntity {
 	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
 	private String modiDt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
 
-
+	@APIFields(description = "제휴사 코드", maxLength=20, constraints="FK_EZC_PARTNER_EZC_FACL(R),SYS_C0011054(C) EZC_FACL_IF03(NONUNIQUE)")
+	private String partnerCd;
 	
+	@APIFields(description = "도시 코드", maxLength=10, constraints="FK_EZC_CITY_CD_EZC_FACL(R),SYS_C0011067(C) EZC_FACL_IF01(NONUNIQUE)")
+	private String cityCd;
+	
+	@APIFields(description = "지역 코드", maxLength=10, constraints="FK_EZC_AREA_CD_EZC_FACL(R),SYS_C0011066(C) EZC_FACL_IF02(NONUNIQUE)")
+	private String areaCd;
+	
+	@APIFields(description = "다운로드 여부")
+	private boolean isDownload = false;
+	
+	
+	
+	
+	public boolean isDownload() {
+		return isDownload;
+	}
+
+	public void setDownload(boolean isDownload) {
+		this.isDownload = isDownload;
+	}
+
 	public BigDecimal getFaclImgSeq() {
 		return faclImgSeq;
 	}
@@ -154,6 +175,30 @@ public class EzcFaclImg extends AbstractEntity {
 
 	public void setModiDt(String modiDt) {
 		this.modiDt = modiDt;
+	}
+
+	public String getPartnerCd() {
+		return partnerCd;
+	}
+
+	public void setPartnerCd(String partnerCd) {
+		this.partnerCd = partnerCd;
+	}
+
+	public String getCityCd() {
+		return cityCd;
+	}
+
+	public void setCityCd(String cityCd) {
+		this.cityCd = cityCd;
+	}
+
+	public String getAreaCd() {
+		return areaCd;
+	}
+
+	public void setAreaCd(String areaCd) {
+		this.areaCd = areaCd;
 	}
 
 

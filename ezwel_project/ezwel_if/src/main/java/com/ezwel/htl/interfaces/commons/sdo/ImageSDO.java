@@ -28,12 +28,17 @@ public class ImageSDO  extends AbstractSDO {
 	@APIFields(description="저장 여부")
 	private boolean isSave;
 	
-	@APIFields(description="경로 접두사")
-	private String pathPrefix;
+	@APIFields(description="루트로 부터 하위 경로명")
+	private String childPath;
 	
 	@APIFields(description="이미지 저장 상대 경로")
 	private String relativePath;
 	
+	@APIFields(description="설명")
+	private String description;
+	
+	@APIFields(description="관련객체")
+	private Object dummy;	
 	
 	public ImageSDO() {
 		this.reset();	
@@ -46,11 +51,22 @@ public class ImageSDO  extends AbstractSDO {
 		canonicalPath = "";	
 		imageURL = "";
 		isSave = false;
-		pathPrefix = "";
+		childPath = "";
 		relativePath = "";
 		directoryPath = "";
+		description = null;
+		dummy = null;
 	}
 	
+
+
+	public Object getDummy() {
+		return dummy;
+	}
+
+	public void setDummy(Object dummy) {
+		this.dummy = dummy;
+	}
 
 	public String getRelativePath() {
 		return relativePath;
@@ -108,12 +124,12 @@ public class ImageSDO  extends AbstractSDO {
 		this.isSave = isSave;
 	}
 
-	public String getPathPrefix() {
-		return pathPrefix;
+	public String getChildPath() {
+		return childPath;
 	}
 
-	public void setPathPrefix(String pathPrefix) {
-		this.pathPrefix = pathPrefix;
+	public void setChildPath(String childPath) {
+		this.childPath = childPath;
 	}
 
 	public String getDirectoryPath() {
@@ -122,6 +138,14 @@ public class ImageSDO  extends AbstractSDO {
 
 	public void setDirectoryPath(String directoryPath) {
 		this.directoryPath = directoryPath;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 }

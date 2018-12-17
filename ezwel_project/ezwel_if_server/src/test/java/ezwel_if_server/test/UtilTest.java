@@ -90,7 +90,6 @@ public class UtilTest {
     	
     	CommonUtil common = new CommonUtil();
     	
-    	logger.debug( "common : {}" , common.isValidURL("http://naver.com"));
     	
     	//  ?졻뼚 StartTimeMillis : 1544519083799
     	//  ?졻뼚 EndTimeMillis : 1544519530414

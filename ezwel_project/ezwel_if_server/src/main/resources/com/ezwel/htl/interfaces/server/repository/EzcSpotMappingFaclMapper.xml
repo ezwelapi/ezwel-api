@@ -74,7 +74,7 @@ WHERE 1=1
 	</if>
 </select>
 
-<select id="selectListEzcSpotMappingFacl" resultType="ezcSpotMappingFacl">
+<select id="selectListEzcSpotMappingFacl" parameterType="ezcSpotMappingFacl" resultType="ezcSpotMappingFacl">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/*  SQL Body Start  */
@@ -110,7 +110,7 @@ SELECT * FROM (
 			EZC_SPOT_MAPPING_FACL.SPOT_CD DESC
 		/*  SQL Body End  */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})) 
 )
 WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>

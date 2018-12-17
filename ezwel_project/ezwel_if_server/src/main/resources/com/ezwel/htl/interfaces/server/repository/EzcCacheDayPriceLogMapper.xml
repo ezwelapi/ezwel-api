@@ -79,7 +79,7 @@ WHERE 1=1
 	</if>
 </select>
 
-<select id="selectListEzcCacheDayPriceLog" resultType="ezcCacheDayPriceLog">
+<select id="selectListEzcCacheDayPriceLog" parameterType="ezcCacheDayPriceLog" resultType="ezcCacheDayPriceLog">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/*  SQL Body Start  */
@@ -123,7 +123,7 @@ SELECT * FROM (
 			EZC_CACHE_DAY_PRICE_LOG.DAY_PRICE_LOG_SEQ DESC
 		/*  SQL Body End  */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})) 
 )
 WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>

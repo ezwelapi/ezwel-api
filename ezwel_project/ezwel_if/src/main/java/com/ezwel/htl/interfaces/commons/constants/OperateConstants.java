@@ -111,7 +111,7 @@ public class OperateConstants {
 	public final static String CURRENT_PC_SERVER;
 	
 	public final static String STR_EMPTY;
-	
+	public final static String STR_RESERVE_IS_SAVED;
 	/** Use annotation value */
 	public static final String META_COMM_HEADER = "commonHeader";
 	/** ORACLE, IBM JDK 존재함, HP JDK 에서 존재하지 않음 */
@@ -120,7 +120,7 @@ public class OperateConstants {
 	
 	static {
 
-		
+		STR_RESERVE_IS_SAVED = "isSaved";
 		STR_EMPTY = "EMPTY";
 		CURRENT_DEV_SERVER = "DEV-SERVER";
 		CURRENT_PROD_SERVER = "PROD-SERVER";

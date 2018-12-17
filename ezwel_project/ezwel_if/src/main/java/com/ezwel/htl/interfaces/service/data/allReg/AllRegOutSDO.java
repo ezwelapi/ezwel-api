@@ -41,15 +41,6 @@ public class AllRegOutSDO extends AbstractSDO {
 	@APIFields(description = "Download Target ImageList")
 	private List<ImageSDO> imageList;
 	
-	public String getRestURI() {
-		return restURI;
-	}
-
-	public void setRestURI(String restURI) {
-		this.restURI = restURI;
-	}
-
-	
 	@APIFields(description = "고객사ID (제휴사 코드)", maxLength=20)
 	private String httpAgentId;
 	
@@ -59,8 +50,22 @@ public class AllRegOutSDO extends AbstractSDO {
 	@APIFields(description = "전체시설일괄등록 output data")
 	private List<AllRegDataOutSDO> data = null;
 	
+	@APIFields(description = "트랜젝션 개수")
 	private Integer txCount = 0;
+
+	@APIFields(description = "신규 다운로드 대상 파일 목록")
+	private List<AllRegDataRealtimeImageOutSDO> createDownloadFileUrlList = null;
+
+	@APIFields(description = "삭제 대상 파일 목록")
+	private List<String> deleteDownloadFilePathList = null;
 	
+	public String getRestURI() {
+		return restURI;
+	}
+
+	public void setRestURI(String restURI) {
+		this.restURI = restURI;
+	}
 	
 	public String getPatnCdType() {
 		return patnCdType;
@@ -154,4 +159,35 @@ public class AllRegOutSDO extends AbstractSDO {
 		}
 		this.imageList.add(imageSDO);
 	}
+
+	public List<AllRegDataRealtimeImageOutSDO> getCreateDownloadFileUrlList() {
+		return createDownloadFileUrlList;
+	}
+
+	public void setCreateDownloadFileUrlList(List<AllRegDataRealtimeImageOutSDO> createDownloadFileUrlList) {
+		this.createDownloadFileUrlList = createDownloadFileUrlList;
+	}
+
+	public void addCreateDownloadFileUrlList(AllRegDataRealtimeImageOutSDO createDownloadFile) {
+		if(this.createDownloadFileUrlList == null) {
+			this.createDownloadFileUrlList = new ArrayList<AllRegDataRealtimeImageOutSDO>();
+		}
+		this.createDownloadFileUrlList.add(createDownloadFile);
+	}
+	
+	public List<String> getDeleteDownloadFilePathList() {
+		return deleteDownloadFilePathList;
+	}
+
+	public void setDeleteDownloadFilePathList(List<String> deleteDownloadFilePathList) {
+		this.deleteDownloadFilePathList = deleteDownloadFilePathList;
+	}
+	
+	public void addDeleteDownloadFilePathList(String deleteDownloadFile) {
+		if(this.deleteDownloadFilePathList == null) {
+			this.deleteDownloadFilePathList = new ArrayList<String>();
+		}
+		this.deleteDownloadFilePathList.add(deleteDownloadFile);
+	}
+	
 }

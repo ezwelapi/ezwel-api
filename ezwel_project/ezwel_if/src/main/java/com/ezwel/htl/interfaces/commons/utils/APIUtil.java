@@ -257,6 +257,22 @@ public class APIUtil {
 	}
 	
 	
+	@APIOperation(description="바인드된 문자열을 MD5로 암호화하여 리턴합니다.", isExecTest=true)
+	public static String getMD5HashString(String sentences){
+		String sentence = sentences;
+		
+		/** reference null check */
+		if(sentence == null || sentence.isEmpty()) {
+			throw new APIException("getMD5HashString parameter string is null...");
+		}
+		/** getRandomUUID 36 byte + rmi.VMID 43 byte + reference */
+		String md5 = MD5.getInstance().getHashString(sentence);
+		
+		//logger.debug("uuidMD5 : {}, uuidMD5.length() : {} ", uuidMD5, uuidMD5.length());
+		return md5;
+	}
+	
+	
 	/**
 	 * <pre>
 	 * [메서드 설명]
@@ -631,7 +647,7 @@ public class APIUtil {
 		String imageRootPath = InterfaceFactory.getImageRootPath();
 		String relativePath = userRelativePath;
 		return imageRootPath.concat(File.separator).concat(relativePath);
-	}	
+	}
 	
 	@APIOperation
 	public static String getFirstCharLowerCase(String strWord) {

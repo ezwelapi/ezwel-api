@@ -99,7 +99,7 @@ WHERE 1=1
 	</if>
 </select>
 
-<select id="selectListEzcDetailCd" resultType="ezcDetailCd">
+<select id="selectListEzcDetailCd" parameterType="ezcDetailCd" resultType="ezcDetailCd">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/* SQL Body Start  */
@@ -153,7 +153,7 @@ SELECT * FROM (
 			EZC_DETAIL_CD.DISP_ORDER, EZC_DETAIL_CD.MASTER_CD
 		/* SQL Body End */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})) 
 )
 WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>

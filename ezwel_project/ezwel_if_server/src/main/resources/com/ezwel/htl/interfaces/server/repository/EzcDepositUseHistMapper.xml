@@ -100,7 +100,7 @@ WHERE 1=1
 	</if>
 </select>
 
-<select id="selectListEzcDepositUseHist" resultType="ezcDepositUseHist">
+<select id="selectListEzcDepositUseHist" parameterType="ezcDepositUseHist" resultType="ezcDepositUseHist">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/*  SQL Body Start  */
@@ -156,7 +156,7 @@ SELECT * FROM (
 			EZC_DEPOSIT_USE_HIST.DEPOSIT_USE_SEQ DESC
 		/*  SQL Body End  */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})) 
 )
 WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>

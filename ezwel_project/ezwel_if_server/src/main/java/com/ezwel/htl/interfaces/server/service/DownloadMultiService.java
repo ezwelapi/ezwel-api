@@ -8,17 +8,22 @@ import org.slf4j.LoggerFactory;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
+import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
+import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractComponent;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
+import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
 
 @APIType(description="시설 이미지 멀티쓰레드 다운로드 서비스")
-public class DownloadMultiService implements Callable<ImageSDO> {
+public class DownloadMultiService extends AbstractComponent implements Callable<ImageSDO> {
 
 	private static final Logger logger = LoggerFactory.getLogger(DownloadMultiService.class);
 	
 	private CommonUtil commonUtil;
 	
 	private ImageSDO imageParam;
+	
+	private StackTraceUtil stackTraceUtil;
 	
 	public DownloadMultiService(ImageSDO inImageParam, Integer count) {
 		/** 필요 한 지역변수 세팅 */
@@ -35,20 +40,28 @@ public class DownloadMultiService implements Callable<ImageSDO> {
 		ImageSDO out = null;
 		
 		try {
-			logger.debug("[DOWNLOAD-START] BUILD IMAGE : {}", imageParam.getImageURL());
+			logger.debug("[DOWNLOAD-START] BUILD IMAGE URL : {}", imageParam.getImageURL());
 			out = commonUtil.getImageDownload(imageParam, true);
-			logger.debug("[DOWNLOAD-END] BUILD IMAGE : {}", imageParam.isSave());
+			
+			// 더미 객체가 시설 이미지 객체 일경우 (특수)
+			if( out.getDummy() != null && EzcFaclImg.class.isAssignableFrom(out.getDummy().getClass())) {
+				((EzcFaclImg) out.getDummy()).setImgUrl(out.getRelativePath());
+				((EzcFaclImg) out.getDummy()).setDownload(out.isSave());
+			}
+			
+			logger.debug("[DOWNLOAD-END] BUILD IMAGE DOWNLOAD : {}", out.isSave());
 		}
 		catch(APIException e) {
 			//이미지 다운로드중 발생한 익셉션 무시
-			logger.error("[APIException] Build Image Download : {}\n{}", e.getMessage(), e.getStackTrace());
+			logger.error("[APIException] Build Image Download : {}", getCause(e));
 		}
 		catch(Exception e) {
 			//이미지 다운로드중 발생한 익셉션 무시
-			logger.error("[Exception] Build Image Download : {}\n{}", e.getMessage(), e.getStackTrace());
+			logger.error("[Exception] Build Image Download : {}", getCause(e));
 		}
 		
 		return out;
 	}
 	
+
 }

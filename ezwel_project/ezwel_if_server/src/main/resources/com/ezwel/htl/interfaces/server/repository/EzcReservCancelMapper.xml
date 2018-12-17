@@ -143,7 +143,7 @@ WHERE 1=1
 	</if>
 </select>
 
-<select id="selectListEzcReservCancel" resultType="ezcReservCancel">
+<select id="selectListEzcReservCancel" parameterType="ezcReservCancel" resultType="ezcReservCancel">
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/*  SQL Body Start  */
@@ -219,7 +219,7 @@ SELECT * FROM (
 			EZC_RESERV_CANCEL.RESERV_CANCEL_SEQ DESC
 		/*  SQL Body End  */
 	) RECORDS
-	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})+1) 
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})) 
 )
 WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
