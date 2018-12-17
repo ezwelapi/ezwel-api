@@ -73,6 +73,28 @@ public class PropertyUtil {
         return null;
     }
 
+	
+	/**
+	 * 주어진 bean에 바인드된 필드들의 값을 null로 세팅합니다.
+	 * @param bean
+	 * @param propertyNames
+	 * @return
+	 */
+	@APIOperation(description="주어진 bean에 바인드된 필드들의 값을 null로 세팅합니다.")
+	public int removeFieldData(Object bean, String... propertyNames) {
+		int count = 0;
+		
+		if(propertyNames != null) {
+			for(String propertyName : propertyNames) {
+				if(setProperty(bean, propertyName, null)) {
+					count++;
+				}
+			}
+		}
+		
+		return count;
+	}
+	
     /**
      * 주어진 bean 에 propertyName 이 존재한다면 propertyName 에 result 를 setting
      * 결과 true/false 를 반환합니다.

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -381,19 +382,23 @@ public class OutsideService extends AbstractServiceObject {
 	public AllRegFaclImgOutSDO downloadMultiImage(AllRegOutSDO inRealtimePart) {
 		logger.debug("[START] downloadMultiImage");
 		
+		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		
 		AllRegFaclImgOutSDO out = null;
 		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
 		Integer downSuceCount = OperateConstants.INTEGER_ZERO_VALUE;
 		Integer downFailCount = OperateConstants.INTEGER_ZERO_VALUE;
-		
+		List<Future<?>> futures = null;
 		EzcFaclImg ezcFaclImg = null;
 		List<EzcFaclImg> ezcFaclImgList = null;
 		ImageSDO inImageSDO = null;
+		ImageSDO outImageSDO = null;
+		EzcFaclImg outEzcFaclImg = null;
 		CallableExecutor executor = null;
 		Callable<ImageSDO> callable = null;
 		File deleteFile = null;
 		boolean isDelete = false;
-		
+
 		try {
 			
 			if(inRealtimePart != null) {
@@ -418,8 +423,6 @@ public class OutsideService extends AbstractServiceObject {
 			 */
 			if(inRealtimePart != null) {
 				
-				propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
-				
 				if(inRealtimePart.getCreateDownloadFileUrlList() != null) {
 					ezcFaclImgList = new ArrayList<EzcFaclImg>();
 					for(AllRegDataRealtimeImageOutSDO realtimePartFile : inRealtimePart.getCreateDownloadFileUrlList()) {
@@ -431,6 +434,7 @@ public class OutsideService extends AbstractServiceObject {
 			}
 			else {
 				ezcFaclImg = new EzcFaclImg();
+				propertyUtil.removeFieldData(ezcFaclImg, "regId","regDt","modiId","modiDt");
 				//조회 조건 현제 없음
 				ezcFaclImgList = getBuildImageList(new ArrayList<EzcFaclImg>(), ezcFaclImg, 1, FACL_IMG_PAGE_SIZE);
 				logger.debug("# ezcFaclImgList.size : {}", ezcFaclImgList.size());
@@ -441,8 +445,6 @@ public class OutsideService extends AbstractServiceObject {
 				executor = new CallableExecutor();
 				executor.initThreadPool(40);
 				int count = 1;
-				
-				/*
 				for(EzcFaclImg imageParam : ezcFaclImgList) {
 					
 					inImageSDO = new ImageSDO();
@@ -458,56 +460,36 @@ public class OutsideService extends AbstractServiceObject {
 					executor.addCall(callable);
 					count++;
 				}
-				*/
 				
-				/*
-				List<Future<?>> futures = executor.getResult();
+				futures = executor.getResult();
 				if(futures != null) {
 					logger.debug("- futures.size() : {}", futures.size());
 					
 					for(Future<?> future : futures) {
 						if(future.get() != null) {
-							logger.debug("[IMAGE-DOWNLOAD-OUTPUT] {}", future.get());
 							outImageSDO = (ImageSDO) future.get();
+							logger.debug("[IMAGE-DOWNLOAD-OUTPUT] {}", outImageSDO);
+
+							outEzcFaclImg = (EzcFaclImg) outImageSDO.getDummy();
+							
+							if(outImageSDO.isSave()) {
+								//ok
+								downSuceCount++;
+								outEzcFaclImg.setImgUrl(outImageSDO.getRelativePath());
+							}
+							else {
+								//fail
+								downFailCount++;
+								outEzcFaclImg.setImgUrl(outImageSDO.getDescription());
+							}
+							
+							logger.debug("[IMAGE-DOWNLOAD-UPDATE-DATA] ImgUrl : {}", outEzcFaclImg.getImgUrl());
+							
+							txCount += outsideRepository.updateBuildImage(outEzcFaclImg, true); //update 해야함
 						}
 					}
 				}
-				*/
-				
-				/*
-				for(EzcFaclImg ezcFaclImg : ezcFaclImgList) {
-					//download
-					inImageSDO = new ImageSDO();
-					inImageSDO.setImageURL(ezcFaclImg.getPartnerImgUrl());
-					inImageSDO.setChildPath(new StringBuffer().append(ezcFaclImg.getPartnerCd()).append(File.separator).append(ezcFaclImg.getCityCd()).append(File.separator).append(ezcFaclImg.getAreaCd()).toString());
-					outImageSDO = commonUtil.getImageDownload(inImageSDO, true);
-					
-					if(outImageSDO.isSave()) {
-						ezcFaclImg.setImgUrl(outImageSDO.getRelativePath());
-						downSuceCount++;
-					}
-					else {
-						ezcFaclImg.setImgUrl(inImageSDO.getDescription());
-						downFailCount++;
-					}
-				}*/
-				
-				logger.debug("-test before update / download : {}", count);
-				for(EzcFaclImg image : ezcFaclImgList) {
-					//data update
-					logger.debug("-test data update : {}", image);
-					if(image.isDownload()) {
-						//ok
-						downSuceCount++;
-					}
-					else {
-						//fail
-						downFailCount++;
-					}
-					//txCount += outsideRepository.updateBuildImage(image, true); //update 해야함
-					txCount++;
-				}
-				
+
 				out.setTxCount(txCount);
 				out.setDownSuceCount(downSuceCount);
 				out.setDownFailCount(downFailCount);
@@ -516,14 +498,28 @@ public class OutsideService extends AbstractServiceObject {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9401, "■ 이미지 다운로드 다중 인터페이스 장애 발생", e);
 		} catch (Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9401, "■ 이미지 다운로드 다중 인터페이스 장애 발생", e);
-		} 
+		} finally {
+			if(ezcFaclImgList != null) {
+				ezcFaclImgList.clear();
+			}
+			if(futures != null) {
+				futures.clear();
+			}
+			if(executor != null) {
+				executor.clear();
+			}
+		}
 		
 		logger.debug("[END] downloadMultiImage");		
 		return out;
 	}
 	
 	
+	@APIOperation(description="시설 이미지 전체 조회(페이징조회)")
 	private List<EzcFaclImg> getBuildImageList(List<EzcFaclImg> ezcFaclImgList, EzcFaclImg ezcFaclImg, Integer pageNum, Integer pageSize) {
+		logger.debug("[START] getBuildImageList pageNum : {}, pageSize : {}", pageNum, pageSize);
+		
+		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
 		
 		ezcFaclImg.setPageNum(pageNum);
 		ezcFaclImg.setPageCount(pageSize);
@@ -535,6 +531,7 @@ public class OutsideService extends AbstractServiceObject {
 			getBuildImageList(ezcFaclImgList, ezcFaclImg, (pageNum + 1), pageSize);
 		}
 		
+		logger.debug("[END] getBuildImageList");
 		return ezcFaclImgList;
 	}
 	

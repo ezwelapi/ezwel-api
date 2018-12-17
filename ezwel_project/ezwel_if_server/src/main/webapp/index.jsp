@@ -311,6 +311,12 @@ var testAssets = {
 		
 		var inputJson = null;
 		var headerJson = null;
+		var passAgentIdURI = new Array();
+		passAgentIdURI.push("/agent/apiKey");
+		passAgentIdURI.push("/morp/korean");
+		passAgentIdURI.push("/service/allReg/imageDownload");
+		passAgentIdURI.push("/service/allReg");
+		
 		try {
 			if(!jsonString || $.trim(jsonString) === "") {
 				inputJson = JSON.parse("{}");
@@ -319,7 +325,7 @@ var testAssets = {
 				inputJson = JSON.parse(jsonString);
 			}
 			
-			if( restURL !== "/agent/apiKey" && inputJson.httpAgentId && inputJson.httpAgentId !== "" ) {
+			if( passAgentIdURI.indexOf(restURL) === -1 && inputJson.httpAgentId && inputJson.httpAgentId !== "" ) {
 				inputJson.httpAgentId = httpAgentId;
 			}
 			
@@ -331,9 +337,13 @@ var testAssets = {
 				headerJson = JSON.parse(headerJson);
 			}
 			
-			if( restURL !== "/agent/apiKey" && ((headerJson["http-agent-id"] && headerJson["http-agent-id"] !== "") || !headerJson["http-agent-id"]) ) {
+			if( passAgentIdURI.indexOf(restURL) === -1 && ((headerJson["http-agent-id"] && headerJson["http-agent-id"] !== "") || !headerJson["http-agent-id"]) ) {
 				headerJson["http-agent-id"] = httpAgentId;
 			}	
+			
+			if(passAgentIdURI.indexOf(restURL) > -1) {
+				$("#httpAgentId").val("");
+			}
 			
 			headerJson["Accept"] = "application/json";
 			headerJson["Content-Type"] = "application/json; charset=UTF-8";			

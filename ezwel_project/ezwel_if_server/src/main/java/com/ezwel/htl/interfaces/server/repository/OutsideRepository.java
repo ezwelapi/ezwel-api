@@ -226,8 +226,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 
 	@APIOperation(description="시설 이미지 조회")
 	public List<EzcFaclImg> selectListBuildImage(EzcFaclImg ezcFaclImg) {
-		
-		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+		logger.debug("[START] selectListBuildImage");
 		
 		List<EzcFaclImg> ezcFaclImgList = null;
 		try {
@@ -238,6 +237,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			throw new APIException("이미지 다운르드 경로 DB 저장 실패 {}", new Object[] {e.getMessage()}, e) ; 
 		}
 
+		logger.debug("[END] selectListBuildImage");
 		return ezcFaclImgList;
 	}
 	
