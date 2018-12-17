@@ -32,16 +32,16 @@ public class ParamValidate {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Autowired /** interface_if는 프론트 및 관리자단에서 사용함으로 빈조회가 Autowired보다 빠른 스프링 컨텍스트에서 직접 꺼내지 않고 ezwel 프레임워크 표준인  Autowired를 사용한다. */
+	@Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */
 	private RegexUtil regexUtil;
 	
-	@Autowired /** interface_if는 프론트 및 관리자단에서 사용함으로 빈조회가 Autowired보다 빠른 스프링 컨텍스트에서 직접 꺼내지 않고 ezwel 프레임워크 표준인  Autowired를 사용한다. */
+	@Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */
 	private TypeUtil typeUtil;
 	
-	@Autowired /** interface_if는 프론트 및 관리자단에서 사용함으로 빈조회가 Autowired보다 빠른 스프링 컨텍스트에서 직접 꺼내지 않고 ezwel 프레임워크 표준인  Autowired를 사용한다. */
+	@Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */
 	private PropertyUtil propertyUtil;
 	
-	@Autowired /** interface_if는 프론트 및 관리자단에서 사용함으로 빈조회가 Autowired보다 빠른 스프링 컨텍스트에서 직접 꺼내지 않고 ezwel 프레임워크 표준인  Autowired를 사용한다. */
+	@Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */
 	private APIUtil apiUtil;
 	
 	private List<ParamValidateSDO> params;
@@ -80,7 +80,7 @@ public class ParamValidate {
 	@APIOperation(description="필드 밸류 리셋(초기화)")
 	private void reset(){
 		params = new ArrayList<ParamValidateSDO>();
-		//ParamValidate를 @Autowired /** interface_if는 프론트 및 관리자단에서 사용함으로 빈조회가 Autowired보다 빠른 스프링 컨텍스트에서 직접 꺼내지 않고 ezwel 프레임워크 표준인  Autowired를 사용한다. */하지 않고 new ParamValidate() 하였을경우
+		//ParamValidate를 @Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */하지 않고 new ParamValidate() 하였을경우
 		if(regexUtil == null) this.regexUtil = new RegexUtil();
 		if(typeUtil == null) this.typeUtil = new TypeUtil();
 		if(propertyUtil == null) this.propertyUtil = new PropertyUtil();

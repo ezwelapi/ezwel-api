@@ -70,16 +70,16 @@ public class HttpInterfaceExecutor {
 	private final int urlReadTimeout = 10000;
 	
 	
-	@Autowired /** interface_if는 프론트 및 관리자단에서 사용함으로 빈조회가 Autowired보다 빠른 스프링 컨텍스트에서 직접 꺼내지 않고 ezwel 프레임워크 표준인  Autowired를 사용한다. */
+	@Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */
 	private APIUtil util;
 	
-	@Autowired /** interface_if는 프론트 및 관리자단에서 사용함으로 빈조회가 Autowired보다 빠른 스프링 컨텍스트에서 직접 꺼내지 않고 ezwel 프레임워크 표준인  Autowired를 사용한다. */
+	@Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */
 	private BeanMarshaller beanConvert;
 	
-	@Autowired /** interface_if는 프론트 및 관리자단에서 사용함으로 빈조회가 Autowired보다 빠른 스프링 컨텍스트에서 직접 꺼내지 않고 ezwel 프레임워크 표준인  Autowired를 사용한다. */
+	@Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */
 	private PropertyUtil propertyUtil;
 	
-	@Autowired /** interface_if는 프론트 및 관리자단에서 사용함으로 빈조회가 Autowired보다 빠른 스프링 컨텍스트에서 직접 꺼내지 않고 ezwel 프레임워크 표준인  Autowired를 사용한다. */
+	@Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */
 	private StackTraceUtil stackTraceUtil;
 	
 	public HttpInterfaceExecutor() {
