@@ -99,8 +99,8 @@ public class HttpInterfaceExecutor {
 		HttpURLConnection conn = null;
 		URL url = null;
 		
-		int httpConnTimeout = (in.getConnTimeout() > -1 ? in.getConnTimeout() : urlConnTimeout);
-		int httpReadTimeout = (in.getReadTimeout() > -1 ? in.getReadTimeout() : urlReadTimeout);
+		int httpConnTimeout = (in.getConnTimeout() != null ? in.getConnTimeout() : urlConnTimeout);
+		int httpReadTimeout = (in.getReadTimeout() != null ? in.getReadTimeout() : urlReadTimeout);
 		logger.debug("\n# httpConnTimeout : {}\n# httpReadTimeout : {}", httpConnTimeout, httpReadTimeout);
 		
 		try {
@@ -557,17 +557,17 @@ public class HttpInterfaceExecutor {
 	
 	@SuppressWarnings("finally")
 	@APIOperation(description="HTTP URL 커넥션 체크", isExecTest=true)
-	public boolean isHttpConnect(HttpConfigSDO httpConfigSDO) {
+	public boolean isHttpConnect(HttpConfigSDO in) {
 		
 		boolean out = false;
 		HttpURLConnection conn = null;
 		URL url = null;
 		
-		int httpConnTimeout = 1000; // 1초
+		int httpConnTimeout = (in.getConnTimeout() != null ? in.getConnTimeout() : urlConnTimeout);
 		logger.debug("# isHttpConnect : {}", httpConnTimeout);
 		
 		try {
-			url = new URL(httpConfigSDO.getRestURI());
+			url = new URL(in.getRestURI());
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setDoInput(false);	//HTTP 응답 결과 수신 여부
 			conn.setDoOutput(false); //HTTP 요청 파라메터 송신 여부
