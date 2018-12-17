@@ -87,7 +87,7 @@ public class OutsideIFService {
 				out = (RoomReadOutSDO) inteface.sendJSON(httpConfigSDO, roomReadSDO, RoomReadOutSDO.class);
 			}
 			else {
-				//out = MocKUpOutSDO.getRoomReadOut();
+				out = MocKUpOutSDO.getRoomReadOut();
 			}
 		}
 		catch(Exception e) {
@@ -117,7 +117,7 @@ public class OutsideIFService {
 				out = (CancelFeePsrcOutSDO) inteface.sendJSON(httpConfigSDO, cancelFeePsrcSDO, CancelFeePsrcOutSDO.class);
 			}
 			else {
-				//out = MocKUpOutSDO.getCancelFeePsrcOut();
+				out = MocKUpOutSDO.getCancelFeePsrcOut();
 			}
 		}
 		catch(Exception e) {
@@ -147,7 +147,7 @@ public class OutsideIFService {
 				out = (RsvHistSendOutSDO) inteface.sendJSON(httpConfigSDO, rsvHistSendSDO, RsvHistSendOutSDO.class);
 			}
 			else {
-				//out = MocKUpOutSDO.getRsvHistSendOut();
+				out = MocKUpOutSDO.getRsvHistSendOut();
 			}
 		}
 		catch(Exception e) {
@@ -178,7 +178,7 @@ public class OutsideIFService {
 				out = (CancelFeeAmtOutSDO) inteface.sendJSON(httpConfigSDO, cancelFeeAmtSDO, CancelFeeAmtOutSDO.class);
 			}
 			else {
-				//out = MocKUpOutSDO.getCancelFeeAmtOut();
+				out = MocKUpOutSDO.getCancelFeeAmtOut();
 			}
 		}
 		catch(Exception e) {
@@ -208,7 +208,7 @@ public class OutsideIFService {
 				out = (OrderCancelReqOutSDO) inteface.sendJSON(httpConfigSDO, orderCancelReqSDO, OrderCancelReqOutSDO.class);
 			}
 			else {
-				//out = MocKUpOutSDO.getOrderCancelReqOut();
+				out = MocKUpOutSDO.getOrderCancelReqOut();
 			}
 		}
 		catch(Exception e) {
@@ -239,7 +239,7 @@ public class OutsideIFService {
 				out = (OmiNumIdnOutSDO) inteface.sendJSON(httpConfigSDO, omiNumIdnSDO, OmiNumIdnOutSDO.class);
 			}
 			else {
-				//out = MocKUpOutSDO.getOmiNumIdnOut();
+				out = MocKUpOutSDO.getOmiNumIdnOut();
 			}
 		}
 		catch(Exception e) {
@@ -269,7 +269,7 @@ public class OutsideIFService {
 				out = (EzwelJobOutSDO) inteface.sendJSON(httpConfigSDO, ezwelJobSDO, EzwelJobOutSDO.class);
 			}
 			else {
-				//out = MocKUpOutSDO.getEzwelJobOut();
+				out = MocKUpOutSDO.getEzwelJobOut();
 			}
 		}
 		catch(Exception e) {
