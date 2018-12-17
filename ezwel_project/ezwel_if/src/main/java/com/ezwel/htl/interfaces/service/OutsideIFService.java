@@ -21,6 +21,7 @@ import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcInSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcOutSDO;
 import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobInSDO;
 import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobOutSDO;
+import com.ezwel.htl.interfaces.service.data.mock.MocKUpOutSDO;
 import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnInSDO;
 import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnOutSDO;
 import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqInSDO;
