@@ -556,7 +556,7 @@ public class HttpInterfaceExecutor {
 	
 	
 	@SuppressWarnings("finally")
-	@APIOperation(description="HTTP URL 커넥션 체크", isExecTest=true)
+	@APIOperation(description="HTTP URL 커넥션 체크(커넥션 체크전용)", isExecTest=true)
 	public boolean isHttpConnect(HttpConfigSDO in) {
 		
 		boolean out = false;
