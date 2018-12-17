@@ -96,6 +96,9 @@ public class HttpInterfaceExecutor {
 		if(propertyUtil == null) {
 			propertyUtil = new PropertyUtil();
 		}
+		if(stackTraceUtil == null) {
+			stackTraceUtil = new StackTraceUtil();
+		}
 	}
 	
 	@APIOperation(description="Getting Http URL Connection", isExecTest=true)
@@ -446,7 +449,7 @@ public class HttpInterfaceExecutor {
 				propertyUtil.setProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME, Integer.toString(code));
 				propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, message.concat(", ").concat(in.getRestURI()));
 				
-				logger.error("■ URL Exception : {} \n{}", e.getMessage(), e.getStackTrace());
+				logger.error("■ URL Exception {}", stackTraceUtil.getStackTrace(e));
 				e.printStackTrace();
 				
 			} catch (InstantiationException e1) {
@@ -584,11 +587,11 @@ public class HttpInterfaceExecutor {
 			conn.connect();
 			out = true;
 		} catch (ProtocolException e) {
-			logger.error("■ 연결이 불가능한 주소입니다. {} \n{}", e.getMessage(), e.getStackTrace()); 
+			logger.error("■ 연결이 불가능한 주소입니다. {}", stackTraceUtil.getStackTrace(e)); 
 		} catch (MalformedURLException e) {
-			logger.error("■ 프로토콜이 잘못되었습니다. {} \n{}", e.getMessage(), e.getStackTrace());
+			logger.error("■ 프로토콜이 잘못되었습니다. {}", stackTraceUtil.getStackTrace(e));
 		} catch (IOException e) {
-			logger.error("■ 통신 장애 발생. {} \n{}", e.getMessage(), e.getStackTrace());
+			logger.error("■ 통신 장애 발생. {}", stackTraceUtil.getStackTrace(e));
 		} finally {
 			if(conn != null) {
 				conn.disconnect();
