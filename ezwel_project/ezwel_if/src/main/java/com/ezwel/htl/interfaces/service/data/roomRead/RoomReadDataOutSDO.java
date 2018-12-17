@@ -2,15 +2,12 @@ package com.ezwel.htl.interfaces.service.data.roomRead;
 
 import java.util.List;
 
-
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-
-
-import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -38,10 +35,10 @@ public class RoomReadDataOutSDO extends AbstractSDO {
 	private Integer priceForSale;
 	
 	@APIFields(description = "객실정보조회 output 기준인원", required=true)
-	private String adtCntMin;
+	private Integer adtCntMin;
 	
 	@APIFields(description = "객실정보조회 output 최대인원", required=true)
-	private String adtCntMax;
+	private Integer adtCntMax;
 	
 	@APIFields(description = "객실정보조회 output 객실정보", required=true, maxLength=1000)
 	private String roomInfo;
@@ -99,19 +96,19 @@ public class RoomReadDataOutSDO extends AbstractSDO {
 		this.priceForSale = priceForSale;
 	}
 
-	public String getAdtCntMin() {
+	public Integer getAdtCntMin() {
 		return adtCntMin;
 	}
 
-	public void setAdtCntMin(String adtCntMin) {
+	public void setAdtCntMin(Integer adtCntMin) {
 		this.adtCntMin = adtCntMin;
 	}
 
-	public String getAdtCntMax() {
+	public Integer getAdtCntMax() {
 		return adtCntMax;
 	}
 
-	public void setAdtCntMax(String adtCntMax) {
+	public void setAdtCntMax(Integer adtCntMax) {
 		this.adtCntMax = adtCntMax;
 	}
 
