@@ -579,11 +579,11 @@ public class HttpInterfaceExecutor {
 			conn.connect();
 			out = true;
 		} catch (ProtocolException e) {
-			logger.error("■ 연결이 불가능한 주소입니다. {}", e); 
+			logger.error("■ 연결이 불가능한 주소입니다. {} \n{}", e.getMessage(), e.getStackTrace()); 
 		} catch (MalformedURLException e) {
-			logger.error("■ 프로토콜이 잘못되었습니다. {}", e);
+			logger.error("■ 프로토콜이 잘못되었습니다. {} \n{}", e.getMessage(), e.getStackTrace());
 		} catch (IOException e) {
-			logger.error("■ 통신 장애 발생. {}", e);
+			logger.error("■ 통신 장애 발생. {} \n{}", e.getMessage(), e.getStackTrace());
 		} finally {
 			return out;
 		}
