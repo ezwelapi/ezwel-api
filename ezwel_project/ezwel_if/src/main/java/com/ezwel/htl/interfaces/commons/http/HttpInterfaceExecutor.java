@@ -571,7 +571,8 @@ public class HttpInterfaceExecutor {
 		HttpURLConnection conn = null;
 		URL url = null;
 		
-		int httpConnTimeout = (in.getConnTimeout() != null ? in.getConnTimeout() : urlConnTimeout);
+		//int httpConnTimeout = (in.getConnTimeout() != null ? in.getConnTimeout() : urlConnTimeout);
+		int httpConnTimeout = 1000; //커넥트 테스트는 1초로 함
 		logger.debug("# isHttpConnect : {}", httpConnTimeout);
 		
 		try {
