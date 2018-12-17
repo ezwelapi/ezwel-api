@@ -559,7 +559,8 @@ public class APIUtil {
 	
 	@APIOperation(description="TimeMillis를 주어진 날짜포멧의 문자열Date로 변환합니다.")
 	public static String getTimeMillisToDate(Long userTimeMillis, String userDateFormat) {
-		logger.debug("[START] getTimeMillisToDate userTimeMillis : {}, userDateFormat : {}", userTimeMillis, userDateFormat);
+		//logger.debug("[START] getTimeMillisToDate userTimeMillis : {}, userDateFormat : {}", userTimeMillis, userDateFormat);
+		
 		if(userTimeMillis == null) {
 			logger.warn("[WARN] ThreadLocal is init");
 			return "";
@@ -570,7 +571,7 @@ public class APIUtil {
 
 		try {
 			Date resultDate = new Date(timeMillis);
-	    	String dateFormat = (format != null && !format.isEmpty()) ? format:OperateConstants.DEF_DATE_FORMAT;
+	    	String dateFormat = (format != null && !format.isEmpty()) ? format : OperateConstants.DEF_DATE_FORMAT;
 	    	out = FastDateFormat.getInstance(dateFormat, TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA).format(resultDate);
 		}
 		catch(APIException e) {

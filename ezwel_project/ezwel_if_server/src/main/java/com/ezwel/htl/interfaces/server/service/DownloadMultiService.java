@@ -42,13 +42,7 @@ public class DownloadMultiService extends AbstractComponent implements Callable<
 		try {
 			logger.debug("[DOWNLOAD-START] BUILD IMAGE URL : {}", imageParam.getImageURL());
 			out = commonUtil.getImageDownload(imageParam, true);
-			
-			// 더미 객체가 시설 이미지 객체 일경우 (특수)
-			if( out.getDummy() != null && EzcFaclImg.class.isAssignableFrom(out.getDummy().getClass())) {
-				((EzcFaclImg) out.getDummy()).setImgUrl(out.getRelativePath());
-				((EzcFaclImg) out.getDummy()).setDownload(out.isSave());
-			}
-			
+			out.setDummy(imageParam.getDummy());
 			logger.debug("[DOWNLOAD-END] BUILD IMAGE DOWNLOAD : {}", out.isSave());
 		}
 		catch(APIException e) {
