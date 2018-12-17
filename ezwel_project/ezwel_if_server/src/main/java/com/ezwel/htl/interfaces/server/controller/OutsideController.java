@@ -4,13 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.service.OutsideService;
 import com.ezwel.htl.interfaces.service.OutsideIFService;
+import com.ezwel.htl.interfaces.service.data.allReg.AllRegFaclImgOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtOutSDO;
@@ -69,11 +69,22 @@ public class OutsideController {
 
 		out = outsideService.callAllReg(userAgentSDO);
 
+		return out;
+	}
+	
+	
+	@APIOperation(description="전체시설 이미지 다운로드 인터페이스", isOutputJsonMarshall=true, returnType=AllRegFaclImgOutSDO.class)
+	@RequestMapping(value="/service/allReg/imageDownload")
+	public Object callAllRegImageDownload() {
+		
+		AllRegFaclImgOutSDO out = null;
+
 		/** 데이터 저장이 모두 끝난후 제휴사 별 별도 멀티쓰레드 이미지 다운로드 실행 */
-		outsideService.downloadMultiImage(out);	
+		out = outsideService.downloadMultiImage();	
 		
 		return out;
 	}
+	
 	
 	@APIOperation(description="시설검색 인터페이스", isOutputJsonMarshall=true, returnType=FaclSearchOutSDO.class)
 	@RequestMapping(value="/service/callFaclSearch")

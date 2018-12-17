@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +41,7 @@ import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
 import com.ezwel.htl.interfaces.server.repository.CommonRepository;
 import com.ezwel.htl.interfaces.server.repository.OutsideRepository;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataOutSDO;
+import com.ezwel.htl.interfaces.service.data.allReg.AllRegFaclImgOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegSubImagesOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
@@ -364,59 +364,29 @@ public class OutsideService extends AbstractServiceObject {
 	}
 	
 	@APIOperation(description="Http URL Image Download Multi Communication API", isExecTest=true)
-	public void downloadMultiImage(AllRegOutSDO allRegOutSDO) {
-		logger.debug("[START] downloadMultiImage target count : {}", (allRegOutSDO.getImageList() != null ? allRegOutSDO.getImageList().size() : 0));
+	public AllRegFaclImgOutSDO downloadMultiImage() {
+		logger.debug("[START] downloadMultiImage");
 		
-		CallableExecutor executor = null;
+		AllRegFaclImgOutSDO out = null;
+		Integer downloadCount = null;
 		
 		try {
-			
-			if(allRegOutSDO.getImageList() != null && allRegOutSDO.getImageList().size() > 0) {
-				
-				executor = new CallableExecutor();
-				executor.initThreadPool(40);
-				ImageSDO imageConfig = null;
-
-				for(int i = 0; i < allRegOutSDO.getImageList().size(); i++) {
-					imageConfig = allRegOutSDO.getImageList().get(i);
-					//실존하는 이미지로 확인된 URL만 다운로드를 실행한다.
-					if(APIUtil.isNotEmpty(imageConfig.getCanonicalPath())) {
-						Callable<ImageSDO> callable = new DownloadMultiService(imageConfig, (i+1));
-						//설정된 멀티쓰레드 개수만큼 반복 실행
-						executor.addCall(callable);
-					}
-				}
-				
-				//현재(20181211)는 결과를 받아 사용하지 않음.
-				/*
-				List<Future<?>> futures = executor.getResult();
-				if(futures != null) {
-					logger.debug("- futures.size() : {}", futures.size());
-					
-					for(Future<?> future : futures) {
-						if(future.get() != null) {
-							logger.debug("[IMAGE-DOWNLOAD-OUTPUT] {}", future.get());
-						}
-					}
-				}
-				*/
-			}
+			out = new AllRegFaclImgOutSDO();
+			/**
+			 * 1. 이미지 테이블 데이터 조회
+			 * 2. 이미지 url의 이미지 파일 다운로드
+			 * 3. 결과 리턴
+			 */
+			//outsideRepository.
 			
 		} catch (APIException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9401, "■ 이미지 다운로드 다중 인터페이스 장애 발생", e);
 		} catch (Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9401, "■ 이미지 다운로드 다중 인터페이스 장애 발생", e);
 		} 
-		finally {
-			if(executor != null) {
-				executor.clear();
-			}
-			if(allRegOutSDO.getImageList() != null) {
-				allRegOutSDO.getImageList().clear();
-			}
-		}
 		
 		logger.debug("[END] downloadMultiImage");		
+		return out;
 	}
 	
 	
