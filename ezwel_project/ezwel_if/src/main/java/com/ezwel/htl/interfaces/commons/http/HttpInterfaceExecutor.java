@@ -23,7 +23,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
@@ -52,11 +52,11 @@ import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
  * @date 2018. 11. 5.
  * @serviceType API
  */
-@Service 
-@APIType
-public class HttpInterfaceExecutorService {
+@Component
+@APIType(description="http url connection executor")
+public class HttpInterfaceExecutor {
 
-	private static final Logger logger = LoggerFactory.getLogger(HttpInterfaceExecutorService.class);
+	private static final Logger logger = LoggerFactory.getLogger(HttpInterfaceExecutor.class);
 
 	/**
 	 * Default URL Connection TimeOut 3 Second
@@ -77,7 +77,7 @@ public class HttpInterfaceExecutorService {
 	@Autowired
 	private PropertyUtil propertyUtil;
 	
-	public HttpInterfaceExecutorService() {
+	public HttpInterfaceExecutor() {
 		this.reset();
 	}
 
@@ -553,4 +553,41 @@ public class HttpInterfaceExecutorService {
 			return out;
 		}
 	}
+	
+	
+	@SuppressWarnings("finally")
+	@APIOperation(description="HTTP URL 커넥션 체크", isExecTest=true)
+	public boolean isHttpConnect(HttpConfigSDO httpConfigSDO) {
+		
+		boolean out = false;
+		HttpURLConnection conn = null;
+		URL url = null;
+		
+		int httpConnTimeout = 1000; // 1초
+		logger.debug("# isHttpConnect : {}", httpConnTimeout);
+		
+		try {
+			url = new URL(httpConfigSDO.getRestURI());
+			conn = (HttpURLConnection) url.openConnection();
+			conn.setDoInput(false);	//HTTP 응답 결과 수신 여부
+			conn.setDoOutput(false); //HTTP 요청 파라메터 송신 여부
+			conn.setUseCaches(false);
+			conn.setDefaultUseCaches(false);
+			conn.setRequestMethod(OperateConstants.HTTP_METHOD_GET);
+			conn.setConnectTimeout(httpConnTimeout);
+			
+			conn.connect();
+			out = true;
+		} catch (ProtocolException e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 연결이 불가능한 주소입니다.", e); 
+		} catch (MalformedURLException e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 프로토콜이 잘못되었습니다.", e);
+		} catch (IOException e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ 통신 장애 발생.", e);
+		} finally {
+			return out;
+		}
+	}
+	
+	
 }

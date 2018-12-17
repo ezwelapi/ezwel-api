@@ -21,7 +21,7 @@ import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
+import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
 import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
@@ -61,7 +61,7 @@ public class OutsideService extends AbstractServiceObject {
 
 	private static final Logger logger = LoggerFactory.getLogger(OutsideService.class);
 
-	private HttpInterfaceExecutorService inteface;
+	private HttpInterfaceExecutor inteface;
 	
 	private ConfigureHelper configureHelper;
 	
@@ -79,7 +79,7 @@ public class OutsideService extends AbstractServiceObject {
 	@APIOperation(description="전체시설일괄등록 인터페이스")
 	public AllRegOutSDO callAllReg(UserAgentSDO userAgentDTO) {
 		
-		inteface = (HttpInterfaceExecutorService) LApplicationContext.getBean(inteface, HttpInterfaceExecutorService.class);
+		inteface = (HttpInterfaceExecutor) LApplicationContext.getBean(inteface, HttpInterfaceExecutor.class);
 		configureHelper = (ConfigureHelper) LApplicationContext.getBean(configureHelper, ConfigureHelper.class);
 		commonRepository = (CommonRepository) LApplicationContext.getBean(commonRepository, CommonRepository.class);
 		
@@ -428,7 +428,7 @@ public class OutsideService extends AbstractServiceObject {
 	@APIOperation(description="당일특가검색 인터페이스")
 	public SddSearchOutSDO callSddSearch(UserAgentSDO userAgentDTO) {
 		
-		inteface = (HttpInterfaceExecutorService) LApplicationContext.getBean(inteface, HttpInterfaceExecutorService.class);
+		inteface = (HttpInterfaceExecutor) LApplicationContext.getBean(inteface, HttpInterfaceExecutor.class);
 		configureHelper = (ConfigureHelper) LApplicationContext.getBean(configureHelper, ConfigureHelper.class);
 		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
 		
@@ -481,7 +481,7 @@ public class OutsideService extends AbstractServiceObject {
 	@APIOperation(description="시설검색 인터페이스")
 	public FaclSearchOutSDO callFaclSearch(UserAgentSDO userAgentDTO, FaclSearchInSDO faclSearchDTO) {
 		
-		inteface = (HttpInterfaceExecutorService) LApplicationContext.getBean(inteface, HttpInterfaceExecutorService.class);
+		inteface = (HttpInterfaceExecutor) LApplicationContext.getBean(inteface, HttpInterfaceExecutor.class);
 		configureHelper = (ConfigureHelper) LApplicationContext.getBean(configureHelper, ConfigureHelper.class);
 		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
 		

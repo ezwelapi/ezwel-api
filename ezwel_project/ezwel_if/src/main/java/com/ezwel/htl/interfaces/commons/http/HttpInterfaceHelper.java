@@ -28,13 +28,13 @@ public class HttpInterfaceHelper implements Callable<AbstractSDO> {
 
 	private MultiHttpConfigSDO multiHttpConfigDTO;
 	
-	private HttpInterfaceExecutorService httpInterface;
+	private HttpInterfaceExecutor httpInterface;
 	
 	private PropertyUtil propertyUtil;
 	
 	public HttpInterfaceHelper(MultiHttpConfigSDO multiHttpConfigDTO) {
 		if(httpInterface == null) {
-			this.httpInterface = new HttpInterfaceExecutorService();
+			this.httpInterface = new HttpInterfaceExecutor();
 		}
 		if(propertyUtil == null) {
 			this.propertyUtil = new PropertyUtil();

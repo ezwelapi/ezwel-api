@@ -38,7 +38,7 @@ import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
+import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -298,7 +298,7 @@ public class CommonUtil {
 		try {
 			
 			//Certifications Property
-			certifications = new HttpInterfaceExecutorService().getCert(in);
+			certifications = new HttpInterfaceExecutor().getCert(in);
 			
 			if(in.getRequestProperty() == null) in.setRequestProperty(new Properties());
 			in.getRequestProperty().putAll(certifications);

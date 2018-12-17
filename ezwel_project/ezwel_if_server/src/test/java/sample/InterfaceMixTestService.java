@@ -7,21 +7,10 @@ import com.ezwel.htl.interfaces.adapter.OutsideIFAdapter;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.service.OutsideIFService;
-import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInSDO;
-import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtOutSDO;
-import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcInSDO;
-import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcOutSDO;
 import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobInSDO;
 import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobOutSDO;
-import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnInSDO;
-import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnOutSDO;
-import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqInSDO;
-import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
-import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendDataInSDO;
-import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendInSDO;
-import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendOutSDO;
 
 import junit.framework.TestCase;
 
@@ -53,9 +42,9 @@ public class InterfaceMixTestService extends TestCase {
 		outIfService = new OutsideIFService();
 	}
 
-	// 주문대사(이지웰)
-	public void testEzwelJob()  throws Exception {		
-		logger.debug("[START] callEzwelJob");
+	// 객실정보조회
+	public void testRoomRead()  throws Exception {
+		logger.debug("[START] callRoomRead");
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
@@ -65,23 +54,28 @@ public class InterfaceMixTestService extends TestCase {
 		userAgentDTO.setHttpClientId("ez1");
 		userAgentDTO.setHttpRequestId("test");
 		
-		//Input parameter
-		EzwelJobInSDO ezwelJobInSDO = new EzwelJobInSDO();
+		userAgentDTO.setConnTimeout(10000);
+		userAgentDTO.setReadTimeout(20000);
 		
-		ezwelJobInSDO.setOtaId("10000496");
-		ezwelJobInSDO.setRsvNo("111111-1111111-1111");
-		ezwelJobInSDO.setRsvDateStart("20181201");
-		ezwelJobInSDO.setRsvDateEnd("20181211");
+		//Input parameter
+		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
+		
+		roomReadSDO.setOtaId("10000496");
+		roomReadSDO.setPdtNo("KRSEL112");
+		roomReadSDO.setCheckInDate("20190101");
+		roomReadSDO.setCheckOutDate("20190102");
+		roomReadSDO.setRoomCnt(1);
+		roomReadSDO.setAdultCnt(2);
+		roomReadSDO.setChildCnt(0);
 		
 		//interface api call
-		EzwelJobOutSDO out = outIfAdapter.callEzwelJob(userAgentDTO, ezwelJobInSDO);
+		RoomReadOutSDO out = outIfAdapter.callRoomRead(userAgentDTO, roomReadSDO);
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
-		logger.debug("Reserves : {}", out.getReserves());
+		logger.debug("Data : {}", out.getData());
 		
-		logger.debug("[END] callEzwelJob");
+		logger.debug("[END] callRoomRead");
 	}
-	
 	
 }

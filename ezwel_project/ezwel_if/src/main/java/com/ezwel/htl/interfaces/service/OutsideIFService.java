@@ -11,7 +11,7 @@ import com.ezwel.htl.interfaces.commons.configure.ConfigureHelper;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
+import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
@@ -21,6 +21,7 @@ import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcInSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcOutSDO;
 import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobInSDO;
 import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobOutSDO;
+import com.ezwel.htl.interfaces.service.data.mock.MocKUpOutSDO;
 import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnInSDO;
 import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnOutSDO;
 import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqInSDO;
@@ -44,7 +45,7 @@ public class OutsideIFService {
 	private static final Logger logger = LoggerFactory.getLogger(OutsideIFService.class);
 
 	@Autowired
-	private HttpInterfaceExecutorService inteface;
+	private HttpInterfaceExecutor inteface;
 	
 	@Autowired
 	private ConfigureHelper configureHelper; 
@@ -58,7 +59,7 @@ public class OutsideIFService {
 			propertyUtil = new PropertyUtil();
 		}
 		if(inteface == null) {
-			inteface = new HttpInterfaceExecutorService();
+			inteface = new HttpInterfaceExecutor();
 		}
 		if(configureHelper == null) {
 			configureHelper = new ConfigureHelper();
@@ -81,8 +82,14 @@ public class OutsideIFService {
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("roomRead", userAgentSDO.getHttpAgentId());
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
+			
 			/** execute interface */
-			out = (RoomReadOutSDO) inteface.sendJSON(httpConfigSDO, roomReadSDO, RoomReadOutSDO.class);
+			if(inteface.isHttpConnect(httpConfigSDO)) {
+				out = (RoomReadOutSDO) inteface.sendJSON(httpConfigSDO, roomReadSDO, RoomReadOutSDO.class);
+			}
+			else {
+				out = MocKUpOutSDO.getRoomReadOut();
+			}
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "객실정보조회 인터페이스 장애발생.", e);
@@ -107,7 +114,12 @@ public class OutsideIFService {
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
-			out = (CancelFeePsrcOutSDO) inteface.sendJSON(httpConfigSDO, cancelFeePsrcSDO, CancelFeePsrcOutSDO.class);
+			if(inteface.isHttpConnect(httpConfigSDO)) {
+				out = (CancelFeePsrcOutSDO) inteface.sendJSON(httpConfigSDO, cancelFeePsrcSDO, CancelFeePsrcOutSDO.class);
+			}
+			else {
+				out = MocKUpOutSDO.getCancelFeePsrcOut();
+			}
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "취소수수규정 인터페이스 장애발생.", e);
@@ -132,7 +144,12 @@ public class OutsideIFService {
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
-			out = (RsvHistSendOutSDO) inteface.sendJSON(httpConfigSDO, rsvHistSendSDO, RsvHistSendOutSDO.class);
+			if(inteface.isHttpConnect(httpConfigSDO)) {
+				out = (RsvHistSendOutSDO) inteface.sendJSON(httpConfigSDO, rsvHistSendSDO, RsvHistSendOutSDO.class);
+			}
+			else {
+				out = MocKUpOutSDO.getRsvHistSendOut();
+			}
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "결재완료내역전송 인터페이스 장애발생.", e);
@@ -158,7 +175,12 @@ public class OutsideIFService {
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
-			out = (CancelFeeAmtOutSDO) inteface.sendJSON(httpConfigSDO, cancelFeeAmtSDO, CancelFeeAmtOutSDO.class);
+			if(inteface.isHttpConnect(httpConfigSDO)) {
+				out = (CancelFeeAmtOutSDO) inteface.sendJSON(httpConfigSDO, cancelFeeAmtSDO, CancelFeeAmtOutSDO.class);
+			}
+			else {
+				out = MocKUpOutSDO.getCancelFeeAmtOut();
+			}
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "취소수수료계산 인터페이스 장애발생.", e);
@@ -183,7 +205,12 @@ public class OutsideIFService {
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
-			out = (OrderCancelReqOutSDO) inteface.sendJSON(httpConfigSDO, orderCancelReqSDO, OrderCancelReqOutSDO.class);
+			if(inteface.isHttpConnect(httpConfigSDO)) {
+				out = (OrderCancelReqOutSDO) inteface.sendJSON(httpConfigSDO, orderCancelReqSDO, OrderCancelReqOutSDO.class);
+			}
+			else {
+				out = MocKUpOutSDO.getOrderCancelReqOut();
+			}
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "주문취소요청 인터페이스 장애발생.", e);
@@ -209,7 +236,12 @@ public class OutsideIFService {
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
-			out = (OmiNumIdnOutSDO) inteface.sendJSON(httpConfigSDO, omiNumIdnSDO, OmiNumIdnOutSDO.class);
+			if(inteface.isHttpConnect(httpConfigSDO)) {
+				out = (OmiNumIdnOutSDO) inteface.sendJSON(httpConfigSDO, omiNumIdnSDO, OmiNumIdnOutSDO.class);
+			}
+			else {
+				out = MocKUpOutSDO.getOmiNumIdnOut();
+			}
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "누락건확인 인터페이스 장애발생.", e);
@@ -234,7 +266,12 @@ public class OutsideIFService {
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
-			out = (EzwelJobOutSDO) inteface.sendJSON(httpConfigSDO, ezwelJobSDO, EzwelJobOutSDO.class);
+			if(inteface.isHttpConnect(httpConfigSDO)) {
+				out = (EzwelJobOutSDO) inteface.sendJSON(httpConfigSDO, ezwelJobSDO, EzwelJobOutSDO.class);
+			}
+			else {
+				out = MocKUpOutSDO.getEzwelJobOut();
+			}
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "주문대사(이지웰) 인터페이스 장애발생.", e);

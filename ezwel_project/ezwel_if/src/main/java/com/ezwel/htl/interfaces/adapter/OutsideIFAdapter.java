@@ -11,7 +11,7 @@ import com.ezwel.htl.interfaces.commons.configure.ConfigureHelper;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutorService;
+import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
@@ -45,7 +45,7 @@ public class OutsideIFAdapter {
 	private static final Logger logger = LoggerFactory.getLogger(OutsideIFAdapter.class);
 
 	@Autowired
-	private HttpInterfaceExecutorService inteface;
+	private HttpInterfaceExecutor inteface;
 	
 	@Autowired
 	private ConfigureHelper configureHelper; 
@@ -62,7 +62,7 @@ public class OutsideIFAdapter {
 			propertyUtil = new PropertyUtil();
 		}
 		if(inteface == null) {
-			inteface = new HttpInterfaceExecutorService();
+			inteface = new HttpInterfaceExecutor();
 		}
 		if(configureHelper == null) {
 			configureHelper = new ConfigureHelper();
