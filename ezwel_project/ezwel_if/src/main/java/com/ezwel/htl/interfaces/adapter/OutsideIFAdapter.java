@@ -44,16 +44,16 @@ public class OutsideIFAdapter {
 
 	private static final Logger logger = LoggerFactory.getLogger(OutsideIFAdapter.class);
 
-	@Autowired
+	@Autowired /** interface_if는 프론트 및 관리자단에서 사용함으로 빈조회가 Autowired보다 빠른 스프링 컨텍스트에서 직접 꺼내지 않고 ezwel 프레임워크 표준인  Autowired를 사용한다. */
 	private HttpInterfaceExecutor inteface;
 	
-	@Autowired
+	@Autowired /** interface_if는 프론트 및 관리자단에서 사용함으로 빈조회가 Autowired보다 빠른 스프링 컨텍스트에서 직접 꺼내지 않고 ezwel 프레임워크 표준인  Autowired를 사용한다. */
 	private ConfigureHelper configureHelper; 
 	
-	@Autowired
+	@Autowired /** interface_if는 프론트 및 관리자단에서 사용함으로 빈조회가 Autowired보다 빠른 스프링 컨텍스트에서 직접 꺼내지 않고 ezwel 프레임워크 표준인  Autowired를 사용한다. */
 	private PropertyUtil propertyUtil;
 	
-	@Autowired
+	@Autowired /** interface_if는 프론트 및 관리자단에서 사용함으로 빈조회가 Autowired보다 빠른 스프링 컨텍스트에서 직접 꺼내지 않고 ezwel 프레임워크 표준인  Autowired를 사용한다. */
 	private OutsideIFService outsideIFService;
 	
 	public OutsideIFAdapter() {

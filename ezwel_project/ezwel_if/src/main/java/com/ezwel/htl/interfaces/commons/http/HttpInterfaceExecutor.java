@@ -40,6 +40,7 @@ import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
+import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
 import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
 
 
@@ -68,14 +69,18 @@ public class HttpInterfaceExecutor {
 	 */
 	private final int urlReadTimeout = 10000;
 	
-	@Autowired
+	
+	@Autowired /** interface_if는 프론트 및 관리자단에서 사용함으로 빈조회가 Autowired보다 빠른 스프링 컨텍스트에서 직접 꺼내지 않고 ezwel 프레임워크 표준인  Autowired를 사용한다. */
 	private APIUtil util;
 	
-	@Autowired
+	@Autowired /** interface_if는 프론트 및 관리자단에서 사용함으로 빈조회가 Autowired보다 빠른 스프링 컨텍스트에서 직접 꺼내지 않고 ezwel 프레임워크 표준인  Autowired를 사용한다. */
 	private BeanMarshaller beanConvert;
 	
-	@Autowired
+	@Autowired /** interface_if는 프론트 및 관리자단에서 사용함으로 빈조회가 Autowired보다 빠른 스프링 컨텍스트에서 직접 꺼내지 않고 ezwel 프레임워크 표준인  Autowired를 사용한다. */
 	private PropertyUtil propertyUtil;
+	
+	@Autowired /** interface_if는 프론트 및 관리자단에서 사용함으로 빈조회가 Autowired보다 빠른 스프링 컨텍스트에서 직접 꺼내지 않고 ezwel 프레임워크 표준인  Autowired를 사용한다. */
+	private StackTraceUtil stackTraceUtil;
 	
 	public HttpInterfaceExecutor() {
 		this.reset();
@@ -390,7 +395,7 @@ public class HttpInterfaceExecutor {
 				}
 			}
 		} catch (SocketTimeoutException e) {
-			// Connect | Read timed out 이후 1 회 다시 호출
+			// Connect | Read timed out 이후 5초후 1 회 다시 호출
 			logger.debug("* callCount : {}", in.getCallCount());
 			
 			if(in.getCallCount() > 0) {
@@ -441,7 +446,7 @@ public class HttpInterfaceExecutor {
 				propertyUtil.setProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME, Integer.toString(code));
 				propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, message.concat(", ").concat(in.getRestURI()));
 				
-				logger.error("■ URL Exception : {}", e.getMessage());
+				logger.error("■ URL Exception : {} \n{}", e.getMessage(), e.getStackTrace());
 				e.printStackTrace();
 				
 			} catch (InstantiationException e1) {
@@ -585,6 +590,10 @@ public class HttpInterfaceExecutor {
 		} catch (IOException e) {
 			logger.error("■ 통신 장애 발생. {} \n{}", e.getMessage(), e.getStackTrace());
 		} finally {
+			if(conn != null) {
+				conn.disconnect();
+			}
+			
 			return out;
 		}
 	}

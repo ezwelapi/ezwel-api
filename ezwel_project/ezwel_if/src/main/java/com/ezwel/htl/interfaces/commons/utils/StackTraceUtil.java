@@ -2,9 +2,11 @@ package com.ezwel.htl.interfaces.commons.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
 /**
  * <pre>
@@ -14,7 +16,8 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
  * @date 2018. 11. 5.
  * @serviceType API
  */
-@APIType
+@Component
+@APIType(description="오퍼레이션 실행 추적 및 발생한 문제의 문자열 레포트 생성")
 public class StackTraceUtil {
 
 	protected static final Logger logger = LoggerFactory.getLogger(StackTraceUtil.class);
@@ -51,4 +54,39 @@ public class StackTraceUtil {
         
         return out;
 	}
+	
+	@APIOperation(description="발생한 Throwable(문제)의 문자열 레포트 리턴")
+    public String getStackTrace(Throwable cause){
+
+    	StackTraceElement[] stackTrace = cause.getStackTrace();
+    	
+    	if( stackTrace == null ) {
+    		throw new RuntimeException( " StackTraceElement[] is Null !!" );
+    	}
+    	
+    	StringBuffer message = new StringBuffer();
+    	message.append(cause.toString());
+    	message.append(OperateConstants.LINE_SEPARATOR);
+    	
+    	if(cause.getMessage() != null) {
+    		message.append("Message : ");
+    		message.append(cause.getMessage());
+    		message.append(OperateConstants.LINE_SEPARATOR);
+    	} 
+    	
+    	if(cause.getCause() != null) {
+    		message.append("Cause : ");
+	    	message.append(cause.getCause());
+	    	message.append(OperateConstants.LINE_SEPARATOR);
+    	}
+    	
+    	if(stackTrace.length > 0) { 
+    		message.append("Trace : ");
+	    	for(StackTraceElement stack : stackTrace){
+	    		message.append(stack.toString());
+	    		message.append(OperateConstants.LINE_SEPARATOR);
+	    	}
+    	}
+    	return message.toString();
+    }	
 }

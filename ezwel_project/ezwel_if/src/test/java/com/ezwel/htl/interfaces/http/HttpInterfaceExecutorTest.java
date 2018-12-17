@@ -54,6 +54,18 @@ public class HttpInterfaceExecutorTest  {
 	
 	
 	@Test
+	public void testConnect() {
+		
+		HttpConfigSDO in = new HttpConfigSDO();
+		in.setRestURI("http://naver.xcom");
+		logger.debug("isHttpConnect : {}", http.isHttpConnect(in));
+		
+		String test = "[java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:178), java.net.PlainSocketImpl.connect(PlainSocketImpl.java:172), java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392), java.net.Socket.connect(Socket.java:579), sun.net.NetworkClient.doConnect(NetworkClient.java:175), sun.net.www.http.HttpClient.openServer(HttpClient.java:432), sun.net.www.http.HttpClient.openServer(HttpClient.java:527), sun.net.www.http.HttpClient.<init>(HttpClient.java:211), sun.net.www.http.HttpClient.New(HttpClient.java:308), sun.net.www.http.HttpClient.New(HttpClient.java:326), sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:997), sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:933), sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:851), com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor.isHttpConnect(HttpInterfaceExecutor.java:579), com.ezwel.htl.interfaces.http.HttpInterfaceExecutorTest.testConnect(HttpInterfaceExecutorTest.java:61), sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method), sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57), sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43), java.lang.reflect.Method.invoke(Method.java:606), org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47), org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12), org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44), org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17), org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271), org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70), org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50), org.junit.runners.ParentRunner$3.run(ParentRunner.java:238), org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63), org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236), org.junit.runners.ParentRunner.access$000(ParentRunner.java:53), org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229), org.junit.runners.ParentRunner.run(ParentRunner.java:309), org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86), org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38), org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:538), org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:760), org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:460), org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:206)]";
+		
+	}
+	
+	
+	//@Test
 	public void receiveInsideInterfaceTest() {
 		
 		InterfaceDemoService service = new InterfaceDemoService();
@@ -249,5 +261,7 @@ public class HttpInterfaceExecutorTest  {
 		restURIList.add("http://localhost:9123/ezwel_if_demo/service/view.jsp");
 		restURIList.add("http://localhost:9123/ezwel_if_demo/service/voucherReg.jsp");
 	}
+	
+	
 	
 }
