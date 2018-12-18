@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
  * @serviceType API
  */
 @Data
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper=false)
 @APIModel(modelNames="API Model Super Class")
 public abstract class APIObject implements Serializable {
 	
