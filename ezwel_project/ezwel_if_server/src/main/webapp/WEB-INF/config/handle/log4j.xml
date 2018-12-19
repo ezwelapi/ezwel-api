@@ -12,148 +12,125 @@
 		INFO : 일반 정보를 나타낼 때 사용합니다.
 		DEBUG : 일반 정보를 상세히 나타낼 때 사용합니다.
 	 -->
-	 
-	<!-- <param name="ConversionPattern" value="%5p [%d{HH:mm:ss}] [%t] (%c{1}.%M) %m [%c][%F:%L]%n" /> -->
-	<!-- <param name="ConversionPattern" value="%5p [%d{HH:mm:ss}] [%t] %m [%c@%M:%L][%F:%L]%n" /> -->
+
 	<!-- console -->
 	<appender name="defaultConsole" class="org.apache.log4j.ConsoleAppender">
 		<param name="Target" value="System.out" />
 		<param name="encoding" value="UTF-8" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="[%5p] %m [%c@%M:%L]%n" />
+			<!-- <param name="ConversionPattern" value="%5p [%d{HH:mm:ss}] [%t] (%c{1}.%M) %m [%c][%F:%L]%n" /> -->
+			<param name="ConversionPattern" value="%5p [%d{HH:mm:ss}] [%t] %m [%c@%M:%L][%F:%L][%d{HH:mm:ss}]%n" />
 		</layout>
-	</appender> 
-	
+	</appender>
+
 	<!-- File -->
 	<appender name="fileAppender" class="org.apache.log4j.DailyRollingFileAppender">
 		<!-- 톰켓 -->
-		<param name="File" value="${catalina.base}/logs/ezwel_if_server.log" /> 
+		<param name="File" value="${catalina.base}/logs/ezwel_if_server_log4j.log" /> 
 		<!-- ${servicename.webapp.root}/ -->
 		<param name="Append" value="true" />
 		<param name="encoding" value="UTF-8" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<!-- <param name="ConversionPattern" value="%5p [%d{HH:mm:ss}] [%t] (%c{1}.%M) %m [%c][%F:%L]%n" /> -->
-			<param name="ConversionPattern" value="%5p [%t] %m [%c@%M:%L]%n" />
+			<!-- <param name="ConversionPattern" value="[%5p] [%d{HH:mm:ss}] [%t] (%c{1}.%M) %m [%c][%F:%L]%n" /> -->
+			<param name="ConversionPattern" value="[%5p] %m (%c{1}.%M)[%c][%F:%L] [%d{HH:mm:ss}]%n" />
 		</layout>
 	</appender>
-	
-	<!-- table Appender 
-	<appender name="DB" class="org.apache.log4j.jdbc.JDBCAppender">
-	   <param name="url" value="jdbc:mysql://localhost/DBNAME"/>
-	   <param name="driver" value="com.mysql.jdbc.Driver"/>
-	   <param name="user" value="user_id"/>
-	   <param name="password" value="password"/>
-	   <param name="sql" value="INSERT INTO LOGS VALUES('%x','%d','%C','%p','%m')"/>
-	   <layout class="org.apache.log4j.PatternLayout"></layout>
-	</appender>
+			
+	<!-- jdbc Loggers 
+	<logger name="jdbc">
+		<level value="WARN" />
+	</logger>
 	-->
 	
-	<!-- jdbc Loggers -->
-	<logger name="jdbc" >
-		<level value="WARN" />
-	</logger>
-	
-	<logger name="org.apache.ibatis.io" >
-		<level value="WARN" />
-	</logger>
-		
 	<!-- jdbc.sqlonly Loggers ( Real SQL Log ) -->
-	<logger name="jdbc.sqlonly" >
+	<logger name="jdbc.sqlonly">
 		<level value="DEBUG" />
 	</logger>
 	
-	<logger name="jdbc.audit" >
+	<logger name="jdbc.audit">
 		<level value="OFF" />
 	</logger>	
 	
-	<logger name="jdbc.sqltiming"  >
+	<logger name="jdbc.sqltiming">
 		<level value="OFF" />
 	</logger>	
 	
 	<!-- jdbc.resultsettable Loggers ( Real SQL Result Log ) -->
-	<logger name="jdbc.resultsettable"  >
+	<logger name="jdbc.resultsettable">
 		<level value="DEBUG" />
 	</logger>
 	
 	<!-- log4jdbc Loggers -->
-	<logger name="log4jdbc"  >
+	<logger name="log4jdbc">
 		<level value="WARN" />
 	</logger>
 	
 	<!-- 3rdparty Loggers --> 
-	<logger name="org.apache.commons.beanutils.converters"  >
+	<logger name="org.apache.commons.beanutils.converters">
 		<level value="WARN" />
 	</logger>
 
 	<!-- 3rdparty Loggers --> 
-	<logger name="org.apache.commons.beanutils.ConvertUtils"  >
+	<logger name="org.apache.commons.beanutils.ConvertUtils">
 		<level value="WARN" />
 	</logger>
 			
 	<!-- 3rdparty Loggers --> 
-	<logger name="org.apache.commons.beanutils.BeanUtils"  >
+	<logger name="org.apache.commons.beanutils.BeanUtils">
 		<level value="WARN" />
 	</logger>
 	
 	<!-- 3rdparty Loggers [ org.springframework ] -->
-	<logger name="org.springframework.web"  >
+	<logger name="org.springframework.web">
 		<level value="DEBUG" />
 	</logger>
 	
 	<!-- 3rdparty Loggers [ org.springframework ] -->
-	<logger name="org.springframework.beans"  >
+	<logger name="org.springframework.beans">
 		<level value="WARN" />
 	</logger>
 		
 	<!-- 3rdparty Loggers [ org.springframework ] -->
-	<logger name="org.springframework.core"  >
+	<logger name="org.springframework.core">
 		<level value="WARN" />
 	</logger>
 	
 	<!-- 3rdparty Loggers [ org.springframework ] -->
-	<logger name="org.springframework.context"  >
+	<logger name="org.springframework.context">
 		<level value="WARN" />
 	</logger>
 	
+	<logger name="org.springframework.web.servlet.handler">
+		<level value="WARN" />
+	</logger>	
+	
 	<!-- 3rdparty Loggers [ org.springframework ] -->
-	<logger name="org.springframework.aop.framework.JdkDynamicAopProxy"  >
+	<logger name="org.springframework.aop.framework.JdkDynamicAopProxy">
 		<level value="WARN" />
 	</logger>	
 	
 	<!-- 3rdparty Loggers [ org.mybatis.spring.SqlSessionFactoryBean ] --> 
-	<logger name="org.mybatis.spring.SqlSessionFactoryBean"  >
+	<logger name="org.mybatis.spring.SqlSessionFactoryBean">
 		<level value="WARN" />
 	</logger>
 	
   	<!-- ######################################################### -->
 
 	<!-- 3rdparty Loggers [ org.springframework ] -->
-	<logger name="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"  >
+	<logger name="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource">
 		<level value="WARN" />
 	</logger>	
 	
 	<!-- 3rdparty Loggers [ org.springframework ] -->
-	<logger name="org.springframework.aop.framework.autoproxy.InfrastructureAdvisorAutoProxyCreator"  >
+	<logger name="org.springframework.aop.framework.autoproxy.InfrastructureAdvisorAutoProxyCreator">
 		<level value="WARN" />
 	</logger>	
 
-	<logger name="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"  >
-		<level value="WARN" />
-	</logger>	
-
-	<logger name="org.springframework.aop.framework.CglibAopProxy"  >
-		<level value="WARN" />
-	</logger>	
-
-	<logger name="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator"  >
-		<level value="WARN" />
+  	<!-- All DWR session information will be written here --> 
+	<logger name="org.directwebremoting.spring.DwrAnnotationPostProcessor">
+	   <level value="WARN"/>
 	</logger>
-
-	<logger name="org.springframework.scheduling.annotation.ScheduledAnnotationBeanPostProcessor"  >
-		<level value="WARN" />
-	</logger>
-
 
   	<!-- ######################################################### -->
   	
@@ -161,7 +138,7 @@
 	<root>
 		<level value="DEBUG" />
 		<appender-ref ref="defaultConsole" />
-		<!-- <appender-ref ref="fileAppender" /> -->
+		<appender-ref ref="fileAppender" />
 	</root>
 	
 </log4j:configuration>

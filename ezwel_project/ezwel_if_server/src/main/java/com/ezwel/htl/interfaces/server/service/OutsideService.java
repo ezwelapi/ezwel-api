@@ -95,6 +95,9 @@ public class OutsideService extends AbstractServiceObject {
 		inteface = (HttpInterfaceExecutor) LApplicationContext.getBean(inteface, HttpInterfaceExecutor.class);
 		configureHelper = (ConfigureHelper) LApplicationContext.getBean(configureHelper, ConfigureHelper.class);
 		commonRepository = (CommonRepository) LApplicationContext.getBean(commonRepository, CommonRepository.class);
+		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
+		koreanAnalyzer = (KoreanAnalyzer) LApplicationContext.getBean(koreanAnalyzer, KoreanAnalyzer.class);
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
 		AllRegOutSDO out = null;
 		MultiHttpConfigSDO multi = null;
@@ -154,15 +157,12 @@ public class OutsideService extends AbstractServiceObject {
 	 * @return
 	 */
 	@APIOperation(description="전체시설일괄등록 인터페이스")
-	public AllRegOutSDO insertAllFacl(List<AllRegOutSDO> assets, AllRegOutSDO out, List<EzcDetailCd> detailCdList, Integer faclIndex) {
+	private AllRegOutSDO insertAllFacl(List<AllRegOutSDO> assets, AllRegOutSDO out, List<EzcDetailCd> detailCdList, Integer faclIndex) {
 		logger.debug("[START] insertAllFacl assets.size : {}, allFacl : {}, detailCdList : {}, faclIndex : {}", (assets != null ? assets.size() : 0), out, (detailCdList != null ? detailCdList.size() : 0), faclIndex);
 		if(assets == null) {
 			throw new APIException("시설 목록이 존재하지 않거나 잘못되었습니다.");
 		}
-		
-		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
-		koreanAnalyzer = (KoreanAnalyzer) LApplicationContext.getBean(koreanAnalyzer, KoreanAnalyzer.class);
-		
+	
 		AllRegOutSDO allReg = null;
 		List<AllRegDataOutSDO> faclDataList = null;	// 제휴사 및에 시설 목록 ( 인터페이스 전문 SDO )
 		//시설 정보 DB 엔티티
@@ -231,8 +231,8 @@ public class OutsideService extends AbstractServiceObject {
 						ezcFacl.setRoomClass( APIUtil.NVL(commonUtil.getMasterCdForCodeList(detailCdList, faclData.getGradeCode()), "NA-G003") ); // -> DB 공통코드 (테이블 : EZC_DETAIL_CD.DETAIL_CD  = '#{gradeCode}' AND EZC_DETAIL_CD.CLASS_CD = 'G003')
 						ezcFacl.setSaleStartDd(faclData.getSellStartDate()); // 판매시작일
 						ezcFacl.setSaleEndDd(faclData.getSellEndDate());	// 판매종료일
-						ezcFacl.setCheckInTm( APIUtil.isNotEmpty(faclData.getCheckInTime()) ? faclData.getCheckInTime().replace(":", "") : null );	//채크인시간 ( 임시 필터 )
-						ezcFacl.setCheckOutTm( APIUtil.isNotEmpty(faclData.getCheckOutTime()) ? faclData.getCheckOutTime().replace(":","") : null );	//채크아웃시간 ( 임시 필터 )
+						ezcFacl.setCheckInTm( APIUtil.isNotEmpty(faclData.getCheckInTime()) ? faclData.getCheckInTime().replace(OperateConstants.STR_COLON, OperateConstants.STR_BLANK) : null );	//채크인시간 ( 임시 필터 )
+						ezcFacl.setCheckOutTm( APIUtil.isNotEmpty(faclData.getCheckOutTime()) ? faclData.getCheckOutTime().replace(OperateConstants.STR_COLON, OperateConstants.STR_BLANK) : null );	//채크아웃시간 ( 임시 필터 )
 						ezcFacl.setAreaCd( APIUtil.NVL(faclData.getGunguCode(), OperateConstants.STR_EMPTY) );	//지역코드(군구코드) => 호텔패스글로벌 전문에 데이터가  전달되어오지 않기때문에 임시로 EMPTY 처리함 */
 						ezcFacl.setCityCd( APIUtil.NVL(faclData.getSidoCode(), OperateConstants.STR_EMPTY) );	//도시코드(시도코드)
 						ezcFacl.setAddrType( APIUtil.NVL(commonUtil.getMasterCdForCodeList(detailCdList, faclData.getAddressType()), "NA-C007") );  //주소 유형 -> DB 공통코드 (테이블 : EZC_DETAIL_CD)
@@ -245,7 +245,7 @@ public class OutsideService extends AbstractServiceObject {
 						ezcFacl.setDetailDescPc(faclData.getDescHTML());	//상세 설명 PC 		(제휴사 텍스트 OR HTML 설명 데이터)
 						ezcFacl.setDetailDescM(faclData.getDescMobile());	//상세 설명 모바일	(제휴사 텍스트 OR HTML 설명 데이터)
 						ezcFacl.setTripPropId(faclData.getTripadvisorId());	//트립어드바이저 프로퍼티 ID
-						ezcFacl.setMainImgUrl(faclData.getMainImage() != null ? faclData.getMainImage().trim() : "");		//대표 이미지 URL
+						ezcFacl.setMainImgUrl(faclData.getMainImage() != null ? faclData.getMainImage().trim() : OperateConstants.STR_BLANK);		//대표 이미지 URL
 						ezcFacl.setImgChangeYn(faclData.getChangeImage());	//이미지 변경 여부
 						ezcFacl.setApiSyncDt(APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis(), OperateConstants.DEF_DATE_FORMAT)); //API 동기화 일시(API 동작일시)
 						ezcFacl.setUseYn(CodeDataConstants.CD_Y);	//사용 여부 새로등록되는 시설에 대하여 기본 Y로 등록함
@@ -255,7 +255,6 @@ public class OutsideService extends AbstractServiceObject {
 						// 국문 형태소
 						if (APIUtil.isNotEmpty(ezcFacl.getFaclNmKor())) {
 							actual = new StringBuilder();
-
 							tokens = koreanAnalyzer.tokenStream("bogus", ezcFacl.getFaclNmKor());
 							termAtt = tokens.addAttribute(CharTermAttribute.class);
 							tokens.reset();
@@ -274,7 +273,6 @@ public class OutsideService extends AbstractServiceObject {
 						// 영문 형태소
 						if (APIUtil.isNotEmpty(ezcFacl.getFaclNmEng())) {
 							actual = new StringBuilder();
-
 							tokens = koreanAnalyzer.tokenStream("bogus", ezcFacl.getFaclNmEng());
 							termAtt = tokens.addAttribute(CharTermAttribute.class);
 							tokens.reset();
@@ -388,10 +386,8 @@ public class OutsideService extends AbstractServiceObject {
 	
 	
 	@APIOperation(description="제휴사 별 시설 데이터 입력")
-	public AllRegOutSDO insertFaclRegData(AllRegOutSDO out, List<EzcFacl> ezcFacls/* 제휴사 별 시설 목록 */, Integer fromIndex) {
+	private AllRegOutSDO insertFaclRegData(AllRegOutSDO out, List<EzcFacl> ezcFacls/* 제휴사 별 시설 목록 */, Integer fromIndex) {
 		logger.debug("[START] insertFaclRegData ezcFacls.size : {}, fromIndex : {}, txCount : {}", (ezcFacls != null ? ezcFacls.size() : 0), fromIndex);
-		
-		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
 		
 		/**
 		 * 시설 50개씩 connection 끊어서 실행
