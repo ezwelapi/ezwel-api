@@ -211,6 +211,7 @@ public class OutsideService extends AbstractServiceObject {
 					/** ezwel 시설 정보 목록 */
 					ezcFaclList = new ArrayList<EzcFacl>();
 					/** 한글형태소분석기 설정 */
+					koreanAnalyzer = new KoreanAnalyzer();
 					koreanAnalyzer.setQueryMode(false);
 
 					
