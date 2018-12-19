@@ -91,8 +91,8 @@ var testAssets = {
 			 url : "/{httpAgentId}/facl/agentJob"
 			,input : {
 				"rsvNo": "123456789",
-				"rsvDateStart": "",
-				"rsvDateEnd": ""
+				"rsvDateStart": "20181201",
+				"rsvDateEnd": "20181215"
 			}
 		},
 		
@@ -110,150 +110,169 @@ var testAssets = {
 		"OUT-시설검색 인터페이스" : {
 			 url : "/service/callFaclSearch"
 			,input : {
-				"httpAgentGroupId": "faclSearch-chanGroup",
-				"httpAgentType": "TEST VALUE",
-				"httpChannelCd": "TEST VALUE",
-				"httpClientId": "TEST VALUE",
-				"httpRequestId": "TEST VALUE",
-				"connTimeout": 1000,
-				"readTimeout": 100000,
-				"otaId": "10055550",
-				"checkInDate": "20190101",
-				"checkOutDate": "20190102",
-				"sidoCode": "11"
+				userAgentDTO : {
+					"httpAgentGroupId": "faclSearch-chanGroup",
+					"httpAgentType": "AP02PO",
+					"httpChannelCd": "1",
+					"httpClientId": "ez1",
+					"httpRequestId": "test",
+					"connTimeout": 1000,
+					"readTimeout": 100000
+				},
+				faclSearchDTO : {
+					"otaId": "10055550",
+					"checkInDate": "20190101",
+					"checkOutDate": "20190102",
+					"sidoCode": "11"
+				}
 			}
 		},
 		"OUT-당일특가검색 인터페이스" : {
 			 url : "/service/callSddSearch"
 			,input : {
 				"httpAgentGroupId": "sddSearch-chanGroup",
-				"httpAgentType": "TEST VALUE",
-				"httpChannelCd": "TEST VALUE",
-				"httpClientId": "TEST VALUE",
-				"httpRequestId": "TEST VALUE",
+				"httpAgentType": "AP02PO",
+				"httpChannelCd": "1",
+				"httpClientId": "ez1",
+				"httpRequestId": "test",
 				"connTimeout": 1000,
 				"readTimeout": 100000,
 				"otaId": "10055550"
 			}
-		}
-		
-		,
+		},
 		"OUT-객실정보조회 인터페이스" : {
 			 url : "/service/callRoomRead"
 			,input : {
-				"httpAgentId": "10055550",
-				"httpAgentType": "TEST VALUE",
-				"httpChannelCd": "TEST VALUE",
-				"httpClientId": "TEST VALUE",
-				"httpRequestId": "TEST VALUE",
-				"connTimeout": 1000,
-				"readTimeout": 100000,
-				"otaId": "10055550",
-				"pdtNo": "KRANA002",
-				"checkInDate": "20190101",
-				"checkOutDate": "20190102",
-				"roomCnt": 1,
-				"adultCnt": 2,
-				"childCnt": 0
-				/* 실제 입력 필드 추가 */
+				userAgentSDO : {
+					"httpAgentId": "10055550",
+					"httpAgentType": "AP02PO",
+					"httpChannelCd": "1",
+					"httpClientId": "ez1",
+					"httpRequestId": "test",
+					"connTimeout": 1000,
+					"readTimeout": 100000
+				},
+				roomReadInSDO : {
+					"otaId": "10055550",
+					"pdtNo": "KRANA002",
+					"checkInDate": "20190101",
+					"checkOutDate": "20190102",
+					"roomCnt": 1,
+					"adultCnt": 2,
+					"childCnt": 0
+				}
 			}
 		},
-		"OUT-취소수수규정 인터페이스" : {
+		"OUT-취소수수료규정 인터페이스" : {
 			 url : "/service/callCancelFeePsrc"
 			,input : {
-				"httpAgentId": "10055550",
-				"httpAgentType": "TEST VALUE",
-				"httpChannelCd": "TEST VALUE",
-				"httpClientId": "TEST VALUE",
-				"httpRequestId": "TEST VALUE",
-				"connTimeout": 1000,
-				"readTimeout": 100000,
-				"otaId": "10055550",
-				"pdtNo": "KRANA002",
-				"roomNo": "SV0000000052461",
-				"checkInDate": "20190101",
-				"checkOutDate": "20190102",
-				"roomCnt": 1
-				/* 실제 입력 필드 추가 */
+				userAgentSDO : {
+					"httpAgentId": "10055550",
+					"httpAgentType": "AP02PO",
+					"httpChannelCd": "1",
+					"httpClientId": "ez1",
+					"httpRequestId": "test",
+					"connTimeout": 1000,
+					"readTimeout": 100000
+				},
+				cancelFeePsrcInSDO : {
+					"otaId": "10055550",
+					"pdtNo": "KRANA002",
+					"roomNo": "1",
+					"checkInDate": "20190101",
+					"checkOutDate": "20190102",
+					"roomCnt": 1
+				}
 			}
 		},
 		"OUT-결재완료내역전송 인터페이스" : {
 			 url : "/service/callRsvHistSend"
 			,input : {
-				"httpAgentId": "",
-				"httpAgentType": "TEST VALUE",
-				"httpChannelCd": "TEST VALUE",
-				"httpClientId": "TEST VALUE",
-				"httpRequestId": "TEST VALUE",
+				"httpAgentId": "10055550",
+				"httpAgentType": "AP02PO",
+				"httpChannelCd": "1",
+				"httpClientId": "ez1",
+				"httpRequestId": "test",
 				"connTimeout": 1000,
 				"readTimeout": 100000
-				/* 실제 입력 필드 추가 */
 			}
 		},
 		"OUT-취소수수료계산 인터페이스" : {
 			 url : "/service/callCancelFeeAmt"
 			,input : {
-				"httpAgentId": "10055550",
-				"httpAgentType": "TEST VALUE",
-				"httpChannelCd": "TEST VALUE",
-				"httpClientId": "TEST VALUE",
-				"httpRequestId": "TEST VALUE",
-				"connTimeout": 1000,
-				"readTimeout": 100000,
-				"otaId": "10055550",
-				"rsvNo": "123456789"
-				/* 실제 입력 필드 추가 */
+				userAgentSDO : {
+					"httpAgentId": "10055550",
+					"httpAgentType": "AP02PO",
+					"httpChannelCd": "1",
+					"httpClientId": "ez1",
+					"httpRequestId": "test",
+					"connTimeout": 1000,
+					"readTimeout": 100000
+				},
+				cancelFeeAmtSDO : {
+					"otaId": "10055550",
+					"rsvNo": "123456789"
+				}
 			}
 		},
 		"OUT-주문취소요청 인터페이스" : {
 			 url : "/service/callOrderCancelReq"
 			,input : {
-				"httpAgentId": "10055550",
-				"httpAgentType": "TEST VALUE",
-				"httpChannelCd": "TEST VALUE",
-				"httpClientId": "TEST VALUE",
-				"httpRequestId": "TEST VALUE",
-				"connTimeout": 1000,
-				"readTimeout": 100000,
-				"otaId": "10055550",
-				"rsvNo": "123456789",
-				"otaRsvNo": "000000123",
-				"rsvPrice": 0,
-				"cancelCharge": 0
-				/* 실제 입력 필드 추가 */
+				userAgentSDO : {
+					"httpAgentId": "10055550",
+					"httpAgentType": "AP02PO",
+					"httpChannelCd": "1",
+					"httpClientId": "ez1",
+					"httpRequestId": "test",
+					"connTimeout": 1000,
+					"readTimeout": 100000
+				},
+				orderCancelReqSDO : {
+					"otaId": "10055550",
+					"rsvNo": "123456789",
+					"otaRsvNo": "000000123",
+					"rsvPrice": 0,
+					"cancelCharge": 0
+				}
 			}
 		},
 		"OUT-누락건확인 인터페이스" : {
 			 url : "/service/callOmiNumIdn"
 			,input : {
-				"httpAgentId": "10055550",
-				"httpAgentType": "TEST VALUE",
-				"httpChannelCd": "TEST VALUE",
-				"httpClientId": "TEST VALUE",
-				"httpRequestId": "TEST VALUE",
-				"connTimeout": 1000,
-				"readTimeout": 100000,
-				"otaId": "10055550",
-				"rsvNo": "123456789",
-				"rsvStat": "o01"
-				/* 실제 입력 필드 추가 */
+				userAgentSDO : {
+					"httpAgentId": "10055550",
+					"httpAgentType": "AP02PO",
+					"httpChannelCd": "1",
+					"httpClientId": "ez1",
+					"httpRequestId": "test",
+					"connTimeout": 1000,
+					"readTimeout": 100000
+				},
+				omiNumIdnSDO : {				
+					"otaId": "10055550",
+					"rsvNo": "123456789",
+					"rsvStat": "o01"
+				}
 			}
 		},
 		"OUT-주문대사(이지웰) 인터페이스" : {
 			 url : "/service/callEzwelJob"
 			,input : {
-				"httpAgentId": "10055550",
-				"httpAgentType": "TEST VALUE",
-				"httpChannelCd": "TEST VALUE",
-				"httpClientId": "TEST VALUE",
-				"httpRequestId": "TEST VALUE",
-				"connTimeout": 1000,
-				"readTimeout": 100000,
-				"otaId": "10055550",
-				"rsvNo": "",
-				"rsvDateStart": "",
-				"rsvDateEnd": ""
-				/* 실제 입력 필드 추가 */
+				userAgentSDO : {
+					"httpAgentId": "10055550",
+					"httpAgentType": "AP02PO",
+					"httpChannelCd": "1",
+					"httpClientId": "ez1",
+					"httpRequestId": "test",
+					"connTimeout": 1000,
+					"readTimeout": 100000
+				},
+				ezwelJobSDO : {
+					"otaId": "10055550",
+					"rsvNo": "",
+					"rsvDateStart": "",
+					"rsvDateEnd": ""
+				}
 			}
 		},
 		"시설이미지 전체다운로드 인터페이스" : {
