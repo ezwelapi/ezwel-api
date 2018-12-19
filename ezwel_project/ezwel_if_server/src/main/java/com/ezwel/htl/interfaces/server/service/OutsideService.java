@@ -10,6 +10,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,7 @@ import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
 import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractServiceObject;
 import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
+import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzer;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.entities.EzcDetailCd;
@@ -71,6 +74,8 @@ public class OutsideService extends AbstractServiceObject {
 	private OutsideRepository outsideRepository;
 	
 	private PropertyUtil propertyUtil;
+	
+	private KoreanAnalyzer koreanAnalyzer;
 	
 	/** 제휴사 별 시설 정보 transaction commit 건수 */
 	private static final Integer FACL_REG_DATA_TX_COUNT = 50;
@@ -156,6 +161,7 @@ public class OutsideService extends AbstractServiceObject {
 		}
 		
 		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+		koreanAnalyzer = (KoreanAnalyzer) LApplicationContext.getBean(koreanAnalyzer, KoreanAnalyzer.class);
 		
 		AllRegOutSDO allReg = null;
 		List<AllRegDataOutSDO> faclDataList = null;	// 제휴사 및에 시설 목록 ( 인터페이스 전문 SDO )
@@ -169,6 +175,10 @@ public class OutsideService extends AbstractServiceObject {
 		Integer nextIndex = null;
 		List<String> ezcFaclAmentArrays = null;
 		List<ImageSDO> imageList = null;
+		//형태소 분석기 관련 변수 선언
+		StringBuilder actual = null;
+		TokenStream ts = null;
+		CharTermAttribute termAtt = null;
 		
 		try {
 			/**
@@ -198,8 +208,11 @@ public class OutsideService extends AbstractServiceObject {
 				if(allReg != null && allReg.getData() != null && allReg.getData().size() > 0) {
 					/** 제휴사 별 시설 목록 */
 					faclDataList = allReg.getData();
-					
+					/** ezwel 시설 정보 목록 */
 					ezcFaclList = new ArrayList<EzcFacl>();
+					/** 한글형태소분석기 설정 */
+					koreanAnalyzer.setQueryMode(false);
+
 					
 					for(AllRegDataOutSDO faclData : faclDataList) {
 						/** 제휴사 별 시설 데이터 세팅 */  /* => 이슈 : 제휴사 ID : 호텔패스글로벌 전문에 데이터가  전달되어오지 않기때문에 임시로 APIUtil.getId() 처리함 */
@@ -237,6 +250,39 @@ public class OutsideService extends AbstractServiceObject {
 						ezcFacl.setUseYn(CodeDataConstants.CD_Y);	//사용 여부 새로등록되는 시설에 대하여 기본 Y로 등록함
 						ezcFacl.setFaclStatus(CodeDataConstants.CD_FACL_STATUS_G0040003); //시설 상태
 						ezcFacl.setConfirmStatus(CodeDataConstants.CD_CONFIRM_STATUS_G0060003); //확정 상태
+						
+						//국문 형태소
+						if(APIUtil.isNotEmpty(ezcFacl.getFaclNmKor())) {
+							actual = new StringBuilder();
+							
+							ts = koreanAnalyzer.tokenStream("bogus", ezcFacl.getFaclNmKor());
+						    termAtt = ts.addAttribute(CharTermAttribute.class);
+						    ts.reset();
+						    
+						    while (ts.incrementToken()) {
+						      actual.append(termAtt.toString());
+						      actual.append(OperateConstants.STR_SPEC_COMA);
+						    }
+						    
+							ezcFacl.setFaclMorpKor(actual.toString());
+						}						
+						
+						//영문 형태소
+						if(APIUtil.isNotEmpty(ezcFacl.getFaclNmEng())) {
+							actual = new StringBuilder();
+							
+							ts = koreanAnalyzer.tokenStream("bogus", ezcFacl.getFaclNmEng());
+						    termAtt = ts.addAttribute(CharTermAttribute.class);
+						    ts.reset();
+						    
+						    while (ts.incrementToken()) {
+						      actual.append(termAtt.toString());
+						      actual.append(OperateConstants.STR_SPEC_COMA);
+						    }
+						    
+							ezcFacl.setFaclMorpEng(actual.toString());
+						}
+						
 						
 						//서브 이미지 세팅
 						if(faclData.getSubImages() != null) {
@@ -342,7 +388,7 @@ public class OutsideService extends AbstractServiceObject {
 		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
 		
 		/**
-		 * 시설 50개씩 connection 끊어서 돌려야함.
+		 * 시설 50개씩 connection 끊어서 실행
 		 */
 		Integer toIndex = fromIndex + FACL_REG_DATA_TX_COUNT;
 		
@@ -366,7 +412,7 @@ public class OutsideService extends AbstractServiceObject {
 			}
 		}
 		catch(Exception e) {
-			throw new APIException("제휴사 별 시설 데이터 입력 장애발생 (입력 구간 from/to : {} ~ {})", new Object[]{fromIndex, toIndex}, e);
+			logger.error(APIUtil.formatMessage("제휴사 별 시설 데이터 입력 장애발생 (입력 구간 from/to : {} ~ {})", new Object[]{fromIndex, toIndex}), e);
 		}
 
 		logger.debug("[END] insertFaclRegData subTxCount : {}", out.getTxCount());
@@ -391,6 +437,7 @@ public class OutsideService extends AbstractServiceObject {
 		List<Future<?>> futures = null;
 		EzcFaclImg ezcFaclImg = null;
 		List<EzcFaclImg> ezcFaclImgList = null;
+		List<EzcFaclImg> finalFaclImgList = null;
 		ImageSDO inImageSDO = null;
 		ImageSDO outImageSDO = null;
 		EzcFaclImg outEzcFaclImg = null;
@@ -463,36 +510,49 @@ public class OutsideService extends AbstractServiceObject {
 				
 				futures = executor.getResult();
 				if(futures != null) {
-					logger.debug("- futures.size() : {}", futures.size());
+					logger.debug("- DownloadMultiService futures.size() : {}", futures.size());
+					
+					finalFaclImgList = new ArrayList<EzcFaclImg>();
 					
 					for(Future<?> future : futures) {
 						if(future.get() != null) {
 							outImageSDO = (ImageSDO) future.get();
-							logger.debug("[IMAGE-DOWNLOAD-OUTPUT] {}", outImageSDO);
-
-							outEzcFaclImg = (EzcFaclImg) outImageSDO.getDummy();
-							
-							if(outImageSDO.isSave()) {
-								//ok
-								downSuceCount++;
-								outEzcFaclImg.setImgUrl(outImageSDO.getRelativePath());
+							//logger.debug("[IMAGE-DOWNLOAD-OUTPUT] {}", outImageSDO);
+							if(outImageSDO != null) {
+								
+								if(outImageSDO.getDummy() != null && EzcFaclImg.class.isAssignableFrom(outImageSDO.getDummy().getClass())) {
+									
+									outEzcFaclImg = (EzcFaclImg) outImageSDO.getDummy();
+									
+									if(outImageSDO.isSave()) {
+										//ok
+										downSuceCount++;
+										outEzcFaclImg.setImgUrl(outImageSDO.getRelativePath());
+										logger.debug("[DOWNLOAD-SUCCESS-INFO] ImgUrl : {}", outEzcFaclImg.getImgUrl());
+									}
+									else {
+										//fail
+										downFailCount++;
+										outEzcFaclImg.setImgUrl(outImageSDO.getDescription());
+										logger.debug("[DOWNLOAD-FAIL-INFO] ImgUrl : {}", outEzcFaclImg.getImgUrl());
+									}
+									
+									finalFaclImgList.add(outEzcFaclImg);
+								}
+								else {
+									logger.warn("[LOOP-PROC] DownloadMultiService에 잘못된 Dummy 객체가 전달되었습니다.");
+								}
 							}
-							else {
-								//fail
-								downFailCount++;
-								outEzcFaclImg.setImgUrl(outImageSDO.getDescription());
-							}
-							
-							logger.debug("[IMAGE-DOWNLOAD-UPDATE-DATA] ImgUrl : {}", outEzcFaclImg.getImgUrl());
-							
-							txCount += outsideRepository.updateBuildImage(outEzcFaclImg, true); //update 해야함
 						}
 					}
+					
+					//시설 이미지 데이터 UPDATE
+					txCount = updateBuildImage(finalFaclImgList, 0, 0);
 				}
-
-				out.setTxCount(txCount);
+				
 				out.setDownSuceCount(downSuceCount);
 				out.setDownFailCount(downFailCount);
+				out.setTxCount(txCount);
 			}
 		} catch (APIException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9401, "■ 이미지 다운로드 다중 인터페이스 장애 발생", e);
@@ -512,6 +572,42 @@ public class OutsideService extends AbstractServiceObject {
 		
 		logger.debug("[END] downloadMultiImage");		
 		return out;
+	}
+	
+	private Integer updateBuildImage(List<EzcFaclImg> finalFaclImgList, Integer fromIndex, Integer txCount) {
+
+		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
+		
+		/**
+		 * EZC_FACL_IMG update를 3000개씩 commit 처리 
+		 */
+		Integer toIndex = fromIndex + 3000;
+		List<EzcFaclImg> subFaclImgList = null;
+		if(toIndex > finalFaclImgList.size()) {
+			toIndex = finalFaclImgList.size();
+		}
+		
+		try {
+			
+			logger.debug("* updateBuildImage subList 'fromIndex : {} ~ toIndex : {}'", fromIndex, toIndex);
+			subFaclImgList = finalFaclImgList.subList(fromIndex, toIndex);
+			logger.debug("* updateBuildImage subFaclImgList.size {}", (subFaclImgList != null ? subFaclImgList.size() : 0));
+			
+			if(subFaclImgList != null && subFaclImgList.size() > 0) {
+				//시설 이미지 데이터 UPDATE
+				txCount += outsideRepository.updateBuildImage(subFaclImgList, true);				
+			}
+			
+			if(finalFaclImgList != null && finalFaclImgList.size() > toIndex) {
+				updateBuildImage(finalFaclImgList, toIndex, txCount);
+			}
+		}
+		catch(Exception e) {
+			logger.error(APIUtil.formatMessage("전체 시설 이미지 다운로드 정보 업데이트 (갱신 목록 구간 from/to : {} ~ {})", new Object[]{fromIndex, toIndex}), e);
+		}
+		
+		
+		return txCount;
 	}
 	
 	

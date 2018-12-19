@@ -436,6 +436,7 @@ public class CommonUtil {
 						namedSDO.setSave(ImageIO.write(bufferedImage, fileExt, outputFile));
 						// 저장소 루트를 제외한 경로
 						namedSDO.setFileExt(fileExt);
+						namedSDO.setFileSize(outputFile.length());
 						namedSDO.setChngFileName(chngFileName);
 						namedSDO.setOrgFileName(orgFileName);
 						namedSDO.setCanonicalPath(outputFile.getCanonicalPath());
@@ -820,7 +821,7 @@ public class CommonUtil {
         String fileContent = APIUtil.NVL(contents);
 
         if (logger.isDebugEnabled() && verbose) {
-        	logger.debug(APIUtil.addString("..new file() will save to ", mkfileName));
+        	logger.debug("..new file() will save to {}", mkfileName);
         }
 		try {
 			out = new OutputStreamWriter(new FileOutputStream(file, inheritfile), encoding); // 파일에 문자를 적을 스트림 생성
@@ -865,67 +866,4 @@ public class CommonUtil {
 		
         return file;
     }
-    
-
-	/**
-	 * 반각문자로 변경한다
-	 * 
-	 * @param src 변경할값
-	 * @return String 변경된값
-	 */
-	public String toHalfChar(String str) {
-		if (APIUtil.NVL(str).equals("")) return "";
-		
-		String target = str.trim();
-
-		StringBuffer strBuf = new StringBuffer();
-
-		char c = 0;
-		int nSrcLength = target.length();
-		for (int i = 0; i < nSrcLength; i++) {
-			c = target.charAt(i);
-			// 영문이거나 특수 문자 일경우.
-			if (c >= '！' && c <= '～') {
-				c -= 0xfee0;
-			} else if (c == '　') {
-				c = 0x20;
-			}
-			// 문자열 버퍼에 변환된 문자를 쌓는다
-			strBuf.append(c);
-		}
-		return strBuf.toString();
-	}
-
-	/**
-	 * 전각문자로 변경한다.
-	 * 
-	 * @param src 변경할값
-	 * @return String 변경된값
-	 */
-	public String toFullChar(String str) {
-		if (APIUtil.NVL(str).equals("")) return "";
-		
-		String target = str.trim();
-
-		// 변환된 문자들을 쌓아놓을 StringBuffer 를 마련한다
-		StringBuffer strBuf = new StringBuffer();
-		char c = 0;
-		int nSrcLength = target.length();
-		for (int i = 0; i < nSrcLength; i++) {
-			c = target.charAt(i);
-			// 영문이거나 특수 문자 일경우.
-			if (c >= 0x21 && c <= 0x7e) {
-				c += 0xfee0;
-			}
-			// 공백일경우
-			else if (c == 0x20) {
-				c = 0x3000;
-			}
-			// 문자열 버퍼에 변환된 문자를 쌓는다
-			strBuf.append(c);
-		}
-		return strBuf.toString();
-	}
-    
 }
-

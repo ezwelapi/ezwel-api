@@ -34,9 +34,6 @@ import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractEntity;
 @APIModel(modelNames="시설 정보", description="시설 정보 ( EZC_FACL )", modelTypes="TABLE")
 public class EzcFacl extends AbstractEntity {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
-	
 	@APIFields(description = "시설 코드", maxLength=10, required=true, constraints="EZC_FACL_PK(P),SYS_C0011053(C) EZC_FACL_PK(UNIQUE)")
 	private BigDecimal faclCd;
 
@@ -153,6 +150,12 @@ public class EzcFacl extends AbstractEntity {
 	
 	@APIFields(description = "시설 부대시설 전문(,)구분", maxLength=500)
 	private String ezcFaclAments;
+
+	@APIFields(description = "시설 형태소 한글", maxLength=1600)
+	private String faclMorpKor;
+	
+	@APIFields(description = "시설 형태소 영문", maxLength=1600)
+	private String faclMorpEng;	
 	
 	@APIFields(description = "시설 부대시설 목록")
 	private List<String> ezcFaclAmentList;	
@@ -483,4 +486,22 @@ public class EzcFacl extends AbstractEntity {
 		}
 		this.ezcFaclAmentList.add(ezcFaclAment);
 	}
+
+	public String getFaclMorpKor() {
+		return faclMorpKor;
+	}
+
+	public void setFaclMorpKor(String faclMorpKor) {
+		this.faclMorpKor = faclMorpKor;
+	}
+
+	public String getFaclMorpEng() {
+		return faclMorpEng;
+	}
+
+	public void setFaclMorpEng(String faclMorpEng) {
+		this.faclMorpEng = faclMorpEng;
+	}
+	
+	
 }	

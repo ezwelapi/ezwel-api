@@ -161,6 +161,7 @@
 	<root>
 		<level value="DEBUG" />
 		<appender-ref ref="defaultConsole" />
+		<!-- <appender-ref ref="fileAppender" /> -->
 	</root>
 	
 </log4j:configuration>

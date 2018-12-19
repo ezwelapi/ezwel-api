@@ -250,12 +250,7 @@ public class ParamValidate {
 			// field.getType()
 			try {
 				Object value = propertyUtil.getProperty(model, field.getName());
-				
-				/** 문자열일 경우 trim 처리 */
-				if( field.getType().isAssignableFrom(String.class) && APIUtil.isNotEmpty((String) value) ) {
-					propertyUtil.setProperty(model, field.getName(), ((String) value).trim());
-				}
-				
+
 				/** required */
 				//필수 값 존재 여부채크
 				if( fieldAnno.required() ) {
@@ -264,6 +259,12 @@ public class ParamValidate {
 						paramValidate.setValidation(false);
 						return false;
 					}
+				}
+				
+				/** 문자열일 경우 trim & halfCharacter 처리 */
+				if( value != null && field.getType().isAssignableFrom(String.class) && APIUtil.isNotEmpty((String) value) ) {
+					//문자일경우 모두 TRIM 및 반각 처리한다.
+					propertyUtil.setProperty(model, field.getName(), apiUtil.toHalfChar((String) value).trim());
 				}
 				
 				/** maxLength */
@@ -311,10 +312,19 @@ public class ParamValidate {
 				}
 
 				/** collection or dto, vo 등의 User Object */
-				if(value != null && (collection != null || !typeUtil.isGeneralType(field.getType()) && typeUtil.isSupportedReferenceType(value.getClass().getCanonicalName()))) {
-					logger.debug("[ReCall] this field is referenceType {} {}", field.getType().getSimpleName(), field.getName());
-					validateModel(new ParamValidateSDO(model));
+				if(value != null && !typeUtil.isGeneralType(field.getType()) && typeUtil.isSupportedReferenceType(value.getClass().getCanonicalName())) {
+					
+					if( collection == null ) {
+						logger.debug("[ReCall-MODEL-PARAMETER]  this field is referenceType {} {}", field.getType().getSimpleName(), field.getName());
+						validateModel(new ParamValidateSDO(model));
+					}
+					/** collection or dto, vo 등의 User Object */
+					else if( collection != null ) {
+						logger.debug("[ReCall-VALUE-PARAMETER] this field is referenceType {} {}", field.getType().getSimpleName(), field.getName());
+						validateModel(new ParamValidateSDO(value));
+					} 
 				}
+				
 			}
 			catch (Exception e){
 				throw new APIException(MessageConstants.RESPONSE_CODE_2001, APIUtil.addString("유효성검사대상 필드 '", field.getName(), "'가 잘못되었습니다."), e);

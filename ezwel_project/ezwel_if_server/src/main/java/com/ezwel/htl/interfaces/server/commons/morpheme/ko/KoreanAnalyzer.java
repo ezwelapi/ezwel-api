@@ -27,10 +27,16 @@ import org.apache.lucene.analysis.core.StopFilter;
 import org.apache.lucene.analysis.standard.ClassicFilter;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.analysis.util.StopwordAnalyzerBase;
+import org.springframework.stereotype.Component;
+
+import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 
 /**
  * A Korean Analyzer
  */
+@Component
+@APIType(description="한글 형태소 분석기")
 public class KoreanAnalyzer extends StopwordAnalyzerBase {
 
 	/** Default maximum allowed token length */
@@ -51,7 +57,9 @@ public class KoreanAnalyzer extends StopwordAnalyzerBase {
 	 * An unmodifiable set containing some common words that are usually not useful
 	 * for searching.
 	 */
+	
 	public static final CharArraySet STOP_WORDS_SET;
+	
 	static {
 		try {
 			STOP_WORDS_SET = loadStopwordSet(false, KoreanAnalyzer.class, "stopwords.txt", "#");
@@ -65,9 +73,6 @@ public class KoreanAnalyzer extends StopwordAnalyzerBase {
 		this(STOP_WORDS_SET);
 	}
 
-	/**
-	 * ��������� ������ ���������������
-	 */
 	public KoreanAnalyzer(boolean exactMatch) {
 		this(STOP_WORDS_SET);
 		this.exactMatch = exactMatch;
@@ -94,6 +99,7 @@ public class KoreanAnalyzer extends StopwordAnalyzerBase {
 	}
 
 	@Override
+	@APIOperation
 	protected TokenStreamComponents createComponents(String s) {
 		final KoreanTokenizer src = new KoreanTokenizer();
 		TokenStream tok = new LowerCaseFilter(src);
@@ -118,6 +124,7 @@ public class KoreanAnalyzer extends StopwordAnalyzerBase {
 	 * failed to analysis If true is set, the bigram index term is returned. If
 	 * false is set, the bigram index term is not returned.
 	 */
+	@APIOperation
 	public void setBigrammable(boolean is) {
 		bigrammable = is;
 	}
@@ -126,6 +133,7 @@ public class KoreanAnalyzer extends StopwordAnalyzerBase {
 	 * determin whether the original term is returned or not if a input word is
 	 * analyzed morphically.
 	 */
+	@APIOperation(description="")
 	public void setHasOrigin(boolean has) {
 		hasOrigin = has;
 	}
@@ -134,6 +142,7 @@ public class KoreanAnalyzer extends StopwordAnalyzerBase {
 	 * determin whether the original compound noun is returned or not if a input
 	 * word is analyzed morphically.
 	 */
+	@APIOperation(description="")
 	public void setOriginCNoun(boolean cnoun) {
 		originCNoun = cnoun;
 	}
@@ -142,6 +151,7 @@ public class KoreanAnalyzer extends StopwordAnalyzerBase {
 	 * determin whether the original compound noun is returned or not if a input
 	 * word is analyzed morphically.
 	 */
+	@APIOperation(description="")
 	public void setExactMatch(boolean exact) {
 		exactMatch = exact;
 	}
@@ -149,6 +159,7 @@ public class KoreanAnalyzer extends StopwordAnalyzerBase {
 	/**
 	 * determin whether the analyzer is running for a query processing
 	 */
+	@APIOperation(description="")
 	public void setQueryMode(boolean mode) {
 		queryMode = mode;
 	}
@@ -156,10 +167,12 @@ public class KoreanAnalyzer extends StopwordAnalyzerBase {
 	/**
 	 * determin whether word segment analyzer is processing
 	 */
+	@APIOperation(description="")
 	public boolean isWordSegment() {
 		return wordSegment;
 	}
 
+	@APIOperation(description="")
 	public void setWordSegment(boolean wordSegment) {
 		this.wordSegment = wordSegment;
 	}
