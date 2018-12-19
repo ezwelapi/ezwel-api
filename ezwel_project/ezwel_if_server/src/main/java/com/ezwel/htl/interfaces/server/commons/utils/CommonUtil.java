@@ -11,9 +11,12 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,8 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.Charsets;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -42,7 +43,9 @@ import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
+import com.ezwel.htl.interfaces.commons.utils.RegexUtil;
 import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
+import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzer;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzer;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.entities.EzcDetailCd;
@@ -66,6 +69,10 @@ public class CommonUtil {
 	private PropertyUtil propertyUtil;
 	
 	private StackTraceUtil stackTraceUtil;
+	
+	private KoreanAnalyzer koreanAnalyzer;
+	
+	private EnglishAnalyzer englishAnalyzer;
 	
 	public final static int DEFAULT_FLAGS; 
 	
@@ -871,54 +878,110 @@ public class CommonUtil {
         return file;
     }
     
-    
-    @APIOperation(description="한글 형태소 분석")
-    public String getKoreanMorphologicalAnalysis(String sentence, String divisionString) {
-    	logger.debug("[START] KoreanMorphologicalAnalysis INPUT : {}", sentence);
-		if(APIUtil.isEmpty(sentence)) {
-			return null;
-		}    	
-    	
-		StringBuilder out = new StringBuilder();
-    	KoreanAnalyzer korean = null;
-		TokenStream ts = null;
-		CharTermAttribute termAtt = null;
-		
-		try {
-	    	korean = new KoreanAnalyzer();
-	    	korean.setQueryMode(false);
-	    	
-			ts = korean.tokenStream("bogus", sentence);
-		    termAtt = ts.addAttribute(CharTermAttribute.class);
-		    ts.reset();
-		    
-		    while (ts.incrementToken()) {
-		    	if(termAtt.toString().equals(divisionString)) {
-		    		continue;
-		    	}
-		    	out.append(termAtt.toString());
-		    	out.append(divisionString);
-		    }
-		}
-		catch(IOException e) {
-			logger.error("[IOException] 형태소 분석도중 장애 발생", e);
-		}
-		catch(Exception e) {
-			logger.error("[Exception] 형태소 분석도중 장애 발생", e);
-		}
-		finally {
-			if(ts != null) {
-			    try {
-					ts.end();
-					ts.close();
-				} catch (IOException e) {
-					logger.error("[IOException] 형태소 분석기 tokenStream을 닫는도중 장애 발생", e);
+    /**
+     * 문자열에서 주어진 패턴이 존재하면 대상 문자열을 변경대상 문자열로 변경합니다.
+     * @param word
+     * @param patterns
+     * @param targetWord
+     * @param replaceWord
+     * @return
+     */
+    @APIOperation(description="문자열에서 주어진 패턴이 존재하면 대상 문자열을 변경대상 문자열로 변경합니다.")
+	public String englishMorphemePartternReplace(String word , String[] patterns , String[] targetWord , String[] replaceWord){
+		String result = APIUtil.NVL(word);
+		if(!result.equals("") && (patterns.length == targetWord.length && patterns.length == replaceWord.length)) {
+			RegexUtil regexUtil = new RegexUtil();
+			for(int i = 0 ; i < patterns.length; i++ ){
+				if(regexUtil.matcherPatternFind(word, patterns[i].toString())){
+					result = word.replaceAll(targetWord[i], replaceWord[i]);
 				}
 			}
 		}
-		
-		logger.debug("[END] KoreanMorphologicalAnalysis OUTPUT : {}", out);
-		return out.toString();
+		return result;
+	}
+	
+    /**
+     * 두 문자 간에 일치하는 케릭터의 갯수를 리턴합니다.
+     * @param str1
+     * @param str2
+     * @return
+     */
+	@APIOperation(description="두 문자 간에 일치하는 케릭터의 갯수를 리턴합니다.")
+    public int indexOfDifference(String str1, String str2) {
+
+		str2 = englishMorphemePartternReplace(str2 , "([,0-9０-９])".split("\\|") , ",".split("\\|") , "".split("\\|"));
+
+        if (str1 == null || str2 == null) {
+            return 0;
+        }
+        //양방향 일치하는 문자일경우
+    	if (str1.equals(str2)) {
+            return -1;
+        }
+
+        int i;
+        for (i = 0; i < str1.length() && i < str2.length(); ++i) {
+            if (str1.charAt(i) != str2.charAt(i)) {
+                break;
+            }
+        }
+        if (i < str2.length() || i < str1.length()) {
+            return i;
+        }
+        return -1;
     }
-    
+	
+	
+	@APIOperation(description="국문/영문 형태소 복합 분석")
+	public String getKorAndEngMorphemes(String firstLang, String sentence, String division) {
+		//logger.debug("[START] getKorEngMorphemes : \"{}\", division : \"{}\"", sentence, division);
+		
+		koreanAnalyzer = (koreanAnalyzer != null ? koreanAnalyzer : new KoreanAnalyzer());
+		englishAnalyzer = (englishAnalyzer != null ? englishAnalyzer : new EnglishAnalyzer());
+		
+		String out = null;
+		StringBuffer finalBuffer = null;
+		
+		Set<String> finalSet = new LinkedHashSet<String>();
+		List<String> kor = new ArrayList<String>(koreanAnalyzer.getKoreanMorphologicalAnalysis(sentence));
+		List<String> eng = new ArrayList<String>(englishAnalyzer.getEnglishMorphologicalAnalysis(sentence));
+		
+		//logger.debug("# kor : {}", kor);
+		//logger.debug("# eng : {}", eng);
+		
+		if(kor.size() > 0) {
+			Collections.sort(kor);
+			//logger.debug("# kor sort : {}", kor);
+		}
+
+		if(eng.size() > 0) {
+			Collections.sort(eng);
+			//logger.debug("# eng sort : {}", eng);
+		}
+		
+		if(firstLang.equalsIgnoreCase("kor")) {
+			finalSet.addAll(kor);
+			finalSet.addAll(eng);
+		}
+		else {
+			finalSet.addAll(eng);			
+			finalSet.addAll(kor);
+		}
+		
+		//logger.debug("# finalSet : {}", finalSet);
+		
+		finalBuffer = new StringBuffer();
+		for(String morpheme : finalSet) {
+			finalBuffer.append(morpheme);
+			finalBuffer.append(division);
+		}
+		
+		out = finalBuffer.toString().substring(0, finalBuffer.toString().length() - division.length());
+		
+		//logger.debug("[END] getKorEngMorphemes : {}", out);
+		return out;
+	}
+	
+	
+	
 }

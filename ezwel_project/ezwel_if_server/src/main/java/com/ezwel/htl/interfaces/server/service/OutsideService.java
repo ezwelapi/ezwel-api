@@ -37,6 +37,7 @@ import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
 import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractServiceObject;
 import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
+import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzer;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzer;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
@@ -75,6 +76,10 @@ public class OutsideService extends AbstractServiceObject {
 	
 	private PropertyUtil propertyUtil;
 	
+	private KoreanAnalyzer koreanAnalyzer;
+	
+	private EnglishAnalyzer englishAnalayzer;
+	
 	/** 제휴사 별 시설 정보 transaction commit 건수 */
 	private static final Integer FACL_REG_DATA_TX_COUNT = 50;
 	
@@ -95,6 +100,8 @@ public class OutsideService extends AbstractServiceObject {
 		commonRepository = (CommonRepository) LApplicationContext.getBean(commonRepository, CommonRepository.class);
 		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
 		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+		koreanAnalyzer = new KoreanAnalyzer();
+		englishAnalayzer = new EnglishAnalyzer();
 		
 		AllRegOutSDO out = null;
 		MultiHttpConfigSDO multi = null;
@@ -245,12 +252,12 @@ public class OutsideService extends AbstractServiceObject {
 						ezcFacl.setFaclStatus(CodeDataConstants.CD_FACL_STATUS_G0040003); //시설 상태
 						ezcFacl.setConfirmStatus(CodeDataConstants.CD_CONFIRM_STATUS_G0060003); //확정 상태
 
-						// 국문 형태소
-						ezcFacl.setFaclKorMorp(commonUtil.getKoreanMorphologicalAnalysis(ezcFacl.getFaclNmKor(), OperateConstants.STR_SPEC_COMA));
-
-						// 영문 형태소
-						ezcFacl.setFaclEngMorp(commonUtil.getKoreanMorphologicalAnalysis(ezcFacl.getFaclNmEng(), OperateConstants.STR_SPEC_COMA));
+						// 국문 형태소 ( 한글명에 영문이 석여있는 시설들이 있음으로 한글과 영문 형태소 분석을 동시 실행한다.)
+						ezcFacl.setFaclKorMorp(commonUtil.getKorAndEngMorphemes("kor", ezcFacl.getFaclNmKor(), OperateConstants.STR_SPEC_COMA));
 						
+						// 영문 형태소 ( 영문명에 한글이 석여있는 시설들이 있음으로 한글과 영문 형태소 분석을 동시 실행한다.)
+						ezcFacl.setFaclEngMorp(commonUtil.getKorAndEngMorphemes("eng", ezcFacl.getFaclNmEng(), OperateConstants.STR_SPEC_COMA));
+
 						//서브 이미지 세팅
 						if(faclData.getSubImages() != null) {
 							

@@ -34,6 +34,17 @@ public class RegexUtil {
 		return regex.matcher(contentStr);
 	}
 
+	@APIOperation(description="문자열이 주어진 패턴이 존재하는지 채크합니다.")
+	public boolean matcherPatternFind(String input, String pattern) {
+		boolean findMatcher = false;
+		//log.info(" *- matcherPatternFind -* input :  " + input + ", pattern : " + pattern);
+		if(APIUtil.isNotEmpty(input) && APIUtil.isNotEmpty(pattern)) {
+			Pattern regex = Pattern.compile(pattern);
+			Matcher matcher = regex.matcher(input);
+			findMatcher = matcher.find();
+		}
+		return findMatcher;
+	}
 	
 	/**
 	 * <pre>

@@ -6,8 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,8 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
-import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzer;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzer;
 import com.ezwel.htl.interfaces.server.commons.sdo.AgentApiKeySDO;
 import com.ezwel.htl.interfaces.server.commons.sdo.MorphemeSDO;
@@ -32,7 +30,7 @@ public class UtilityController {
 	private APIUtil apiUtil;
 	
 	private CommonUtil commonUtil;
-	
+
 	@APIOperation(description="테스트 JSP Forward Operation")
 	@RequestMapping(value="/test/{fileName}")
 	public String forward(@PathVariable("fileName") String fileName, Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -67,17 +65,26 @@ public class UtilityController {
 	@RequestMapping(value="/morp/korean")
 	public Object morpKorean(MorphemeSDO morphemeSDO) {
 		logger.debug("[START] morpKorean {}", morphemeSDO);
-		
-		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
-		
+
 		MorphemeSDO out = new MorphemeSDO();
-		List<String> morphemeList = new ArrayList<String>();
+		
+		KoreanAnalyzer koreanAnalyzer = new KoreanAnalyzer();
+		EnglishAnalyzer englishAnalayzer = new EnglishAnalyzer();
+		
+		List<List<String>> korMorphemeList = new ArrayList<List<String>>();
 		for(String input : morphemeSDO.getSentenceList()) {
 			
-			morphemeList.add(commonUtil.getKoreanMorphologicalAnalysis(input, OperateConstants.STR_SPEC_COMA));
+			korMorphemeList.add((List<String>) koreanAnalyzer.getKoreanMorphologicalAnalysis(input));
 		}		
+		out.setKorMorphemeList(korMorphemeList);
 		
-		out.setMorphemeList(morphemeList);
+		List<List<String>> engMorphemeList = new ArrayList<List<String>>();
+		for(String input : morphemeSDO.getSentenceList()) {
+			
+			engMorphemeList.add((List<String>) englishAnalayzer.getEnglishMorphologicalAnalysis(input));
+		}		
+		out.setEngMorphemeList(engMorphemeList);
+		
 		logger.debug("[END] morpKorean ");
 		return out;
 	}	
