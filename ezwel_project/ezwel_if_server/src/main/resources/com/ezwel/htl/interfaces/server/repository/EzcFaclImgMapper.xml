@@ -21,6 +21,9 @@ INSERT INTO EZC_FACL_IMG(	/* 시설 이미지 */
 	,MAIN_IMG_YN	/* 대표 이미지 여부, CHAR(1) */
 	,IMG_URL	/* 이미지 URL, VARCHAR2(200) */
 	,IMG_DESC	/* 이미지 설명, VARCHAR2(1000) */
+	,IMG_CLET_YN 	/* 이미지 수집 성공여부 */
+	,IMG_CLET_MSG	/* 이미지 수집 메세지 */
+	,IMG_FILE_SIZE	/* 이미지 파일 사이즈 */
 	,REG_ID	/* 등록자 ID, VARCHAR2(20) */
 	,REG_DT	/* 등록 일시, VARCHAR2(14) */
 	,PARTNER_IMG_URL	/* 이미지 경로, VARCHAR2(500) */
@@ -31,6 +34,9 @@ INSERT INTO EZC_FACL_IMG(	/* 시설 이미지 */
 	,#{mainImgYn, jdbcType=CHAR}
 	,#{imgUrl, jdbcType=VARCHAR}
 	,#{imgDesc, jdbcType=VARCHAR}
+	,#{imgCletYn, jdbcType=VARCHAR}
+	,#{imgCletMsg, jdbcType=VARCHAR}
+	,#{imgFileSize, jdbcType=DECIMAL}	
 	,#{regId, jdbcType=VARCHAR}
 	,#{regDt, jdbcType=VARCHAR}
 	,#{partnerImgUrl, jdbcType=VARCHAR}
@@ -45,6 +51,9 @@ SELECT
 	,EZC_FACL_IMG.MAIN_IMG_YN AS mainImgYn	/* 대표 이미지 여부, CHAR(1) */
 	,EZC_FACL_IMG.IMG_URL AS imgUrl	/* 이미지 URL, VARCHAR2(200) */
 	,EZC_FACL_IMG.IMG_DESC AS imgDesc	/* 이미지 설명, VARCHAR2(1000) */
+	,EZC_FACL_IMG.IMG_CLET_YN AS imgCletYn	/* 이미지 수집 성공여부 */
+	,EZC_FACL_IMG.IMG_CLET_MSG AS imgCletMsg	/* 이미지 수집 메세지 */
+	,EZC_FACL_IMG.IMG_FILE_SIZE AS imgFileSize	/* 이미지 파일 사이즈 */
 	,EZC_FACL_IMG.REG_ID AS regId	/* 등록자 ID, VARCHAR2(20) */
 	,EZC_FACL_IMG.REG_DT AS regDt	/* 등록 일시, VARCHAR2(14) */
 	,EZC_FACL_IMG.MODI_ID AS modiId	/* 수정자 ID, VARCHAR2(20) */
@@ -118,6 +127,9 @@ SELECT * FROM (
 			,EZC_FACL_IMG.MAIN_IMG_YN AS mainImgYn	/* 대표 이미지 여부, CHAR(1) */
 			,EZC_FACL_IMG.IMG_URL AS imgUrl	/* 이미지 다운로드 경로, VARCHAR2(200) */
 			,EZC_FACL_IMG.IMG_DESC AS imgDesc	/* 이미지 설명, VARCHAR2(1000) */
+			,EZC_FACL_IMG.IMG_CLET_YN AS imgCletYn	/* 이미지 수집 성공여부 */
+			,EZC_FACL_IMG.IMG_CLET_MSG AS imgCletMsg	/* 이미지 수집 메세지 */
+			,EZC_FACL_IMG.IMG_FILE_SIZE AS imgFileSize	/* 이미지 파일 사이즈 */			
 			,EZC_FACL_IMG.REG_ID AS regId	/* 등록자 ID, VARCHAR2(20) */
 			,EZC_FACL_IMG.REG_DT AS regDt	/* 등록 일시, VARCHAR2(14) */
 			,EZC_FACL_IMG.MODI_ID AS modiId	/* 수정자 ID, VARCHAR2(20) */
@@ -226,6 +238,9 @@ UPDATE EZC_FACL_IMG SET	/* 시설 이미지 */
 	,MAIN_IMG_YN = #{mainImgYn, jdbcType=CHAR}	/* 대표 이미지 여부, CHAR(1) */
 	,IMG_URL = #{imgUrl, jdbcType=VARCHAR}	/* 이미지 URL, VARCHAR2(200) */
 	,IMG_DESC = #{imgDesc, jdbcType=VARCHAR}	/* 이미지 설명, VARCHAR2(1000) */
+	,IMG_CLET_YN = #{imgCletYn, jdbcType=VARCHAR}	/* 이미지 수집 성공여부 */
+	,IMG_CLET_MSG = #{imgCletMsg, jdbcType=VARCHAR}	/* 이미지 수집 메세지 */
+	,IMG_FILE_SIZE = #{imgFileSize, jdbcType=DECIMAL}	/* 이미지 파일 사이즈 */		
 	,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
 	,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 	,PARTNER_IMG_URL = #{partnerImgUrl, jdbcType=VARCHAR}	/* 이미지 경로, VARCHAR2(500) */
@@ -234,9 +249,13 @@ WHERE 1=1
 	AND FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
 </update>
 
+
 <update id="updateEzcFaclImgDownload" parameterType="ezcFaclImg">
 UPDATE EZC_FACL_IMG SET	/* 시설 이미지 */
 	 IMG_URL = #{imgUrl, jdbcType=VARCHAR}	/* 이미지 다운로드 패스, VARCHAR2(200) */
+	,IMG_CLET_YN = #{imgCletYn, jdbcType=VARCHAR}	/* 이미지 수집 성공여부 */
+	,IMG_CLET_MSG = #{imgCletMsg, jdbcType=VARCHAR}	/* 이미지 수집 메세지 */
+	,IMG_FILE_SIZE = #{imgFileSize, jdbcType=DECIMAL}	/* 이미지 파일 사이즈 */	 
 	,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
 	,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 WHERE 1=1
@@ -256,6 +275,9 @@ MERGE INTO EZC_FACL_IMG /* 시설 이미지 */
 			,MAIN_IMG_YN = #{mainImgYn, jdbcType=CHAR}	/* 대표 이미지 여부, CHAR(1) */
 			,IMG_URL = #{imgUrl, jdbcType=VARCHAR}	/* 이미지 URL, VARCHAR2(200) */
 			,IMG_DESC = #{imgDesc, jdbcType=VARCHAR}	/* 이미지 설명, VARCHAR2(1000) */
+			,IMG_CLET_YN = #{imgCletYn, jdbcType=VARCHAR}	/* 이미지 수집 성공여부 */
+			,IMG_CLET_MSG = #{imgCletMsg, jdbcType=VARCHAR}	/* 이미지 수집 메세지 */
+			,IMG_FILE_SIZE = #{imgFileSize, jdbcType=DECIMAL}	/* 이미지 파일 사이즈 */	
 			,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
 			,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			,PARTNER_IMG_URL = #{partnerImgUrl, jdbcType=VARCHAR}	/* 이미지 경로, VARCHAR2(500) */
@@ -267,6 +289,9 @@ MERGE INTO EZC_FACL_IMG /* 시설 이미지 */
 			,MAIN_IMG_YN	/* 대표 이미지 여부, CHAR(1) */
 			,IMG_URL	/* 이미지 URL, VARCHAR2(200) */
 			,IMG_DESC	/* 이미지 설명, VARCHAR2(1000) */
+			,IMG_CLET_YN	/* 이미지 수집 성공여부 */
+			,IMG_CLET_MSG	/* 이미지 수집 메세지 */
+			,IMG_FILE_SIZE	/* 이미지 파일 사이즈 */	
 			,REG_ID	/* 등록자 ID, VARCHAR2(20) */
 			,REG_DT	/* 등록 일시, VARCHAR2(14) */
 			,PARTNER_IMG_URL	/* 이미지 경로, VARCHAR2(500) */
@@ -277,6 +302,9 @@ MERGE INTO EZC_FACL_IMG /* 시설 이미지 */
 			,#{mainImgYn, jdbcType=CHAR}
 			,#{imgUrl, jdbcType=VARCHAR}
 			,#{imgDesc, jdbcType=VARCHAR}
+			,#{imgCletYn, jdbcType=VARCHAR}	/* 이미지 수집 성공여부 */
+			,#{imgCletMsg, jdbcType=VARCHAR}	/* 이미지 수집 메세지 */
+			,#{imgFileSize, jdbcType=DECIMAL}	/* 이미지 파일 사이즈 */				
 			,#{regId, jdbcType=VARCHAR}
 			,#{regDt, jdbcType=VARCHAR}
 			,#{partnerImgUrl, jdbcType=VARCHAR}

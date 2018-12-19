@@ -152,10 +152,10 @@ public class EzcFacl extends AbstractEntity {
 	private String ezcFaclAments;
 
 	@APIFields(description = "시설 형태소 한글", maxLength=1600)
-	private String faclMorpKor;
+	private String faclKorMorp;
 	
 	@APIFields(description = "시설 형태소 영문", maxLength=1600)
-	private String faclMorpEng;	
+	private String faclEngMorp;	
 	
 	@APIFields(description = "시설 부대시설 목록")
 	private List<String> ezcFaclAmentList;	
@@ -487,20 +487,20 @@ public class EzcFacl extends AbstractEntity {
 		this.ezcFaclAmentList.add(ezcFaclAment);
 	}
 
-	public String getFaclMorpKor() {
-		return faclMorpKor;
+	public String getFaclKorMorp() {
+		return faclKorMorp;
 	}
 
-	public void setFaclMorpKor(String faclMorpKor) {
-		this.faclMorpKor = faclMorpKor;
+	public void setFaclKorMorp(String faclKorMorp) {
+		this.faclKorMorp = faclKorMorp;
 	}
 
-	public String getFaclMorpEng() {
-		return faclMorpEng;
+	public String getFaclEngMorp() {
+		return faclEngMorp;
 	}
 
-	public void setFaclMorpEng(String faclMorpEng) {
-		this.faclMorpEng = faclMorpEng;
+	public void setFaclEngMorp(String faclEngMorp) {
+		this.faclEngMorp = faclEngMorp;
 	}
 	
 	
