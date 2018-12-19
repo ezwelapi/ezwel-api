@@ -119,7 +119,7 @@ var testAssets = {
 					"connTimeout": 1000,
 					"readTimeout": 100000
 				},
-				faclSearchDTO : {
+				faclSearchInSDO : {
 					"otaId": "10055550",
 					"checkInDate": "20190101",
 					"checkOutDate": "20190102",
@@ -188,13 +188,51 @@ var testAssets = {
 		"OUT-결재완료내역전송 인터페이스" : {
 			 url : "/service/callRsvHistSend"
 			,input : {
-				"httpAgentId": "10055550",
-				"httpAgentType": "AP02PO",
-				"httpChannelCd": "1",
-				"httpClientId": "ez1",
-				"httpRequestId": "test",
-				"connTimeout": 1000,
-				"readTimeout": 100000
+				userAgentSDO : {
+					"httpAgentId": "10055550",
+					"httpAgentType": "AP02PO",
+					"httpChannelCd": "1",
+					"httpClientId": "ez1",
+					"httpRequestId": "test",
+					"connTimeout": 1000,
+					"readTimeout": 100000
+				},
+				rsvHistSendInSDO : {
+					data : {
+						"rsvNo": "E123456789",
+						"rsvDatetime": "20181219142534",
+						"rsvPrice": 200000,
+						"rsvStat": "r02",
+						"rsvPdtName": "",
+						"rsvPdtNo": "",
+						"pdtNo": "1",
+						"pdtName": "서울 프라자 호텔",
+						"roomNo": "1",
+						"roomName": "디럭스",
+						"roomCnt": 1,
+						"checkInDate": "20181201",
+						"checkOutDate": "20181202",
+						"memKey": "EZ0001",
+						"memName": "홍길동",
+						"memPhone": "01012341234",
+						"memEmail": "test@test.com",
+						"userName": "홍길동",
+						"userMobile": "01012341234",
+						"userEmail": "test@test.com",
+						"userCmt": "전망 좋은 방으로 요청 드립니다",
+						"adultCnt": 2,
+						"childCnt": 0,
+						"options" : [
+							{
+								"rsvOptNo": "EO12345678",
+								"optNo": "1",
+								"optName": "조식",
+								"optPrice": 20000,
+								"optCountMax": 2
+							}
+						]
+					}
+				}
 			}
 		},
 		"OUT-취소수수료계산 인터페이스" : {
@@ -209,7 +247,7 @@ var testAssets = {
 					"connTimeout": 1000,
 					"readTimeout": 100000
 				},
-				cancelFeeAmtSDO : {
+				cancelFeeAmtInSDO : {
 					"otaId": "10055550",
 					"rsvNo": "123456789"
 				}
@@ -227,7 +265,7 @@ var testAssets = {
 					"connTimeout": 1000,
 					"readTimeout": 100000
 				},
-				orderCancelReqSDO : {
+				orderCancelReqInSDO : {
 					"otaId": "10055550",
 					"rsvNo": "123456789",
 					"otaRsvNo": "000000123",
@@ -248,7 +286,7 @@ var testAssets = {
 					"connTimeout": 1000,
 					"readTimeout": 100000
 				},
-				omiNumIdnSDO : {				
+				omiNumIdnInSDO : {				
 					"otaId": "10055550",
 					"rsvNo": "123456789",
 					"rsvStat": "o01"
@@ -267,11 +305,11 @@ var testAssets = {
 					"connTimeout": 1000,
 					"readTimeout": 100000
 				},
-				ezwelJobSDO : {
+				ezwelJobInSDO : {
 					"otaId": "10055550",
-					"rsvNo": "",
-					"rsvDateStart": "",
-					"rsvDateEnd": ""
+					"rsvNo": "E123456789",
+					"rsvDateStart": "20181201",
+					"rsvDateEnd": "20181215"
 				}
 			}
 		},

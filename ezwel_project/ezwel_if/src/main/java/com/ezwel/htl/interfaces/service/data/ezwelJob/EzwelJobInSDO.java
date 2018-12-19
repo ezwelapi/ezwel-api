@@ -22,13 +22,13 @@ public class EzwelJobInSDO extends AbstractSDO {
 	@APIFields(description = "주문대사(이지웰) 제휴사아이디", required=true, maxLength=100)
 	private String otaId;
 	
-	@APIFields(description = "주문대사(이지웰) 주문번호", required=true, maxLength=100)
+	@APIFields(description = "주문대사(이지웰) 주문번호", required=false, maxLength=100)
 	private String rsvNo;
 	
-	@APIFields(description = "주문대사(이지웰) 주문시작일", required=true, maxLength=8)
+	@APIFields(description = "주문대사(이지웰) 주문시작일", required=false, maxLength=8)
 	private String rsvDateStart;
 	
-	@APIFields(description = "주문대사(이지웰) 주문종료일", required=true, maxLength=8)
+	@APIFields(description = "주문대사(이지웰) 주문종료일", required=false, maxLength=8)
 	private String rsvDateEnd;
 
 	public String getOtaId() {
