@@ -177,7 +177,7 @@ public class OutsideService extends AbstractServiceObject {
 		List<ImageSDO> imageList = null;
 		//형태소 분석기 관련 변수 선언
 		StringBuilder actual = null;
-		TokenStream ts = null;
+		TokenStream tokens = null;
 		CharTermAttribute termAtt = null;
 		
 		try {
@@ -250,39 +250,44 @@ public class OutsideService extends AbstractServiceObject {
 						ezcFacl.setUseYn(CodeDataConstants.CD_Y);	//사용 여부 새로등록되는 시설에 대하여 기본 Y로 등록함
 						ezcFacl.setFaclStatus(CodeDataConstants.CD_FACL_STATUS_G0040003); //시설 상태
 						ezcFacl.setConfirmStatus(CodeDataConstants.CD_CONFIRM_STATUS_G0060003); //확정 상태
-						
-						//국문 형태소
-						if(APIUtil.isNotEmpty(ezcFacl.getFaclNmKor())) {
+
+						// 국문 형태소
+						if (APIUtil.isNotEmpty(ezcFacl.getFaclNmKor())) {
 							actual = new StringBuilder();
-							
-							ts = koreanAnalyzer.tokenStream("bogus", ezcFacl.getFaclNmKor());
-						    termAtt = ts.addAttribute(CharTermAttribute.class);
-						    ts.reset();
-						    
-						    while (ts.incrementToken()) {
-						      actual.append(termAtt.toString());
-						      actual.append(OperateConstants.STR_SPEC_COMA);
-						    }
-						    
-							ezcFacl.setFaclMorpKor(actual.toString());
-						}						
-						
-						//영문 형태소
-						if(APIUtil.isNotEmpty(ezcFacl.getFaclNmEng())) {
-							actual = new StringBuilder();
-							
-							ts = koreanAnalyzer.tokenStream("bogus", ezcFacl.getFaclNmEng());
-						    termAtt = ts.addAttribute(CharTermAttribute.class);
-						    ts.reset();
-						    
-						    while (ts.incrementToken()) {
-						      actual.append(termAtt.toString());
-						      actual.append(OperateConstants.STR_SPEC_COMA);
-						    }
-						    
-							ezcFacl.setFaclMorpEng(actual.toString());
+
+							tokens = koreanAnalyzer.tokenStream("bogus", ezcFacl.getFaclNmKor());
+							termAtt = tokens.addAttribute(CharTermAttribute.class);
+							tokens.reset();
+
+							while (tokens.incrementToken()) {
+								if (termAtt.toString().equals(OperateConstants.STR_SPEC_COMA)) {
+									continue;
+								}
+								actual.append(termAtt.toString());
+								actual.append(OperateConstants.STR_SPEC_COMA);
+							}
+
+							ezcFacl.setFaclKorMorp(actual.toString());
 						}
-						
+
+						// 영문 형태소
+						if (APIUtil.isNotEmpty(ezcFacl.getFaclNmEng())) {
+							actual = new StringBuilder();
+
+							tokens = koreanAnalyzer.tokenStream("bogus", ezcFacl.getFaclNmEng());
+							termAtt = tokens.addAttribute(CharTermAttribute.class);
+							tokens.reset();
+
+							while (tokens.incrementToken()) {
+								if (termAtt.toString().equals(OperateConstants.STR_SPEC_COMA)) {
+									continue;
+								}
+								actual.append(termAtt.toString());
+								actual.append(OperateConstants.STR_SPEC_COMA);
+							}
+
+							ezcFacl.setFaclEngMorp(actual.toString());
+						}
 						
 						//서브 이미지 세팅
 						if(faclData.getSubImages() != null) {
@@ -528,12 +533,18 @@ public class OutsideService extends AbstractServiceObject {
 										//ok
 										downSuceCount++;
 										outEzcFaclImg.setImgUrl(outImageSDO.getRelativePath());
+										outEzcFaclImg.setImgCletYn(CodeDataConstants.CD_Y);
+										outEzcFaclImg.setImgCletMsg(MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_1000));
+										outEzcFaclImg.setImgFileSize(new BigDecimal(outImageSDO.getFileSize()));
 										logger.debug("[DOWNLOAD-SUCCESS-INFO] ImgUrl : {}", outEzcFaclImg.getImgUrl());
 									}
 									else {
 										//fail
 										downFailCount++;
-										outEzcFaclImg.setImgUrl(outImageSDO.getDescription());
+										outEzcFaclImg.setImgUrl(null);
+										outEzcFaclImg.setImgCletYn(CodeDataConstants.CD_N);
+										outEzcFaclImg.setImgCletMsg(outImageSDO.getDescription());
+										outEzcFaclImg.setImgFileSize(OperateConstants.BIGDECIMAL_ZERO_VALUE);
 										logger.debug("[DOWNLOAD-FAIL-INFO] ImgUrl : {}", outEzcFaclImg.getImgUrl());
 									}
 									

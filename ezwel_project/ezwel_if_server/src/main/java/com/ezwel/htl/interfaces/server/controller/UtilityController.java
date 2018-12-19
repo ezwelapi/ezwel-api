@@ -90,6 +90,9 @@ public class UtilityController {
 			    ts.reset();
 			    
 			    while (ts.incrementToken()) {
+			    	if(termAtt.toString().equals(", ")) {
+			    		continue;
+			    	}
 			      actual.append(termAtt.toString());
 			      actual.append(", ");
 			    }

@@ -48,6 +48,8 @@ INSERT INTO EZC_FACL(	/* 시설 정보 */
 	,FACL_STATUS	/* 시설 상태, VARCHAR2(8) */
 	,REJECT_CONTENT	/* 반려 내용, VARCHAR2(1000) */
 	,USE_YN	/* 사용 여부, CHAR(1) */
+	,FACL_KOR_MORP /* 시설 한글 형태소 */
+	,FACL_ENG_MORP /* 시설 영문 형태소 */
 	,REG_ID	/* 등록자 ID, VARCHAR2(20) */
 	,REG_DT	/* 등록 일시, VARCHAR2(14) */
 ) VALUES (
@@ -84,6 +86,8 @@ INSERT INTO EZC_FACL(	/* 시설 정보 */
 	,#{faclStatus, jdbcType=VARCHAR}
 	,#{rejectContent, jdbcType=VARCHAR}
 	,#{useYn, jdbcType=CHAR}
+	,#{faclKorMorp, jdbcType=VARCHAR}
+	,#{faclEngMorp, jdbcType=VARCHAR}	
 	,#{regId, jdbcType=VARCHAR}
 	,#{regDt, jdbcType=VARCHAR}
 )
@@ -124,6 +128,8 @@ SELECT
 	,EZC_FACL.FACL_STATUS AS faclStatus	/* 시설 상태, VARCHAR2(8) */
 	,EZC_FACL.REJECT_CONTENT AS rejectContent	/* 반려 내용, VARCHAR2(1000) */
 	,EZC_FACL.USE_YN AS useYn	/* 사용 여부, CHAR(1) */
+	,EZC_FACL.FACL_KOR_MORP AS faclKorMorp /* 시설 한글 형태소 */
+	,EZC_FACL.FACL_ENG_MORP AS faclEngMorp /* 시설 영문 형태소 */	
 	,EZC_FACL.REG_ID AS regId	/* 등록자 ID, VARCHAR2(20) */
 	,EZC_FACL.REG_DT AS regDt	/* 등록 일시, VARCHAR2(14) */
 	,EZC_FACL.MODI_ID AS modiId	/* 수정자 ID, VARCHAR2(20) */
@@ -368,6 +374,8 @@ SELECT * FROM (
 			,EZC_FACL.FACL_STATUS AS faclStatus	/* 시설 상태, VARCHAR2(8) */
 			,EZC_FACL.REJECT_CONTENT AS rejectContent	/* 반려 내용, VARCHAR2(1000) */
 			,EZC_FACL.USE_YN AS useYn	/* 사용 여부, CHAR(1) */
+			,EZC_FACL.FACL_KOR_MORP AS faclKorMorp /* 시설 한글 형태소 */
+			,EZC_FACL.FACL_ENG_MORP AS faclEngMorp /* 시설 영문 형태소 */			
 			,EZC_FACL.REG_ID AS regId	/* 등록자 ID, VARCHAR2(20) */
 			,EZC_FACL.REG_DT AS regDt	/* 등록 일시, VARCHAR2(14) */
 			,EZC_FACL.MODI_ID AS modiId	/* 수정자 ID, VARCHAR2(20) */
@@ -533,6 +541,8 @@ UPDATE EZC_FACL SET	/* 시설 정보 */
 	,FACL_STATUS = #{faclStatus, jdbcType=VARCHAR}	/* 시설 상태, VARCHAR2(8) */
 	,REJECT_CONTENT = #{rejectContent, jdbcType=VARCHAR}	/* 반려 내용, VARCHAR2(1000) */
 	,USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
+	,FACL_KOR_MORP = #{faclKorMorp, jdbcType=VARCHAR}	/* 시설 한글 형태소 */
+	,FACL_ENG_MORP = #{faclEngMorp, jdbcType=VARCHAR}	/* 시설 영문 형태소 */
 	,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
 	,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 WHERE 1=1
@@ -578,6 +588,8 @@ MERGE INTO EZC_FACL /* 시설 정보 */
 			,FACL_STATUS = #{faclStatus, jdbcType=VARCHAR}	/* 시설 상태, VARCHAR2(8) */
 			,REJECT_CONTENT = #{rejectContent, jdbcType=VARCHAR}	/* 반려 내용, VARCHAR2(1000) */
 			,USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
+			,FACL_KOR_MORP = #{faclKorMorp, jdbcType=VARCHAR}	/* 시설 한글 형태소 */
+			,FACL_ENG_MORP = #{faclEngMorp, jdbcType=VARCHAR}	/* 시설 영문 형태소 */
 			,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
 			,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 	WHEN NOT MATCHED THEN
@@ -615,6 +627,8 @@ MERGE INTO EZC_FACL /* 시설 정보 */
 			,FACL_STATUS	/* 시설 상태, VARCHAR2(8) */
 			,REJECT_CONTENT	/* 반려 내용, VARCHAR2(1000) */
 			,USE_YN	/* 사용 여부, CHAR(1) */
+			,FACL_KOR_MORP /* 시설 한글 형태소 */
+			,FACL_ENG_MORP /* 시설 영문 형태소 */
 			,REG_ID	/* 등록자 ID, VARCHAR2(20) */
 			,REG_DT	/* 등록 일시, VARCHAR2(14) */
 		) VALUES (
@@ -651,6 +665,8 @@ MERGE INTO EZC_FACL /* 시설 정보 */
 			,#{faclStatus, jdbcType=VARCHAR}
 			,#{rejectContent, jdbcType=VARCHAR}
 			,#{useYn, jdbcType=CHAR}
+			,#{faclKorMorp, jdbcType=VARCHAR}
+			,#{faclEngMorp, jdbcType=VARCHAR}
 			,#{regId, jdbcType=VARCHAR}
 			,#{regDt, jdbcType=VARCHAR}
 		)

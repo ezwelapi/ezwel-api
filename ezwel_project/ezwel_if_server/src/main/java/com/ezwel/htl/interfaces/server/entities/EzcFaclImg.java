@@ -75,12 +75,42 @@ public class EzcFaclImg extends AbstractEntity {
 	@APIFields(description = "지역 코드", maxLength=10, constraints="FK_EZC_AREA_CD_EZC_FACL(R),SYS_C0011066(C) EZC_FACL_IF02(NONUNIQUE)")
 	private String areaCd;
 	
-	@APIFields(description = "다운로드 여부")
+	@APIFields(description = "이미지 수집 성공여부", maxLength=1)
+	private String imgCletYn;
+	
+	@APIFields(description = "이미지 수집 메세지", maxLength=1000)
+	private String imgCletMsg;
+	
+	@APIFields(description = "이미지 파일 사이즈", maxLength=19)
+	private BigDecimal imgFileSize;
+	
+	@APIFields(description = "다운로드 여부(시스템용)")
 	private boolean isDownload = false;
 	
-	
-	
-	
+	public String getImgCletYn() {
+		return imgCletYn;
+	}
+
+	public void setImgCletYn(String imgCletYn) {
+		this.imgCletYn = imgCletYn;
+	}
+
+	public String getImgCletMsg() {
+		return imgCletMsg;
+	}
+
+	public void setImgCletMsg(String imgCletMsg) {
+		this.imgCletMsg = imgCletMsg;
+	}
+
+	public BigDecimal getImgFileSize() {
+		return imgFileSize;
+	}
+
+	public void setImgFileSize(BigDecimal imgFileSize) {
+		this.imgFileSize = imgFileSize;
+	}
+
 	public boolean isDownload() {
 		return isDownload;
 	}
