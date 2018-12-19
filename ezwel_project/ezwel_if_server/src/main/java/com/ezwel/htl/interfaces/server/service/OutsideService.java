@@ -75,8 +75,6 @@ public class OutsideService extends AbstractServiceObject {
 	
 	private PropertyUtil propertyUtil;
 	
-	private KoreanAnalyzer koreanAnalyzer;
-	
 	/** 제휴사 별 시설 정보 transaction commit 건수 */
 	private static final Integer FACL_REG_DATA_TX_COUNT = 50;
 	
@@ -96,7 +94,6 @@ public class OutsideService extends AbstractServiceObject {
 		configureHelper = (ConfigureHelper) LApplicationContext.getBean(configureHelper, ConfigureHelper.class);
 		commonRepository = (CommonRepository) LApplicationContext.getBean(commonRepository, CommonRepository.class);
 		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
-		koreanAnalyzer = (KoreanAnalyzer) LApplicationContext.getBean(koreanAnalyzer, KoreanAnalyzer.class);
 		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
 		AllRegOutSDO out = null;
@@ -210,10 +207,6 @@ public class OutsideService extends AbstractServiceObject {
 					faclDataList = allReg.getData();
 					/** ezwel 시설 정보 목록 */
 					ezcFaclList = new ArrayList<EzcFacl>();
-					/** 한글형태소분석기 설정 */
-					koreanAnalyzer = new KoreanAnalyzer();
-					koreanAnalyzer.setQueryMode(false);
-
 					
 					for(AllRegDataOutSDO faclData : faclDataList) {
 						/** 제휴사 별 시설 데이터 세팅 */  /* => 이슈 : 제휴사 ID : 호텔패스글로벌 전문에 데이터가  전달되어오지 않기때문에 임시로 APIUtil.getId() 처리함 */
@@ -253,40 +246,10 @@ public class OutsideService extends AbstractServiceObject {
 						ezcFacl.setConfirmStatus(CodeDataConstants.CD_CONFIRM_STATUS_G0060003); //확정 상태
 
 						// 국문 형태소
-						if (APIUtil.isNotEmpty(ezcFacl.getFaclNmKor())) {
-							actual = new StringBuilder();
-							tokens = koreanAnalyzer.tokenStream("bogus", ezcFacl.getFaclNmKor());
-							termAtt = tokens.addAttribute(CharTermAttribute.class);
-							tokens.reset();
-
-							while (tokens.incrementToken()) {
-								if (termAtt.toString().equals(OperateConstants.STR_SPEC_COMA)) {
-									continue;
-								}
-								actual.append(termAtt.toString());
-								actual.append(OperateConstants.STR_SPEC_COMA);
-							}
-
-							ezcFacl.setFaclKorMorp(actual.toString());
-						}
+						ezcFacl.setFaclKorMorp(commonUtil.getKoreanMorphologicalAnalysis(ezcFacl.getFaclNmKor(), OperateConstants.STR_SPEC_COMA));
 
 						// 영문 형태소
-						if (APIUtil.isNotEmpty(ezcFacl.getFaclNmEng())) {
-							actual = new StringBuilder();
-							tokens = koreanAnalyzer.tokenStream("bogus", ezcFacl.getFaclNmEng());
-							termAtt = tokens.addAttribute(CharTermAttribute.class);
-							tokens.reset();
-
-							while (tokens.incrementToken()) {
-								if (termAtt.toString().equals(OperateConstants.STR_SPEC_COMA)) {
-									continue;
-								}
-								actual.append(termAtt.toString());
-								actual.append(OperateConstants.STR_SPEC_COMA);
-							}
-
-							ezcFacl.setFaclEngMorp(actual.toString());
-						}
+						ezcFacl.setFaclEngMorp(commonUtil.getKoreanMorphologicalAnalysis(ezcFacl.getFaclNmEng(), OperateConstants.STR_SPEC_COMA));
 						
 						//서브 이미지 세팅
 						if(faclData.getSubImages() != null) {
