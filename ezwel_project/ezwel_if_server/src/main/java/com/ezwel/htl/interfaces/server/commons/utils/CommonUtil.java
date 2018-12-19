@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -21,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.Charsets;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -40,6 +43,7 @@ import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
+import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzer;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.entities.EzcDetailCd;
 import com.google.common.io.ByteSource;
@@ -866,4 +870,53 @@ public class CommonUtil {
 		
         return file;
     }
+    
+    public String getKoreanMorphologicalAnalysis(String sentence, String divisionString) {
+    	logger.debug("[START] KoreanMorphologicalAnalysis INPUT : {}", sentence);
+		if(APIUtil.isEmpty(sentence)) {
+			return null;
+		}    	
+    	
+		StringBuilder out = new StringBuilder();
+    	KoreanAnalyzer korean = null;
+		TokenStream ts = null;
+		CharTermAttribute termAtt = null;
+		
+		try {
+	    	korean = new KoreanAnalyzer();
+	    	korean.setQueryMode(false);
+	    	
+			ts = korean.tokenStream("bogus", sentence);
+		    termAtt = ts.addAttribute(CharTermAttribute.class);
+		    ts.reset();
+		    
+		    while (ts.incrementToken()) {
+		    	if(termAtt.toString().equals(divisionString)) {
+		    		continue;
+		    	}
+		    	out.append(termAtt.toString());
+		    	out.append(divisionString);
+		    }
+		}
+		catch(IOException e) {
+			logger.error("[IOException] 형태소 분석도중 장애 발생", e);
+		}
+		catch(Exception e) {
+			logger.error("[Exception] 형태소 분석도중 장애 발생", e);
+		}
+		finally {
+			if(ts != null) {
+			    try {
+					ts.end();
+					ts.close();
+				} catch (IOException e) {
+					logger.error("[IOException] 형태소 분석기 tokenStream을 닫는도중 장애 발생", e);
+				}
+			}
+		}
+		
+		logger.debug("[END] KoreanMorphologicalAnalysis OUTPUT : {}", out);
+		return out.toString();
+    }
+    
 }

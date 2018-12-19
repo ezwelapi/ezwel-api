@@ -1,10 +1,7 @@
 package com.ezwel.htl.interfaces.server.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,11 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzer;
 import com.ezwel.htl.interfaces.server.commons.sdo.AgentApiKeySDO;
 import com.ezwel.htl.interfaces.server.commons.sdo.MorphemeSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 
 @Controller
 public class UtilityController {
@@ -31,6 +30,8 @@ public class UtilityController {
 	private static final Logger logger = LoggerFactory.getLogger(UtilityController.class);
 	
 	private APIUtil apiUtil;
+	
+	private CommonUtil commonUtil;
 	
 	@APIOperation(description="테스트 JSP Forward Operation")
 	@RequestMapping(value="/test/{fileName}")
@@ -78,42 +79,7 @@ public class UtilityController {
 		List<String> morphemeList = new ArrayList<String>();
 		for(String input : morphemeSDO.getSentenceList()) {
 			
-			if(APIUtil.isEmpty(input)) {
-				continue;
-			}
-			
-			actual = new StringBuilder();
-			try {
-				
-				ts = korean.tokenStream("bogus", input);
-			    termAtt = ts.addAttribute(CharTermAttribute.class);
-			    ts.reset();
-			    
-			    while (ts.incrementToken()) {
-			    	if(termAtt.toString().equals(", ")) {
-			    		continue;
-			    	}
-			      actual.append(termAtt.toString());
-			      actual.append(", ");
-			    }
-			    
-			    logger.debug("{}", actual);
-			    morphemeList.add(actual.toString());
-			    
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			finally {
-				if(ts != null) {
-				    try {
-						ts.end();
-						ts.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-
+			morphemeList.add(commonUtil.getKoreanMorphologicalAnalysis(input, OperateConstants.STR_SPEC_COMA));
 		}		
 		
 		out.setMorphemeList(morphemeList);
