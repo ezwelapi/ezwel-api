@@ -821,7 +821,7 @@ public class CommonUtil {
         String fileContent = APIUtil.NVL(contents);
 
         if (logger.isDebugEnabled() && verbose) {
-        	logger.debug(APIUtil.addString("..new file() will save to ", mkfileName));
+        	logger.debug("..new file() will save to {}", mkfileName);
         }
 		try {
 			out = new OutputStreamWriter(new FileOutputStream(file, inheritfile), encoding); // 파일에 문자를 적을 스트림 생성
