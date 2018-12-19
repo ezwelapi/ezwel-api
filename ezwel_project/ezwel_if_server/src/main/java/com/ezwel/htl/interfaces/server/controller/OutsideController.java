@@ -84,13 +84,12 @@ public class OutsideController {
 	}
 	
 	
+
 	@APIOperation(description="시설검색 인터페이스", isOutputJsonMarshall=true, returnType=FaclSearchOutSDO.class)
 	@RequestMapping(value="/service/callFaclSearch")
 	public Object callFaclSearch(UserAgentSDO userAgentSDO, FaclSearchInSDO faclSearchSDO) {
 		
-		FaclSearchOutSDO out = null;
-
-		out = outsideService.callFaclSearch(userAgentSDO, faclSearchSDO);
+		FaclSearchOutSDO out = outsideService.callFaclSearch(userAgentSDO, faclSearchSDO);
 
 		return out;
 	}
@@ -100,9 +99,7 @@ public class OutsideController {
 	@RequestMapping(value="/service/callSddSearch")
 	public Object callSddSearch(UserAgentSDO userAgentSDO) {
 		
-		SddSearchOutSDO out = null;
-
-		out = outsideService.callSddSearch(userAgentSDO);
+		SddSearchOutSDO out = outsideService.callSddSearch(userAgentSDO);
 		
 		return out;
 	}
