@@ -26,7 +26,7 @@
 	<!-- File -->
 	<appender name="fileAppender" class="org.apache.log4j.DailyRollingFileAppender">
 		<!-- 톰켓 -->
-		<param name="File" value="${catalina.base}/log4j/ezwel_if_server_log4j.log" /> 
+		<param name="File" value="${catalina.base}/logs/ezwel_if_server_log4j.log" /> 
 		<!-- ${servicename.webapp.root}/ -->
 		<param name="Append" value="true" />
 		<param name="encoding" value="UTF-8" />

@@ -95,6 +95,8 @@ public class OutsideService extends AbstractServiceObject {
 		inteface = (HttpInterfaceExecutor) LApplicationContext.getBean(inteface, HttpInterfaceExecutor.class);
 		configureHelper = (ConfigureHelper) LApplicationContext.getBean(configureHelper, ConfigureHelper.class);
 		commonRepository = (CommonRepository) LApplicationContext.getBean(commonRepository, CommonRepository.class);
+		koreanAnalyzer = (KoreanAnalyzer) LApplicationContext.getBean(koreanAnalyzer, KoreanAnalyzer.class);
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
 		AllRegOutSDO out = null;
 		MultiHttpConfigSDO multi = null;
@@ -154,15 +156,12 @@ public class OutsideService extends AbstractServiceObject {
 	 * @return
 	 */
 	@APIOperation(description="전체시설일괄등록 인터페이스")
-	public AllRegOutSDO insertAllFacl(List<AllRegOutSDO> assets, AllRegOutSDO out, List<EzcDetailCd> detailCdList, Integer faclIndex) {
+	private AllRegOutSDO insertAllFacl(List<AllRegOutSDO> assets, AllRegOutSDO out, List<EzcDetailCd> detailCdList, Integer faclIndex) {
 		logger.debug("[START] insertAllFacl assets.size : {}, allFacl : {}, detailCdList : {}, faclIndex : {}", (assets != null ? assets.size() : 0), out, (detailCdList != null ? detailCdList.size() : 0), faclIndex);
 		if(assets == null) {
 			throw new APIException("시설 목록이 존재하지 않거나 잘못되었습니다.");
 		}
-		
-		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
-		koreanAnalyzer = (KoreanAnalyzer) LApplicationContext.getBean(koreanAnalyzer, KoreanAnalyzer.class);
-		
+	
 		AllRegOutSDO allReg = null;
 		List<AllRegDataOutSDO> faclDataList = null;	// 제휴사 및에 시설 목록 ( 인터페이스 전문 SDO )
 		//시설 정보 DB 엔티티
@@ -255,7 +254,6 @@ public class OutsideService extends AbstractServiceObject {
 						// 국문 형태소
 						if (APIUtil.isNotEmpty(ezcFacl.getFaclNmKor())) {
 							actual = new StringBuilder();
-
 							tokens = koreanAnalyzer.tokenStream("bogus", ezcFacl.getFaclNmKor());
 							termAtt = tokens.addAttribute(CharTermAttribute.class);
 							tokens.reset();
@@ -274,7 +272,6 @@ public class OutsideService extends AbstractServiceObject {
 						// 영문 형태소
 						if (APIUtil.isNotEmpty(ezcFacl.getFaclNmEng())) {
 							actual = new StringBuilder();
-
 							tokens = koreanAnalyzer.tokenStream("bogus", ezcFacl.getFaclNmEng());
 							termAtt = tokens.addAttribute(CharTermAttribute.class);
 							tokens.reset();
@@ -388,7 +385,7 @@ public class OutsideService extends AbstractServiceObject {
 	
 	
 	@APIOperation(description="제휴사 별 시설 데이터 입력")
-	public AllRegOutSDO insertFaclRegData(AllRegOutSDO out, List<EzcFacl> ezcFacls/* 제휴사 별 시설 목록 */, Integer fromIndex) {
+	private AllRegOutSDO insertFaclRegData(AllRegOutSDO out, List<EzcFacl> ezcFacls/* 제휴사 별 시설 목록 */, Integer fromIndex) {
 		logger.debug("[START] insertFaclRegData ezcFacls.size : {}, fromIndex : {}, txCount : {}", (ezcFacls != null ? ezcFacls.size() : 0), fromIndex);
 		
 		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
