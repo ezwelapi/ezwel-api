@@ -3,12 +3,16 @@ package com.ezwel.htl.interfaces.commons.sdo;
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
 @APIModel(description="파일 다운로드 데이터")
 public class ImageSDO  extends AbstractSDO {
 	
 	@APIFields(description="파일 확장자")
 	private String fileExt;
+
+	@APIFields(description="파일 크기")
+	private long fileSize;
 	
 	@APIFields(description="변환 파일 명")
 	private String chngFileName;
@@ -45,6 +49,7 @@ public class ImageSDO  extends AbstractSDO {
 	}
 	
 	private void reset() {
+		fileSize = OperateConstants.LONG_ZERO_VALUE;
 		fileExt = "";
 		chngFileName = "";
 		orgFileName = "";
@@ -59,6 +64,14 @@ public class ImageSDO  extends AbstractSDO {
 	}
 	
 
+
+	public long getFileSize() {
+		return fileSize;
+	}
+
+	public void setFileSize(long fileSize) {
+		this.fileSize = fileSize;
+	}
 
 	public Object getDummy() {
 		return dummy;

@@ -242,7 +242,36 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
-	@APIOperation(description="전체시설 이미지 다운로드 경로 저장")
+	@APIOperation(description="전체시설 이미지 다운로드 경로 다건 저장")
+	public Integer updateBuildImage(List<EzcFaclImg> finalFaclImgList, boolean isErrorPassed) {
+		
+		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
+		Integer dataIndex = OperateConstants.INTEGER_ZERO_VALUE;
+		EzcFaclImg ezcFaclImg = null;
+		
+		try {
+			
+			if(finalFaclImgList != null) {
+				
+				for(dataIndex = 0; dataIndex < finalFaclImgList.size(); dataIndex++) {
+					ezcFaclImg = finalFaclImgList.get(dataIndex);
+					txCount += updateBuildImage(ezcFaclImg, isErrorPassed);
+				}
+			}
+		}
+		catch(Exception e) {
+			if(isErrorPassed) {
+				logger.error("전체시설 이미지 다운로드 경로 다건 저장 장애 : {}", e.getMessage());
+			}
+			else {
+				throw new APIException("이미지 다운르드 경로 DB 다건 저장 실패 {}", new Object[] {e.getMessage()}, e) ;
+			}
+		}
+
+		return txCount;
+	}
+	
+	@APIOperation(description="전체시설 이미지 다운로드 경로 단건 저장")
 	public Integer updateBuildImage(EzcFaclImg ezcFaclImg, boolean isErrorPassed) {
 		
 		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;

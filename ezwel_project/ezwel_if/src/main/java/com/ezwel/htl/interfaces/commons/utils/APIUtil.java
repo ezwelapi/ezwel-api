@@ -681,4 +681,124 @@ public class APIUtil {
 		return out;
 	}
 	
+
+	/**
+	 * 반각문자로 변경한다
+	 * 
+	 * @param src 변경할값
+	 * @return String 변경된값
+	 */
+    @APIOperation(description="반각문자로 변경한다.")
+	public String toHalfChar(String str) {
+		if (APIUtil.NVL(str).equals("")) {
+			return "";
+		}
+		
+		String target = str.trim();
+
+		StringBuffer strBuf = new StringBuffer();
+
+		char c = 0;
+		int nSrcLength = target.length();
+		for (int i = 0; i < nSrcLength; i++) {
+			c = target.charAt(i);
+			// 영문이거나 특수 문자 일경우.
+			if (c >= '！' && c <= '～') {
+				c -= 0xfee0;
+			} else if (c == '　') {
+				c = 0x20;
+			}
+			// 문자열 버퍼에 변환된 문자를 쌓는다
+			strBuf.append(c);
+		}
+		return strBuf.toString();
+	}
+
+	/**
+	 * 전각문자로 변경한다.
+	 * 
+	 * @param src 변경할값
+	 * @return String 변경된값
+	 */
+	@APIOperation(description = "전각문자로 변경한다.")
+	public String toFullChar(String str) {
+		if (APIUtil.NVL(str).equals("")) {
+			return "";
+		}
+
+		String target = str.trim();
+
+		// 변환된 문자들을 쌓아놓을 StringBuffer 를 마련한다
+		StringBuffer strBuf = new StringBuffer();
+		char c = 0;
+		int nSrcLength = target.length();
+		for (int i = 0; i < nSrcLength; i++) {
+			c = target.charAt(i);
+			// 영문이거나 특수 문자 일경우.
+			if (c >= 0x21 && c <= 0x7e) {
+				c += 0xfee0;
+			}
+			// 공백일경우
+			else if (c == 0x20) {
+				c = 0x3000;
+			}
+			// 문자열 버퍼에 변환된 문자를 쌓는다
+			strBuf.append(c);
+		}
+		return strBuf.toString();
+	}
+
+	/**
+	 * 대상문자열(strTarget)이 전각문자로 구성되어 있는지 확인한다.
+	 *
+	 * @param strTarget 전각여부를 확인할 문자열
+	 * @return 전각문자만으로 구성된 문자열일 경우 true반환. 아니면 false
+	 */
+    @APIOperation(description="대상문자열이 전각문자로 구성되어 있는지 확인한다.")
+	public boolean isFullWord(String strTarget) {
+    	if (APIUtil.NVL(strTarget).equals("")) {
+			return false;
+		}
+    	
+    	byte[] byteArray = strTarget.getBytes();
+		for (int i = 0; i < byteArray.length; i++) {
+			if ((byteArray[i] >= (byte) 0x81 && byteArray[i] <= (byte) 0x9f)
+					|| (byteArray[i] >= (byte) 0xe0 && byteArray[i] <= (byte) 0xef)) {
+				if ((byteArray[i + 1] >= (byte) 0x40 && byteArray[i + 1] <= (byte) 0x7e)
+						|| (byteArray[i + 1] >= (byte) 0x80 && byteArray[i + 1] <= (byte) 0xfc)) {
+					i++;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 대상문자열(strTarget)이 반각문자로 구성되어 있는지 확인한다.
+	 *
+	 * @param strTarget 반각여부를 확인할 문자열
+	 * @return 반각문자만으로 구성된 문자열일 경우 true반환. 아니면 false
+	 */
+    @APIOperation(description="대상문자열이 반각문자로 구성되어 있는지 확인한다.")
+	public boolean isHalfWord(String strTarget) {
+    	if (APIUtil.NVL(strTarget).equals("")) {
+			return false;
+		}
+    	
+		byte[] byteArray = strTarget.getBytes();
+		for (int i = 0; i < byteArray.length; i++) {
+			if ((byteArray[i] >= (byte) 0x81 && byteArray[i] <= (byte) 0x9f)
+					|| (byteArray[i] >= (byte) 0xe0 && byteArray[i] <= (byte) 0xef)) {
+				if ((byteArray[i + 1] >= (byte) 0x40 && byteArray[i + 1] <= (byte) 0x7e)
+						|| (byteArray[i + 1] >= (byte) 0x80 && byteArray[i + 1] <= (byte) 0xfc)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}	
 }

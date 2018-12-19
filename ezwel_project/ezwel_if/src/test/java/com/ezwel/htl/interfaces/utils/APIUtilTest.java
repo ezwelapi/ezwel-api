@@ -39,6 +39,11 @@ public class APIUtilTest {
 		logger.debug(
 				apiUtil.getTimeMillisToDate(System.currentTimeMillis(), "yyyyMMddkkmmss")
 				);
+		 
+
+
+		logger.debug("{}", APIUtil.getTimeMillisToSecond(4036939));
+		logger.debug("{}", APIUtil.getTimeMillisToMinute(4036939));		
 	}
 	
 	

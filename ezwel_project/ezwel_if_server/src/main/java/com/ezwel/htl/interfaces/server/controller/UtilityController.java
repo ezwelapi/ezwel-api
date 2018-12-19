@@ -113,6 +113,7 @@ public class UtilityController {
 
 		}		
 		
+		out.setMorphemeList(morphemeList);
 		logger.debug("[END] morpKorean ");
 		return out;
 	}	

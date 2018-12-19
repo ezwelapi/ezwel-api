@@ -100,7 +100,7 @@ public class UtilTest {
 
     	 //?졻뼚 StartTimeMillis : 1544521871856
 		 //?졻뼚 EndTimeMillis : 1544522483798
-    	
+/*    	
     	long diff = 1544522483798L - 1544521871856L;
     	logger.debug( "{}", (APIUtil.getTimeMillisToSecond(643325) / 60) );
 
@@ -112,6 +112,12 @@ public class UtilTest {
     	for(String item : test) {
     		logger.debug("item : {}", item);	
     	}
-
+*/
+    	
+    	String testWord = "이문자열은 반각 문자입니다.";
+    	
+    	String fullChar = new APIUtil().toFullChar(testWord);
+    	
+    	logger.debug("{}", fullChar);
     }
 }
