@@ -42,8 +42,6 @@ public class KoreanAnalyzer extends StopwordAnalyzerBase {
 	/** Default maximum allowed token length */
 	public static final int DEFAULT_MAX_TOKEN_LENGTH = 255;
 
-	private int maxTokenLength = DEFAULT_MAX_TOKEN_LENGTH;
-
 	private boolean bigrammable = false;
 
 	private boolean hasOrigin = false;
