@@ -278,8 +278,8 @@
 		</httpChan>
 		<httpChan>
 			<chanId>cancelFeePsrc</chanId>
-			<description>취소수수규정</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/cancelFeePsrc</restURI>
+			<description>취소수수료규정</description>
+			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/CancelFeeRQ.ashx</restURI>
 			<receiverRestURI>/service/callCancelFeePsrc</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -288,7 +288,7 @@
 		<httpChan>
 			<chanId>rsvHistSend</chanId>
 			<description>결재완료내역전송</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/rsvHistSend</restURI>
+			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/BookingOrderRQ.ashx</restURI>
 			<receiverRestURI>/service/callRsvHistSend</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>

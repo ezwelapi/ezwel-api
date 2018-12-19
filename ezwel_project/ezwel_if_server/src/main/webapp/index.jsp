@@ -177,8 +177,8 @@ var testAssets = {
 				},
 				cancelFeePsrcInSDO : {
 					"otaId": "10055550",
-					"pdtNo": "KRANA002",
-					"roomNo": "1",
+					"pdtNo": "KRSEL112",
+					"roomNo": "Yob1daQcPbOlVncEHz/Q62kMjcnsyRrO0QH/U/qJzoi^JE^t1pCAhgNe80PkfWL7SQwNgwaDCDPX6r37ofNtXZuytTAdeJAo6WO8m3wHVREg5VuHdfOXK/v5oB/X1xkrdHjAJxAzF1vEiNFvpWFBXgstG1HUZrPvh^mfp97BEQ0NnGJJHoRFdtvpsLw3PbTWdNRjNMkeXuF0n4XmUgfzxNLMP3ThbqcvENb6JCLuIek=",
 					"checkInDate": "20190101",
 					"checkOutDate": "20190102",
 					"roomCnt": 1
@@ -200,18 +200,18 @@ var testAssets = {
 				rsvHistSendInSDO : {
 					data : {
 						"rsvNo": "E123456789",
-						"rsvDatetime": "20181219142534",
-						"rsvPrice": 200000,
+						"rsvDatetime": "20181219182534",
+						"rsvPrice": 58000,
 						"rsvStat": "r02",
-						"rsvPdtName": "",
-						"rsvPdtNo": "",
-						"pdtNo": "1",
-						"pdtName": "서울 프라자 호텔",
-						"roomNo": "1",
-						"roomName": "디럭스",
+						"rsvPdtName": "뉴천지 호텔",
+						"rsvPdtNo": "P000000001",
+						"pdtNo": "KRSEL112",
+						"pdtName": "뉴천지 호텔",
+						"roomNo": "Yob1daQcPbOlVncEHz/Q62kMjcnsyRrO0QH/U/qJzoi^JE^t1pCAhgNe80PkfWL7SQwNgwaDCDPX6r37ofNtXZuytTAdeJAo6WO8m3wHVREg5VuHdfOXK/v5oB/X1xkrdHjAJxAzF1vEiNFvpWFBXgstG1HUZrPvh^mfp97BEQ0NnGJJHoRFdtvpsLw3PbTWdNRjNMkeXuF0n4XmUgfzxNLMP3ThbqcvENb6JCLuIek=",
+						"roomName": "Standard Double Room(1 double bed request)",
 						"roomCnt": 1,
-						"checkInDate": "20181201",
-						"checkOutDate": "20181202",
+						"checkInDate": "20190101",
+						"checkOutDate": "20190102",
 						"memKey": "EZ0001",
 						"memName": "홍길동",
 						"memPhone": "01012341234",
@@ -221,16 +221,7 @@ var testAssets = {
 						"userEmail": "test@test.com",
 						"userCmt": "전망 좋은 방으로 요청 드립니다",
 						"adultCnt": 2,
-						"childCnt": 0,
-						"options" : [
-							{
-								"rsvOptNo": "EO12345678",
-								"optNo": "1",
-								"optName": "조식",
-								"optPrice": 20000,
-								"optCountMax": 2
-							}
-						]
+						"childCnt": 0
 					}
 				}
 			}
