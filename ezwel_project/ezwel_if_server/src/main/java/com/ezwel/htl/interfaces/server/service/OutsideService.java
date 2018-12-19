@@ -95,6 +95,7 @@ public class OutsideService extends AbstractServiceObject {
 		inteface = (HttpInterfaceExecutor) LApplicationContext.getBean(inteface, HttpInterfaceExecutor.class);
 		configureHelper = (ConfigureHelper) LApplicationContext.getBean(configureHelper, ConfigureHelper.class);
 		commonRepository = (CommonRepository) LApplicationContext.getBean(commonRepository, CommonRepository.class);
+		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
 		koreanAnalyzer = (KoreanAnalyzer) LApplicationContext.getBean(koreanAnalyzer, KoreanAnalyzer.class);
 		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
@@ -387,8 +388,6 @@ public class OutsideService extends AbstractServiceObject {
 	@APIOperation(description="제휴사 별 시설 데이터 입력")
 	private AllRegOutSDO insertFaclRegData(AllRegOutSDO out, List<EzcFacl> ezcFacls/* 제휴사 별 시설 목록 */, Integer fromIndex) {
 		logger.debug("[START] insertFaclRegData ezcFacls.size : {}, fromIndex : {}, txCount : {}", (ezcFacls != null ? ezcFacls.size() : 0), fromIndex);
-		
-		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
 		
 		/**
 		 * 시설 50개씩 connection 끊어서 실행
