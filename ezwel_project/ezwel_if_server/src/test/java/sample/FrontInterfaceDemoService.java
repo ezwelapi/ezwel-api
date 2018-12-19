@@ -56,7 +56,7 @@ public class FrontInterfaceDemoService extends TestCase {
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
-		userAgentDTO.setHttpAgentId("10000496"); //펜션라이프
+		userAgentDTO.setHttpAgentId("10055550"); //호텔패스
 		userAgentDTO.setHttpAgentType("AP02PO");
 		userAgentDTO.setHttpChannelCd("1");
 		userAgentDTO.setHttpClientId("ez1");
@@ -65,7 +65,7 @@ public class FrontInterfaceDemoService extends TestCase {
 		//Input parameter
 		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
 		
-		roomReadSDO.setOtaId("10000496");
+		roomReadSDO.setOtaId("10055550");
 		roomReadSDO.setPdtNo("KRSEL112");
 		roomReadSDO.setCheckInDate("20190101");
 		roomReadSDO.setCheckOutDate("20190102");
@@ -89,7 +89,7 @@ public class FrontInterfaceDemoService extends TestCase {
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
-		userAgentDTO.setHttpAgentId("10000496"); //펜션라이프
+		userAgentDTO.setHttpAgentId("10055550"); //호텔패스
 		userAgentDTO.setHttpAgentType("AP02PO");
 		userAgentDTO.setHttpChannelCd("1");
 		userAgentDTO.setHttpClientId("ez1");
@@ -98,11 +98,11 @@ public class FrontInterfaceDemoService extends TestCase {
 		//Input parameter
 		CancelFeePsrcInSDO sdo = new CancelFeePsrcInSDO();
 		
-		sdo.setOtaId("10000496");
-		sdo.setPdtNo("1");
+		sdo.setOtaId("10055550");
+		sdo.setPdtNo("KRSEL112");
 		sdo.setCheckInDate("20190101");
 		sdo.setCheckOutDate("20190102");
-		sdo.setRoomNo("1");
+		sdo.setRoomNo("Yob1daQcPbOlVncEHz/Q62kMjcnsyRrO0QH/U/qJzoi^JE^t1pCAhgNe80PkfWL7SQwNgwaDCDPX6r37ofNtXZuytTAdeJAo6WO8m3wHVREg5VuHdfOXK/v5oB/X1xkrdHjAJxAzF1vEiNFvpWFBXgstG1HUZrPvh^mfp97BEQ0NnGJJHoRFdtvpsLw3PbTWdNRjNMkeXuF0n4XmUgfzxNLMP3ThbqcvENb6JCLuIek=");
 		sdo.setRoomCnt(1);
 		
 		//interface api call
@@ -121,7 +121,7 @@ public class FrontInterfaceDemoService extends TestCase {
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
-		userAgentDTO.setHttpAgentId("10000496"); //펜션라이프
+		userAgentDTO.setHttpAgentId("10055550"); //호텔패스
 		userAgentDTO.setHttpAgentType("AP02PO");
 		userAgentDTO.setHttpChannelCd("1");
 		userAgentDTO.setHttpClientId("ez1");
@@ -132,19 +132,19 @@ public class FrontInterfaceDemoService extends TestCase {
 		
 		RsvHistSendDataInSDO data = new RsvHistSendDataInSDO();
 		
-		data.setRsvNo("123456789");		
-		data.setRsvDatetime("20181113152332");
-		data.setRsvPrice(200000);
+		data.setRsvNo("E123456789");		
+		data.setRsvDatetime("20181219182534");
+		data.setRsvPrice(58000);
 		data.setRsvStat("r02");
-		data.setRsvPdtName("");
-		data.setRsvPdtNo("");
-		data.setPdtNo("1");
-		data.setPdtName("서울 프라자 호텔");
-		data.setRoomNo("1");
-		data.setRoomName("디럭스");
+		data.setRsvPdtName("뉴천지 호텔");
+		data.setRsvPdtNo("P000000001");
+		data.setPdtNo("KRSEL112");
+		data.setPdtName("뉴천지 호텔");
+		data.setRoomNo("Yob1daQcPbOlVncEHz/Q62kMjcnsyRrO0QH/U/qJzoi^JE^t1pCAhgNe80PkfWL7SQwNgwaDCDPX6r37ofNtXZuytTAdeJAo6WO8m3wHVREg5VuHdfOXK/v5oB/X1xkrdHjAJxAzF1vEiNFvpWFBXgstG1HUZrPvh^mfp97BEQ0NnGJJHoRFdtvpsLw3PbTWdNRjNMkeXuF0n4XmUgfzxNLMP3ThbqcvENb6JCLuIek=");
+		data.setRoomName("Standard Double Room(1 double bed request)");
 		data.setRoomCnt(1);
-		data.setCheckInDate("20181201");
-		data.setCheckOutDate("20181202");
+		data.setCheckInDate("20190101");
+		data.setCheckOutDate("20190102");
 		data.setMemKey("EZ0001");
 		data.setMemName("홍길동");
 		data.setMemPhone("01012341234");
@@ -154,7 +154,7 @@ public class FrontInterfaceDemoService extends TestCase {
 		data.setUserEmail("test@test.com");
 		data.setUserCmt("전망 좋은 방으로 요청 드립니다");
 		data.setAdultCnt(2);
-		data.setChildCnt(1);
+		data.setChildCnt(0);
 		
 		rsvHistSendInSDO.setData(data);
 		
@@ -175,7 +175,7 @@ public class FrontInterfaceDemoService extends TestCase {
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
-		userAgentDTO.setHttpAgentId("10000496"); //펜션라이프
+		userAgentDTO.setHttpAgentId("10055550"); //호텔패스
 		userAgentDTO.setHttpAgentType("AP02PO");
 		userAgentDTO.setHttpChannelCd("1");
 		userAgentDTO.setHttpClientId("ez1");
@@ -184,8 +184,8 @@ public class FrontInterfaceDemoService extends TestCase {
 		//Input parameter
 		CancelFeeAmtInSDO sdo = new CancelFeeAmtInSDO();
 		
-		sdo.setOtaId("10000496");
-		sdo.setRsvNo("12345678");
+		sdo.setOtaId("10055550");
+		sdo.setRsvNo("E123456789");
 		
 		//interface api call
 		CancelFeeAmtOutSDO out = outIfService.callCancelFeeAmt(userAgentDTO, sdo);
@@ -202,7 +202,7 @@ public class FrontInterfaceDemoService extends TestCase {
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
-		userAgentDTO.setHttpAgentId("10000496"); //펜션라이프
+		userAgentDTO.setHttpAgentId("10055550"); //호텔패스
 		userAgentDTO.setHttpAgentType("AP02PO");
 		userAgentDTO.setHttpChannelCd("1");
 		userAgentDTO.setHttpClientId("ez1");
@@ -211,10 +211,10 @@ public class FrontInterfaceDemoService extends TestCase {
 		//Input parameter
 		OrderCancelReqInSDO orderCancelReqInSDO = new OrderCancelReqInSDO();
 		
-		orderCancelReqInSDO.setOtaId("10000496");
-		orderCancelReqInSDO.setRsvNo("12345678");
-		orderCancelReqInSDO.setOtaRsvNo("12345678");
-		orderCancelReqInSDO.setRsvPrice(100000);
+		orderCancelReqInSDO.setOtaId("10055550");
+		orderCancelReqInSDO.setRsvNo("E123456789");
+		orderCancelReqInSDO.setOtaRsvNo("O123456789");
+		orderCancelReqInSDO.setRsvPrice(58000);
 		orderCancelReqInSDO.setCancelCharge(0);
 		
 		//interface api call
@@ -231,7 +231,7 @@ public class FrontInterfaceDemoService extends TestCase {
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
-		userAgentDTO.setHttpAgentId("10000496"); //펜션라이프
+		userAgentDTO.setHttpAgentId("10055550"); //호텔패스
 		userAgentDTO.setHttpAgentType("AP02PO");
 		userAgentDTO.setHttpChannelCd("1");
 		userAgentDTO.setHttpClientId("ez1");
@@ -240,9 +240,9 @@ public class FrontInterfaceDemoService extends TestCase {
 		//Input parameter
 		OmiNumIdnInSDO omiNumIdnInSDO = new OmiNumIdnInSDO();
 		
-		omiNumIdnInSDO.setOtaId("10000496");
-		omiNumIdnInSDO.setRsvNo("12345678");
-		omiNumIdnInSDO.setRsvStat("Y");
+		omiNumIdnInSDO.setOtaId("10055550");
+		omiNumIdnInSDO.setRsvNo("E123456789");
+		omiNumIdnInSDO.setRsvStat("r02");
 		
 		//interface api call
 		OmiNumIdnOutSDO out = outIfService.callOmiNumIdn(userAgentDTO, omiNumIdnInSDO);
@@ -261,7 +261,7 @@ public class FrontInterfaceDemoService extends TestCase {
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
-		userAgentDTO.setHttpAgentId("10000496"); //펜션라이프
+		userAgentDTO.setHttpAgentId("10055550"); //호텔패스
 		userAgentDTO.setHttpAgentType("AP02PO");
 		userAgentDTO.setHttpChannelCd("1");
 		userAgentDTO.setHttpClientId("ez1");
@@ -270,10 +270,10 @@ public class FrontInterfaceDemoService extends TestCase {
 		//Input parameter
 		EzwelJobInSDO ezwelJobInSDO = new EzwelJobInSDO();
 		
-		ezwelJobInSDO.setOtaId("10000496");
-		ezwelJobInSDO.setRsvNo("111111-1111111-1111");
-		ezwelJobInSDO.setRsvDateStart("20181201");
-		ezwelJobInSDO.setRsvDateEnd("20181211");
+		ezwelJobInSDO.setOtaId("10055550");
+		ezwelJobInSDO.setRsvNo("E123456789");
+		ezwelJobInSDO.setRsvDateStart("20190101");
+		ezwelJobInSDO.setRsvDateEnd("20190102");
 		
 		//interface api call
 		EzwelJobOutSDO out = outIfService.callEzwelJob(userAgentDTO, ezwelJobInSDO);
