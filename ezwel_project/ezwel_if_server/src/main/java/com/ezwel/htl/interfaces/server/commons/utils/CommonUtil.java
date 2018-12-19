@@ -871,6 +871,8 @@ public class CommonUtil {
         return file;
     }
     
+    
+    @APIOperation(description="한글 형태소 분석")
     public String getKoreanMorphologicalAnalysis(String sentence, String divisionString) {
     	logger.debug("[START] KoreanMorphologicalAnalysis INPUT : {}", sentence);
 		if(APIUtil.isEmpty(sentence)) {

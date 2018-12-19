@@ -68,14 +68,9 @@ public class UtilityController {
 	public Object morpKorean(MorphemeSDO morphemeSDO) {
 		logger.debug("[START] morpKorean {}", morphemeSDO);
 		
-		MorphemeSDO out = new MorphemeSDO();
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
-		KoreanAnalyzer korean = new KoreanAnalyzer();
-		logger.debug("korean : {}", korean);
-		korean.setQueryMode(false);
-		StringBuilder actual = null;
-		TokenStream ts = null;
-		CharTermAttribute termAtt = null;
+		MorphemeSDO out = new MorphemeSDO();
 		List<String> morphemeList = new ArrayList<String>();
 		for(String input : morphemeSDO.getSentenceList()) {
 			
