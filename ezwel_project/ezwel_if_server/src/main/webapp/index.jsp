@@ -154,7 +154,7 @@ var testAssets = {
 				},
 				roomReadInSDO : {
 					"otaId": "10055550",
-					"pdtNo": "KRANA002",
+					"pdtNo": "KRSEL402",
 					"checkInDate": "20190101",
 					"checkOutDate": "20190102",
 					"roomCnt": 1,
@@ -177,8 +177,8 @@ var testAssets = {
 				},
 				cancelFeePsrcInSDO : {
 					"otaId": "10055550",
-					"pdtNo": "KRSEL112",
-					"roomNo": "Yob1daQcPbOlVncEHz/Q62kMjcnsyRrO0QH/U/qJzoi^JE^t1pCAhgNe80PkfWL7SQwNgwaDCDPX6r37ofNtXZuytTAdeJAo6WO8m3wHVREg5VuHdfOXK/v5oB/X1xkrdHjAJxAzF1vEiNFvpWFBXgstG1HUZrPvh^mfp97BEQ0NnGJJHoRFdtvpsLw3PbTWdNRjNMkeXuF0n4XmUgfzxNLMP3ThbqcvENb6JCLuIek=",
+					"pdtNo": "KRSEL402",
+					"roomNo": "ZyM^JZUuHL^IGl8A4YyHevULP9zS8K2ev1C8NgVQnc3lQabQXTwtxa52D2tOFZB2tN7ujSDtk3otQJI/mC1K8WBmiQtdoKdpQmCmqKh8no3FwuqqmGtyuccVc6rLbyAndR69WtV9Q7yJANWNZvF^pDUf/WJPWCOUtlau0aEKEWKybat7rYTTc4ZK8Lr2bmY99lX5X^ECCR7G3B5mSVU639vOOl3l^EG2qfYwiFx1hRw=",
 					"checkInDate": "20190101",
 					"checkOutDate": "20190102",
 					"roomCnt": 1
@@ -199,16 +199,16 @@ var testAssets = {
 				},
 				rsvHistSendInSDO : {
 					data : {
-						"rsvNo": "E123456789",
-						"rsvDatetime": "20181219182534",
-						"rsvPrice": 58000,
+						"rsvNo": "E000000003",
+						"rsvDatetime": "20181220153034",
+						"rsvPrice": 56000,
 						"rsvStat": "r02",
-						"rsvPdtName": "뉴천지 호텔",
-						"rsvPdtNo": "P000000001",
-						"pdtNo": "KRSEL112",
-						"pdtName": "뉴천지 호텔",
-						"roomNo": "Yob1daQcPbOlVncEHz/Q62kMjcnsyRrO0QH/U/qJzoi^JE^t1pCAhgNe80PkfWL7SQwNgwaDCDPX6r37ofNtXZuytTAdeJAo6WO8m3wHVREg5VuHdfOXK/v5oB/X1xkrdHjAJxAzF1vEiNFvpWFBXgstG1HUZrPvh^mfp97BEQ0NnGJJHoRFdtvpsLw3PbTWdNRjNMkeXuF0n4XmUgfzxNLMP3ThbqcvENb6JCLuIek=",
-						"roomName": "Standard Double Room(1 double bed request)",
+						"rsvPdtName": "더 리센츠 동대문 호텔",
+						"rsvPdtNo": "P000000003",
+						"pdtNo": "KRSEL402",
+						"pdtName": "더 리센츠 동대문 호텔",
+						"roomNo": "ZyM^JZUuHL^IGl8A4YyHevULP9zS8K2ev1C8NgVQnc3lQabQXTwtxa52D2tOFZB2tN7ujSDtk3otQJI/mC1K8WBmiQtdoKdpQmCmqKh8no3FwuqqmGtyuccVc6rLbyAndR69WtV9Q7yJANWNZvF^pDUf/WJPWCOUtlau0aEKEWKybat7rYTTc4ZK8Lr2bmY99lX5X^ECCR7G3B5mSVU639vOOl3l^EG2qfYwiFx1hRw=",
+						"roomName": "Standard Double Room (Latex Mattress)(1 double bed request)",
 						"roomCnt": 1,
 						"checkInDate": "20190101",
 						"checkOutDate": "20190102",
@@ -240,7 +240,7 @@ var testAssets = {
 				},
 				cancelFeeAmtInSDO : {
 					"otaId": "10055550",
-					"rsvNo": "123456789"
+					"rsvNo": "E000000003"
 				}
 			}
 		},
@@ -258,7 +258,7 @@ var testAssets = {
 				},
 				orderCancelReqInSDO : {
 					"otaId": "10055550",
-					"rsvNo": "123456789",
+					"rsvNo": "E000000003",
 					"otaRsvNo": "000000123",
 					"rsvPrice": 0,
 					"cancelCharge": 0
@@ -279,8 +279,8 @@ var testAssets = {
 				},
 				omiNumIdnInSDO : {				
 					"otaId": "10055550",
-					"rsvNo": "123456789",
-					"rsvStat": "o01"
+					"rsvNo": "E000000003",
+					"rsvStat": "r02"
 				}
 			}
 		},
@@ -298,9 +298,9 @@ var testAssets = {
 				},
 				ezwelJobInSDO : {
 					"otaId": "10055550",
-					"rsvNo": "E123456789",
+					"rsvNo": "E000000003",
 					"rsvDateStart": "20181201",
-					"rsvDateEnd": "20181215"
+					"rsvDateEnd": "20181220"
 				}
 			}
 		},

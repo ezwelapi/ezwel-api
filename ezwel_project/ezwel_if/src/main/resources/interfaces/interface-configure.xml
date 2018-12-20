@@ -297,7 +297,7 @@
 		<httpChan>
 			<chanId>cancelFeeAmt</chanId>
 			<description>취소수수료계산</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/cancelFeeAmt</restURI>
+			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/CancelFeeOrderRQ.ashx</restURI>
 			<receiverRestURI>/service/callCancelFeeAmt</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -306,7 +306,7 @@
 		<httpChan>
 			<chanId>orderCancelReq</chanId>
 			<description>주문취소요청</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/orderCancelReq</restURI>
+			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/CancelOrderRQ.ashx</restURI>
 			<receiverRestURI>/service/callOrderCancelReq</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -315,7 +315,7 @@
 		<httpChan>
 			<chanId>omiNumIdn</chanId>
 			<description>누락건확인</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/omiNumIdn</restURI>
+			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/SyncBookingRQ.ashx</restURI>
 			<receiverRestURI>/service/callOmiNumIdn</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
