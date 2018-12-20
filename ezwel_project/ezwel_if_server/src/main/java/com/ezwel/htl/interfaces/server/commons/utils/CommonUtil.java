@@ -45,8 +45,9 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.commons.utils.RegexUtil;
 import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
-import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzer;
-import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzer;
+import com.ezwel.htl.interfaces.server.commons.morpheme.cm.MorphemeUtil;
+import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzers;
+import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.entities.EzcDetailCd;
 import com.google.common.io.ByteSource;
@@ -70,9 +71,13 @@ public class CommonUtil {
 	
 	private StackTraceUtil stackTraceUtil;
 	
-	private KoreanAnalyzer koreanAnalyzer;
+	private KoreanAnalyzers koreanAnalyzers;
 	
-	private EnglishAnalyzer englishAnalyzer;
+	private EnglishAnalyzers englishAnalyzers;
+	
+	private RegexUtil regexUtil;
+	
+	private APIUtil apiUtil;
 	
 	public final static int DEFAULT_FLAGS; 
 	
@@ -887,10 +892,12 @@ public class CommonUtil {
      * @return
      */
     @APIOperation(description="문자열에서 주어진 패턴이 존재하면 대상 문자열을 변경대상 문자열로 변경합니다.")
-	public String englishMorphemePartternReplace(String word , String[] patterns , String[] targetWord , String[] replaceWord){
+	public String englishMorphemePartternReplace(String word , String[] patterns , String[] targetWord , String[] replaceWord) {
+    	
+    	regexUtil = (RegexUtil) LApplicationContext.getBean(regexUtil, RegexUtil.class);
+    	
 		String result = APIUtil.NVL(word);
 		if(!result.equals("") && (patterns.length == targetWord.length && patterns.length == replaceWord.length)) {
-			RegexUtil regexUtil = new RegexUtil();
 			for(int i = 0 ; i < patterns.length; i++ ){
 				if(regexUtil.matcherPatternFind(word, patterns[i].toString())){
 					result = word.replaceAll(targetWord[i], replaceWord[i]);
@@ -930,33 +937,58 @@ public class CommonUtil {
         }
         return -1;
     }
-	
+
+	@APIOperation(description="국문/영문 형태소 복합 분석")
+	public String getKorAndEngMorphemes(String firstLang, String sentence) {
+		return getKorAndEngMorphemes(firstLang, sentence, null);
+	}
 	
 	@APIOperation(description="국문/영문 형태소 복합 분석")
 	public String getKorAndEngMorphemes(String firstLang, String sentence, String division) {
 		//logger.debug("[START] getKorEngMorphemes : \"{}\", division : \"{}\"", sentence, division);
 		
-		koreanAnalyzer = (koreanAnalyzer != null ? koreanAnalyzer : new KoreanAnalyzer());
-		englishAnalyzer = (englishAnalyzer != null ? englishAnalyzer : new EnglishAnalyzer());
+		if(APIUtil.isEmpty(sentence)) {
+			logger.warn("형태소 분석 대상 문장/단어가 존재하지 않습니다.");
+			return null; 
+		}
+		
+		if(APIUtil.isEmpty(sentence)) {
+			division = OperateConstants.STR_SPEC_COMA;
+		}
+		
+		//WARN : getBeanInstance is test getBean
+		koreanAnalyzers = (KoreanAnalyzers) LApplicationContext.getBeanInstance(koreanAnalyzers, KoreanAnalyzers.class);
+		englishAnalyzers = (EnglishAnalyzers) LApplicationContext.getBeanInstance(englishAnalyzers, EnglishAnalyzers.class);
+		regexUtil = (RegexUtil) LApplicationContext.getBeanInstance(regexUtil, RegexUtil.class);
+		apiUtil = (APIUtil) LApplicationContext.getBeanInstance(apiUtil, APIUtil.class);
 		
 		String out = null;
 		StringBuffer finalBuffer = null;
 		
 		Set<String> finalSet = new LinkedHashSet<String>();
-		List<String> kor = new ArrayList<String>(koreanAnalyzer.getKoreanMorphologicalAnalysis(sentence));
-		List<String> eng = new ArrayList<String>(englishAnalyzer.getEnglishMorphologicalAnalysis(sentence));
+		List<String> kor = new ArrayList<String>();
+		List<String> eng = new ArrayList<String>();
 		
-		//logger.debug("# kor : {}", kor);
-		//logger.debug("# eng : {}", eng);
+		//문자열 내에 한글/한문이 존재하면 형태소 분석실행
+		if(regexUtil.testPattern(sentence, MorphemeUtil.PATTERN_KOREAN_SENTENCE)) {
+			//영문삭제 (한/중 분석만을 위함) & ( 주	) 삭제
+			sentence = apiUtil.toHalfChar(sentence).replaceAll("(?i)".concat("\\(([	 주]+)\\)|").concat(MorphemeUtil.PATTERN_ENGLISH_SENTENCE), OperateConstants.STR_BLANK).trim();			
+			kor = new ArrayList<String>(koreanAnalyzers.getKoreanMorphologicalAnalysis(sentence));
+		}
+		
+		//한/중/일 문자삭제 (영문 분석을 위함)
+		if(regexUtil.testPattern(sentence, MorphemeUtil.PATTERN_ENGLISH_SENTENCE)) {
+			//문자열 내에 영문이 존재하면 형태소 분석실행
+			sentence = apiUtil.toHalfChar(sentence).replaceAll("(?i)".concat(MorphemeUtil.PATTERN_KOREAN_SENTENCE), OperateConstants.STR_BLANK).trim();
+			eng = new ArrayList<String>(englishAnalyzers.getEnglishMorphologicalAnalysis(sentence));
+		}
 		
 		if(kor.size() > 0) {
 			Collections.sort(kor);
-			//logger.debug("# kor sort : {}", kor);
 		}
 
 		if(eng.size() > 0) {
 			Collections.sort(eng);
-			//logger.debug("# eng sort : {}", eng);
 		}
 		
 		if(firstLang.equalsIgnoreCase("kor")) {
@@ -976,8 +1008,9 @@ public class CommonUtil {
 			finalBuffer.append(division);
 		}
 		
-		out = finalBuffer.toString().substring(0, finalBuffer.toString().length() - division.length());
-		
+		if(finalBuffer.toString().length() > 0) {
+			out = finalBuffer.toString().substring(0, finalBuffer.toString().length() - division.length());
+		}
 		//logger.debug("[END] getKorEngMorphemes : {}", out);
 		return out;
 	}

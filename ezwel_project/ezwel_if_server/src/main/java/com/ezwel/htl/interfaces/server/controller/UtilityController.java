@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
-import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzer;
-import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzer;
+import com.ezwel.htl.interfaces.commons.utils.RegexUtil;
+import com.ezwel.htl.interfaces.server.commons.morpheme.cm.MorphemeUtil;
+import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzers;
+import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.sdo.AgentApiKeySDO;
 import com.ezwel.htl.interfaces.server.commons.sdo.MorphemeSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
@@ -28,9 +31,11 @@ public class UtilityController {
 	private static final Logger logger = LoggerFactory.getLogger(UtilityController.class);
 	
 	private APIUtil apiUtil;
-	
 	private CommonUtil commonUtil;
-
+	private KoreanAnalyzers koreanAnalyzer;
+	private EnglishAnalyzers englishAnalayzer;
+	private RegexUtil regexUtil;
+	
 	@APIOperation(description="테스트 JSP Forward Operation")
 	@RequestMapping(value="/test/{fileName}")
 	public String forward(@PathVariable("fileName") String fileName, Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -68,20 +73,34 @@ public class UtilityController {
 
 		MorphemeSDO out = new MorphemeSDO();
 		
-		KoreanAnalyzer koreanAnalyzer = new KoreanAnalyzer();
-		EnglishAnalyzer englishAnalayzer = new EnglishAnalyzer();
+		koreanAnalyzer = (KoreanAnalyzers) LApplicationContext.getBean(koreanAnalyzer, KoreanAnalyzers.class);
+		englishAnalayzer = (EnglishAnalyzers) LApplicationContext.getBean(englishAnalayzer, EnglishAnalyzers.class);
+		regexUtil = (RegexUtil) LApplicationContext.getBeanInstance(regexUtil, RegexUtil.class);
+		apiUtil = (APIUtil) LApplicationContext.getBeanInstance(apiUtil, APIUtil.class);
 		
 		List<List<String>> korMorphemeList = new ArrayList<List<String>>();
 		for(String input : morphemeSDO.getSentenceList()) {
+			if(input == null || input.isEmpty()) {
+				continue;
+			}
 			
-			korMorphemeList.add((List<String>) koreanAnalyzer.getKoreanMorphologicalAnalysis(input));
+			if(regexUtil.testPattern(input, MorphemeUtil.PATTERN_KOREAN_SENTENCE)) {
+				input = apiUtil.toHalfChar(input).replaceAll("(?i)".concat("\\(([	 주]+)\\)|").concat(MorphemeUtil.PATTERN_ENGLISH_SENTENCE), OperateConstants.STR_BLANK).trim();
+				korMorphemeList.add(new ArrayList<String>(koreanAnalyzer.getKoreanMorphologicalAnalysis(input)));
+			}
 		}		
 		out.setKorMorphemeList(korMorphemeList);
 		
 		List<List<String>> engMorphemeList = new ArrayList<List<String>>();
 		for(String input : morphemeSDO.getSentenceList()) {
+			if(input == null || input.isEmpty()) {
+				continue;
+			}
 			
-			engMorphemeList.add((List<String>) englishAnalayzer.getEnglishMorphologicalAnalysis(input));
+			if(regexUtil.testPattern(input, MorphemeUtil.PATTERN_ENGLISH_SENTENCE)) {
+				input = apiUtil.toHalfChar(input).replaceAll("(?i)".concat(MorphemeUtil.PATTERN_KOREAN_SENTENCE), OperateConstants.STR_BLANK).trim();
+				engMorphemeList.add(new ArrayList<String>(englishAnalayzer.getEnglishMorphologicalAnalysis(input)));
+			}
 		}		
 		out.setEngMorphemeList(engMorphemeList);
 		

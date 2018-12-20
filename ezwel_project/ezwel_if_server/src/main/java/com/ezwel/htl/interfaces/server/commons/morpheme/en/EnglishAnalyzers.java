@@ -17,16 +17,18 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 
+@Component
 @APIType(description="영문 형태소 분석기")
-public class EnglishAnalyzer {
+public class EnglishAnalyzers {
 
-	private static final Logger logger = LoggerFactory.getLogger(EnglishAnalyzer.class);
+	private static final Logger logger = LoggerFactory.getLogger(EnglishAnalyzers.class);
 	
 	private APIUtil apiUtil;
 	
@@ -91,8 +93,9 @@ public class EnglishAnalyzer {
 				//new SnowballAnalyzer("English", ENGLISH_STOP_WORDS),
 			 };
 	}
+	// org.apache.lucene.analysis.StopwordAnalyzerBase
 	
-	public EnglishAnalyzer() {
+	public EnglishAnalyzers() {
 		if(apiUtil == null) {
 			apiUtil = new APIUtil();
 		}
@@ -103,10 +106,11 @@ public class EnglishAnalyzer {
 	 * @return
 	 * @throws IOException
 	 */
+	@APIOperation(description="영문 형태소 복합 분석")
 	public Set<String> getEnglishMorphologicalAnalysis(String sentence)  {
-		if(IS_LOGGING) {
-			logger.debug("[START] Analzying : \"{}\"", sentence);
-		}
+		logger.debug("[START-ENGLISH] getEnglishMorphologicalAnalysis input : {}", sentence);
+		
+		//각 형태소 분석 결과내 중복 제거를 위한 Set
 		Set<String> out = new LinkedHashSet<String>();
 
 		if(APIUtil.isEmpty(sentence)) {
@@ -115,62 +119,56 @@ public class EnglishAnalyzer {
 		
 		apiUtil = (APIUtil) LApplicationContext.getBean(apiUtil, APIUtil.class);
 		
-		//한/중/일 문자삭제
-		sentence = apiUtil.toHalfChar(sentence).replaceAll("(?i)([\\p{S}\\p{P}ºㄱ-ㅎㅏ-ㅣ가-힣ァ-ンあ-ん一-齢𠮟\u2e80-\u2eff\u31c0-\u31ef\u3200-\u32ff\u3400-\u4dbf\u4e00-\u9fbf\uf900-\ufaff]+)", OperateConstants.STR_BLANK);
-		
 		TokenStream ts = null;
 		Analyzer analyzer = null;
 		CharTermAttribute termAtt = null;
-		boolean isError = false;
-		
+
 		try {
+
 			//설정된 영문 형태소 분석기 개수만큼 분석한다.
 			for (int i = 0; i < ENGLISH_ANALYZERS.length; i++) {
-				analyzer = ENGLISH_ANALYZERS[i];
 				
-				if(IS_LOGGING) {
-					logger.debug("- Analyzer(Class) : {}", analyzer.getClass().getName());
-				}
-			
-				ts = analyzer.tokenStream("contents", new StringReader(sentence));
-				termAtt = ts.getAttribute(CharTermAttribute.class);
-				ts.reset();
-		       
-				while(ts.incrementToken()) {
-					if(IS_LOGGING) {
-						logger.debug("- English Morpheme : {}", termAtt.toString());
-					}
-					if(APIUtil.isNotEmpty(termAtt.toString().trim())) {
-						out.add(termAtt.toString().trim()); 
-					}
-				}
-				
-				if(ts != null) {
-					try {
-						ts.end();
-						ts.close();
-					} catch (IOException e) {
-						logger.error("[IOException] 영문 형태소 분석기 tokenStream을 닫는도중 장애 발생", e);
-					}
-				}	
-			}
-			
-		} catch (IOException e) {
-			isError = true;
-			logger.error("영문 형태소 분석 도중 장애 발생", e);
-		}	
-		finally {
-			
-			if(isError && ts != null) {
 				try {
-					ts.end();
-					ts.close();
-				} catch (IOException e) {
-					logger.error("[IOException] 영문 형태소 분석기 tokenStream을 닫는도중 장애 발생", e);
+					analyzer = ENGLISH_ANALYZERS[i];
+					
+					if(IS_LOGGING) {
+						logger.debug("- Analyzer Name : {}", analyzer.getClass().getName());
+					}
+				
+					//문장당 형태소 분석
+					ts = analyzer.tokenStream("contents", new StringReader(sentence));
+					termAtt = ts.getAttribute(CharTermAttribute.class);
+					ts.reset();
+			       
+					while(ts.incrementToken()) {
+						if(IS_LOGGING) {
+							logger.debug("- English Morpheme : {}", termAtt.toString());
+						}
+						if(APIUtil.isNotEmpty(termAtt.toString().trim())) {
+							out.add(termAtt.toString().trim()); 
+						}
+					}
+				
+				} catch (Exception e) {
+					logger.debug("[LOOP-Exception] 영문 형태소 전체 기능 분석 장애 발생", e);
+				} finally {
+					
+					if(ts != null) {
+						try {
+							ts.end();
+							ts.close();
+						} catch (IOException e) {
+							logger.error("[IOException] 영문 형태소 분석기 tokenStream을 닫는도중 장애 발생", e);
+						}
+					}
 				}
 			}
 		}
+		catch(Exception e) {
+			logger.error("[Exception] 영문 형태소 분석기 장애 발생", e);
+		}
 		
+		logger.debug("[END-ENGLISH] getEnglishMorphologicalAnalysis output : {}", out);
 		return out;
 	}
 }

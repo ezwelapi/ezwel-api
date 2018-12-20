@@ -1,5 +1,6 @@
 package ezwel_if_server.test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -12,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
-import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzer;
-import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzer;
+import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzers;
+import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.UnicodeUtil;
 
@@ -89,7 +90,7 @@ public class UtilTest {
     }
 
     //@Test
-    public void urlTest() throws MorphException {
+    public void urlTest() throws MorphException, IOException {
     	
     	CommonUtil common = new CommonUtil();
     	
@@ -100,7 +101,7 @@ public class UtilTest {
     	logger.debug("{}", fullChar);
     	
         // 형태소 분석
-        KoreanAnalyzer aah = new KoreanAnalyzer();
+        KoreanAnalyzers aah = new KoreanAnalyzers();
         
         String input0 = "올해 크리스마스에는 눈이 내리지 않고 비교적 포근할 전망이다.";
         List<String> result0 = aah.basicAnalyze(input0);
@@ -136,7 +137,7 @@ public class UtilTest {
         logger.debug("finals : {}", finals);
     	
         
-        EnglishAnalyzer eng = new EnglishAnalyzer();
+        EnglishAnalyzers eng = new EnglishAnalyzers();
         String entText = "Currently, there are commercial products and open source projects for Korean Elastic Search Korean morphological analyzer, and it is developed by user if necessary.";
         Set<String> analyzer = eng.getEnglishMorphologicalAnalysis(entText);
         
@@ -152,10 +153,25 @@ public class UtilTest {
         
     }
     
+    //@Test
+    public void regexTest() {
+    	
+        String[] sentenceList = new String[] {
+        		"( 주	)신라호텔(검)",
+        		"신라호텔(	주)( 검 )"
+	    };
+        
+        for(String text : sentenceList) {
+        	logger.debug( "text : {}", text.replaceAll("\\(([	 주]+)\\)|\\(([	 검]+)\\)", "") );
+        }
+        
+        
+    }
+    
     @Test
     public void morpTest() {
     	
-CommonUtil common = new CommonUtil();
+    	CommonUtil common = new CommonUtil();
         
         String[] faclArray = new String[]{
         "영광 노을연가 펜션",
@@ -3184,7 +3200,13 @@ CommonUtil common = new CommonUtil();
         "가평 숲속의아침풍경 펜션",
         "파주 산촌체험마을슈가빌 펜션",
         "에이스펜션",
-        "가평 유 펜션"};
+        "가평 유 펜션",
+        "gapyung core pension",
+        "paradais hotel",
+        "라마다 서울",
+        "강남아르누보씨티",
+        "알티호텔"
+        };
         
         for(String item : faclArray) {
         	common.getKorAndEngMorphemes("kor", item, ","); 

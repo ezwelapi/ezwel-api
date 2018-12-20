@@ -82,6 +82,33 @@ public class LApplicationContext implements ApplicationContextAware, BeanNameAwa
 		}
 	}
 	
+	public static Object getBeanInstance(Object userCurrentBean, Class<?> userBeanName) {
+		
+		Object out = null;
+		Object currentBean = userCurrentBean;
+		Class<?> beanName = userBeanName;
+		try {
+			
+			if(currentBean != null) {
+				out = currentBean;
+			}
+			else if(applicationContext != null) {
+				out = applicationContext.getBean(beanName);
+			}
+			
+			if(out == null) {
+				out = beanName.newInstance();
+			}
+		} catch (InstantiationException e) {
+			throw new APIException("인스턴스 초기화중 애러발생", e);
+		} catch (IllegalAccessException e) {
+			throw new APIException("인스턴스 초기화중 애러발생", e);
+		} catch (Exception e) {
+			throw new APIException("빈 초기화 중 애러발생", e);
+		}
+		return out;
+	}
+	
 	/**
 	 * <pre>
 	 * [메서드 설명]

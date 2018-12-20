@@ -20,6 +20,7 @@ public class RegexUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(RegexUtil.class);
 
+	
 	/**
 	 * 주어진 패턴컴파일, Matcher 실행 및 Matcher 리턴
 	 * @param contents
@@ -61,7 +62,6 @@ public class RegexUtil {
 	 */
 	@APIOperation(description="바인드된 대상문자열 내에 패턴에 해당하는 부분이 있는지 체크하여 줍니다.")
 	public boolean testPattern(String sentence, String pattern) {
-		logger.debug("[START] testPattern objectStr : {}, pattern : {}" , sentence , pattern);
 		
 		boolean findMatcher = false;
 		if(APIUtil.isNotEmptyStringArray(new String[]{sentence, pattern})){
@@ -69,7 +69,6 @@ public class RegexUtil {
 			findMatcher = matcher.find();
 		}
 		
-		logger.debug("[END] testPattern findMatcher : {}" , findMatcher);
 		return findMatcher;
 	}
 

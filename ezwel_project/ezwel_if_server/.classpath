@@ -37,11 +37,8 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/core-3.1.0.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/cors-filter-2.6.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/english-1.1.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/java-property-utils-1.9.1.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/javase-3.1.0.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/morph-1.1.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/russian-1.1.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/javax.inject-1.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/arirang-morph-1.1.0.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-analyzers-common-5.0.0.jar"/>
