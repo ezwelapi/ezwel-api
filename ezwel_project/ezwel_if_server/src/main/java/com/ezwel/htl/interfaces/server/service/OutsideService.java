@@ -10,8 +10,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -37,6 +35,7 @@ import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
 import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractServiceObject;
 import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
+import com.ezwel.htl.interfaces.server.commons.morpheme.cm.MorphemeUtil;
 import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzer;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
@@ -179,11 +178,7 @@ public class OutsideService extends AbstractServiceObject {
 		Integer nextIndex = null;
 		List<String> ezcFaclAmentArrays = null;
 		List<ImageSDO> imageList = null;
-		//형태소 분석기 관련 변수 선언
-		StringBuilder actual = null;
-		TokenStream tokens = null;
-		CharTermAttribute termAtt = null;
-		
+
 		try {
 			/**
 			 * 1. 제휴사 별 TX 실행
@@ -217,7 +212,7 @@ public class OutsideService extends AbstractServiceObject {
 					
 					for(AllRegDataOutSDO faclData : faclDataList) {
 						/** 제휴사 별 시설 데이터 세팅 */  /* => 이슈 : 제휴사 ID : 호텔패스글로벌 전문에 데이터가  전달되어오지 않기때문에 임시로 APIUtil.getId() 처리함 */
-						partnerGoodsCd = APIUtil.NVL(faclData.getPdtNo(), APIUtil.getId());
+						partnerGoodsCd = APIUtil.NVL(faclData.getPdtNo()/*, APIUtil.getId()*/);
 						
 						ezcFacl = new EzcFacl(); 
 						//ezcFacl.setFaclCd(faclCd); //sequnce
@@ -253,10 +248,10 @@ public class OutsideService extends AbstractServiceObject {
 						ezcFacl.setConfirmStatus(CodeDataConstants.CD_CONFIRM_STATUS_G0060003); //확정 상태
 
 						// 국문 형태소 ( 한글명에 영문이 석여있는 시설들이 있음으로 한글과 영문 형태소 분석을 동시 실행한다.)
-						ezcFacl.setFaclKorMorp(commonUtil.getKorAndEngMorphemes("kor", ezcFacl.getFaclNmKor()));
+						ezcFacl.setFaclKorMorp(commonUtil.getMorphologicalAnalysis(MorphemeUtil.MORP_LANG_KO, ezcFacl.getFaclNmKor()));
 						
 						// 영문 형태소 ( 영문명에 한글이 석여있는 시설들이 있음으로 한글과 영문 형태소 분석을 동시 실행한다.)
-						ezcFacl.setFaclEngMorp(commonUtil.getKorAndEngMorphemes("eng", ezcFacl.getFaclNmEng()));
+						ezcFacl.setFaclEngMorp(commonUtil.getMorphologicalAnalysis(MorphemeUtil.MORP_LANG_EN, ezcFacl.getFaclNmEng()));
 
 						//서브 이미지 세팅
 						if(faclData.getSubImages() != null) {
@@ -423,6 +418,9 @@ public class OutsideService extends AbstractServiceObject {
 			if(inRealtimePart != null) {
 				//파일 삭제
 				if(inRealtimePart.getDeleteDownloadFilePathList() != null) {
+					
+					logger.debug("# RealtimePart 삭제대상 파일 개수 : {}", inRealtimePart.getDeleteDownloadFilePathList().size());
+					
 					for(String deletePath : inRealtimePart.getDeleteDownloadFilePathList()) {
 						deleteFile = new File(deletePath);
 						isDelete = false;
@@ -443,6 +441,9 @@ public class OutsideService extends AbstractServiceObject {
 			if(inRealtimePart != null) {
 				
 				if(inRealtimePart.getCreateDownloadFileUrlList() != null) {
+					
+					logger.debug("# RealtimePart 신규 다운로드 대상 파일 개수 : {}", inRealtimePart.getCreateDownloadFileUrlList().size());
+					
 					ezcFaclImgList = new ArrayList<EzcFaclImg>();
 					for(AllRegDataRealtimeImageOutSDO realtimePartFile : inRealtimePart.getCreateDownloadFileUrlList()) {
 						

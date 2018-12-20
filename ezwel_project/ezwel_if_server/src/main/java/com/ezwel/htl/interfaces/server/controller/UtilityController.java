@@ -75,8 +75,8 @@ public class UtilityController {
 		
 		koreanAnalyzer = (KoreanAnalyzers) LApplicationContext.getBean(koreanAnalyzer, KoreanAnalyzers.class);
 		englishAnalayzer = (EnglishAnalyzers) LApplicationContext.getBean(englishAnalayzer, EnglishAnalyzers.class);
-		regexUtil = (RegexUtil) LApplicationContext.getBeanInstance(regexUtil, RegexUtil.class);
-		apiUtil = (APIUtil) LApplicationContext.getBeanInstance(apiUtil, APIUtil.class);
+		regexUtil = (RegexUtil) LApplicationContext.getBean(regexUtil, RegexUtil.class);
+		apiUtil = (APIUtil) LApplicationContext.getBean(apiUtil, APIUtil.class);
 		
 		List<List<String>> korMorphemeList = new ArrayList<List<String>>();
 		for(String input : morphemeSDO.getSentenceList()) {
@@ -85,7 +85,7 @@ public class UtilityController {
 			}
 			
 			if(regexUtil.testPattern(input, MorphemeUtil.PATTERN_KOREAN_SENTENCE)) {
-				input = apiUtil.toHalfChar(input).replaceAll("(?i)".concat("\\(([	 주]+)\\)|").concat(MorphemeUtil.PATTERN_ENGLISH_SENTENCE), OperateConstants.STR_BLANK).trim();
+				input = apiUtil.toHalfChar(input).replaceAll("(?i)".concat(MorphemeUtil.PATTERN_CORP_SIGN).concat("|").concat(MorphemeUtil.PATTERN_SPEC_CHAR).concat("|").concat(MorphemeUtil.PATTERN_ENGLISH_SENTENCE), OperateConstants.STR_BLANK).trim();
 				korMorphemeList.add(new ArrayList<String>(koreanAnalyzer.getKoreanMorphologicalAnalysis(input)));
 			}
 		}		
@@ -98,7 +98,7 @@ public class UtilityController {
 			}
 			
 			if(regexUtil.testPattern(input, MorphemeUtil.PATTERN_ENGLISH_SENTENCE)) {
-				input = apiUtil.toHalfChar(input).replaceAll("(?i)".concat(MorphemeUtil.PATTERN_KOREAN_SENTENCE), OperateConstants.STR_BLANK).trim();
+				input = apiUtil.toHalfChar(input).replaceAll("(?i)".concat(MorphemeUtil.PATTERN_SPEC_CHAR).concat("|").concat(MorphemeUtil.PATTERN_KOREAN_SENTENCE), OperateConstants.STR_BLANK).trim();
 				engMorphemeList.add(new ArrayList<String>(englishAnalayzer.getEnglishMorphologicalAnalysis(input)));
 			}
 		}		

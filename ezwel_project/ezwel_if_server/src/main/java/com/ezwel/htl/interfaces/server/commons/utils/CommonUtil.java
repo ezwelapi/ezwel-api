@@ -939,12 +939,12 @@ public class CommonUtil {
     }
 
 	@APIOperation(description="국문/영문 형태소 복합 분석")
-	public String getKorAndEngMorphemes(String firstLang, String sentence) {
-		return getKorAndEngMorphemes(firstLang, sentence, null);
+	public String getMorphologicalAnalysis(String firstLang, String sentence) {
+		return getMorphologicalAnalysis(firstLang, sentence, null);
 	}
 	
 	@APIOperation(description="국문/영문 형태소 복합 분석")
-	public String getKorAndEngMorphemes(String firstLang, String sentence, String division) {
+	public String getMorphologicalAnalysis(String firstLang, String sentence, String division) {
 		//logger.debug("[START] getKorEngMorphemes : \"{}\", division : \"{}\"", sentence, division);
 		
 		if(APIUtil.isEmpty(sentence)) {
@@ -952,15 +952,15 @@ public class CommonUtil {
 			return null; 
 		}
 		
-		if(APIUtil.isEmpty(sentence)) {
+		if(APIUtil.isEmpty(division)) {
 			division = OperateConstants.STR_SPEC_COMA;
 		}
 		
-		//WARN : getBeanInstance is test getBean
-		koreanAnalyzers = (KoreanAnalyzers) LApplicationContext.getBeanInstance(koreanAnalyzers, KoreanAnalyzers.class);
-		englishAnalyzers = (EnglishAnalyzers) LApplicationContext.getBeanInstance(englishAnalyzers, EnglishAnalyzers.class);
-		regexUtil = (RegexUtil) LApplicationContext.getBeanInstance(regexUtil, RegexUtil.class);
-		apiUtil = (APIUtil) LApplicationContext.getBeanInstance(apiUtil, APIUtil.class);
+		//WARN : getBean is test getBean
+		koreanAnalyzers = (KoreanAnalyzers) LApplicationContext.getBean(koreanAnalyzers, KoreanAnalyzers.class);
+		englishAnalyzers = (EnglishAnalyzers) LApplicationContext.getBean(englishAnalyzers, EnglishAnalyzers.class);
+		regexUtil = (RegexUtil) LApplicationContext.getBean(regexUtil, RegexUtil.class);
+		apiUtil = (APIUtil) LApplicationContext.getBean(apiUtil, APIUtil.class);
 		
 		String out = null;
 		StringBuffer finalBuffer = null;
@@ -972,14 +972,14 @@ public class CommonUtil {
 		//문자열 내에 한글/한문이 존재하면 형태소 분석실행
 		if(regexUtil.testPattern(sentence, MorphemeUtil.PATTERN_KOREAN_SENTENCE)) {
 			//영문삭제 (한/중 분석만을 위함) & ( 주	) 삭제
-			sentence = apiUtil.toHalfChar(sentence).replaceAll("(?i)".concat("\\(([	 주]+)\\)|").concat(MorphemeUtil.PATTERN_ENGLISH_SENTENCE), OperateConstants.STR_BLANK).trim();			
+			sentence = apiUtil.toHalfChar(sentence).replaceAll("(?i)".concat(MorphemeUtil.PATTERN_CORP_SIGN).concat("|").concat(MorphemeUtil.PATTERN_SPEC_CHAR).concat("|").concat(MorphemeUtil.PATTERN_ENGLISH_SENTENCE), OperateConstants.STR_BLANK).trim();			
 			kor = new ArrayList<String>(koreanAnalyzers.getKoreanMorphologicalAnalysis(sentence));
 		}
 		
 		//한/중/일 문자삭제 (영문 분석을 위함)
 		if(regexUtil.testPattern(sentence, MorphemeUtil.PATTERN_ENGLISH_SENTENCE)) {
 			//문자열 내에 영문이 존재하면 형태소 분석실행
-			sentence = apiUtil.toHalfChar(sentence).replaceAll("(?i)".concat(MorphemeUtil.PATTERN_KOREAN_SENTENCE), OperateConstants.STR_BLANK).trim();
+			sentence = apiUtil.toHalfChar(sentence).replaceAll("(?i)".concat(MorphemeUtil.PATTERN_SPEC_CHAR).concat("|").concat(MorphemeUtil.PATTERN_KOREAN_SENTENCE), OperateConstants.STR_BLANK).trim();
 			eng = new ArrayList<String>(englishAnalyzers.getEnglishMorphologicalAnalysis(sentence));
 		}
 		
@@ -991,7 +991,7 @@ public class CommonUtil {
 			Collections.sort(eng);
 		}
 		
-		if(firstLang.equalsIgnoreCase("kor")) {
+		if(firstLang.equalsIgnoreCase(MorphemeUtil.MORP_LANG_KO)) {
 			finalSet.addAll(kor);
 			finalSet.addAll(eng);
 		}
@@ -1007,6 +1007,9 @@ public class CommonUtil {
 			finalBuffer.append(morpheme);
 			finalBuffer.append(division);
 		}
+		
+		//logger.debug("# finalBuffer : {}", finalBuffer);
+		//logger.debug("# division : {}", division);
 		
 		if(finalBuffer.toString().length() > 0) {
 			out = finalBuffer.toString().substring(0, finalBuffer.toString().length() - division.length());

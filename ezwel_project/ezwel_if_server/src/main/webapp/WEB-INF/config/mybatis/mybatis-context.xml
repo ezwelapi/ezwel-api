@@ -19,13 +19,13 @@
 		<beans:property name="locations" value="WEB-INF/config/datasource/jdbc.properties"/>
 	</beans:bean>
 
-	<!-- WAS JNDI DataSource lookup 
+	<!-- WAS JNDI DataSource lookup -->
 	<beans:bean id="loadJdbcDataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> 
 		<property name="jndiName" value="${oracle.jndi.datasource.database}"/> 
 	</beans:bean> 
-	-->
+	
 	 
-	<!-- //jdbc -->
+	<!-- //jdbc 
 	<beans:bean id="loadJdbcDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<beans:property name="driverClassName" value="${oracle.jdbc.driverClass}"/>
 		<beans:property name="url" value="${oracle.jdbc.url}"/>
@@ -39,7 +39,7 @@
         <beans:property name="defaultAutoCommit" value="${oracle.jdbc.defaultAutoCommit}" />	
         <beans:property name="validationQuery" value="${oracle.jdbc.validationQuery}" />	
 	</beans:bean>
-	
+	-->
 	
 	<beans:bean id="mainJdbcDataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
 		<beans:constructor-arg ref="loadJdbcDataSource" />
