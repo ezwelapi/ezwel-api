@@ -36,8 +36,25 @@ try{
 	out.println("DataSource lookup Fail!!");
 	e.printStackTrace();
 } finally {
-  if (rs != null) try { rs.close(); } catch(SQLException ex) { e.printStackTrace(); }
-  if (stmt != null) try { stmt.close(); } catch(SQLException ex) { e.printStackTrace(); }
-  if (conn != null) try { conn.close(); } catch(SQLException ex) { e.printStackTrace(); }
+	if(rs!=null)
+		try {
+			rs.close();
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		}
+	
+	if(stmt!=null)
+		try {
+			stmt.close();
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		}
+	
+	if(conn!=null)
+		try {
+			conn.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 }
 %>

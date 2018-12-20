@@ -37,5 +37,5 @@ public class MorphemeUtil {
 		// MorphemeUtil.PATTERN_SPEC_CHAR
 		PATTERN_SPEC_CHAR = "([\\p{S}\\p{P}º]+)";
 	}
-	
+
 }
