@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.commons.configure;
+package ezwel_if;
 
 import java.util.List;
 

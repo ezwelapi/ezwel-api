@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.http;
+package ezwel_if;
 
 import java.util.ArrayList;
 import java.util.List;
