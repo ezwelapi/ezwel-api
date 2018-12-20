@@ -268,7 +268,7 @@
 		</httpChan>	
 
 		<httpChan>
-			<description>객실정보조회</description>
+			<description>객실정보조회-호텔패스글로벌</description>
 			<chanId>roomRead</chanId>
 			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/RoomInfoRQ.ashx</restURI>
 			<receiverRestURI>/service/callRoomRead</receiverRestURI>
@@ -278,7 +278,7 @@
 		</httpChan>
 		<httpChan>
 			<chanId>cancelFeePsrc</chanId>
-			<description>취소수수료규정</description>
+			<description>취소수수료규정-호텔패스글로벌</description>
 			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/CancelFeeRQ.ashx</restURI>
 			<receiverRestURI>/service/callCancelFeePsrc</receiverRestURI>
 			<encoding>UTF-8</encoding>
@@ -287,7 +287,7 @@
 		</httpChan>
 		<httpChan>
 			<chanId>rsvHistSend</chanId>
-			<description>결재완료내역전송</description>
+			<description>결재완료내역전송-호텔패스글로벌</description>
 			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/BookingOrderRQ.ashx</restURI>
 			<receiverRestURI>/service/callRsvHistSend</receiverRestURI>
 			<encoding>UTF-8</encoding>
@@ -296,7 +296,7 @@
 		</httpChan>										
 		<httpChan>
 			<chanId>cancelFeeAmt</chanId>
-			<description>취소수수료계산</description>
+			<description>취소수수료계산-호텔패스글로벌</description>
 			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/CancelFeeOrderRQ.ashx</restURI>
 			<receiverRestURI>/service/callCancelFeeAmt</receiverRestURI>
 			<encoding>UTF-8</encoding>
@@ -305,7 +305,7 @@
 		</httpChan>	
 		<httpChan>
 			<chanId>orderCancelReq</chanId>
-			<description>주문취소요청</description>
+			<description>주문취소요청-호텔패스글로벌</description>
 			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/CancelOrderRQ.ashx</restURI>
 			<receiverRestURI>/service/callOrderCancelReq</receiverRestURI>
 			<encoding>UTF-8</encoding>
@@ -314,7 +314,7 @@
 		</httpChan>	
 		<httpChan>
 			<chanId>omiNumIdn</chanId>
-			<description>누락건확인</description>
+			<description>누락건확인-호텔패스글로벌</description>
 			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/SyncBookingRQ.ashx</restURI>
 			<receiverRestURI>/service/callOmiNumIdn</receiverRestURI>
 			<encoding>UTF-8</encoding>
@@ -323,7 +323,7 @@
 		</httpChan>
 		<httpChan>
 			<chanId>ezwelJob</chanId>
-			<description>주문대사(이지웰)</description>
+			<description>주문대사(이지웰)-호텔패스글로벌</description>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/ezwelJob</restURI>
 			<receiverRestURI>/service/callEzwelJob</receiverRestURI>
 			<encoding>UTF-8</encoding>
