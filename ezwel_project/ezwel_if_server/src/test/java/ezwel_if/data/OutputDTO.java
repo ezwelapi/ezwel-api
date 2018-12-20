@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.http.dto;
+package ezwel_if.data;
 
 import java.util.HashMap;
 import java.util.List;

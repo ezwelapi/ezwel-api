@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.http;
+package ezwel_if;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

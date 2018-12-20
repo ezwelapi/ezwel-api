@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.utils;
+package ezwel_if;
 
 import java.rmi.dgc.VMID;
 import java.sql.Timestamp;
