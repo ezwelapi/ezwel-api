@@ -324,7 +324,7 @@
 		<httpChan>
 			<chanId>ezwelJob</chanId>
 			<description>주문대사(이지웰)-호텔패스글로벌</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/ezwelJob</restURI>
+			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/HTPWS_EZWEL_META.asmx?op=gfnGetBookingList</restURI>
 			<receiverRestURI>/service/callEzwelJob</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>

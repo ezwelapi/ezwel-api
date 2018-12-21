@@ -259,7 +259,7 @@ var testAssets = {
 				orderCancelReqInSDO : {
 					"otaId": "10055550",
 					"rsvNo": "E000000003",
-					"otaRsvNo": "000000123",
+					"otaRsvNo": "1812200852-1",
 					"rsvPrice": 0,
 					"cancelCharge": 0
 				}
