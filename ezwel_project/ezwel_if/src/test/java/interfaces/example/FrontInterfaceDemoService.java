@@ -96,17 +96,17 @@ public class FrontInterfaceDemoService extends TestCase {
 		userAgentDTO.setHttpRequestId("test");
 		
 		//Input parameter
-		CancelFeePsrcInSDO sdo = new CancelFeePsrcInSDO();
+		CancelFeePsrcInSDO cancelFeePsrcSDO = new CancelFeePsrcInSDO();
 		
-		sdo.setOtaId("10055550");
-		sdo.setPdtNo("KRSEL112");
-		sdo.setCheckInDate("20190101");
-		sdo.setCheckOutDate("20190102");
-		sdo.setRoomNo("Yob1daQcPbOlVncEHz/Q62kMjcnsyRrO0QH/U/qJzoi^JE^t1pCAhgNe80PkfWL7SQwNgwaDCDPX6r37ofNtXZuytTAdeJAo6WO8m3wHVREg5VuHdfOXK/v5oB/X1xkrdHjAJxAzF1vEiNFvpWFBXgstG1HUZrPvh^mfp97BEQ0NnGJJHoRFdtvpsLw3PbTWdNRjNMkeXuF0n4XmUgfzxNLMP3ThbqcvENb6JCLuIek=");
-		sdo.setRoomCnt(1);
+		cancelFeePsrcSDO.setOtaId("10055550");
+		cancelFeePsrcSDO.setPdtNo("KRSEL112");
+		cancelFeePsrcSDO.setCheckInDate("20190101");
+		cancelFeePsrcSDO.setCheckOutDate("20190102");
+		cancelFeePsrcSDO.setRoomNo("Yob1daQcPbOlVncEHz/Q62kMjcnsyRrO0QH/U/qJzoi^JE^t1pCAhgNe80PkfWL7SQwNgwaDCDPX6r37ofNtXZuytTAdeJAo6WO8m3wHVREg5VuHdfOXK/v5oB/X1xkrdHjAJxAzF1vEiNFvpWFBXgstG1HUZrPvh^mfp97BEQ0NnGJJHoRFdtvpsLw3PbTWdNRjNMkeXuF0n4XmUgfzxNLMP3ThbqcvENb6JCLuIek=");
+		cancelFeePsrcSDO.setRoomCnt(1);
 		
 		//interface api call
-		CancelFeePsrcOutSDO out = outIfService.callCancelFeePsrc(userAgentDTO, sdo);
+		CancelFeePsrcOutSDO out = outIfService.callCancelFeePsrc(userAgentDTO, cancelFeePsrcSDO);
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
@@ -128,7 +128,7 @@ public class FrontInterfaceDemoService extends TestCase {
 		userAgentDTO.setHttpRequestId("test");
 		
 		//Input parameter
-		RsvHistSendInSDO rsvHistSendInSDO = new RsvHistSendInSDO();
+		RsvHistSendInSDO rsvHistSendSDO = new RsvHistSendInSDO();
 		
 		RsvHistSendDataInSDO data = new RsvHistSendDataInSDO();
 		
@@ -156,10 +156,10 @@ public class FrontInterfaceDemoService extends TestCase {
 		data.setAdultCnt(2);
 		data.setChildCnt(0);
 		
-		rsvHistSendInSDO.setData(data);
+		rsvHistSendSDO.setData(data);
 		
 		//interface api call
-		RsvHistSendOutSDO out = outIfService.callRsvHistSend(userAgentDTO, rsvHistSendInSDO);
+		RsvHistSendOutSDO out = outIfService.callRsvHistSend(userAgentDTO, rsvHistSendSDO);
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
@@ -182,13 +182,13 @@ public class FrontInterfaceDemoService extends TestCase {
 		userAgentDTO.setHttpRequestId("test");
 		
 		//Input parameter
-		CancelFeeAmtInSDO sdo = new CancelFeeAmtInSDO();
+		CancelFeeAmtInSDO cancelFeeAmtSDO = new CancelFeeAmtInSDO();
 		
-		sdo.setOtaId("10055550");
-		sdo.setRsvNo("E123456789");
+		cancelFeeAmtSDO.setOtaId("10055550");
+		cancelFeeAmtSDO.setRsvNo("E123456789");
 		
 		//interface api call
-		CancelFeeAmtOutSDO out = outIfService.callCancelFeeAmt(userAgentDTO, sdo);
+		CancelFeeAmtOutSDO out = outIfService.callCancelFeeAmt(userAgentDTO, cancelFeeAmtSDO);
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
@@ -209,16 +209,16 @@ public class FrontInterfaceDemoService extends TestCase {
 		userAgentDTO.setHttpRequestId("test");
 		
 		//Input parameter
-		OrderCancelReqInSDO orderCancelReqInSDO = new OrderCancelReqInSDO();
+		OrderCancelReqInSDO orderCancelReqSDO = new OrderCancelReqInSDO();
 		
-		orderCancelReqInSDO.setOtaId("10055550");
-		orderCancelReqInSDO.setRsvNo("E123456789");
-		orderCancelReqInSDO.setOtaRsvNo("O123456789");
-		orderCancelReqInSDO.setRsvPrice(58000);
-		orderCancelReqInSDO.setCancelCharge(0);
+		orderCancelReqSDO.setOtaId("10055550");
+		orderCancelReqSDO.setRsvNo("E123456789");
+		orderCancelReqSDO.setOtaRsvNo("O123456789");
+		orderCancelReqSDO.setRsvPrice(58000);
+		orderCancelReqSDO.setCancelCharge(0);
 		
 		//interface api call
-		OrderCancelReqOutSDO out = outIfService.callOrderCancelReq(userAgentDTO, orderCancelReqInSDO);
+		OrderCancelReqOutSDO out = outIfService.callOrderCancelReq(userAgentDTO, orderCancelReqSDO);
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
@@ -238,14 +238,14 @@ public class FrontInterfaceDemoService extends TestCase {
 		userAgentDTO.setHttpRequestId("test");
 		
 		//Input parameter
-		OmiNumIdnInSDO omiNumIdnInSDO = new OmiNumIdnInSDO();
+		OmiNumIdnInSDO omiNumIdnSDO = new OmiNumIdnInSDO();
 		
-		omiNumIdnInSDO.setOtaId("10055550");
-		omiNumIdnInSDO.setRsvNo("E123456789");
-		omiNumIdnInSDO.setRsvStat("r02");
+		omiNumIdnSDO.setOtaId("10055550");
+		omiNumIdnSDO.setRsvNo("E123456789");
+		omiNumIdnSDO.setRsvStat("r02");
 		
 		//interface api call
-		OmiNumIdnOutSDO out = outIfService.callOmiNumIdn(userAgentDTO, omiNumIdnInSDO);
+		OmiNumIdnOutSDO out = outIfService.callOmiNumIdn(userAgentDTO, omiNumIdnSDO);
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
@@ -253,8 +253,6 @@ public class FrontInterfaceDemoService extends TestCase {
 		logger.debug("[END] callOmiNumIdn");
 	}
 	
-
-
 	// 주문대사(이지웰)
 	public void testEzwelJob()  throws Exception {		
 		logger.debug("[START] callEzwelJob");
@@ -268,15 +266,15 @@ public class FrontInterfaceDemoService extends TestCase {
 		userAgentDTO.setHttpRequestId("test");
 		
 		//Input parameter
-		EzwelJobInSDO ezwelJobInSDO = new EzwelJobInSDO();
+		EzwelJobInSDO ezwelJobSDO = new EzwelJobInSDO();
 		
-		ezwelJobInSDO.setOtaId("10055550");
-		ezwelJobInSDO.setRsvNo("E123456789");
-		ezwelJobInSDO.setRsvDateStart("20190101");
-		ezwelJobInSDO.setRsvDateEnd("20190102");
+		ezwelJobSDO.setOtaId("10055550");
+		ezwelJobSDO.setRsvNo("E123456789");
+		ezwelJobSDO.setRsvDateStart("20190101");
+		ezwelJobSDO.setRsvDateEnd("20190102");
 		
 		//interface api call
-		EzwelJobOutSDO out = outIfService.callEzwelJob(userAgentDTO, ezwelJobInSDO);
+		EzwelJobOutSDO out = outIfService.callEzwelJob(userAgentDTO, ezwelJobSDO);
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());

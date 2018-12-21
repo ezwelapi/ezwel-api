@@ -96,17 +96,17 @@ public class BOInterfaceDemoService extends TestCase {
 		userAgentDTO.setHttpRequestId("test");
 		
 		//Input parameter
-		CancelFeePsrcInSDO sdo = new CancelFeePsrcInSDO();
+		CancelFeePsrcInSDO cancelFeePsrcSDO = new CancelFeePsrcInSDO();
 		
-		sdo.setOtaId("10000496");
-		sdo.setPdtNo("1");
-		sdo.setCheckInDate("20190101");
-		sdo.setCheckOutDate("20190102");
-		sdo.setRoomNo("1");
-		sdo.setRoomCnt(1);
+		cancelFeePsrcSDO.setOtaId("10000496");
+		cancelFeePsrcSDO.setPdtNo("1");
+		cancelFeePsrcSDO.setCheckInDate("20190101");
+		cancelFeePsrcSDO.setCheckOutDate("20190102");
+		cancelFeePsrcSDO.setRoomNo("1");
+		cancelFeePsrcSDO.setRoomCnt(1);
 		
 		//interface api call
-		CancelFeePsrcOutSDO out = outIfAdapter.callCancelFeePsrc(userAgentDTO, sdo);
+		CancelFeePsrcOutSDO out = outIfAdapter.callCancelFeePsrc(userAgentDTO, cancelFeePsrcSDO);
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
@@ -128,7 +128,7 @@ public class BOInterfaceDemoService extends TestCase {
 		userAgentDTO.setHttpRequestId("test");
 		
 		//Input parameter
-		RsvHistSendInSDO rsvHistSendInSDO = new RsvHistSendInSDO();
+		RsvHistSendInSDO rsvHistSendSDO = new RsvHistSendInSDO();
 		
 		RsvHistSendDataInSDO data = new RsvHistSendDataInSDO();
 		
@@ -156,10 +156,10 @@ public class BOInterfaceDemoService extends TestCase {
 		data.setAdultCnt(2);
 		data.setChildCnt(1);
 		
-		rsvHistSendInSDO.setData(data);
+		rsvHistSendSDO.setData(data);
 		
 		//interface api call
-		RsvHistSendOutSDO out = outIfAdapter.callRsvHistSend(userAgentDTO, rsvHistSendInSDO);
+		RsvHistSendOutSDO out = outIfAdapter.callRsvHistSend(userAgentDTO, rsvHistSendSDO);
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
@@ -182,13 +182,13 @@ public class BOInterfaceDemoService extends TestCase {
 		userAgentDTO.setHttpRequestId("test");
 		
 		//Input parameter
-		CancelFeeAmtInSDO sdo = new CancelFeeAmtInSDO();
+		CancelFeeAmtInSDO cancelFeeAmtSDO = new CancelFeeAmtInSDO();
 		
-		sdo.setOtaId("10000496");
-		sdo.setRsvNo("12345678");
+		cancelFeeAmtSDO.setOtaId("10000496");
+		cancelFeeAmtSDO.setRsvNo("12345678");
 		
 		//interface api call
-		CancelFeeAmtOutSDO out = outIfAdapter.callCancelFeeAmt(userAgentDTO, sdo);
+		CancelFeeAmtOutSDO out = outIfAdapter.callCancelFeeAmt(userAgentDTO, cancelFeeAmtSDO);
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
@@ -209,16 +209,16 @@ public class BOInterfaceDemoService extends TestCase {
 		userAgentDTO.setHttpRequestId("test");
 		
 		//Input parameter
-		OrderCancelReqInSDO orderCancelReqInSDO = new OrderCancelReqInSDO();
+		OrderCancelReqInSDO orderCancelReqSDO = new OrderCancelReqInSDO();
 		
-		orderCancelReqInSDO.setOtaId("10000496");
-		orderCancelReqInSDO.setRsvNo("12345678");
-		orderCancelReqInSDO.setOtaRsvNo("12345678");
-		orderCancelReqInSDO.setRsvPrice(100000);
-		orderCancelReqInSDO.setCancelCharge(0);
+		orderCancelReqSDO.setOtaId("10000496");
+		orderCancelReqSDO.setRsvNo("12345678");
+		orderCancelReqSDO.setOtaRsvNo("12345678");
+		orderCancelReqSDO.setRsvPrice(100000);
+		orderCancelReqSDO.setCancelCharge(0);
 		
 		//interface api call
-		OrderCancelReqOutSDO out = outIfAdapter.callOrderCancelReq(userAgentDTO, orderCancelReqInSDO);
+		OrderCancelReqOutSDO out = outIfAdapter.callOrderCancelReq(userAgentDTO, orderCancelReqSDO);
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
@@ -238,14 +238,14 @@ public class BOInterfaceDemoService extends TestCase {
 		userAgentDTO.setHttpRequestId("test");
 		
 		//Input parameter
-		OmiNumIdnInSDO omiNumIdnInSDO = new OmiNumIdnInSDO();
+		OmiNumIdnInSDO omiNumIdnSDO = new OmiNumIdnInSDO();
 		
-		omiNumIdnInSDO.setOtaId("10000496");
-		omiNumIdnInSDO.setRsvNo("12345678");
-		omiNumIdnInSDO.setRsvStat("Y");
+		omiNumIdnSDO.setOtaId("10000496");
+		omiNumIdnSDO.setRsvNo("12345678");
+		omiNumIdnSDO.setRsvStat("Y");
 		
 		//interface api call
-		OmiNumIdnOutSDO out = outIfAdapter.callOmiNumIdn(userAgentDTO, omiNumIdnInSDO);
+		OmiNumIdnOutSDO out = outIfAdapter.callOmiNumIdn(userAgentDTO, omiNumIdnSDO);
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
@@ -253,8 +253,6 @@ public class BOInterfaceDemoService extends TestCase {
 		logger.debug("[END] callOmiNumIdn");
 	}
 	
-
-
 	// 주문대사(이지웰)
 	public void testEzwelJob()  throws Exception {		
 		logger.debug("[START] callEzwelJob");
@@ -268,15 +266,15 @@ public class BOInterfaceDemoService extends TestCase {
 		userAgentDTO.setHttpRequestId("test");
 		
 		//Input parameter
-		EzwelJobInSDO ezwelJobInSDO = new EzwelJobInSDO();
+		EzwelJobInSDO ezwelJobSDO = new EzwelJobInSDO();
 		
-		ezwelJobInSDO.setOtaId("10000496");
-		ezwelJobInSDO.setRsvNo("111111-1111111-1111");
-		ezwelJobInSDO.setRsvDateStart("20181201");
-		ezwelJobInSDO.setRsvDateEnd("20181211");
+		ezwelJobSDO.setOtaId("10000496");
+		ezwelJobSDO.setRsvNo("111111-1111111-1111");
+		ezwelJobSDO.setRsvDateStart("20181201");
+		ezwelJobSDO.setRsvDateEnd("20181211");
 		
 		//interface api call
-		EzwelJobOutSDO out = outIfAdapter.callEzwelJob(userAgentDTO, ezwelJobInSDO);
+		EzwelJobOutSDO out = outIfAdapter.callEzwelJob(userAgentDTO, ezwelJobSDO);
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
