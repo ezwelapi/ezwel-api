@@ -99,31 +99,30 @@ var testAssets = {
 		"OUT-전체시설일괄등록 인터페이스" : {
 			 url : "/service/allReg"
 			,input : {
-				"httpAgentType": "TEST VALUE",
-				"httpChannelCd": "TEST VALUE",
-				"httpClientId": "TEST VALUE",
-				"httpRequestId": "TEST VALUE",
-				"connTimeout": 1000,
-				"readTimeout": 100000
+				"httpAgentType": "{setClientUserData}",
+				"httpChannelCd": "{setClientUserData}",
+				"httpClientId": "{setClientUserData}",
+				"httpRequestId": "{setClientUserData}",
+				"connTimeout": 1000,	/* {setClientUserData} */
+				"readTimeout": 100000	/* {setClientUserData} */
 			}
 		},
 		"OUT-시설검색 인터페이스" : {
 			 url : "/service/callFaclSearch"
 			,input : {
 				userAgentSDO : {
-					"httpAgentGroupId": "faclSearch-chanGroup",
-					"httpAgentType": "AP02PO",
-					"httpChannelCd": "1",
-					"httpClientId": "ez1",
-					"httpRequestId": "test",
-					"connTimeout": 1000,
-					"readTimeout": 100000
+					"httpAgentGroupId": "multiFaclSearchGroup",	/* PIX DATA */
+					"httpAgentType": "{setClientUserData}",
+					"httpChannelCd": "{setClientUserData}",
+					"httpClientId": "{setClientUserData}",
+					"httpRequestId": "{setClientUserData}",
+					"connTimeout": 1000,	/* {setClientUserData} */
+					"readTimeout": 100000	/* {setClientUserData} */
 				},
 				faclSearchInSDO : {
-					"otaId": "10055550",
-					"checkInDate": "20190101",
-					"checkOutDate": "20190102",
-					"sidoCode": "11"
+					"checkInDate": "20190101",	/* {setClientUserData} */
+					"checkOutDate": "20190102",	/* {setClientUserData} */
+					"sidoCode": "11"	/* {setClientUserData} */
 				}
 			}
 		},
@@ -131,35 +130,33 @@ var testAssets = {
 			 url : "/service/callSddSearch"
 			,input : {
 				"httpAgentGroupId": "sddSearch-chanGroup",
-				"httpAgentType": "AP02PO",
-				"httpChannelCd": "1",
-				"httpClientId": "ez1",
-				"httpRequestId": "test",
-				"connTimeout": 1000,
-				"readTimeout": 100000,
-				"otaId": "10055550"
+				"httpAgentType": "{setClientUserData}",
+				"httpChannelCd": "{setClientUserData}",
+				"httpClientId": "{setClientUserData}",
+				"httpRequestId": "{setClientUserData}",
+				"connTimeout": 1000,	/* {setClientUserData} */
+				"readTimeout": 100000	/* {setClientUserData} */,
 			}
 		},
 		"OUT-객실정보조회 인터페이스" : {
 			 url : "/service/callRoomRead"
 			,input : {
 				userAgentSDO : {
-					"httpAgentId": "10055550",
-					"httpAgentType": "AP02PO",
-					"httpChannelCd": "1",
-					"httpClientId": "ez1",
-					"httpRequestId": "test",
-					"connTimeout": 1000,
-					"readTimeout": 100000
+					"httpAgentId": ":: 우측상단 콤보박스 선택값 자동 대입 ::",
+					"httpAgentType": "{setClientUserData}",
+					"httpChannelCd": "{setClientUserData}",
+					"httpClientId": "{setClientUserData}",
+					"httpRequestId": "{setClientUserData}",
+					"connTimeout": 1000,	/* {setClientUserData} */
+					"readTimeout": 100000	/* {setClientUserData} */
 				},
 				roomReadInSDO : {
-					"otaId": "10055550",
-					"pdtNo": "KRSEL402",
-					"checkInDate": "20190101",
-					"checkOutDate": "20190102",
-					"roomCnt": 1,
-					"adultCnt": 2,
-					"childCnt": 0
+					"pdtNo": "KRSEL402",	/* {setClientUserData} */
+					"checkInDate": "20190101",	/* {setClientUserData} */
+					"checkOutDate": "20190102",	/* {setClientUserData} */
+					"roomCnt": 1,	/* {setClientUserData} */
+					"adultCnt": 2,	/* {setClientUserData} */
+					"childCnt": 0	/* {setClientUserData} */
 				}
 			}
 		},
@@ -167,21 +164,20 @@ var testAssets = {
 			 url : "/service/callCancelFeePsrc"
 			,input : {
 				userAgentSDO : {
-					"httpAgentId": "10055550",
-					"httpAgentType": "AP02PO",
-					"httpChannelCd": "1",
-					"httpClientId": "ez1",
-					"httpRequestId": "test",
-					"connTimeout": 1000,
-					"readTimeout": 100000
+					"httpAgentId": ":: 우측상단 콤보박스 선택값 자동 대입 ::",
+					"httpAgentType": "{setClientUserData}",
+					"httpChannelCd": "{setClientUserData}",
+					"httpClientId": "{setClientUserData}",
+					"httpRequestId": "{setClientUserData}",
+					"connTimeout": 1000,	/* {setClientUserData} */
+					"readTimeout": 100000	/* {setClientUserData} */
 				},
 				cancelFeePsrcInSDO : {
-					"otaId": "10055550",
-					"pdtNo": "KRSEL402",
-					"roomNo": "ZyM^JZUuHL^IGl8A4YyHevULP9zS8K2ev1C8NgVQnc3lQabQXTwtxa52D2tOFZB2tN7ujSDtk3otQJI/mC1K8WBmiQtdoKdpQmCmqKh8no3FwuqqmGtyuccVc6rLbyAndR69WtV9Q7yJANWNZvF^pDUf/WJPWCOUtlau0aEKEWKybat7rYTTc4ZK8Lr2bmY99lX5X^ECCR7G3B5mSVU639vOOl3l^EG2qfYwiFx1hRw=",
-					"checkInDate": "20190101",
-					"checkOutDate": "20190102",
-					"roomCnt": 1
+					"pdtNo": "KRSEL402",	/* {setClientUserData} */
+					"roomNo": "ZyM^JZUuHL^IGl8A4YyHevULP9zS8K2ev1C8NgVQnc3lQabQXTwtxa52D2tOFZB2tN7ujSDtk3otQJI/mC1K8WBmiQtdoKdpQmCmqKh8no3FwuqqmGtyuccVc6rLbyAndR69WtV9Q7yJANWNZvF^pDUf/WJPWCOUtlau0aEKEWKybat7rYTTc4ZK8Lr2bmY99lX5X^ECCR7G3B5mSVU639vOOl3l^EG2qfYwiFx1hRw=",	/* {setClientUserData} */
+					"checkInDate": "20190101",	/* {setClientUserData} */
+					"checkOutDate": "20190102",	/* {setClientUserData} */
+					"roomCnt": 1	/* {setClientUserData} */
 				}
 			}
 		},
@@ -189,39 +185,39 @@ var testAssets = {
 			 url : "/service/callRsvHistSend"
 			,input : {
 				userAgentSDO : {
-					"httpAgentId": "10055550",
-					"httpAgentType": "AP02PO",
-					"httpChannelCd": "1",
-					"httpClientId": "ez1",
-					"httpRequestId": "test",
-					"connTimeout": 1000,
-					"readTimeout": 100000
+					"httpAgentId": ":: 우측상단 콤보박스 선택값 자동 대입 ::",
+					"httpAgentType": "{setClientUserData}",
+					"httpChannelCd": "{setClientUserData}",
+					"httpClientId": "{setClientUserData}",
+					"httpRequestId": "{setClientUserData}",
+					"connTimeout": 1000,	/* {setClientUserData} */
+					"readTimeout": 100000	/* {setClientUserData} */
 				},
 				rsvHistSendInSDO : {
 					data : {
-						"rsvNo": "E000000003",
-						"rsvDatetime": "20181220153034",
-						"rsvPrice": 56000,
-						"rsvStat": "r02",
-						"rsvPdtName": "더 리센츠 동대문 호텔",
-						"rsvPdtNo": "P000000003",
-						"pdtNo": "KRSEL402",
-						"pdtName": "더 리센츠 동대문 호텔",
-						"roomNo": "ZyM^JZUuHL^IGl8A4YyHevULP9zS8K2ev1C8NgVQnc3lQabQXTwtxa52D2tOFZB2tN7ujSDtk3otQJI/mC1K8WBmiQtdoKdpQmCmqKh8no3FwuqqmGtyuccVc6rLbyAndR69WtV9Q7yJANWNZvF^pDUf/WJPWCOUtlau0aEKEWKybat7rYTTc4ZK8Lr2bmY99lX5X^ECCR7G3B5mSVU639vOOl3l^EG2qfYwiFx1hRw=",
-						"roomName": "Standard Double Room (Latex Mattress)(1 double bed request)",
-						"roomCnt": 1,
-						"checkInDate": "20190101",
-						"checkOutDate": "20190102",
-						"memKey": "EZ0001",
-						"memName": "홍길동",
-						"memPhone": "01012341234",
-						"memEmail": "test@test.com",
-						"userName": "홍길동",
-						"userMobile": "01012341234",
-						"userEmail": "test@test.com",
-						"userCmt": "전망 좋은 방으로 요청 드립니다",
-						"adultCnt": 2,
-						"childCnt": 0
+						"rsvNo": "E000000003",	/* {setClientUserData} */
+						"rsvDatetime": "20181220153034",	/* {setClientUserData} */
+						"rsvPrice": 56000,	/* {setClientUserData} */
+						"rsvStat": "r02",	/* {setClientUserData} */
+						"rsvPdtName": "더 리센츠 동대문 호텔",	/* {setClientUserData} */
+						"rsvPdtNo": "P000000003",	/* {setClientUserData} */
+						"pdtNo": "KRSEL402",	/* {setClientUserData} */
+						"pdtName": "더 리센츠 동대문 호텔",	/* {setClientUserData} */
+						"roomNo": "ZyM^JZUuHL^IGl8A4YyHevULP9zS8K2ev1C8NgVQnc3lQabQXTwtxa52D2tOFZB2tN7ujSDtk3otQJI/mC1K8WBmiQtdoKdpQmCmqKh8no3FwuqqmGtyuccVc6rLbyAndR69WtV9Q7yJANWNZvF^pDUf/WJPWCOUtlau0aEKEWKybat7rYTTc4ZK8Lr2bmY99lX5X^ECCR7G3B5mSVU639vOOl3l^EG2qfYwiFx1hRw=",	/* {setClientUserData} */
+						"roomName": "Standard Double Room (Latex Mattress)(1 double bed request)",	/* {setClientUserData} */
+						"roomCnt": 1,	/* {setClientUserData} */
+						"checkInDate": "20190101",	/* {setClientUserData} */
+						"checkOutDate": "20190102",	/* {setClientUserData} */
+						"memKey": "EZ0001",	/* {setClientUserData} */
+						"memName": "홍길동",	/* {setClientUserData} */
+						"memPhone": "01012341234",	/* {setClientUserData} */
+						"memEmail": "test@test.com",	/* {setClientUserData} */
+						"userName": "홍길동",	/* {setClientUserData} */
+						"userMobile": "01012341234",	/* {setClientUserData} */
+						"userEmail": "test@test.com",	/* {setClientUserData} */
+						"userCmt": "전망 좋은 방으로 요청 드립니다",	/* {setClientUserData} */
+						"adultCnt": 2,	/* {setClientUserData} */
+						"childCnt": 0	/* {setClientUserData} */
 					}
 				}
 			}
@@ -230,16 +226,15 @@ var testAssets = {
 			 url : "/service/callCancelFeeAmt"
 			,input : {
 				userAgentSDO : {
-					"httpAgentId": "10055550",
-					"httpAgentType": "AP02PO",
-					"httpChannelCd": "1",
-					"httpClientId": "ez1",
-					"httpRequestId": "test",
-					"connTimeout": 1000,
-					"readTimeout": 100000
+					"httpAgentId": ":: 우측상단 콤보박스 선택값 자동 대입 ::",
+					"httpAgentType": "{setClientUserData}",
+					"httpChannelCd": "{setClientUserData}",
+					"httpClientId": "{setClientUserData}",
+					"httpRequestId": "{setClientUserData}",
+					"connTimeout": 1000,	/* {setClientUserData} */
+					"readTimeout": 100000	/* {setClientUserData} */
 				},
 				cancelFeeAmtInSDO : {
-					"otaId": "10055550",
 					"rsvNo": "E000000003"
 				}
 			}
@@ -248,20 +243,19 @@ var testAssets = {
 			 url : "/service/callOrderCancelReq"
 			,input : {
 				userAgentSDO : {
-					"httpAgentId": "10055550",
-					"httpAgentType": "AP02PO",
-					"httpChannelCd": "1",
-					"httpClientId": "ez1",
-					"httpRequestId": "test",
-					"connTimeout": 1000,
-					"readTimeout": 100000
+					"httpAgentId": ":: 우측상단 콤보박스 선택값 자동 대입 ::",
+					"httpAgentType": "{setClientUserData}",
+					"httpChannelCd": "{setClientUserData}",
+					"httpClientId": "{setClientUserData}",
+					"httpRequestId": "{setClientUserData}",
+					"connTimeout": 1000,	/* {setClientUserData} */
+					"readTimeout": 100000	/* {setClientUserData} */
 				},
 				orderCancelReqInSDO : {
-					"otaId": "10055550",
-					"rsvNo": "E000000003",
-					"otaRsvNo": "1812200852-1",
-					"rsvPrice": 0,
-					"cancelCharge": 0
+					"rsvNo": "E000000003",	/* {setClientUserData} */
+					"otaRsvNo": "1812200852-1",	/* {setClientUserData} */
+					"rsvPrice": 0,	/* {setClientUserData} */
+					"cancelCharge": 0	/* {setClientUserData} */
 				}
 			}
 		},
@@ -269,18 +263,17 @@ var testAssets = {
 			 url : "/service/callOmiNumIdn"
 			,input : {
 				userAgentSDO : {
-					"httpAgentId": "10055550",
-					"httpAgentType": "AP02PO",
-					"httpChannelCd": "1",
-					"httpClientId": "ez1",
-					"httpRequestId": "test",
-					"connTimeout": 1000,
-					"readTimeout": 100000
+					"httpAgentId": ":: 우측상단 콤보박스 선택값 자동 대입 ::",
+					"httpAgentType": "{setClientUserData}",
+					"httpChannelCd": "{setClientUserData}",
+					"httpClientId": "{setClientUserData}",
+					"httpRequestId": "{setClientUserData}",
+					"connTimeout": 1000,	/* {setClientUserData} */
+					"readTimeout": 100000	/* {setClientUserData} */
 				},
 				omiNumIdnInSDO : {				
-					"otaId": "10055550",
-					"rsvNo": "E000000003",
-					"rsvStat": "r02"
+					"rsvNo": "E000000003",	/* {setClientUserData} */
+					"rsvStat": "r02"	/* {setClientUserData} */
 				}
 			}
 		},
@@ -288,19 +281,18 @@ var testAssets = {
 			 url : "/service/callEzwelJob"
 			,input : {
 				userAgentSDO : {
-					"httpAgentId": "10055550",
-					"httpAgentType": "AP02PO",
-					"httpChannelCd": "1",
-					"httpClientId": "ez1",
-					"httpRequestId": "test",
-					"connTimeout": 1000,
-					"readTimeout": 100000
+					"httpAgentId": ":: 우측상단 콤보박스 선택값 자동 대입 ::",	/* {setClientUserData} */
+					"httpAgentType": "{setClientUserData}",
+					"httpChannelCd": "{setClientUserData}",
+					"httpClientId": "{setClientUserData}",
+					"httpRequestId": "{setClientUserData}",
+					"connTimeout": 1000,	/* {setClientUserData} */
+					"readTimeout": 100000	/* {setClientUserData} */
 				},
 				ezwelJobInSDO : {
-					"otaId": "10055550",
-					"rsvNo": "E000000003",
-					"rsvDateStart": "20181201",
-					"rsvDateEnd": "20181220"
+					"rsvNo": "E000000003",	/* {setClientUserData} */
+					"rsvDateStart": "20181201",	/* {setClientUserData} */
+					"rsvDateEnd": "20181220"	/* {setClientUserData} */
 				}
 			}
 		},
