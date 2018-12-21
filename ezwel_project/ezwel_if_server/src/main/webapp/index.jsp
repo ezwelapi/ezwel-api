@@ -518,6 +518,7 @@ $(document).ready(function() {
 	<span style="padding-left:2px; width:10%;">
 		<select id="httpAgentId" name="httpAgentId">
 			<option value="">:: 선택 ::</option>
+			<option value="10055550">호텔패스글로벌 10055550</option>
 			<option value="10000495">호텔엔조이 메이트아이 10000495</option>
 			<option value="10000496">펜션라이프 플레이스엠 10000496</option>
 			<option value="10002654">인터파크투어 10002654</option>
@@ -525,7 +526,6 @@ $(document).ready(function() {
 			<option value="10030653">우리펜션(옐로트래블랩스) 10030653</option>
 			<option value="10053461">인터치투어 10053461</option>
 			<option value="10054233">웹투어 10054233</option>
-			<option value="10055550">호텔패스글로벌 10055550</option>
 			<option value="10056562">(주)위드이노베이션_여기어때 10056562</option>
 			<option value="99999999">직영/숙박 99999999</option>
 		</select>
