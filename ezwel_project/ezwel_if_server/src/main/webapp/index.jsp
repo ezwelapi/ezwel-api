@@ -514,7 +514,7 @@ $(document).ready(function() {
 	<span>
 		<select id="restURL"></select>
 	</span>
-	<span style="padding-left:2px;width:10%;">
+	<span style="padding-left:2px; width:10%;">
 		<select id="httpAgentId" name="httpAgentId">
 			<option value="">:: 선택 ::</option>
 			<option value="10000495">호텔엔조이 메이트아이 10000495</option>
