@@ -21,9 +21,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=true)
 public class RoomReadInSDO extends AbstractSDO {
-
-	@APIFields(description = "객실정보조회 Input 제휴사아이디", required=true, maxLength=100)
-	private String otaId;
 	
 	@APIFields(description = "객실정보조회 Input 상품코드", required=true, maxLength=100)
 	private String pdtNo;
@@ -45,14 +42,6 @@ public class RoomReadInSDO extends AbstractSDO {
 	
 	@APIFields(description = "객실정보조회 Input 소아투숙자수")
 	private Integer childCnt;
-
-	public String getOtaId() {
-		return otaId;
-	}
-
-	public void setOtaId(String otaId) {
-		this.otaId = otaId;
-	}
 	
 	public String getPdtNo() {
 		return pdtNo;

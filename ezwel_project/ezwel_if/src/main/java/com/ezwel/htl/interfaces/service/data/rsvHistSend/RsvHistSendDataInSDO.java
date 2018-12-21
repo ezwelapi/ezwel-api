@@ -24,9 +24,6 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @Data
 @EqualsAndHashCode(callSuper=true)
 public class RsvHistSendDataInSDO extends AbstractSDO {
-
-	@APIFields(description = "결제완료내역전송 Input 제휴사아이디", required=true, maxLength=100)
-	private String otaId;
 	
 	@APIFields(description = "결제완료내역전송 Input 주문번호", required=true, maxLength=100)
 	private String rsvNo;
@@ -99,14 +96,6 @@ public class RsvHistSendDataInSDO extends AbstractSDO {
 	
 	@APIFields(description = "결제완료내역전송 Input options")
 	private List<RsvHistSendOptionsInSDO> options = null;
-
-	public String getOtaId() {
-		return otaId;
-	}
-
-	public void setOtaId(String otaId) {
-		this.otaId = otaId;
-	}
 	
 	public String getRsvNo() {
 		return rsvNo;

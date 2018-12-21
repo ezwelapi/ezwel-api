@@ -65,7 +65,6 @@ public class FrontInterfaceDemoService extends TestCase {
 		//Input parameter
 		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
 		
-		roomReadSDO.setOtaId("10055550");
 		roomReadSDO.setPdtNo("KRSEL217");
 		roomReadSDO.setCheckInDate("20190101");
 		roomReadSDO.setCheckOutDate("20190102");
@@ -98,7 +97,6 @@ public class FrontInterfaceDemoService extends TestCase {
 		//Input parameter
 		CancelFeePsrcInSDO cancelFeePsrcSDO = new CancelFeePsrcInSDO();
 		
-		cancelFeePsrcSDO.setOtaId("10055550");
 		cancelFeePsrcSDO.setPdtNo("KRSEL112");
 		cancelFeePsrcSDO.setCheckInDate("20190101");
 		cancelFeePsrcSDO.setCheckOutDate("20190102");
@@ -184,7 +182,6 @@ public class FrontInterfaceDemoService extends TestCase {
 		//Input parameter
 		CancelFeeAmtInSDO cancelFeeAmtSDO = new CancelFeeAmtInSDO();
 		
-		cancelFeeAmtSDO.setOtaId("10055550");
 		cancelFeeAmtSDO.setRsvNo("E123456789");
 		
 		//interface api call
@@ -211,7 +208,6 @@ public class FrontInterfaceDemoService extends TestCase {
 		//Input parameter
 		OrderCancelReqInSDO orderCancelReqSDO = new OrderCancelReqInSDO();
 		
-		orderCancelReqSDO.setOtaId("10055550");
 		orderCancelReqSDO.setRsvNo("E123456789");
 		orderCancelReqSDO.setOtaRsvNo("O123456789");
 		orderCancelReqSDO.setRsvPrice(58000);
@@ -240,7 +236,6 @@ public class FrontInterfaceDemoService extends TestCase {
 		//Input parameter
 		OmiNumIdnInSDO omiNumIdnSDO = new OmiNumIdnInSDO();
 		
-		omiNumIdnSDO.setOtaId("10055550");
 		omiNumIdnSDO.setRsvNo("E123456789");
 		omiNumIdnSDO.setRsvStat("r02");
 		
@@ -268,7 +263,6 @@ public class FrontInterfaceDemoService extends TestCase {
 		//Input parameter
 		EzwelJobInSDO ezwelJobSDO = new EzwelJobInSDO();
 		
-		ezwelJobSDO.setOtaId("10055550");
 		ezwelJobSDO.setRsvNo("E123456789");
 		ezwelJobSDO.setRsvDateStart("20190101");
 		ezwelJobSDO.setRsvDateEnd("20190102");

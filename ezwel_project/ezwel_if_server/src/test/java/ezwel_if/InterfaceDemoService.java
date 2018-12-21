@@ -46,7 +46,6 @@ public class InterfaceDemoService {
 		//Input parameter
 		CancelFeePsrcInSDO sdo = new CancelFeePsrcInSDO();
 		
-		sdo.setOtaId("ota-Id");
 		sdo.setPdtNo("pdt-No");
 		sdo.setCheckInDate("20181201");
 		sdo.setCheckOutDate("20181202");
@@ -74,7 +73,6 @@ public class InterfaceDemoService {
 		//Input parameter
 		CancelFeeAmtInSDO sdo = new CancelFeeAmtInSDO();
 		
-		sdo.setOtaId("ota-Id");
 		sdo.setRsvNo("rsv-no");
 		
 		//interface api call
@@ -98,7 +96,6 @@ public class InterfaceDemoService {
 		//Input parameter
 		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
 		
-		roomReadSDO.setOtaId("ota-Id");
 		roomReadSDO.setPdtNo("pdt-No");
 		roomReadSDO.setCheckInDate("20181201");
 		roomReadSDO.setCheckOutDate("20181202");

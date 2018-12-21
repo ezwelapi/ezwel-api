@@ -65,7 +65,6 @@ public class BOInterfaceDemoService extends TestCase {
 		//Input parameter
 		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
 		
-		roomReadSDO.setOtaId("10000496");
 		roomReadSDO.setPdtNo("KRSEL112");
 		roomReadSDO.setCheckInDate("20190101");
 		roomReadSDO.setCheckOutDate("20190102");
@@ -98,7 +97,6 @@ public class BOInterfaceDemoService extends TestCase {
 		//Input parameter
 		CancelFeePsrcInSDO cancelFeePsrcSDO = new CancelFeePsrcInSDO();
 		
-		cancelFeePsrcSDO.setOtaId("10000496");
 		cancelFeePsrcSDO.setPdtNo("1");
 		cancelFeePsrcSDO.setCheckInDate("20190101");
 		cancelFeePsrcSDO.setCheckOutDate("20190102");
@@ -184,7 +182,6 @@ public class BOInterfaceDemoService extends TestCase {
 		//Input parameter
 		CancelFeeAmtInSDO cancelFeeAmtSDO = new CancelFeeAmtInSDO();
 		
-		cancelFeeAmtSDO.setOtaId("10000496");
 		cancelFeeAmtSDO.setRsvNo("12345678");
 		
 		//interface api call
@@ -211,7 +208,6 @@ public class BOInterfaceDemoService extends TestCase {
 		//Input parameter
 		OrderCancelReqInSDO orderCancelReqSDO = new OrderCancelReqInSDO();
 		
-		orderCancelReqSDO.setOtaId("10000496");
 		orderCancelReqSDO.setRsvNo("12345678");
 		orderCancelReqSDO.setOtaRsvNo("12345678");
 		orderCancelReqSDO.setRsvPrice(100000);
@@ -240,7 +236,6 @@ public class BOInterfaceDemoService extends TestCase {
 		//Input parameter
 		OmiNumIdnInSDO omiNumIdnSDO = new OmiNumIdnInSDO();
 		
-		omiNumIdnSDO.setOtaId("10000496");
 		omiNumIdnSDO.setRsvNo("12345678");
 		omiNumIdnSDO.setRsvStat("Y");
 		
@@ -268,7 +263,6 @@ public class BOInterfaceDemoService extends TestCase {
 		//Input parameter
 		EzwelJobInSDO ezwelJobSDO = new EzwelJobInSDO();
 		
-		ezwelJobSDO.setOtaId("10000496");
 		ezwelJobSDO.setRsvNo("111111-1111111-1111");
 		ezwelJobSDO.setRsvDateStart("20181201");
 		ezwelJobSDO.setRsvDateEnd("20181211");
