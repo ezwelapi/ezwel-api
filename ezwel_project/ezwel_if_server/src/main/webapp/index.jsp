@@ -366,8 +366,8 @@ var testAssets = {
 				inputJson = JSON.parse(jsonString);
 			}
 			
-			if( passAgentIdURI.indexOf(restURL) === -1 && inputJson.httpAgentId && inputJson.httpAgentId !== "" ) {
-				inputJson.httpAgentId = httpAgentId;
+			if( passAgentIdURI.indexOf(restURL) === -1 && inputJson["userAgentSDO"] && inputJson["userAgentSDO"]["httpAgentId"] ) {
+				inputJson.userAgentSDO.httpAgentId = httpAgentId;
 			}
 			
 			headerJson = $("#inputHeader").val();
