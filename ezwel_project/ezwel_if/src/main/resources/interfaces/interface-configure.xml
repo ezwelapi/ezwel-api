@@ -132,7 +132,7 @@
 	<outsideChans>
 		<!--// START 시설일괄등록 -->
 		<httpChan>
-			<chanId>allReg-10000495</chanId>
+			<chanId>allReg</chanId>
 			<httpAgentId>10000495</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>호텔엔조이_메이트아이 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
@@ -142,7 +142,7 @@
 			<readTimeout>6000</readTimeout>
 		</httpChan>
 		<httpChan>
-			<chanId>allReg-10000496</chanId>
+			<chanId>allReg</chanId>
 			<httpAgentId>10000496</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>펜션라이프_플레이스엠 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
@@ -153,7 +153,7 @@
 			<readTimeout>6000</readTimeout>
 		</httpChan>
 		<httpChan>
-			<chanId>allReg-10002654</chanId>
+			<chanId>allReg</chanId>
 			<httpAgentId>10002654</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>인터파크투어_인터파크INT (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
@@ -163,7 +163,7 @@
 			<readTimeout>6000</readTimeout>
 		</httpChan>
 		<httpChan>
-			<chanId>allReg-10008365</chanId>
+			<chanId>allReg</chanId>
 			<httpAgentId>10008365</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>펀앤비즈_샬레코리아 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
@@ -173,7 +173,7 @@
 			<readTimeout>6000</readTimeout>
 		</httpChan>
 		<httpChan>
-			<chanId>allReg-10030653</chanId>
+			<chanId>allReg</chanId>
 			<httpAgentId>10030653</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>우리펜션(옐로트래블랩스) (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
@@ -183,7 +183,7 @@
 			<readTimeout>6000</readTimeout>
 		</httpChan>
 		<httpChan>
-			<chanId>allReg-10053461</chanId>
+			<chanId>allReg</chanId>
 			<httpAgentId>10053461</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>인터치투어 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
@@ -193,7 +193,7 @@
 			<readTimeout>6000</readTimeout>
 		</httpChan>
 		<httpChan>
-			<chanId>allReg-10054233</chanId>
+			<chanId>allReg</chanId>
 			<httpAgentId>10054233</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>웹투어 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
@@ -203,7 +203,7 @@
 			<readTimeout>6000</readTimeout>
 		</httpChan>
 		<httpChan>
-			<chanId>allReg-10055550</chanId>
+			<chanId>allReg</chanId>
 			<httpAgentId>10055550</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>호텔패스글로벌 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
@@ -213,7 +213,7 @@
 			<readTimeout>10000</readTimeout>
 		</httpChan>
 		<httpChan>
-			<chanId>allReg-10056562</chanId>
+			<chanId>allReg</chanId>
 			<httpAgentId>10056562</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>(주)위드이노베이션_여기어때 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
@@ -223,7 +223,7 @@
 			<readTimeout>6000</readTimeout>
 		</httpChan>
 		<httpChan>
-			<chanId>allReg-99999999</chanId>
+			<chanId>allReg</chanId>
 			<httpAgentId>99999999</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>제휴사협의중 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
