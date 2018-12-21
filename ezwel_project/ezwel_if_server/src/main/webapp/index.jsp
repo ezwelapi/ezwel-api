@@ -536,8 +536,8 @@ $(document).ready(function() {
 <textarea placeholder="API 요청 헤더(JSON)" id="inputHeader" name="inputHeader" style="float:right;width:30%;height:200px;"></textarea>
 </div>
 <span>Output Data</span>
-<div> 
-	<textarea placeholder="API 응답 결과(JSON)" id="outputJson" name="outputJson" style="width:100%;height:200px;" readonly></textarea>
+<div>  
+	<textarea placeholder="API 응답 결과(JSON)" id="outputJson" name="outputJson" style="width:99.5%;height:580px;" readonly></textarea>
 </div>
 </body>
 </html>
