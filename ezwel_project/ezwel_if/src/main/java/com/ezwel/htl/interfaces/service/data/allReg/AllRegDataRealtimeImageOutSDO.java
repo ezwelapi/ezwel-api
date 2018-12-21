@@ -1,5 +1,6 @@
 package com.ezwel.htl.interfaces.service.data.allReg;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
@@ -22,7 +23,6 @@ import lombok.EqualsAndHashCode;
 @APIModel(description="시설 정보")
 public class AllRegDataRealtimeImageOutSDO extends AbstractSDO {
 
-	private static final long serialVersionUID = 1L;
 	@APIFields(description = "이미지 URL", maxLength=500, required=true, constraints="SYS_C0011110(C)")
 	private String partnerImgUrl;
 	
@@ -35,6 +35,12 @@ public class AllRegDataRealtimeImageOutSDO extends AbstractSDO {
 	@APIFields(description = "제휴사 코드", maxLength=20, constraints="FK_EZC_PARTNER_EZC_FACL(R),SYS_C0011054(C) EZC_FACL_IF03(NONUNIQUE)")
 	private String partnerCd;
 
+	@APIFields(description = "시설 이미지 일련번호", maxLength=10, constraints="EZC_FACL_IMG_PK(P),SYS_C0011106(C) EZC_FACL_IMG_PK(UNIQUE)")
+	private BigDecimal faclImgSeq;
+
+	@APIFields(description = "시설 코드", maxLength=10, constraints="FK_EZC_FACL_EZC_FACL_IMG(R),SYS_C0011107(C) EZC_FACL_IMG_IF01(NONUNIQUE)")
+	private BigDecimal faclCd;
+	
 	public String getPartnerImgUrl() {
 		return partnerImgUrl;
 	}
@@ -65,6 +71,22 @@ public class AllRegDataRealtimeImageOutSDO extends AbstractSDO {
 
 	public void setPartnerCd(String partnerCd) {
 		this.partnerCd = partnerCd;
+	}
+
+	public BigDecimal getFaclImgSeq() {
+		return faclImgSeq;
+	}
+
+	public void setFaclImgSeq(BigDecimal faclImgSeq) { 
+		this.faclImgSeq = faclImgSeq;
+	}
+
+	public BigDecimal getFaclCd() {
+		return faclCd;
+	}
+
+	public void setFaclCd(BigDecimal faclCd) {
+		this.faclCd = faclCd;
 	}
 
 	

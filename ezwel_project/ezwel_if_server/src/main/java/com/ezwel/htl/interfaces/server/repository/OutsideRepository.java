@@ -2,6 +2,8 @@ package com.ezwel.htl.interfaces.server.repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,8 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
+import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
@@ -22,6 +26,7 @@ import com.ezwel.htl.interfaces.server.commons.utils.ExceptionUtil;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclAment;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
+import com.ezwel.htl.interfaces.server.service.DownloadMultiService;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataRealtimeImageOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
@@ -136,6 +141,9 @@ public class OutsideRepository extends AbstractDataAccessObject {
 								realtimeImageIO.setPartnerCd(ezcFacl.getPartnerCd());
 								realtimeImageIO.setCityCd(ezcFacl.getCityCd());
 								realtimeImageIO.setAreaCd(ezcFacl.getAreaCd());
+								realtimeImageIO.setFaclImgSeq(faclImg.getFaclImgSeq());
+								realtimeImageIO.setFaclCd(faclImg.getFaclCd());
+								
 								out.addCreateDownloadFileUrlList(realtimeImageIO);
 							}
 							else {
@@ -145,6 +153,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						}
 						
 						if(ezcFaclImgDBList != null) {
+							
 							for(String deleteImage : ezcFaclImgDBList) {
 								
 								if(!deleteImage.equals(OperateConstants.STR_RESERVE_IS_SAVED)) {
@@ -164,12 +173,14 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						}
 					}
 					else {
-						//제휴사 전문에서 전달된 이미지 정보가 없으면 기존 이미지 삭제
-						inEzcFaclImg = new EzcFaclImg();
-						inEzcFaclImg.setFaclCd(ezcFacl.getFaclCd());
-						txCount += sqlSession.delete(getNamespace("FACL_IMG_MAPPER", "deleteEzcFaclImg"), inEzcFaclImg);
 						
 						if(ezcFaclImgDBList != null) {
+
+							//제휴사 전문에서 전달된 이미지 정보가 없으면 기존 이미지 삭제
+							inEzcFaclImg = new EzcFaclImg();
+							inEzcFaclImg.setFaclCd(ezcFacl.getFaclCd());
+							txCount += sqlSession.delete(getNamespace("FACL_IMG_MAPPER", "deleteEzcFaclImg"), inEzcFaclImg);
+							
 							for(String deletePath : ezcFaclImgDBList) {
 								//삭제 대상 이미지 전체 경로
 								out.addDeleteDownloadFilePathList(APIUtil.getImageCanonicalPath(deletePath));
@@ -248,14 +259,34 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
 		Integer dataIndex = OperateConstants.INTEGER_ZERO_VALUE;
 		EzcFaclImg ezcFaclImg = null;
+		List<Future<?>> futures = null;
+		CallableExecutor executor = null;
+		Callable<Integer> callable = null;
 		
 		try {
 			
 			if(finalFaclImgList != null) {
+			
+				executor = new CallableExecutor();
+				executor.initThreadPool(10);				
 				
 				for(dataIndex = 0; dataIndex < finalFaclImgList.size(); dataIndex++) {
 					ezcFaclImg = finalFaclImgList.get(dataIndex);
-					txCount += updateBuildImage(ezcFaclImg, isErrorPassed);
+					//txCount += updateBuildImage(ezcFaclImg, isErrorPassed);
+					
+					callable = new MultiBuildImageUpdateRepository(ezcFaclImg, isErrorPassed);
+					//설정된 멀티쓰레드 개수만큼 반복 실행 
+					executor.addCall(callable);
+				}
+				
+				futures = executor.getResult();
+				if(futures != null) {
+					
+					for(Future<?> future : futures) {
+						if(future.get() != null) {
+							txCount += (Integer) future.get();
+						}
+					}
 				}
 			}
 		}

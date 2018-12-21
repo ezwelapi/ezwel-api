@@ -213,8 +213,8 @@
 		
 		<httpChan>
 			<description>시설검색-호텔패스글로벌 (시설 검색 멀티쓰레드 인터페이스체널)</description>
-			<chanId>faclSearch-01</chanId>
-			<httpAgentGroupId>faclSearch-chanGroup</httpAgentGroupId>
+			<chanId>faclSearch</chanId>
+			<httpAgentGroupId>multiFaclSearchGroup</httpAgentGroupId>
 			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/ProductSearchRQ.ashx</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -222,8 +222,8 @@
 		</httpChan>	
 		<httpChan>
 			<description>제휴사-02 (시설 검색 멀티쓰레드 인터페이스체널)</description>
-			<chanId>faclSearch-02</chanId>
-			<httpAgentGroupId>faclSearch-chanGroup</httpAgentGroupId>
+			<chanId>faclSearch</chanId>
+			<httpAgentGroupId>multiFaclSearchGroup</httpAgentGroupId>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/faclSearch</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -231,8 +231,8 @@
 		</httpChan>
 		<httpChan>
 			<description>제휴사-03 (시설 검색 멀티쓰레드 인터페이스체널)</description>
-			<chanId>faclSearch-03</chanId>
-			<httpAgentGroupId>faclSearch-chanGroup</httpAgentGroupId>
+			<chanId>faclSearch</chanId>
+			<httpAgentGroupId>multiFaclSearchGroup</httpAgentGroupId>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/faclSearch</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -268,7 +268,7 @@
 		</httpChan>	
 
 		<httpChan>
-			<description>객실정보조회-호텔패스글로벌</description>
+			<description>객실정보조회</description>
 			<chanId>roomRead</chanId>
 			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/RoomInfoRQ.ashx</restURI>
 			<receiverRestURI>/service/callRoomRead</receiverRestURI>
@@ -278,7 +278,7 @@
 		</httpChan>
 		<httpChan>
 			<chanId>cancelFeePsrc</chanId>
-			<description>취소수수료규정-호텔패스글로벌</description>
+			<description>취소수수료규정</description>
 			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/CancelFeeRQ.ashx</restURI>
 			<receiverRestURI>/service/callCancelFeePsrc</receiverRestURI>
 			<encoding>UTF-8</encoding>
@@ -287,7 +287,7 @@
 		</httpChan>
 		<httpChan>
 			<chanId>rsvHistSend</chanId>
-			<description>결재완료내역전송-호텔패스글로벌</description>
+			<description>결재완료내역전송</description>
 			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/BookingOrderRQ.ashx</restURI>
 			<receiverRestURI>/service/callRsvHistSend</receiverRestURI>
 			<encoding>UTF-8</encoding>
@@ -296,8 +296,8 @@
 		</httpChan>										
 		<httpChan>
 			<chanId>cancelFeeAmt</chanId>
-			<description>취소수수료계산-호텔패스글로벌</description>
-			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/CancelFeeOrderRQ.ashx</restURI>
+			<description>취소수수료계산</description>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/cancelFeeAmt</restURI>
 			<receiverRestURI>/service/callCancelFeeAmt</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -305,8 +305,8 @@
 		</httpChan>	
 		<httpChan>
 			<chanId>orderCancelReq</chanId>
-			<description>주문취소요청-호텔패스글로벌</description>
-			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/CancelOrderRQ.ashx</restURI>
+			<description>주문취소요청</description>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/orderCancelReq</restURI>
 			<receiverRestURI>/service/callOrderCancelReq</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -314,8 +314,8 @@
 		</httpChan>	
 		<httpChan>
 			<chanId>omiNumIdn</chanId>
-			<description>누락건확인-호텔패스글로벌</description>
-			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/SyncBookingRQ.ashx</restURI>
+			<description>누락건확인</description>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/omiNumIdn</restURI>
 			<receiverRestURI>/service/callOmiNumIdn</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -323,8 +323,8 @@
 		</httpChan>
 		<httpChan>
 			<chanId>ezwelJob</chanId>
-			<description>주문대사(이지웰)-호텔패스글로벌</description>
-			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/HTPWS_EZWEL_META.asmx?op=gfnGetBookingList</restURI>
+			<description>주문대사(이지웰)</description>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/ezwelJob</restURI>
 			<receiverRestURI>/service/callEzwelJob</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>

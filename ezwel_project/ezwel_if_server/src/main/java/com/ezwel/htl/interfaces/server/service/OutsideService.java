@@ -88,6 +88,10 @@ public class OutsideService extends AbstractServiceObject {
 	/** 시설 이미지 전체 조회 페이징 개수 */
 	private static final Integer FACL_IMG_PAGE_SIZE = 10000;
 	
+	/** 시설 이미지 변경 정보 1 커넥션당 업데이트 개수  */
+	private static final Integer FACL_IMG_UPDATE_COUNT = 3000;
+	
+	
 	private static final String ALL_REG_CHANNEL = "allReg";
 	
 	/**
@@ -428,6 +432,7 @@ public class OutsideService extends AbstractServiceObject {
 						deleteFile = new File(deletePath);
 						isDelete = false;
 						if(deleteFile.exists()) {
+							//실제 파일 삭제
 							isDelete = deleteFile.delete();
 						}
 						logger.debug("# deleteFile : {}, isDelete : {}", deletePath, isDelete);
@@ -457,9 +462,10 @@ public class OutsideService extends AbstractServiceObject {
 			}
 			else {
 				ezcFaclImg = new EzcFaclImg();
-				propertyUtil.removeFieldData(ezcFaclImg, "regId","regDt","modiId","modiDt");
+				// remove data => "regId", "regDt", "modiId", "modiDt" 
+				propertyUtil.removeDefaulFieldData(ezcFaclImg);
 				//조회 조건 현제 없음
-				ezcFaclImgList = getBuildImageList(new ArrayList<EzcFaclImg>(), ezcFaclImg, 1, FACL_IMG_PAGE_SIZE);
+				ezcFaclImgList = getBuildImageAllList(new ArrayList<EzcFaclImg>(), ezcFaclImg, 1, FACL_IMG_PAGE_SIZE);
 				logger.debug("# ezcFaclImgList.size : {}", ezcFaclImgList.size());
 			}
 			
@@ -550,12 +556,22 @@ public class OutsideService extends AbstractServiceObject {
 			if(executor != null) {
 				executor.clear();
 			}
+			if(inRealtimePart != null) {
+				
+				if(inRealtimePart.getCreateDownloadFileUrlList() != null) {
+					inRealtimePart.getCreateDownloadFileUrlList().clear();
+				}
+				if(inRealtimePart.getDeleteDownloadFilePathList() != null) {
+					inRealtimePart.getDeleteDownloadFilePathList().clear();
+				}
+ 			}
 		}
 		
 		logger.debug("[END] downloadMultiImage");		
 		return out;
 	}
 	
+	@APIOperation(description="시설 이미지 변경정보 업데이트")
 	private Integer updateBuildImage(List<EzcFaclImg> finalFaclImgList, Integer fromIndex, Integer txCount) {
 
 		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
@@ -563,7 +579,7 @@ public class OutsideService extends AbstractServiceObject {
 		/**
 		 * EZC_FACL_IMG update를 3000개씩 commit 처리 
 		 */
-		Integer toIndex = fromIndex + 3000;
+		Integer toIndex = fromIndex + FACL_IMG_UPDATE_COUNT;
 		List<EzcFaclImg> subFaclImgList = null;
 		if(toIndex > finalFaclImgList.size()) {
 			toIndex = finalFaclImgList.size();
@@ -594,8 +610,8 @@ public class OutsideService extends AbstractServiceObject {
 	
 	
 	@APIOperation(description="시설 이미지 전체 조회(페이징조회)")
-	private List<EzcFaclImg> getBuildImageList(List<EzcFaclImg> ezcFaclImgList, EzcFaclImg ezcFaclImg, Integer pageNum, Integer pageSize) {
-		logger.debug("[START] getBuildImageList pageNum : {}, pageSize : {}", pageNum, pageSize);
+	private List<EzcFaclImg> getBuildImageAllList(List<EzcFaclImg> ezcFaclImgList, EzcFaclImg ezcFaclImg, Integer pageNum, Integer pageSize) {
+		logger.debug("[START] getBuildImageAllList pageNum : {}, pageSize : {}", pageNum, pageSize);
 		
 		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
 		
@@ -606,10 +622,10 @@ public class OutsideService extends AbstractServiceObject {
 		
 		if(list != null && list.size() > 0) {
 			ezcFaclImgList.addAll(list);
-			getBuildImageList(ezcFaclImgList, ezcFaclImg, (pageNum + 1), pageSize);
+			getBuildImageAllList(ezcFaclImgList, ezcFaclImg, (pageNum + 1), pageSize);
 		}
 		
-		logger.debug("[END] getBuildImageList");
+		logger.debug("[END] getBuildImageAllList");
 		return ezcFaclImgList;
 	}
 	

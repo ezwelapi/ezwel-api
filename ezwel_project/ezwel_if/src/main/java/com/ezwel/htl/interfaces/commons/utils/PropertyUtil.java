@@ -95,6 +95,12 @@ public class PropertyUtil {
 		return count;
 	}
 	
+	
+	@APIOperation(description="주어진 bean에 바인드된 기본 공통필드들의 값을 null로 세팅합니다.")
+	public int removeDefaulFieldData(Object bean) {
+		return removeFieldData(bean, "regId", "regDt", "modiId", "modiDt");
+	}
+	
     /**
      * 주어진 bean 에 propertyName 이 존재한다면 propertyName 에 result 를 setting
      * 결과 true/false 를 반환합니다.

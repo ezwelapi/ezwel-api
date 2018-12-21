@@ -36,6 +36,8 @@ public class ResourceUtil {
 	
 	private final String RESOURCE_EXT = ".properties";
 	
+	private FileUtil fileUtil;
+	
 	private static Map<String, Map<String, Object>> resourceMap = null; 
 	
 	private static void initResourceMap(){
@@ -137,7 +139,7 @@ public class ResourceUtil {
 	
 	public Properties load(String filePath) {
 
-		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+		fileUtil = (FileUtil) LApplicationContext.getBean(fileUtil, FileUtil.class);
 		
 		String propertyPath = filePath;
 		
@@ -147,8 +149,8 @@ public class ResourceUtil {
 		
 		String canonicalPath = null;
 		
-		if( commonUtil != null) {
-			canonicalPath = commonUtil.getRealPath(propertyPath);
+		if( fileUtil != null) {
+			canonicalPath = fileUtil.getRealPath(propertyPath);
 		}
 		else {
 			canonicalPath = propertyPath;
@@ -190,7 +192,7 @@ public class ResourceUtil {
 		try {
 			canonicalPath = file.getCanonicalPath();
 			
-			if(!CommonUtil.getExt(canonicalPath).equalsIgnoreCase("properties")) {
+			if(!FileUtil.getExt(canonicalPath).equalsIgnoreCase("properties")) {
 				throw new APIException("프로퍼티 파일이 아닙니다.");
 			}
 			

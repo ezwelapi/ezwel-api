@@ -16,6 +16,7 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
+import com.ezwel.htl.interfaces.server.commons.utils.FileUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.UnicodeUtil;
 
 public class UtilTest {
@@ -70,11 +71,11 @@ public class UtilTest {
 	
 	//@Test
 	public void imageDownload() {
-		CommonUtil comm = new CommonUtil();
+		FileUtil fileUtil = new FileUtil();
 		ImageSDO imageSDO = new ImageSDO();
 		/*다운로드 할 이미지 URL*/
 		imageSDO.setImageURL("http://tourimage.interpark.com/Product/Housing/Hotel/17000047/17000047_01bb.jpg?ver=20181129");
-		ImageSDO out = comm.getImageDownload(imageSDO, true);
+		ImageSDO out = fileUtil.getImageDownload(imageSDO, true);
 		logger.debug("ImageSDO out : {}", out);
 	}
 	

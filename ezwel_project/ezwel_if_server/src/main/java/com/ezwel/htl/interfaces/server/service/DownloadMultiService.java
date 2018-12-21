@@ -8,27 +8,30 @@ import org.slf4j.LoggerFactory;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
-import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractComponent;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
-import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
-import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
+import com.ezwel.htl.interfaces.server.commons.utils.FileUtil;
 
 @APIType(description="시설 이미지 멀티쓰레드 다운로드 서비스")
 public class DownloadMultiService extends AbstractComponent implements Callable<ImageSDO> {
 
 	private static final Logger logger = LoggerFactory.getLogger(DownloadMultiService.class);
 	
-	private CommonUtil commonUtil;
+	private static final boolean IS_LOGGING = false;
+	
+	private FileUtil fileUtil;
 	
 	private ImageSDO imageParam;
 	
-	private StackTraceUtil stackTraceUtil;
-	
+	/**
+	 * Constructor
+	 * @param inImageParam
+	 * @param count
+	 */
 	public DownloadMultiService(ImageSDO inImageParam, Integer count) {
+		logger.info("- DownloadService Initialized : {}, URL : {}", count, inImageParam.getImageURL());
 		/** 필요 한 지역변수 세팅 */
-		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
-		logger.debug("- DownloadService Initialized : {}", count);
+		fileUtil = (FileUtil) LApplicationContext.getBean(fileUtil, FileUtil.class);
 		this.imageParam = inImageParam;
 	}
 	
@@ -40,10 +43,14 @@ public class DownloadMultiService extends AbstractComponent implements Callable<
 		ImageSDO out = null;
 		
 		try {
-			logger.debug("[DOWNLOAD-START] BUILD IMAGE URL : {}", imageParam.getImageURL());
-			out = commonUtil.getImageDownload(imageParam, true);
+			if(IS_LOGGING) {
+				logger.debug("[DOWNLOAD-START] BUILD IMAGE URL : {}", imageParam.getImageURL());
+			}
+			out = fileUtil.getImageDownload(imageParam, true);
 			out.setDummy(imageParam.getDummy());
-			logger.debug("[DOWNLOAD-END] BUILD IMAGE DOWNLOAD : {}", out.isSave());
+			if(IS_LOGGING) {
+				logger.debug("[DOWNLOAD-END] BUILD IMAGE DOWNLOAD : {}", out.isSave());
+			}
 		}
 		catch(APIException e) {
 			//이미지 다운로드중 발생한 익셉션 무시

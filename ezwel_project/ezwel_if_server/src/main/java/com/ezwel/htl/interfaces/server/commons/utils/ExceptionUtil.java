@@ -21,18 +21,22 @@ public class ExceptionUtil {
 	
 	private CommonUtil commonUtil;
 	
+	private FileUtil fileUtil;
+	
 	private APIUtil apiUtil;
 	
 	@APIOperation(description="전체시설일괄등록 인터페이스 배치 에러로그 작성")
 	public boolean writeBatchErrorLog(String userMessages, Object[] messageArguments, String fileName, Exception e) {
+		logger.debug("[START] writeBatchErrorLog fileName : {}", fileName);
 		
 		apiUtil = (APIUtil) LApplicationContext.getBean(apiUtil, APIUtil.class);
 		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+		fileUtil = (FileUtil) LApplicationContext.getBean(fileUtil, FileUtil.class);
 		
 		boolean out = false;
 		
 		if(APIUtil.isEmpty(userMessages)) {
-			throw new APIException("[Validate] writeBatchErrorLog 의  미시지가 존재하지 않습니다.");
+			throw new APIException("[Validate] writeBatchErrorLog 의  메시지가 존재하지 않습니다.");
 		}
 		if(APIUtil.isEmpty(fileName)) {
 			throw new APIException("[Validate] writeBatchErrorLog 의 로그 파일 명이 존재하지 않습니다.");
@@ -63,12 +67,12 @@ public class ExceptionUtil {
 		}
 		
 		/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
-		File file = commonUtil.mkfile(InterfaceFactory.getInterfaceBatchErrorLogPath(), filePath, messages, OperateConstants.DEFAULT_ENCODING, true, true);
+		File file = fileUtil.mkfile(InterfaceFactory.getInterfaceBatchErrorLogPath(), filePath, messages, OperateConstants.DEFAULT_ENCODING, true, true);
 		
 		if(file.exists()) {
 			out = true;
 		}
-		
+		logger.debug("[END] writeBatchErrorLog result : {}", out);
 		return out;
 	}
 }

@@ -20,6 +20,11 @@ public class RegexUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(RegexUtil.class);
 
+	public final static int DEFAULT_FLAGS; 
+	
+	static {
+		DEFAULT_FLAGS = Pattern.CASE_INSENSITIVE | Pattern.DOTALL;
+	}
 	
 	/**
 	 * 주어진 패턴컴파일, Matcher 실행 및 Matcher 리턴
@@ -28,10 +33,18 @@ public class RegexUtil {
 	 * @return
 	 */
 	@APIOperation(description="주어진 패턴컴파일, Matcher 실행 및 Matcher 리턴합니다.")
-	public Matcher match(String contents , String pattern) {
+	public Matcher match(String contents , String pattern, int flags) {
 		String contentStr = APIUtil.NVL(contents);
 		String patternStr = APIUtil.NVL(pattern);
-		Pattern regex = Pattern.compile(patternStr, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+		Pattern regex = null; 
+		
+		if(flags == -1) {
+			regex = Pattern.compile(patternStr);
+		}
+		else {
+			regex = Pattern.compile(patternStr, flags);
+		}
+		
 		return regex.matcher(contentStr);
 	}
 
@@ -45,6 +58,13 @@ public class RegexUtil {
 			findMatcher = matcher.find();
 		}
 		return findMatcher;
+	}
+	
+	
+	
+	@APIOperation(description="바인드된 대상문자열 내에 패턴에 해당하는 부분이 있는지 체크하여 줍니다.")
+	public boolean testPattern(String sentence, String pattern) {
+		return testPattern(sentence, pattern, DEFAULT_FLAGS);
 	}
 	
 	/**
@@ -61,11 +81,11 @@ public class RegexUtil {
 	 * @since  2018. 11. 21.
 	 */
 	@APIOperation(description="바인드된 대상문자열 내에 패턴에 해당하는 부분이 있는지 체크하여 줍니다.")
-	public boolean testPattern(String sentence, String pattern) {
+	public boolean testPattern(String sentence, String pattern, int flags) {
 		
 		boolean findMatcher = false;
 		if(APIUtil.isNotEmptyStringArray(new String[]{sentence, pattern})){
-			Matcher matcher = match(sentence, pattern);
+			Matcher matcher = match(sentence, pattern, flags);
 			findMatcher = matcher.find();
 		}
 		
@@ -80,7 +100,7 @@ public class RegexUtil {
 	 * @return
 	 */
 	@APIOperation(description="대상문자열중 패턴에 해당하는 문자열중 \"\" 이 아닌 값을 리스트에 담아 리턴하여줍니다.")
-	public List<String> findPatternToList(String targetString, String patternString){
+	public List<String> findPatternToList(String targetString, String patternString, int flags){
 
 		List<String> patternSet = new ArrayList<String>();
 
@@ -91,7 +111,7 @@ public class RegexUtil {
         	return patternSet;
         }
 
-  		Matcher matcher = match(targetStr, patternStr);
+  		Matcher matcher = match(targetStr, patternStr, flags);
 
   		int count = 0;
   		String matchStr = "";
@@ -115,7 +135,7 @@ public class RegexUtil {
 	 * @return
 	 */
 	@APIOperation(description="대상문자열중 패턴에 해당하는 문자를 switchString 으로 모두 치환하여 리턴하여 줍니다.")
-	public String replaceAllPattern(String sentenceString, String patternString, String switchString){
+	public String replaceAllPattern(String sentenceString, String patternString, String switchString, int flags){
 
     	String sentenceStr = sentenceString;
     	String patternStr = patternString;
@@ -125,7 +145,7 @@ public class RegexUtil {
         	return sentenceStr;
         }else{
         	patternStr = "("+patternStr+")";
-    		Matcher matcher = match(sentenceStr, patternStr);
+    		Matcher matcher = match(sentenceStr, patternStr, flags);
     		if(matcher.find()) {
     			sentenceStr = matcher.replaceAll(switchStr);
     		}
@@ -143,7 +163,7 @@ public class RegexUtil {
 	 * @return
 	 */
 	@APIOperation(description="대상문자열중 패턴에 해당하는 문자의 앞과 뒤를 postfixStr {patternString} prefixStr 형태로 모두 치환하여 리턴하여줍니다.")
-	public String replaceAllPatternWrap(String sentenceString, String patternString, String postfixString, String prefixString){
+	public String replaceAllPatternWrap(String sentenceString, String patternString, String postfixString, String prefixString, int flags){
 
     	String sentenceStr = sentenceString;
     	String patternStr  = patternString;
@@ -154,7 +174,7 @@ public class RegexUtil {
         	return sentenceStr;
         }else{
         	patternStr = "("+patternStr+")";
-    		Matcher matcher = match(sentenceStr, patternStr);
+    		Matcher matcher = match(sentenceStr, patternStr, flags);
     		if(matcher.find()) {
     			sentenceStr = matcher.replaceAll(postfixStr+"$1"+prefixStr);
     		}

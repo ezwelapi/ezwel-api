@@ -30,9 +30,6 @@ import java.math.BigDecimal;
 @APIModel(modelNames="시설 이미지", description="시설 이미지 ( EZC_FACL_IMG )", modelTypes="TABLE")
 public class EzcFaclImg extends AbstractEntity {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
-	
 	@APIFields(description = "시설 이미지 일련번호", maxLength=10, required=true, constraints="EZC_FACL_IMG_PK(P),SYS_C0011106(C) EZC_FACL_IMG_PK(UNIQUE)")
 	private BigDecimal faclImgSeq;
 
