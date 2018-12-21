@@ -1,0 +1,1896 @@
+10030653	6ec97860-f748-491a-8d75-d05ee2477ecb	충주 아침호수 펜션	아침,아침호수,충주,펜션,호수	Chungju Morning Lake Pension	Chungju,Lake,Morning,Pension,chungju,lake,morn,morning,pension
+10030653	6eca3693-f496-4e20-a999-6eab269a51b4	제주행복스케치	스케치,제주,제주행복스케치,행복		
+10030653	6eef50a9-9e4b-4637-aab2-a444e030478a	러블리펜션	러블리,러블리펜션,펜션		
+10030653	6da3d845-2480-4c44-98a5-ff48765a5532	가평 행복가득 펜션	가득,가평,펜션,행복,행복가득		
+10030653	6e01effc-6848-4bd9-85e3-92f0a84f26b2	영덕 바다공원펜션	공원,바다,바다공원,바다공원펜션,영덕,펜션	Yeongdeok Seapark Pension	Pension,Seapark,Yeongdeok,pension,seapark,yeongdeok
+10030653	6d5d44b5-8c2f-4b4e-b4b2-39451027f517	포항굿모닝모텔	굿모닝,모텔,포항,포항굿모닝모텔		
+10030653	6d83bfa8-02fb-4dbf-b009-6b878ecdc22b	놀러와펜션(B구역)	구역,놀러와,놀러와펜션구역,펜션		
+10030653	6d957381-acf2-49c1-a8af-a7e21ab33072	횡성 코알라 펜션	코알라,펜션,횡성	Hoengseong Koala Pension	Hoengseong,Koala,Pension,hoengseong,koala,pension
+10030653	6c63fd65-dae2-41aa-a82d-c9cc844e555a	레드클로버	레드,레드클로버,클로버		
+10030653	6c784182-2903-43ad-9ae1-a464b060368b	아이니콘도(펜션형)	니콘,도,아이,아이니콘도,아이니콘도펜션형,펜션,형		
+10030653	6cca7f9b-2c95-4b1d-9ca0-e893b4f92a23	평창 하늘정원 펜션	정원,펜션,평창,하늘,하늘정원	Pyeongchang Sky Garden Pension	Garden,Pension,Pyeongchang,Sky,garden,pension,pyeongchang,sky
+10030653	6bc1f4ff-47a3-4734-a06d-80b13101ec02	강화 캐리비안캠핑 펜션	강화,캐리비안,캐리비안캠핑,캠핑,펜션	Ganghwa Octagon Pension	Ganghwa,Octagon,Pension,ganghwa,octagon,pension
+10030653	6c1dd386-c4e0-498d-8460-6e9ad0a60894	시냇물펜션	시냇물,시냇물펜션,펜션		
+10030653	6b57d36e-0909-4ed0-ae7d-13bcc0232919	순천만 르쁘띠프랭스 펜션	르쁘띠프랭스,만,순천,순천만,펜션		
+10030653	6b6c6c93-47ce-452e-9c02-38aa230927b9	순천 전망좋은곳 펜션	곳,순천,전망,전망좋은곳,좋은,좋은곳,펜션		
+10030653	6bb3d158-fa71-493a-bab8-7b21c9dfb3f8	양평 햇살가득 펜션	가득,양평,펜션,햇살,햇살가득	YangPyeong Full of Sunshine Pension	Full,Pension,Sunshine,YangPyeong,full,of,pension,sunshin,sunshine,yangpyeong
+10030653	6b101cc9-d814-4762-97ac-11bdc687ca06	해피랜드펜션	랜드,펜션,해피,해피랜드펜션		
+10030653	6b338dde-83fa-4945-93f8-407e4a374a0d	웨스티하우스	웨스티,웨스티하우스,하우스		
+10030653	6b4bdac8-e2f7-447f-a595-ee0697d07817	포천 에르모사 펜션	에르모사,펜션,포천	Pocheon Hermosa Pension	Hermosa,Pension,Pocheon,hermosa,pension,pocheon
+10030653	6a9dcc6f-03e4-4621-bea6-bb6f460eda80	예성연수원펜션	연수원,예성,예성연수원펜션,펜션		
+10030653	6accd019-c570-41ab-854a-d228c9cac103	용인 하늘역 펜션	ㄴ,역,용,용인,이,펜션,하늘,하늘역	Yongin Sky Station Pension	Pension,Sky,Station,Yongin,pension,sky,station,yongin
+10030653	6ad7c3a9-de25-4eef-a277-fbf6a948c495	양평 오와리산장 펜션	산장,양평,오와리,오와리산장,펜션	Yangpyeong Owari sanjang Pension	Owari,Pension,Yangpyeong,owari,pension,sanjang,yangpyeong
+10030653	69f56f92-8a48-476b-90e4-7a008096337f	정우 렌탈하우스	렌탈,렌탈하우스,정우,정우 렌탈,하우스		
+10030653	6a09d6db-bee9-40d1-9040-70fba914588f	양평 두명안 펜션	두명안,양평,펜션		
+10030653	69d37df0-0b10-4f36-97e3-639b95479405	아름다운사랑이머무는곳	다운,머무는곳,사랑,사랑이,아름,아름다운사랑이머무는곳,이머무는곳		
+10030653	6a0c5749-f9ce-48f9-827c-b147b3bbf5a5	횡성 숲속의사랑별 펜션	별,사랑,속의,숲,숲속의,숲속의사랑,펜션,횡성	Hoengseong Forest Love Star Pension	Forest,Hoengseong,Love,Pension,Star,forest,hoengseong,love,pension,star
+10030653	6999b1a8-3044-4c56-b0f7-fa2f3b7c899d	양평 소풍 펜션	소풍,양평,펜션		
+10030653	69b92fb1-ad48-4de9-bcf7-15af291695a9	벨비앙펜션	벨비앙,벨비앙펜션,펜션		
+10030653	695ff0d2-c7b3-407d-a732-d79ca7b78e9c	양평 애플 펜션	애플,양평,펜션	YangPyeong PensionApple Pension	Pension,PensionApple,YangPyeong,pension,pensionappl,pensionapple,yangpyeong
+10030653	68f21ef7-3f3b-401e-927a-4c0ff7ea1ffc	울진 라브리펜션	라브리,라브리펜션,울,울진,진,펜션		
+10030653	69475b57-d087-406c-a151-cf7accc3b917	바다로펜션	로,바다,바다로,바다로펜션,펜션		
+10030653	68c47d52-09b8-4850-9de8-b3f9b18a0c00	양수리 장미	리,양수,양수리,장미		
+10030653	68e89a52-e98d-46df-a1ab-ab3ea55d4e2a	포천 목석산방 펜션	목석,목석산방,산방,펜션,포천	Pocheon Moksoksanban Pension	Moksoksanban,Pension,Pocheon,moksoksanban,pension,pocheon
+10030653	68ef0538-8182-426d-9dae-bfea95cb9f9d	아이비	비,아이,아이비		
+10030653	689635e5-4c80-4441-93ef-347bff272047	서귀포 굿모닝하우스 펜션	굿모닝,굿모닝하우스,서귀포,펜션,하우스	Seogwipo Good Morning House Pension	Good,House,Morning,Pension,Seogwipo,good,hous,house,morn,morning,pension,seogwipo
+10030653	689847ad-e80d-4497-9a0e-092b928899e8	강진 허클베리핀 펜션	강진,펜션,핀,허클베리,허클베리핀		
+10030653	6890ef25-b836-471c-b053-e926b35fc436	태안 해솔마루 펜션	마루,태안,펜션,해솔,해솔마루	Taean Haesol Maru Pension	Haesol,Maru,Pension,Taean,haesol,maru,pension,taean
+10030653	685f5d49-0538-4bae-8145-a836815c4e41	해달별펜션(강화)	강화,펜션,해달별,해달별펜션강화		
+10030653	686fb8f7-b981-438c-9f13-b17b7806af3a	강화 풍경속오브제 셰프 펜션	강화,셰프,속,오브제,펜션,풍경,풍경속오브제	Ganghwa Obeuje in View Chef Pension	Chef,Ganghwa,Obeuje,Pension,View,chef,ganghwa,in,obeuj,obeuje,pension,view
+10030653	688878b7-868a-4de8-9c26-43d30efb12c8	양평 비앙코 펜션	비앙코,양평,펜션	YangPyeong Bianco Pension	Bianco,Pension,YangPyeong,bianco,pension,yangpyeong
+10030653	688bf510-dce8-4d95-bac9-58404363aae8	미알레펜션	미알레,미알레펜션,펜션		
+10030653	688bfc18-a615-43ca-a9d3-2ee28f66fef4	펜션 휴가	펜션,휴가		
+10030653	685df61d-bb58-414d-9aa2-321af75d5eb8	강화도스파카라반1호점	강화,강화도,강화도스파카라반1호점,도,반1호점,스파,카라,카라반1호점		
+10030653	685f2138-4134-4738-9ee8-85710f8a6c1e	양평 운담미르 펜션	미르,양평,운담,운담미르,펜션	YangPyeong Cloud & Saesori Pension	Cloud,Pension,Saesori,YangPyeong,cloud,pension,saesori,yangpyeong
+10030653	67408572-e0f1-42d0-a8ee-40e83b3bf0e0	청도 수피아펜션	도,수피,수피아펜션,아,청,청도,펜션		
+10030653	67a0e5bf-e8ba-4161-b5bf-6f5b573de2c1	태안 산해로 펜션	로,산,산해,산해로,태안,펜션,해로	Taean Sanhaero Pension	Pension,Sanhaero,Taean,pension,sanhaero,taean
+10030653	67bfaa97-0a98-4d00-b609-db9878534768	태안 네잎클로버 펜션	네잎,네잎클로버,클로버,태안,펜션	Taean Four-Leaf Clove Pension	Clove,FourLeaf,Pension,Taean,clove,fourleaf,pension,taean
+10030653	67d90445-1fb9-4dc3-8f8a-46274eae8247	섬과바다	바다,섬과,섬과바다		
+10030653	67f68e14-dc71-4cbe-ad63-0826bef7c6e7	강화 해밀 펜션	강화,펜션,해밀		
+10030653	66edea7c-5b18-48c0-b8ef-44025f238d04	보보의정원	보보의,보보의정원,정원		
+10030653	670488e1-fbb7-4e47-b46f-fc0af5eb4bf5	양평 블루마운틴 펜션	마운틴,블루,블루마운틴,양평,펜션	Yangpyeong Blue Mountain Pension	Blue,Mountain,Pension,Yangpyeong,blue,mountain,pension,yangpyeong
+10030653	6705c650-d3b6-4b83-9394-8ffde4bcd0e2	안펜션	안,안펜션,펜션		
+10030653	66b36c0f-4b01-42d6-b33d-171ee32f1b93	우리펜션	우리,우리펜션,펜션		
+10030653	66d49972-c33f-4171-8c1c-c37fcd27c21a	경주 이끌림 펜션	ㅁ,경주,이끌리,이끌림,펜션	Gyeongju Attracting Pension	Attracting,Gyeongju,Pension,attract,attracting,gyeongju,pension
+10030653	66e7cce7-58fe-48be-b4d8-4a3667b51aca	산뒤펜션	산뒤,산뒤펜션,펜션		
+10030653	664cf910-3f4c-47a4-a48e-f8e45c3e7339	푸른솔펜션	솔,펜션,푸른,푸른솔,푸른솔펜션		
+10030653	6654d16d-b263-4eca-b0ad-b5f66c0b333a	숲속의이글루	숲속의,숲속의이글루,이글루		
+10030653	657e5272-c66d-4236-9175-b3ec64702869	에스엔제이(S&J)펜션	에스,에스엔,에스엔제이펜션,엔제이,제이,펜션		
+10030653	658fba08-6d77-42af-bf13-a54f999831dc	선재465	465,선재,선재465	Seonjaedo 465 Pension	465,Pension,Seonjaedo,pension,seonjaedo
+10030653	65f60841-5416-4ecb-8904-95f73d76983c	강릉 프렌즈하우스 펜션	강릉,렌즈,펜션,프,프렌즈하우스,하우스		
+10030653	65fd53f6-ea1b-455e-84db-c9279b5fb310	강화물레방아	강화,강화물레방아,물레방아		
+10030653	664557b2-1592-4c03-9573-c9bdc571d65f	메종드라메르	메종드라메르		
+10030653	64f99f83-b53e-419a-98d7-6b7511aa34bf	빌로우비치	빌로,빌로우비치,우비,치		
+10030653	650a6288-6144-47bc-959c-4f7c54b8f8ab	태백 행복한세상 펜션	태백,펜션,한세상,행복,행복한세상		
+10030653	65313634-3d23-4828-bc0a-a41b8fa7a24b	시실리	시,시실리,실리		
+10030653	65729e0d-142b-489a-9eb2-1a2827f789ff	단양 소백산풍경 펜션	단양,소백산,소백산풍경,펜션,풍경	Danyang Sobaeksan Scenery Pension	Danyang,Pension,Scenery,Sobaeksan,danyang,pension,sceneri,scenery,sobaeksan
+10030653	64bd5791-1295-4dbe-9940-1ac062d1c99f	안면도 루테라스펜션	도,루,루테라스펜션,안면,안면도,테라스,펜션		
+10030653	64cb6e20-3fbc-4517-b04f-7d52a7913eac	양평 숲속펜션	숲속,숲속펜션,양평,펜션		
+10030653	64d64ad3-4186-4c07-9523-ba6264b92d24	단양 풀내음 펜션	내음,단양,펜션,풀,풀내음	Danyang Pullnaeum Pension	Danyang,Pension,Pullnaeum,danyang,pension,pullnaeum
+10030653	64a9616c-dac9-4879-8580-905baa02d47c	강화 산들애 펜션	강화,산들애,펜션		
+10030653	637d6b0b-5416-4031-9ed0-67c76d450880	등대펜션	등대,등대펜션,펜션		
+10030653	63e9fc26-7c60-4488-9bbb-0a0f99485d00	에버그린	에버그린		
+10030653	642eb3d3-0012-4e13-b372-a89c6e22075b	평창 써니주니 펜션	니,써니주,써니주니,펜션,평창	Peongcang Sunny Junny Pension	Junny,Pension,Peongcang,Sunny,junni,junny,pension,peongcang,sunni,sunny
+10030653	64a4c7c5-7e1d-44d8-ad00-d0b1718fef75	동화속오두막	동화,동화속오두막,속,오두막		
+10030653	634931d0-5791-461d-96d5-e21c2d80af26	양평 이솝이야기 펜션	양평,이솝이야기,펜션	YangPyeong Aesop's Fable Pension	Aesops,Fable,Pension,YangPyeong,aesop,aesops,fabl,fable,pension,yangpyeong
+10030653	624bf8dc-9501-4152-9ea6-7c93f5a72be0	서귀포 올레길 펜션	서귀포,올레길,펜션	Seogwipo Olleh Road Pension	Olleh,Pension,Road,Seogwipo,olleh,pension,road,seogwipo
+10030653	625d1d1f-7dfa-48f8-93f9-6d8bca47b65d	강화 디씨 펜션	강화,디씨,펜션		
+10030653	62cd2983-e99e-46c1-8843-7a26663e4a49	래미안빌	래,래미안빌,미안,빌	Taean Raemian vill Pension	Pension,Raemian,Taean,pension,raemian,taean,vill
+10030653	62e2afd8-a0ed-4b3c-9423-faf59c52a470	솔롱고스	솔롱고스		
+10030653	620d962d-b823-4474-82f2-d6650905a75a	태안 마로니에 펜션	마로니,마로니에,에,태안,펜션	Taean Marronnier Pension	Marronnier,Pension,Taean,marronni,marronnier,pension,taean
+10030653	630baaa3-c3ed-45c9-8569-cccc72a7a160	양평 제이콥 펜션	양평,제이콥,펜션	YangPyeong Jacob Pension	Jacob,Pension,YangPyeong,jacob,pension,yangpyeong
+10030653	63347fa1-1477-4c74-bae2-0f0c6ef357c8	아비앙또	아비,아비앙또,앙또	Namhae Abientot Pension	Abientot,Namhae,Pension,abientot,namha,namhae,pension
+10030653	6196857a-feb0-4b03-90ec-2c21c5f00402	겨울바다펜션	겨울,겨울바다펜션,바다,펜션		
+10030653	61c29260-0398-4972-9030-4734cebe3432	평창파스텔	파스텔,평창,평창파스텔		
+10030653	61f7db5c-a3a3-430b-8590-69549f11d3f5	네모난집	난집,네모,네모난집		
+10030653	61128a93-0e55-4fe7-984f-b7b987f1c50d	서귀포 해바담게스트하우스	게스트,서귀포,하우스,해바담,해바담게스트하우스		
+10030653	6125ce9e-192c-4c87-ba0c-019399dece1b	여주토방펜션	여주,여주토방펜션,토방,펜션		
+10030653	6154a859-841d-4795-bf91-3a339bcb7dc7	평창 솔푸른 펜션	솔,솔푸른,펜션,평창,푸른	Pyeongchang Ever Green Pine Pension	Ever,Green,Pension,Pine,Pyeongchang,ever,green,pension,pine,pyeongchang
+10030653	60b60a3d-b04b-41d8-b337-9ab12c9967f0	안면도구름펜션	구름,도구,름,안면,안면도,안면도구름펜션,펜션		
+10030653	60c0d9bd-7c87-4da6-a4c5-ae74750f569e	경주 뉴캐슬쉐이리 펜션	경주,뉴캐슬쉐,뉴캐슬쉐이리,리,이,이리,펜션		
+10030653	60cdcfb2-35cb-4bd5-8a55-6234998105e8	베이비하우스제이	베이비,베이비하우스,베이비하우스제이,제이,하우스		
+10030653	60e5bf9b-5417-4c13-9f28-51988be246f6	안면도 풀하우스 펜션	도,안면,안면도,펜션,풀,풀하우스,하우스	Anmyeondo Fullhouse Pension	Anmyeondo,Fullhouse,Pension,anmyeondo,fullhous,fullhouse,pension
+10030653	60ecf7ab-4227-41c7-b416-4421a5868c5a	(구)항아리펜션	구,구항아리펜션,펜션,항아리		
+10030653	60177979-9f25-46c6-88ed-11eeab00e117	양평 온니유 펜션	양평,온니유,펜션	YangPyeong Only U Pension	Only,Pension,U,YangPyeong,onli,only,pension,u,yangpyeong
+10030653	602474ad-fdd6-4d32-bddc-527978f91921	태안 황도일마레 애견 펜션	마레,애견,일마레,태안,펜션,황도,황도일,황도일마레	Taean Ilmarae Pension (pet allowed)	Ilmarae,Pension,Taean,allow,allowed,ilmara,ilmarae,pension,pet,taean
+10030653	603692cd-505c-4c5e-8752-5a228175fcc4	리버벨리	리버,리버벨리,벨리		
+10030653	60496c2b-47e1-43a7-a53c-46968c10c5a2	알프스글로빌	글로,빌,알프스,알프스글로빌		
+10030653	6006181e-f6ef-4329-8f59-d873f5389fe4	펜션 셀레네	셀레네,펜션		
+10030653	605b3372-05af-4a17-ba2b-17bdfec40e44	강촌파스텔	강촌,강촌파스텔,파스텔		
+10030653	6064ae29-3345-493e-aca6-6c96af54f121	양평 파밀리아힐 펜션	밀리아,양평,파,파밀리아힐,펜션,힐	YangPyeong Familiar Hill Pension	Familiar,Hill,Pension,YangPyeong,familiar,hill,pension,yangpyeong
+10030653	5ff6a4b5-8071-4d72-aa61-21818a6fb8e5	안면도폴라리스펜션	도폴라리스,안면,안면도,안면도폴라리스펜션,펜션,폴라리스		
+10030653	5ffdc23e-d0f2-4992-ba12-574cdc9b84a2	거제아라몽펜션	거제,거제아라몽펜션,아라몽,펜션		
+10030653	5feebc2e-cf42-4a25-a172-06606d2c7a17	아베크펜션	베크,아,아베,아베크펜션,크,펜션		
+10030653	5fb49d96-9a62-41e4-8094-9d0767796bdc	평창 머루와다래 펜션	다래,머루,머루와,머루와다래,와,펜션,평창	Pyeongchang Muroo & Darae Pension	Darae,Muroo,Pension,Pyeongchang,dara,darae,muroo,pension,pyeongchang
+10030653	5fb5e877-3b4d-457b-9a28-5f46735309b0	서귀포 로즈하우스 펜션	로즈,로즈하우스,서귀포,펜션,하우스		
+10030653	5fdb2b11-f5a7-492a-9a3f-56f4478bc77b	별밭지기펜션	별밭,별밭지기펜션,지기,펜션		
+10030653	5f046eeb-69f5-4a2a-8531-d698f51e5834	슐라프라움풀빌라	빌라,슐라프라움풀,슐라프라움풀빌라	Gapyeong Schlafraum Pension	Gapyeong,Pension,Schlafraum,gapyeong,pension,schlafraum
+10030653	5f1c5fd6-b6f1-47ba-ac01-2c90081d8b47	통영여행게스트펜션	게스트,여행,통영,통영여행게스트펜션,펜션		
+10030653	5f51e860-ee1a-461a-8ef5-c97fe9247b4d	사계펜션	사계,사계펜션,펜션		
+10030653	5e730966-90dd-453e-b31e-631f9f178bfc	제주 중문에코 펜션	에코,제주,중문,중문에코,펜션		
+10030653	5e7d172d-3c1e-41dc-9bee-6b81ac8ccd67	쇼콜라펜션	쇼,쇼콜라,쇼콜라펜션,콜라,펜션		
+10030653	5f039ac0-db58-40c8-86e4-9cc312539ef6	태안 처음처럼 펜션	처럼,처음,처음처럼,태안,펜션	Taean Just Like The Beginning Pension	Beginning,Just,Like,Pension,Taean,The,begin,beginning,just,like,pension,taean,the
+10030653	5e242e94-67b3-4f96-a351-64c65212d249	평창 야생화테마 펜션	야생화,야생화테마,테마,펜션,평창	PyeongchangWild Flower Theme Pension	Flower,Pension,PyeongchangWild,Theme,flower,pension,pyeongchangwild,theme
+10030653	5e49acf4-9898-4733-9fc4-810d97201b1d	태안 엘도라도 펜션	도,라도,엘도,엘도라,엘도라도,태안,펜션	Taean Eldorado Pension	Eldorado,Pension,Taean,eldorado,pension,taean
+10030653	5e54b728-2204-4b92-981b-fd62c4bdc1ce	태안 올포유 펜션	올,올포유,태안,펜션,포유	Taean All For U Pension	All,For,Pension,Taean,U,all,for,pension,taean,u
+10030653	5ce777fd-2c03-4239-bb6a-3bf829108543	블루마린펜션	마린,블루,블루마린펜션,펜션		
+10030653	5d25f453-2621-480f-9354-c7bd842910ed	가평 피터팬의하루 펜션	가평,팬의,펜션,피터,피터팬의,피터팬의하루,하루		
+10030653	5dee8de3-1a0a-40b0-8d34-85152092d639	포항 피렌체 펜션	펜션,포항,피렌체		
+10030653	5dfbd574-1de2-4cba-b475-1dec23d20978	코지스위트펜션	스위트,코지,코지스위트펜션,펜션		
+10030653	5e08812f-7bdc-4995-8976-296b97847f81	알프스펜션	알프스,알프스펜션,펜션		
+10030653	5e16be71-8a8c-4c4a-9da0-3058740316f8	강릉 힐스파이브 펜션	강릉,브,스파이,펜션,힐,힐스파이브	Gangneung Hills Five Pension	Five,Gangneung,Hills,Pension,five,gangneung,hill,hills,pension
+10030653	0e673ffd-3dd8-4333-b9ef-17ed4ecb4f3f	평창 풀향기 펜션	펜션,평창,풀,풀향기,향기	Pyeongchang Grass Fragrance Pension	Fragrance,Grass,Pension,Pyeongchang,fragranc,fragrance,grass,pension,pyeongchang
+10030653	0e815645-7f2b-4ee4-8379-e545171a5769	홍천 신영 펜션	신영,펜션,홍천	Hongcheon Sinyeong Pension	Hongcheon,Pension,Sinyeong,hongcheon,pension,sinyeong
+10030653	0ea01cb6-f734-4d5a-bb88-c72197899c8a	양양 꿈꾸는숲 펜션	꿈꾸는,꿈꾸는숲,숲,양양,펜션		
+10030653	0ea7a950-d321-4613-881a-7d25ff9a446f	노을풍경	노을,노을풍경,풍경		
+10030653	0eb5aefc-4263-4fb5-abf7-15b238529c0c	제천 시냇가푸른나무 펜션	나무,시냇가,시냇가푸른나무,제천,펜션,푸른	Jecheon Sineka Green Plant Pension	Green,Jecheon,Pension,Plant,Sineka,green,jecheon,pension,plant,sineka
+10030653	0f1533d9-96f0-4e8c-bb1a-dbac923a4e6f	제주 마레보 풀빌라 리조트	리조트,마레보,마레보 풀,빌라,제주,풀빌라		
+10030653	0dd6fbf4-5692-4c89-a14d-c78a08f8e0bc	발렌타인펜션	발렌,발렌타인펜션,타인,펜션		
+10030653	0e1b9bc3-0ae4-47de-98b9-932570ffe3cf	가평 언덕위에푸른집 독채 펜션	가평,독채,언덕,언덕위에푸른집,위에,위에푸른집,집,펜션,푸른		
+10030653	0e389bf8-598f-41f6-a1bd-b50f9e42bd99	계절의향기	계절,계절의,계절의향기,기,의향,향기		
+10030653	0e3fbf65-5f6e-4ed4-93eb-6a01c77642dc	거제 섬마을 펜션	거제,마을,섬,섬마을,펜션	Geoje Som Maeul Pension	Geoje,Maeul,Pension,Som,geoj,geoje,maeul,pension,som
+10030653	0e635dc3-fc42-4c00-a171-6f7514d7b2ee	숲속의궁전	궁전,숲속의,숲속의궁전		
+10030653	0d80ff3f-623b-4fd4-baf7-9e956a47028e	경주 좋은하루 펜션	경주,좋은,좋은하루,펜션,하루		
+10030653	0daa9e2c-05de-4a1e-b71a-bcc313f16a45	홍천 별이빛나는밤펜션	밤,별이,별이빛나는밤,별이빛나는밤펜션,빛나는,펜션,홍천		
+10030653	0dafbaa3-4b8a-4ff8-889c-5bc71b1a1973	태양의해변	의,태양,태양의,태양의해변,해변		
+10030653	0db6db0d-67a4-4f68-be66-ed7426a7ceb5	광주 파로스 펜션	광주,로스,파,파로스,펜션	GwWangju Night Sky Pension	GwWangju,Night,Pension,Sky,gwwangju,night,pension,sky
+10030653	0cf5f0db-9fd3-4dab-872e-17c57d25ef05	썬시티펜션	시티,썬,썬시티펜션,펜션		
+10030653	0cfeb83a-e36f-40ed-bfdc-797005a00c7a	속초 월드 펜션	속초,월드,펜션	Seokcho World Pension	Pension,Seokcho,World,pension,seokcho,world
+10030653	0d16c393-86d9-4680-9c01-9bfddc395f11	태안 노을장미정원 펜션	노을,노을장미정원,장미,정원,태안,펜션	Taean Sunset Rose Garden Pension	Garden,Pension,Rose,Sunset,Taean,garden,pension,rose,sunset,taean
+10030653	0d5c2194-7927-42ee-a7ce-346d4f6d529f	제주 에덴힐스 펜션	에덴힐스,제주,펜션	Jeju Eden Hills Pension	Eden,Hills,Jeju,Pension,eden,hill,hills,jeju,pension
+10030653	0c460cf1-74c9-46db-9a8e-5468228d6390	누나펜션	누나,누나펜션,펜션		
+10030653	0c470189-6977-4108-9f13-3f17de3b69b7	강(江)펜션	강江,강江펜션,펜션		
+10030653	0c6e8c5a-f153-4f89-ac29-e0f0a68e0a50	남이섬밸리펜션	남이섬,남이섬밸리펜션,밸리,펜션		
+10030653	0c70879d-c98c-454f-b4a9-c9b360c78023	평창 아름다운날들 펜션	날들,다운,다운날,들,아름,아름다운날,펜션,평창	Pyeongchang Beautiful Days Pension	Beautiful,Days,Pension,Pyeongchang,beauti,beautiful,dai,days,pension,pyeongchang
+10030653	0c915d6f-8136-4fd7-b412-e15e4aa74876	남해전망대펜션	남해,남해전망대,남해전망대펜션,전망대,펜션		
+10030653	0b6edc8b-28ff-4b50-8fe9-5fefb805ae7f	들꽃이있는바다	들꽃,들꽃이있는바다,바다,이있는		
+10030653	0b9dc7bd-4220-42cb-ba5f-ef65d9dc8647	해넘이펜션	펜션,해넘이,해넘이펜션	Ganghwa Haeneomi Pension	Ganghwa,Haeneomi,Pension,ganghwa,haeneomi,pension
+10030653	0bfaaca8-f0a0-4aea-828e-d2ff07a0e364	제주랜드	랜드,제주,제주랜드		
+10030653	0acee4bb-1a7d-41bd-90d8-3eed2c459b09	산울림펜션	산울림,산울림펜션,펜션		
+10030653	0ad3ba9b-0896-482a-95aa-8c02d0de4992	단양 휴앤휴 펜션	단양,펜션,휴앤휴	Danyang Hue & Hue Pension	Danyang,Hue,Pension,danyang,hue,pension
+10030653	0ae8f75b-4e0b-4dee-9cd6-3b9e3d689c08	옹진 영화속풍경 펜션	속,영화,영화속풍경,옹진,펜션,풍경	Ongjin Movie Scene Pension	Movie,Ongjin,Pension,Scene,movi,movie,ongjin,pension,scene
+10030653	0b0204b9-ccd1-43be-a436-5ce06a38911d	제주 곽지길가온 펜션	곽지,곽지길가온,길가,온,제주,펜션	Jeju Gwakji gilgaon Pension	Gwakji,Jeju,Pension,gilgaon,gwakji,jeju,pension
+10030653	0b217416-59ed-4f44-bc46-847e7cfc8daa	진주빛펜션	빛,진주,진주빛펜션,펜션		
+10030653	0b3838da-5834-49f6-9a6e-312af31ea717	서산 노을이야기 펜션	노을,노을이야기,서산,이야기,펜션	Seosan Sunset Story Pension	Pension,Seosan,Story,Sunset,pension,seosan,stori,story,sunset
+10030653	09ecb061-e336-4de8-b438-c10132cd8207	제주소울펜션	소울,제주,제주소울,제주소울펜션,펜션		
+10030653	0a3611b0-3a24-4e6e-8026-3b8299151180	거제 해바라기 펜션	거제,펜션,해바라기	Geoje Sunflower Pension	Geoje,Pension,Sunflower,geoj,geoje,pension,sunflow,sunflower
+10030653	0a8f564d-78aa-42e9-bc35-ead99b3f6bf7	가평 유명산 하얀산장 펜션	가평,명산,산,산장,유,유명,유명산,펜션,하얀,하얀산장		
+10030653	0ac21a10-ea70-46a4-adbd-0c4a6744c100	대부도마티스펜션	대부,대부도마,대부도마티스펜션,도마,티스,펜션		
+10030653	0acd3565-2547-45bc-948b-c49448d322c3	드림힐펜션	드림,드림힐,드림힐펜션,펜션,힐		
+10030653	09c8b379-949e-4306-9b03-74ad4706b11d	하늘가람펜션	가람,펜션,하늘,하늘가람,하늘가람펜션		
+10030653	09d977c3-6e0b-415c-8a22-642d2325bff0	루헨펜션	루헨,루헨펜션,펜션		
+10030653	09de6ccf-a416-4200-8e2c-d9f4cdd6abc2	산타크루즈펜션	산타,산타크루즈펜션,크루즈,펜션		
+10030653	09ad140d-0824-447f-89f9-7c4c7f173bfc	별이빛나는 밤에(화천)	는,밤에,밤에화천,별이,별이빛나,별이빛나는,빛나,화천		
+10030653	09b62ee7-85a2-4f6b-a3ec-5bb59c4b2f4b	양양 버드나무 펜션	버드나무,양양,펜션	YangyangBode Namu Pension	Namu,Pension,YangyangBode,namu,pension,yangyangbod,yangyangbode
+10030653	094dca8c-5054-4d74-bff2-8092045d9619	청원 옥화용소절경 펜션	소,옥,옥화,옥화용소절경,용소절경,절경,청원,펜션,화용	Cheongwon Okhwa Yonso Place Pension	Cheongwon,Okhwa,Pension,Place,Yonso,cheongwon,okhwa,pension,place,yonso
+10030653	094f30ca-cc53-4086-b49a-ac3850c32fe5	안면도 쮸펜션	도,안면,안면도,쮸,쮸펜션,펜션	Anmyeondo Zzoo Pension	Anmyeondo,Pension,Zzoo,anmyeondo,pension,zzoo
+10030653	09799785-6e19-4169-806a-d75c85deecbb	억새오름	억새,억새오름,오름		
+10030653	09995ec9-1720-422e-bae8-68d4a268ffde	가평 하야타 펜션	가평,타,펜션,하야,하야타		
+10030653	099c572e-e524-415e-8daa-c9a286bd2622	연인산밸리	밸리,산,연인,연인산밸리		
+10030653	089898bc-6539-4a0b-abfd-db2034818f84	양평 스파앤 캠핑	스파,스파앤,앤,양평,캠핑	YangPyeong Spa & Camping Pension	Camping,Pension,Spa,YangPyeong,camp,camping,pension,spa,yangpyeong
+10030653	08b8e88e-87c1-46cd-a897-e0e361b80ff0	여주산속의황토	산속의,속의,여,여주,여주산속의황토,주산,황토		
+10030653	090f9e15-d060-433c-94bf-5a9a5885872d	(구)나문재	구나,구나문재,문재		
+10030653	0921cf26-6217-44f8-96df-eea12d826dd9	폴프랑펜션	펜션,폴,폴프랑,폴프랑펜션,프랑		
+10030653	0924e833-5afc-4f33-831b-4b3010bd0a01	경주눈코입펜션	경주,경주눈코입펜션,눈코입,펜션		
+10030653	5c99fcf2-140b-46f9-ac4a-999787b3b17d	메이플스토리	메이플,메이플스토리,스토리		
+10030653	5c9cfb82-6fa9-496e-ac9b-99d79560f155	양평 모노 펜션	모노,양평,펜션	YangPyeong Mono Pension	Mono,Pension,YangPyeong,mono,pension,yangpyeong
+10030653	5cbd74b2-d96e-4fbf-a5b5-2253254d43e8	강화도 준펜션	강화,강화도,도,준,준펜션,펜션		
+10030653	5cd9c131-d8ec-404c-87f0-bbcb9b7147a6	가평 쁘띠독 애견 펜션	가평,쁘띠독,애견,펜션		
+10030653	5bcfd3c8-d022-48d1-88e6-ab67aff11108	처음처럼	처럼,처음,처음처럼		
+10030653	5becbc4e-03a9-4ea5-8928-487972044d2f	태안 해노을 펜션	노을,태안,펜션,해,해노을	Taean Sea Sunset Pension	Pension,Sea,Sunset,Taean,pension,sea,sunset,taean
+10030653	5b957d8a-d87e-41d1-88bd-f92d65acf93b	양평 노블레스 펜션	노블,노블레스,레스,양평,펜션	YangPyeong Nobel Les Pension	Les,Nobel,Pension,YangPyeong,le,les,nobel,pension,yangpyeong
+10030653	5bfeea09-317c-4a4a-9999-2d75a2f46d32	거제 수향 펜션	거제,수향,펜션		
+10030653	5c027e22-bb73-4d14-98e2-b4d5e9c4c836	양평계곡의아침	계곡,계곡의,아침,양평,양평계곡의아침,의		
+10030653	5b62ca0d-7c1f-45dc-8ca7-6dadb4003c43	퀸팀버	퀸팀버		
+10030653	5b6706d4-9499-4422-8df1-780e82f81671	포항포에버	포에버,포항,포항포에버		
+10030653	5b922afc-e5b1-4a58-ab2f-e71ad9283786	대부도 나래 펜션	나래,대부,대부도,도,펜션	Daebudo Nare Pension	Daebudo,Nare,Pension,daebudo,nare,pension
+10030653	5aa9d9c5-7cb3-4c5a-833c-14bdcee1cc48	영흥도 오페라하우스 펜션	도,영흥,영흥도,오페라,오페라하우스,펜션,하우스	Daebudo Opera House Pension	Daebudo,House,Opera,Pension,daebudo,hous,house,opera,pension
+10030653	5ac45c0e-b03b-41f8-9578-d5ff81bc7e50	강화바다요정펜션	강화,강화바다요정펜션,바다,요정,펜션		
+10030653	5b4a935e-1894-4157-a724-a16c09ac5723	나드리펜션	나드리,나드리펜션,펜션		
+10030653	5a73a66a-e922-4c50-a2b8-14a697a599f5	안성퓨전	안성,안성퓨전,퓨전		
+10030653	5aa0febf-3c28-4080-b875-0d70a27f5151	제주 드림시아 펜션	드림,드림시아,시아,제주,펜션	Jeju Dreamsia Pension	Dreamsia,Jeju,Pension,dreamsia,jeju,pension
+10030653	5aa48f73-48cb-4170-a7af-846a4ccd6c0a	중미산산노을펜션	노을,산산,중미,중미산산노을펜션,펜션		
+10030653	59fbbb95-11ff-4337-a437-4d81ee82b222	하늘계곡	계곡,하늘,하늘계곡		
+10030653	5a6172f2-f406-4fce-9de7-4c007a6be7d2	까미노펜션	까미노,까미노펜션,펜션		
+10030653	593fb92e-c4ba-436b-9c5f-db5f6995e33f	서귀포 밀감밭하우스 펜션	밀감,밀감밭하우스,밭,서귀포,펜션,하우스	Seogwipo Milgambat House Pension	House,Milgambat,Pension,Seogwipo,hous,house,milgambat,pension,seogwipo
+10030653	595cce86-82f8-48b0-a4f3-d36ea67745b2	경주 로하스애견펜션	경주,로하스,로하스애견펜션,애견,펜션		
+10030653	59a49e50-d069-43e7-b551-c572d319196a	씨에나펜션	씨에나,씨에나펜션,펜션		
+10030653	59ecf783-4615-4b37-948a-634beedf38d7	제주 공항길 펜션	공항,공항길,길,제주,펜션	Jeju Airport Road Pension	Airport,Jeju,Pension,Road,airport,jeju,pension,road
+10030653	58f9b39b-9ee2-426f-a7b7-e0127be44f39	수피랑벼리랑	랑,벼리,벼리랑,수피,수피랑,수피랑벼리		
+10030653	59111c68-f344-44b6-b4d4-fe470c506c27	구테라스엔별이	구,구테라스엔,별,별이,엔별,이,테라스,테라스엔		
+10030653	59216bc2-2753-49c4-b84c-796a8efc01d8	무주힐링한옥펜션	무주,무주힐링한옥펜션,펜션,한옥,힐링		
+10030653	583673b2-d1c5-4077-9d14-4874e296ffb9	제주 해피휴 펜션	제주,펜션,해피휴	Jeju Happy Heu Pension	Happy,Heu,Jeju,Pension,happi,happy,heu,jeju,pension
+10030653	58c4423d-7cb6-4a96-803b-c1d1b58e7c34	양평비엔빌	비엔빌,양평,양평비엔빌		
+10030653	58dc4293-8f57-4d5d-97ee-9ae0cfe278a5	양평 베네 펜션	네,베,베네,양평,펜션	YangPyeong Bene Pension	Bene,Pension,YangPyeong,bene,pension,yangpyeong
+10030653	5759d9f6-01db-4f2c-b2e2-40140d6e7350	라파로마휴양펜션	라파,라파로마휴양펜션,로마,펜션,휴양		
+10030653	57915b74-54e8-4d9a-b6a6-d10174dc3544	강촌 홀리데이 펜션	강촌,데이,펜션,홀리,홀리데이	Gangcheon Holiday Pension	Gangcheon,Holiday,Pension,gangcheon,holidai,holiday,pension
+10030653	579e5c86-7202-402b-b02b-f5f0506490fa	강화하얀집펜션	강화,강화하얀집펜션,집,펜션,하얀,하얀집		
+10030653	57cb745e-1e32-47e9-b81e-0457407e0dfa	별이흐르는숲	별이,별이흐르는숲,숲,흐르는		
+10030653	56fc1d73-9459-484b-87b6-83dd762d402d	횡성 섬가람 펜션	가람,섬,섬가람,펜션,횡성	Hoengseong Seomgaram Pension	Hoengseong,Pension,Seomgaram,hoengseong,pension,seomgaram
+10030653	57099d4d-b0ed-4c4a-a8e3-278f4e5402f0	평창 샬레리조트	리조트,샬레,샬레리조트,평창	Pyeongchang Chalet Resort	Chalet,Pyeongchang,Resort,chalet,pyeongchang,resort
+10030653	56d6f513-dad1-47a9-b03b-1867fe1c4b97	경주그린벨리	경주,경주그린벨리,그린,벨리		
+10030653	5680ef51-8ec9-4eac-b775-5a625e35096b	경주펜션프라하	경주,경주펜션프라,경주펜션프라하,어,펜션,프라하,하		
+10030653	5695346b-8c72-457f-9ecc-2812d5d9e212	횡성 신대계곡알프스 펜션	계곡,곡,대계,신,신대,신대계곡알프스,알프스,펜션,횡성	Hoengseong Sindae Valley Alps Pension	Alps,Hoengseong,Pension,Sindae,Valley,alp,alps,hoengseong,pension,sinda,sindae,vallei,valley
+10030653	5668bcf7-2352-4a63-8138-0bb8a7461e0a	가가양평펜션	가가,가가양평펜션,양평,펜션		
+10030653	567afe51-b7ee-406d-beb2-3e9d2133ad94	비손황토불이	불이,비손,비손황토불이,황토		
+10030653	56405a3f-9e73-4896-ac83-d28628a8ea52	경포 감자꽃 펜션	감자,감자꽃,경포,꽃,펜션	GyeongpoPotato Flower Pension	Flower,GyeongpoPotato,Pension,flower,gyeongpopotato,pension
+10030653	5643a4a0-ff9e-46f4-8e08-6230c0a5df21	영월 구름에달가듯이 펜션	가듯,구름,구름에달가듯,에달,에달가듯,영월,이,펜션	Yeongwol Moon in Cloud Pension	Cloud,Moon,Pension,Yeongwol,cloud,in,moon,pension,yeongwol
+10030653	5600b5d4-1b26-4e88-b9ca-6ff420c048c4	그리움펜션	그리움,그리움펜션,펜션		
+10030653	560f40f0-9930-4ec5-8c75-ec7e28c8067c	제주 올림픽 별장	별장,올림픽,제주	Jeju Olympic Villa Pension	Jeju,Olympic,Pension,Villa,jeju,olymp,olympic,pension,villa
+10030653	559e41a9-bdb8-4848-9cc9-2da2e682e6ed	강화 별그대펜션	강화,그대,별,별그대,별그대펜션,펜션		
+10030653	55eef860-c110-471b-a6dc-b734b85191d4	제주곽지스위트펜션	곽지,스위트,제주,제주곽지스위트펜션,펜션		
+10030653	55034bfa-83cf-494d-82ce-85084263a810	안면도 갤러리펜션	갤러리,갤러리펜션,도,안면,안면도,펜션		
+10030653	554d2652-c0a9-42b5-91c8-b553302da9a2	돌담펜션	돌담,돌담펜션,펜션	Ganghwa Doldam Pension	Doldam,Ganghwa,Pension,doldam,ganghwa,pension
+10030653	53cb5f38-2430-4a7f-be2d-80e8de02ee92	수와래펜션	수와래,수와래펜션,펜션		
+10030653	54c71360-6333-4851-bb34-9c93d66b0697	양평 참좋은생각 펜션	생각,양평,좋은,참,참좋은,참좋은생각,펜션		
+10030653	53b1040c-aa78-41e9-91b2-be625f709b46	포천 숲속의예쁜 펜션	속의,숲,숲속의예쁜,예쁜,펜션,포천	Pocheon Beauty in the Forest Pension	Beauty,Forest,Pension,Pocheon,beauti,beauty,forest,in,pension,pocheon,the
+10030653	53bf6f33-919a-4552-806f-4765f5c78e51	바다올레펜션	바다,바다올레펜션,올레,펜션		
+10030653	5389d09c-b005-4297-9dc7-0ce1f02d6f24	평창 체르맛트 펜션	체르맛트,펜션,평창	Pyeongchang CheRe Matt Pension	CheRe,Matt,Pension,Pyeongchang,chere,matt,pension,pyeongchang
+10030653	532d612d-9586-446f-bd5b-210311fbb8ee	삼사해상빌리지	빌리지,사해,삼,삼사,삼사해상빌리지,상빌리지,해상		
+10030653	52f0f3f1-c017-4403-aa9c-f455afd2a000	제주 소설 펜션	소설,제주,펜션		
+10030653	531fcff4-20a1-4f28-a441-c4393461838b	평창에델바이스	에델바이스,평창,평창에델바이스		
+10030653	52a0f95b-faef-4aa3-80ad-3222f4b4e801	노란펜션	노란,노란펜션,펜션		
+10030653	52ab3956-4639-41f8-a588-7b48fbbef202	색채의숲	색채,색채의,색채의숲,숲,의숲		
+10030653	52d0b2de-fd3a-4727-bb90-606eef53a8e1	춘천 통나무집 펜션	집,춘천,통나무,통나무집,펜션		
+10030653	51e9389f-3ffc-4111-8219-13ffd936975e	별장 플로라	라,별장,플로,플로라		
+10030653	51f66456-f72f-460f-8db6-0e365a9d63d4	꿈에그린별장	그린,꿈,꿈에,꿈에그린별장,린,별장,에그		
+10030653	52454007-238c-4ac0-875e-dfe2720e93aa	포천 숲속의장발장 스파 펜션	발장,속의,숲,숲속,숲속의장발장,스파,의장,장,장발,펜션,포천	Pocheon Forest Villa Pension	Forest,Pension,Pocheon,Villa,forest,pension,pocheon,villa
+10030653	518052f5-9bd5-46a7-8897-aecfcdea6868	남이섬파멜라팬션	남이,남이섬파멜라팬션,멜라,섬파,팬션		
+10030653	51a68d44-da6e-457b-90ed-146b84294283	가평 세이지 펜션	가평,세,세이지,이,지,펜션		
+10030653	50b7f291-cda4-4c83-ac24-777a5ccb5789	산속의송어	산속의,산속의송어,송어		
+10030653	50ef2c3f-6459-451c-918c-d1c9e8c31156	(구)강화하늘펜션	구강,구강화하늘펜션,펜션,하늘,화		
+10030653	50fe7330-9991-4865-afe8-f5472da41919	경주 베네치아 펜션	경주,베네,베네치아,치아,펜션		
+10030653	514419ae-387f-478b-b46a-de51afbd7b2e	태안 해나지 펜션	태안,펜션,해나지	Taean Haenaji Pension	Haenaji,Pension,Taean,haenaji,pension,taean
+10030653	516fc29d-c032-4a76-b215-b1c1f9b54d28	아주특별한여행	아주,아주특별한여행,여행,특별,특별한,한		
+10030653	50992252-6baf-499a-a8ae-4cfac6030f75	(구)썬시티펜션	구썬,구썬시티펜션,시티,펜션		
+10030653	50a50fec-8fc3-42f6-902c-d7bbd54be671	구솔내음펜션	구솔,구솔내음펜션,내음,펜션		
+10030653	50416e63-9d32-4d65-9fa6-a11d5d34c5de	강릉맑은물소리	강릉,강릉맑은물소리,맑은,물소리		
+10030653	504607db-c0d9-4277-ac82-b7b11c5695de	가평 화악산쉬리 펜션	가평,펜션,화악산쉬리		
+10030653	505bfffb-01d5-470b-aecc-ca4f178471f5	레만펜션	레만,레만펜션,펜션		
+10030653	5061354d-b6cc-4fd9-805e-d39f36c93057	세븐펜션	세븐,세븐펜션,펜션		
+10030653	50906f93-efc4-4e16-b7cb-33215a168dd3	리틀스퀘어펜션	리틀,리틀스퀘어펜션,스퀘어,펜션		
+10030653	5010ab6d-6435-4963-83c4-dc4dc570cbdd	여수마리나스파펜션	마리나,스파,여수,여수마리나,여수마리나스파펜션,펜션		
+10030653	50251ba1-cb2c-461a-8489-d2fb3df58153	아일랜드트리	아일랜드,아일랜드트리,트리		
+10030653	4f6007bf-ee62-48df-9be9-dfb68a21bac8	태안 바다와푸른솔	바다,바다와,바다와푸른솔,솔,와푸른솔,태안,푸른		
+10030653	4f7632b9-ca7b-4362-8edc-8620b1135e54	경주동해안펜션	경주,경주동해안,경주동해안펜션,동해안,펜션		
+10030653	4fe2126f-78d2-4415-8fc1-c11b92a7a643	홍천 파인홀릭 펜션	파인,파인홀릭,펜션,홀릭,홍천	Hongcheon Pineholic Pension	Hongcheon,Pension,Pineholic,hongcheon,pension,pinehol,pineholic
+10030653	4ea6c960-9575-4e39-ae49-fe038f51fab9	바다와솔숲	바다,바다와,바다와솔숲,솔숲,와솔숲		
+10030653	4ec2612f-5ce5-443e-bd01-6a04dbef497f	평창 향촌 펜션	펜션,평창,향촌		
+10030653	4ece3cf1-20c2-42e2-ac26-6ae97e34c212	홍천 하얀언덕 펜션	언덕,펜션,하얀,하얀언덕,홍천	Hongcheon White Hill Pension	Hill,Hongcheon,Pension,White,hill,hongcheon,pension,white
+10030653	4ed1e7c5-bda6-4642-a37c-8132a08e23d4	바다빛펜션	바다,바다빛펜션,빛,펜션		
+10030653	4f3680b8-ccda-48ed-9dcb-c74fcb6528a2	단양 토담 펜션	단양,토담,펜션	Danyang Rothem Pension	Danyang,Pension,Rothem,danyang,pension,rothem
+10030653	4db8895e-a6c1-481b-bbd0-c8815fe1b0f2	거제산타모니카	거제,거제산타모니카,모니카,산타		
+10030653	4dc2058b-3fee-411b-abec-83a249344b86	남해 몽마르뜨 펜션	남해,뜨,마르,몽,몽마르뜨,펜션	Namhae Montmartre Pension	Montmartre,Namhae,Pension,montmartr,montmartre,namha,namhae,pension
+10030653	4e470682-251e-4d61-b778-117d0b8977f7	가평 솔거펜션	가평,솔거,솔거펜션,펜션		
+10030653	4e8415d7-08ff-433f-8d70-d003b7e79ba9	여름향기	여름,여름향기,향기		
+10030653	4d94742b-51f6-4f93-9d11-aa3074165a05	펜션로망	로망,펜션,펜션로망		
+10030653	4d7a480f-83dd-4c44-8529-816972ea46ca	해변의 집	의,집,해변,해변의		
+10030653	4d2c6d4d-38bd-4385-8e4a-68d6b62b646a	경포어울림펜션	경포,경포어울림펜션,어울림,펜션		
+10030653	4d3c4808-7b52-4d27-ac13-13cecc2971e7	비솔펜션	비솔,비솔펜션,펜션		
+10030653	4d6e33be-3923-4880-8093-5c44e9eac2c4	양평 스타밸리 펜션	밸리,스타,스타밸리,양평,펜션	YangPyeong Star Valley Pension	Pension,Star,Valley,YangPyeong,pension,star,vallei,valley,yangpyeong
+10030653	4c7aebcd-39b8-4b4e-bf74-c7825a1c381d	구1	구1		
+10030653	4c927d88-e238-4ad9-ba84-60264e8da7f2	리버그린(수상레저 패키지)	그린,레저,리버,리버그린,리버그린수상레저,수상,패키지		
+10030653	4cb9b776-0750-4248-b904-833836279a84	포천 테라스가아름다운집 펜션	가,다,아름,아름다운,운집,집,테라스,테라스가,테라스가아름다운집,펜션,포천		
+10030653	4ce86739-0b32-481f-ad96-facac23b7de6	하늘바다	바다,하늘,하늘바다		
+10030653	4d24f383-cc23-41c4-8722-bc31021c7c8c	남양펜션	남양,남양펜션,펜션		
+10030653	4c5fc5ad-25fc-49c2-8a7f-072bbe1dd26e	홍천 겨울나무 펜션	겨울,겨울나무,나무,펜션,홍천	Hongchen Winter Tree Pension	Hongchen,Pension,Tree,Winter,hongchen,pension,tree,winter
+10030653	4c65ac5a-c6bd-41d6-bc3d-f8def9c10cbe	한성펜션	펜션,한성,한성펜션		
+10030653	4bb8e228-9b12-457d-a54f-ba967882acd0	춘천오렌지펜션	오렌지,춘천,춘천오렌지펜션,펜션		
+10030653	4bf0738f-cdd0-4c0f-aafc-fa93560cf231	제주 오후여섯시 펜션	섯시,여섯시,오후,오후여,오후여섯시,제주,펜션	Jeju 6PM Pension	6PM,6pm,Jeju,Pension,jeju,pension,pm
+10030653	4c3938f7-5e19-420b-9817-8b809fd4c0bc	양평애틱하우스펜션	애틱,양평,양평애틱하우스펜션,펜션,하우스		
+10030653	4aacd902-29ff-40e0-bdc4-5676a9100a22	청태산소나무펜션	나무,산소,청태,청태산소나무,청태산소나무펜션,펜션		
+10030653	4ab5fa0f-4db6-4c38-9d4c-1e8f2c39c0bf	꽃담펜션	꽃담,꽃담펜션,펜션		
+10030653	4ad6a963-f55e-477d-af7d-19a6b8ab9601	태안 산과바다사이 펜션	바다,바다사이,사이,산과,산과바다사이,태안,펜션	Taean Between Mountain & Sea Pension	Between,Mountain,Pension,Sea,Taean,between,mountain,pension,sea,taean
+10030653	4b2e93a8-2fb1-4ba9-bfc5-a9b5f08d20b8	캐빈파파펜션	캐빈파파,캐빈파파펜션,펜션		
+10030653	4b34f230-7192-46f2-bb9a-0f325e4a8095	가평 흰여울안개꽃펜션	가평,꽃,안개,여울,여울안개,펜션,흰,흰여울안개꽃펜션		
+10030653	4b767c7c-4548-4753-9cac-8deb96cae0ed	보령 노을바다 펜션	노을,노을바다,바다,보령,펜션	Boryeong Sunset&Sea Pension	Boryeong,Pension,SunsetSea,boryeong,pension,sunsetsea
+10030653	4ba606a0-d807-413b-ad2f-45a78e9afa28	평창 산뜨락펜션	뜨락,산,산뜨락,산뜨락펜션,펜션,평창		
+10030653	08462157-9710-4920-a1d1-7da69c7d4610	서귀포 성산라이 펜션	라이,서귀포,성산,성산라이,펜션	Seogwipo Seongsan Lie Pension	Lie,Pension,Seogwipo,Seongsan,lie,pension,seogwipo,seongsan
+10030653	08897c38-cf4d-4a44-bcef-8043c1c3a014	단양 오봉산장 펜션	단양,산장,오봉,오봉산장,펜션	Danyang Obon Villa Pension	Danyang,Obon,Pension,Villa,danyang,obon,pension,villa
+10030653	088d642d-6048-485f-ad78-c279a574761c	펜션바치울	바치울,펜션,펜션바치울		
+10030653	07f8eed4-07fa-419d-9128-4222bf9d998b	제주 화이트하우스 호텔	제주,하우스,호텔,화이트,화이트하우스		
+10030653	083b566b-5266-48b1-afa0-2da6c3149224	펜션메이플(구)	구,메이플,펜션,펜션메이플구		
+10030653	0747829d-1868-476a-b7b4-59b4294fa2c9	강릉 검댕이골 펜션	강릉,검댕,검댕이골,이골,펜션	Gangneung CtyAshy Gold Pension	CtyAshy,Gangneung,Gold,Pension,ctyashi,ctyashy,gangneung,gold,pension
+10030653	079b5708-c723-4c00-b4a1-d183333ccef8	꿈있는아침펜션	꿈있는,꿈있는아침펜션,아침,펜션		
+10030653	07cd7d7e-ed24-48d6-95d8-352f898d54a8	구례 지리산숲속의아침 펜션	구례,산숲,산숲속의,속의,아침,지리,지리산숲속의아침,펜션		
+10030653	07378177-d2f1-48a4-b595-4d82dcd8077e	달빛커튼드리운바다	달빛,달빛커튼드리운바다,드리운,바다,커튼		
+10030653	071e3ef2-e214-4bd9-aaaa-56f10ff58c94	제주 코지하우스 펜션	제주,코지,코지하우스,펜션,하우스		
+10030653	06d75264-c595-451a-b8d7-cee5c940fc99	제주 솔라시도펜션	솔라,솔라시도펜션,시도,제주,펜션		
+10030653	071d2ac3-a45b-4dea-96c3-c083798e0be8	2PM펜션	2,2펜션,펜션		
+10030653	06409f50-2222-4d66-88fd-dad252805118	원주 버들치 펜션	버들,버들치,원주,치,펜션	Wonju Beodeulchi Pension	Beodeulchi,Pension,Wonju,beodeulchi,pension,wonju
+10030653	064c90fa-bfd0-42ff-ad5d-d0ffb93b5354	천상의풍경소리	소리,의,천상,천상의,천상의풍경소리,풍경		
+10030653	064ca0cb-f769-4b91-bae4-e77e3579be33	제주 그녀이야기 펜션	그녀,그녀이야기,이야기,제주,펜션		
+10030653	06188f53-1a6a-4333-9295-2dadd0ab1a79	갑비고차	갑비,갑비고차,고차		
+10030653	063507ba-1ebc-4c05-94c8-9adcf3c10962	양산조은밸리	밸리,양산,양산조은밸리,조은		
+10030653	05b5f901-247f-45b4-a8a0-85fee50735b5	하얀펜션	펜션,하얀,하얀펜션		
+10030653	06187623-4535-471f-9af2-2bbf24a1ae72	설흘산휴양촌	설흘산,설흘산휴양촌,촌,휴양		
+10030653	0514be6d-7abc-487e-98e7-bcf9642e9e36	가족여행펜션	가족,가족여행펜션,여행,펜션		
+10030653	0573b22e-f74b-484c-8cd2-041d18dbbf15	강촌 스타밸리 펜션	강촌,밸리,스타,스타밸리,펜션	GangchonStar Valley Pension	GangchonStar,Pension,Valley,gangchonstar,pension,vallei,valley
+10030653	05127a54-c316-4624-bcb4-9d3e4b423837	가평 자연속에둥지 펜션	가평,둥지,속에,자연,자연속에둥지,펜션		
+10030653	03ffae91-7d43-4069-aabb-3e777dc2ddb1	양양 설악대문터 펜션	대문,설악,설악대문터,양양,터,펜션	YangYang Seorak Temunteo Pension	Pension,Seorak,Temunteo,YangYang,pension,seorak,temunteo,yangyang
+10030653	04212c49-f013-401f-abdb-704c6a07762c	홍천 OG 펜션	펜션,홍천	Hongcheon OG Pension	Hongcheon,OG,Pension,hongcheon,og,pension
+10030653	042fe7a3-15b8-4a4c-82a3-f646a6bd55ff	서귀포 편운산장 펜션	산장,서귀포,펜션,편운,편운산장	Seogwipo PyeonWoon Sanjang Pension	Pension,PyeonWoon,Sanjang,Seogwipo,pension,pyeonwoon,sanjang,seogwipo
+10030653	045828d3-c7c4-4a4a-a0f2-1e1f76944339	석모도 그린로즈 펜션	그린,그린로,그린로즈,도,로즈,석모,석모도,즈,펜션		
+10030653	046fedbf-07c4-4e6a-9a14-4a36bf44b4ec	유채꽃밸리	꽃,밸리,유채,유채꽃밸리		
+10030653	048fc7e3-6ec8-4cde-86ac-59828e01c48a	경주 별이야기 펜션	경주,별,별이,별이야기,야기,이야기,펜션	Gyeongju Star Story Pension	Gyeongju,Pension,Star,Story,gyeongju,pension,star,stori,story
+10030653	04fcf345-ebbd-4b38-8821-b286083d51f0	계방산자연농원	계,계방산자연농원,농원,방산,자연		
+10030653	49dfac95-165a-4936-8e9d-8aff001a35b1	수담산장	산장,수담,수담산장		
+10030653	49f12e19-9bad-4c06-8609-49f3aa28afba	코아마루펜션	마루,코아,코아마루,코아마루펜션,펜션		
+10030653	4a52da9d-43cf-4961-8233-b7de5a2d6e21	바다궁전펜션	궁전,바다,바다궁전펜션,펜션		
+10030653	4a9629a7-b675-4825-845d-a5a7681b2c00	비치플레이스	레이스,비치플,비치플레이스		
+10030653	4986bb39-c682-46df-af3f-6a521e016234	밈(meme)	ㅁ,미,밈		
+10030653	49b21d33-b6a2-4dcc-8ea3-ef410f31f3bd	두남자펜션	남자,두,두남자,두남자펜션,펜션		
+10030653	49ba262a-4c85-455e-8cae-ee09a0e63212	블루비치	블루,블루비치,비치		
+10030653	490b4d87-a1ad-40d6-95ec-4706bf769146	제주베네치아펜션	베네,제주,제주베네치아펜션,치아,펜션		
+10030653	49204619-8984-44e5-b4d2-e48c0803d3a4	법수치폭포펜션	법,법수치폭포펜션,수치,펜션,폭포		
+10030653	4928eb4b-4dd0-447a-929e-817dc30bb42f	태안 무지개아이리스 펜션	리스,무지개,무지개아이리스,스,아이,아이리,태안,펜션	Taean Rainbow Iris Pension	Iris,Pension,Rainbow,Taean,iri,iris,pension,rainbow,taean
+10030653	48dc2794-7ca2-416c-9f3a-d8b2cb1273e9	해피빌리	빌리,해피,해피빌리		
+10030653	48f926cb-7bb2-4f5b-a7a2-3babee624771	달님펜션	달님,달님펜션,펜션		
+10030653	481f34f3-7df2-410f-ad8f-bcb9637e3698	(구)풀꽃펜션	구풀꽃,구풀꽃펜션,펜션		
+10030653	4858f87e-2281-4ff6-af44-20003a411ac6	야생화조경수기르는집	경수,기르는,르는집,수기,야생화,야생화조,야생화조경수기르는집,조경,집		
+10030653	48681a7b-2c8a-4ea0-9d2e-51f8669f9532	고성 바다여행AJ펜션	고성,바다,바다여행펜션,여행,펜션		
+10030653	479a5f93-1aad-4549-9e3d-b17b9294a320	양평 쁘띠펜션(폐지)	쁘띠,쁘띠펜션폐지,양평,펜션,폐지		
+10030653	47d88ecc-5be9-4917-ad58-0b0163bb26b4	강화 해뜨는집 펜션	강화,펜션,해뜨는집		
+10030653	47ef298e-0322-4d2a-bad7-88427b7c5663	양양초록바다펜션	바다,양양,양양초록,양양초록바다펜션,초록,펜션		
+10030653	4766ec3a-807b-4181-b452-60de1d9bd883	돌탑펜션	돌탑,돌탑펜션,펜션		
+10030653	478ae361-18a0-4680-a1d0-369e52de560c	호가카페펜션	카페,펜션,호가,호가카페펜션		
+10030653	47187fe6-e7d8-443d-b7e1-b7ecf97760aa	그린둥지펜션	그린,그린둥지펜션,둥지,펜션		
+10030653	4721aed2-9bfd-4525-b221-8585c71592bd	펄팜펜션	펄팜,펄팜펜션,펜션		
+10030653	47292ce9-df82-4482-af2f-83262e016615	강화 힐스토리 펜션	강화,스토리,펜션,힐,힐스토리	GanghwadoHill Story Pension	GanghwadoHill,Pension,Story,ganghwadohil,ganghwadohill,pension,stori,story
+10030653	46c6e956-5cc2-40cb-bd17-a9259bea2af0	(구)별나라여행	구별,구별나라여행,나라,여행		
+10030653	470143a1-6516-4bc0-9eca-a7ef990e3dfa	평창 클로츠하임 펜션	ㅁ,이,츠하,츠하임,클로,클로츠하,펜션,평창	Pyeongchang Klotz Hime Pension	Hime,Klotz,Pension,Pyeongchang,hime,klotz,pension,pyeongchang
+10030653	470f0737-ed18-4f35-a249-c1312be9c386	계곡풍경펜션	계곡,계곡풍경펜션,펜션,풍경		
+10030653	46a0ccba-a527-459f-9017-52b40cccdc15	해와바다	바다,해와,해와바다		
+10030653	46ad38bb-0ecd-4743-85fb-a6845d339010	미류네펜션	미류네,미류네펜션,펜션		
+10030653	46320851-b347-4313-928c-278afcb2d904	사계절펜션	사계,사계절펜션,절,펜션		
+10030653	46662378-6ca7-401d-9dec-6b37d40b61b4	남양주 로또 펜션	남양,남양주,로또,주,펜션	NamyangjuLotto Pension	NamyangjuLotto,Pension,namyangjulotto,pension
+10030653	46698e54-3bcb-4e37-b7be-3309f0668cad	고성 씨오브하트 펜션	고성,씨오브,씨오브하트,펜션,하트	Goseong Sea of Heart Pension	Goseong,Heart,Pension,Sea,goseong,heart,of,pension,sea
+10030653	468095a7-c8bc-4adf-8e0a-a9c234c96de0	포항파인웨이브	웨이브,파인,포항,포항파인웨이브		
+10030653	4681390c-76ac-4a6e-b0ea-9dc7b1bc9bb4	태안 레이크앤씨빌리지 펜션	레이크,레이크앤씨빌리지,빌리지,앤씨,앤씨빌리지,태안,펜션	Taean Lake & Sea Village Pension	Lake,Pension,Sea,Taean,Village,lake,pension,sea,taean,villag,village
+10030653	460c77bc-42ce-4ed7-a370-4687e0fc742b	하이문빌리지	문,문빌리지,빌리지,하이,하이문빌리지		
+10030653	462af5d9-15e9-4dd5-98b4-f6a0bd1831e2	원주 오크앨리 펜션	오크앨리,원주,펜션	Wangju Oak Alley Pension	Alley,Oak,Pension,Wangju,allei,alley,oak,pension,wangju
+10030653	462fefc3-57ea-4755-9e47-3de81e867086	충주 월악드림 펜션	ㅁ,드리,드림,월악,월악드림,충주,펜션	Chungju Wolak Dream Pension	Chungju,Dream,Pension,Wolak,chungju,dream,pension,wolak
+10030653	45a632ea-1399-43c1-b4f3-fbfdbd4a55b0	편가네펜션	펜션,편가네,편가네펜션		
+10030653	45c00995-eda8-4d55-b5f4-250fa888bb54	스테이빌	스테이빌	Seogwipo Stayvill Pension	Pension,Seogwipo,Stayvill,pension,seogwipo,stayvil,stayvill
+10030653	45d23dae-1b04-412f-bccf-737a5c117ea0	제주란펜션	란,제주,제주란,제주란펜션,펜션		
+10030653	456f003b-81f1-43bb-bf82-a0edae92b52f	장성편백숲펜션	숲,장성,장성편백숲펜션,펜션,편백		
+10030653	45935a4f-e06f-4b1c-88d0-86a13ee24063	경상 오픈하우스비 펜션	경상,비,오픈,오픈하우스비,펜션,하우스		
+10030653	45964003-82af-4d7a-a2fe-5488b326c211	여수 쥬얼리 펜션	여수,쥬얼리,펜션		
+10030653	44f36e6b-6371-412b-924e-f2b53fa68935	가을국화펜션	가을,가을국화펜션,국화,펜션		
+10030653	4525d088-6a4f-4f6d-abe3-1a0daa7f16f0	비우고채우는숲	비우고,비우고채우는숲,숲,채우는		
+10030653	45341d7b-d05d-4b2f-b111-2d4de36d655d	경주 보문호수 펜션	경주,보문,보문호수,펜션,호수	Gyeongju Bomun Lake Pension	Bomun,Gyeongju,Lake,Pension,bomun,gyeongju,lake,pension
+10030653	453f2775-9696-44c1-9f9f-8e6ae9eeb984	홍천 목지가 펜션	가,목,목지,목지가,지가,펜션,홍천	Hongcheon Pastureland Pension	Hongcheon,Pastureland,Pension,hongcheon,pastureland,pension
+10030653	448773a9-ebd1-4c91-8541-f048d93174d1	양평 휴펜션	양평,펜션,휴,휴펜션		
+10030653	44f119c5-89c2-4d3f-b394-465b15dcb046	남이섬강변펜션	강변,남이섬,남이섬강변펜션,펜션		
+10030653	444be454-510c-40ad-804e-3334b672351a	포천 늘푸른 펜션	늘,늘푸른,펜션,포천,푸른	Pocheon Evergreen Pension	Evergreen,Pension,Pocheon,evergreen,pension,pocheon
+10030653	43ad1cc1-0b9f-4817-81b6-eb71d3fccd8c	언덕위에풍차	언덕,언덕위에풍차,위에,풍차		
+10030653	43bb41ae-cf26-4891-8f57-2f0260e79fc6	태안 산애들애 펜션	산애들애,태안,펜션	Taean Sannaedle Pension	Pension,Sannaedle,Taean,pension,sannaedl,sannaedle,taean
+10030653	43d6c036-d6c6-4147-9b76-1c4296e30b8c	산숲바다펜션	바다,산숲,산숲바다펜션,펜션		
+10030653	438f509e-af31-47f2-b4a4-215cdd80762a	태안 씨엘펜션	씨엘,씨엘펜션,태안,펜션		
+10030653	4395346d-ed77-4d90-8654-3869d025aad9	서귀포 바다산책 펜션	바다,바다산책,산책,서귀포,펜션		
+10030653	4385567d-76f3-4d44-a5f0-203831d430af	태안 솔향기바다 펜션	바다,솔,솔향기,솔향기바다,태안,펜션,향기		
+10030653	434b62db-07cb-4f24-a8aa-4cd91e5c6836	청평호 OK펜션	청평호,펜션		
+10030653	4351b8e3-9b4f-4c5d-8e24-b0b7c2d17fe9	풀내음가득	가득,내음가득,풀,풀내음,풀내음가득		
+10030653	43333603-6f63-408b-8ffc-829d8577e735	펜션바다바다	바다,펜션,펜션바다바다		
+10030653	434a0e0c-d738-4404-9c33-a6bab424ec74	골든팜	골든,골든팜,팜		
+10030653	42c683d5-18f1-4633-b04b-d4aa972f53d5	리븐델(구)	리븐델구		
+10030653	42cbc657-4af6-4a8e-abb4-fcf278646fe0	포천 굿데이 카라반 오토캠핑	굿,굿데이,데이,오토,오토캠핑,카라반,캠핑,포천		
+10030653	42d2fa32-4c17-42d2-ab69-062213775857	제주 제주사랑펜션	사랑,제주,제주사랑,제주사랑펜션,펜션		
+10030653	4220a5e5-c053-45e2-934e-6977259cc800	울산 파도소리 펜션	소리,울산,파도,파도소리,펜션		
+10030653	422f1325-c719-4b47-9e9c-f0fc8718a91a	양평 구름에달가듯이 펜션	가듯,구름,구름에달가듯,양평,에달,에달가듯,이,펜션	YangPyeong Cloud & Moon Pension	Cloud,Moon,Pension,YangPyeong,cloud,moon,pension,yangpyeong
+10030653	42bd6415-54fe-4c29-9a31-62264fe2e54d	태안 피렌체 펜션	태안,펜션,피렌체	Taean Firenze Pension	Firenze,Pension,Taean,firenz,firenze,pension,taean
+10030653	42e1dfc4-5854-4bb9-88af-429c9aefbc9b	천상의 노을	노을,의,천상,천상의		
+10030653	41c580f0-a4ba-4393-b857-a964c0e46e99	평창 우리빌리지 펜션	빌리지,우리,우리빌리지,펜션,평창	Pyeongchang Woorimaul Pension	Pension,Pyeongchang,Woorimaul,pension,pyeongchang,woorimaul
+10030653	41ea380f-6066-4872-a525-73538c16c0de	영월 한반도리버 펜션	리버,영월,펜션,한반도,한반도리버	Yeongwol Hanbando River Pension	Hanbando,Pension,River,Yeongwol,hanbando,pension,river,yeongwol
+10030653	41f7978f-fb4f-49e1-9c67-b54b4373a65e	강릉 경포초콜릿 펜션	강릉,경포,경포초콜릿,초콜릿,펜션	Gangneung Gyeongpo Chocolate Pension	Chocolate,Gangneung,Gyeongpo,Pension,chocol,chocolate,gangneung,gyeongpo,pension
+10030653	41a789a5-6524-4529-bff6-05fbda24a4cc	양평 쉬는시간 펜션	간,쉬는,쉬는시,시간,양평,펜션	YangPyeong Break Time Pension	Break,Pension,Time,YangPyeong,break,pension,time,yangpyeong
+10030653	421b0cd6-3398-4dcc-be87-247f5ac64e3e	강릉 소금강여울목 펜션	강,강릉,금강,목,소,소금,소금강여울목,여울,펜션	Gangneung SoKumKang YeoMok Pension	Gangneung,Pension,SoKumKang,YeoMok,gangneung,pension,sokumkang,yeomok
+10030653	421c7ac0-cc04-4b3e-b229-dedfacda0697	단양 예그리나 펜션	그리나,나,단양,예,예그리,예그리나,펜션	Danyang Yekerina Pension	Danyang,Pension,Yekerina,danyang,pension,yekerina
+10030653	415adf25-a6cb-4ce8-a47f-0d0c82dcc07d	홍천토마토펜션	토마토,펜션,홍천,홍천토마토펜션		
+10030653	418386ee-4643-4d08-947a-2c4a25578022	제주에코스위츠	스위츠,에코,위츠,제주,제주에,제주에코스위츠,코스		
+10030653	4074c95b-7766-4996-8909-74f2e939a3dd	속초 서씨네민박 펜션	민박,서씨네,서씨네민박,속초,펜션	Sokcho Seo's Lodging Pension	Lodging,Pension,Seos,Sokcho,lodg,lodging,pension,seo,seos,sokcho
+10030653	409da340-9245-4824-bf25-2c1d6d41d124	양평 동아 펜션	동,동아,아,양평,펜션	YangPyeong Donga Pension	Donga,Pension,YangPyeong,donga,pension,yangpyeong
+10030653	4071412b-0778-49e5-8205-31613df6cec0	펜션올리브	올리브,펜션,펜션올리브		
+10030653	40c3cb05-df10-4fa5-b9a1-306b02d84892	홍천 넌감동이었어 펜션	넌감,넌감동,동이었어,어,었,이,펜션,홍천	Hongcheon Touching Moment Pension	Hongcheon,Moment,Pension,Touching,hongcheon,moment,pension,touch,touching
+10030653	40e9e690-4f80-487f-987e-b558c55a8e9a	참사리마을 브니엘펜션	니엘,리마을,마을,브,브니엘,브니엘펜션,사리,참,참사,참사리마을,펜션		
+10030653	411ed0b1-a3a4-40b1-9438-0b4b4e138c97	가평 로망스빌리지 펜션	가평,로망,로망스빌리지,빌리지,스,스빌리지,펜션		
+10030653	4129fc0a-b2d9-4bfc-8017-c1a5bdbf72c6	양양 샐비어 펜션	비어,샐,샐비어,양양,펜션	Yangyang Salvia Pension	Pension,Salvia,Yangyang,pension,salvia,yangyang
+10030653	3ef0ab79-d0cb-480b-8c02-b255f58cf79f	고초골호수펜션	고초,고초골호수펜션,골,펜션,호수		
+10030653	3f162b21-a6c5-4050-a0cb-94daead6448a	태안 오렌지바다	바다,오렌지,오렌지바다,태안		
+10030653	3f578ee2-7f48-4352-93dc-366f8efb2d9e	인터라켄펜션	인터라켄,인터라켄펜션,펜션		
+10030653	3f9ae171-1955-4958-9c0f-34bde621b685	용인들꽃펜션	들꽃,용인,용인들꽃펜션,펜션		
+10030653	3fde1b11-1332-46e0-b8d8-b02e4d52acdf	금산 블리스 펜션	금산,블리스,펜션	Geumsan Bliss Pension	Bliss,Geumsan,Pension,bliss,geumsan,pension
+10030653	3ecef872-c141-4c5c-859a-f5697eb5ab6f	마니빌	마니빌		
+10030653	3ede35d1-afd4-4490-bc03-6f578490d327	제주오션밸리	밸리,오션,제주,제주오션밸리		
+10030653	3df2d2f5-38d4-40c6-a722-3ddaa0281f6d	sun펜션	펜션		
+10030653	3df3bb97-cf2f-45ed-a6d8-68e2318d1d4e	가평 샤또드 스파 펜션	가평,샤또드,스파,펜션		
+10030653	3e0221f8-64b0-46cb-a14f-5e7e1fe53122	경주 우진그린펜션	경주,그린,우진,우진그린펜션,펜션		
+10030653	3e42dc7f-2937-4df4-adad-79954a9dcbba	테라스엔별이	별,별이,엔,이,테라스,테라스엔		
+10030653	3eae3b9e-3747-43ed-8cdd-cf74b5dce869	양평 산수골 펜션	골,산수,산수골,양평,펜션	YangPyeong Scenery Valley Pension	Pension,Scenery,Valley,YangPyeong,pension,sceneri,scenery,vallei,valley,yangpyeong
+10030653	3d2784cb-e1b7-423a-a1af-ffb0605114e7	장성 세월따라가는사람들 펜션	들,따라가는,사람,세월,세월따라가는사람,장성,펜션		
+10030653	3d2ba8c9-7c19-45ea-84e0-4d71343c2955	가람리조트	가람,가람리조트,리조트		
+10030653	3d4adf9f-93d6-4738-bc33-7d7f3489a66e	용인 깊은산속 펜션	ㄴ,깊은산속,용,용인,이,펜션	Yongin Deep in Mountain Pension	Deep,Mountain,Pension,Yongin,deep,in,mountain,pension,yongin
+10030653	3dc4965c-881a-4e54-94fb-b5c862a646fb	로그펜션	로그,로그펜션,펜션		
+10030653	3dc5aaf2-293a-4a4f-9ef0-39c94d6a8a2f	양평 엔젤식물원 펜션	식물,양평,엔젤,엔젤식물원,원,펜션	YangPyeong Angel Arboretum Pension	Angel,Arboretum,Pension,YangPyeong,angel,arboretum,pension,yangpyeong
+10030653	3c905cf3-4eac-4eac-b016-eae26d9f55b9	청룡재펜션	재,청룡,청룡재펜션,펜션		
+10030653	3cbafefd-f571-4bf5-b08e-c39eb6704883	단양 수곡당 펜션	단양,수곡당,펜션	Danyang Sugukdang Pension	Danyang,Pension,Sugukdang,danyang,pension,sugukdang
+10030653	3d1e889c-bfae-41e7-ba52-6da095cce341	태안로뎀펜션	뎀,태안,태안로,태안로뎀펜션,펜션		
+10030653	3d255c73-80b8-429f-b12a-3a46a52f5fe8	태안 물결 캠핑장	물결,장,캠핑,캠핑장,태안		
+10030653	3c050f14-86f8-4510-8c99-f4b33ee33f43	소나무풍경펜션	소나무,소나무풍경,소나무풍경펜션,펜션,풍경		
+10030653	3c0d1960-2618-4bd1-9a8f-1c0f302afce9	태안 이뉴 펜션	이뉴,태안,펜션	Taean In You Pension	In,Pension,Taean,You,in,pension,taean,you
+10030653	3c7aad8e-fe76-4a46-bced-6d95feaab147	207마일	207,207마,207마일,ㄹ,마일,이		
+10030653	3c858dec-6552-47a9-b850-383c18d54b77	제주 삼양2022 펜션	삼양2022,제주,펜션		
+10030653	3bc90811-ac9b-4bdf-8cf2-0687783500a7	이스턴하임(폐지)	이스턴,이스턴하임폐지,폐지,하임		
+10030653	3bc996a7-8527-4969-9718-a37dbf853fe6	(구)밸리하우스	구,구밸리하우스,밸리,하우스		
+10030653	3b15b2b7-5dac-4daf-8f32-25bab555cfc8	제주산토리니펜션	산토리니,제주,제주산토리니,제주산토리니펜션,펜션		
+10030653	3b4bf145-27cf-42df-9e14-7c3d04d2f922	서귀포 세인트하우스 펜션	서귀포,세인트,세인트하우스,펜션,하우스		
+10030653	3b93e476-72e2-45fa-a8a5-a562fbda32a4	이화펜션	이화,이화펜션,펜션		
+10030653	3ab672d0-885b-4009-a3f9-6b1d0f2fd128	태안 카밀리아하우스 펜션	밀리아,카,카밀리아,카밀리아하우스,태안,펜션,하우스		
+10030653	3adf1bba-dcf9-43e4-a50d-c978d3814363	메이페어샬레	메이,메이페어샬레,샬레,페어		
+10030653	3a358cd1-b9c5-408e-b703-0c1dc07c1102	펜션테라피(단체)	단체,테라,펜션,펜션테라피단체,피		
+10030653	3a7e6946-f09c-4584-871a-94a7da8d1a8a	비치와밸리	밸리,비치와,비치와밸리		
+10030653	038c31b2-cc45-464c-b867-bccfc456b31d	클럽코랄비치	코랄비치,클럽,클럽코랄비치		
+10030653	039d9edd-9def-4b5c-90bf-983eead65299	평창 자연을닮은집 펜션	닮은,을닮은집,자연,자연을,자연을닮은집,집,펜션,평창	Pyeongchang Just Like Natural Home Pension	Home,Just,Like,Natural,Pension,Pyeongchang,home,just,like,natur,natural,pension,pyeongchang
+10030653	039fc68f-d920-4dbc-bf36-4784ef1c6f14	소낭펜션	소낭,소낭펜션,펜션		
+10030653	03223382-57e1-4c17-b113-b7bfe2494e21	벨베데레펜션	벨베데레,벨베데레펜션,펜션		
+10030653	02aee691-15a1-42e7-8593-97e5c61f8b53	양평해달별펜션	양평,양평해달별펜션,펜션,해달별		
+10030653	02d058ce-8f15-453b-a082-40cfea3728ff	경주벨리펜션	경주,경주벨리펜션,벨리,펜션		
+10030653	0309d699-eb91-4518-9207-eb36a5e22cb3	양평 드래곤플라이 독채 펜션	독채,드래곤,드래곤플라이,양평,펜션,플라이	YangPyeong Derekon Perrai Individual Pension	Derekon,Individual,Pension,Perrai,YangPyeong,derekon,individu,individual,pension,perrai,yangpyeong
+10030653	02296335-e1cf-42b3-8b1d-a1d3591b5abd	픽션하우스	픽션,픽션하우스,하우스		
+10030653	01ba4ecf-8cde-4b9d-a05f-6f76691090d3	디망쉬펜션	디망쉬,디망쉬펜션,펜션		
+10030653	01d024c3-81f3-43c3-b051-55907711243d	제주도마레카펜션	도마,레카,제주,제주도마,제주도마레카펜션,펜션	Jeju Mareka Pension	Jeju,Mareka,Pension,jeju,mareka,pension
+10030653	02213326-c1d9-4add-831d-3531f50f6726	강화 별빛속으로 펜션	강화,로,별빛속,별빛속으,별빛속으로,으로,펜션	Ganghwa Byeolbitsok-euro Pension	Byeolbitsokeuro,Ganghwa,Pension,byeolbitsokeuro,ganghwa,pension
+10030653	017e4080-336c-4a20-994e-1b2109dae16d	완도 리베라 펜션	라,리,리베,리베라,베라,완도,펜션		
+10030653	01ae9fc2-c4d1-440d-8d24-08a7469336a7	단양 황정산 펜션	단양,정산,펜션,황,황정산	Danyang Hwangjeongsan Pension	Danyang,Hwangjeongsan,Pension,danyang,hwangjeongsan,pension
+10030653	01682ba2-8b77-4bf9-a3be-f339c50eba5f	태안 엔젤 펜션	엔젤,태안,펜션	Anmyeondo Angel Pension	Angel,Anmyeondo,Pension,angel,anmyeondo,pension
+10030653	017d2346-08b6-4df1-91a4-83d3dff2ca82	제주포유펜션	제주,제주포유펜션,펜션,포유		
+10030653	011ef3f3-da16-41c5-b07d-6d741d11483d	무주오렌지펜션	무주,무주오렌지펜션,오렌지,펜션		
+10030653	0139a345-c466-442a-815a-ec4955fd82e8	경포 파란바다 펜션	경포,바다,파란,파란바다,펜션		
+10030653	00df3423-5fd1-4a49-b615-9dd7aed3607c	로뎀나무	나무,로뎀,로뎀나무		
+10030653	00e7d5cf-ec51-4f1c-92f4-22e257908397	올리버펜션	올리버,올리버펜션,펜션		
+10030653	00f69b69-75f6-43df-b4a7-edb36cf6bb61	거제 산들바다펜션(미사용)	거제,미,바다,사용,산들,산들바다펜션미사용,용,펜션,펜션미사		
+10030653	00215c85-77c5-4c7b-a8d7-d10614a18e98	서귀포 중문와우 펜션	서귀포,와우,중문,중문와우,펜션	Seogwipo Jungmun Wow Pension	Jungmun,Pension,Seogwipo,Wow,jungmun,pension,seogwipo,wow
+10030653	00480107-2aa2-4f4f-92fa-0f02676a323b	양양 베리트 펜션	베리,베리트,양양,트,펜션	Yangyang Berith Pension	Berith,Pension,Yangyang,berith,pension,yangyang
+10030653	007c824a-ceaf-4b4b-bb33-7dd9d22e3f4c	안면도 방포비치 펜션	도,방,방포비치,안면,안면도,치,펜션,포비	Anmyeondo Bangpo Beach Pension	Anmyeondo,Bangpo,Beach,Pension,anmyeondo,bangpo,beach,pension
+10030653	009969be-e530-4f21-bdc5-91e17346853a	정선애펜션&캠핑장	애,장,정선,정선애펜션캠핑장,캠핑,펜션	Jeongseonae Pension & Campground	Campground,Jeongseonae,Pension,campground,jeongseona,jeongseonae,pension
+10030653	765f96c7-a8a8-49b2-a9da-840564596ba7	제주 올레 하늘정원 펜션	ㄹ레,오,올레,정원,제주,펜션,하늘,하늘정원	JejuOlleh Sky Garden Pension	Garden,JejuOlleh,Pension,Sky,garden,jejuolleh,pension,sky
+10030653	be9229d9-a69d-4a18-990d-d586dc858efc	제주 화이트드림 펜션	ㅁ,드리,제주,펜션,화이트,화이트드림		
+10030653	b3059815-0b1a-4282-8c46-d5f5ba5767e8	제주 플라마 펜션	제주,펜션,플라마	JejuFlama Pension	JejuFlama,Pension,jejuflama,pension
+10030653	2ec0a2c2-28fb-48bf-a0a1-d776c6fc4c8a	제주 초콜릿 펜션	제주,초콜릿,펜션		
+10030653	25204aee-caa5-4c67-8953-bb070c9ceb31	제주 이그니스 무인텔	니스,무인,무인텔,이그,이그니스,제주,텔	Jeju Ignis Unmanned Motel	Ignis,Jeju,Motel,Unmanned,igni,ignis,jeju,motel,unman,unmanned
+10030653	c6f287c4-7e25-4e62-a770-09a350277062	전주 한옥장수 펜션	장수,전주,펜션,한옥,한옥장수	Jeonju Hanok Jangsu Pension	Hanok,Jangsu,Jeonju,Pension,hanok,jangsu,jeonju,pension
+10030653	adfc949e-2740-4770-9e74-b932b7990777	전주 한옥마을산아래 펜션	래,마을,산,산아,아래,전주,펜션,한옥,한옥마을산아래	Jeonju Hanok Village San Arae Pension	Arae,Hanok,Jeonju,Pension,San,Village,ara,arae,hanok,jeonju,pension,san,villag,village
+10030653	ae328e24-6286-41fe-93e4-36d9f30be954	서귀포 더세리 리조트	더,더세리,리조트,서귀포,세리		
+10030653	d09c0e49-4392-46f8-a58e-9199e2c0685d	서귀포 아이브 리조트	리조트,브,서귀포,아이,아이브	Seogwipo I've Resort	Ive,Resort,Seogwipo,iv,ive,resort,seogwipo
+10030653	6f046626-661f-40b4-a924-7221f5799d17	헬기카라반캠핑장펜션	장,카라반,캠핑,펜션,헬기,헬기카라반캠핑장펜션		
+10030653	6f254900-0830-4b18-82f5-af9c26500961	인제 관광농원 펜션	관광,관광농원,농원,인제,펜션	Inje Tourist Farm Pension	Farm,Inje,Pension,Tourist,farm,inj,inje,pension,tourist
+10030653	6f5fecdc-d9c2-4345-b8dc-fbc514d1fa89	전주 꿈 펜션	ㅁ,꾸,꿈,전주,펜션	Jeonju Dream Pension	Dream,Jeonju,Pension,dream,jeonju,pension
+10030653	6f737388-101c-4bd0-a74f-44a13d2eef12	거제 모네의정원 펜션	거제,네의,모,모네의,모네의정원,정원,펜션	Geoje Monet's Garden Pension	Garden,Geoje,Monets,Pension,garden,geoj,geoje,monet,monets,pension
+10030653	70ce478f-b51a-4581-a0a7-45fb6d446379	양양 풀하우스	양양,풀,풀하우스,하우스		
+10030653	7043f725-10c0-4135-ac0f-369a0aee1bc5	푸른정원펜션	정원,펜션,푸른,푸른정원펜션		
+10030653	cf968813-c3a4-4c10-a11c-7211c87b5e80	강릉 if 게스트하우스	강릉,게스트,게스트하우스,하우스	Gangneung if guesthouse	Gangneung,gangneung,guesthous,guesthouse,if
+10030653	cfa39bf5-e800-48ea-b431-70b28d299b54	평창 메이페어카펠라 펜션	메이,메이페어카펠라,카펠라,페어,펜션,평창		
+10030653	cfd3d9e0-7f1d-4736-9607-7767cbe96c43	횡성 로즈오브샤론 펜션	로즈오브샤론,펜션,횡성	Hoengseong Rose of Sharon Pension	Hoengseong,Pension,Rose,Sharon,hoengseong,of,pension,rose,sharon
+10030653	d06e5813-2a0f-41eb-bad2-e47ef33fafed	양양 솔향기사이로 펜션	로,사이,솔,솔향기,솔향기사이,양양,펜션,향기사이로		
+10030653	d08a06e4-ae22-4dc4-9387-05d2c5136cef	양양 프라임 펜션	ㅁ,양양,이,펜션,프라,프라임	YangyangPrime Pension	Pension,YangyangPrime,pension,yangyangprim,yangyangprime
+10030653	c0c919d8-406b-483f-bbbf-ac2e9608fba7	장수온천호텔	온천,장수,장수온천,장수온천호텔,호텔	Jangsu Hot Springs Hotel	Hot,Hotel,Jangsu,Springs,hot,hotel,jangsu,spring,springs
+10030653	c0eea7d7-5a8f-49de-a249-87050e221c97	태안 블루마린 펜션	마린,블루,블루마린,태안,펜션	Taean Blue Marine Pension	Blue,Marine,Pension,Taean,blue,marin,marine,pension,taean
+10030653	bff1c915-d234-4b92-aa5f-c5d78fdb22aa	갈릴리펜션	갈릴,갈릴리,갈릴리펜션,리,펜션		
+10030653	c0362373-77c7-4def-b4c9-ef594416b9ce	태안 휴양림 펜션	림,태안,펜션,휴양,휴양림	Taean Forest Lodge Pension	Forest,Lodge,Pension,Taean,forest,lodg,lodge,pension,taean
+10030653	c03d0644-f2a1-4a48-8fe8-3a2206e1237c	비엔토펜션	비엔토,비엔토펜션,펜션		
+10030653	c7cc687c-e217-406b-bb64-976489702fee	거제 힐링펜션	거제,펜션,힐링,힐링펜션		
+10030653	c7cddecc-f305-4235-a287-eb954211093f	마니산풍경	마니산,마니산풍경,풍경		
+10030653	c78f6378-07e5-43e3-b1ea-b7f0f80699c1	양평 꽃향기 펜션	꽃,꽃향기,양평,펜션,향기	Yangpyeong Kkothyanggi Pension	Kkothyanggi,Pension,Yangpyeong,kkothyanggi,pension,yangpyeong
+10030653	c795b992-1e47-461f-a44b-d49dcf65dfd5	꽃피는산골	꽃피는,꽃피는산골,산골		
+10030653	c6974e09-e70d-4b8b-9795-4b6640e2dfd7	인제 황토너와집관솔 펜션	관솔,너와집,인제,펜션,황토,황토너와집관솔	Inje Hwangto Nowajip Gwangsol Pension	Gwangsol,Hwangto,Inje,Nowajip,Pension,gwangsol,hwangto,inj,inje,nowajip,pension
+10030653	c6d08742-208d-4348-9fbb-91aa4e3dfc15	문펜션(하늘정원)	문,문펜션하늘정원,정원,펜션,하늘		
+10030653	c700c982-0ca2-43fd-ac53-2cfee6f74b9e	영월 황토민박 펜션	민박,영월,펜션,황토,황토민박		
+10030653	c7059809-ee33-4e15-812d-030fc7b4a764	가평 하늘과구름사이 펜션	가평,과,구름,사이,펜션,하늘,하늘과,하늘과구름사이		
+10030653	c75b94e0-5df8-47e3-a74b-6cd96c33e3ee	평창 로맨틱하우스 펜션	로맨틱,로맨틱하우스,펜션,평창,하우스	Pyeongchang Romantic House Pension	House,Pension,Pyeongchang,Romantic,hous,house,pension,pyeongchang,romant,romantic
+10030653	d784e42c-c7a7-4cea-8b70-51af14ff08ed	안면도 구름 펜션	ㅁ,구르,구름,도,안면,안면도,펜션	AnmyeondoCloud Pension	AnmyeondoCloud,Pension,anmyeondocloud,pension
+10030653	c688db43-3c73-47b8-89fe-8a68cf4cc785	씨밀레펜션	씨밀레,씨밀레펜션,펜션		
+10030653	c6925e66-1dd8-44d8-8a9d-f1ddd322c9f3	거제 바다추억 펜션	거제,바다,바다추억,추억,펜션	Geoje Bada memory Pension	Bada,Geoje,Pension,bada,geoj,geoje,memori,memory,pension
+10030653	befc34e7-6a13-4bfc-9d36-90fe5b42cc02	바다숲펜션	바다,바다숲펜션,숲,펜션		
+10030653	bf59f198-a8e6-46e7-9885-d8f83fe88a58	서귀포 귤하우스 펜션	귤,귤하우스,서귀포,펜션,하우스	Seogwipo Gyul House Pension	Gyul,House,Pension,Seogwipo,gyul,hous,house,pension,seogwipo
+10030653	bf7c7690-85ad-43d2-9555-6f92588fce8a	제주 퐁낭펜션-조식/바베큐	바베큐,제주,조식,펜션,퐁낭,퐁낭펜션조식바베큐		
+10030653	be855a61-dce1-4a2f-93af-88e722087d1f	리버하임 럭셔리 독채 풀빌라	ㅁ,독채,럭셔리,리버,리버하,빌라,이,풀,풀빌라,하,하임		
+10030653	be9e2b59-c0b9-4a08-a742-e8a0787bc10f	평창 설레임 펜션	ㅁ,설레이,설레임,펜션,평창		
+10030653	beca8a95-b1ef-46ef-820e-fd13f27308aa	메밀꽃밸리	메밀꽃,메밀꽃밸리,밸리		
+10030653	bedd2b10-2f51-4b7e-83cf-c1a941c65074	거제버즈힐펜션	거제,거제버즈힐펜션,버즈힐,펜션		
+10030653	be4bc2ff-e7ad-4e47-91ea-681c842d6d2d	중문 에스피리조트	리조트,에스,에스피리조트,중문,피		
+10030653	be6ae41d-c9fb-4f6d-a222-2345046e40e8	양평명달리펜션	달리,명,양평,양평명달리펜션,펜션		
+10030653	d718f565-825f-4f3d-9403-b17a5cb804fb	통나무집마을펜션	마을,집,통나무,통나무집마을펜션,펜션		
+10030653	d6b5a1fe-d695-4ead-8ce5-7c1c71cb1561	태안 피아노 펜션	태안,펜션,피아노		
+10030653	d73e6503-98f4-4e84-8d80-ed00afb2967b	(구)금당롯지	구금,구금당롯지,당롯지		
+10030653	fcf5119a-63d9-41a9-b092-aa9fcf369b0e	도로시펜션	도로,도로시펜션,시,펜션		
+10030653	fd39073e-612c-4268-a06d-756aceb15f09	가평한옥	가평,가평한옥,한옥		
+10030653	fd42dcef-d683-4023-b556-aa18db03f953	홍천 아름다운동행 펜션	다운,동행,아름,아름다운동행,펜션,홍천	Hongceon Beautiful Accompany Pension	Accompany,Beautiful,Hongceon,Pension,accompani,accompany,beauti,beautiful,hongceon,pension
+10030653	be304eb7-a52b-4bd0-9ce9-e266531dc913	춘천 여우그늘 펜션	그늘,여우,여우그늘,춘천,펜션	Chuncheon Yeowoo Gneul Pension	Chuncheon,Gneul,Pension,Yeowoo,chuncheon,gneul,pension,yeowoo
+10030653	f7589710-92fa-44bd-baf1-20ff934317c8	나무로펜션	나무,나무로,나무로펜션,로,펜션		
+10030653	f7892d5a-183c-4aaf-b917-3290e083b6f6	강촌마운틴	강촌,강촌마운틴,마운틴		
+10030653	f78ee464-acff-4514-97fd-eed95fef241e	태안 동아리조트	동아,동아리조트,리조트,태안		
+10030653	f7a70c6a-6c52-49c8-8c29-02f374bcd2a6	버락펜션	버락,버락펜션,펜션		
+10030653	b29d82fd-af17-4859-9c97-53d453994183	향기애펜션	애,펜션,향기,향기애펜션		
+10030653	b2fb4ee3-dcdb-4fed-89d5-17def2057334	A SOME PLACE	A,PLACE,SOME,a,place,some		
+10030653	b1d71f5b-7570-46a5-ae55-0e650ef6a163	부안펜션메이플	메이플,부안,부안펜션메이플,펜션	Buan Maple Pension	Buan,Maple,Pension,buan,mapl,maple,pension
+10030653	b1f11f3b-6d53-4ac0-bc19-6c07bd943234	그린로즈	그린,그린로,그린로즈,로즈,즈		
+10030653	b1766e5a-b3f3-41e3-aeae-0a6d5c4d45f5	가평하늘숲펜션	가평,가평하늘숲펜션,숲,펜션,하늘		
+10030653	b17e4808-251e-4b68-82da-daabe7d58fae	서천 춘장대하얀 펜션	대하얀,서천,얀,춘장,춘장대하,춘장대하얀,펜션	Seocheon Choonjangdae Hayan Pension	Choonjangdae,Hayan,Pension,Seocheon,choonjangda,choonjangdae,hayan,pension,seocheon
+10030653	b1954aa3-9e84-44cb-9b40-da539bfbc3cb	그리드1398펜션	1398,그리드,그리드1398펜션,펜션		
+10030653	b1136595-8061-4145-80ca-baf263e955ea	울산라임하우스	라임,울산,울산라임하우스,하우스		
+10030653	b017781e-3c42-4478-bfbf-0efc29173eca	주문진 정금월펜션	정금월,정금월펜션,주문,주문진,진,진 정금월,펜션		
+10030653	b060aff0-d2a7-4423-b32b-3a2c9117bc2a	바닷가산책(구)	구,바닷가,바닷가산책,바닷가산책구,산책		
+10030653	b067f634-6c0d-4ce5-9651-65d8f19b84ee	경주바람이불어오는곳	경주,경주바람이불어오는곳,바람,바람이,불어,어오는곳,오는곳,이불		
+10030653	b0755616-ad5f-43b1-9133-ad749df527fe	가평 계곡사랑 펜션	가평,계곡,계곡사랑,사랑,펜션		
+10030653	afd9d507-b952-4d5b-a357-a311a93078f5	사계절펜션	사계,사계절펜션,절,펜션		
+10030653	afdfd3e5-3f55-4b82-a629-e96ef47c7207	테라스풍경	테라스,테라스풍경,풍경	Gapyeong Terrace View Pension	Gapyeong,Pension,Terrace,View,gapyeong,pension,terrac,terrace,view
+10030653	af6ef40c-5def-426e-9296-ea1ab762d4bf	안면도 해맞이 펜션	도,맞이,안면,안면도,이,펜션,해,해맞,해맞이	AnmyeondoSunrise Pension	AnmyeondoSunrise,Pension,anmyeondosunris,anmyeondosunrise,pension
+10030653	af769104-fae3-4873-aea7-c866fd52d3cf	남해 르미에르 펜션	남해,르,르미에르,미에,펜션		
+10030653	af7dc37c-45a0-4f3a-a0f8-5eb77ed95795	양평 스위틴 펜션	스위틴,양평,펜션	0	
+10030653	af9c1175-06d1-458e-b794-450075498489	트윈스펜션	스,트윈,트윈스펜션,펜션		
+10030653	af36044a-ec4b-4717-8615-e64686232c7a	다큐하우스펜션	다큐,다큐하우스펜션,펜션,하우스		
+10030653	af54ba7f-df40-40ee-bed0-8d7588d4ebd3	완도 청해 펜션	어,완도,청하,청해,펜션		
+10030653	af6833d7-a434-48b6-a27a-80c57a1d1f06	강촌 걸리버여행기 펜션	강촌,걸,걸리버여행기,리버,리버여,여,펜션,행기		
+10030653	aea0abef-09a8-4254-8a08-80d330212a32	평창올림피아 콘도	올림,콘도,평창,평창올림피아,피아		
+10030653	af01f3c7-1a7b-47c2-9728-b84596f5c229	가평 테라로사 펜션	가평,로사,사,테라,테라로,테라로사,펜션		
+10030653	ae5b0098-cd17-4f8d-b24a-ccf477476f47	강풀펜션	강풀,강풀펜션,펜션		
+10030653	ae5de9bc-62c9-49d0-881c-ffb79d6fda8a	태안 웰빙산장 펜션	산장,웰빙,웰빙산장,태안,펜션		
+10030653	ae671fcb-3ace-4ea7-9571-2c712737142f	미엘펜션	미엘,미엘펜션,펜션		
+10030653	ae595e7d-1e46-4bb8-80c0-0dad38e45f6e	양평 맑은숲 펜션	맑은숲,양평,펜션	YangPyeong Pure Forest Pension	Forest,Pension,Pure,YangPyeong,forest,pension,pure,yangpyeong
+10030653	ae435dfe-83af-48a0-9dac-89d692e70461	강촌 오렌지 펜션	강촌,오렌지,펜션	Gangchon Orange Pension	Gangchon,Orange,Pension,gangchon,orang,orange,pension
+10030653	ae5272e8-29ab-4396-8397-c41a74c7c4b2	강화 아모테 카페&펜션	강화,아모테,카페,카페펜션,펜션		
+10030653	ad72c1ff-e24b-4848-beff-5b0ba8b10976	용인 둥지아트빌리지 펜션	ㄴ,둥지,둥지아트빌리지,빌리지,아트,용,용인,이,펜션	Yongin Doongji Art Village Pension	Art,Doongji,Pension,Village,Yongin,art,doongji,pension,villag,village,yongin
+10030653	ad7948b8-775f-4ecf-a9ce-f80628c64071	강화하늘펜션	강화,강화하늘펜션,펜션,하늘		
+10030653	ad89b295-b126-457a-8eb1-5c5f0287c52d	태안 내뜰애 펜션	내뜰애,태안,펜션		
+10030653	adb29860-63ae-42b6-8074-9184a5deab05	단양 가곡하늘채 펜션	가곡,가곡하늘,가곡하늘채,단양,채,펜션,하늘채		
+10030653	ad2feff0-9662-4feb-8382-94e67a5034dd	평창 아름다운어느날 펜션	다운,아름,아름다운어느날,어느날,펜션,평창	Pyeongchang Beautiful Day Pension	Beautiful,Day,Pension,Pyeongchang,beauti,beautiful,dai,day,pension,pyeongchang
+10030653	adc795d0-0503-4805-a803-8291d0a80e31	양평 약속 펜션	약속,양평,펜션		
+10030653	adff1ea7-c4a2-4b50-8ac1-7b2913161948	춘천 호수가의하얀집 펜션	가의,집,춘천,펜션,하얀,하얀집,호수,호수가의하얀집	Chuncheon Lakeside White House Pension	Chuncheon,House,Lakeside,Pension,White,chuncheon,hous,house,lakesid,lakeside,pension,white
+10030653	ae05d0cb-1839-4fb9-8fc6-5e211540bf90	양평 비발디 펜션	비발디,양평,펜션	YangPyeong Vivaldi Pension	Pension,Vivaldi,YangPyeong,pension,vivaldi,yangpyeong
+10030653	ae387f13-0aaf-4940-8f09-9c85978968f9	태안 등대펜션	등대,등대펜션,태안,펜션		
+10030653	ac3aa8dd-33c9-46d6-be2d-a4845bcfc00c	강화 별헤는집 펜션	강화,별,별헤는집,집,펜션,헤는		
+10030653	ac6cada7-4e11-4c61-ba54-777fc81671f4	화천별하나나하나펜션	나,별,펜션,하나,하나나,화천,화천별하나나하나펜션		
+10030653	ac91849e-64a2-4a1c-a6bb-b6c94bae7787	양평 황토와잣나무 펜션	양평,와,잣나무,펜션,황토,황토와,황토와잣나무	YangPyeong Red Clay & Nut Pine Pension	Clay,Nut,Pension,Pine,Red,YangPyeong,clai,clay,nut,pension,pine,red,yangpyeong
+10030653	ab4be6d9-9b5a-4645-a38e-87856ea9bb6e	태안 해와달펜션	태안,펜션,해와달,해와달펜션		
+10030653	abe1b484-a7d3-4b01-b4bb-1d489fe5a94e	서귀포시 상록수숲속의집 애견 펜션	상록,상록수숲속의집,서귀포,서귀포시,속의,수숲,수숲속의집,시,애견,집,펜션		
+10030653	ac263a63-aeb9-4d58-a7ec-88e5bad00e1a	청평무지개펜션	무지개,청평,청평무지개펜션,펜션		
+10030653	ab3dcf18-d625-4430-aa64-a2997b4e9f6e	홍천 해피투게더 펜션	펜션,해피투게더,홍천	Hongcheon Happy Talkether Pension	Happy,Hongcheon,Pension,Talkether,happi,happy,hongcheon,pension,talketh,talkether
+10030653	aa4e9b23-2a98-4f99-86a2-9b9578679a88	양양 해맞이길 콘도	길,맞이,양양,이,콘도,해,해맞,해맞이길	YangyangHaemajigil Condominium	Condominium,YangyangHaemajigil,condominium,yangyanghaemajigil
+10030653	aa5e8c95-ea1f-4aab-97a9-d865c54b6f1c	스톤하우스(미사용)	미,사용,스톤,스톤하우스미사용,용,하우스,하우스미사		
+10030653	aa6e5547-a38b-4922-9975-936fe0bebd54	양평 하얀나무 펜션	나무,양평,펜션,하얀,하얀나무	YangpyeongWhite Tree Pension	Pension,Tree,YangpyeongWhite,pension,tree,yangpyeongwhit,yangpyeongwhite
+10030653	aaf24e9a-7f4b-4e73-8a98-049489e0619a	지베르니펜션	지베르니,지베르니펜션,펜션		
+10030653	aaff4c8a-dfd9-404a-856f-fe8b24c113b2	힐링캠프펜션	캠프,펜션,힐링,힐링캠프펜션	Taean Healingcamp gaetbul Pension	Healingcamp,Pension,Taean,gaetbul,healingcamp,pension,taean
+10030653	ab2112a3-3bc5-44aa-8a60-9220b671322c	여주 하늘마당 펜션	마당,여주,펜션,하늘,하늘마당	Yeoju Sky Garden Pension	Garden,Pension,Sky,Yeoju,garden,pension,sky,yeoju
+10030653	a9ca7537-dcc9-4a8b-843a-cfdfa346d780	정선 민둥산하이원 펜션	민둥,민둥산하이원,산하,산하이원,이원,정선,펜션	Jeongseon Mindoongsan High One Pension	High,Jeongseon,Mindoongsan,One,Pension,high,jeongseon,mindoongsan,on,one,pension
+10030653	a9d46302-bde7-46b7-b992-fe13cf9dc30a	제주 데이빗 펜션	데이,데이빗,빗,제주,펜션		
+10030653	a96f586b-81f1-4c72-bc3f-37d127c463a9	늘바다 통나무 독채	늘,늘바다,독채,바다,통나무		
+10030653	a95e7fa0-372a-470d-99ce-f1b1cf6bd2f1	평창 안젤라 펜션	안젤라,펜션,평창	Pyeongchang Angela Pension	Angela,Pension,Pyeongchang,angela,pension,pyeongchang
+10030653	a8a5beb0-5fdd-4db8-8ded-84abeeee3934	제주 해바라기 펜션	제주,펜션,해바라기	Jeju Sunflower Pension	Jeju,Pension,Sunflower,jeju,pension,sunflow,sunflower
+10030653	a923051c-6783-4089-b233-ec1908b815b0	(구)메종드파티오	구메종드,구메종드파티오,오,파티		
+10030653	a9263359-725d-4f06-bc73-29b44048f764	프로포즈	포즈,프로,프로포즈		
+10030653	a7cb61e4-c88d-43ed-90ca-b4a8f5389053	가평 에코하우스 펜션	가평,에코,에코하우스,펜션,하우스		
+10030653	a7f943bb-7f12-4ec0-8124-3b5fbb64764b	무너미펜션	무너미,무너미펜션,펜션		
+10030653	a853f40f-fcfd-438a-ba24-d18941fdc264	홍천 힐앤데일 펜션	ㄹ,이,펜션,홍천,힐앤데,힐앤데일	Hongcheon Hill & Dale Pension	Dale,Hill,Hongcheon,Pension,dale,hill,hongcheon,pension
+10030653	a8789519-8fb1-4eac-934f-ef33c523172e	삼척 연담 펜션	삼척,연담,펜션	Samcheok Yeondam Pension	Pension,Samcheok,Yeondam,pension,samcheok,yeondam
+10030653	a7be72ff-285c-493c-8734-06ab6c4b1e27	베이테라스펜션	베이,베이테라스펜션,테라스,펜션		
+10030653	a6fd7ba5-a8a8-4777-88fa-1c36d4045ac5	석림정	석림정		
+10030653	a703a0ed-d043-4d70-8ef6-e277ed5dcefc	용인 솔향기 펜션	ㄴ,솔,솔향기,용,용인,이,펜션,향기	Yongin Pine Fragrance Pension	Fragrance,Pension,Pine,Yongin,fragranc,fragrance,pension,pine,yongin
+10030653	a7435e97-0ae7-43c0-8bd6-25d6baa69367	미자르펜션	르,미자,미자르펜션,펜션		
+10030653	a5f759b1-3b97-47fe-a6c4-060c9ed8e972	경포 라끄블랑 펜션	경포,라끄블랑,펜션	Gyeongpo Lac Blanc Pension	Blanc,Gyeongpo,Lac,Pension,blanc,gyeongpo,lac,pension
+10030653	a5fbedd4-552d-4f39-aac8-2d447e47e817	횡성 Hello412 펜션	412,펜션,횡성	Hoengseong Hello412 Pension	Hello412,Hoengseong,Pension,hello,hello412,hoengseong,pension
+10030653	a607bec8-2e31-4d73-b3c4-6dae29f700d0	서귀포 파우제인제주 리조트	리조트,서귀포,제인,제주,파우,파우제인,파우제인제주		
+10030653	a5cc5859-aef4-46f2-903e-d05be15b976b	포천 물꼬방 펜션	물꼬,물꼬방,방,펜션,포천	Pocheon Mulgokban Pension	Mulgokban,Pension,Pocheon,mulgokban,pension,pocheon
+10030653	a54c9bef-36bb-4406-861d-02e1f99ff9a0	제주해변산책	산책,제주,제주해변,제주해변산책,해변		
+10030653	a528166b-6d6e-40c0-8f65-ceb273d9f7f1	태안 비쥬펜션	비쥬,비쥬펜션,태안,펜션		
+10030653	a53207d2-5f99-4db1-8a73-56e81b479a83	(구)팽나무골	골,구,구팽나무골,팽나무		
+10030653	a5209840-1b54-4ae0-b71f-9005ef577a93	경포 바다여행 펜션	경포,바다,바다여행,여행,펜션	Gyeonpo Sea Travel Pension	Gyeonpo,Pension,Sea,Travel,gyeonpo,pension,sea,travel
+10030653	a500b250-b7bb-44d5-b242-c7600f193273	아이엠스파펜션	스파,아이,아이엠스파펜션,엠,펜션		
+10030653	a50fcd7f-b137-4425-8c9a-c59d085ce90c	강화 프로방스 펜션	강화,펜션,프로방스	Ganghwa Province Pension	Ganghwa,Pension,Province,ganghwa,pension,provinc,province
+10030653	a514c32d-fe4a-4f4a-8eb0-3ac1cc4c64a4	위펜션	위,위펜션,펜션		
+10030653	a439d390-43ab-496d-975e-3afa15701181	제주 통나무휴양펜션	제주,통나무,통나무휴양,통나무휴양펜션,펜션,휴양		
+10030653	a43be506-7f3a-49d0-966a-67ad9352390b	양양 아름다운바다 펜션	다운,바다,아름,아름다운바다,양양,펜션	Yangyang Beautiful Sea Pension	Beautiful,Pension,Sea,Yangyang,beauti,beautiful,pension,sea,yangyang
+10030653	a47e7406-5fc1-4d5d-ad66-1fc91a4ff02c	양평 서종힐 펜션	서종힐,양평,펜션		
+10030653	a4c97cb4-e7a9-41ec-9f69-3d72eaafc881	칸델라	칸델라		
+10030653	a4fa278b-3a6b-49a1-b6c9-ef6bcef24d0a	가평 해밀펜션	가평,펜션,해밀,해밀펜션		
+10030653	a40b55ce-6246-4fed-8bee-c666debba695	양평 두다리 독채 펜션	다리,독채,두,두다리,양평,펜션	YangPyeong Tudari Individual Pension	Individual,Pension,Tudari,YangPyeong,individu,individual,pension,tudari,yangpyeong
+10030653	a41461c3-103a-4b1d-a277-b0d9ef09dd05	비타민펜션	비타민,비타민펜션,펜션		
+10030653	a4315541-30e5-479a-9d29-7dd0c988c63f	강변마루	강변,강변마루,마루		
+10030653	a3a3e1b4-4774-448a-9c44-6cc2b32513f9	양주 수경당 한옥 펜션	경당,당,수,수경,수경당,양주,펜션,한옥		
+10030653	a3c5e69e-cd8c-4b17-bfa6-16fc092bc1c8	평창 민들레영토 펜션	민들레,민들레영토,영토,펜션,평창	Pyeongchang MinDeLeYongTo Pension	MinDeLeYongTo,Pension,Pyeongchang,mindeleyongto,pension,pyeongchang
+10030653	a3f3107d-cfcf-4110-9330-3c91e6da035f	남해 소울메이트	남해,메이트,소울,소울메이트	Namhae Soulmate Pension	Namhae,Pension,Soulmate,namha,namhae,pension,soulmat,soulmate
+10030653	a40b5125-8ea9-4f45-ae5f-5b3a219c0892	(구)하늘땅별땅	구,구하늘땅별땅,땅별땅,하늘		
+10030653	a393ba17-d4cc-48b7-a72d-2c762b97ce82	제주 썬앤문 리조트	리조트,썬앤문,제주	Jeju Sun and Moon Pension	Jeju,Moon,Pension,Sun,and,jeju,moon,pension,sun
+10030653	a36dc513-14c1-47aa-a0e0-ca0f27e6bba5	두리십리펜션	두리,두리십리,두리십리펜션,십리,펜션		
+10030653	a370be1a-b5f1-4807-9f71-26335c7e114b	나폴리	나폴리		
+10030653	a380a675-03b5-4bd4-bf44-a058c0a81ce8	삼성타운펜션	삼성,삼성타운펜션,타운,펜션		
+10030653	a341f814-d021-4222-b1ba-4e6494409bdf	제주 헌스빌	제주,헌스빌		
+10030653	a34c5043-eb78-47d0-8a0b-770929f8ed41	남이섬강변펜션	강변,남이섬,남이섬강변펜션,펜션		
+10030653	f67abe1d-710d-4ae2-8b2a-d20c635cbe64	거제 메르베르 펜션	거제,메르베르,펜션	Geoje Merveille Pension	Geoje,Merveille,Pension,geoj,geoje,merveil,merveille,pension
+10030653	f6bb5df9-9018-4ae8-a0a5-be571b555fbb	밀양알렉산더펜션	밀양,밀양알렉산더펜션,알렉산더,펜션		
+10030653	f6f7b7e5-5b06-4956-a7fb-50be9872d273	홍천 행복동산 펜션	동산,펜션,행복,행복동산,홍천	Hongchen Happiness Yard Pension	Happiness,Hongchen,Pension,Yard,happi,happiness,hongchen,pension,yard
+10030653	f75839c0-9b71-49df-bc61-923538b5d854	파주 W&J 펜션	파주,펜션	Paju W&J Pension	Paju,Pension,WJ,paju,pension,wj
+10030653	d664705e-d58d-4c84-a410-8241dc283489	동막황토펜션	동막,동막황토펜션,펜션,황토		
+10030653	d66ab2e3-2055-4752-853d-f8a3d111aa36	스타펜션	스타,스타펜션,펜션		
+10030653	d678009a-70bd-49a4-92dc-f65d0e6d0c95	포천 새벽종 애견 펜션	새벽,새벽종,애견,종,펜션,포천		
+10030653	d6aeb94a-1f0b-44a8-9eb3-edbed844aed3	양평자작나무숲	숲,양평,양평자작나무,양평자작나무숲,자작나무		
+10030653	d6af365e-3d56-45af-a77f-75ea115467fb	평창 아미띠에 펜션	띠,띠에,아미,아미띠,에,펜션,평창		
+10030653	a2438c1a-90b9-4ab3-87ff-9d659d3408ec	놀러오시개(애견동반펜션)	개,놀러,놀러오시개애견동반펜션,동반,애견,오시,펜션		
+10030653	a2cf625f-93d0-4425-8c4a-b3fed81e2231	제주루마인펜션	루마인,마인,제,제주,제주루마인펜션,주루,펜션		
+10030653	a2dfb8dc-0604-4ca7-bfe1-6c41873d57df	비바체리조트	리조트,비바체,비바체리조트		
+10030653	bdc2117e-40b3-462b-bd26-00133a100053	가평그린힐펜션	가평,가평그린힐펜션,그린,펜션,힐		
+10030653	bd9ee9f9-bb54-4499-aaa6-9ff6d39f007b	황토전원마을펜션	마을,전원,펜션,황토,황토전원마을펜션		
+10030653	d5db0805-c28b-4c5f-8f2c-ac931fe8c9b5	자연의소리	소리,의,자연,자연의,자연의소리		
+10030653	d609aaf5-4846-4fa7-9f2c-c068dcada75f	대정밸리	대정,대정밸리,밸리		
+10030653	d6591fde-9f42-48a3-906d-3bf6db720a5d	디아트펜션	디,디아트,디아트펜션,아트,펜션		
+10030653	f5fb8258-2d69-42ba-bfd0-a645667e514c	스타펜션(폐지)	스타,스타펜션폐지,펜션,폐지		
+10030653	f6058f67-1d3e-49ce-9534-04073ae53303	푸조와곰솔	푸조와곰솔		
+10030653	f610465e-7e3b-40b3-9545-cbf74cfe9d17	태안 씨앤썬 펜션	씨앤썬,태안,펜션		
+10030653	f65705b9-41c9-463c-b82e-a1e21a6c305d	초대펜션	초대,초대펜션,펜션		
+10030653	fc7bc63c-82c8-4414-a26e-e8a62f41bb4f	하늘다리펜션	다리,펜션,하늘,하늘다리펜션		
+10030653	fca5b6ae-7e33-4c98-9801-a7585f0be93d	해돋이펜션	펜션,해돋이,해돋이펜션		
+10030653	fcb8a07b-80a3-4e4a-ae94-398b9d928d51	메카펜션	메카,메카펜션,펜션		
+10030653	f53e312c-8f35-46a5-af4e-161869624e4d	화이트아일랜드	아일랜드,화이트,화이트아일랜드	Daebudo White Island Pension	Daebudo,Island,Pension,White,daebudo,island,pension,white
+10030653	f58f1dfa-3954-460f-b4ba-2b7fa87565ed	제주보네르펜션	보네르,제주,제주보네르펜션,펜션		
+10030653	f5b2afaf-48b6-4739-ac58-55128b04f193	허커	허커		
+10030653	f5cd3606-5f1c-4092-96bc-b00f0c2bbb1b	강촌 스위트 펜션	강촌,스위트,펜션		
+10030653	a1ed4968-8e7f-4949-bbba-0d7fe971defc	평창 그림같은집 펜션	같은집,그림,그림같은,그림같은집,집,펜션,평창	Pyeongchang Picture-like House Pension	House,Pension,Picturelike,Pyeongchang,hous,house,pension,picturelik,picturelike,pyeongchang
+10030653	a201f8a5-c9ed-48a3-8bf8-93d940a6bc80	제주 돌과바람휴양펜션	돌과,돌과바람휴양펜션,바람,제주,펜션,휴양		
+10030653	a2323665-c655-4e8a-b1e3-2bd4267cdd0a	강릉 옥상달빛 펜션	강릉,달빛,옥상,옥상달빛,펜션	Gangneung Rooftop Moonlight Pension	Gangneung,Moonlight,Pension,Rooftop,gangneung,moonlight,pension,rooftop
+10030653	a236a5c6-c0c3-4739-87fa-6403d224b141	강화 보헤미안	강화,보헤미안		
+10030653	a14523ef-540e-4788-8d27-5f3071b117e3	가평쎄렌체펜션	가평,가평쎄렌체펜션,쎄렌체,펜션		
+10030653	a1bf261b-aae8-4350-8587-d3bbaf13d069	어썸플레이스	레이스,어썸플,어썸플레이스		
+10030653	bcd00fe8-ffaa-4a18-b3a8-be8487d98dee	등대펜션	등대,등대펜션,펜션		
+10030653	bcec1722-9824-419b-9768-982d9e91c33d	진천 곤달비 펜션	곤달비,진천,펜션	Jincheon GonDalBi Pension	GonDalBi,Jincheon,Pension,gondalbi,jincheon,pension
+10030653	bcf8f9d0-9724-439e-a720-7d33b91221c1	평창 웰빙타운 펜션	웰빙,웰빙타운,타운,펜션,평창	Pyeongchang Wellbeing Town Pension	Pension,Pyeongchang,Town,Wellbeing,pension,pyeongchang,town,wellb,wellbeing
+10030653	bd0b9535-846c-4913-a408-7bf74c82c393	울진 바닷가그집	그집,바닷가,바닷가그집,울,울진,진		
+10030653	bd447c6d-4db4-4102-8bdf-eba5eefb34ab	오빌리지	빌리지,오,오빌리지		
+10030653	bd66cc3f-4159-4394-8a07-ec7dd640d1a2	아일랜드	아일랜드		
+10030653	bd8efa1f-8ee8-458c-b9ca-dd480c4bf6ff	태안 블레스오션 펜션	블레스오션,태안,펜션		
+10030653	f4fc166f-004f-4ac6-8284-bb95ab2a8fb3	세븐투펜션	세븐,세븐투펜션,투,펜션		
+10030653	f510bbd7-cfe5-4c88-8283-c79affa21ba8	횡성 오스타하우스 펜션	스타,오,오스타하우스,펜션,하우스,횡성	Hoengseong O Star House Pension	Hoengseong,House,O,Pension,Star,hoengseong,hous,house,o,pension,star
+10030653	f5204d72-7ec4-4e86-8235-898689b42282	태안 몽앤몽 펜션	몽앤몽,태안,펜션	Taean MongnMong Pension	MongnMong,Pension,Taean,mongnmong,pension,taean
+10030653	f533acf9-d97a-4030-b12f-e3ae9ad54c14	백운별장펜션	백운,백운별장펜션,별장,펜션		
+10030653	a10b328e-2051-4ae6-a72d-5deea78c2b5f	보령 썬셋파크 펜션	보령,썬셋,썬셋파크,파크,펜션	Boryeong Sunset Park Pension	Boryeong,Park,Pension,Sunset,boryeong,park,pension,sunset
+10030653	a13e1a01-a9a9-4070-a86c-36e780f25c80	돔그라미펜션	돔그라미,돔그라미펜션,펜션		
+10030653	f3ae0d78-c934-49f9-a34f-9bba4935dd04	양양 숲속의집 펜션	속의,숲,숲속의집,양양,집,펜션	Yangyang Forest Home Pension	Forest,Home,Pension,Yangyang,forest,home,pension,yangyang
+10030653	f3aee700-5bc9-4d81-8862-e90898e6cfe2	제주명월	명월,제주,제주명월		
+10030653	f44b2a1a-0f28-4a8e-8c44-f878730253f2	가평 어반힐스 풀빌라	가평,빌라,어반힐스,어반힐스 풀,풀빌라		
+10030653	f4a21873-e449-479a-92c8-961552e7add3	횡성 마법의성 펜션	마법,마법의성,의성,펜션,횡성	Hoengseong Castle of Magic Pension	Castle,Hoengseong,Magic,Pension,castl,castle,hoengseong,magic,of,pension
+10030653	f4d8db59-6eff-4510-87bd-514ddca65cdf	서귀포 어클락 펜션	서귀포,어클락,펜션	Seogwipo o Clock Pension	Clock,Pension,Seogwipo,clock,o,pension,seogwipo
+10030653	f4f448b6-d091-4776-88f5-5126a5f55d42	카멜리아(애견)펜션	애견,카멜리아,카멜리아애견펜션,펜션		
+10030653	cf4f0730-5aad-46c8-b46d-9cefec91e1e2	강원파인로그펜션	강원,강원파인로그펜션,로그,파인,펜션		
+10030653	cf5e7a60-6b0c-4943-8c07-222e6dcca3a0	늘바다 통나무 펜션	늘,늘바다,바다,통나무,펜션		
+10030653	cf95fc6e-a3c9-4c32-9dad-ef4f13728a84	라오체리조트	라오체,라오체리조트,리조트		
+10030653	a0cf203b-b42e-4a3f-bf63-9d65d1a908d9	풍경펜션	펜션,풍경,풍경펜션		
+10030653	a0da1b0f-8b0f-42c1-88fa-360cf4d4e7de	문경킹호텔	문경,문경킹호텔,킹,호텔		
+10030653	f34e65c0-dd1c-4863-bff7-195f034582cd	연인산온천리조트	리조트,산,연,연인,연인산온천리조트,온천,인산온천리조트		
+10030653	f347131e-96cb-4d0a-a695-3e5bfce4e557	포항바다마루	마루,바다,포항,포항바다마루		
+10030653	f3651280-e56c-473e-8bf1-355266737eaa	가평 선녀와나무꾼의힐하우스 펜션	가평,나무꾼,나무꾼의,선녀,선녀와,선녀와나무꾼의힐하우스,와,의힐,펜션,하우스,힐		
+10030653	f394245a-8429-4416-97d2-acc09a7b0fea	서귀포 해든빌레 펜션	서귀포,펜션,해든빌레	Seogwipo Haeden Ville Pension	Haeden,Pension,Seogwipo,Ville,haeden,pension,seogwipo,vill,ville
+10030653	f3a6b779-5bab-497e-ac01-6d6c35675a36	횡성 뉴온누리 펜션	누리,뉴온,뉴온누리,펜션,횡성	Hoengseong New Onnuri Pension	Hoengseong,New,Onnuri,Pension,hoengseong,new,onnuri,pension
+10030653	9f86ba7f-cf8e-438c-ae9e-6953e65d884b	월화수목펜션	수목,월화,월화수목펜션,펜션		
+10030653	9fd28828-d6e3-4866-a04f-555b1ea2e113	울진 해맞이펜션	맞이,울,울진 해,진,펜션,해맞이,해맞이펜션		
+10030653	9fd4466c-5911-4b08-b045-6c15a0892362	배내골 작은영토 펜션	배내골,영토,작은,작은영토,펜션		
+10030653	f32e29f6-c34a-43ee-aefd-34281d8ca42e	가평휴양림 자연속펜션	가평,가평휴양림,림 자,속,연속,자연,자연속펜션,펜션,휴양,휴양림		
+10030653	f2d48e1c-0ea1-4392-a48f-38c83bc79f18	강화도 백두산펜션	강화,강화도,도,두산,백,백두산,백두산펜션,펜션		
+10030653	f30b606c-9d3c-48c2-8a6f-97ba6a077a00	베네치아대포	대포,베네,베네치아대포,치아		
+10030653	f339ccd7-869d-49b3-bf8a-a5199413e4ba	가평 장재울산장유원지 펜션	가평,산장유원지,울산,원지,장,장유,장재,장재울산장유원지,재울,펜션		
+10030653	d58e149f-1de9-463d-8918-6a507a54743a	라온하우스	라온,라온하우스,하우스		
+10030653	d5b456a2-420d-4ada-98cd-451011f715b9	횡성 헤븐캐슬 펜션	펜션,헤븐캐슬,횡성	Hoengseong Heaven Castle Penison	Castle,Heaven,Hoengseong,Penison,castl,castle,heaven,hoengseong,penison
+10030653	d5d575f3-736d-42a3-aa2c-d42ef330d9d1	강변테라스펜션	강변,강변테라스펜션,테라스,펜션		
+10030653	bc19f9e2-0f55-456a-81a4-d203576143f0	양평 펠리체 펜션	양평,펜션,펠리체		
+10030653	bc074c98-2d13-4fc3-b741-823d90935026	뿌띠끄올리브	뿌띠끄,뿌띠끄올리브,올리브		
+10030653	bc1b35ae-da6c-4d08-8602-3fa010a4a75d	라벤더하우스	라벤더,라벤더하우스,하우스		
+10030653	bc5d481e-970b-423f-8802-615f39ab8e7b	양양 샤인스 펜션	샤인스,양양,펜션		
+10030653	bcb4957c-cabd-4058-936d-483c25f15d3f	펜션웨이	웨이,펜션,펜션웨이		
+10030653	f2671589-7464-41f9-8aee-7bb83383edcc	하늘그리고바다	그리고,바다,하늘,하늘그리고,하늘그리고바다		
+10030653	f26f8c63-ce9a-4922-8145-18e8485531c7	에코그린펜션	그린,에코,에코그린펜션,펜션		
+10030653	f2a20fcd-ed86-4670-99a9-8fddec1d250e	달뫼골계곡펜션	계곡,곡,골계,달뫼,달뫼골,달뫼골계곡펜션,펜션		
+10030653	f2a818bc-6bd2-4682-a62f-88e4d68b0a26	가평 왕소나무 펜션	가평,나무,소나무,왕,왕소,왕소나무,펜션		
+10030653	9f6e35ad-9147-419e-840d-fb6a550ce026	강릉 별언덕 펜션	강릉,별,별언덕,언덕,펜션	Gangneung Star Hill Pension	Gangneung,Hill,Pension,Star,gangneung,hill,pension,star
+10030653	9ef18d24-f970-46f9-b122-b3b393a28bab	태안 다이애나 펜션	다이,다이애나,애나,태안,펜션	Taean Diana Pension	Diana,Pension,Taean,diana,pension,taean
+10030653	9f255d39-0491-4861-bdb3-54c5d9db05d6	샤인빌스페셜	샤인빌,샤인빌스페셜,스페셜		
+10030653	9f67a4ab-2e44-4082-b0e7-fb53b8e4b454	(구)까사델쏠	구까사델쏠		
+10030653	f1ca8012-fbd5-418e-aea6-34f1d451171f	강화 더락펜션	강화,더락,더락펜션,펜션		
+10030653	f1fed7cf-4206-4aad-94b2-ee7af2c0f38c	파인트리	트리,파인,파인트리		
+10030653	f2104409-9304-4c1b-aa0f-caaf6c2fe459	제주해비치엘마르	마르,제주,제주해비치엘마르,치엘,해비,해비치엘		
+10030653	f21862cf-1ef7-455a-8288-afd15324e05e	까사스페이스펜션	까사,까사스페이스펜션,스페이스,펜션		
+10030653	f2188ca6-804b-4f06-95cf-655c74613781	양평 말치힐 펜션	말치힐,양평,펜션		
+10030653	f141cb3e-facf-4c85-96b5-b9029af6afdc	강화 포시즌펜션	강화,시즌,펜션,포,포시즌,포시즌펜션		
+10030653	f1470fcf-0dae-472b-b6b4-cfefa59c9ee2	파주 감악산 펜션	감악산,파주,펜션	Paju Kamaksan Pension	Kamaksan,Paju,Pension,kamaksan,paju,pension
+10030653	f180c895-b075-4e08-ac0c-efd4e7997e53	아라누리펜션	누리,아라,아라누리펜션,펜션		
+10030653	f1a50005-c8ad-4159-a0e4-46124f059608	스트롱코리아	롱,스트,스트롱코리아,코리아		
+10030653	bbcf140a-82fc-4b10-974f-f0fb4cb17602	(구)양평해바라기펜션	구,구양평해바라기펜션,양평,펜션,해바라기		
+10030653	bc017ef3-9aea-4569-856a-28fd22c11b2a	바다의아침	바다,바다의,바다의아침,아침,의	Ganghwa Bada-ui-achim Pension	Badauiachim,Ganghwa,Pension,badauiachim,ganghwa,pension
+10030653	bc045c0c-b895-4ed6-9436-6cfc0d8a8262	가평 펠리스 풀빌라	가평,빌라,펠리스,펠리스 풀,풀빌라		
+10030653	f0f974cd-f240-43fa-8a89-ba9806947b6b	포에버펜션	펜션,포에버,포에버펜션		
+10030653	f1057ab8-7483-4356-91e2-f3da54b58528	용문산골펜션	산골,용문,용문산골펜션,펜션		
+10030653	f11fd01e-219d-4a2a-aa77-4091f43dbff7	제주 파도사랑 펜션	사랑,제주,파도,파도사랑,펜션		
+10030653	f12ca736-6942-48b4-b8ee-54d5efd2929d	가평 연인신관벨리 펜션	가평,벨리,신관,연인,연인신관,연인신관벨리,펜션		
+10030653	f061b9e2-4d8f-4166-984d-9b86079d2fc7	(구)사랑그리기	구사,구사랑,구사랑그리기,그리기,랑		
+10030653	f0653dca-8060-4931-b4ba-f3c527e9e1f6	포천 푸른하늘 펜션	펜션,포천,푸른,푸른하늘,하늘	Pocheon Bluesky Pension	Bluesky,Pension,Pocheon,blueski,bluesky,pension,pocheon
+10030653	f09735a4-4b66-4af4-8aa6-9ec2552af341	홍천 행복한마을	마을,한마을,행복,행복한,행복한마을,홍천		
+10030653	9e64e52f-d990-4aba-920a-bf688fc2503a	홍천스타펜션	스타,펜션,홍천,홍천스타펜션		
+10030653	9e7cd322-9bc6-4e80-9fd1-01c3a8fcee4b	통나무펜션	통나무,통나무펜션,펜션		
+10030653	9e8a6281-4f25-41fc-8109-e162ee3eb5bd	물과별이흐르는펜션	물과별이,물과별이흐르는펜션,펜션,흐르는		
+10030653	9ec45081-bfb0-469c-9772-a58153fcef53	단양 힐링캠프 펜션	단양,캠프,펜션,힐링,힐링캠프	Danyang Healing Camp Pension	Camp,Danyang,Healing,Pension,camp,danyang,heal,healing,pension
+10030653	f057b63f-2650-4e36-b28f-8daa2151ffa2	우리들산장펜션	들,산장,우리,우리들산장펜션,펜션		
+10030653	f051660b-362a-4b29-b1ad-ef29c8aa5f8e	노을바다	노을,노을바다,바다		
+10030653	bac4e22c-242e-4077-8563-bd6b39443679	구름산장(전객실독채형)	객실,구름,구름산장,구름산장전객실독채형,독채,산장,전,형		
+10030653	bad1de6d-10e5-4cca-aa0b-80dfe7a68e48	샤넬펜션	샤넬,샤넬펜션,펜션		
+10030653	bb4fc410-7d6f-48f0-8088-b2f6de9b1fae	한옥고택고현당	고택,고현당,한옥,한옥고택,한옥고택고현당		
+10030653	9d779cdb-6908-4d85-92be-c428a90d4cef	가평파란하늘	가평,가평파란하늘,파란,하늘		
+10030653	9dd61dfb-ea4f-4345-ae24-c61732147dc3	홍천 마이웨이비발디 펜션	마이,마이웨이비발디,비발디,웨이,펜션,홍천	Hongcheon My Way Vivaldi Pension	Hongcheon,My,Pension,Vivaldi,Way,hongcheon,my,pension,vivaldi,wai,way
+10030653	9df6b77f-44bd-4fa8-b7c5-74c854fadb86	태안 풍경 리조트	리조트,태안,풍경	Taean Scenery Resort	Resort,Scenery,Taean,resort,sceneri,scenery,taean
+10030653	9dfa0d41-ae6b-4bfa-a29b-4cc7d928d6a8	참사리마을 에코펜션	리마을,마을,사리,에코,에코펜션,참,참사,참사리마을,펜션		
+10030653	9e59cfa3-03a8-4860-84d4-c558a0f2e197	엘리시아펜션	시아,엘리,엘리시아,엘리시아펜션,펜션		
+10030653	9d70b33f-e60f-436a-b08a-6f448e28d541	(구)아침에새소리	구,구아침에새소리,새,소리,아침,아침에,에새		
+10030653	9d6eefb8-3e22-4391-b35e-ae65021a4691	무지개마을펜션(구)	구,마을,무지개,무지개마을펜션구,펜션		
+10030653	ba6a6134-0332-4fcc-9f91-44e01162d046	노을이머무는곳	노을,노을이,노을이머무는곳,머무는곳,이머무는곳	Ganghwa Sunset is Stay Pension	Ganghwa,Pension,Stay,Sunset,ganghwa,is,pension,stai,stay,sunset
+10030653	ba66b128-23ac-4e13-8e71-f8a3f272895f	강촌 파인힐 펜션	강촌,파인,파인힐,펜션,힐	GangchonPine Hill Pension	GangchonPine,Hill,Pension,gangchonpin,gangchonpine,hill,pension
+10030653	baa13181-00c4-4983-a31a-b2cb7bed4ca4	서산 사랑애 펜션	사랑,사랑애,서산,애,펜션	Seosan Love's Pension	Loves,Pension,Seosan,love,loves,pension,seosan
+10030653	ef797bab-4d3b-4754-8681-af75c502bdb2	제주 나이스호텔	나이,나이스호텔,스,제주,호텔		
+10030653	eff23bb4-908b-417b-af9c-6564fd44d211	해피니스펜션	니스,펜션,해피,해피니스펜션		
+10030653	efff5418-65e1-4084-92bc-b6c57b23b3ae	안성 별빛고운 펜션	별빛고운,안성,펜션		
+10030653	f0443193-380a-4333-8dfd-47a198ce80bf	제주 하늘고래 펜션	고래,제주,펜션,하늘,하늘고래		
+10030653	c63f490d-dc24-413c-a148-25fdd8255563	펜션피아체	펜션,펜션피아체,피아체		
+10030653	c61c725e-9931-4e6b-bcbb-67162a6eae4a	하동바다전원	바다,전원,하동,하동바다전원		
+10030653	ef54a56b-e233-43e7-8cde-afe3b2500a81	씨씨하우스	씨씨,씨씨하우스,하우스		
+10030653	ef70674e-15df-47a1-be4c-7ee2ec7af9eb	양평 미르하우스1157 펜션	1157,미르,미르하우스1157,양평,펜션,하우스	YangPyeong Mir House 1157 Pension	1157,House,Mir,Pension,YangPyeong,hous,house,mir,pension,yangpyeong
+10030653	ef75091f-b4ef-4d39-8456-07f033552d81	단양 한울 펜션	단양,펜션,한울		
+10030653	b9d4bd83-5b7b-4240-a274-27a2c7e51243	마이웨이비발디관광펜션	관광,마이,마이웨이비발디관광펜션,비발디,웨이,펜션		
+10030653	b9f8f9ee-bc48-4b38-bbf1-5d30983b81df	가평 강변스케치	가평,강변,강변스케치,스케치		
+10030653	ba24ee57-cc9a-4f9f-b284-de9b648cbc38	휴가펜션	펜션,휴가,휴가펜션		
+10030653	ba468dbd-5470-47be-8f52-f7e1e5f77aa6	마시멜로우펜션	마시,마시멜로우펜션,멜로,우,펜션		
+10030653	ba49af0e-5f7b-4479-9edd-98ed74b86b9b	초록집	집,초록,초록집		
+10030653	ee4478c1-be5e-46f3-9146-8a458a28c93a	서귀포 해담 펜션	서귀포,펜션,해담	Seogwipo Hae-dam Pension	Haedam,Pension,Seogwipo,haedam,pension,seogwipo
+10030653	ef007e0f-4033-4d62-8cb4-37ed08a02de1	자연으로펜션	으로,자연,자연으로,자연으로펜션,펜션		
+10030653	ef3f52f4-c503-43fc-b4c6-c579bbbe59b2	팽나무골	골,팽나무,팽나무골		
+10030653	edef7f44-c252-411a-9352-e3e0e6a1e275	양평 폭포아래하얀집 민박	민박,아래,양평,집,폭포,폭포아래하얀집,하얀,하얀집	YangPyeong White House under Waterfall Lodge	House,Lodge,Waterfall,White,YangPyeong,hous,house,lodg,lodge,under,waterfal,waterfall,white,yangpyeong
+10030653	cef74a62-c1e2-4e4c-8640-d8e84cc7746d	고창쉐르펜션	고창,고창쉐르펜션,쉐르,펜션	Gochang Cher Pension	Cher,Gochang,Pension,cher,gochang,pension
+10030653	cf3ab832-ca70-450c-acc4-516f8b4b7a5a	태안 씨송 펜션	씨송,태안,펜션	Taean Sisong Pension	Pension,Sisong,Taean,pension,sisong,taean
+10030653	cf3d1fce-3e9c-4ef9-92ce-e6c47ddea230	느티나무쉼터	느티나무,느티나무쉼터,쉼터		
+10030653	9d1a1adc-9bae-45e3-994a-cb8647e81133	양평 소나기 펜션	소나기,양평,펜션		
+10030653	9d2d2e43-2781-4ad9-85e1-bb53c101fc6e	강화트윈펜션	강화,강화트윈펜션,트윈,펜션		
+10030653	9d47c1ee-c48f-4372-9fa3-328a02fad0c2	청도솔향기펜션	청도솔,청도솔향기펜션,펜션,향기		
+10030653	d4bf7247-0019-489b-9516-c245dba9c71b	산골이야기2	2,산골,산골이야기2,이야기		
+10030653	d4e6db78-a137-4122-b4aa-8e40cda62441	슬로우펜션	슬로우,슬로우펜션,펜션		
+10030653	d5485f01-4ccb-443f-b19c-be8770689e92	소따배기펜션안대	배기,소따,소따배기펜션안대,안대,펜션		
+10030653	cee57140-4d86-4c5a-bce7-e356c1578a74	숲속바다풍경(석모도)	도,모도,바다,석모,숲속,숲속바다풍경석모,풍경,풍경석		
+10030653	eca44758-ae79-4e33-8937-f033955f923b	(구)나들길흙집	구나,구나들길흙집,들길,들길흙집,흙집		
+10030653	ecfc42ca-012c-46b4-933b-9492569a7f4a	부띠끄풀빌라 루온토	루온토,부띠끄풀,부띠끄풀빌라,빌라		
+10030653	ed1bb831-9288-4e6f-91ea-548cd4b9726b	젠빌리지	빌리지,젠,젠빌리지		
+10030653	eda776d2-a870-42d6-b24c-1f71a2e786eb	아바타	아바타		
+10030653	ec507104-1ab5-4df5-8171-05184d08a85f	꽃향기가득한 펜션	가득,가득한,꽃,꽃향기가득한,펜션,한,향기		
+10030653	ec05a4cd-3365-47bb-9b81-16ef8584410a	제주칸델라펜션	델라,제주,제주칸,제주칸델라펜션,칸델라,펜션		
+10030653	ec8ee139-073a-4f2e-ab60-33f1e5a957f8	양평 보헤미안 펜션	보헤미안,양평,펜션	YangPyeong Bohemian Pension	Bohemian,Pension,YangPyeong,bohemian,pension,yangpyeong
+10030653	eb97e520-cce8-4fe8-b4b0-8133e17852e6	구)스카이펜션	구,구스카이펜션,스카이,펜션		
+10030653	ebb8960b-b87c-46a3-9c3d-220f660f781d	가평 유명산하늘아래 펜션	가평,늘,명산하늘,산하,아래,유,유명,유명산하늘아래,펜션	GaPyeong Yumyeongsan Haneulare Pension	GaPyeong,Haneulare,Pension,Yumyeongsan,gapyeong,haneular,haneulare,pension,yumyeongsan
+10030653	ebe30c4b-3e4e-45e7-bcc5-605cbadad042	해맑은물소리펜션	물소리,펜션,해맑은,해맑은물소리펜션		
+10030653	ebe6d27b-9216-4baf-bebd-86dfadc20aa4	거제 바다선장 펜션	거제,바다,바다선장,선장,펜션	Geoje Captain Sea Pension	Captain,Geoje,Pension,Sea,captain,geoj,geoje,pension,sea
+10030653	ebfe5c6f-3020-4839-8d4e-4fb7b389720b	서귀포 제주아로제(남원) 펜션	남원,로제,서귀포,아,제주,제주아로제남원,펜션	Seogwipo Namwon Arroze Pension	Arroze,Namwon,Pension,Seogwipo,arroz,arroze,namwon,pension,seogwipo
+10030653	9d0834e2-afbd-41c1-b148-fe9c9c1880d9	강화 연화펜션	강화,연화,연화펜션,펜션		
+10030653	9d107513-edd7-40d5-8f0f-618ffb7fbea6	구름에달가듯이(구)	가듯,구름,구름에달가듯이구,에달,에달가듯이구,이구		
+10030653	9c5f1328-e405-4d9f-8a60-43fc4ec847ae	느낌표&쉼표펜션	느낌,느낌표쉼표펜션,펜션,표쉼표		
+10030653	9c5fede1-0b75-407c-b990-0f9aeef873ab	곤지암별밤펜션	곤지,곤지암별밤펜션,암별밤,펜션		
+10030653	9ccc2d74-0979-4616-8eac-01566ae03850	강화석모도클럽피오씨	강,강화,강화석모도클럽피오씨,모도,석모도,클럽,피오씨,화석		
+10030653	9ce41bf8-ff10-4d31-b414-f0761d081afe	오션힐	오션힐		
+10030653	9cf5a9b8-5217-4176-b220-f5a0007cd1e0	서귀포 윈 리조트	리조트,서귀포,윈		
+10030653	eb4ecd95-0829-457a-b508-d562da3a7770	이린펜션	이린,이린펜션,펜션		
+10030653	eb504554-ff24-4eb9-bedc-97b9e2cccbea	아침고요펜션(본관)	고요,본관,아침,아침고요펜션본관,펜션		
+10030653	eb51c499-6e49-432e-ba11-f066927efc41	빈센트	빈센트		
+10030653	9c27b380-9ba2-4156-955a-c37cb0da3904	경주 송학펜션	경주,송학,송학펜션,펜션		
+10030653	9c4333f0-fb29-4705-b71b-070f1b8ce26c	강화언덕위에펜션	강화,강화언덕위에펜션,언덕,위에,펜션		
+10030653	ead6eec9-17d8-4620-93ad-cb9108a2895c	대부도 판타루시아 펜션	대부,대부도,도,루시아,판타,판타루시아,펜션	Daebudo Fantalucia Pension	Daebudo,Fantalucia,Pension,daebudo,fantalucia,pension
+10030653	eb305181-26cb-41bd-9af1-bfd343cecfef	체리	체리		
+10030653	eb35ef1b-c4a8-49a2-b327-d5bec598d63c	서귀포 펜션정원 펜션	서귀포,정원,펜션,펜션정원	Seogwipo Pension Garden Pension	Garden,Pension,Seogwipo,garden,pension,seogwipo
+10030653	9b19ccfa-62f9-4fdb-a6c7-8d27de3e54c2	양평 용문아름드리 펜션	아름드리,양평,용문,용문아름드리,펜션	Yangpyeong Yongmun areumdri Pension	Pension,Yangpyeong,Yongmun,areumdri,pension,yangpyeong,yongmun
+10030653	9b874a18-5bdb-4feb-b12f-52dc197e4678	양평 Q 펜션	양평,펜션	YangPyeong Q Pension	Pension,Q,YangPyeong,pension,q,yangpyeong
+10030653	9b9c4269-61a6-450a-8a3b-858b2c1452a1	캐슬아씨시	시,아씨,캐슬,캐슬아씨시		
+10030653	9c1b05ff-4f14-489d-9fa9-9b1fee24c1e5	트레져빌펜션	트레져빌,트레져빌펜션,펜션		
+10030653	c608633a-e637-4bbc-94f4-70a895af8fa6	유엔미펜션	미,유엔,유엔미펜션,펜션		
+10030653	c614d4f8-9f04-431b-81f0-13860f8cf09c	제주파도소리펜션(업주변경)	변경,소리,업주,제주,제주파도,제주파도소리펜션업주변경,파도,펜션,펜션업주변경		
+10030653	99ffb2b4-4f20-42dc-8f46-122fe949349b	해울펜션	펜션,해울,해울펜션		
+10030653	9aee80e3-f367-478f-828f-b33bd8335989	단양 방곡산길따라 펜션	단양,따라,방곡,방곡산길따라,산길,펜션	Danyang Banggoksan Gildala Pension	Banggoksan,Danyang,Gildala,Pension,banggoksan,danyang,gildala,pension
+10030653	99d67c71-8704-4b20-987b-cb10eebb9d9a	가평 첼로 펜션	가평,첼로,펜션		
+10030653	fbcafdba-ebc8-4f05-84fe-1c40494e716e	양평 명성 펜션	명성,양평,펜션		
+10030653	fbeb1dad-a0f0-4fc0-b601-7dd1a98a571d	홍천 파스텔 펜션	파스텔,펜션,홍천	Hongcheon Pastel Pension	Hongcheon,Pastel,Pension,hongcheon,pastel,pension
+10030653	fbaf7166-c3a7-477e-ac2a-d3f135e03bd1	솔가람펜션	가람,람,솔,솔가,솔가람펜션,펜션		
+10030653	fc68b38e-2f5f-4b10-bf40-6e9808a6ea4b	가평 옛생각펜션	가평,생각,옛,옛생각,옛생각펜션,펜션		
+10030653	fc6be297-cb78-424f-8981-c3544db76ed0	영흥도 필그림하우스 펜션	그림,도,영흥,영흥도,영흥도 필,펜션,필,필그림하우스,하우스	YeongheungdoPilPicture House Pension	House,Pension,YeongheungdoPilPicture,hous,house,pension,yeongheungdopilpictur,yeongheungdopilpicture
+10030653	999fb468-4534-4076-8b95-8c74d005a4f4	숲속이야기	숲속,숲속이야기,이야기		
+10030653	9940b6f1-7c9a-47f2-bc14-fbb48626e68a	보은 BLISSVILLA 펜션	보,보은,은,펜션	Boeun Bliss Villa Pension	Bliss,Boeun,Pension,Villa,bliss,boeun,pension,villa
+10030653	998aadac-390b-471c-a9d2-1de81bd60cf0	남이섬 별이빛나는 펜션	남이,남이섬,는,별이,별이빛나,별이빛나는,빛나는,섬,펜션	Nami Island Starry Glow Pension	Glow,Island,Nami,Pension,Starry,glow,island,nami,pension,starri,starry
+10030653	99c4ff1e-b7c3-482d-8dd3-4d0772335bf3	양평 천년초 한옥 펜션	양평,천년,천년초,초,펜션,한옥	YangPyeong Millenium Cho Hanok Pension	Cho,Hanok,Millenium,Pension,YangPyeong,cho,hanok,millenium,pension,yangpyeong
+10030653	99c57771-2447-4cea-8ef8-bfee4e6204e0	제주선샤인호텔	선샤인,제주,제주선샤인호텔,호텔		
+10030653	fb2f396f-f3ea-4e58-86a2-7eb269d21030	용인 아름 펜션	ㄴ,아름,용,용인,이,펜션	Yongin Areum Pension	Areum,Pension,Yongin,areum,pension,yongin
+10030653	fb4a950f-7d57-4c6b-8552-e1250c8c65d1	양양포에버펜션	양양,양양포에버펜션,펜션,포에버		
+10030653	ce99667e-62db-4daf-a94c-51ee1204bfbd	게스트빌	게스트,게스트빌,빌		
+10030653	cee3490e-4f6e-4a13-8b61-e45128b24eb3	양평 러브스토리 펜션	러브,러브스토리,스토리,양평,펜션	YangPyeong Lover Story Pension	Lover,Pension,Story,YangPyeong,lover,pension,stori,story,yangpyeong
+10030653	ce77fc3e-c4b7-4056-903c-78d035acc5e8	남해관음포펜션	관음,남해,남해관음포펜션,펜션,포		
+10030653	98c2b988-18e0-48f6-a5dc-b66b1eca49e2	네르하쏠	네르하쏠		
+10030653	98cfb348-986c-4db8-9010-11d8240ca503	거제 노을의언덕 펜션	거제,노을,노을의,노을의언덕,언덕,의,펜션	Geoje Sunset Hill Pension	Geoje,Hill,Pension,Sunset,geoj,geoje,hill,pension,sunset
+10030653	98deb871-50e7-4a9b-87e3-3ef05f75d16c	사각하늘	사각,사각하늘,하늘		
+10030653	987c9a81-4be1-4990-acc4-7921a19a8163	포항하늘정원펜션	정원,펜션,포항,포항하늘정원펜션,하늘		
+10030653	98bb745f-feda-465a-8c5a-636cce8643cd	제주쥬얼리펜션	얼리,제주,제주쥬,제주쥬얼리펜션,쥬얼리,펜션		
+10030653	ea61ab24-1dd1-43f8-b1c8-c358f9523b9f	양주 코스모스 펜션	양주,코스모스,펜션		
+10030653	ea82978b-5da5-4e09-b8d3-01c90f53da77	제주Y리조트(오픈안됨)	ㅁ,되,리조트,안,안됨,오픈,제주,제주리조트,제주리조트오픈안		
+10030653	ea91a1ad-5e86-43ad-b951-e347312a57c7	용인 둥지휴양림 펜션	ㄴ,둥지,둥지휴양림,림,용,용인,이,펜션,휴양,휴양림	Yongin Dungji Forest Lodge Pension	Dungji,Forest,Lodge,Pension,Yongin,dungji,forest,lodg,lodge,pension,yongin
+10030653	eabc675a-f3c2-46fb-bd50-2777b9183929	평창 금당롯지 펜션	금당롯지,펜션,평창	Pyeongchang Geumdang Lodge Pension	Geumdang,Lodge,Pension,Pyeongchang,geumdang,lodg,lodge,pension,pyeongchang
+10030653	eabdde4f-ffaa-4a65-b5a2-c85ffb09e06c	하늘땅별땅펜션	땅별땅,펜션,하늘,하늘땅별땅펜션		
+10030653	c5b7cb8b-fb05-4395-8dbc-34215759d96e	깊은산계곡산장	계곡,깊은산,깊은산계곡산장,산장		
+10030653	c5fa15eb-8430-4732-950c-21c168dc5f0a	가평 테라스엔별이	가평,별,별이,엔,이,테라스,테라스엔		
+10030653	c605982a-48e5-48e8-8e87-e57aa6b9f76d	나무산천펜션	나무,나무산천,나무산천펜션,산천,펜션		
+10030653	e9de7630-5001-4e0a-b8fa-700bab16593e	쵸코펜션	쵸코,쵸코펜션,펜션		
+10030653	ea0eab67-0cbe-4c3c-88f6-5bd55712a456	파주 J 펜션	파주,펜션	Paju J Pension	J,Paju,Pension,j,paju,pension
+10030653	ea393448-cb61-4ed4-b9d2-b3518959fd71	솜마리조트 마띠나(애견동반)	동반,띠나,리조트,마,마띠나,마띠나애견동반,솜마,솜마리조트,애견		
+10030653	e99a9b6f-5e8d-485b-afe3-3f08688dbc9b	횡성 온누리 펜션	누리,온,온누리,펜션,횡성		
+10030653	e9a0f3dc-69ba-4fef-b264-53f0c5d93f84	영흥도 해변에서 펜션	도,에서,영흥,영흥도,펜션,해변,해변에서	YeongheungdoAt the Seaside Pension	Pension,Seaside,YeongheungdoAt,pension,seasid,seaside,the,yeongheungdoat
+10030653	e9aec6e5-6ac4-46bc-a22c-0e9fb9bdd737	포천 산울터 펜션	산울터,펜션,포천	Pocheon Sanulteo Pension	Pension,Pocheon,Sanulteo,pension,pocheon,sanulteo
+10030653	c5acfbce-b865-4a9b-8e83-8e6d2f48b350	달콤한휴일	달콤,달콤한,달콤한휴일,한,휴일		
+10030653	97f1ef58-28cb-4773-9daf-dda813c75700	가평 소리소펜션	가평,소,소리,소리소펜션,펜션		
+10030653	9858ff22-b327-443b-a280-4f4a517a1340	용인 오크스톤 펜션	ㄴ,스톤,오크,오크스톤,용,용인,이,펜션	Yongin Oak Stone Pension	Oak,Pension,Stone,Yongin,oak,pension,stone,yongin
+10030653	985daea6-72b2-4aad-8d1f-e4d83f086fca	(구)아이리스펜션	구,구아이리스펜션,리스,아이,펜션		
+10030653	ce389457-d630-4d57-bb73-7f481496754a	강릉 한내 펜션	강릉,펜션,한내	Gangneung Hannay Pension	Gangneung,Hannay,Pension,gangneung,hannai,hannay,pension
+10030653	ce4b3806-c703-4c71-8f27-bfabf2065154	라이트하우스	라이트,라이트하우스,하우스		
+10030653	ce7311c4-be47-4e89-8787-903676ed99ba	양평 천안문 펜션	문,양평,천안,천안문,펜션		
+10030653	fb077dbe-f2c8-411f-ac86-dbaab7dea326	안면도 하늘호수 펜션	도,안면,안면도,펜션,하늘,하늘호수,호수	Anmyeongdo Sky Lake Pension	Anmyeongdo,Lake,Pension,Sky,anmyeongdo,lake,pension,sky
+10030653	97ae4e26-1cb5-41fb-9e33-a9192c0319f1	양평아리아펜션	아리아,양평,양평아리아펜션,펜션		
+10030653	97e3cabe-84d6-414a-b4b0-5c7b5e9bc1e5	천의얼굴	얼굴,천의,천의얼굴		
+10030653	96e21f0b-97f1-4443-ab1c-b013e8cb8c11	소풍이야기	소풍,소풍이야기,이야기		
+10030653	9724f1aa-d49c-48f0-a87f-9f38bacabe22	서귀포 귤향기 펜션	귤,귤향기,서귀포,펜션,향기		
+10030653	e94f8c63-f2b2-4e60-b54d-3722c75c83b5	평창 에버누리 펜션	누리,에버,에버누리,펜션,평창	PyeongchangEver Nuri Pension	Nuri,Pension,PyeongchangEver,nuri,pension,pyeongchangev,pyeongchangever
+10030653	e964d4a8-8b33-450c-9106-e5668e43dafc	통영다향펜션	다향,통영,통영다향펜션,펜션		
+10030653	e96b59cc-3f2e-46ff-9425-333030738cc5	선재도 힐펜트하우스 펜션	도,선재,선재도,펜션,펜트하우스,힐,힐펜트하우스	Seonjaedo Heal Penthouse Pension	Heal,Pension,Penthouse,Seonjaedo,heal,pension,penthous,penthouse,seonjaedo
+10030653	fa8135ab-a491-4daf-9200-25bb2892865a	햇살고운아침	고운,아침,햇살,햇살고운아침		
+10030653	fa98cbb2-9611-410e-8176-dc3158288829	양평 초롱꽃 펜션	꽃,양평,초롱,초롱꽃,펜션	YangPyeong Bellflower Pension	Bellflower,Pension,YangPyeong,bellflow,bellflower,pension,yangpyeong
+10030653	fab2d869-818c-4acf-879e-3e76944e9964	거제 블루비치 펜션	거제,루비,블,블루,블루비치,비치,치,펜션	Geoje Blue Beach Pension	Beach,Blue,Geoje,Pension,beach,blue,geoj,geoje,pension
+10030653	c59d25de-323b-4272-950d-9027f4a348bc	초록지붕의앤	앤,의앤,지붕,지붕의,초록,초록지붕의앤		
+10030653	c5ab1ffd-d6c0-4995-95d0-bfa07f4057e5	서귀포 대박 펜션	대박,서귀포,펜션		
+10030653	e91449d8-1415-4aae-b1ce-bde04134359a	제주 숲속의향기 펜션	속의,숲,숲속의,숲속의향기,제주,펜션,향기	Jeju Forest Fragrance Pension	Forest,Fragrance,Jeju,Pension,forest,fragranc,fragrance,jeju,pension
+10030653	e8bb2c5d-25a3-4d41-8a2e-5bd633d7c8be	물내리마을	마을,물내리,물내리마을		
+10030653	e9245e38-a783-449d-8b02-d56587e296fc	서귀포 더썸하우스 펜션	더썸,더썸하우스,서귀포,펜션,하우스	Seogwipo The Some House Pension	House,Pension,Seogwipo,Some,The,hous,house,pension,seogwipo,some,the
+10030653	e8250645-1b12-450f-89b9-e69af0b92032	산드리아펜션	산드리아,산드리아펜션,펜션		
+10030653	e82e0113-3933-415c-a6f7-f3c99a9fa098	거제더비치펜션	거제,거제더비치펜션,더비치,펜션		
+10030653	e8b49dcf-6fd4-4a81-b4e1-463d40e26e55	양평 써니힐 펜션	써니힐,양평,펜션	YangPyeong Sunnyhill Pension	Pension,Sunnyhill,YangPyeong,pension,sunnyhil,sunnyhill,yangpyeong
+10030653	9642429b-76e4-4272-ad76-8eb6e3658928	별난수목원	별난,별난수목원,수목,원		
+10030653	96786e9b-a9e7-4297-a827-a6717b7a9bc9	하우스펜션	펜션,하우스,하우스펜션		
+10030653	968840a5-6dd7-4708-bab9-b419a929cce4	거제 로즈마리 펜션	거제,로즈마리,펜션		
+10030653	963c5b56-88b2-4cde-b208-088ea5931c10	양평 마실 펜션	ㄹ,마시,마실,양평,펜션	YangPyeong Masil Pension	Masil,Pension,YangPyeong,masil,pension,yangpyeong
+10030653	96b6a2d4-5ceb-454b-b5c6-b73b96ce344a	물동네힐링캠프	동네,물,물동네힐링캠프,캠프,힐링		
+10030653	b9ac675c-e9c5-4cbf-9a6b-a5898cf022db	아셀펜션	아셀,아셀펜션,펜션		
+10030653	b9c12743-5e81-4044-9a1d-d416bfb4e64f	남해설레임펜션	남해,남해설레임펜션,설레임,펜션	Namhae Sullem Pension	Namhae,Pension,Sullem,namha,namhae,pension,sullem
+10030653	960c1764-b719-4ef0-b428-a7e23bb6b817	서귀포 바다랑파도랑 펜션	랑,바다,바다랑,바다랑파도,서귀포,파도,파도랑,펜션	Seogwipo Badarang Padorang Pension	Badarang,Padorang,Pension,Seogwipo,badarang,padorang,pension,seogwipo
+10030653	96267037-ac94-4026-b739-a27f4a64158e	초롱꽃	꽃,초롱,초롱꽃		
+10030653	e762d2de-a4ac-4a81-a1a3-61572f7b7bff	제주 제주애단비 펜션	단비,애,제주,제주애단비,펜션		
+10030653	e7adf41e-bcba-4d4a-9ad2-3627c8dba95a	양평 용문산밸리 펜션	밸리,양평,용문산,용문산밸리,펜션	YangPyeong Yongmunsan Valley Pension	Pension,Valley,YangPyeong,Yongmunsan,pension,vallei,valley,yangpyeong,yongmunsan
+10030653	e8033874-872d-415c-bd9b-978d5869fb9f	이천 한울캠프 펜션	이천,캠프,펜션,한울,한울캠프	Icheon Hanul Camp Pension	Camp,Hanul,Icheon,Pension,camp,hanul,icheon,pension
+10030653	d482b681-5be4-43ef-9f7c-042605f1cae3	제주 등대펜션	등대,등대펜션,제주,펜션		
+10030653	d4975457-dd71-4266-a6c5-2607095eee53	작은사계절펜션	계절,은사,은사계절,작,작은사계절펜션,펜션		
+10030653	d49cc5d7-74e2-4704-bd0d-b60cc8b9dd43	경주 뉴캐슬 펜션	경주,뉴캐슬,펜션		
+10030653	9577ad41-eafe-4a10-84f3-155c7370ae90	완도 SM 펜션	완도,펜션		
+10030653	9494accc-bef6-464f-a01b-68250160765d	휴밀리아펜션	밀리아,펜션,휴,휴밀리아,휴밀리아펜션		
+10030653	95324fab-0f45-4cc3-a0cc-690c0f37bcc4	태안 노을그리고바다 펜션	그리고,노을,노을그리고,노을그리고바다,바다,태안,펜션		
+10030653	95a8d3db-2a51-4d3f-9a86-fc5fd5d17dd5	포천 개미마을하얀집 펜션	개미,개미마을하얀집,마을,집,펜션,포천,하얀,하얀집	Pocheon Ant Village White House Pension	Ant,House,Pension,Pocheon,Village,White,ant,hous,house,pension,pocheon,villag,village,white
+10030653	95dec0b1-d3ef-4b51-bec6-b8544a816637	태안 허브나라 펜션	나라,태안,펜션,허브,허브나라	Taean Herbland Pension	Herbland,Pension,Taean,herbland,pension,taean
+10030653	cdb592ab-36d1-43e3-8c20-e5987de5ac4f	별찌펜션	별찌,별찌펜션,펜션		
+10030653	cdf00af6-8614-4bdb-9a01-9cbd127e9db8	남이섬 티라 펜션	남이,남이섬,라,섬 티라,티,펜션	Nami Island Thira Pension	Island,Nami,Pension,Thira,island,nami,pension,thira
+10030653	ce0eb572-2743-4543-95df-891b47cc0f93	산너머(OLD)	너머,산,산너머		
+10030653	9485d974-b70e-497a-a73c-51899c7d2417	블루펄리조트	리조트,블루,블루펄리조트,펄		
+10030653	9447fdb6-1da6-474a-a670-e37a42661452	대추나무사랑걸렸네	걸렸네,나무,대추,대추나무사랑,대추나무사랑걸렸네,사랑		
+10030653	9479be67-c6c6-4ab5-a037-7d79d6bd149e	거제 올레 펜션	ㄹ레,거제,오,올레,펜션	Geoje Olleh Pension	Geoje,Olleh,Pension,geoj,geoje,olleh,pension
+10030653	b956a0c7-6aa9-462a-914d-9dc770e87cb0	라플란드	라플란드		
+10030653	b960f07a-11a1-4d91-8bef-1c5b5cf091f2	남이섬 강마을하늘 펜션	강마을,강마을하늘,남이,남이섬,마을,섬 강,펜션,하늘	Namiseom River Village Sky Pensiion	Namiseom,Pensiion,River,Sky,Village,namiseom,pensiion,river,sky,villag,village
+10030653	b9933006-47da-4d62-af4c-2ac5cd77f501	엘림황토촌	엘림,엘림황토촌,촌,황토		
+10030653	937362f8-e27d-4c82-8779-b9dcb249b843	노을이머무는곳	노을,노을이,노을이머무는곳,머무는곳,이머무는곳		
+10030653	9388a3aa-47e3-4dc9-b58f-d503bfdd185f	SeeYou(씨유)펜션	씨유,씨유펜션,펜션		
+10030653	92f87d2c-d099-4af6-8eda-01176db4dc26	강화해달별펜션	강화,강화해,강화해달별펜션,달별,펜션,해달별		
+10030653	92f329ef-254e-4eec-a10c-dbea60daae78	양평 가브리엘 펜션	가브리,가브리엘,양평,엘,펜션	YangPyeong Gabriel Pension	Gabriel,Pension,YangPyeong,gabriel,pension,yangpyeong
+10030653	931af823-7d29-4aca-8350-d290ed76febd	양양 힐스타 펜션	스타,양양,펜션,힐,힐스타	Yangyang Hillstar Pension	Hillstar,Pension,Yangyang,hillstar,pension,yangyang
+10030653	93244a79-cc1d-4611-aa2d-8adfbe0806af	포천조이토마토(더샬레/오렌지타임)	ㅁ,더샬레,오렌지,이,조이,타,타임,토마토,포천,포천조이토마토더샬레오렌지타		
+10030653	933cff12-a630-4c87-b455-fdae3c009a9b	진하우스(펜션나라넷)	나라,넷,진,진하우스펜션나라넷,펜션,하우스		
+10030653	92589864-feca-45da-9c4f-c07c063bb17d	제주 해밀하우스 펜션	제주,펜션,하우스,해밀,해밀하우스	Jeju Haemil House Pension	Haemil,House,Jeju,Pension,haemil,hous,house,jeju,pension
+10030653	92a360d9-4d75-4302-9fbd-2da7a10d2c3e	마당돌펜션	돌,마당,마당돌펜션,펜션		
+10030653	92a513e2-8d2a-4c3c-9897-958b83650bc7	너나들이펜션	나들이,너,너나들이펜션,펜션		
+10030653	92b270e5-bbec-411f-82b3-59313ec8309d	송림원펜션	송림,송림원펜션,원,펜션		
+10030653	92ee691e-a481-45e9-b424-482b24e626be	제주파미유리조트	리조트,제주,제주파미유리조트,파미유		
+10030653	91cb6c03-f741-46f2-9016-ecd7fc6c404e	블루온	블루,블루온,온		
+10030653	91ddbd56-ecb1-40de-beed-c46a0360f262	경주엔에스펜션	경주,경주엔,경주엔에스펜션,에스,엔,펜션		
+10030653	920bb340-71ea-486a-80e8-5d0ab1f9cf7d	가평 숲속의아침풍경 펜션	가평,속의,숲,숲속,숲속의아침풍경,아침,의아,침,펜션,풍경		
+10030653	9175b957-2baa-4db5-91ed-8d709e0e2781	대부도카르마펜션	대부,대부도,대부도카르마펜션,도,마,카르,펜션		
+10030653	91554629-cf99-4580-a699-477b278f3d45	더끌림	끌림,더,더끌림		
+10030653	915a5ec6-e386-4034-8334-baefd47be3a2	양평그린힐펜션	그린,양평,양평그린힐펜션,펜션,힐		
+10030653	916f9633-51ce-49f6-8861-6f920172fc01	강촌 산울림 펜션	강촌,산울림,펜션	Gangchon Sanolim Pension	Gangchon,Pension,Sanolim,gangchon,pension,sanolim
+10030653	912a0479-d939-4a08-baec-689780a523e3	거제도 바다이야기펜션	거제,거제도,도,바다,바다이야기,바다이야기펜션,이야기,펜션		
+10030653	91322fd5-2cc8-4769-a74e-1acb3f7b1008	가평 퀸마리 스파 펜션	가평,스파,퀸마리,펜션		
+10030653	9143d951-f99c-40a4-a9a2-6461950af7e8	파주 산촌체험마을슈가빌 펜션	마을,빌,산촌,산촌체험마을슈가빌,슈가,체험,파주,펜션	Paju Sugarville Pension	Paju,Pension,Sugarville,paju,pension,sugarvil,sugarville
+10030653	e68a864a-5266-4c53-9341-cf0d9f7f6e1c	태안 시드니 펜션	니,시드,시드니,태안,펜션	Taean Sydney Pension	Pension,Sydney,Taean,pension,sydnei,sydney,taean
+10030653	e67414f6-ec71-47fb-bf5d-c11a2dc35467	벧엘하우스	벧엘,벧엘하우스,하우스		
+10030653	e67fb80d-f133-43e5-bc0a-e58bac4db634	홍천 땡큐베리팜 펜션	땡큐,땡큐베리팜,베리,팜,펜션,홍천	Hongcheon Thankyou Berry Farm Pension	Berry,Farm,Hongcheon,Pension,Thankyou,berri,berry,farm,hongcheon,pension,thankyou
+10030653	e69a15e8-86ec-45b7-9dbc-afecdf6cd9ff	왈츠빌리지	빌리지,왈츠,왈츠빌리지		
+10030653	e6f56cdf-d5c7-4ea9-a447-d80c7ed2d3c4	여주 여강재 펜션	강재,여,여강재,여주,펜션	Yeoju Yeogangjae Pension	Pension,Yeogangjae,Yeoju,pension,yeogangja,yeogangjae,yeoju
+10030653	e70345fc-ec8b-4dea-9312-a74a7c763ce0	영흥도 소풍재펜션	도,소풍,소풍재펜션,영흥,영흥도,재,펜션		
+10030653	e751ebd6-e871-4b7c-8bda-1dda65798595	화악산풍경	풍경,화악산,화악산풍경		
+10030653	f96b932c-dfd5-4422-9c24-5e2b794848cb	고창 메르팡 펜션	고창,메르팡,펜션		
+10030653	f9b5924f-7ab3-4ee2-88f2-865000b6204a	대전 수통골커피향기 펜션	골,대전,수통,수통골커피향기,커피,펜션,향기	Daejeon SuTongGor Coffee HanGi Pension	Coffee,Daejeon,HanGi,Pension,SuTongGor,coffe,coffee,daejeon,hangi,pension,sutonggor
+10030653	f9f423d7-461a-4ed3-960d-b0cab5d75619	양평 꽃구름 펜션	구름,꽃,꽃구름,양평,펜션	YangPyeong Flowery Cloud Pension	Cloud,Flowery,Pension,YangPyeong,cloud,floweri,flowery,pension,yangpyeong
+10030653	c53ec4a3-e875-4507-b4af-232e1a3a0126	안면도 해송 펜션	도,안면,안면도,펜션,해송		
+10030653	c591a512-b059-4f0b-8fa2-3c67713ff15d	남이섬 제이드파크 펜션	남이,남이섬,섬 제이드,제이드,제이드파크,파크,펜션		
+10030653	39d0da4e-1cac-4f75-a7d6-02df6e7e9326	평창 그린캐슬 펜션	그린,그린캐슬,캐슬,펜션,평창	Pyeongchang Green Castle Pension	Castle,Green,Pension,Pyeongchang,castl,castle,green,pension,pyeongchang
+10030653	39e37a7b-7db9-44f5-af0f-22927ed4dad7	아름드리펜션	아름드리,아름드리펜션,펜션		
+10030653	3923554e-2760-42ac-8d55-01d15bb3e651	안면도 바다빛펜션	도,바다,바다빛펜션,빛,안면,안면도,펜션		
+10030653	39b6bee8-3ee5-44f2-ba5a-a1b33344f598	평창 엘리스 펜션	엘리스,펜션,평창		
+10030653	39cea8bf-150c-4949-9be4-18a62346b918	양평 로그캠프 펜션	로그,로그캠프,양평,캠프,펜션	YangPyeong Log Camp Pension	Camp,Log,Pension,YangPyeong,camp,log,pension,yangpyeong
+10030653	38851c46-5b6e-4b3c-b2b2-264d7e9fdb33	청평코스모스펜션	청평,청평코스모스펜션,코스모스,펜션		
+10030653	38e89c3e-7c46-45ed-b13e-fec99bde10b5	강화 바닷가펜션	강화,바닷가,바닷가펜션,펜션		
+10030653	3903d6c3-1307-4c9a-b902-d5f90be5f3ed	홍천 해피데이 펜션	데이,펜션,해피,해피데이,홍천	Hongchen Happy Day Pension	Day,Happy,Hongchen,Pension,dai,day,happi,happy,hongchen,pension
+10030653	390479ca-2c32-49ca-a3d8-3ae51de35ef7	평창 핀란디아 펜션	펜션,평창,핀란디아	Pyeongchang Finlandia Pension	Finlandia,Pension,Pyeongchang,finlandia,pension,pyeongchang
+10030653	3832c23a-a267-4392-b67e-5df0fd098fdc	모석원펜션	모석원,모석원펜션,펜션		
+10030653	386f09c4-a78f-450d-a4ca-e73ca8e61056	강화 파도소리 펜션	강화,소리,파도,파도소리,펜션		
+10030653	3875e04c-c61a-46ab-9d16-de44ae5b5c12	작은뜨락 숲속의향기	뜨락,속의,숲,숲속의,숲속의향기,작은,작은뜨락,향기		
+10030653	37ec1097-1bfd-4675-bf15-a5a0fc6ebb10	고성 씨랜드 펜션	고성,랜드,씨,씨랜드,펜션	Goseong Sea Land Pension	Goseong,Land,Pension,Sea,goseong,land,pension,sea
+10030653	38082624-98bd-47f8-8633-7d7c11eb6dd8	펜션루나	나,루,루나,펜션,펜션루		
+10030653	37bcae99-85b2-46d6-92f1-a7353fb0e072	리제트라움	리,리제트라움,움,제트라		
+10030653	37394c79-6787-4c3b-995e-f8971a01f742	샤이니하우스	샤이니,샤이니하우스,하우스		
+10030653	3744ef66-5f44-4db9-84cb-344e52f0f8eb	휘슬스톱펜션(구)	구,스톱,펜션,휘슬,휘슬스톱펜션구		
+10030653	37a610bb-9f8f-4d85-b7f2-27aada2413a6	속초 굿모닝 펜션	굿모닝,속초,펜션	Sokcho Good Morning Pension	Good,Morning,Pension,Sokcho,good,morn,morning,pension,sokcho
+10030653	37386502-d905-46fa-b9a5-2df5ff309877	파주 축제 펜션	축제,파주,펜션	Paju Festival Pension	Festival,Paju,Pension,festiv,festival,paju,pension
+10030653	370825b9-3bdf-41f4-ac3a-ce808395fd95	리버퀘스트	리버,리버퀘스트,스트,퀘		
+10030653	37231de7-3619-4b4a-b4f3-275d946a00f2	홍천 아레나 펜션	나,아레,아레나,펜션,홍천		
+10030653	37333f88-47b3-4d3a-b94c-d97fbdcac319	바다와노을	노을,바다,바다와,바다와노을,와노을		
+10030653	36b64a17-329e-45e3-9e75-ced97617ab0a	시즌 에피소드	시즌,에피소드		
+10030653	36e70af9-0a3f-4f66-b538-d06716d3d3cf	강화 꽃나래정원 펜션	강화,꽃,꽃나래,꽃나래정원,나래,정원,펜션		
+10030653	36fb05e5-89e3-49e7-b6ad-ab3ee13fc7ba	강릉 아르카디아 펜션	강릉,아르카디아,펜션	Gangneung Arcadia pension	Arcadia,Gangneung,arcadia,gangneung,pension
+10030653	3702ece8-c464-4504-bfed-ac08c626039a	파인빌펜션	빌,파인,파인빌펜션,펜션		
+10030653	365e94c1-614d-400d-bb6e-3f73447a4e94	바람의속삭임	ㅁ,바람,바람의,바람의속삭,속삭임,의속삭,이	Buan Baramu-I soksaguim Pension	BaramuI,Buan,Pension,baramui,buan,pension,soksaguim
+10030653	36895f6e-ba48-4efb-ae8b-2216d8e1029b	오션파크콘도텔	오션,오션파크콘도텔,콘도,텔,파크		
+10030653	368a7382-7745-4e34-b84e-477ffab884bd	가평 골드캐슬 펜션	가평,골드캐슬,펜션		
+10030653	3616486e-90e4-4341-b500-e03a83f648ec	모롱이펜션	모롱이,모롱이펜션,펜션	Namhae Somsatang Pension	Namhae,Pension,Somsatang,namha,namhae,pension,somsatang
+10030653	3598d8dd-c252-4eed-97d5-67c5d585dda6	프리핑&펜션	펜션,프리,프리핑펜션,핑		
+10030653	35a9cf24-9252-4d88-b4d3-6c8005b79778	바하펜션	바하,바하펜션,펜션		
+10030653	34fd95a3-ac85-40d4-9a48-7521c08b46c8	숲길따라펜션	따라,숲길,숲길따라,숲길따라펜션,펜션		
+10030653	350c25c9-a0d1-43fb-af7b-1b5314da88b2	양평들마루펜션	들,마루,양평,양평들마루펜션,펜션		
+10030653	351d7030-486d-4556-bb27-ccef59bec212	갈릴리펜션	갈릴,갈릴리,갈릴리펜션,리,펜션		
+10030653	34d391b6-1da5-45d7-a2b1-a2c553406c7e	제주 비투인하우스 펜션	비,비투인,비투인하우스,제주,투인,펜션,하우스		
+10030653	34de4fdf-f7c2-4fc4-9e85-49e714835e17	순천 놀 펜션	ㄹ,놀,순천,펜션		
+10030653	34a02433-9b1c-439c-a236-5993bb03e6dd	구2	구2		
+10030653	340d3af4-552c-46d2-8b62-355ec8c58cc5	참사리마을 라디아펜션	라디아,라디아펜션,리마을,마을,사리,참,참사,참사리마을,펜션		
+10030653	34492413-e0be-46bf-a3ed-3a1a09b557c7	태안 바람향기 펜션	바람,바람향기,태안,펜션,향기	Taean Wind Fragranceed Pension	Fragranceed,Pension,Taean,Wind,fragrance,fragranceed,pension,taean,wind
+10030653	345b8646-104d-4672-ab3d-916f5bef714b	물가에심기운나무	기운,나무,물가,물가에심기운나무,심기,에,에심,운		
+10030653	346084a7-68e0-4f60-a747-2a6785ba36ea	가평 잠에서깨어난고양이 펜션	가평,고양,고양이,깨어난,이,잠에서,잠에서깨어난,잠에서깨어난고양,펜션		
+10030653	349b2d19-6996-47f9-911d-b9a3edd00ec8	모향펜션	모향,모향펜션,펜션		
+10030653	32a6fc5a-2e46-4b70-bf8b-2651ba9ca13e	연두펜션	연두,연두펜션,펜션		
+10030653	32b03f27-0efc-403f-90bc-edf0faa6fa19	평창 로그하우스 펜션	로그,로그하우스,펜션,평창,하우스	Pyeongchang Log House Pension	House,Log,Pension,Pyeongchang,hous,house,log,pension,pyeongchang
+10030653	32cdd46b-3966-4f38-b050-3b955d8866e9	강릉 한눈에바다 펜션	강릉,바다,에,펜션,한눈,한눈에,한눈에바다	Gangneung Seaview Pension	Gangneung,Pension,Seaview,gangneung,pension,seaview
+10030653	3317a9f1-f083-415e-85ba-e8fe5a1110c1	부안 풀꽃 펜션	부안,펜션,풀꽃		
+10030653	33bcd68b-6927-4c2b-a77e-56cf7f6aacb5	제주풍차독채펜션	독채,제주,제주풍차독채펜션,펜션,풍차		
+10030653	32829c44-ec12-4382-bd5f-fe3ebe7f5f5d	홍천 그대를위한 펜션	ㄴ,그대,그대를,그대를위,를위,위한,펜션,하,홍천	Hongcheon For You Pension	For,Hongcheon,Pension,You,for,hongcheon,pension,you
+10030653	328bd969-cffd-4058-9a58-859732174c82	(구)사각하늘	각,구사,구사각하,구사각하늘,늘,하늘		
+10030653	32935d38-4c24-47a3-9731-ab49ae00f2b8	펜션 아름다운사람(미사용)	다운,미,사람,사람미사,사용,아름,아름다운사람미사용,용,펜션		
+10030653	327f09c2-3392-428a-bbd3-a9f8cba932b3	라차비치펜션	라,라차비치펜션,차비,치,펜션		
+10030653	31c0762a-9e2e-46e8-95d4-08f612e9d9f3	미날펜션(약물산관광농원)	관광,농원,미날,미날펜션약물산관광농원,산,약물,펜션		
+10030653	32385b89-99ec-4a4e-ad03-adac2ae65336	바다로열린창	로열,린창,바다,바다로열린창		
+10030653	31930fda-fe56-4566-b749-d74645bdacf7	(삭제요청)	삭제,삭제요청,요청		
+10030653	318b8d7f-0f86-442d-8d2f-d2809adcadf2	태안 향토길 펜션	길,태안,펜션,향토,향토길		
+10030653	318dd143-f389-455a-b8e0-7cabab8cf7ed	연천 선바위 펜션	바위,선,선바위,연천,펜션	Yeongcheon Sunbawi Pension	Pension,Sunbawi,Yeongcheon,pension,sunbawi,yeongcheon
+10030653	30ede9a4-08c4-4cbd-83d7-d766d2c6844f	서종별이빛나는밤에	밤에,빛나는,서,서종별이빛나는밤,에,이빛나는밤,종별,종별이		
+10030653	30f1fb4d-6b2a-4ece-a587-8289a0ba965e	벧엘펜션	벧엘,벧엘펜션,펜션		
+10030653	31498f28-b03b-4437-83e7-74b594efe9fb	양평양지펜션	양지,양평,양평양지,양평양지펜션,펜션		
+10030653	307a849c-60ee-493c-96e2-334b16e65766	펜션별꽃네집	별꽃네집,펜션,펜션별꽃네집		
+10030653	30cf4064-16d1-4c01-a106-b7f77e7ec286	제주 제주하늘 펜션	제주,제주하늘,펜션,하늘	Jeju Jeju Sky Pension	Jeju,Pension,Sky,jeju,pension,sky
+10030653	2fbff9e3-1cd2-40f3-8edc-19dd23becd3d	추억지기펜션	지기,추억,추억지기,추억지기펜션,펜션		
+10030653	2fcc43bc-6f74-40c0-b5bd-48d441b7942c	그린양평펜션	그린,그린양평펜션,양평,펜션	Yangpyeong Green yangpyeong Pension	Green,Pension,Yangpyeong,green,pension,yangpyeong
+10030653	3022cb1b-bf60-43c7-9d20-1d7b7a0c8f7f	태안 서풍 펜션	서풍,태안,펜션	Taean West Wind Pension	Pension,Taean,West,Wind,pension,taean,west,wind
+10030653	3030fc97-4e36-4490-9dd2-12348146aee1	춘천 기화 리조트	기화,리조트,춘천	Chuncheon Kihwa Resort	Chuncheon,Kihwa,Resort,chuncheon,kihwa,resort
+10030653	305117d5-b94f-4dfc-ad1f-e249d21c0ece	광주트윈빌펜션	광주,광주트윈빌펜션,빌,트윈,펜션		
+10030653	3055bcef-eaad-493d-a5fa-a380c5f85b66	서귀포 늘바다통나무집 펜션	늘,늘바다통나무집,바다,서귀포,집,통나무,펜션	Seogwipo Neul Ocean Log House Pension	House,Log,Neul,Ocean,Pension,Seogwipo,hous,house,log,neul,ocean,pension,seogwipo
+10030653	2f551062-7121-463e-a2d3-22dfcc28835c	필라투스	투스,필라,필라투스		
+10030653	2f7e2777-7f5f-404a-9b77-11b88014305f	돌고래리조트	돌고래,돌고래리조트,리조트		
+10030653	2f8a4dbc-366c-446b-9a19-165e48ee2b4b	밀양팡팡펜션	밀양팡팡,밀양팡팡펜션,펜션		
+10030653	2ec4b521-fce9-4183-8589-2f3233e61bdc	황후애	애,황후,황후애		
+10030653	2ed42f5a-19b2-4cad-beb6-6f6820ea126c	평창 늘푸른 펜션	늘,늘푸른,펜션,평창,푸른	Pyeongchang Evergreen Pension	Evergreen,Pension,Pyeongchang,evergreen,pension,pyeongchang
+10030653	2eee4cf4-f3c2-400f-b497-4393f5719272	여수 지트 펜션	여수,지트,펜션		
+10030653	2e75f203-5dd6-4706-840d-9ea7ce4fa76a	서귀포 거북이바다뜰 펜션	거북,거북이,거북이바다뜰,뜰,바다,서귀포,이,펜션	Seogwipo Turtle Sea Tteul Pension	Pension,Sea,Seogwipo,Tteul,Turtle,pension,sea,seogwipo,tteul,turtl,turtle
+10030653	2eb71b7d-740c-4c5f-ae63-758604284177	구름위스파 n 산책	구름,구름위스파,산책,스파,위		
+10030653	2eb955a0-8177-4ee2-961b-3c85f8132f5f	고성 화포리 펜션	고성,리,펜션,포리,화,화포,화포리	Goseong Hwapoli Pension	Goseong,Hwapoli,Pension,goseong,hwapoli,pension
+10030653	2e4cf396-b17c-4863-aa8d-d828aedcb2b6	커피향가득한펜션 크란츠러	득한,커피,커피향가득한펜션,크란츠러,펜션,향가		
+10030653	2e52a016-ccc4-4a21-8b36-3946eeb913d7	대성리 우드캐슬	대성,대성리,리,우드,우드캐슬,캐슬		
+10030653	2e712bcb-2d8b-42f9-bcb7-129755399a1f	가평 은가비펜션	가평,은가비,은가비펜션,펜션		
+10030653	2da59473-85e3-4ff2-a839-cab6944235d5	정선 산솔펜션	산솔,산솔펜션,정선,펜션		
+10030653	2dae051c-cc1b-471f-b91c-051e452869fc	홍천 고흐와해바라기 펜션	고흐,고흐와,고흐와해바라기,바라기,와해,펜션,해바라기,홍천		
+10030653	2dc3b898-28d7-4007-9941-db62c3fb2e8a	순천 비송 펜션	비송,순천,펜션	Suncheon Beasong Pension	Beasong,Pension,Suncheon,beasong,pension,suncheon
+10030653	2d2e965b-42dd-41bd-b258-037edc10a974	게스트하우스하루	게스트,게스트하우스하루,하루,하우스		
+10030653	2d6b4191-af76-4a2a-857d-f70141efea75	남해 키마리스펜션	남해,키마리스,키마리스펜션,펜션		
+10030653	2d7b3b88-0a95-49e7-916b-1573cab62614	강촌 W 펜션	강촌,펜션		
+10030653	2c570809-4cf1-4a9d-944a-4ac9081b0bb8	안양 관악산 펜션	관악,관악산,산,안양,펜션	Anyang Gwanaksan pension	Anyang,Gwanaksan,anyang,gwanaksan,pension
+10030653	2cf9fef4-2d86-4edc-9a9f-85da578eea61	단양 팔경 펜션	단양,팔경,펜션	Danyang Palgyeong Pension	Danyang,Palgyeong,Pension,danyang,palgyeong,pension
+10030653	2d1075e7-2186-42f3-978a-68a31ea00dae	청평 별천지 펜션	별천지,청평,펜션		
+10030653	2b258221-4d97-4277-90a1-52993cbad2f6	여수 예원 펜션	여수,예원,펜션	Yeosu Baekyado Deungdae Pension	Baekyado,Deungdae,Pension,Yeosu,baekyado,deungda,deungdae,pension,yeosu
+10030653	2b7f22b5-fbe1-4a87-b1ea-2ccf88f92c12	양평 까치 펜션	까치,양평,펜션		
+10030653	2bb24629-f0fd-4e67-b8b2-0b1d46ea846c	강화 나눔펜션	강화,나눔,나눔펜션,펜션		
+10030653	2bca05cd-912d-44e8-b7f2-20e9fd5e64fa	가평 비자보나 글램핑&펜션	가평,글램핑,글램핑펜션,나,비,비자보,비자보나,자보나,펜션		
+10030653	2c2db27e-2821-4f20-9982-36c0703fcf96	숲속의정원	숲속의,숲속의정원,정원		
+10030653	2afc163c-8d7a-4548-a42c-7e339a2edc69	정선 하이스카이 펜션	스카이,정선,펜션,하이,하이스카이	Jeongseon High Sky Pension	High,Jeongseon,Pension,Sky,high,jeongseon,pension,sky
+10030653	eb7db25d-5d97-436d-b467-d2edbd8f7480	부안 피아노 펜션	부안,펜션,피아노	Buan Piano Pension	Buan,Pension,Piano,buan,pension,piano
+10030653	2af31a04-dcd0-4cf1-af49-7dbfd39f819c	부안 러브홀릭 펜션	러브,러브홀릭,부안,펜션,홀릭	Buan Loveholic Pension	Buan,Loveholic,Pension,buan,lovehol,loveholic,pension
+10030653	9e589dbf-9715-4e62-88e4-1a2fe56538b3	광양 뉴힐링캠프 펜션	광양,뉴힐링,뉴힐링캠프,캠프,펜션	Gwangyang New Healing Camp Pension	Camp,Gwangyang,Healing,New,Pension,camp,gwangyang,heal,healing,new,pension
+10030653	322bc144-70d2-4788-8fe6-8290725e45c8	광양 사계절이야기 펜션	계절,광양,사,사계,사계절이야기,이야기,절,펜션	Gwangyang Four Seasons Story Pension	Four,Gwangyang,Pension,Seasons,Story,four,gwangyang,pension,season,seasons,stori,story
+10030653	1949b5c6-8a4e-4029-8ba0-fbd03376436e	영광 쉐이리 펜션	리,쉐,쉐이리,영광,이,이리,펜션	Yeonggwang Chezlee Pension	Chezlee,Pension,Yeonggwang,chezle,chezlee,pension,yeonggwang
+10030653	4df5a740-13d1-4be4-9ed8-fcdb3600c021	여수 바다위에통나무 펜션	바다,바다위에통나무,여수,위에,통나무,펜션		
+10030653	3950572d-ed10-46d0-86e0-7a837a48e735	무주 노블 펜션	노블,무주,펜션	Muju Noble Pension	Muju,Noble,Pension,muju,nobl,noble,pension
+10030653	1cfcd80f-258d-4d83-b6e0-4f0ff9851c47	부안 블루윈 펜션	부안,블루,블루윈,윈,펜션	Buan Blue Win Pension	Blue,Buan,Pension,Win,blue,buan,pension,win
+10030653	1999eced-b8dc-45ea-9bc6-86daf3954934	포항 피아노 펜션	펜션,포항,피아노		
+10030653	0026d9e2-980e-49f8-b020-827b6d897e90	포항 구룡피싱 펜션	구룡,구룡피싱,펜션,포항,피싱	Pohang Guryong Fishing Pension	Fishing,Guryong,Pension,Pohang,fish,fishing,guryong,pension,pohang
+10030653	d7ab6b2d-fc16-419f-bbeb-a611f160153a	영덕 블루오션 관광 펜션	관광,블루오션,영덕,펜션	Yeongdeok Blue Ocean Pension	Blue,Ocean,Pension,Yeongdeok,blue,ocean,pension,yeongdeok
+10030653	f19f6448-3070-4c46-a00c-513dc4d4323a	구례 지리산가을동화 펜션	가을,구례,동화,산,지리,지리산가을동화,펜션	GuryeJilisan Autumn Story Pension	Autumn,GuryeJilisan,Pension,Story,autumn,guryejilisan,pension,stori,story
+10030653	72f8f6c7-28e2-453e-9f95-1e02fb3eb5c1	해운대 스테이7 호텔	대,대 스테이7,스테이7,해운,해운대,호텔	Haeundae Stay 7 Pension	7,Haeundae,Pension,Stay,haeunda,haeundae,pension,stai,stay
+10030653	6ff625f9-b572-4c93-b18d-f3cc27da2d58	경주 해를여는 펜션	경주,는,펜션,해를여,해를여는	Gyeongju Sunrise Pension	Gyeongju,Pension,Sunrise,gyeongju,pension,sunris,sunrise
+10030653	f2cb0127-8fd7-4489-a756-737e48f815c2	경주 몰리나 펜션	경주,나,몰리,몰리나,펜션	Gyeongju Mollyna Pension	Gyeongju,Mollyna,Pension,gyeongju,mollyna,pension
+10030653	7d62b41b-3910-4ff3-806f-6948d5852392	울진 산포리 펜션	리,산,산포,산포리,울,울진,진,펜션,포리	Uljin Sanpoli Pension	Pension,Sanpoli,Uljin,pension,sanpoli,uljin
+10030653	ef1caf08-c656-40f6-8abb-b1f28795dc10	단양샬롬펜션	단양,단양샬롬펜션,샬롬,펜션	Danyang Sharom Pension	Danyang,Pension,Sharom,danyang,pension,sharom
+10030653	57d51fd1-2ed5-47f3-8920-81b207c7e9c8	제천 갈잎소 펜션	갈잎,갈잎소,소,제천,펜션	Jecheon Galipso Pension	Galipso,Jecheon,Pension,galipso,jecheon,pension
+10030653	6cc2f20a-c879-40fe-b323-a924b853cf11	괴산 흙집풍경 펜션	괴산,펜션,풍경,흙집,흙집풍경		
+10030653	3ad05653-7c31-4326-8ef0-48d51aeb0491	괴산 아이힐 펜션	괴산,아이,아이힐,펜션,힐	Goesan I Hill Pension	Goesan,Hill,I,Pension,goesan,hill,i,pension
+10030653	73f7efdb-0d96-4620-93d3-f5e87bc0adcc	거제 소동패밀리힐 펜션	거제,소동,소동패밀리힐,패밀리,펜션,힐		
+10030653	c3f63a69-1e05-4b70-a2ed-85d73fc52a46	통영 바다사랑 펜션	바다,바다사랑,사랑,통영,펜션	Tongyeong Ocean Love Pension	Love,Ocean,Pension,Tongyeong,love,ocean,pension,tongyeong
+10030653	74db8b24-6e8a-4c60-9161-3377297b199d	하동 금오산랜드 펜션	금,금오산,금오산랜드,랜드,오산,펜션,하동	Hadong Kumosan Land Pension	Hadong,Kumosan,Land,Pension,hadong,kumosan,land,pension
+10030653	f9c37dfb-5c4c-419a-9c9e-1715fce71c29	안면도 코코 펜션	도,안면,안면도,코코,펜션	Anmyeondo Coco Pension	Anmyeondo,Coco,Pension,anmyeondo,coco,pension
+10030653	0bf528b2-7e37-4134-8ff3-6b4e5fff9a8d	태안 추억만들기 펜션	만들기,추억,추억만들기,태안,펜션		
+10030653	928254f8-cb6f-476a-854b-428392942ffb	예산 가야산노블레스 스파 펜션	가,가야산노블레스,노블,레스,스파,야산,예산,펜션		
+10030653	9fe22985-2f68-4ce7-bf6a-f8972de7eb09	단양 젤코바 펜션	단양,젤코바,펜션	Danyang Zelkova Pension	Danyang,Pension,Zelkova,danyang,pension,zelkova
+10030653	14df4381-9ecf-4bd3-9953-67d6efde1cff	단양 양지골황토 펜션	골,단양,양지,양지골황토,펜션,황토	Danyang Sunny Valley Red Clay Pension	Clay,Danyang,Pension,Red,Sunny,Valley,clai,clay,danyang,pension,red,sunni,sunny,vallei,valley
+10030653	69cac2a7-2b8b-4afe-a340-5e820566fedc	단양 추억을선물하는집 펜션	단양,선물,선물하는,을,집,추억,추억을,추억을선물하는집,펜션,하는집	Danyang Memory's Gift Hosue Pension	Danyang,Gift,Hosue,Memorys,Pension,danyang,gift,hosu,hosue,memori,memorys,pension
+10030653	7a726dac-7665-4a21-9ec0-09809c85a880	단양 애플마루 펜션	단양,마루,애플,애플마루,펜션	Danyang Apple Maru Pension	Apple,Danyang,Maru,Pension,appl,apple,danyang,maru,pension
+10030653	e69c821e-1616-4f1a-9da4-3faabff87eba	제천 마린힐 펜션	마린힐,제천,펜션	Jecheon Marine Hill Pension	Hill,Jecheon,Marine,Pension,hill,jecheon,marin,marine,pension
+10030653	fecc58a2-ce5e-409e-9915-31ca524f6dc6	보령 비치캐슬 펜션	보령,비치캐슬,펜션	Boryeong Beach Castle Pension	Beach,Boryeong,Castle,Pension,beach,boryeong,castl,castle,pension
+10030653	415b89c5-bc5c-4c88-abe6-45571276995f	서산 세이블루 펜션	블루,서산,세이,세이블루,펜션	Seosan Sayblue Pension	Pension,Sayblue,Seosan,pension,sayblu,sayblue,seosan
+10030653	95c17c2d-a0eb-4132-969e-a6ed4568217a	태안 초원 펜션	초원,태안,펜션	Taean Meadow Pension	Meadow,Pension,Taean,meadow,pension,taean
+10030653	22b07888-5777-4b67-b481-ff0f5ae92cd3	태안 네이비블루 펜션	네이비,네이비블루,블루,태안,펜션	Taean Navy Blue Pension	Blue,Navy,Pension,Taean,blue,navi,navy,pension,taean
+10030653	1cc10e26-f10d-4109-a39e-993730df29f1	태안 플로렌스 펜션	로렌스,태안,펜션,플,플로렌스	Taean Florence Pension	Florence,Pension,Taean,florenc,florence,pension,taean
+10030653	f5a40c23-eb7a-494d-8bce-add91c71e361	영월 아라리 펜션	아라리,영월,펜션	Yeongwol Arari Pension	Arari,Pension,Yeongwol,arari,pension,yeongwol
+10030653	c1012440-a46f-4a02-9b9e-b447e07ef70e	논산 탑정호 펜션	논산,정호,탑,탑정,탑정호,펜션,호	Nonsan Tapjeongho Lake Pension	Lake,Nonsan,Pension,Tapjeongho,lake,nonsan,pension,tapjeongho
+10030653	76057a20-5d18-405f-b4c2-86f62d12b028	보령 바다마루 펜션	마루,바다,바다마루,보령,펜션		
+10030653	43d43409-144a-4f48-a7a1-244e30177f52	대천통나무펜션리조트	대천,대천통나무펜션리조트,리조트,통나무,펜션		
+10030653	cd0eb525-9e0d-4cce-a104-327c84b8f719	고성펜션휴	고성,고성펜션휴,펜션,펜션휴,휴		
+10030653	f108ddf0-2e1d-43fc-83ca-d79c120fe95f	양양 그린비치 펜션	그린,그린비치,비치,양양,펜션	YangYang Green Beach Pension	Beach,Green,Pension,YangYang,beach,green,pension,yangyang
+10030653	acad0c0e-9b35-4f49-b385-36e6e6c37e46	양양 설악황토하우스 펜션	설악,설악황토하우스,양양,펜션,하우스,황토	YangYang Seorak Mud House Pension	House,Mud,Pension,Seorak,YangYang,hous,house,mud,pension,seorak,yangyang
+10030653	6c781cec-0846-4c0e-b966-953f0ad333eb	평창 비밀의화원 펜션	비밀,비밀의,비밀의화원,의,펜션,평창,화원	Pyeongchang Secret Garden Pension	Garden,Pension,Pyeongchang,Secret,garden,pension,pyeongchang,secret
+10030653	62e6ec3e-3eb0-4137-9cd7-8764a8f84c85	대관령 모던빌 펜션	대관,대관령,령,모던,모던빌,빌,펜션	Daegwallyeong Modernvill Pension	Daegwallyeong,Modernvill,Pension,daegwallyeong,modernvil,modernvill,pension
+10030653	222b2112-d31a-458e-811a-1d16a1931bae	원주 오크밸리 펜션	밸리,오크,오크밸리,원주,펜션	Wonju Oak Valley Pension	Oak,Pension,Valley,Wonju,oak,pension,vallei,valley,wonju
+10030653	d969ab1c-d036-46ed-8520-20b8dec1224f	강릉 산성파크 펜션	강릉,산성,산성파크,파크,펜션	Gangneung Sanseong Park Pension	Gangneung,Park,Pension,Sanseong,gangneung,park,pension,sanseong
+10030653	3d7ec8f4-3edc-4e75-a4af-0d20c3f44406	강릉 경포발리 펜션	강릉,경포,경포발리,발리,펜션	Gangneung Gyeongpo Bali Pension	Bali,Gangneung,Gyeongpo,Pension,bali,gangneung,gyeongpo,pension
+10030653	2acf47d1-7a7f-4176-9f01-086c8b540899	제주 더퍼스트 펜션	더,더퍼,더퍼스트,스트,제주,퍼스트,펜션		
+10030653	2abd106c-5aba-4c5c-8b7f-11ae3e9bd110	산방산해오름펜션	방산,방산해,산,산방산해오름펜션,오름,펜션,해		
+10030653	2a994aeb-4b08-427b-bad6-d440aff80d2b	양양 산울림 펜션	산울림,양양,펜션	Yangyang Sanurim Pension	Pension,Sanurim,Yangyang,pension,sanurim,yangyang
+10030653	2abab2dc-24a3-41b6-a1d1-10f743194c64	포천 사계절시간여행 펜션	계절시간여행,사,사계,사계절시간여행,시간,여행,절,펜션,포천	Pocheon Four Seasons Travel Pension	Four,Pension,Pocheon,Seasons,Travel,four,pension,pocheon,season,seasons,travel
+10030653	2a4e175f-f18c-41f7-9092-002aa5798b27	수랜드	랜드,수,수랜드		
+10030653	2a54ed68-a456-4547-a3b8-7651a71b5a8f	비아신엄하우스-독채	독채,비아,비아신엄,비아신엄하우스독채,신엄,하우스	Jeju Viashinum Pension	Jeju,Pension,Viashinum,jeju,pension,viashinum
+10030653	2a056f6d-f1b9-4bdf-87c2-1b8bad8edab4	다큐하우스	다큐,다큐하우스,하우스		
+10030653	29a85540-bfd6-44ad-9d7e-1ab6ad2960ef	양평숲속의아침	속의,숲속의,아침,양평,양평숲,양평숲속의아침		
+10030653	29aaaebc-a5ba-41b4-a9be-2b7e340cbb66	히든밸리	밸리,히든,히든밸리		
+10030653	29bdecbe-892c-4147-88db-875fbd5e7b05	파주 채연별장 펜션	별장,채연,채연별장,파주,펜션	Paju Chaeyeon Villa Pension	Chaeyeon,Paju,Pension,Villa,chaeyeon,paju,pension,villa
+10030653	29dc9b1c-5fa4-4e8d-8fee-084118d25df9	강화 마리나 펜션	강화,마리나,펜션		
+10030653	29a17957-b4b6-4e16-ad36-1bab33025622	아낌없이주는나무	나무,아낌,아낌없이주는나무,없,이주는		
+10030653	29a3455a-f722-4a41-98ed-c189a78d71f5	제주고내촌휴양펜션	고내촌,내촌,제주,제주고,제주고내촌휴양펜션,펜션,휴양		
+10030653	28fd5b0c-4742-47b4-aa11-6f098fc7538d	떼루아 관광펜션	관광,관광펜션,떼루아,펜션		
+10030653	2928185d-8648-4b43-83f7-43167b7944de	왕벌펜션	왕벌,왕벌펜션,펜션		
+10030653	292b7ef1-8f7c-4a1c-8eba-711508a26416	양양해돋이펜션	양양,양양해돋이,양양해돋이펜션,펜션,해돋이		
+10030653	295c8975-de1d-4c2a-9862-8f716e5ae4b0	태안 벨리세 펜션	벨리세,태안,펜션	Taean Belize Pension	Belize,Pension,Taean,beliz,belize,pension,taean
+10030653	2962bdab-fffc-40fb-9171-f6bac79cc8ed	양평 민들레 펜션	민들레,양평,펜션	YangPyeong Dandelion Pension	Dandelion,Pension,YangPyeong,dandelion,pension,yangpyeong
+10030653	2976a0ef-6787-4008-8b09-7e351b668093	서귀포 담앤루 풀빌라 리조트	담앤루,담앤루 풀,리조트,빌라,서귀포,풀빌라		
+10030653	28d413c4-abc4-496e-a2eb-8f9874852cd9	양평 아도니스펜션	니스,아도,아도니스펜션,양평,펜션		
+10030653	28f24939-715d-43f5-9742-202ee96192c4	무주 마법의성	마법,마법의성,무주,의성		
+10030653	281ae0ba-6888-45df-8f11-330d89b0f023	라니아펜션	라니,라니아펜션,아,펜션		
+10030653	287189dd-eb7e-4955-83ed-6a94efd34474	순천만 로맨스 펜션	로맨스,만,순천,순천만,펜션		
+10030653	28cd5ac8-205f-495e-8777-79093c517bae	여주 두견새머문자리 펜션	두견,두견새머문자리,새머문,여주,자리,펜션	Yeoju Cuckoo Staying Pension	Cuckoo,Pension,Staying,Yeoju,cuckoo,pension,stai,staying,yeoju
+10030653	28ce99be-c395-4be2-8e3b-9cab8dbf2ac7	정선 먼저골 펜션	먼저골,정선,펜션		
+10030653	280aa49f-e2ae-4075-94fc-99c8c4afc464	남해노을펜션	남해,남해노을펜션,노을,펜션		
+10030653	28191ffd-3f45-40bd-926c-8977c1758077	산들바다펜션(오션뷰)	바다,산들,산들바다펜션오션뷰,오션뷰,펜션		
+10030653	27d80d82-4c1c-403c-b6f0-530a6dcee281	가평 록키펜션	가평,록키,록키펜션,펜션		
+10030653	27f43a33-b79b-4fdb-9bde-961002f42d06	물가에심기운나무펜션	기운,나무,물가,물가에심기운나무펜션,심기,에,에심,운,펜션		
+10030653	2775fecb-72a9-4436-89e6-307e6019289a	씨엘178-Ci동	178동,씨엘,씨엘178동		
+10030653	27c63aa7-b3a4-4c0c-881d-1003417f1e4b	하조대소풍(구)	대소,대소풍구,풍구,하조,하조대소풍구		
+10030653	2729457d-f578-4d6d-be9b-0e153087c9b4	정선 아로마풀빌라 드위트리펜션	드,드위,드위트리펜션,리,빌라,아로마,아로마풀빌라,위트,정선,트리,펜션,풀		
+10030653	272b679c-db7d-45b6-a227-3d6aa466fd2d	고성 산들산들 펜션	고성,들,산들산,산들산들,펜션	Goseong Sandeul Sandeul Pension	Goseong,Pension,Sandeul,goseong,pension,sandeul
+10030653	276dd6d0-5f1f-440a-ac86-5b57bd7e23f0	가평도도펜션	가평,가평도도펜션,도도,펜션		
+10030653	26adeb2f-d356-40da-b0ce-2ea6ac1c0f02	가평 연인가족벨리 펜션	가족,가평,벨리,연인,연인가족,연인가족벨리,펜션		
+10030653	25c306d3-e92c-4154-bff1-6fdb4e8c3ff9	호숫가소풍	소풍,호숫가,호숫가소풍		
+10030653	25f03dc5-a8e2-4365-874c-323253fa400c	양평 용문 카라반&펜션	양평,용문,용문 카라반,카라반,카라반펜션,펜션		
+10030653	267bd211-f975-430e-a49c-164ffe361429	양평 쉬자하우스 펜션	쉬자,쉬자하우스,양평,펜션,하우스	YangPyeong SwiJa House Pension	House,Pension,SwiJa,YangPyeong,hous,house,pension,swija,yangpyeong
+10030653	26964304-f314-4082-8a3f-b54bfbe7333b	평창 우드캐슬 펜션	우드,우드캐슬,캐슬,펜션,평창		
+10030653	26aa4223-be94-4e61-8b35-7ef27935b6ac	하늘호수	하늘,하늘호수,호수		
+10030653	2596af6b-06de-4018-8ef1-6b3f527fac0f	양평 들꽃향기머무는곳 펜션	들꽃,들꽃향기머무는곳,머무는곳,양평,펜션,향기	Yangpyeong Flower Fragranceed Pension	Flower,Fragranceed,Pension,Yangpyeong,flower,fragrance,fragranceed,pension,yangpyeong
+10030653	25bb6d35-2905-4514-b90c-1b2dcd6e8627	자연의하모니	니,의하모,자연,자연의,자연의하모,하모니		
+10030653	257a332e-9847-4020-99cb-6ab4a13a2014	바닷가뜨락	뜨락,바닷가,바닷가뜨락		
+10030653	252664bb-bd8c-45e7-9a86-902ee1e37764	앤드하우스	앤드,앤드하우스,하우스		
+10030653	2527a0c8-b72c-451a-81bd-8626e08afffb	ANN펜션	펜션	Hongcheon ANN Pension	ANN,Hongcheon,Pension,ann,hongcheon,pension
+10030653	256800ac-6f66-40cf-896d-16b5d4e53f7e	태안 꿈이룸 펜션	꿈,꿈이룸,이룸,태안,펜션	Taean Dream Come True Pension	Come,Dream,Pension,Taean,True,come,dream,pension,taean,true
+10030653	24e010f3-fc8a-45a0-b045-b3fed2453a6b	우림펜션	우림,우림펜션,펜션		
+10030653	2520875b-6c45-4556-ba8c-7cfb8617f13c	포도나무펜션	나무,펜션,포도,포도나무펜션		
+10030653	248748a7-1f03-4352-a52e-f169d78cab3a	(구)푸른언덕펜션	구,구푸른,구푸른언덕펜션,언덕,펜션,푸른		
+10030653	24c060a2-5bf5-442c-86a4-5d374f22f34f	게스트하우스아미바다	게스트,게스트하우스아미바다,바다,아미,하우스		
+10030653	23daf294-e8a3-45b3-8ae3-17104e2be7b8	사랑더하기	기,더하기,사랑,사랑더,사랑더하기,하		
+10030653	23e8176f-ee76-40a9-b1ea-c07a0a838896	담양 소듐 펜션	담양,소듐,펜션		
+10030653	23ef5886-5834-4dcd-a7f0-ae3656d93e2f	여수 프롬갤러리 펜션	갤러리,여수,펜션,프롬,프롬갤러리	Yeosu From Gallery Pension	From,Gallery,Pension,Yeosu,from,galleri,gallery,pension,yeosu
+10030653	240663d5-3256-4f38-867c-7df1598a8ef1	그리심타운	그리심,그리심타운,타운		
+10030653	2478d349-2742-4e6f-86b6-0e91cc2415bb	안면도 티파니 펜션	니,도,안면,안면도,티파,티파니,펜션	AnmyeondoTiffany Pension	AnmyeondoTiffany,Pension,anmyeondotiffani,anmyeondotiffany,pension
+10030653	2385a330-66ff-4b15-bac6-45c53b7655e5	구름산책	구름,구름산책,산책		
+10030653	23befe35-509c-455e-829a-bc64930f953c	케이턴호텔앤리조트	리조트,앤,케이,케이턴호텔앤리조트,턴,호텔		
+10030653	22fd2ddd-5b0f-4463-88aa-3cdbbade526e	깜몽하우스(미사용)	깜몽,깜몽하우스미사용,미,사용,용,하우스,하우스미사		
+10030653	23291ae3-1f65-4349-9f44-0a5f24868517	가평 캠프통아일랜드 펜션	가평,아일랜드,캠프,캠프통아일랜드,통,펜션		
+10030653	2343364d-38f6-4122-b4a8-8a127aa533bd	행복한집(구)	집구,한집구,행복,행복한,행복한집구		
+10030653	22cacc90-e88d-4e89-ac57-827b6890ecf5	월든스타	스타,월든,월든스타		
+10030653	22f1d9e6-a092-4d12-867f-a632cf06fe7a	동해연리지펜션	동해,동해연리,동해연리지펜션,연리,지,펜션		
+10030653	227c966b-d984-45a6-9779-5c970ba3c7fd	가마울펜션	가마,가마울펜션,울,펜션		
+10030653	22bd5bc0-4e05-44e5-87d8-650482ee20cf	강미(江美)의뜰	강미江美의뜰		
+10030653	21cf2faa-1aa8-44dd-9963-224467661315	써니힐펜션	써니힐,써니힐펜션,펜션		
+10030653	21cff6ce-2b7a-4574-b46a-7a3d4c60bcb3	리앙뜨	리앙뜨		
+10030653	22302cc7-5fa0-405c-a2e7-7c4b1d0ba10d	드뷔시펜션	드뷔시,드뷔시펜션,펜션		
+10030653	21318e77-ae99-433e-a638-b2a2879f0794	샤인빌펜션	샤인빌,샤인빌펜션,펜션		
+10030653	2179993d-a53a-4ca1-a7cc-ba59214f16a9	을왕리 푸른솔 펜션	솔,을왕리,펜션,푸른,푸른솔	Eurwangri Green Pine Pension	Eurwangri,Green,Pension,Pine,eurwangri,green,pension,pine
+10030653	21a3a258-ecda-45a7-884b-a4aa200905e3	동해 마린파크 펜션	동,동해,마린,마린파크,어,파크,펜션,하	Donghae Marine Park Pension	Donghae,Marine,Park,Pension,dongha,donghae,marin,marine,park,pension
+10030653	20ea2c38-3a3d-41d9-8768-7255b82ae257	제주푸른밤펜션	밤,제주,제주푸른밤펜션,펜션,푸른,푸른밤		
+10030653	211f60aa-ea5c-4791-818b-2eda9013a2f4	횡성 네이처스힐 펜션	네이처스힐,펜션,횡성	Hoengseong Nature's Hill Pension	Hill,Hoengseong,Natures,Pension,hill,hoengseong,natur,natures,pension
+10030653	20d3db12-7ee5-45fe-a5b3-570cd0255649	메이플하우스	메이플,메이플하우스,하우스		
+10030653	204b9fb8-1c21-446f-9ad6-88d4a31844d6	썬댄스펜션	댄스,썬,썬댄스펜션,펜션		
+10030653	1ff8f8f7-8cc2-4473-94b6-89215de0662c	횡성 로그캐빈 펜션	로그,로그캐빈,캐빈,펜션,횡성		
+10030653	20280b3d-c47d-4082-ab3a-5d2a9624b732	강촌휴펜션	강촌,강촌휴펜션,펜션,휴		
+10030653	203f9af9-331f-436c-91fd-71cc57b906c2	구례 지리산끌림 펜션	구례,끌림,산,산끌림,지리,지리산끌림,펜션		
+10030653	1fbe7bd6-de2f-482a-884d-4383088e5b1b	광주테라스펜션	광주,광주테라스펜션,테라스,펜션		
+10030653	1fc27cc4-5270-4d0a-8725-c2ff80341292	남촌풀하우스펜션	남촌,남촌풀하우스펜션,펜션,풀,하우스		
+10030653	1fda6150-9546-44e6-ad14-b6bcb20b7881	설악산소풍	설악산,설악산소풍,소풍		
+10030653	1ff75e92-d26b-40c0-98ba-de2d7357cf0f	태안 화이트비치 펜션	비치,태안,트비치,펜션,화이,화이트,화이트비치	Taean White Beach Pension	Beach,Pension,Taean,White,beach,pension,taean,white
+10030653	1f8feab9-55bd-4320-b781-366ca1ceb381	엘린휴버트	엘린휴버트		
+10030653	1f2e79a7-8005-4fb2-a583-9c210b0f53d9	하늘자락물소리	물소리,자락,하늘,하늘자락물소리	Pyeongchang Haneuljarak Moolsori Pension	Haneuljarak,Moolsori,Pension,Pyeongchang,haneuljarak,moolsori,pension,pyeongchang
+10030653	1f5863ee-643c-4691-8634-702e796d550b	몽블랑펜션	몽블랑,몽블랑펜션,펜션		
+10030653	1f673bde-b053-4c5b-8ac3-ce83dd196094	태안 갯벌옛집황토방 펜션	갯벌,갯벌옛집황토방,옛집황,태안,토방,펜션	Taean Seaside House with Red Clay Room Pension	Clay,House,Pension,Red,Room,Seaside,Taean,clai,clay,hous,house,pension,red,room,seasid,seaside,taean,with
+10030653	1f107b43-a496-45b8-9f22-8e78df698226	용인풀하우스	용인,용인풀하우스,풀,하우스		
+10030653	1f112f9c-da5e-4f23-a8b8-27c2700e594f	벗과뱃나루	나루,벗과뱃,벗과뱃나루		
+10030653	029b3480-5bed-4a86-b397-c3a9b78f07b2	한옥펜션풍경	펜션,풍경,한옥,한옥펜션풍경		
+10030653	34c0c7ee-c157-409d-9856-13ab4084673f	여주 느티나무펜션	느티나무,느티나무펜션,여주,펜션		
+10030653	11d5b41c-20e7-4bc4-a044-0285dc0ce984	연천 가람휴 펜션	가람,가람휴,연천,펜션,휴	Yeoncheon Garam Hue Pension	Garam,Hue,Pension,Yeoncheon,garam,hue,pension,yeoncheon
+10030653	4d23abf7-f2d9-426d-b982-641fe2ff073b	대부도 하이얀 펜션	대부,대부도,도,얀,펜션,하이,하이얀	Daebudo White Pension	Daebudo,Pension,White,daebudo,pension,white
+10030653	ba142cfe-f779-4ced-bd10-bfff375bfed0	가평 뽀빠이 펜션	가평,뽀빠이,펜션	GaPyeong Popeye Pension	GaPyeong,Pension,Popeye,gapyeong,pension,popey,popeye
+10030653	5ef89521-bbf0-48a9-ab6c-e70b5b147e8c	가평 산마루 펜션	가평,마루,산,산마루,펜션	GaPyeong Sanmaru Pension	GaPyeong,Pension,Sanmaru,gapyeong,pension,sanmaru
+10030653	e3bc049c-3509-4b91-8e04-c5d1d36e9174	남이섬 소나기 펜션	남이,남이섬,섬,소나기,펜션	Namiseom So Na Gi Pension	Gi,Na,Namiseom,Pension,So,gi,na,namiseom,pension,so
+10030653	198a9ca8-5397-42ae-84b1-5f61ca78e40e	가평 항아리 펜션	가평,펜션,항아리	GaPyeong Pot Pension	GaPyeong,Pension,Pot,gapyeong,pension,pot
+10030653	e2e980ed-10af-4784-96ea-f5a53c223cab	가평 들꽃 펜션	가평,들꽃,펜션		
+10030653	6e613f8e-0d26-416d-9455-6a17edcff30c	가평 숲속계곡 펜션	가평,계곡,숲속,숲속계곡,펜션	GaPyeong Forest Valley Pension	Forest,GaPyeong,Pension,Valley,forest,gapyeong,pension,vallei,valley
+10030653	c9b37570-d547-46e1-b9c0-aa3823fb22ab	강화 골드별장 펜션	강화,골드,골드별장,별장,펜션	GanghwadoGold Villa Pension	GanghwadoGold,Pension,Villa,ganghwadogold,pension,villa
+10030653	d950e9b9-35ee-403d-9b27-727b899ab902	석모도 항구 펜션	도,석모,석모도,펜션,항구	SeokmodoHarbour Pension	Pension,SeokmodoHarbour,pension,seokmodoharbour
+10030653	d26522ce-2d2f-4ab9-a159-8ec4bdd2c003	강화 파도횟집&조은하우스민박	강화,민박,조은,파도,파도횟집조은하우스민박,하우스,횟집,횟집조은	Ganghwa Pado Seafood & Joeun House Pension	Ganghwa,House,Joeun,Pado,Pension,Seafood,ganghwa,hous,house,joeun,pado,pension,seafood
+10030653	379d12e6-090a-4758-a552-c48cb6256330	양평 째즈의고향 펜션	고향,양평,째즈의,째즈의고향,펜션	Yangpyeong Hometown of Jazz Pension	Hometown,Jazz,Pension,Yangpyeong,hometown,jazz,of,pension,yangpyeong
+10030653	7da810b9-9004-4f0c-8476-7fc3a2cc113a	양평 햇살좋은날 펜션	날,양평,좋은,좋은날,펜션,햇살,햇살좋은날	YangPyeong Sunny Day Pension	Day,Pension,Sunny,YangPyeong,dai,day,pension,sunni,sunny,yangpyeong
+10030653	1210e0fe-a27e-4681-9b99-b6557e9ceded	양평 푸른언덕 펜션	양평,언덕,펜션,푸른,푸른언덕	YangPyeong Green Hill Pension	Green,Hill,Pension,YangPyeong,green,hill,pension,yangpyeong
+10030653	e1f90ee5-cc8b-4392-acd9-d1d30c314fd5	양평 애화몽 펜션	애화몽,양평,펜션	YangPyeong Aehwamon Pension	Aehwamon,Pension,YangPyeong,aehwamon,pension,yangpyeong
+10008365	1	서울 프라자 호텔	서울,프라자,호텔	The Plaza	Plaza,The,plaza,the
+10000495	1	서울 프라자 호텔	서울,프라자,호텔	The Plaza	Plaza,The,plaza,the
+10000496	1	서울 프라자 호텔	서울,프라자,호텔	The Plaza	Plaza,The,plaza,the
+10002654	1	서울 프라자 호텔	서울,프라자,호텔	The Plaza	Plaza,The,plaza,the
+10030653	a8760c4f-7594-4566-a778-7eed92d99df2	가평 버디하우스 펜션	가평,버디,버디하우스,펜션,하우스	GaPyeong Buddy House Pension	Buddy,GaPyeong,House,Pension,buddi,buddy,gapyeong,hous,house,pension
+10030653	9096c9c0-1fef-404f-af1e-733e503d78eb	라포렛베띠펜션	라포렛베띠,라포렛베띠펜션,펜션		
+10030653	911a3da2-b87d-4f51-a277-3cb856cc708b	태안 노을향기 펜션	노을,노을향기,태안,펜션,향기	Taean Noeul Hyanggi Pension	Hyanggi,Noeul,Pension,Taean,hyanggi,noeul,pension,taean
+10030653	1f093f4f-44c8-4ba5-8127-1aca332e5107	제주 빅터쁘띠 펜션	빅터쁘띠,제주,펜션		
+10030653	1f0e961c-3e02-44b7-bf3e-f97fb9b16141	아라펜션	아라,아라펜션,펜션		
+10030653	1e88ff1a-1b2f-4196-9751-8d7977d0759a	참사리마을 시오크	리마을,마을,사리,시오크,참,참사,참사리마을		
+10030653	1e4b6de1-73d2-490f-ae1a-0d1eea984a9c	비치캐슬펜션	비치캐슬,비치캐슬펜션,펜션		
+10030653	1ea17966-e56e-46e3-a78c-3c1bf1487ca9	평창 꿈꾸는다락방 펜션	꿈꾸는,꿈꾸는다락방,다락,방,펜션,평창	Pyeongchang Dreaming Darakbang Pension	Darakbang,Dreaming,Pension,Pyeongchang,darakbang,dream,dreaming,pension,pyeongchang
+10030653	1eb3d5ec-9665-4947-842a-d910d5136b1c	파주 행복한家 펜션	家,파주,펜션,한家,행복,행복한,행복한家	Paju Happy Home Pension	Happy,Home,Paju,Pension,happi,happy,home,paju,pension
+10030653	1e5d774d-5547-4bcc-9226-fe17b6b1bc86	모닝뷰펜션	모닝뷰,모닝뷰펜션,펜션		
+10030653	1db5acd8-0bc5-4d21-9350-f99bf8b36849	태안 골든코스트 펜션	골든,골든코스트,코스트,태안,펜션	TaeanGolden Coast Pension	Coast,Pension,TaeanGolden,coast,pension,taeangolden
+10030653	1dd01d09-b242-4c27-885f-d93d21430e54	양평 해봄 펜션	ㅁ,양평,펜션,해보,해봄	YangPyeong HaeBom Pension	HaeBom,Pension,YangPyeong,haebom,pension,yangpyeong
+10030653	1dd7b876-918c-4f79-ba98-1ce19be47fcf	제주드림시아펜션	드림시아,시아,제주,제주드림,제주드림시아펜션,펜션		
+10030653	1e37344c-d1f6-487e-bfb5-e2745bf5104c	아리랑펜션	아리랑,아리랑펜션,펜션		
+10030653	1e4448b9-a0e4-46b1-a655-f68886b7ddb1	성산 아로제 펜션	로제,성산,아,아로제,펜션		
+10030653	1d4c7bff-f7ff-411b-9c51-384a4f5d45dd	제부도 늘단비 펜션	늘,늘단비,단비,도,제부,제부도,펜션	Jebudo Bomdanbee Pension	Bomdanbee,Jebudo,Pension,bomdanbe,bomdanbee,jebudo,pension
+10030653	1d4ef2d9-6471-4193-8e13-33e20e7dcaaa	남양주 비상 펜션	남양,남양주,비상,주,펜션		
+10030653	1d5af5a3-30c3-467e-974f-6ed8574e4205	안면도가시버시펜션	가시,도가,버시,시버시,안면,안면도,안면도가시버시펜션,펜션		
+10030653	1d843955-8b1e-4c36-9865-11cd24e1f513	태안 꽃지가는길 펜션	가는,가는길,길,꽃지,꽃지가는길,태안,펜션	Taean Beach Path Pensiion	Beach,Path,Pensiion,Taean,beach,path,pensiion,taean
+10030653	1cc11674-f935-43eb-b62b-9dfd3f06eb0d	강화씨밀레펜션	강,강화,강화씨밀레펜션,밀레,씨밀레,펜션,화씨		
+10030653	1cd2485f-21e1-4a11-94f3-5161ff7b799d	플라워	플라워		
+10030653	1d13cad9-f8fa-4944-a04d-fb945cd46b22	홍천 강변연가 펜션	강변,강변연가,연가,펜션,홍천		
+10030653	1c868fff-1cea-41e9-b4fe-15e7befd4fa1	순천만 정원하우스	만,순천,순천만,정원,정원하우스,하우스		
+10030653	1c90a48e-8909-4104-970f-ea3c84860485	여수 폴링인블루 펜션	링인,블루,여수,펜션,폴,폴링인,폴링인블루		
+10030653	1ca89a18-4f87-4f1b-9e0c-5c225fb05e01	양평 SD비버리힐스 펜션	비버리힐스,양평,펜션		
+10030653	1bce177c-d37c-4deb-9578-85fb8ff87e8c	양평소나무(별채)	별채,소나무,양평,양평소나무,양평소나무별채		
+10030653	1c207ac4-5cf1-4f4f-bc6d-08205d2b5763	속초 펜션별 펜션	별,속초,펜션,펜션별	Seokcho Pension Star Pension	Pension,Seokcho,Star,pension,seokcho,star
+10030653	1c500160-39c4-4a15-b6b6-fb69ba1c044f	서산 해뜨는비치 글램핑	글램핑,뜨는,비치 글램핑,서산,서산 해,해뜨는비치		
+10030653	1c5e6f2f-d239-4374-a163-b8409447988b	강촌 초콜렛월드펜션	강촌,월드,초콜렛,초콜렛월드펜션,펜션		
+10030653	1c7eb4f6-559a-474a-965f-e63ca2782822	힐스프링	스프링,힐,힐스프링		
+10030653	1b4b0e12-11b7-4cd6-a427-26346f40687d	개울가농원펜션	가,개울,개울가농원펜션,농원,펜션		
+10030653	1b62beba-2ef5-4482-90c1-6cca844bb0ce	순천만 1박2일 펜션	1박2,1박2일,ㄹ,만,순천,순천만,이,펜션		
+10030653	1b72bb51-de0e-4111-9d38-e3edfc97b963	경주힐마레펜션	경주,경주힐마레펜션,펜션,힐마레		
+10030653	1b773ecc-4a65-446b-abe7-76b673e111c5	영월 아틀란티스 펜션	아틀란티스,영월,펜션	Yeongwol The Atantis Pension	Atantis,Pension,The,Yeongwol,atanti,atantis,pension,the,yeongwol
+10030653	1ba3eb40-b5af-4661-90f0-125773812865	태안 카리브비치 펜션	리브,비치,카,카리브비치,태안,펜션		
+10030653	1bb428dd-04cd-4d35-8d44-667316b8e881	양평 라테라스 펜션	라,라스,라테,라테라스,양평,테라스,펜션	Yangpyeong La Terrasse Pension	La,Pension,Terrasse,Yangpyeong,la,pension,terrass,terrasse,yangpyeong
+10030653	1b369de8-9062-41a4-b62f-3b9838e31e9f	썬댄스펜션(구)스케치펜션	구,댄스,스케치,썬,썬댄스펜션구스케치펜션,펜션		
+10030653	1b2e0940-d89d-4691-9514-1fc1fb94a210	단양 예솔 펜션	단양,예솔,펜션		
+10030653	1b40ec1e-6d0b-4e77-96f6-8d502d80f253	용인 호수 펜션	ㄴ,용,용인,이,펜션,호수	Yongin Lake Pension	Lake,Pension,Yongin,lake,pension,yongin
+10030653	1b2eb71c-7015-4154-9538-cae19d685d0d	충주 풍경 펜션	충주,펜션,풍경	Chungju View Pension	Chungju,Pension,View,chungju,pension,view
+10030653	1ab16c96-5ed6-418d-b364-879492b7c368	노을자리	노을,노을자리,자리		
+10030653	1ac8f045-a19c-4556-a49a-ce934540a0a1	나타샤와 흰당나귀	나귀,나타샤,나타샤와,당나귀,와,흰,흰당,흰당나귀		
+10030653	1b13f817-98d0-4f39-834c-c5cd8faf9d3a	평창 해피드림 펜션	ㅁ,드리,림,펜션,평창,피드,해,해피,해피드림	Pyeongchang Happy Dream Pension	Dream,Happy,Pension,Pyeongchang,dream,happi,happy,pension,pyeongchang
+10030653	1a768099-b334-49f7-a065-de4ed27f5ca2	프리지아펜션	지아,펜션,프리,프리지아펜션		
+10030653	1aa6907d-2f3f-492d-95fa-2d21531b8f79	핑크향기	핑크,핑크향기,향기		
+10030653	1a1c929b-524d-4544-b7de-d7724c48ee8e	배내골 알프스펜션	배내골,알프스,알프스펜션,펜션		
+10030653	1a5105d3-7d2f-4a3c-8ae6-8ca89a93dff5	제이휴펜션	제이휴,제이휴펜션,펜션		
+10030653	196462f1-9a6e-422e-bba0-27863460fc0f	감람나무펜션	감람,감람나무펜션,나무,펜션		
+10030653	198ffecf-c137-4457-8bb2-16a869a761c5	서귀포 성산핫플 게스트하우스	게스트,게스트하우스,서귀포,성산,성산핫플,하우스,핫플		
+10030653	19d2062c-95d2-4bc1-ae5d-970931d3e149	태안 노을빛풍경 펜션	노을빛,노을빛풍경,태안,펜션,풍경		
+10030653	1a105fd4-f65c-4f43-992b-13de6fd22863	강릉통나무별장	강릉,강릉통나무별장,별장,통나무		
+10030653	1902712a-2b55-4e70-84ab-6cfbae2adb02	여수 밤바다 펜션	바다,밤,밤바다,여수,펜션		
+10030653	190f50f4-4b9e-4e76-8ae1-5d93a47d1d99	파주가람나무펜션	가람,나무,파주,파주가람,파주가람나무펜션,펜션		
+10030653	191c6a7c-26e7-491e-88df-ff003c084956	평창 밸마운트 펜션	마운트,밸,밸마운트,펜션,평창	Pyeongchang Valemount Pension	Pension,Pyeongchang,Valemount,pension,pyeongchang,valemount
+10030653	184b2aa4-4ef5-4066-b15f-03b26788e276	별이쏟아지는집	별이,별이쏟아지는집,쏟아지는집		
+10030653	184f0239-f14c-49ce-8ba2-37eee4dfd02a	춘천 세인트로렌스 펜션	로렌스,세인트,세인트로렌스,춘천,펜션		
+10030653	18de2b5a-558f-452c-bfcd-09f17d02bd76	펜션씨엘	씨,씨엘,엘,펜션,펜션씨		
+10030653	18f3b9ab-fefa-44ea-86a9-8dcc32f350d7	양평 여우별 독채 펜션	독채,별,양평,여우,여우별,펜션	YangPyeong Yeowu Star Individual Pension	Individual,Pension,Star,YangPyeong,Yeowu,individu,individual,pension,star,yangpyeong,yeowu
+10030653	17af187f-9405-4400-b714-023e41a92d1c	제주 뜨레피아	뜨레,뜨레피아,제주,피아		
+10030653	17c02586-eaaf-48b8-93ec-2c2d8fb10e6a	홍천 클럽레스피아 카라반	레스,레스피아,카라반,클럽,클럽레스피아,피아,홍천	Hongcheon Club Lespia Pension	Club,Hongcheon,Lespia,Pension,club,hongcheon,lespia,pension
+10030653	17d25e1f-5e24-4484-b05d-97254d6a98da	라벨뷰펜션	라벨,라벨뷰펜션,뷰,펜션		
+10030653	1822d7c6-5ef1-4510-8966-0972c97419f7	고성 나이아스 펜션	고성,나이,나이아,나이아스,스,아스,펜션	Goseong Naiaseu Pension	Goseong,Naiaseu,Pension,goseong,naiaseu,pension
+10030653	1750fe88-3cea-48ba-8440-81b97993961c	평창 더숲 펜션	더숲,펜션,평창	Pyeongchang The soop Pension	Pension,Pyeongchang,The,pension,pyeongchang,soop,the
+10030653	179ddc1e-c568-42dc-8650-88f7e45e6588	섬인(in)섬	섬인섬		
+10030653	16e73026-3e1e-4d1a-83dc-3e50c1a02f14	다람쥐와도토리펜션	다람쥐,다람쥐와,다람쥐와도토리펜션,도토리,와,펜션		
+10030653	173b96ef-aa97-4b11-8a3b-a57748d9a7a3	춘천 씨앤블랙 펜션	블랙,씨앤,씨앤블랙,춘천,펜션	Chuncheon CN Black Pension	Black,CN,Chuncheon,Pension,black,chuncheon,cn,pension
+10030653	1668fa43-af3a-40f0-a352-2d65442fe61e	제주드가비치펜션	드가비치,제주,제주드가비치펜션,펜션		
+10030653	16b0020c-3d39-4030-85b2-43be666c4a92	평창 샘골 펜션	샘골,펜션,평창	Pyeongchang Semgol Pension	Pension,Pyeongchang,Semgol,pension,pyeongchang,semgol
+10030653	16de4a1b-e82a-4de9-b46e-bb1ed23e6c65	나오스펜션	나오스,나오스펜션,펜션		
+10030653	16643157-ad56-4091-b4fb-fb5d7e68b7f2	곰민박	곰,곰민박,민박		
+10030653	166706cc-3b04-4183-9982-b2b3015f9744	정선 하얀돔 펜션	돔,정선,펜션,하얀,하얀돔	Jeongseon White Dom Pension	Dom,Jeongseon,Pension,White,dom,jeongseon,pension,white
+10030653	15dd6d98-7904-4fc3-857d-0f8b37332c09	하조대롯지	하조대롯지		
+10030653	15ebe6ce-d63a-4830-822d-8e7f8a414707	강촌 모모 펜션	강촌,모모,펜션	GangchonMoMo Pension	GangchonMoMo,Pension,gangchonmomo,pension
+10030653	160ce812-1eca-4823-9c4e-c528cdd3019b	미르의정원	미르,미르의,미르의정원,원,의정,정원		
+10030653	161c0fb2-f2d0-4223-9cd4-9feff89446ea	서산 펜션파인씨 펜션	서산,씨,파인,파인씨,펜션,펜션파인씨	Seosan Pension Pinesea	Pension,Pinesea,Seosan,pension,pinesea,seosan
+10030653	156dc65e-e489-4af1-82d4-8bf5c36d435d	티엔느펜션	티엔느,티엔느펜션,펜션		
+10030653	156f06ff-4bdf-43f9-a885-f4d796449ada	양평 메이폴하우스 펜션	메이폴,메이폴하우스,양평,펜션,하우스		
+10030653	158e89ab-58b6-465f-bc2e-8cf432c65144	아스텔라	아스텔라		
+10030653	15dcd256-b6b6-429f-9ada-34260601bc85	속초 서현이네 펜션	네,서,서현,서현이네,속초,이,펜션,현이	Seokcho SeoHyun's Home Pension	Home,Pension,SeoHyuns,Seokcho,home,pension,seohyun,seohyuns,seokcho
+10030653	150f719b-b8ac-469d-89d6-507c13d90697	강화 파스텔펜션	강화,파스텔,파스텔펜션,펜션		
+10030653	1532553f-f946-49f6-a987-0454ff2ae3cc	토하펜션	토하,토하펜션,펜션		
+10030653	15588a98-c3eb-492d-b3f0-d1fedb43d089	언제나좋은날	언제나좋은날		
+10030653	14e0afa5-82f4-42d6-8954-b6ba2cc87d75	하늘정원	정원,하늘,하늘정원		
+10030653	150503a4-deb6-46b9-bd91-8779a0880fb7	영덕무지개펜션	무지개,영덕,영덕무지개펜션,펜션		
+10030653	14599d04-c310-4640-8a14-3f184cf1abab	계절이지나가는하늘	계절,계절이지,계절이지나가는하늘,나가는,이지나가는,하늘		
+10030653	149f3b41-dcca-4062-88e9-7b92ed230cf0	별이머무는뜨락	뜨락,무는,별이머,별이머무는,별이머무는뜨락		
+10030653	14c3a1db-ff87-4da6-97b8-a2c5ea6897ec	물소리바람소리 펜션	물소리,물소리바람소리,바람,소리,펜션		
+10030653	1388c25a-2bff-4eec-9096-a2ff960f2bcd	제주 이야기별방 펜션	기별,방,별방,이야,이야기,이야기별방,제주,펜션	Jeju Story Star Room Pension	Jeju,Pension,Room,Star,Story,jeju,pension,room,star,stori,story
+10030653	1389a4c8-4c9a-463d-a4a8-8ee2ac31dbd4	양평 잔치마당골프 펜션	골프,마당,양평,잔치,잔치마당,잔치마당골프,펜션		
+10030653	13b9e189-0fab-4a1e-87cb-25d249e274b5	소백산자연누리펜션	누리,소백산,소백산자연누리펜션,자연,펜션		
+10030653	13856003-a740-444d-8f37-5c6b09a11914	아산 그라시아 펜션	그라시아,아산,펜션	Asan Gracia Pension	Asan,Gracia,Pension,asan,gracia,pension
+10030653	12e2beac-7d2d-4c98-bdee-f9d8315dd59a	구례 수락폭포 펜션	구례,수락,수락폭포,펜션,폭포		
+10030653	132b2931-2988-4c94-9363-ba7e3d425174	평창 금당한옥 펜션	금당,금당한옥,펜션,평창,한옥	Pyeongchang Gold Hanok Pension	Gold,Hanok,Pension,Pyeongchang,gold,hanok,pension,pyeongchang
+10030653	1225396a-ea5b-42db-af02-4663e807d48b	거제도가자펜션	가자,거제,거제도,거제도가자펜션,도가,자,펜션		
+10030653	12368cf9-c805-4805-8152-61c49274c721	제천 한솔 펜션	제천,펜션,한솔	Jecheon Hansol Pension	Hansol,Jecheon,Pension,hansol,jecheon,pension
+10030653	12a06dcd-5215-43b2-8614-c505daa1ce94	행복한마을	마을,한마을,행복,행복한,행복한마을		
+10030653	12ae03b4-a232-4931-8d24-6d18014532cc	태안 꽃지바다스케치 펜션	꽃지,꽃지바다스케치,바다,스케치,태안,펜션	Taean Gokji Pada Sketch Pension	Gokji,Pada,Pension,Sketch,Taean,gokji,pada,pension,sketch,taean
+10030653	11639404-6aa9-4c0f-9ae2-e5c32f7e3dfa	여수 팡팡 게스트하우스	게스트,게스트하우스,여수,팡팡,하우스		
+10030653	1178e2b5-3376-4b97-bf98-0ef21759795e	홍천 고향의봄 펜션	고향,고향의,고향의봄,봄,의봄,펜션,홍천	Hongcheon Hometown Spring Pension	Hometown,Hongcheon,Pension,Spring,hometown,hongcheon,pension,spring
+10030653	11f6219c-0a8b-42e5-9931-e00b185aaa5f	홍천 프린세스키즈펜션	스키,즈,펜션,프린세,프린세스키즈펜션,홍천		
+10030653	12248073-2099-4ae2-80a6-a8facd18129d	강화 마로니에펜션	강화,니에,마로,마로니에,마로니에펜션,펜션		
+10030653	10b45647-4993-42d3-8057-871c679fc9de	제천 나무둥지 펜션	나무,나무둥지,둥지,제천,펜션	Jecheon Wood Nest Pension	Jecheon,Nest,Pension,Wood,jecheon,nest,pension,wood
+10030653	10bd2ccc-e35b-4132-9c5c-c38ab15f62a3	가평 리베하임 펜션	ㅁ,가평,리,리베하,리베하임,베하,이,임,펜션		
+10030653	10cb8f0e-ce26-4240-95ae-1144f0a2a59d	순천만 무한도전 펜션	도전,만,무한,무한도전,순천,순천만,펜션		
+10030653	110343b4-e5b1-47b7-842b-fcdda889c722	솔바람펜션	바람,솔,솔바람,솔바람펜션,펜션		
+10030653	1156bf23-cc6a-4bd7-91ea-d032c43bdfe8	양양 빈티지하우스 펜션	빈티지,빈티지하우스,양양,펜션,하우스		
+10030653	104c58c3-9f19-40a8-b1ab-6ff22917c478	참사리마을 엘프펜션	리마을,마을,사리,엘프,엘프펜션,참,참사,참사리마을,펜션		
+10030653	105da662-01a4-4143-b3b6-688714f29732	트리하우스	트리,트리하우스,하우스		
+10030653	10745665-2c23-496f-bce6-de8881542e38	바다생각	바다,바다생각,생각		
+10030653	1086b97a-07c3-4d0c-8b1a-dff21fa09fa4	양평 양지 펜션	양지,양평,펜션	YangPyeong Sunny Place Pension	Pension,Place,Sunny,YangPyeong,pension,place,sunni,sunny,yangpyeong
+10030653	10879d45-724d-443e-ae9f-3a3803ee84f4	안면도 비포썬셋 펜션	도,비포썬셋,안면,안면도,펜션	Anmyeongdo Before Sunset Pension	Anmyeongdo,Before,Pension,Sunset,anmyeongdo,befor,before,pension,sunset
+10030653	10956c88-8657-40aa-9cac-b2fc0d8a5b32	동해 비치갤러리 펜션	갤러리,동,동해,비치,비치갤러리,어,펜션,하	Donghae Beach Gallery Pension	Beach,Donghae,Gallery,Pension,beach,dongha,donghae,galleri,gallery,pension
+10030653	10105d53-0625-4cd7-88d7-05752fb7167e	라고스펜션	라고스,라고스펜션,펜션		
+10030653	10348948-d206-4e88-a5ac-0920b2074366	청개구리	청개구리		
+10030653	0fc44f82-50fd-480c-8934-afee29d0f6a4	문펜션(숲속궁전)	궁전,문,문펜션숲속궁전,숲속,펜션		
+10030653	0fef0677-6a49-4baf-a111-7b4aa90feb5b	하제펜션	펜션,하제,하제펜션		
+10030653	0fba3220-1b56-45c9-893a-8fd99cb62eba	양평 쁘띠 펜션	쁘띠,양평,펜션	YangPyeong Petit Pension	Pension,Petit,YangPyeong,pension,petit,yangpyeong
+10030653	0f9736d0-0c09-4307-b314-98ef184c11f5	펜션루팡	루팡,펜션,펜션루팡		
+10030653	0fadf114-ba9b-4486-88b5-6c1c326cd3f6	경주 그린벨리 펜션	경주,그린,그린벨리,벨리,펜션	Gyeongju Green Velly Pension	Green,Gyeongju,Pension,Velly,green,gyeongju,pension,velli,velly
+10030653	6f7ba399-b1cb-451d-ab84-74708f409246	청도프로방스펜션	청도,청도프로방스펜션,펜션,프로방스		
+10030653	6f947425-e0f2-4644-b863-13966dcb20b3	부래미 노을마루	노을,노을마루,마루,부래미		
+10030653	6fd8497e-a254-4f7e-b147-23bef58418a8	단양 패러마을 펜션	단양,마을,패러,패러마을,펜션	Danyang Paraville Pension	Danyang,Paraville,Pension,danyang,paravil,paraville,pension
+10030653	71849131-c30b-4c79-8005-f0f251623de2	용문산레인보우	레인,보우,용문산,용문산레인,용문산레인보우		
+10030653	71871ad7-d834-4b7c-815a-6199f62bbc4b	서귀포 그린사이드 펜션	그린,그린사이드,사이드,서귀포,펜션	Seogwipo Green Side Pension	Green,Pension,Seogwipo,Side,green,pension,seogwipo,side
+10030653	0f4acfb5-71a8-4d71-b969-c250553c7fa9	에덴펜션	에덴,에덴펜션,펜션		
+10030653	0f553c8f-b654-4fce-a85e-e2deddedd08c	대부도포도향기	대부,대부도포도,대부도포도향기,도,도포,향기		
+10030653	ccbc1300-59cc-4f88-ae9e-dc185ba09a90	마리안나하우스	마리,마리안나,마리안나하우스,안나,하우스		
+10030653	cd45cf0b-fdb6-4748-8bcb-8f9930f85673	남이섬라구나펜션	구나,남이,남이섬라,남이섬라구나펜션,섬라,펜션		
+10030653	cd8dcd20-41be-4735-ae7f-5b40732406ad	경포호수풍경	경포,경포호수풍경,풍경,호수	Gangneung Lakeview Pension	Gangneung,Lakeview,Pension,gangneung,lakeview,pension
+10030653	cda9054d-9141-43c7-b055-ed751ca46120	고성 또한아의별	고성,또,또한아의,별,의별,한아		
+10030653	cc468f49-a31f-48dc-848b-c449147ef3f2	강촌 화이트캐슬 펜션	강촌,캐슬,트캐슬,펜션,화이,화이트,화이트캐슬	GangchonWhite Castle Pension	Castle,GangchonWhite,Pension,castl,castle,gangchonwhit,gangchonwhite,pension
+10030653	cc5a5129-0788-45ad-a17d-3832e82ba867	베리굿_베네치아	굿베네,베네,베리,베리굿,베리굿베네치아,치아		
+10030653	cc877101-35e4-4b19-8151-aea423ccf544	노을빛바다	노을빛,노을빛바다,바다		
+10030653	cca1b0f4-f71f-4390-b4f7-5ae1dd69aefa	The 설레임	ㅁ,설레이,설레임		
+10030653	cb74a048-d78a-41e5-91ea-b9995386ca0b	숲오름펜션	숲,숲오름,숲오름펜션,오름,펜션		
+10030653	cc159626-61a1-4b3c-9d80-362356636818	제주 솔베이지 펜션	베이지,솔,솔베,솔베이지,이,제주,지,펜션		
+10030653	cc373f5b-8469-466e-acd9-df70e0c78661	해남 땅끝바다의향기 펜션	땅끝,땅끝바다의,땅끝바다의향기,바다,의,펜션,해남,향기		
+10030653	b8eb5e6d-9a57-415d-a457-4978fe5a0d28	골든베이펜션	골든,골든베이펜션,베이,펜션		
+10030653	b8fce02d-b8e7-427e-9ba4-ffeba23b0b8f	휘겔하임	ㅁ,이,하임,휘겔,휘겔하,휘겔하임		
+10030653	b7f4ae2b-2f20-4b0c-8b2b-9d64ba8e4730	양평 별 펜션	별,양평,펜션	Yangpyeong Star Pension	Pension,Star,Yangpyeong,pension,star,yangpyeong
+10030653	b872a8f5-81a3-451a-8b3b-3ca5e834b5c8	가평 준하우스	가평,준,준하우스,하우스		
+10030653	b881653f-363c-4c0a-9c4d-50191cd64000	태안마야마야	마야,마야마,안마야,야,태,태안,태안마야마		
+10030653	b749d9a5-c7c4-4d16-8024-f4314aaa116d	가평콩깍지펜션	가평,가평콩깍지펜션,콩깍지,펜션		
+10030653	b7bd2a3d-20ff-4919-9973-fe633347ae8d	양양 오색사랑채 펜션	사랑채,양양,오색,오색사랑채,펜션	Yangyang 5 Color Sarangchae Pension	5,Color,Pension,Sarangchae,Yangyang,color,pension,sarangcha,sarangchae,yangyang
+10030653	b7ca6f37-f6f2-43a3-bf95-3efeef558641	거제 에버그린펜션	거제,에버그린,에버그린펜션,펜션	Geoje Evergreen Pension	Evergreen,Geoje,Pension,evergreen,geoj,geoje,pension
+10030653	b7ecc575-6694-42e4-a511-8fead881e32d	초원빌리지	빌리지,초원,초원빌리지		
+10030653	cb276587-dbff-4047-994e-dc0a74dce890	클럽피쉬	클럽,클럽피쉬,피쉬		
+10030653	c516f0aa-300b-4049-a907-64d8aa2ca845	서귀포 별담게스트하우스	게스트,별담,별담게스트하우스,서귀포,하우스	Seogwipo Stardam Guesthouse	Guesthouse,Seogwipo,Stardam,guesthous,guesthouse,seogwipo,stardam
+10030653	c4ac77b3-9b92-4e3d-a1c8-678304222a9b	꿈나무펜션	꿈,꿈나무,꿈나무펜션,나무,펜션		
+10030653	c4b2a693-4006-402a-9cdb-cc034b032489	깜몽하우스∥(폐지)	깜몽,깜몽하우스폐지,폐지,하우스		
+10056562	1	서울 프라자 호텔	서울,프라자,호텔	The Plaza	Plaza,The,plaza,the
+99999999	1	서울 프라자 호텔	서울,프라자,호텔	The Plaza	Plaza,The,plaza,the
+10055550	KRCHA233	호텔 난타 제주	난타,제주,호텔	Hotel Nanta Jeju	Hotel,Jeju,Nanta,hotel,jeju,nanta
+10055550	KRCHA227	펠리시아	시아,펠리,펠리시아	Fellisia Hotel	Fellisia,Hotel,fellisia,hotel
+10055550	KRCHA230	밸류호텔 제주	밸류,밸류호텔,제주,호텔	Value Hotel Jeju	Hotel,Jeju,Value,hotel,jeju,valu,value
+10055550	KRCHA231	캠퍼트리 호텔 & 리조트	리조트,캠퍼,캠퍼트리,트리,호텔	Camphortree Hotel & Resort	Camphortree,Hotel,Resort,camphortre,camphortree,hotel,resort
+10055550	KRCHA232	파밀리아호텔 제주	밀리아,제주,파,파밀리아,파밀리아호텔,호텔	Familia Hotel Jeju	Familia,Hotel,Jeju,familia,hotel,jeju
+10055550	KRCHA222	유탑유블레스호텔	유탑유블레스,유탑유블레스호텔,호텔	Utop Ubless Hotel	Hotel,Ubless,Utop,hotel,ubless,utop
+10055550	KRCHA224	다인 리조트	ㄴ,다,다인,리조트,이	Dyne Resort	Dyne,Resort,dyne,resort
+10055550	KRCHA225	제주주광리조트	리조트,제주,제주주광리조트,주광	Jeju Jukwang Resort	Jeju,Jukwang,Resort,jeju,jukwang,resort
+10055550	KRCHA226	스카이힐 비즈니스 호텔	비즈니스,스카이,스카이힐,호텔,힐	Skyhill Hotel	Hotel,Skyhill,hotel,skyhil,skyhill
+10055550	KRCHA218	오드리 인 제주	오드리,오드리 인,인,제주	Odri inn Jeju	Jeju,Odri,inn,jeju,odri
+10055550	KRCHA219	제주 해마 호텔	제주,해마,호텔	HaeMa Hotel	HaeMa,Hotel,haema,hotel
+10055550	KRCHA221	리벤시아 풀빌라&호텔	리벤,리벤시아,빌라,시아,풀,풀빌라,풀빌라호텔,호텔	Libentia Pool Villa & Hotel	Hotel,Libentia,Pool,Villa,hotel,libentia,pool,villa
+10030653	cad4655a-11e3-4a38-ba07-f4f7c2fe400c	강화산들바람	강화,강화산들바람,바람,산들		
+10030653	cae100d0-adca-423a-92ab-b2953aff9301	원주 더핀란드 펜션	더,더핀란드,원주,펜션,핀란드	Wangju The Finland Pension	Finland,Pension,The,Wangju,finland,pension,the,wangju
+10030653	cafe0e16-1963-4748-a251-cd7974388c08	속초 루트세븐애견 펜션	루트,루트세븐애견,세븐,속초,애견,펜션		
+10030653	b7111e5b-0c3d-4e68-b6b3-88b1df3ebb73	양평 우리들 펜션	들,양평,우리,우리들,펜션	YangPyeong Woori Pension	Pension,Woori,YangPyeong,pension,woori,yangpyeong
+10030653	b7193a06-e0f7-42ef-98c6-68775439bc4e	포천 포레스트 펜션	펜션,포레스트,포천	Pocheon Forest Pension	Forest,Pension,Pocheon,forest,pension,pocheon
+10030653	f9357bf2-bcd7-4a8f-9a90-a0d4d7ddfc86	마니뜰펜션	마니뜰,마니뜰펜션,펜션		
+10030653	f949208a-03d2-4982-9c71-9e1b5db4b008	통영마리나	마리나,통영,통영마리나		
+10030653	d45afecc-f035-4479-8522-1b46f26f26c2	무주 스마트펜션	무주,스마트,스마트펜션,펜션		
+10030653	d43f6ae2-a730-4b3e-bab3-c11bee38b808	제천 파인밸리 펜션	밸리,제천,파인,파인밸리,펜션		
+10030653	f90d7fc7-21f8-464a-95ec-8060da817b17	강이있는풍경펜션	강이있는,강이있는풍경펜션,펜션,풍경		
+10030653	f9164dc5-8405-4249-a06b-bdaa1a3ae1d9	에벤에셀	에벤,에벤에셀,에셀		
+10030653	f931f480-14dc-4e8e-a3ef-0bd46a02c948	아름다운펜션수	다운,수,아름,아름다운펜션수,펜션		
+10030653	f8a26ece-3df4-42c2-9cd5-cd5441e738c9	코티지펜션	코티지,코티지펜션,펜션		
+10030653	f8b1f660-052b-41f4-a90d-f6e0df80e737	서귀포 토마토하우스 펜션	서귀포,토마토,토마토하우스,펜션,하우스		
+10030653	f90593d4-67ee-4912-b3d1-8a0da44c7b0f	태안 이아 펜션	이아,태안,펜션	Taean Eia Pension	Eia,Pension,Taean,eia,pension,taean
+10030653	b6c99f63-b032-45da-a4a8-9f03936f0c56	날마다소풍	날마,날마다,날마다소풍,다,소풍		
+10030653	b6f173b7-9e47-4ff8-b278-f14299678129	양양 스위트 펜션	스위트,양양,펜션	Yangyang Sweet Pension	Pension,Sweet,Yangyang,pension,sweet,yangyang
+10030653	b70df11f-8722-4564-afef-d7dc4bfa5f6b	서산 모로아 펜션	모로아,서산,펜션	Seosan Moroa Pension	Moroa,Pension,Seosan,moroa,pension,seosan
+10030653	900dc99f-0e03-4fcc-be85-ab1e7b1e038b	산청예원펜션	산청,산청예원펜션,예원,펜션		
+10030653	90598dcf-dd3e-4288-be90-0e4da9f8e0a6	리코펜션	리코,리코펜션,펜션		
+10030653	906c08ed-95e0-47c9-b457-35d3e63a92b1	강화프로포즈	강화,강화프로포즈,프로포즈		
+10030653	8fc9efa7-9507-4e6e-b22b-00da5c8bb311	당진 라메르 펜션텔	당진,당진 라메르,라메르,텔,펜션,펜션텔	Dangjin Lamer Pension	Dangjin,Lamer,Pension,dangjin,lamer,pension
+10030653	8fd0125f-2b1c-4c2e-9937-0c72cf4d58d8	칸타빌레펜션	칸타빌레,칸타빌레펜션,펜션		
+10030653	8f7d4543-f749-48e4-af77-6b63ab717ac1	제주전망좋은집	전망,제주,제주전망,제주전망좋은집,좋은집		
+10030653	8f9bf4f8-dc59-4c17-a5df-858789c9d04e	여수 돌산마루 펜션	돌산,돌산마루,마루,여수,펜션	Yeosu Dolsan Maru Pension	Dolsan,Maru,Pension,Yeosu,dolsan,maru,pension,yeosu
+10030653	8fc6bcd0-b206-4813-a3fa-e78b77fb447e	에이스펜션	에이스,에이스펜션,펜션		
+10030653	8e8936f5-853c-4759-a420-e3fea40c3b7f	순천만 흑두루미 펜션	두루미,만,순천,순천만,펜션,흑,흑두루미		
+10030653	8ef0d7e8-5190-464a-ab7b-592cf6ab054f	모모의정원	모모,모모의,모모의정원,원,의정,정원	0	
+10030653	8f31bdf1-0ddd-4c52-9739-9d2cd5af9509	안면도 마리솔 펜션	도,마리솔,안면,안면도,펜션	AnmyeondoMarisol Pension	AnmyeondoMarisol,Pension,anmyeondomarisol,pension
+10030653	8e0062dc-ae35-4a57-b4ec-6229a6ccec56	제주 라만차 펜션	라만,라만차,제주,차,펜션		
+10030653	8e187e04-7389-41d4-8a4c-e42f1349b9fc	가평 유 펜션	가평,유,펜션		
+10030653	8e23a5b0-c6b4-429d-8c1f-2be688466666	경포 별빛연가하우스 펜션	경포,별빛,별빛연가하우스,연가,펜션,하우스	Gyeongpo Starry Love Song House Pension	Gyeongpo,House,Love,Pension,Song,Starry,gyeongpo,hous,house,love,pension,song,starri,starry
+10030653	8cea8eec-2dda-44ff-b148-da4d552f1334	제주 휴하우스	제주,하우스,휴,휴하우스		
+10030653	8cf91b98-b43d-4f00-b4ea-fd8574b0f0dd	영광 노을연가 펜션	노을,노을연가,연가,영광,펜션		
+10030653	8d8e6386-f3c5-4a09-b40a-a5c9679cfa9e	강화 J모텔 펜션	강화,모텔,펜션	0	
+10030653	8deca0b9-f04e-486b-b710-72de73d71e2e	산수향펜션	산수,산수향펜션,펜션,향		
+10030653	8cd1099b-540b-429a-9a6d-bd67b4f921e8	추억이있는바다(유리바다)	바다,유리,있는,추억,추억이,추억이있는바다유리바다		
+10030653	8cde0759-0dfe-4a11-97d9-eea5085b7124	양평 블루힐 펜션	블루,블루힐,양평,펜션,힐	Yangpyeong Blue Hill Pension	Blue,Hill,Pension,Yangpyeong,blue,hill,pension,yangpyeong
+10030653	8ce3c983-4472-4c73-806b-f3f536ff83dd	숲속의진주	숲속의,숲속의진주,진주		
+10030653	8be27cc7-86b8-4315-81b7-6fb0a847127d	울진우리바다펜션	바다,우리,울진,울진우리바다펜션,펜션		
+10030653	8bed0013-82be-4b0a-8196-16e4a311f1c5	서귀포 에코리조트 펜션	리조트,서귀포,에코,에코리조트,펜션	Seogwipo Echo Resort	Echo,Resort,Seogwipo,echo,resort,seogwipo
+10030653	8c5b6b7d-6eee-443c-b42f-58cc0052689e	새콤달콤펜션&게스트하우스	게스트,새콤달콤,새콤달콤펜션게스트하우스,펜션,하우스		
+10030653	8ca7ffce-a4e4-468f-9ed2-810f0b3ac3c5	양평 까사벨라 펜션	까사벨라,양평,펜션		
+10030653	8caf1b63-a301-45e6-9373-edbb18f421a3	포천 풀잎 펜션	펜션,포천,풀잎		
+10030653	8b23dcc0-eef6-470c-8d54-e9d97312f23d	평창올림피아 호텔	올림,평창,평창올림피아,피아,호텔		
+10030653	8b68a8fc-7920-4bbd-a195-435e3997af68	제주 천제빌 펜션	빌,제주,천제,천제빌,펜션		
+10030653	8baddbd6-4c6c-4f42-bb97-6974fc5c3c33	금둥별장	금둥,금둥별장,별장		
+10030653	8abb1f8a-49fb-493b-87af-fac6ad6a8c15	행복충전펜션	충전,펜션,행복,행복충전펜션		
+10030653	8ad5a215-451b-4523-99dd-fc6dc6fc05b1	순천만 1번지 펜션	1,1번지,만,번지,순천,순천만,펜션		
+10030653	8b1a9bf3-2cc6-4ddf-adaa-a9be7dcc75ae	영흥도 농어바위 펜션	농어,농어바위,도,바위,영흥,영흥도,펜션	0	
+10030653	8a546c38-bd98-4cf3-9a9f-6c327acf41d1	포천 빌라지오 펜션	빌라,빌라지오,지오,펜션,포천	Pocheon Villaggio Pension	Pension,Pocheon,Villaggio,pension,pocheon,villaggio
+10030653	8a809f72-61f1-4aac-8a44-03bf6ba256f1	미시령펜션	령,미시,미시령펜션,펜션		
+10030653	8a8753a1-ad7f-456b-bdb0-b4f5053f22cd	선재도 바다정원 펜션	도,바다,바다정원,선재,선재도,정원,펜션	Seonjaedo Ocean Garden Pension	Garden,Ocean,Pension,Seonjaedo,garden,ocean,pension,seonjaedo
+10030653	8a33491f-4782-4ad1-a327-abeeb42fb36d	강진베이스볼파크	강진,강진베이스볼파크,베이스,볼,파크		
+10030653	8a45b1fd-66d1-4298-b409-0a95a386ce98	가평 강변마루펜션	가평,강변,강변마루펜션,마루,펜션		
+10030653	8a0d8fef-e24e-4365-a174-8a54141eed85	바다옆히든밸리	바다,바다옆,바다옆히든밸리,밸리,옆히든,히든		
+10030653	8a2465e0-7510-4511-ba6a-055876c7e748	천사의아침	아침,의,천사,천사의,천사의아침		
+10030653	89e078a0-bde5-41f1-b280-a372c27cf644	태안 꽃향기앤하모니 펜션	꽃,꽃향기앤하모,니,앤,앤하모,태안,펜션,하모니,향기	Taean Flower Fragrance Pension	Flower,Fragrance,Pension,Taean,flower,fragranc,fragrance,pension,taean
+10030653	89e3e0b0-d169-4945-9ab7-f7489e544858	은하펜션	은하,은하펜션,펜션		
+10030653	8935acd1-1af2-4f06-8158-908e95fb402a	안면도 베르사유 펜션	도,베르사유,안면,안면도,펜션	AnmyeondoVersailles Pension	AnmyeondoVersailles,Pension,anmyeondoversail,anmyeondoversailles,pension
+10030653	88eda7d2-4bac-4131-ab66-b23b7ff986f4	씨엔스타	스타,씨엔,씨엔스타		
+10030653	8906db38-0237-43bb-a96f-7ed809da6485	태안 오슈 펜션	오슈,태안,펜션	Taean Oshu Pension	Oshu,Pension,Taean,oshu,pension,taean
+10030653	8925b650-b603-4bb0-b61f-d7f70a469fc5	힐스토리펜션	스토리,펜션,힐,힐스토리펜션		
+10030653	89312289-e357-4fea-999f-1e892f285372	경주 빅토리아일기 펜션	경주,빅토리아,빅토리아일기,일기,펜션		
+10030653	88a6a9c1-a9ce-4d0b-bd43-184e958f9b05	뉴설악리조트	뉴설악,뉴설악리조트,리조트		
+10030653	88b71d0e-c082-4a27-a2f3-f5a95ce886ef	가평 한마루 펜션	가평,마루,펜션,한,한마루		
+10030653	88bcbe4e-7615-4281-8d08-9d77add96a34	태안 하늬바람 펜션	태안,펜션,하늬바람		
+10030653	88c9376c-e248-40f5-bb31-80adea550ba4	평창 기차와소나무 펜션	기차,기차와,기차와소나무,소나무,와,펜션,평창		
+10030653	88731508-bcf6-4eed-a81b-5a7ea1eaba04	장락골가는길	장락골가는길		
+10030653	888be22c-508d-4753-8604-df74c2f4c478	강화 호숫가하얀집(폐지)	강화,집,폐지,하얀,호숫가,호숫가하얀집,호숫가하얀집폐지		
+10030653	88436396-1a97-4d16-9f92-2ef4343f0d1c	통영 파라다이스펜션	다이스,통영,파라,파라다이스펜션,펜션	Tongyeong Paradise Pension	Paradise,Pension,Tongyeong,paradis,paradise,pension,tongyeong
+10030653	886f05ca-8a86-4b08-9217-6503983aac69	산마을펜션	마을,산,산마을,산마을펜션,펜션		
+10030653	872ed6fb-5011-41e3-9f6f-40ecef8e0fc7	통영해수욕장펜션	통영,통영해수욕장,통영해수욕장펜션,펜션,해수욕장		
+10030653	879770c2-c3f0-4cc8-8fd6-b066b56664c7	사라디펜션	디,사라,사라디펜션,펜션		
+10030653	87dfabbe-9ded-4e26-9742-b0dcb365c980	태안 꽃지오션빌 펜션	꽃지,꽃지오션빌,오션빌,태안,펜션	Taean Kkotji Oceanvill Pension	Kkotji,Oceanvill,Pension,Taean,kkotji,oceanvil,oceanvill,pension,taean
+10030653	87f885dd-6bc4-4028-80f6-cbf9a5989423	가평리버하임	가평,가평리버하임,리버,하임		
+10030653	8831acf5-4e70-4ec1-950f-65039f4a25ac	가평 파스칼 독채 펜션	가평,독채,칼,파스,파스칼,펜션		
+10030653	8635f571-0513-495c-874a-9b25fc8a797c	라프펜션	라프,라프펜션,펜션		
+10030653	86408212-d2b5-41ca-aeb3-23691acda8d0	횡성 꿈꾸는소나무 펜션	꿈꾸는,꿈꾸는소나무,소나무,펜션,횡성		
+10030653	8647f286-1ecc-4577-9599-9c38bb09d072	양평 메이플679 펜션	679,메이플,메이플679,양평,펜션	Yangpyeong Maple 679 Pension	679,Maple,Pension,Yangpyeong,mapl,maple,pension,yangpyeong
+10030653	865b5cb3-7324-44f9-b14d-ef37666982b6	단양 한옥행복충전소 펜션	단양,소,전소,충,펜션,한옥,한옥행복충전소,행복,행복충전	Danyang Hanok Happiness Pension	Danyang,Hanok,Happiness,Pension,danyang,hanok,happi,happiness,pension
+10030653	86ced7ca-2407-4205-b803-6ceda12169a9	동야루펜션	동야루,동야루펜션,펜션		
+10030653	871c1ed7-d483-4caa-bcec-12267f903a40	군산 밀려오는파도소리 펜션	군산,밀려오는,밀려오는파도소리,소리,파도,펜션		
+10030653	8620857a-92a7-4dc8-862c-6417e59a5af6	파주 직천펜션	직천,직천펜션,파주,펜션		
+10030653	86309a43-0649-41c6-bb82-d852be7acbef	가은펜션	가은,가은펜션,펜션		
+10030653	85eea0fa-722b-432e-b7b9-56afcfd3e41c	평창 빨간머리앤 펜션	머리,빨간,빨간머리앤,앤,펜션,평창	Pyeongchang Red Hair Anne Pension	Anne,Hair,Pension,Pyeongchang,Red,ann,anne,hair,pension,pyeongchang,red
+10030653	85fd9193-9f55-489a-b8fa-d6786deadd32	북한강풍경	강,경,북한,북한강풍,북한강풍경,풍경		
+10030653	8612d18b-e75b-466b-9efe-918ec21e8fe4	(구)숲속하늘계곡	계곡,구숲속,구숲속하늘계곡,하늘		
+10030653	850be94e-e37b-4fc7-86af-7bc389fd874b	제주바다의향기	바다,의,제주,제주바다의,제주바다의향기,향기		
+10030653	85393b54-e921-446a-95b0-7270d7e9a320	제주 보네르펜션	보네르,보네르펜션,제주,펜션		
+10030653	85436035-90b4-4d83-ac9b-af77bdfd52b2	가족사랑펜션	가족,가족사랑펜션,사랑,펜션	Pyeongchang Family Love Pension	Family,Love,Pension,Pyeongchang,famili,family,love,pension,pyeongchang
+10030653	e57c23b5-a740-4940-b699-f396b2f14190	제주화이트하우스	제주,제주화이트,제주화이트하우스,하우스,화이트		
+10030653	e5d01b56-cfe6-4bf2-a398-3df05f42d4b6	양평 바위펜션	바위,바위펜션,양평,펜션		
+10030653	e5e2cd37-d5e6-4a89-8f8a-fac8f87c2630	가평 문라이트블루 펜션	가평,라이트,문,문라이트블루,블루,펜션		
+10030653	e60b28f6-d987-48e5-9de2-b9a2cfc70a43	경산호텔펜션	경산,경산호텔,경산호텔펜션,펜션,호텔		
+10030653	e62e7aff-b398-4085-861a-0f49f47d7886	양평 아나톨레 펜션	아나톨레,양평,펜션	Yangpyeong Anatole Pension	Anatole,Pension,Yangpyeong,anatol,anatole,pension,yangpyeong
+10030653	e5281ab9-1645-437c-88ab-8784467990b3	펜션하늘에	에,펜션,펜션하늘,하늘,하늘에		
+10030653	e564d8d1-a541-4a0e-81ef-b46044938bf5	강화동막펜션	강화,강화동막펜션,동막,펜션		
+10030653	e51f18a8-a02c-4e5c-acc2-5cd972a3e3fb	태안 제이드 리조텔	리조텔,제이드,제이드 리조텔,태안		
+10030653	84a87ef9-a110-4489-abae-372d1b002717	기실마을 봉도펜션	기실,기실마을,마을,봉도,봉도펜션,펜션		
+10030653	84c4d1df-450b-4c9a-91e6-60123413a003	설악비치 펜션	설악비치,펜션	Yangyang Seolak Beach Pension	Beach,Pension,Seolak,Yangyang,beach,pension,seolak,yangyang
+10030653	84fa0672-d78e-41b9-828d-0ac7444d7740	퍼피누펜션	퍼피누,퍼피누펜션,펜션		
+10055550	KRCHA215	랜딩관 제주신화월드 호텔앤리조트	관,랜딩,랜딩관,리조트,신화,앤,월드,제주,제주신화월드,호텔,호텔앤리조트	Landing Jeju Shinhwa World Hotels&Resorts	HotelsResorts,Jeju,Landing,Shinhwa,World,hotelsresort,hotelsresorts,jeju,land,landing,shinhwa,world
+10055550	KRCHA216	골든튤립호텔 제주성산	골든,골든튤립호텔,성산,제주,제주성산,튤립,호텔	Golden Tulip Jeju Seongsan Hotel	Golden,Hotel,Jeju,Seongsan,Tulip,golden,hotel,jeju,seongsan,tulip
+10055550	KRCHA217	제주 파인힐 호텔	제주,파인,파인힐,호텔,힐	Hotel Pine Hill	Hill,Hotel,Pine,hill,hotel,pine
+10030653	e4ba3b8a-ab88-46f6-8efd-a4e47c2f8f65	평창 햇살고운아침 펜션	고운,아침,펜션,평창,햇살,햇살고운아침		
+10030653	e4a4a322-f064-471e-8b87-587aa4d256fc	바치울펜션	바치울,바치울펜션,펜션		
+10030653	e4a9ba0e-ea1c-425e-948b-1c8a132c79dc	태안 가나 펜션	가,가나,나,태안,펜션	Taean Gana Pension	Gana,Pension,Taean,gana,pension,taean
+10030653	e4eb1fe0-6b02-4249-a9bf-8d9134305b0b	터펜션	터,터펜션,펜션		
+10030653	e50e6984-7209-45ef-817e-476532abd776	경주히든벨리	경주,경주히든벨리,벨리,히든,히든벨리		
+10030653	b64e7bbf-a70c-4397-9b95-9b26ae678b32	행복하우스	하우스,행복,행복하우스		
+10030653	b69eaa4c-48f4-4891-bd1b-85b2611dc1ef	(구)별밭지기펜션	구별,구별밭지기펜션,밭,지기,펜션		
+10030653	8453bed7-c1d3-4cf5-83de-a1779d309a0b	남해모노펜션	남해,남해모노펜션,모노,펜션		
+10030653	84945c2a-7454-47c2-9b6a-56910af7f6ee	경주보문아름다운펜션	경주,경주보문,경주보문아름다운펜션,다운,보문,아름,펜션		
+10030653	84a542a4-2b4d-4333-b6ae-b95b97fc3691	조은하우스	조은,조은하우스,하우스		
+10030653	84a59307-9d7c-4f5c-9ebd-5aed0045944c	가평 하늘수채화 펜션	가평,수채화,펜션,하늘,하늘수채화		
+10030653	8439a9f6-4bc3-4543-9654-cec75c2553fd	시즌에피소드	시즌,시즌에피소드,에피소드		
+10030653	843ee196-08ac-4cfc-a654-7f83f8fd07ea	다오펜션	다오,다오펜션,펜션		
+10030653	844cf0c8-8c9c-43c6-b50f-e755de2a4c1c	대부도 드무리마레블루 펜션	대부,대부도,도,드,드무리마레블루,마레,무리,블루,펜션	DaebudoDemuri Mare Blue Pension	Blue,DaebudoDemuri,Mare,Pension,blue,daebudodemuri,mare,pension
+10030653	837907f2-0361-4249-9295-9aaf5c3c77db	제주미니텔소울	미니,소울,제주,제주미니텔소울,텔		
+10030653	83b84af7-c259-4504-9620-3091fdaebabc	제주 스토리인제주 게스트하우스	게스트,게스트하우스,스토리,스토리인,스토리인제주,인,제주,하우스	Jeju Story in Jeju Guesthouse	Guesthouse,Jeju,Story,guesthous,guesthouse,in,jeju,stori,story
+10030653	83f9fc4f-65d6-4cee-8eb8-750c6f89a8d2	양평 소나무집 펜션	소나무,소나무집,양평,집,펜션	YangPyeong Pine Tree House Pension	House,Pension,Pine,Tree,YangPyeong,hous,house,pension,pine,tree,yangpyeong
+10030653	84294cf3-6343-48ec-9de7-918b47306ac6	스타펜션	스타,스타펜션,펜션		
+10030653	b61a0060-40c7-43be-a2f9-edd6b1e3d890	제주펜션마루	마루,제주,제주펜션마루,펜션		
+10030653	b626256d-98d0-4810-9926-954d929a1d41	가평에비뉴펜션	가평,가평에,가평에비뉴펜션,비뉴,에비뉴,펜션		
+10030653	82fef331-0486-4bb5-88ef-cd84ffbfc880	(구)핑크하우스펜션	구,구핑크하우스펜션,펜션,핑크,하우스		
+10030653	8328ceac-2212-4b5d-95ae-d9079fdc74a4	평창 세인트힐 펜션	세인트,세인트힐,펜션,평창,힐	Pyeongchang Darlings Pension	Darlings,Pension,Pyeongchang,darl,darlings,pension,pyeongchang
+10030653	8371b907-2310-4058-9507-922c73dae76c	남이섬 레이첼펜션	남이,남이섬,레이첼,레이첼펜션,섬 레이첼,펜션		
+10030653	e3e20d07-2ad1-4569-aabd-d09f30430a97	태안 해바라기 애견펜션	애견,애견펜션,태안,펜션,해바라기	Anmyeondo Sunflower Pension	Anmyeondo,Pension,Sunflower,anmyeondo,pension,sunflow,sunflower
+10030653	e49c898a-3bd0-4934-a43a-0dccae343da0	우리피크&#45792;펜션	45792,우리,우리피크45792펜션,펜션,피크		
+10030653	e4a3165b-4e94-468c-bd4d-459327fcb8d3	유명산속옹달샘(단체)	단체,산속,옹달샘,유명,유명산속옹달샘단체		
+10030653	82c678c0-cb6a-46f0-b505-821da7892358	서귀포 파도휴양 펜션	서귀포,파도,파도휴양,펜션,휴양		
+10030653	82e67202-d3bb-4ee2-8ef3-b62b40c954e5	제주펠리체리조트	리조트,제주,제주펠리체리조트,펠리체		
+10030653	82f28662-ef5d-4abf-8b96-cfc417c041dd	청도 칠송 펜션	도,청,청도,칠송,펜션	Cheongdo Chilsong Pension	Cheongdo,Chilsong,Pension,cheongdo,chilsong,pension
+10030653	82a0df57-aedb-45ac-aff9-ded71169383e	몽산포펜션	몽,몽산포,몽산포펜션,산포,펜션		
+10030653	b5a33c76-7d54-4f81-9c12-747eaef4cf2b	가평 흙집펜션	가평,펜션,흙집,흙집펜션		
+10030653	b5fc776c-c757-4ed4-a97a-e98e57814e59	바다노리펜션	노리,바다,바다노리펜션,펜션		
+10055550	KRCHA214	메리어트관 제주신화월드 호텔앤리조트	리어,리조트,메,메리어트관,신화,앤,월드,제주,제주신화월드,트관,호텔,호텔앤리조트	Marriott Jeju Shinhwa World Hotels&Resorts	HotelsResorts,Jeju,Marriott,Shinhwa,World,hotelsresort,hotelsresorts,jeju,marriott,shinhwa,world
+10055550	KRCHA207	호텔 위드 제주	위드,제주,호텔	Hotel With Jeju Korea	Hotel,Jeju,Korea,With,hotel,jeju,korea,with
+10055550	KRCHA209	데이즈 호텔 제주 서귀포 오션	데이,데이즈,서귀포,오션,제주,즈,호텔	Days Hotel Jeju Seogwipo Ocean	Days,Hotel,Jeju,Ocean,Seogwipo,dai,days,hotel,jeju,ocean,seogwipo
+10055550	KRCHA213	호텔 샬롬 제주	샬롬,제주,호텔	Hotel Shalom Jeju	Hotel,Jeju,Shalom,hotel,jeju,shalom
+10030653	82241cd9-4b83-474d-98fd-6275c8e77b34	제주 포엠하우스 펜션	제주,펜션,포엠,포엠하우스,하우스	Jeju For M House Pension	For,House,Jeju,M,Pension,for,hous,house,jeju,m,pension
+10030653	825b4db8-9155-425f-9775-8112d25adb65	마음속에그린집	그린,린집,마음,마음속에그린집,속,속에,에그,집		
+10030653	c470c526-d770-4413-b673-141e7eb09d06	라뷰테펜션	라뷰테,라뷰테펜션,펜션		
+10030653	c49d076a-ae2a-4505-9740-8ea3e5245be2	양평 라임오렌지 펜션	라임,라임오렌지,양평,오렌지,펜션	YangPyeong Lime Orange Pension	Lime,Orange,Pension,YangPyeong,lime,orang,orange,pension,yangpyeong
+10030653	c4a5ca12-f3e9-43c7-af35-5211c3a492fd	강릉 루헤 펜션	강릉,루헤,펜션	Gangneung RuHae Pension	Gangneung,Pension,RuHae,gangneung,pension,ruha,ruhae
+10030653	e3197142-ec02-4c85-84bf-b9e240d5d7b1	양평 소향산장 펜션	산장,소향,소향산장,양평,펜션	YangPyeong Destination Villa Pension	Destination,Pension,Villa,YangPyeong,destin,destination,pension,villa,yangpyeong
+10030653	e334e9ad-81c5-4602-9c35-699b031bee31	왕터연수원	연수원,왕터,왕터연수원		
+10030653	e38dfc45-b85d-490f-bc66-7aa7363e1562	듀크펜션	듀크,듀크펜션,펜션		
+10030653	e3df352c-e0e3-4a50-9d9e-e0416120af5f	샤론펜션	샤론,샤론펜션,펜션		
+10030653	e22b5746-0f5b-4cc1-9262-9214d50c3baa	해와돌바라기	바라기,해와돌,해와돌바라기	Seogwipo Hae wa dol baraki Pension	Hae,Pension,Seogwipo,baraki,dol,hae,pension,seogwipo,wa
+10030653	e2576b06-09dd-4107-8b8b-9f0e20b8697d	임초리숲속펜션	임초리숲속,임초리숲속펜션,펜션		
+10030653	e31261cc-2c4c-438a-99b6-5cfa490954d7	양평 준앤 펜션	양평,준앤,펜션	YangPyeong Junen Pension	Junen,Pension,YangPyeong,junen,pension,yangpyeong
+10030653	e3156720-18fb-4c5c-8c7a-b24f69cdbd08	파주 원프레임 펜션	ㅁ,원,원프레,원프레임,이,파주,펜션,프레임	Paju One-frame Pension	Oneframe,Paju,Pension,onefram,oneframe,paju,pension
+10030653	8218082b-46ed-48db-89bb-065057c3d81c	가온펜션	가온,가온펜션,펜션		
+10030653	821d7f9e-b5ab-42a2-87dc-23228e6af923	행복한家1	家1,한家1,행복,행복한,행복한家1		
+10030653	815ab7ed-828c-4a47-b147-aad9effbf271	그린밸리	그린,그린밸리,밸리		
+10030653	81757c16-2a60-4f21-9663-b9a48e6eba5a	서귀포 까사마리나 펜션	까사,까사마리나,마리나,서귀포,펜션	Seogwipo Casa Marina Pension	Casa,Marina,Pension,Seogwipo,casa,marina,pension,seogwipo
+10030653	b4702150-0c9a-495e-a17f-7d17e1864cbd	프랑스리조트	리조트,프랑스,프랑스리조트	Namhae France Resort	France,Namhae,Resort,franc,france,namha,namhae,resort
+10030653	b4eb8833-99c6-48ea-be4d-1c246b0e32c5	홍천 해리하우스 펜션	펜션,하우스,해리,해리하우스,홍천	Hongchen Haeri House Pension	Haeri,Hongchen,House,Pension,haeri,hongchen,hous,house,pension
+10030653	b53f8962-0e96-40e3-b0d3-57cbe23936be	수가현	수가,수가현,현		
+10030653	b54eac7f-624a-4a48-8873-fb7f88dc0e90	청평유니온펜션	유니온,청평,청평유니온펜션,펜션		
+10030653	b550c4e6-4905-42e0-8c6e-619c5efb0c96	양평 도로시밸리 펜션	도로,도로시밸리,밸리,시,양평,펜션		
+10030653	b562554d-47e7-4c52-b9d8-ff3e24a4d7be	남해더힐스파빌라펜션	남해,남해더힐스파빌라펜션,더힐,빌라,스파,펜션		
+10030653	b57cee33-b377-42e7-b3de-6a6c6a72e78a	태안 피노키오 펜션	태안,펜션,피노키오	Taean Pinocchio Pension	Pension,Pinocchio,Taean,pension,pinocchio,taean
+10030653	c42df1a1-211f-464b-9538-2fcedec9802b	카타마린	카타마린		
+10030653	c447d7ee-aa5a-47c8-8791-5a02dc8d47ed	남이섬 레이크 펜션	남이,남이섬,레이크,섬,펜션	Namisum Lake Pension	Lake,Namisum,Pension,lake,namisum,pension
+10030653	c46ae185-d835-46c7-af12-2e8fe53bbf32	양평 산골짜기하얀집 펜션	산골짜기,산골짜기하얀집,양평,집,펜션,하얀,하얀집	Yangpyeong Vivaldi Mountain Valley White House Pension	House,Mountain,Pension,Valley,Vivaldi,White,Yangpyeong,hous,house,mountain,pension,vallei,valley,vivaldi,white,yangpyeong
+10030653	f890529c-44a6-4ae3-9513-18746b611393	강화 별헤는집A	강화,별헤는집		
+10030653	f8a1defc-039e-41a3-8101-f969b9c38847	제주 발로바쉬펜션	바쉬,발로,발로바쉬펜션,제주,펜션		
+10030653	e12f3658-4dfc-44ce-a3fb-b45ee67252fe	산내음물소리	내음,물소리,산,산내음물소리		
+10030653	e17a6bab-2037-43df-8868-fa7b3df4305d	용인 마운틴 펜션	ㄴ,마운틴,용,용인,이,펜션	Yongin Mountain Pension	Mountain,Pension,Yongin,mountain,pension,yongin
+10030653	e10d4f67-e10a-428e-9d3a-ecd1a67a13de	거제 편백숲 펜션	거제,숲,펜션,편백,편백숲	Geoje Pyeongbak Forest Pension	Forest,Geoje,Pension,Pyeongbak,forest,geoj,geoje,pension,pyeongbak
+10030653	e12db790-6744-43b5-9848-69271c1c1ec2	펜션&글램핑 숲속의집	글램핑,글램핑 숲속의집,숲속의집,펜션,펜션글램핑		
+10030653	e12ea1b0-051e-462c-bfc2-68602da42c51	가평 도원VIP 펜션	가평,도원,펜션		
+10055550	KRCHA203	서머셋 제주신화월드	서머,서머셋,셋,신화,월드,제주,제주신화월드	Somerset Jeju Shinhwa World	Jeju,Shinhwa,Somerset,World,jeju,shinhwa,somerset,world
+10055550	KRCHA202	라마다 제주시티 호텔	라,마다,시티,제주,제주시티,호텔	Ramada Jeju Cityhall	Cityhall,Jeju,Ramada,cityhal,cityhall,jeju,ramada
+10030653	c3fb2235-17db-4c4d-8367-57e88197b848	콤마앤리조트	리조트,앤,콤마,콤마앤리조트		
+10030653	c411d7ab-6abd-43f5-9d54-de8155a30e3a	제주 빌레 펜션	ㄹ레,비,빌레,제주,펜션	Jeju Villae Pension	Jeju,Pension,Villae,jeju,pension,villa,villae
+10030653	812cde84-df84-4125-9e1c-254a56196a29	(구)신비펜션	구,구신비,구신비펜션,신비,펜션		
+10030653	814f6ec9-d8e4-424c-8c56-36d35d5599af	제주 2jj 게스트하우스	2,게스트,게스트하우스,제주,하우스		
+10030653	81510c82-d1a6-4299-b15b-153e31781aed	문앤스타	문앤,문앤스타,스타		
+10030653	e08b9f67-1c5b-4a0e-9073-827990ad547a	서귀포 중문해피하우스 펜션	서귀포,중문,중문해피하우스,펜션,하우스,해피	Seogwipo Jungmun Happy House Pension	Happy,House,Jungmun,Pension,Seogwipo,happi,happy,hous,house,jungmun,pension,seogwipo
+10030653	e09c9c2a-f203-405f-bcd7-05ca4ecb1431	베르체	베르체		
+10030653	e0601574-840f-4a75-a66c-91024bcefda3	정선 가리왕산이야기 펜션	가리,가리왕산이야기,왕산,이야기,정선,펜션	Jeongseon Galiwansan Story Pension	Galiwansan,Jeongseon,Pension,Story,galiwansan,jeongseon,pension,stori,story
+10055550	KRCHA199	제주 아리아 호텔	아,아리,아리아,제주,호텔	Jeju Aria Hotel	Aria,Hotel,Jeju,aria,hotel,jeju
+10055550	KRCHA200	코업시티 호텔 성산	성산,시티,코업,코업시티,호텔	CO-OP City Hotel Seongsan	COOP,City,Hotel,Seongsan,citi,city,coop,hotel,seongsan
+10055550	KRCHA201	휘슬락 호텔	ㄹ락,호텔,휘슬,휘슬락	Whistle Lark Hotel	Hotel,Lark,Whistle,hotel,lark,whistl,whistle
+10030653	d35a8b2c-4a73-4a99-ab8a-1fb2d787500b	펜션명사20	20,명사,펜션,펜션명사20		
+10030653	d40e3efe-6287-4b36-9729-87d6c85f09c6	강화 씨엘로펜션	강화,씨,씨엘로,씨엘로펜션,엘로,펜션		
+10030653	d41ddf8f-0be8-4066-ac85-f94b3011218e	강화 쁘띠스파펜션	강화,쁘띠,쁘띠스파펜션,스파,펜션		
+10055550	KRCHA195	리시온 관광 호텔	관광,리시온,호텔	Rezion Tourist Hotel	Hotel,Rezion,Tourist,hotel,rezion,tourist
+10055550	KRCHA196	켄싱턴리조트 한림	리조트,켄싱턴,켄싱턴리조트,한림	켄싱턴리조트 한림	리조트,켄싱턴,켄싱턴리조트,한림
+10055550	KRCHA198	한국콘도 제주	도,제주,콘,콘도,한국,한국콘	한국콘도 제주	도,제주,콘,콘도,한국,한국콘
+10055550	KRCHA190	제주 헬스케어 타운	제주,케어,타운,헬스,헬스케어	Healthcare Town Resort Jeju(서귀포)	서귀포
+10055550	KRCHA191	밸류호텔 서귀포 JS	밸류,밸류호텔,서귀포,호텔	Value Hotel Seogwipo JS	Hotel,JS,Seogwipo,Value,hotel,js,seogwipo,valu,value
+10055550	KRCHA192	호텔 더본 제주	더본,제주,호텔	Hotel The Born Jeju	Born,Hotel,Jeju,The,born,hotel,jeju,the
+10030653	ca133611-4a81-451e-8b2d-c1ab5f8c7234	강화 호반 펜션	강화,펜션,호반	0	
+10030653	ca2de8c7-970c-4ec2-8d9f-5eb44ea515f1	두밀연수원	두밀,두밀연수원,연수원		
+10030653	ca6f5090-b3a5-42c6-9496-7df44e1fe571	강화 그레이프힐 펜션	강화,그레이프,그레이프힐,펜션,힐		
+10030653	b428689a-8749-489d-8c8a-55ddd86a0f36	평창 하늘꽃 펜션	꽃,펜션,평창,하늘,하늘꽃		
+10055550	KRCHA182	호텔 리젠트 마린	리젠트,리젠트 마린,마린,호텔	Hotel Regent Marine	Hotel,Marine,Regent,hotel,marin,marine,regent
+10055550	KRCHA185	비스타케이 호텔 천지연	비,비스타,비스타케이,스타,연,지연,천,천지,천지연,케이,호텔	Vistacay Hotel Cheonjiyeon	Cheonjiyeon,Hotel,Vistacay,cheonjiyeon,hotel,vistacai,vistacay
+10055550	KRCHA186	그랜드메르 호텔 제주	그랜드,그랜드메르,메르,제주,호텔	Grand Mer Hotel Jeju	Grand,Hotel,Jeju,Mer,grand,hotel,jeju,mer
+10055550	KRCHA179	제주 어반 아일랜드	아일랜드,어반,제주	Jeju Urban Island	Island,Jeju,Urban,island,jeju,urban
+10055550	KRCHA180	퍼스트70 호텔	70,퍼스트,퍼스트70,호텔	First70 Hotel	First70,Hotel,first,first70,hotel
+10055550	KRCHA181	제주 제이뷰 호텔	제이뷰,제주,호텔	Jeju J.View Hotel	Hotel,JView,Jeju,hotel,jeju,jview
+10030653	d280f78c-0c0a-489c-b98d-33e1c3c6ed1b	별장형레이크펜션	레이크,별장,별장형레이크펜션,펜션,형		
+10030653	d2f7fc95-7de0-444d-a475-b45dd3f92dc1	자연속으로	속,속으로,으로,자연,자연속		
+10030653	80acc4ff-8f16-4547-bbbc-ae17c9c143cb	빨간궁전펜션	궁전,빨간,빨간궁전펜션,펜션		
+10030653	80cb0819-3331-495c-afff-ce4eb267526f	동해안리조트	동해안,동해안리조트,리조트		
+10030653	81021781-621e-4580-bc17-1b48ef00e5cf	강화 러블리펜션	강화,러블리,러블리펜션,펜션		
+10030653	800e51f1-4c01-44b3-b9b1-3c51dce9339b	영덕오션펜션	영덕오션,영덕오션펜션,펜션	Yeongdeok Ocean Pension	Ocean,Pension,Yeongdeok,ocean,pension,yeongdeok
+10030653	801341fc-d274-40a2-8f98-aa24689a5f9d	팜빌리지펜션	빌리지,팜,팜빌리지,팜빌리지펜션,펜션		
+10030653	8028dbb6-e954-433f-9e1f-a5bc82bf7b8e	그린빌펜션	그린,그린빌펜션,빌,펜션		
+10030653	807d9465-20c2-4f65-8812-95581c678d81	제주하늘푸른바다펜션	바다,제주,제주하늘푸른바다펜션,펜션,푸른,하늘		
+10030653	8092549b-3795-4e9d-b62c-406f2097271c	강가명가의아침	강가,강가명가의아침,명가,명가의,아침,의		
+10030653	809fdb31-b5ca-45d6-9ac8-3e052889f701	남해뜰펜션	남해,남해뜰펜션,뜰,펜션		
+10055550	KRCHA175	베이힐풀&빌라	베이힐풀,베이힐풀빌라,빌라	Bayhill Pool & Villa	Bayhill,Pool,Villa,bayhil,bayhill,pool,villa
+10055550	KRCHA176	에띠에 리조트	리조트,에,에띠,에띠에	Jeju Etier Resort	Etier,Jeju,Resort,etier,jeju,resort
+10055550	KRCHA177	히든 클리프 호텔 & 네이쳐	네이쳐,든,클리,클리프,프,호텔,히,히든	Hidden Cliff Hotel & Nature	Cliff,Hidden,Hotel,Nature,cliff,hidden,hotel,natur,nature
+10055550	KRCHA178	호텔 케니스토리 제주	스토리,제주,케니,케니스토리,호텔	Jeju Kennystory Hotel	Hotel,Jeju,Kennystory,hotel,jeju,kennystori,kennystory
+10030653	df3e63a4-45c0-4e1b-a41a-7bdf97df47af	횡성 올림푸스 펜션	올림푸스,펜션,횡성	Hoengseong Olympus Pension	Hoengseong,Olympus,Pension,hoengseong,olympu,olympus,pension
+10030653	df8b8586-46b6-4c6d-ad70-5fb921645fec	솜마리조트 손뇨	리조트,손뇨,솜마,솜마리조트		
+10030653	df947526-c23e-4df2-8fc6-8fe9ff3a8694	호끌락 옥상달빛(사용안함)	ㅁ,달빛,사,안함,옥상,옥상달빛사용,옥상달빛사용안,용안,하,호끌락		
+10030653	df166c40-b63d-45be-8f8a-ff7c95962b17	홍천 보금자리 펜션	보금자리,펜션,홍천		
+10030653	dfcaeda9-efb2-41d5-9e6c-604412e83052	미라클펜션	미라클,미라클펜션,펜션		
+10030653	dfe22a43-f3e5-4906-97f1-1c4c4c828246	더빌라 청평2호점	더,더빌라,빌라,청평2호점		
+10030653	e023fb82-9b10-4ecf-84df-b974c3fa412d	순천만쉼표펜션	만쉼표,순천,순천만,순천만쉼표펜션,쉼표,펜션		
+10055550	KRCHA167	더 아트스테이 제주 함덕 호텔(구. 골든튤립 제주함덕 호텔)	골든,골든튤립,구,더,스테이,아트,아트스테이,제주,제주함덕,튤립,함덕,호텔,호텔구	The Artstay Jeju Hamdeok Hotel(Ex.Golden Tulip Jeju Hamdeok Hotel)	Artstay,Hamdeok,Hotel,HotelExGolden,Jeju,The,Tulip,artstai,artstay,hamdeok,hotel,hotelexgolden,jeju,the,tulip
+10055550	KRCHA170	제주 아이미제주비치호텔	미제,비치,아,아이,아이미제주비치호텔,이미제주,제주,주비치,호텔	Aimi Jeju Beach Hotel	Aimi,Beach,Hotel,Jeju,aimi,beach,hotel,jeju
+10055550	KRCHA174	라마다 앙코르 제주 연동호텔	라,마다,앙,앙코르,연동,연동호텔,제주,코르,호텔	Ramada Encore Jeju Yeondong Hotel	Encore,Hotel,Jeju,Ramada,Yeondong,encor,encore,hotel,jeju,ramada,yeondong
+10055550	KRCHA164	베니키아 중문호텔	베니,베니키아,중문,중문호텔,키아,호텔	Benikea Jungmun Hotel	Benikea,Hotel,Jungmun,benikea,hotel,jungmun
+10055550	KRCHA163	디 아넥스(포도호텔별관)	디,디 아넥스,별관,아넥스,아넥스포도호텔별관,포도,호텔	The Annex(포도호텔 별관)	별관,포도,포도호텔,호텔
+10055550	KRCHA166	호텔 더 원	더,더 원,원,호텔	Hotel The One	Hotel,One,The,hotel,on,one,the
+10055550	KRCHA157	부영 제주 호텔 앤 리조트	리조트,부영,앤,제주,호텔	Booyoung Jeju Hotel & Resort	Booyoung,Hotel,Jeju,Resort,booyoung,hotel,jeju,resort
+10055550	KRCHA159	파크선샤인 제주	ㄴ,선샤,선샤인,이,제주,파크,파크선샤	Park Sunshine jeju	Park,Sunshine,jeju,park,sunshin,sunshine
+10030653	7f90f286-801f-40f1-922a-67c9a3b7f745	YJ리조트	리조트		
+10030653	7fc067e7-a5d1-40fc-be4c-c2904c236791	광주숲속의정원	광주,광주숲,광주숲속의정원,속의,숲속의,정원		
+10030653	7fdcba7d-1180-48f3-8fef-0faf4fa1fcdf	가평 프로방스	가평,프로방스		
+10030653	7f3241d5-dd33-4ed2-b5f4-d12d720351c2	제주 블루베이휴양펜션	베이,블루,블루베이휴양펜션,제주,펜션,휴양	Jeju Bluebay Pension	Bluebay,Jeju,Pension,bluebai,bluebay,jeju,pension
+10030653	7ebfe382-026b-4908-bdb5-a24ddd2b4b0a	별채펜션	별채,별채펜션,펜션		
+10030653	7f72fc1e-d77d-4855-b949-eefdcaf28d5d	펜션휴(休)	펜션,펜션휴休,휴休		
+10030653	7f84c2b3-300f-470b-8a69-7995872cce7e	큰골펜션	큰골,큰골펜션,펜션		
+10030653	7dd74f36-9960-4820-ba56-9a2c3944cc4c	올가펜션	올가,올가펜션,펜션		
+10030653	7e130c8e-6e59-4e4f-93c6-445a02cd73c4	돈내코힐 스파 리조트	돈내코힐,리조트,스파	Seogwipo Donnaeko Hill Spa Resort	Donnaeko,Hill,Resort,Seogwipo,Spa,donnaeko,hill,resort,seogwipo,spa
+10030653	7eab9742-ace6-4611-a5ed-19ace36e0e6f	서귀포 파도봐 펜션	봐,서귀포,파도,파도봐,펜션	Seogwipo Padobwa Pension	Padobwa,Pension,Seogwipo,padobwa,pension,seogwipo
+10030653	de6ba657-3db2-41b9-a26c-b0c94efb323e	B612-이전버전	612,612이전버전,버전,이전		
+10030653	de71d8c3-dd45-4dcd-8425-6bd231cc6c58	대부도 나폴리 캠핑&펜션	나폴리,대부,대부도,도,캠핑,캠핑펜션,펜션	Daebudo Napoli Camping and Pension	Camping,Daebudo,Napoli,Pension,and,camp,camping,daebudo,napoli,pension
+10030653	dec57ff0-4886-488d-ba3f-599928133978	강화 새벽별 펜션	강화,별,새벽,새벽별,펜션	Ganghwa Morning Star Pension	Ganghwa,Morning,Pension,Star,ganghwa,morn,morning,pension,star
+10055550	KRCHA155	베스트 웨스턴 제주 호텔	베스트,스턴,웨,웨스턴,제주,호텔	Best Western Jeju Hotel	Best,Hotel,Jeju,Western,best,hotel,jeju,western
+10055550	KRCHA154	비스타케이 호텔 월드컵	비,비스타,비스타케이,스타,월드,월드컵,컵,케이,호텔	Vistacay Hotel Worldcup	Hotel,Vistacay,Worldcup,hotel,vistacai,vistacay,worldcup
+10055550	KRCHA156	유니호텔	유니,유니호텔,호텔	Uni Hotel	Hotel,Uni,hotel,uni
+10055550	KRCHA150	포도호텔	포도,포도호텔,호텔	Podo Hotel	Hotel,Podo,hotel,podo
+10055550	KRCHA151	신라스테이 제주	스테이,신라,신라스테이,제주	Shilla Stay Jeju	Jeju,Shilla,Stay,jeju,shilla,stai,stay
+10055550	KRCHA153	라마다 앙코르 서귀포	라,마다,서귀포,앙,앙코르,코르	Ramada Encore Seogwipo	Encore,Ramada,Seogwipo,encor,encore,ramada,seogwipo
+10030653	dd5c8a19-427a-408e-96c1-07974cd89d3e	알프스친구들펜션	들,알프스,알프스친구,알프스친구들펜션,친구,펜션		
+10030653	ddd9a6b8-3b7e-4e5f-ac00-b73d5c1070d8	해바라기펜션	펜션,해바라기,해바라기펜션		
+10030653	de39a71a-5dba-43f2-81ec-2e20b60c3a1a	평창 레이 펜션	레이,펜션,평창	Pyeongchang Ray Pension	Pension,Pyeongchang,Ray,pension,pyeongchang,rai,ray
+10030653	de462f75-bedb-4db4-89e9-001b8d084666	홍천 알투스 펜션	알투스,펜션,홍천	Hongcheon Altus Pension	Altus,Hongcheon,Pension,altu,altus,hongcheon,pension
+10055550	KRCHA145	스카이파크 제주 1호점	1호점,스카이,스카이파크,제주,파크	Hotel Skypark Jeju 1	1,Hotel,Jeju,Skypark,hotel,jeju,skypark
+10055550	KRCHA146	제주호텔엘린	린,엘린,제주,제주호텔엘린,호텔,호텔엘	Hotel Elin	Elin,Hotel,elin,hotel
+10055550	KRCHA147	아스타호텔	스타,아,아스타,아스타호텔,호텔	Astar Hotel	Astar,Hotel,astar,hotel
+10055550	KRCHA148	베니키아호텔 제주	베니,베니키아,베니키아호텔,제주,키아호텔,호텔	Benikea Hotel Jeju	Benikea,Hotel,Jeju,benikea,hotel,jeju
+10030653	7d602b98-be0b-4455-b386-93a75cb9a9d6	둔내 별장펜션	둔내,별장,별장펜션,펜션		
+10030653	7d6bba6f-b600-41fd-b068-b61ea1a18304	가평알리에펜션	가평,가평알리에펜션,알리에,펜션		
+10030653	7dd6d01c-16fa-4a54-890c-367c69d094f7	홍천 아그리나 펜션	그리나,나,아,아그리,아그리나,펜션,홍천	Hongcheon Agrina Pension	Agrina,Hongcheon,Pension,agrina,hongcheon,pension
+10030653	7d407996-11e6-4f18-b986-ea70f495374b	바닷가반딧불	바닷가,바닷가반딧불,반딧불		
+10030653	7d485752-8e05-4339-b198-fe4e96b7e660	펜션 로렌시아	로렌,로렌시아,시아,펜션		
+10030653	7d50656d-c690-45fd-9e16-24ba1e023c27	가평 가르텐하임 펜션	ㅁ,가르텐하,가르텐하임,가평,이,펜션	Gapyeong Gartenheim Pension	Gapyeong,Gartenheim,Pension,gapyeong,gartenheim,pension
+10030653	7cd1c1cc-daa8-4ce3-948a-3435a47a9349	강화 산들바다 펜션	강화,바다,산들,산들바다,펜션		
+10030653	7cf32bb7-d0a4-4465-b4be-a980fba27972	울산에비앙	비앙,에비앙,울산,울산에,울산에비앙		
+10030653	7cae1431-384c-410a-a222-b6ded9be7674	양양 베네치아펜션	베네,베네치아펜션,양양,치아,펜션		
+10030653	7c87929d-92c9-4140-8ec2-c4ede66d6796	태안 하늘채 펜션	채,태안,펜션,하늘,하늘채	Taean Haneul Chae Pension	Chae,Haneul,Pension,Taean,chae,haneul,pension,taean
+10055550	KRCHA139	루체빌 리조트	루체빌,리조트	Luce Ville Resort(서귀포)	서귀포
+10055550	KRCHA143	그라벨호텔제주	그,그라벨호텔제주,라벨,제주,호텔	Grabel Hotel	Grabel,Hotel,grabel,hotel
+10055550	KRCHA144	갤러리 호텔 레오	갤러리,레오,호텔	Gallery Hotel Leo	Gallery,Hotel,Leo,galleri,gallery,hotel,leo
+10055550	KRCHA130	제주항공우주호텔	우주,제주,제주항공우주호텔,항공,호텔	Jeju Aerospace Hotel	Aerospace,Hotel,Jeju,aerospac,aerospace,hotel,jeju
+10055550	KRCHA131	하루호텔	하루,하루호텔,호텔	Hotel Haru	Haru,Hotel,haru,hotel
+10055550	KRCHA133	켄싱턴 제주 호텔	제주,켄싱턴,호텔	Kensington Jeju Hotel	Hotel,Jeju,Kensington,hotel,jeju,kensington
+10055550	KRCHA138	[펜션]디오션힐(산방산/대정)	대정,디오션힐산,방산,펜션,펜션디오션힐산방산대정	The Ocean Hill(산방산/대정)	대정,방산,산,산방산대정
+10030653	7c2bde19-1a53-47cc-bacb-720a6d0a8606	제주 베스트힐 리조트	리조트,베스트,베스트힐,제주,힐	Jeju Best Hill Pension	Best,Hill,Jeju,Pension,best,hill,jeju,pension
+10030653	7c4ab0d3-3260-4718-9b7d-6aeadb84ec6f	쉼팡펜션	쉼팡,쉼팡펜션,펜션		
+10030653	7c660003-2dd3-40d3-9f36-8db4c2fa7363	가평파라디소펜션	가평,가평파라디소펜션,디소,파라,파라디소,펜션		
+10030653	7c1762c8-c3e4-491e-acd3-43a463123735	하늘아래	아래,하늘,하늘아래		
+10030653	7b7b0da6-61c9-47fc-9bce-840865d9f7c7	서귀포 엘리시움 펜션	서귀포,엘리시움,펜션		
+10030653	7becae6f-b2f2-423b-878d-943d784707b4	(구)바다여행	구,구바다,구바다여행,바다,여행		
+10030653	7ab9e5cc-54a0-472b-8901-a674d9f13759	카르페디엠	카르,카르페디엠,페디엠		
+10030653	7b31fd3b-343a-44a6-b457-168e8f37aea2	홍천 바비아나 펜션	나,바,바비아,바비아나,비아,펜션,홍천	Hongcheon Babiana Pension	Babiana,Hongcheon,Pension,babiana,hongcheon,pension
+10030653	7b35769f-da91-4d1f-8206-20128435c7f3	가평밸리펜션	가평,가평밸리펜션,밸리,펜션		
+10055550	KRCHA126	디 아일랜드 블루 호텔 & 리조트	디,리조트,블루,아일랜드,호텔	The Island Blue Hotel & Resort	Blue,Hotel,Island,Resort,The,blue,hotel,island,resort,the
+10055550	KRCHA127	호텔 빠레브	빠레브,호텔	Hotel Bareve	Bareve,Hotel,barev,bareve,hotel
+10055550	KRCHA125	위 호텔 제주	위,제주,호텔	The WE Hotel Jeju	Hotel,Jeju,The,WE,hotel,jeju,the,we
+10030653	dcebb03e-b84c-41f2-877b-cc7b2fb0939b	하늘호수	하늘,하늘호수,호수		
+10030653	dcf95ff3-9ce2-47d0-b672-628ceb8805e1	제주알엔비타운	알엔비,제주,제주알엔비타운,타운		
+10030653	dd32d95e-3b2d-4b66-b898-9bef00d790ff	둥지산장	둥지,둥지산장,산장		
+10030653	dd46fcbb-6626-4f6b-9944-a6594799be33	태안 골든 펜션	골,골든,든,태안,펜션	Taean Golden Pension	Golden,Pension,Taean,golden,pension,taean
+10055550	KRCHA121	메이더호텔	메이더,메이더호텔,호텔	Mei the Hotel	Hotel,Mei,hotel,mei,the
+10055550	KRCHA123	롯데 시티 호텔 제주	롯데,시티,제주,호텔	Lotte City Hotel Jeju	City,Hotel,Jeju,Lotte,citi,city,hotel,jeju,lott,lotte
+10055550	KRCHA124	섬오름 호텔(서귀포)	서귀포,섬,섬오름,오름,호텔,호텔서귀포	Hotel Sumorum	Hotel,Sumorum,hotel,sumorum
+10030653	7aaffa48-67f1-4370-a694-db124414df54	하늘땅별땅펜션	땅별땅,펜션,하늘,하늘땅별땅펜션		
+10030653	7ab23a65-c533-414f-a113-e9213fb7c5e8	풍경화펜션	펜션,풍경화,풍경화펜션		
+10055550	KRCHA117	비울채울 호스텔&펜션(서귀포)	비울,비울채울,서귀포,채울,펜션,호스텔,호스텔펜션서귀포	Beewool Chaewool Hostel&Pension	Beewool,Chaewool,HostelPension,beewool,chaewool,hostelpens,hostelpension
+10055550	KRCHA118	라림부띠크	라림부띠크	제주 라림부띠크 호텔(서귀포)	라림부띠크,서귀포,제주,호텔,호텔서귀포
+10055550	KRCHA119	티아일랜드	랜드,아일랜드,티,티아일,티아일랜드	티아일랜드(서귀포)	서귀포,아일랜드,티,티아일랜드서귀포
+10030653	c91dfe62-261c-44bd-ac1d-7f47e3870357	캠프Y (사용안함)	ㅁ,사용,사용안,안,안함,캠프,하		
+10030653	c93fa74b-d9ab-4ed3-aecb-0d77f7baaf84	서귀포 숲속의궁전 펜션	궁전,서귀포,속의,숲,숲속의,숲속의궁전,펜션	Seogwipo Castle in Forest Pension	Castle,Forest,Pension,Seogwipo,castl,castle,forest,in,pension,seogwipo
+10030653	c8fa987b-485e-4838-bd06-b63a477e766e	양양 트윈비치 펜션	비치,양양,트윈,트윈비치,펜션	Yangyang Twin Beach Pension	Beach,Pension,Twin,Yangyang,beach,pension,twin,yangyang
+10055550	KRCHA108	제주 오션팰리스 호텔	오션팰리스,제주,호텔	Jeju Ocean Palace Hotel	Hotel,Jeju,Ocean,Palace,hotel,jeju,ocean,palac,palace
+10055550	KRCHA109	담앤루리조트	담앤루,담앤루리조트,리조트	담앤루리조트(서귀포)	담앤루,담앤루리조트서귀포,리조트,서귀포
+10055550	KRCHA112	블루하와이 리조트	리조트,블루,블루하,블루하와이,와이,하,하와이	블루하와이 리조트(한림)	리조트,리조트한림,블루,블루하,블루하와이,와이,하,하와이,한림
+10030653	dc560f4a-7c3c-4419-a79f-11f479a9ba1d	제주골드마레	골드마레,제주,제주골드마레		
+10030653	dc66e491-0726-4f12-919d-93029d18b5bf	가평숲속펜션	가평,가평숲속펜션,숲속,펜션		
+10030653	dcb65a70-cc1e-4b16-95cf-8fc82ab2b717	홍천 7080 펜션	7080,펜션,홍천	Hongcheon 7080 Pension	7080,Hongcheon,Pension,hongcheon,pension
+10055550	KRCHA106	유티에스제주골프빌리지	골프,빌리지,에스,유티,유티에스제주골프빌리지,제주	UTS Golf Village(애월)	애월
+10055550	KRCHA107	[펜션]Y리조트 제주	리조트,제주,펜션,펜션리조트	Y Resort(산방산/대정)	대정,방산,산,산방산대정
+10055550	KRCHA102	중문리조트	리조트,중문,중문리조트	중문리조트(서귀포)	리조트,서귀포,중문,중문리조트,중문리조트서귀포
+10030653	b371c19b-9c8e-40fa-b18f-a58e7da03d6d	러브풀(Love full)	러브,러브풀,풀		
+10030653	b3a44fa1-30a7-4c72-ac1d-aced32c59da9	평창 써니하우스 펜션	써니,써니하우스,펜션,평창,하우스	Pyeongchang Sunny House Pension	House,Pension,Pyeongchang,Sunny,hous,house,pension,pyeongchang,sunni,sunny
+10030653	b3aadf74-aeac-4f70-a7a8-3983b75dd0c9	평창 옥류황토 펜션	옥류,옥류황토,펜션,평창,황토	Pyeongchang Oakniu Hwanto Pension	Hwanto,Oakniu,Pension,Pyeongchang,hwanto,oakniu,pension,pyeongchang
+10030653	b3f9e36e-94d5-4a30-99d5-5fb927ff5d85	제주 하와이 펜션	와이,제주,펜션,하,하와이	Jeju Hawai pension	Hawai,Jeju,hawai,jeju,pension
+10030653	b4090a01-3fad-44f2-a536-b9c7a15a6fdf	행복하우스펜션	펜션,하우스,행복,행복하우스펜션		
+10030653	b411dc44-3ae1-4fff-a7ad-47e972494b51	숲속하늘계곡	계곡,숲속,숲속하늘계곡,하늘		
+10055550	KRCHA099	롯데아트빌라스	롯데,롯데아트빌라스,빌라,스,아트	Lotte Resort Jeju Art Villas	Art,Jeju,Lotte,Resort,Villas,art,jeju,lott,lotte,resort,villa,villas
+10055550	KRCHA100	라온호텔&리조트	라온,라온호텔리조트,리조트,호텔	Raon Hotel & Resort(한림)	한림
+10055550	KRCHA093	오션스위츠제주호텔	오션스위츠,오션스위츠제주호텔,제주,호텔	Ocean Suites Jeju Hotel	Hotel,Jeju,Ocean,Suites,hotel,jeju,ocean,suit,suites
+10055550	KRCHA089	테디 밸리 골프 앤 리조트	골프,리조트,밸리,앤,테디	Teddy Valley Golf & Resort	Golf,Resort,Teddy,Valley,golf,resort,teddi,teddy,vallei,valley
+10030653	daf03c1d-5dd3-4263-a3bd-67b06a839d15	마리앤	마리앤		
+10030653	db0aafc7-fd20-45ac-815e-ef895ffa1d9d	미리내펜션	내,미리,미리내펜션,펜션		
+10030653	db23a3ad-e008-4040-b4b2-d7dac0070c1b	충주 페나테스 풀빌라	빌라,충주,테스,페나,페나테스,풀,풀빌라	Chunju Penates Pool Villa	Chunju,Penates,Pool,Villa,chunju,penat,penates,pool,villa
+10030653	db3c29e1-179c-410f-a8da-23a223378eed	낙산푸르뫼	낙산,낙산푸르뫼,푸르뫼		
+10030653	dc379901-d3fb-4aa8-af84-3f81022ae97d	대부도 참사리마을 프렌즈 펜션	대부,대부도,도,렌즈,리마을,마을,사리,참,참사,참사리마을,펜션,프,프렌즈		
+10030653	dae917be-406b-4a86-b08a-aa7d9e463908	태안 이아다락방 펜션	다락,방,이아,이아다락방,태안,펜션		
+10030653	d9eea6e2-8615-4809-8652-24f53f75b345	양산라온펜션	라온,양산,양산라온펜션,펜션		
+10030653	da07169c-3b7e-43ca-b069-dd084987f1ce	평창 휘겔하임 펜션	ㅁ,이,펜션,평창,휘겔하,휘겔하임	PyeongchangHugel Heim Pension	Heim,Pension,PyeongchangHugel,heim,pension,pyeongchanghugel
+10030653	da34aa4c-a745-4f0d-b1af-e661de150171	태안 밧개오션 펜션	개오,밧,밧개오션,션,태안,펜션	TaeanPakgae Ocean Pension	Ocean,Pension,TaeanPakgae,ocean,pension,taeanpakga,taeanpakgae
+10030653	da4d0c41-7fdd-46e9-a3d9-a4e6a5d06803	더휴펜션	더휴,더휴펜션,펜션		
+10030653	da9e7efb-c4c2-4345-8ad2-420ab8ff5aa6	레드스카이	레드,레드스카이,스카이	Daebudo Red Sky Pension	Daebudo,Pension,Red,Sky,daebudo,pension,red,sky
+10055550	KRCHA074	올레 리조트 앤 스파	ㄹ레,리조트,스파,앤,오,올레	올레리조트&스파(애월)	리조트,스파,애월,올레,올레리조트스파애월
+10055550	KRCHA079	레이크힐스 제주 리조트	레이크,레이크힐스,리조트,제주,힐스	Lake Hills Jeju Resort	Hills,Jeju,Lake,Resort,hill,hills,jeju,lake,resort
+10055550	KRCHA080	휘닉스 제주	제주,휘닉스	Phoenix Jeju	Jeju,Phoenix,jeju,phoenix
+10030653	7a1e7365-aa56-4b1f-9684-a0258f74508d	밀양블루밍펜션	밀양,밀양블루밍펜션,밍,블루,펜션		
+10030653	7a2c340f-e096-41b7-9404-bc8a66de28e2	리버빌	리버,리버빌,빌		
+10030653	7a394034-811b-4975-ad60-330fb8086ee4	홍천 반디네허브 펜션	네,반디,반디네허브,펜션,허브,홍천	Hongcheon Bandine Herb Pension	Bandine,Herb,Hongcheon,Pension,bandin,bandine,herb,hongcheon,pension
+10030653	7a6eec6c-e4ca-4e74-9669-451e34548640	선재펜션	선재,선재펜션,펜션		
+10030653	7aa239d4-a8b6-4647-b449-182756d4847d	허브하우스	하우스,허브,허브하우스		
+10030653	f7a7b141-6a3f-4cd1-a3c6-3ff7b3c65506	생태건강마을	건강,마을,생태,생태건강마을		
+10030653	f7af310e-50e8-444a-88cf-29eb7917e39a	한라하이츠	츠,하이,하이츠,한라,한라하이츠		
+10030653	f7bc4aaf-83e2-45ce-95e8-856dc50c62a4	태안 다비드펜션	다,다비드,다비드펜션,비드,태안,펜션		
+10030653	f7f31fa7-96c5-4b33-b685-ed07441a1c7e	곰들산장	곰들,곰들산장,산장		
+10030653	f8110b82-426a-4ce0-9c07-d5eb2bc7cef8	연천 석장리미술관 카라반	리,미술관,석,석장,석장리미술관,연천,장리,카라반	Yeoncheon Seokjangri Art Gallery Caravan	Art,Caravan,Gallery,Seokjangri,Yeoncheon,art,caravan,galleri,gallery,seokjangri,yeoncheon
+10055550	KRCHA064	[펜션]나폴리 펜션	나폴리,펜션,펜션나폴리	나폴리펜션(서귀포)	나폴리,나폴리펜션서귀포,서귀포,펜션
+10055550	KRCHA070	한화리조트 제주	리조트,제주,한화,한화리조트	한화리조트 제주	리조트,제주,한화,한화리조트
+10055550	KRCHA073	[펜션]신성리조트	리조트,신성,펜션,펜션신성리조트	신성리조트(서귀포)	리조트,서귀포,신성,신성리조트서귀포
+10030653	c3ece98c-001b-46e6-9ec4-4941dc665b50	행복한뜰	뜰,한뜰,행복,행복한,행복한뜰		
+10030653	79c6f307-1641-49ea-a187-581497fd6f28	양양 패밀리펜션	양양,패밀리,패밀리펜션,펜션	Yangyang Family Pension	Family,Pension,Yangyang,famili,family,pension,yangyang
+10030653	79cf51eb-3c5c-466d-a948-a0887534c508	태안 은하수 펜션	은하수,태안,펜션		
+10030653	7a0c5817-05ea-4965-bda0-98d0a88b5fb8	제주 세인트 하우스 펜션	세인트,제주,펜션,하우스		
+10030653	79b10924-20e3-457a-a8c8-a53678519399	정선 강과소나무 펜션	강,강과,강과소나무,과소나무,소나무,정선,펜션		
+10030653	c8bb3d59-8007-423a-9f2e-a4b565a3f340	파주마더펜션	마더,파주,파주마더펜션,펜션		
+10030653	c8bdc895-4d42-450e-80ca-bddacf743b1b	제천 호수로가는家 펜션	家,가는,로가는家,제천,펜션,호수,호수로,호수로가는家	Jecheon River Path House Pension	House,Jecheon,Path,Pension,River,hous,house,jecheon,path,pension,river
+10030653	c8dfc0e1-dfc9-4470-b6c2-1a5214726d7a	화천 풍경 펜션	펜션,풍경,화천	Hwacheon View Pension	Hwacheon,Pension,View,hwacheon,pension,view
+10030653	c8e1877e-4757-45aa-90a2-f244bc21ad4d	포천비발디하우스	비발디,포천,포천비발디하우스,하우스		
+10030653	799b97cb-d8a3-4f71-9757-0f0af7232ac0	영덕 큐브 펜션	영덕,큐브,펜션		
+10030653	79ab2f37-9823-47d4-a106-c895d4d915cf	더소풍펜션	더,더소풍,더소풍펜션,소풍,펜션		
+10055550	KRCHA054	호텔 로베로	로,로베,로베로,베로,호텔,호텔 로	Robero Hotel Jeju	Hotel,Jeju,Robero,hotel,jeju,robero
+10055550	KRCHA055	금호리조트 제주	금호,금호리조트,리조트,제주	제주금호콘도(서귀포)	금호,금호콘도서귀포,서귀포,제주,제주금호콘도서귀포,콘도
+10055550	KRCHA056	켄싱턴리조트 서귀포(구.풍림콘도)	구,리조트,서귀포,서귀포구풍림콘도,켄싱턴,켄싱턴리조트,콘도,풍림	켄싱턴리조트 서귀포	리조트,서귀포,켄싱턴,켄싱턴리조트
+10030653	c3a6e9a9-afdb-41dc-81de-98479c55a723	팔각정	정,팔각,팔각정		
+10030653	c3a94c7f-947f-47be-b6f2-91aa314f9324	청평캠핑빌	빌,청평,청평캠핑빌,캠핑		
+10030653	d1f20523-ed91-4f7b-9288-4e4acf5e53e8	고성 추억만들기 펜션	고성,만들기,추억,추억만들기,펜션	Goseong Memory Making Pension	Goseong,Making,Memory,Pension,goseong,making,memori,memory,pension
+10030653	d1f2d8fc-60cb-4699-96f6-46d8f41127ff	강릉 들꽃마을 펜션	강릉,들꽃,들꽃마을,마을,펜션		
+10030653	d2628700-afef-4ecc-9a90-e90eb5216a37	양평 구름속별장 펜션	구름,구름속별장,별장,속,양평,펜션	YangPyeong Cloud Garden Pension	Cloud,Garden,Pension,YangPyeong,cloud,garden,pension,yangpyeong
+10030653	d27ed844-185e-4496-9a91-2071540b8f51	펜션 끄레믈	끄레믈,펜션		
+10030653	d168d479-9549-4fbc-b6fc-c66bcf9bdf5a	가평 삼정골캠핑장	가평,삼정골,삼정골캠핑장,장,캠핑		
+10030653	d1919d97-21a7-4164-8b2e-8be08b259f8f	태안 백악관 펜션	백악관,태안,펜션	Taean The White House Pension	House,Pension,Taean,The,White,hous,house,pension,taean,the,white
+10030653	d1f03c90-6fd6-4e31-a58c-8ae55727cb44	평창 원경 펜션	원경,펜션,평창	Pyeongchang WonGyeong Pension	Pension,Pyeongchang,WonGyeong,pension,pyeongchang,wongyeong
+10030653	79254248-1a57-41e8-9154-0c8b186bb2bf	프라임존펜션	존,펜션,프라임,프라임존펜션		
+10030653	793cd711-86e7-42a2-bd4d-3582dca5a95f	횡성 늘푸른마을 펜션	늘,늘푸른마을,마을,펜션,푸른,횡성	Hoengseong Evergreen Village Pension	Evergreen,Hoengseong,Pension,Village,evergreen,hoengseong,pension,villag,village
+10030653	d9d23bb4-b741-4567-9dde-8a84ade875ce	로드47펜션	47,로드,로드47펜션,펜션		
+10030653	d9da2f57-dc61-47ee-86c6-91f94e8f54d5	가평 황토 펜션	가평,펜션,황토		
+10030653	d9e85431-918b-4391-ad8d-6f2a603dc118	주성리조트	리조트,주성,주성리조트		
+10030653	c36485ca-7886-4b3d-81c6-eaf74b465b2e	추암연리지펜션	연리,지,추암,추암연리지펜션,펜션		
+10030653	c378249e-4171-4e74-8e1a-371612c5b888	재산리하늘펜션	리,재산,재산리하늘펜션,펜션,하늘		
+10030653	c37a9c8b-6fc9-45b5-9e77-6383a60b47d1	제주 cs빌리지 펜션	빌리,빌리지,제주,지,펜션		
+10030653	c394208b-9a39-42cc-81cb-af68a613d6d2	경주 스토리 펜션	경주,스토리,펜션		
+10030653	c3a2c0f6-5fe9-4193-a095-c687336275cb	홍천 예닮힐링 펜션	예닮힐링,펜션,홍천	Hongcheon Yedam Healing Pension	Healing,Hongcheon,Pension,Yedam,heal,healing,hongcheon,pension,yedam
+10055550	KRCHA047	씨에스 호텔 앤 리조트	리조트,씨,씨에스,앤,에스,호텔	Seaes Hotel & Resort	Hotel,Resort,Seaes,hotel,resort,seae,seaes
+10055550	KRCHA049	오션 그랜드 호텔 제주	그랜드,오션,제주,호텔	Ocean Grand Hotel	Grand,Hotel,Ocean,grand,hotel,ocean
+10055550	KRCHA053	대명리조트 제주	대명,대명리조트,리조트,제주	대명리조트 제주(함덕)	대명,대명리조트,리조트,제주,제주함덕,함덕
+10055550	KRCHA037	샤인빌 리조트	리조트,샤인빌	Shineville Resort	Resort,Shineville,resort,shinevil,shineville
+10055550	KRCHA044	하와이 관광호텔	관광,관광호텔,와이,하,하와이,호텔	Jeju Hawaii Hotel	Hawaii,Hotel,Jeju,hawaii,hotel,jeju
+10055550	KRCHA045	해비치 호텔 & 리조트	리조트,해비치,호텔	Haevichi Hotel & Resort	Haevichi,Hotel,Resort,haevichi,hotel,resort
+10055550	KRCHA027	호텔 선샤인 제주	ㄴ,선샤,선샤인,이,제주,호텔	Sunshine Hotel Jeju	Hotel,Jeju,Sunshine,hotel,jeju,sunshin,sunshine
+10055550	KRCHA034	라마다 플라자 제주	라,마다,제주,플라자	Ramada Plaza Jeju	Jeju,Plaza,Ramada,jeju,plaza,ramada
+10030653	d9b7edc5-1d6d-4104-8f9b-3a15f2fce981	카밍힐펜션	카밍힐,카밍힐펜션,펜션		
+10030653	d9ad96d2-9b4d-4c33-bada-d32c6e5eb6e1	양평 썬문시티 펜션	시티,썬문,썬문시티,양평,펜션	YangPyeong Sun Moon Pension	Moon,Pension,Sun,YangPyeong,moon,pension,sun,yangpyeong
+10030653	d114c026-7890-4dd9-865f-726f030c2435	용문산 알프스펜션	알프스,알프스펜션,용문산,펜션		
+10030653	d1177add-492a-49f8-9d1e-2cba8268677c	서귀포 터무니하우스  펜션	서귀포,터무니,터무니하우스,펜션,하우스	Seogwipo Teomooni House Pension	House,Pension,Seogwipo,Teomooni,hous,house,pension,seogwipo,teomooni
+10055550	KACHA014	호텔 하나 제주	나,제주,하,하나,호텔	Hotel Hana Jeju	Hana,Hotel,Jeju,hana,hotel,jeju
+10055550	KACHA017	제주 퍼시픽 호텔	제주,퍼시픽,호텔	Jeju Pacific Hotel	Hotel,Jeju,Pacific,hotel,jeju,pacif,pacific
+10055550	KACHA013	오리엔탈 호텔 제주	엔탈,오리,오리엔,오리엔탈,제주,탈,호텔	Jeju Oriental Hotel	Hotel,Jeju,Oriental,hotel,jeju,orient,oriental
+10055550	KACHA005	제주 썬호텔 & 카지노 (구.더호텔)	구더,구더호텔,썬,썬호텔,제주,카지노,호텔	Jeju Sun Hotel & Casino (ex T.H.E Hotel)	Casino,Hotel,Jeju,Sun,THE,casino,ex,hotel,jeju,sun,the
+10055550	KACHA006	롯데 호텔 제주	롯데,제주,호텔	Lotte Hotel Jeju	Hotel,Jeju,Lotte,hotel,jeju,lott,lotte
+10055550	KACHA011	서귀포 칼 호텔	서귀포,칼,호텔	Seoguipo KAL Hotel	Hotel,KAL,Seoguipo,hotel,kal,seoguipo
+10055550	KACHA012	메종 글래드 제주(구.제주 그랜드 호텔)	구제,그랜드,글래드,메종,메종 글래드 제,제주,제주구제주,주,주구제주,호텔	Maison Glad Hotel(Ex.Jeju Grand Hotel)	Glad,Grand,Hotel,HotelExJeju,Maison,glad,grand,hotel,hotelexjeju,maison
+10030653	77cb8904-518f-4235-860f-cf43cbbff4c2	서귀포 스톤성 펜션	서귀포,성,스톤,스톤성,펜션	Seogwipo Stone Sung Pension	Pension,Seogwipo,Stone,Sung,pension,seogwipo,stone,sung
+10030653	785c0f6d-b297-4016-857d-9ed2777bb5d0	가평라임오렌지밸리	가평,가평라임오렌지,가평라임오렌지밸리,라임,밸리,오렌지		
+10030653	785f06a5-ee42-47f5-9f3d-4f612c889937	태안 청포대썬셋 리조트	리조트,썬셋,청,청포대썬셋,태안,포대	Taean Cheongpodae Sunset Pension	Cheongpodae,Pension,Sunset,Taean,cheongpoda,cheongpodae,pension,sunset,taean
+10030653	791c38ea-9bef-4c77-89f1-6215941bd9ed	유명산장펜션	산장,유명,유명산장,유명산장펜션,펜션		
+10055550	KACHA003	제주 신라 호텔	라,신,신라,제주,호텔	The Shilla Jeju	Jeju,Shilla,The,jeju,shilla,the
+10055550	KACHA004	스위트 호텔 제주	스위트,제주,호텔	The Suites Hotel Jeju	Hotel,Jeju,Suites,The,hotel,jeju,suit,suites,the
+10030653	d0d101ec-0a80-4092-a89b-aee0b8d1c751	가평 하늘목펜션	가평,목,펜션,하늘,하늘목펜션		
+10030653	d0d2e2c7-c264-4f41-93e6-d609ad9a52c3	솔지에로펜션	솔지에로,솔지에로펜션,펜션		
+10030653	c879b5b0-9135-4b51-8272-98ebac273d1f	요정의숲 로스로리엔펜션	로리엔,로스,로스로,로스로리엔펜션,리엔,숲,요정,요정의,요정의숲,의숲,펜션		
+10030653	c879dc57-56bd-48eb-931c-4bab9ea7e5fe	남이섬 블루밍랜드	남이,남이섬,랜드,밍,블루,블루밍랜드,섬		
+10030653	c87c0654-7076-4d1b-a905-64dea63411aa	평창 아르보 펜션	아르보,펜션,평창	Pyeongchang Arbo Pension	Arbo,Pension,Pyeongchang,arbo,pension,pyeongchang
+10030653	c8967cb2-b184-489f-a70e-9a71124147f4	양평 웰빙타운 펜션	양평,웰빙,웰빙타운,타운,펜션		
+10030653	c89b04d2-6b9e-4e9b-a911-b4eb5c6dc7c7	테라스의아침	아침,의,테라스,테라스의,테라스의아침		
+10030653	77312d8a-034c-453e-9222-f671d65ef44c	평창 폴라리스 펜션	펜션,평창,폴라리스	Pyeongchang Polaris Pension	Pension,Polaris,Pyeongchang,pension,polari,polaris,pyeongchang
+10030653	773aa0f0-cc8b-46ca-9ddd-031fd81d7c8e	양평 플라워 펜션	양평,펜션,플라워		
+10030653	77576624-bf97-49b8-8364-e2504af03bdf	양평 인앤인 펜션	ㄴ,양평,이,인앤,인앤인,펜션	Yangpyeong In & In Pension	In,Pension,Yangpyeong,in,pension,yangpyeong
+10030653	77305e71-e67e-47ac-aba3-7f5139edc38d	양평 산새소리 애견 펜션	산새,산새소리,소리,애견,양평,펜션	YangPyeong Sansaesori Pension (pet dog allowed)	Pension,Sansaesori,YangPyeong,allow,allowed,dog,pension,pet,sansaesori,yangpyeong
+10030653	7766c8b6-43b1-4b96-8b81-c7ed2fe90ec4	나리펜션	나리,나리펜션,펜션		
+10030653	777815b6-1742-46ab-96d3-1297d4d90e4a	양평 푸른정원 펜션	양평,정원,펜션,푸른,푸른정원	YangPyeong Green Garden Pension	Garden,Green,Pension,YangPyeong,garden,green,pension,yangpyeong
+10055550	KACHA001	하얏트 리젠시 제주	리젠시,제주,하얏트,하얏트 리젠시	Hyatt Regency Jeju	Hyatt,Jeju,Regency,hyatt,jeju,regenc,regency
+10055550	KACHA002	제주 칼 호텔	제주,칼,호텔	Jeju KAL Hotel	Hotel,Jeju,KAL,hotel,jeju,kal
+10030653	7609f173-212b-4f8a-83d4-a956f7797349	해변풍경	풍경,해변,해변풍경		
+10030653	762f47b8-435a-4e16-99cc-8398270ccadf	거제 버들 펜션	거제,버들,펜션	Geoje willow tree pension	Geoje,geoj,geoje,pension,tree,willow
+10030653	762f8022-70cb-4e55-aa15-939f9e8632f4	여주 예터 펜션&웨딩	여주,예터,웨딩,펜션,펜션웨딩	Yeoju Yeter Pension & Wedding	Pension,Wedding,Yeoju,Yeter,pension,wed,wedding,yeoju,yeter
+10030653	76455fc6-6aee-41b2-afa3-e320ce059179	거제 도담 펜션	거제,도담,펜션	Geoje Dodam Pension	Dodam,Geoje,Pension,dodam,geoj,geoje,pension
+10030653	765ed5ad-3007-46a8-8e1f-c105b44a3952	가평저녁향기황토펜션	가평,가평저녁,가평저녁향기황토펜션,저녁,펜션,향기,황토		
+10030653	76fa6b75-62c4-4488-a95c-ab62cb8cf8d2	홍천 은빛여울 펜션	여울,은빛,은빛여울,펜션,홍천	Hoengseong Silver Glowing Yeoul Pension	Glowing,Hoengseong,Pension,Silver,Yeoul,glow,glowing,hoengseong,pension,silver,yeoul
+10030653	770274b2-4913-4a3e-b736-2b7038ee64e0	오션빌	오션빌		
+10030653	7704a07b-dad5-40de-871a-a58a03525a71	문펜션(유토피아)	문,문펜션유토피아,유토피아,펜션		
+10030653	7727ffb5-508a-4a92-9319-efab36c8a449	양평 이볼하우스 펜션	양평,이볼,이볼하우스,펜션,하우스	YangpyeongYibur House Pension	House,Pension,YangpyeongYibur,hous,house,pension,yangpyeongyibur
+10030653	c83c19ad-3038-4a48-875d-22a40678c837	무안 톱관광 펜션	관광,무안,톱,톱관광,펜션		
+10030653	c877b25c-5041-4e54-8c39-c0e4dfe519f9	태안 벤틀리 펜션	벤틀리,태안,펜션		
+10055550	KRBYO001	롯데리조트 부여	롯데,롯데리조트,리조트,부,부여,여	Lotte Buyeo Resort	Buyeo,Lotte,Resort,buyeo,lott,lotte,resort
+10030653	d99eff5f-5f89-4eb3-8df1-e6c120d21e0c	서귀포 노인과바다 펜션	과,노인,노인과,노인과바다,바다,서귀포,펜션	Seogwipo Old Man and the Sea Pension	Man,Old,Pension,Sea,Seogwipo,and,man,old,pension,sea,seogwipo,the
+10030653	d9a20a1f-9111-43cc-bc5a-07d16d15112a	그랑샤리오	그랑,그랑샤리오,샤리오		
+10055550	KRBUD016	JS 호텔 분당	분당,호텔	JS Hotel Bundang	Bundang,Hotel,JS,bundang,hotel,js
+10055550	KRBUD002	메이트호텔분당	메이트,메이트호텔분당,분당,호텔	Mate Hotel Bundang	Bundang,Hotel,Mate,bundang,hotel,mate
+10055550	KRBUN002	라온호텔	라온,라온호텔,호텔	Raon Hotel	Hotel,Raon,hotel,raon
+10055550	KRBUN003	속리산 그랜드 호텔 & 콘도	그랜드,산,속리,속리산,콘도,호텔	Songnisan Grand Hotel & Condo	Condo,Grand,Hotel,Songnisan,condo,grand,hotel,songnisan
+10055550	KRBUC002	부천 고려호텔	고려,고려호텔,부천,호텔	Bucheon Koryo Hotel	Bucheon,Hotel,Koryo,bucheon,hotel,koryo
+10055550	KRBUC003	폴라리스호텔	폴라리스,폴라리스호텔,호텔	POLARIS HOTEL	HOTEL,POLARIS,hotel,polari,polaris
+10055550	KRBUC004	플로체호텔	플로체,플로체호텔,호텔	Floce Hotel	Floce,Hotel,floce,hotel
+10055550	KRBUC005	호텔 파비아	비아,파,파비아,호텔	Hotel Pavia	Hotel,Pavia,hotel,pavia
+10055550	KRBUC006	호텔 코보스	보스,코,코보스,호텔	Hotel Kobos	Hotel,Kobos,hotel,kobo,kobos
+10055550	KRBUC008	B-STAY 부천호텔	부천,부천호텔,호텔	Bucheon Hotel	Bucheon,Hotel,bucheon,hotel
+10055550	KRBUC009	호텔 폼	폼,호텔	Hotel Form	Form,Hotel,form,hotel
+10030653	75a53ff5-be51-4eb3-bfe3-2d92325b56ed	청운골 생태마을	골,마을,생태,생태마을,청운,청운골		
+10030653	75e81476-89f8-4f78-9dbe-9a027e5dae30	남이섬 우리들 펜션	남이,남이섬,들,섬,우리,우리들,펜션	Namiseom Woorideul Pension	Namiseom,Pension,Woorideul,namiseom,pension,woorideul
+10030653	75f75cdd-8511-4e6e-9ed0-f7c3274878e7	경포 올래 펜션	ㄹ래,경포,오,올래,펜션		
+10030653	d98f1f0f-9f9e-4658-968e-2794a1b18072	강화 정이넘치는펜션	강화,넘치는,정이,정이넘치는,정이넘치는펜션,펜션	Ganghwa Jeongi-numchi-neun Pension	Ganghwa,Jeonginumchineun,Pension,ganghwa,jeonginumchineun,pension
+10030653	753bad68-204a-463c-b81b-ba87d2db7dd5	화성 해피하우스프린스 펜션	린스,펜션,프,하우스,해피,해피하우스프린스,화성	Hwaseong Happy House Prince Pension	Happy,House,Hwaseong,Pension,Prince,happi,happy,hous,house,hwaseong,pension,princ,prince
+10030653	75578d00-5f0a-4578-9139-6398b70de1f0	브라우니펜션	브라우니,브라우니펜션,펜션		
+10055550	KRBSR003	베니키아채석강스타힐스호텔	강,베니키아,베니키아채석강스타힐스호텔,스타,채석,호텔,힐스	Benikea Starhills Hotel	Benikea,Hotel,Starhills,benikea,hotel,starhil,starhills
+10055550	KRBSR001	대명리조트 변산	대명,대명리조트,리조트,변산	Daemyung Resort Byeonsan & Cloud9	Byeonsan,Cloud9,Daemyung,Resort,byeonsan,cloud,cloud9,daemyung,resort
+10055550	KRBSR004	부안 스테이 리조트	리조트,부안,스테이	Buan Stay Resort	Buan,Resort,Stay,buan,resort,stai,stay
+10055550	KRBSR006	모항 해나루 가족 호텔	가족,나루,모항,모항 해,해나루,호텔	Mohang Haenaru Family Hotel	Family,Haenaru,Hotel,Mohang,famili,family,haenaru,hotel,mohang
+10055550	KRBUC001	테마파크 관광호텔	관광,관광호텔,테마,테마파크,파크,호텔	Themepark Tourist  Hotel	Hotel,Themepark,Tourist,hotel,themepark,tourist
+10055550	KRBRY004	호텔마스타대천	대천,마,마스,스타,천,타대,호텔,호텔마스타대천	Hotel Master Daecheon	Daecheon,Hotel,Master,daecheon,hotel,master
+10055550	KRBRY005	오션뷰 리조텔	리조텔,오션뷰,오션뷰 리조텔	Oceanview Resortel	Oceanview,Resortel,oceanview,resortel
+10055550	KRBRY006	보령 머드 펜션	머드,보령,펜션	Boryeong Mud Pension	Boryeong,Mud,Pension,boryeong,mud,pension
+10055550	KRBRY007	대천 제니스 호텔	니스,대천,대천 제,제니스,호텔	Daecheon Zenith Hotel	Daecheon,Hotel,Zenith,daecheon,hotel,zenith
+10055550	KRBRY010	대천리조텔	대,대천리조텔,조텔,천리	Daecheon Resortel	Daecheon,Resortel,daecheon,resortel
+10055550	KRBRY011	호텔 우연플로라	라,우연,우연플로,플로,플로라,호텔	Hotel Wooyeon Flora	Flora,Hotel,Wooyeon,flora,hotel,wooyeon
+10055550	KRBRY012	대천 웨스토피아 리조트	대천,대천 웨스토피아,리조트,웨스토피아	Daecheon Westopia Resort	Daecheon,Resort,Westopia,daecheon,resort,westopia
+10030653	d98c9f8d-f67f-40b9-9448-7db9233ad981	바람소리펜션	바람,바람소리펜션,소리,펜션		
+10055550	KRBRY001	한화리조트대천파로스	대천파,로스,리조트,한화,한화리조트대천파로스	한화리조트 대천	대천,리조트,한화,한화리조트
+10055550	KRBRY003	호텔머드린	ㄴ,드리,드린,머,호텔,호텔머	Hotel Mudrin	Hotel,Mudrin,hotel,mudrin
+10055550	KRONY004	온양제일호텔	온양,온양제일호텔,제일,호텔	The Cheil Hotel Onyang(Ex.Palace Hotel Onyang	Cheil,Hotel,Onyang,OnyangExPalace,The,cheil,hotel,onyang,onyangexpalac,onyangexpalace,the
+10030653	d0bc44dd-0f98-40dc-82cb-4ae34db949cd	태안 갯여울 펜션	갯,갯여울,여울,태안,펜션	Taean Gat Ford Pension	Ford,Gat,Pension,Taean,ford,gat,pension,taean
+10030653	d0cde2b2-94cf-401b-ba25-b0b364cd6490	남해피그말리온펜션	남해,남해피그말리온펜션,펜션,피그말리온	Namhae Pygmalion Pension	Namhae,Pension,Pygmalion,namha,namhae,pension,pygmalion
+10055550	KRANY006	코암관광호텔	관광,관광호텔,코암,코암관광호텔,호텔	Koam Tourist Hotel	Hotel,Koam,Tourist,hotel,koam,tourist
+10055550	KRASN006	글로리콘도 도고	고,글로리,글로리콘,도,도고,이,콘,콘도	글로리콘도 도고	고,글로리,글로리콘,도,도고,이,콘,콘도
+10055550	KRONY001	온양관광호텔	관광,온양,온양관광호텔,호텔	Onyang Hot Spring Hotel	Hot,Hotel,Onyang,Spring,hot,hotel,onyang,spring
+10055550	KRONY003	온양그랜드호텔	그랜드,온양,온양그랜드호텔,호텔	Onyang Grand Hotel	Grand,Hotel,Onyang,grand,hotel,onyang
+10030653	d8eae681-2d50-4721-881b-57ac954fc184	거제 천년의미소 펜션	거제,미소,의,천년,천년의,천년의미소,펜션	Geoje Thousand Year Smile Pension	Geoje,Pension,Smile,Thousand,Year,geoj,geoje,pension,smile,thousand,year
+10030653	d8f92538-9c18-4e73-9612-8990667a7bdc	밀키웨이	밀키,밀키웨이,웨이	Ganghwa Milky Way Pension	Ganghwa,Milky,Pension,Way,ganghwa,milki,milky,pension,wai,way
+10030653	d8d484ef-0be7-449a-82da-fee62021eb09	동해 추암 펜션	동,동해,어,추암,펜션,하	DongahaeChuam Pension	DongahaeChuam,Pension,dongahaechuam,pension
+10030653	d8901148-c9aa-4b58-9b02-64da9d60a782	논배미의아침	논배,논배미의,논배미의아침,미의,아침		
+10030653	d8b1d476-d4fa-4a53-8d1b-bdc852386624	야자수풀빌라	빌라,수풀,야자,야자수풀,야자수풀빌라	Seogwipo Palm Tree Poolvilla	Palm,Poolvilla,Seogwipo,Tree,palm,poolvilla,seogwipo,tree
+10030653	c24ac4ad-e409-4f7a-8e48-f0f17cd69e14	평창 코지 게스트하우스	게스트,게스트하우스,코지,평창,하우스		
+10030653	c29f4180-0a2d-4c77-a3d7-d00cf05a9986	가평 오리나무 펜션	가평,나무,오리,오리나무,펜션		
+10030653	c2ca14ae-77be-4b36-b65e-24ab25211194	하조대 에코하임 펜션	ㅁ,에코,에코하,이,임,펜션,하,하조대	0	
+10030653	c311f8bf-eac9-4ba9-9073-ebafec06af75	양평 마루 펜션	마루,양평,펜션		
+10030653	c327c14a-4d54-402f-861f-fc03dbba8302	강가의성 펜션	강가,강가의성,의성,펜션	Hongcheon Riverside Castle Pension	Castle,Hongcheon,Pension,Riverside,castl,castle,hongcheon,pension,riversid,riverside
+10030653	c35c653b-9cec-4c74-85f6-a9190a6ca6fd	강릉 정명수 펜션	강릉,명수,정,정명수,펜션	Gangneung JeongmyeongsuPension	Gangneung,JeongmyeongsuPension,gangneung,jeongmyeongsupens,jeongmyeongsupension
+10030653	751dd74b-9f4d-479a-b4fe-4ffe640a2c44	하늘펜션	펜션,하늘,하늘펜션		
+10030653	751ea54b-1ebe-4cde-9690-1c4ae40e6bdd	까사베르디 스파펜션	까사,까사베르디,베르디,스파,스파펜션,펜션		
+10030653	7524b46f-3a3a-4260-95b6-15e043e21a70	한솔펜션	펜션,한솔,한솔펜션		
+10055550	KRAND001	안동파크호텔	안동,안동파크,안동파크호텔,파크,호텔	Andong Park Hotel	Andong,Hotel,Park,andong,hotel,park
+10055550	KRAND004	안동호텔	안동,안동호텔,호텔	Andong Hotel	Andong,Hotel,andong,hotel
+10055550	KRAND005	안동 구름에 리조트	ㅁ,구르,구름,구름에,리조트,안동,에	Andong Gurume Resort	Andong,Gurume,Resort,andong,gurum,gurume,resort
+10055550	KRAND006	해적선 펜션	펜션,해적선	Pirate Ship Pension	Pension,Pirate,Ship,pension,pirat,pirate,ship
+10055550	KRANY002	어반부띠크관광호텔	관광,관광호텔,어반부띠크,어반부띠크관광호텔,호텔	Urban Boutique Hotel	Boutique,Hotel,Urban,boutiqu,boutique,hotel,urban
+10055550	KRANY004	호텔 아발론	아발론,호텔	HOTEL AVALON	AVALON,HOTEL,avalon,hotel
+10055550	KRANY005	호텔 이루다	다,이루,이루다,호텔	HOTEL IRUDA	HOTEL,IRUDA,hotel,iruda
+10030653	b2fcd7aa-7563-42c7-a400-41a6a45c6681	강릉자연의소리	강릉,강릉자연의소리,소리,의,자연,자연의		
+10030653	b3335138-0fe5-42b1-8a6b-c2aefe42dfdb	솔재펜션	솔재,솔재펜션,펜션		
+10030653	b3589fbb-5a88-4380-b625-5edf91cd4acd	남해 알함브라펜션	남해,알함브라,알함브라펜션,펜션	Namhae Alhambra Pension	Alhambra,Namhae,Pension,alhambra,namha,namhae,pension
+10030653	ffdab027-f6ac-46ac-af54-f2d066042d1e	안면도 씽씽펜션	도,씽씽,씽씽펜션,안면,안면도,펜션		
+10030653	fff24349-4027-457e-84f5-c54db43e3e77	홍천 까사델쏠 펜션	까사델쏠,펜션,홍천		
+10053461	1	서울 프라자 호텔	서울,프라자,호텔	The Plaza	Plaza,The,plaza,the
+10054233	1	서울 프라자 호텔	서울,프라자,호텔	The Plaza	Plaza,The,plaza,the
+10030653	7478b5f0-b914-4b1e-bd30-41b59dad6b73	레몬테라스	레몬,레몬테라스,테라스		
+10030653	74904c0f-feef-4276-8266-6536de039a39	남양주 하늘채 펜션	남양,남양주,주,채,펜션,하늘,하늘채		
+10030653	74c74e35-697a-4593-8db2-a3a5edf6414a	횡성 클럽아비오 펜션	아비,아비오,오,클럽,클럽아비오,펜션,횡성	Hoengseong Club Avvio Pension	Avvio,Club,Hoengseong,Pension,avvio,club,hoengseong,pension
+10030653	74b04786-f2db-41cc-8c03-181dfc23db4b	여수 레돈도 펜션	도,레돈,레돈도,여수,펜션	Yeosu Redondo Pension	Pension,Redondo,Yeosu,pension,redondo,yeosu
+10030653	d818e449-0bbd-4843-b6cc-54804099889e	한촌사랑(구)	구,사랑,사랑구,한촌,한촌사랑구		
+10030653	d87ed4bf-fcf7-4773-8f79-ccb0b1054652	경주해피데이	경주,경주해,경주해피데이,데이,피,해피		
+10030653	737c3ead-e086-4bbc-85f7-5d62616c5b3e	호담갤러리	갤러리,호담,호담갤러리		
+10030653	73a223e3-8c5c-4530-a069-db92d314da74	안면도 오션빌리지 펜션	도,빌리지,안면,안면도,오션,오션빌리지,펜션	Anmyeondo Ocean Village Pension	Anmyeondo,Ocean,Pension,Village,anmyeondo,ocean,pension,villag,village
+10030653	73ca8e3d-2aae-4919-9bb7-e77463f3e63f	단양 포시즌 펜션	단양,시즌,펜션,포,포시즌	Danyang Four Seasons Pension	Danyang,Four,Pension,Seasons,danyang,four,pension,season,seasons
+10030653	741efce4-e349-497f-82c6-16b983f09931	태안 쁘띠메종 펜션	쁘띠메종,태안,펜션	Taean Petit Maison Pension	Maison,Pension,Petit,Taean,maison,pension,petit,taean
+10030653	742b7e3c-f38a-4e80-acf2-0c812f5fd902	제주 소나무집 펜션	소나무,소나무집,제주,집,펜션		
+10030653	743e19dc-258d-490f-b5d3-afcaa72e3dcb	제주 예그리나 리조트	그리나,나,리조트,예,예그리,예그리나,제주	Jeju Yegrina Resort	Jeju,Resort,Yegrina,jeju,resort,yegrina
+10030653	ff6bca4a-9785-46b2-bdf5-24b9ff270587	하이눈펜션	눈,펜션,하이,하이눈펜션		
+10030653	ff6dc86a-9c34-4d8e-9a17-10935318156e	횡성 숲속의초록별 펜션	별,속의,숲,숲속의,숲속의초록,초록,펜션,횡성	Hoengseong Forest Green Wall Pensiion	Forest,Green,Hoengseong,Pensiion,Wall,forest,green,hoengseong,pensiion,wall
+10030653	ff8599d2-4a16-460e-a750-d235cd3c3426	포천아름다운펜션	다운,아름,펜션,포천,포천아름다운펜션		
+10030653	7336c5e3-ece6-4a25-96f8-9221ec756f45	로젠버그	로젠버그		
+10030653	73403e01-4ebe-48c0-8eb8-57f516a0a7ad	숲속으로가는여행	가는,숲속으로,숲속으로가는,숲속으로가는여행,여행		
+10030653	ff378a61-154b-4e30-95a0-d0ed9e7250b2	제주 솔바람파도소리	바람,소리,솔,솔바람파도소리,제주,파도		
+10030653	ff4e1916-8ad1-46aa-832b-5cc77aae2160	곰섬황토방	곰섬황,곰섬황토방,토방		
+10030653	d7d1a747-2c82-4555-b4d5-f45d284b527f	황토사랑펜션	사랑,펜션,황토,황토사랑,황토사랑펜션		
+10030653	d7e9667b-e205-457a-a636-a285ef7a8538	남해 하얀펜션	남해,펜션,하얀,하얀펜션		
+10030653	d7f16b97-acba-4e79-9348-abe6368496e5	선유도현대파크	선,선유도현대파크,유도,유도현대파크,파크,현대		
+10030653	d7bc588d-3ae3-4aed-bfeb-e8ea57760088	제주유로클럽	유로,제주,제주유로,제주유로클럽,클럽		
+10030653	72abfdee-f8a8-4320-aff3-923cf4f57675	제주 피노앤키오 펜션	제주,펜션,피노앤키오	Jeju Pino & Kio Pension	Jeju,Kio,Pension,Pino,jeju,kio,pension,pino
+10030653	72bb2c66-4d93-4255-a3a9-cbb885c69210	가평대덕펜션	가평,가평대덕펜션,대덕,펜션		
+10030653	72e24c4b-8903-4d91-8679-9f72abd44a5b	왈츠빌리지펜션	빌리지,왈츠,왈츠빌리지펜션,펜션		
+10030653	732634ef-2fcf-4b73-9561-4ed1d3e157dc	태안 화이트샌드 펜션	샌드,태안,펜션,화이트,화이트샌드	Taean White Sand Pension	Pension,Sand,Taean,White,pension,sand,taean,white
+10030653	ff2b2ffa-7681-4ba4-bbe2-cbff8b1f36bd	강화언덕위에하얀집	강화,강화언덕위에하얀집,언덕,위에,위에하얀집,집,하얀		
+10030653	ff34bdc5-d667-4e4b-9232-0ea919a1d69c	아쿠아비타	비타,아쿠아,아쿠아비타		
+10030653	fee87b3f-bbb0-4325-84d8-dd201a2425cc	내린천 어느멋진날	내린,내린천,어느멋,어느멋진날,진날,천 어느멋		
+10030653	ff11e9c7-32f6-43aa-a518-ce34df315a58	태안 솔궁 펜션	솔궁,태안,펜션	Taean Solgung Pension	Pension,Solgung,Taean,pension,solgung,taean
+10030653	c1edeecc-a283-448d-b67f-c2f96adc5a6f	세븐투	세븐,세븐투,투		
+10030653	c1e6e19f-65aa-49dd-bedd-571a7076ccd8	추억여행	여행,추억,추억여행		
+10030653	feadcb6d-0e5c-4a9a-8706-19672ed86405	제주 바다야 펜션	바다,바다야,야,제주,펜션	Jeju Badaya Pension	Badaya,Jeju,Pension,badaya,jeju,pension
+10030653	feb95611-bb45-41b7-a7d5-4628c94fb225	여수 오동도 펜션	도,여수,오동,오동도,펜션		
+10030653	fe7da8d3-f5eb-420e-afa2-f68c8adf0aa9	부안 프로방스 펜션	부안,펜션,프로방스		
+10030653	fd775188-7ae9-4c08-99be-0f1aaec3e710	향기가머무르는펜션	가머무르는,머무르는,펜션,향기,향기가,향기가머무르는펜션		
+10030653	fd96e6d0-244d-40c7-a679-e5b979e0505f	스완지리조트	리조트,스완지,스완지리조트		
+10030653	fe068001-5da7-402e-8d99-0da8d3d72434	홍천 두드림 펜션	ㅁ,두드리,두드림,펜션,홍천	Hongcheon Do Dream Pension	Do,Dream,Hongcheon,Pension,do,dream,hongcheon,pension
+10030653	fe6cf4e9-731a-43d6-bbbc-f27766389a93	가평 까사마리	가평,까사마리		
+10030653	c7dc29cd-3194-4385-9c08-53984b23e4e5	간절곶휴펜션	간절,간절곶휴펜션,곶휴,펜션		
+10030653	c7fc2f6e-f35d-4fd8-a419-b30f86429360	마루와아라	라,마루,마루와,마루와아,아라,와아		
+10030653	c83a21e0-c736-4fcf-8373-477c4c278ae1	강촌 하늘풍경 펜션	강촌,펜션,풍경,하늘,하늘풍경		
+10030653	72700462-1167-425b-a056-f4b002f9e1e8	단양 연개소문 펜션	단양,연개소문,펜션	Danyang Yeongae Somun Pension	Danyang,Pension,Somun,Yeongae,danyang,pension,somun,yeonga,yeongae
+10030653	72a5dad7-33a9-4091-800e-42ac90d38e8d	가평 레이크힐 펜션	가평,레이크,레이크힐,펜션,힐		
+10030653	71fe4365-758a-4585-afc8-4d1325793921	오렌지펜션	오렌지,오렌지펜션,펜션		
+10030653	724090bb-7cf3-4424-ad23-d3a706553d76	양평 삼호 펜션	삼호,양평,펜션	YangPyeong Samho Pension	Pension,Samho,YangPyeong,pension,samho,yangpyeong
+10030653	c1103bcf-3234-4288-8897-da5dc2e67882	그린나래	그린,그린나래,나래		
+10030653	c11ea876-e062-4c0c-823d-83a2c9b739aa	명가의아침펜션	명가,명가의,명가의아침펜션,아침,의아,침,펜션		
+10030653	c12d8f2b-28f2-415b-ad82-33400f57cb6e	아라뜰펜션 1호점	1호점,아라뜰,아라뜰펜션,펜션	Ganghwa Aratteul 1st Pension	1st,Aratteul,Ganghwa,Pension,aratteul,ganghwa,pension,st
+10030653	c13117bc-c88e-467d-9c27-5bd805ec5094	대관령 도로시 펜션	대관,대관령,도로,도로시,령,시,펜션	DaegwallyeongDorothy Pension	DaegwallyeongDorothy,Pension,daegwallyeongdorothi,daegwallyeongdorothy,pension
+10030653	c1954624-1c7f-453f-b488-85e5a68bbfb3	태안 해송향기 펜션	태안,펜션,해송,해송향기,향기	Taean Pine Scented Pension	Pension,Pine,Scented,Taean,pension,pine,scent,scented,taean
+10030653	c1ae387f-69c6-44d0-b6fa-010e91b41205	용인 예직한옥풍경하우스 펜션	ㄴ,예직,예직한옥풍경하우스,용,용인,이,펜션,풍경,하우스,한옥,한옥풍경하우스	Yongin Hanok Scenery House Pension	Hanok,House,Pension,Scenery,Yongin,hanok,hous,house,pension,sceneri,scenery,yongin
+10030653	719bfabf-764a-43be-be1d-e6c2ec569891	플로렌스펜션	로렌스,펜션,플,플로렌스펜션		
+10030653	71b93bc4-4440-4f93-9fa2-ff6975f1723f	아틀랜틱리조트	리조트,아틀랜틱,아틀랜틱리조트		

@@ -108,7 +108,9 @@ public class EnglishAnalyzers {
 	 */
 	@APIOperation(description="영문 형태소 복합 분석")
 	public Set<String> getEnglishMorphologicalAnalysis(String sentence)  {
-		logger.debug("[START-ENGLISH] getEnglishMorphologicalAnalysis input : {}", sentence);
+		if(IS_LOGGING) {
+			logger.debug("[START-ENGLISH] getEnglishMorphologicalAnalysis input : {}", sentence);
+		}
 		
 		//각 형태소 분석 결과내 중복 제거를 위한 Set
 		Set<String> out = new LinkedHashSet<String>();
@@ -168,7 +170,9 @@ public class EnglishAnalyzers {
 			logger.error("[Exception] 영문 형태소 분석기 장애 발생", e);
 		}
 		
-		logger.debug("[END-ENGLISH] getEnglishMorphologicalAnalysis output : {}", out);
+		if(IS_LOGGING) {
+			logger.debug("[END-ENGLISH] getEnglishMorphologicalAnalysis output : {}", out);
+		}
 		return out;
 	}
 }

@@ -956,11 +956,11 @@ public class CommonUtil {
 			division = OperateConstants.STR_SPEC_COMA;
 		}
 		
-		//WARN : getBean is test getBean
-		koreanAnalyzers = (KoreanAnalyzers) LApplicationContext.getBean(koreanAnalyzers, KoreanAnalyzers.class);
-		englishAnalyzers = (EnglishAnalyzers) LApplicationContext.getBean(englishAnalyzers, EnglishAnalyzers.class);
-		regexUtil = (RegexUtil) LApplicationContext.getBean(regexUtil, RegexUtil.class);
-		apiUtil = (APIUtil) LApplicationContext.getBean(apiUtil, APIUtil.class);
+		//WARN : getBeanInstance is test getBeanInstance
+		koreanAnalyzers = (KoreanAnalyzers) LApplicationContext.getBeanInstance(koreanAnalyzers, KoreanAnalyzers.class);
+		englishAnalyzers = (EnglishAnalyzers) LApplicationContext.getBeanInstance(englishAnalyzers, EnglishAnalyzers.class);
+		regexUtil = (RegexUtil) LApplicationContext.getBeanInstance(regexUtil, RegexUtil.class);
+		apiUtil = (APIUtil) LApplicationContext.getBeanInstance(apiUtil, APIUtil.class);
 		
 		String out = null;
 		StringBuffer finalBuffer = null;
@@ -969,18 +969,20 @@ public class CommonUtil {
 		List<String> kor = new ArrayList<String>();
 		List<String> eng = new ArrayList<String>();
 		
+		String conversion = null;
+
 		//문자열 내에 한글/한문이 존재하면 형태소 분석실행
 		if(regexUtil.testPattern(sentence, MorphemeUtil.PATTERN_KOREAN_SENTENCE)) {
 			//영문삭제 (한/중 분석만을 위함) & ( 주	) 삭제
-			sentence = apiUtil.toHalfChar(sentence).replaceAll("(?i)".concat(MorphemeUtil.PATTERN_CORP_SIGN).concat("|").concat(MorphemeUtil.PATTERN_SPEC_CHAR).concat("|").concat(MorphemeUtil.PATTERN_ENGLISH_SENTENCE), OperateConstants.STR_BLANK).trim();			
-			kor = new ArrayList<String>(koreanAnalyzers.getKoreanMorphologicalAnalysis(sentence));
+			conversion = apiUtil.toHalfChar(sentence).replaceAll("(?i)".concat(MorphemeUtil.PATTERN_CORP_SIGN).concat("|").concat(MorphemeUtil.PATTERN_SPEC_CHAR).concat("|").concat(MorphemeUtil.PATTERN_ENGLISH_SENTENCE), OperateConstants.STR_BLANK).trim();			
+			kor = new ArrayList<String>(koreanAnalyzers.getKoreanMorphologicalAnalysis(conversion));
 		}
 		
 		//한/중/일 문자삭제 (영문 분석을 위함)
 		if(regexUtil.testPattern(sentence, MorphemeUtil.PATTERN_ENGLISH_SENTENCE)) {
 			//문자열 내에 영문이 존재하면 형태소 분석실행
-			sentence = apiUtil.toHalfChar(sentence).replaceAll("(?i)".concat(MorphemeUtil.PATTERN_SPEC_CHAR).concat("|").concat(MorphemeUtil.PATTERN_KOREAN_SENTENCE), OperateConstants.STR_BLANK).trim();
-			eng = new ArrayList<String>(englishAnalyzers.getEnglishMorphologicalAnalysis(sentence));
+			conversion = apiUtil.toHalfChar(sentence).replaceAll("(?i)".concat(MorphemeUtil.PATTERN_SPEC_CHAR).concat("|").concat(MorphemeUtil.PATTERN_KOREAN_SENTENCE), OperateConstants.STR_BLANK).trim();
+			eng = new ArrayList<String>(englishAnalyzers.getEnglishMorphologicalAnalysis(conversion));
 		}
 		
 		if(kor.size() > 0) {
