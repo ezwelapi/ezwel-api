@@ -30,7 +30,7 @@
 			<outsideApiKey>cd214a129f259c7cf9af7eb5a5b4c184o</outsideApiKey>
 		</agentInfo>
 		<agentInfo>
-			<agentName>펜션라이프 플레이스엠</agentName>
+			<agentName>팬션라이프 플레이스엠</agentName>
 			<httpAgentId>10000496</httpAgentId>
 			<patnCdType>C0130003</patnCdType>
 			<insideApiKey>dcf82e9fc9dafb753075c6c244f6699fi</insideApiKey>
@@ -130,8 +130,10 @@
 	
 	<!-- outside interface channel -->
 	<outsideChans>
+		<!--// START 시설일괄등록 -->
 		<httpChan>
 			<chanId>allReg-10000495</chanId>
+			<httpAgentId>10000495</httpAgentId>
 			<description>호텔엔조이_메이트아이 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
 			<encoding>UTF-8</encoding>
@@ -140,14 +142,16 @@
 		</httpChan>
 		<httpChan>
 			<chanId>allReg-10000496</chanId>
+			<httpAgentId>10000496</httpAgentId>
 			<description>펜션라이프_플레이스엠 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
+			<restURI>http://devapi.pensionlife.co.kr/rest/ezwelservice/product/spotinfo.php</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</httpChan>
 		<httpChan>
 			<chanId>allReg-10002654</chanId>
+			<httpAgentId>10002654</httpAgentId>
 			<description>인터파크투어_인터파크INT (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
 			<encoding>UTF-8</encoding>
@@ -156,6 +160,7 @@
 		</httpChan>
 		<httpChan>
 			<chanId>allReg-10008365</chanId>
+			<httpAgentId>10008365</httpAgentId>
 			<description>펀앤비즈_샬레코리아 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
 			<encoding>UTF-8</encoding>
@@ -164,6 +169,7 @@
 		</httpChan>
 		<httpChan>
 			<chanId>allReg-10030653</chanId>
+			<httpAgentId>10030653</httpAgentId>
 			<description>우리펜션(옐로트래블랩스) (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allRegWoori</restURI>
 			<encoding>UTF-8</encoding>
@@ -172,6 +178,7 @@
 		</httpChan>
 		<httpChan>
 			<chanId>allReg-10053461</chanId>
+			<httpAgentId>10053461</httpAgentId>
 			<description>인터치투어 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
 			<encoding>UTF-8</encoding>
@@ -180,6 +187,7 @@
 		</httpChan>
 		<httpChan>
 			<chanId>allReg-10054233</chanId>
+			<httpAgentId>10054233</httpAgentId>
 			<description>웹투어 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
 			<encoding>UTF-8</encoding>
@@ -188,6 +196,7 @@
 		</httpChan>
 		<httpChan>
 			<chanId>allReg-10055550</chanId>
+			<httpAgentId>10055550</httpAgentId>
 			<description>호텔패스글로벌 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
 			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/TourProductRQ.ashx</restURI>
 			<encoding>UTF-8</encoding>
@@ -196,6 +205,7 @@
 		</httpChan>
 		<httpChan>
 			<chanId>allReg-10056562</chanId>
+			<httpAgentId>10056562</httpAgentId>
 			<description>(주)위드이노베이션_여기어때 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
 			<encoding>UTF-8</encoding>
@@ -204,72 +214,65 @@
 		</httpChan>
 		<httpChan>
 			<chanId>allReg-99999999</chanId>
+			<httpAgentId>99999999</httpAgentId>
 			<description>제휴사협의중 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</httpChan>		
+		<!--// END 시설일괄등록 -->
 		
+		<!--// START 시설검색 -->
 		<httpChan>
 			<description>시설검색-호텔패스글로벌 (시설 검색 멀티쓰레드 인터페이스체널)</description>
 			<chanId>faclSearch</chanId>
-			<httpAgentGroupId>multiFaclSearchGroup</httpAgentGroupId>
+			<httpAgentId>10055550</httpAgentId>
+			<httpAgentGroupId>multiFaclSearch</httpAgentGroupId>
 			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/ProductSearchRQ.ashx</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</httpChan>	
 		<httpChan>
-			<description>제휴사-02 (시설 검색 멀티쓰레드 인터페이스체널)</description>
+			<description>시설검색-팬션라이프 (시설 검색 멀티쓰레드 인터페이스체널)</description>
 			<chanId>faclSearch</chanId>
-			<httpAgentGroupId>multiFaclSearchGroup</httpAgentGroupId>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/faclSearch</restURI>
+			<httpAgentId>10000496</httpAgentId>
+			<httpAgentGroupId>multiFaclSearch</httpAgentGroupId>
+			<restURI>http://devapi.pensionlife.co.kr/rest/ezwelservice/product/searching.php</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</httpChan>
+		<!--// END 시설검색 -->
+		
+		<!--// START 당일특가검색 -->
 		<httpChan>
-			<description>제휴사-03 (시설 검색 멀티쓰레드 인터페이스체널)</description>
-			<chanId>faclSearch</chanId>
-			<httpAgentGroupId>multiFaclSearchGroup</httpAgentGroupId>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/faclSearch</restURI>
-			<encoding>UTF-8</encoding>
-			<connTimeout>3000</connTimeout>
-			<readTimeout>6000</readTimeout>
-		</httpChan> 
-					
-		<httpChan>
-			<description>당일특가검색 (시설 검색 멀티쓰레드 인터페이스체널)</description>
-			<chanId>sddSearch-01</chanId>
-			<httpAgentGroupId>sddSearch-chanGroup</httpAgentGroupId>
+			<description>당일특가검색-호텔엔조이 (시설 검색 멀티쓰레드 인터페이스체널)</description>
+			<chanId>sddSearch</chanId>
+			<httpAgentId>10000495</httpAgentId>
+			<httpAgentGroupId>multiSddSearch</httpAgentGroupId>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/sddSearch</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</httpChan>
 		<httpChan>
-			<description>당일특가검색 (시설 검색 멀티쓰레드 인터페이스체널)</description>
-			<chanId>sddSearch-02</chanId>
-			<httpAgentGroupId>sddSearch-chanGroup</httpAgentGroupId>
+			<description>당일특가검색-팬션라이프 (시설 검색 멀티쓰레드 인터페이스체널)</description>
+			<chanId>sddSearch</chanId>
+			<httpAgentId>10000496</httpAgentId>
+			<httpAgentGroupId>multiSddSearch</httpAgentGroupId>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/sddSearch</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</httpChan>
-		<httpChan>
-			<description>당일특가검색 (시설 검색 멀티쓰레드 인터페이스체널)</description>
-			<chanId>sddSearch-03</chanId>
-			<httpAgentGroupId>sddSearch-chanGroup</httpAgentGroupId>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/sddSearch</restURI>
-			<encoding>UTF-8</encoding>
-			<connTimeout>3000</connTimeout>
-			<readTimeout>6000</readTimeout>
-		</httpChan>	
-
+		<!--// END 당일특가검색 -->
+		
 		<httpChan>
 			<description>객실정보조회</description>
 			<chanId>roomRead</chanId>
+			<httpAgentId>10055550</httpAgentId>
 			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/RoomInfoRQ.ashx</restURI>
 			<receiverRestURI>/service/callRoomRead</receiverRestURI>
 			<encoding>UTF-8</encoding>
@@ -277,8 +280,9 @@
 			<readTimeout>6000</readTimeout>
 		</httpChan>
 		<httpChan>
-			<chanId>cancelFeePsrc</chanId>
 			<description>취소수수료규정</description>
+			<chanId>cancelFeePsrc</chanId>
+			<httpAgentId>10055550</httpAgentId>
 			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/CancelFeeRQ.ashx</restURI>
 			<receiverRestURI>/service/callCancelFeePsrc</receiverRestURI>
 			<encoding>UTF-8</encoding>
@@ -286,18 +290,20 @@
 			<readTimeout>6000</readTimeout>
 		</httpChan>
 		<httpChan>
-			<chanId>rsvHistSend</chanId>
 			<description>결재완료내역전송</description>
+			<chanId>rsvHistSend</chanId>
+			<httpAgentId>10055550</httpAgentId>
 			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/BookingOrderRQ.ashx</restURI>
 			<receiverRestURI>/service/callRsvHistSend</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
-		</httpChan>										
+		</httpChan>
 		<httpChan>
 			<chanId>cancelFeeAmt</chanId>
 			<description>취소수수료계산</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/cancelFeeAmt</restURI>
+			<httpAgentId>10055550</httpAgentId>
+			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/CancelFeeOrderRQ.ashx</restURI>
 			<receiverRestURI>/service/callCancelFeeAmt</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -306,7 +312,8 @@
 		<httpChan>
 			<chanId>orderCancelReq</chanId>
 			<description>주문취소요청</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/orderCancelReq</restURI>
+			<httpAgentId>10055550</httpAgentId>
+			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/CancelOrderRQ.ashx</restURI>
 			<receiverRestURI>/service/callOrderCancelReq</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -315,7 +322,8 @@
 		<httpChan>
 			<chanId>omiNumIdn</chanId>
 			<description>누락건확인</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/omiNumIdn</restURI>
+			<httpAgentId>10055550</httpAgentId>
+			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/SyncBookingRQ.ashx</restURI>
 			<receiverRestURI>/service/callOmiNumIdn</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -324,7 +332,8 @@
 		<httpChan>
 			<chanId>ezwelJob</chanId>
 			<description>주문대사(이지웰)</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/ezwelJob</restURI>
+			<httpAgentId>10055550</httpAgentId>
+			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/HTPWS_EZWEL_META.asmx?op=gfnGetBookingList</restURI>
 			<receiverRestURI>/service/callEzwelJob</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>

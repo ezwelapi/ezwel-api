@@ -36,6 +36,13 @@ public class MultiBuildImageUpdateRepository extends AbstractDataAccessObject im
 	
 	private boolean isErrorPassed;
 	
+	public MultiBuildImageUpdateRepository() {
+		logger.info("- OutsideBuildImageRepository");
+
+		this.ezcFaclImg = null;
+		this.isErrorPassed = true;
+	}
+	
 	public MultiBuildImageUpdateRepository(EzcFaclImg ezcFaclImg, boolean isErrorPassed) {
 		logger.info("- OutsideBuildImageRepository Initialized : {}\nisErrorPassed : {}", ezcFaclImg, isErrorPassed);
 

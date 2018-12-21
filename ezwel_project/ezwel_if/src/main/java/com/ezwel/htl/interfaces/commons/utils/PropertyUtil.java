@@ -3,6 +3,7 @@ package com.ezwel.htl.interfaces.commons.utils;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -142,9 +143,14 @@ public class PropertyUtil {
     
 	@APIOperation(description="readBean의 프로퍼티 명과 이름이 일치하는 writeBean의 프로퍼티에 값을 담아줍니다.")
     public Object copySameProperty(Object readBean, Class<?> writeBean) {
+    	return copySameProperty(readBean, writeBean, new String[] {});
+    }
+	
+	@APIOperation(description="readBean의 프로퍼티 명과 이름이 일치하는 writeBean의 프로퍼티에 값을 담아줍니다.")
+    public Object copySameProperty(Object readBean, Class<?> writeBean, String... excludeFields) {
 		Object out = null;
     	try {
-    		out = copySameProperty(readBean, writeBean.newInstance(), false);
+    		out = copySameProperty(readBean, writeBean.newInstance(), excludeFields, false);
 		} catch (InstantiationException e) {
 			throw new APIException(e);
 		} catch (IllegalAccessException e) {
@@ -152,14 +158,39 @@ public class PropertyUtil {
 		}
     	return out;
     }
-
+	
+	@APIOperation(description="readBean의 프로퍼티 명과 이름이 일치하는 writeBean의 프로퍼티에 값을 담아줍니다.")
+    public Object copySameProperty(Object readBean, Class<?> writeBean, boolean isLogging) {
+		Object out = null;
+    	try {
+    		out = copySameProperty(readBean, writeBean.newInstance(), new String[] {}, isLogging);
+		} catch (InstantiationException e) {
+			throw new APIException(e);
+		} catch (IllegalAccessException e) {
+			throw new APIException(e);
+		}
+    	return out;
+    }
+	
 	@APIOperation(description="readBean의 프로퍼티 명과 이름이 일치하는 writeBean의 프로퍼티에 값을 담아줍니다.")
     public boolean copySameProperty(Object readBean, Object writeBean) {
-		Object out = copySameProperty(readBean, writeBean, false);
+		Object out = copySameProperty(readBean, writeBean, new String[] {}, false);
     	return (out != null ? true : false);
     }
-    
 	
+	
+	@APIOperation(description="readBean의 프로퍼티 명과 이름이 일치하는 writeBean의 프로퍼티에 값을 담아줍니다.")
+    public boolean copySameProperty(Object readBean, Object writeBean, boolean isLogging) {
+		Object out = copySameProperty(readBean, writeBean, new String[] {}, isLogging);
+    	return (out != null ? true : false);
+	}
+
+    
+	@APIOperation(description="readBean의 프로퍼티 명과 이름이 일치하는 writeBean의 프로퍼티에 값을 담아줍니다.")
+    public boolean copySameProperty(Object readBean, Object writeBean, String... excludeFields) {
+		Object out = copySameProperty(readBean, writeBean, excludeFields, false);
+    	return (out != null ? true : false);
+    }
 	
     /**
      * readBean의 프로퍼티 명과 이름이 일치하는 writeBean의 프로퍼티에 값을 담아줌. 
@@ -169,18 +200,27 @@ public class PropertyUtil {
      * @return
      */
 	@APIOperation(description="readBean의 프로퍼티 명과 이름이 일치하는 writeBean의 프로퍼티에 값을 담아줍니다.(세팅 로깅여부를 설정합니다)")
-    public Object copySameProperty(Object readBean, Object writeBean, boolean isLogging){
+    public Object copySameProperty(Object readBean, Object writeBean, String[] excludeFields, boolean isLogging){
     	
     	String readName = null;
     	Class<?> readType = null;
     	Object readValue = null;
+    	List<String> excludeList = null;
     	try {
     		PropertyDescriptor[] readProperties  = PropertyUtils.getPropertyDescriptors(readBean);
     		PropertyDescriptor[] writeProperties = PropertyUtils.getPropertyDescriptors(writeBean);
     		
+    		if(excludeFields != null && excludeFields.length > 0) {
+    			excludeList = Arrays.asList(excludeFields);
+    		}
+    		
     		for (PropertyDescriptor read : readProperties) {
     			readName = read.getName();
     			readType = read.getPropertyType();
+    			
+    			if(excludeList != null && excludeList.contains(readName)) {
+    				continue;
+    			}
     			
     			if(EXCLUDE_PROPERTY_TYPES.contains(readType)) {
     				continue;

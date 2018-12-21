@@ -53,10 +53,13 @@ public class InterfaceFactory {
 	
 	private final static boolean IS_LOGGING = true;
 	
+	private final static String GROUP_CACHE_POSTFIX;
+	
 	public final static String LOCAL_HOST_ADDRESS; 
 	public final static String LOCAL_HOST_NAME;
 	public final static String LOCAL_CANONICAL_HOST_NAME;
 
+	
 	private static String imageRootPath;
 	private static String serverHttpDomainURI;
 	private static String interfaceBatchErrorLogPath;
@@ -64,6 +67,8 @@ public class InterfaceFactory {
 	static {
 		interfaceChannels = new LinkedHashMap<String, List<HttpConfigSDO>>();
 		interfaceAgents = new LinkedHashMap<String, AgentInfoSDO>();
+		
+		GROUP_CACHE_POSTFIX = "ChannelGroup";
 		
 		LOCAL_HOST_ADDRESS = APIUtil.getLocalHost().getHostAddress();
 		LOCAL_HOST_NAME = APIUtil.getLocalHost().getHostName();
@@ -115,18 +120,18 @@ public class InterfaceFactory {
 		return out;
 	}
 	
-	public static List<HttpConfigSDO> getChannelGroup(String chanId, String httpAgentGroupId) {
+	public static List<HttpConfigSDO> getChannelGroup(String httpAgentGroupId) {
 		if(IS_LOGGING) {
-			logger.debug("[PROC] getChannelGroup chanId : {}, httpAgentGroupId : {}", chanId, httpAgentGroupId);
+			logger.debug("[PROC] getChannelGroup httpAgentGroupId : {}", httpAgentGroupId);
 		}
 		
 		List<HttpConfigSDO> out = null;
 		if(interfaceChannels != null && httpAgentGroupId != null) {
-			out = interfaceChannels.get(getCacheId(chanId, httpAgentGroupId)); 
+			out = interfaceChannels.get(getGroupCacheId(httpAgentGroupId)); 
 		}
 		
 		if(out == null || out.size() == 0) {
-			throw new APIException("인터페이스 그룹 체널정보가 존재하지 않습니다. 채널아이디 : {}, 에이전트그룹아이디 : {}", chanId, httpAgentGroupId); 
+			throw new APIException("인터페이스 그룹 체널정보가 존재하지 않습니다. 에이전트그룹아이디 : {}", httpAgentGroupId); 
 		}
 		
 		return out;
@@ -165,10 +170,22 @@ public class InterfaceFactory {
 	}
 	
 	private static String getCacheId(String chanId, String agentId) {
+		
 		if(APIUtil.isEmpty(chanId) || APIUtil.isEmpty(agentId)) {
 			throw new APIException("[getCacheId] 채널 아이디 또는 에이전트 아이디가 존재하지 않습니다. 'chanId : {}, agentId : {}'", chanId, agentId); 
 		}
 		String cacheId = chanId.concat(OperateConstants.STR_HYPHEN).concat(agentId);
+		
+		return cacheId;
+	}
+	
+	private static String getGroupCacheId(String chanGroupId) {
+		
+		if(APIUtil.isEmpty(chanGroupId)) {
+			throw new APIException("[getGroupCacheId] 채널 아이디 또는 에이전트 아이디가 존재하지 않습니다. 'chanGroupId : {}'", chanGroupId); 
+		}
+		String cacheId = chanGroupId.concat(OperateConstants.STR_HYPHEN).concat(GROUP_CACHE_POSTFIX);
+		
 		return cacheId;
 	}
 	
@@ -260,7 +277,7 @@ public class InterfaceFactory {
 					logger.debug("# fileRepository : {}", InterfaceFactory.fileRepository);
 					logger.debug("# Real Cached Size : {}", interfaceChannels.size());
 					if(IS_LOGGING)  {
-						//logger.debug("# interfaceChannels : {}", interfaceChannels);
+						logger.debug("# interfaceChannels : {}", interfaceChannels);
 					}
 					
 					/**
@@ -356,18 +373,18 @@ public class InterfaceFactory {
         	
 			inside.setHttpApiKey(agent.getInsideApiKey());
 			//logger.debug("inside channel : {}", item);
-			enter(inside);
+			enter(agent, inside, false);
 		}
 	
 		//방향 : outside interface list
 		Iterator<HttpConfigSDO> outsideIterator = channelListData.getOutsideConfigList().iterator();
         while (outsideIterator.hasNext()) {
 	        HttpConfigSDO outside = (HttpConfigSDO) propertyUtil.copySameProperty(outsideIterator.next(), HttpConfigSDO.class);
-	        propertyUtil.copySameProperty(agent, outside);
+	        propertyUtil.copySameProperty(agent, outside, "httpAgentId");
 	        
 			outside.setHttpApiKey(agent.getOutsideApiKey());					
 			//logger.debug("outside channel : {}", item);
-			enter(outside);
+			enter(agent, outside, true);
 		}
         
         index = index + 1;
@@ -381,16 +398,32 @@ public class InterfaceFactory {
         }
 	}
 	
-	private void enter(HttpConfigSDO item) {
+	private void enter(AgentInfoSDO agent, HttpConfigSDO item, boolean isOutside) {
 		
 		if(APIUtil.isEmpty(item.getHttpAgentId()) && APIUtil.isEmpty(item.getHttpAgentGroupId())) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9300, "인터페이스 팩토리 초기화 실패. 인터페이스 설정파일에 httpAgentId, httpAgentGroupId가 모두 존재하지 않는 채널이 존재합니다. channel : {}", item);
+			logger.warn("인터페이스 설정파일에 httpAgentId, httpAgentGroupId가 모두 존재하지 않는 채널이 존재합니다. channel : {}", item);
+			//pass
+			return;
 		}
 	
 		String cacheId = null;
 		HttpConfigSDO agentGroup = null;
 		//httpAgentId 별 무조건 캐쉬
 		if(APIUtil.isNotEmpty(item.getHttpAgentId())) {
+			
+			//outside일때 HttpAgentId가 없으면 pass
+			if(isOutside) {
+				if(APIUtil.isEmpty(item.getHttpAgentId())) {
+					//pass
+					return;
+				}
+				else {
+					if(!agent.getHttpAgentId().equals(item.getHttpAgentId())) {
+						//pass
+						return;
+					}
+				}
+			}
 			
 			cacheId = getCacheId(item.getChanId(), item.getHttpAgentId());
 			//local cache list
@@ -403,26 +436,33 @@ public class InterfaceFactory {
 			//set local cache 
 			interfaceChannels.put(cacheId, channelList);
 			
-			if(APIUtil.isNotEmpty(item.getHttpAgentGroupId())) {
-				
-				agentGroup = new HttpConfigSDO();
-				//new instance property
-				if(propertyUtil.copySameProperty(item, agentGroup)) {
+			if(isOutside) {
+				// outside 의 경우만 그룹 캐쉬 허용 (inside는 필요없음) 캐쉬사이즈 줄임 20181221
+				if(APIUtil.isNotEmpty(item.getHttpAgentGroupId())) {
 					
-					cacheId = getCacheId(item.getChanId(), agentGroup.getHttpAgentGroupId());
-					//set cache id
-					agentGroup.setCacheId(cacheId);
-					//local cache list
-					List<HttpConfigSDO> groupChannelList = getChannelList(cacheId);				
-					//add cacheId '{}' item -> channelList 
-					groupChannelList.add(agentGroup);
-					if(IS_LOGGING) {
-						logger.debug("# Group Channel Cache Id : {}, groupChannelList({})", cacheId, groupChannelList.size());
+					agentGroup = new HttpConfigSDO();
+					//new instance property
+					if(propertyUtil.copySameProperty(item, agentGroup)) {
+						
+						cacheId = getGroupCacheId(agentGroup.getHttpAgentGroupId());
+						//set cache id
+						agentGroup.setCacheId(cacheId);
+						//local cache list
+						List<HttpConfigSDO> groupChannelList = getChannelList(cacheId);
+						
+						if(!groupChannelList.contains(agentGroup)) {
+							//add cacheId '{}' item -> channelList 
+							groupChannelList.add(agentGroup);
+							
+							if(IS_LOGGING) {
+								logger.debug("# Group Channel Cache Id : {}, groupChannelList({})", cacheId, groupChannelList.size());
+							}
+							//set local cache 
+							interfaceChannels.put(cacheId, groupChannelList);					
+						}
 					}
-					//set local cache 
-					interfaceChannels.put(cacheId, groupChannelList);					
-				}
-			}			
+				}			
+			}
 		}
 	}
 	

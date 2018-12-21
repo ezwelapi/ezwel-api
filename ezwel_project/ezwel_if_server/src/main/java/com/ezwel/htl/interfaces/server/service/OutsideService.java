@@ -650,7 +650,7 @@ public class OutsideService extends AbstractServiceObject {
 		try {
 			multiHttpConfigList = new ArrayList<MultiHttpConfigSDO>();
 			
-			channelList = InterfaceFactory.getChannelGroup("sddSearch", userAgentDTO.getHttpAgentGroupId());
+			channelList = InterfaceFactory.getChannelGroup(userAgentDTO.getHttpAgentGroupId());
 			if(channelList != null) {
 				for(HttpConfigSDO httpConfigSDO : channelList) {
 					multi = new MultiHttpConfigSDO();
@@ -703,7 +703,7 @@ public class OutsideService extends AbstractServiceObject {
 		try {
 			multiHttpConfigList = new ArrayList<MultiHttpConfigSDO>();
 			
-			channelList = InterfaceFactory.getChannelGroup("faclSearch", userAgentDTO.getHttpAgentGroupId());
+			channelList = InterfaceFactory.getChannelGroup(userAgentDTO.getHttpAgentGroupId());
 			if(channelList != null) {
 				for(HttpConfigSDO httpConfigSDO : channelList) {
 					multi = new MultiHttpConfigSDO();
