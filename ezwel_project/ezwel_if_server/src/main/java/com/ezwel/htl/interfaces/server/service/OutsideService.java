@@ -5,8 +5,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
@@ -22,7 +20,6 @@ import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
-import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
@@ -75,10 +72,6 @@ public class OutsideService extends AbstractServiceObject {
 	
 	private PropertyUtil propertyUtil;
 	
-	private KoreanAnalyzer koreanAnalyzer;
-	
-	private EnglishAnalyzers englishAnalayzer;
-	
 	/** 제휴사 별 시설 정보 transaction commit 건수 */
 	private static final Integer FACL_REG_DATA_TX_COUNT = 50;
 	
@@ -106,31 +99,22 @@ public class OutsideService extends AbstractServiceObject {
 		commonRepository = (CommonRepository) LApplicationContext.getBean(commonRepository, CommonRepository.class);
 		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
 		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
-		koreanAnalyzer = new KoreanAnalyzer();
-		englishAnalayzer = new EnglishAnalyzers();
 		
 		AllRegOutSDO out = null;
 		MultiHttpConfigSDO multi = null;
 		List<MultiHttpConfigSDO> multiHttpConfigList = null;
+		List<HttpConfigSDO> channelList = null;
 		
 		try {
 			multiHttpConfigList = new ArrayList<MultiHttpConfigSDO>();
-			HttpConfigSDO httpConfigSDO = null;
-			Map<String, AgentInfoSDO> interfaceAgents = InterfaceFactory.getInterfaceAgents();
 			
-			for(Entry<String, AgentInfoSDO> entry : interfaceAgents.entrySet()) {
-				
-				multi = new MultiHttpConfigSDO();
-				httpConfigSDO = InterfaceFactory.getChannel(ALL_REG_CHANNEL.concat(OperateConstants.STR_HYPHEN).concat(entry.getValue().getHttpAgentId()), entry.getValue().getHttpAgentId());
-
-				if(httpConfigSDO != null) {
-					
-					
-					httpConfigSDO = configureHelper.setupUserAgentInfo(userAgentDTO, httpConfigSDO);
-					logger.debug(" After setupUserAgentInfo process : {}{}", userAgentDTO, httpConfigSDO);
-					
+			channelList = InterfaceFactory.getChannelGroup(userAgentDTO.getHttpAgentGroupId());
+			if(channelList != null) {
+				for(HttpConfigSDO httpConfigSDO : channelList) {
+					multi = new MultiHttpConfigSDO();
+					configureHelper.setupUserAgentInfo(userAgentDTO, httpConfigSDO);
 					//no input 
-					httpConfigSDO.setDoOutput(false);	
+					httpConfigSDO.setDoOutput(false);
 					//config
 					multi.setHttpConfigDTO(httpConfigSDO);
 					//output

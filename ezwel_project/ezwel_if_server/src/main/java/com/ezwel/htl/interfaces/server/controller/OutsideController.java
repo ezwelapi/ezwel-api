@@ -67,7 +67,9 @@ public class OutsideController {
 		
 		AllRegOutSDO out = outsideService.callAllReg(userAgentSDO);
 		/** 데이터 저장이 모두 끝난후 변경사항이 존재하는 제휴사 별 멀티쓰레드 이미지 다운로드/삭제 실행 */
-		outsideService.downloadMultiImage(out);	
+		if(out != null) {
+			outsideService.downloadMultiImage(out);	
+		}
 		
 		return out;
 	}

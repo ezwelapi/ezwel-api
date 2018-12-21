@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -99,6 +99,7 @@ var testAssets = {
 		"OUT-전체시설일괄등록 인터페이스" : {
 			 url : "/service/allReg"
 			,input : {
+				"httpAgentGroupId": "multiAllReg",	/* PIX DATA */
 				"httpAgentType": "{setClientUserData}",
 				"httpChannelCd": "{setClientUserData}",
 				"httpClientId": "{setClientUserData}",
@@ -111,7 +112,7 @@ var testAssets = {
 			 url : "/service/callFaclSearch"
 			,input : {
 				userAgentSDO : {
-					"httpAgentGroupId": "multiFaclSearchGroup",	/* PIX DATA */
+					"httpAgentGroupId": "multiFaclSearch",	/* PIX DATA */
 					"httpAgentType": "{setClientUserData}",
 					"httpChannelCd": "{setClientUserData}",
 					"httpClientId": "{setClientUserData}",
@@ -129,7 +130,7 @@ var testAssets = {
 		"OUT-당일특가검색 인터페이스" : {
 			 url : "/service/callSddSearch"
 			,input : {
-				"httpAgentGroupId": "sddSearch-chanGroup",
+				"httpAgentGroupId": "multiSddSearch",
 				"httpAgentType": "{setClientUserData}",
 				"httpChannelCd": "{setClientUserData}",
 				"httpClientId": "{setClientUserData}",

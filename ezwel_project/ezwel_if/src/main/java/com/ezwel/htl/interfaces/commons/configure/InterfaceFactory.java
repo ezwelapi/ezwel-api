@@ -51,7 +51,7 @@ public class InterfaceFactory {
 	
 	private PropertyUtil propertyUtil;
 	
-	private final static boolean IS_LOGGING = true;
+	private final static boolean IS_LOGGING = false;
 	
 	private final static String GROUP_CACHE_POSTFIX;
 	
