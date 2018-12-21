@@ -110,7 +110,7 @@ var testAssets = {
 		"OUT-시설검색 인터페이스" : {
 			 url : "/service/callFaclSearch"
 			,input : {
-				userAgentDTO : {
+				userAgentSDO : {
 					"httpAgentGroupId": "faclSearch-chanGroup",
 					"httpAgentType": "AP02PO",
 					"httpChannelCd": "1",

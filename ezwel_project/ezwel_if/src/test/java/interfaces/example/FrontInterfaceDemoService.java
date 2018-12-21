@@ -66,7 +66,7 @@ public class FrontInterfaceDemoService extends TestCase {
 		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
 		
 		roomReadSDO.setOtaId("10055550");
-		roomReadSDO.setPdtNo("KRSEL112");
+		roomReadSDO.setPdtNo("KRSEL217");
 		roomReadSDO.setCheckInDate("20190101");
 		roomReadSDO.setCheckOutDate("20190102");
 		roomReadSDO.setRoomCnt(1);

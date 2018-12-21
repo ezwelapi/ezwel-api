@@ -42,26 +42,22 @@ public class InterfaceMixTestService extends TestCase {
 		outIfService = new OutsideIFService();
 	}
 
-	// 객실정보조회
 	public void testRoomRead()  throws Exception {
 		logger.debug("[START] callRoomRead");
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
-		userAgentDTO.setHttpAgentId("10000496"); //펜션라이프
+		userAgentDTO.setHttpAgentId("10055550"); //호텔패스
 		userAgentDTO.setHttpAgentType("AP02PO");
 		userAgentDTO.setHttpChannelCd("1");
 		userAgentDTO.setHttpClientId("ez1");
 		userAgentDTO.setHttpRequestId("test");
 		
-		userAgentDTO.setConnTimeout(10000);
-		userAgentDTO.setReadTimeout(20000);
-		
 		//Input parameter
 		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
 		
-		roomReadSDO.setOtaId("10000496");
-		roomReadSDO.setPdtNo("KRSEL112");
+		roomReadSDO.setOtaId("10055550");
+		roomReadSDO.setPdtNo("KRSEL217");
 		roomReadSDO.setCheckInDate("20190101");
 		roomReadSDO.setCheckOutDate("20190102");
 		roomReadSDO.setRoomCnt(1);
@@ -69,7 +65,7 @@ public class InterfaceMixTestService extends TestCase {
 		roomReadSDO.setChildCnt(0);
 		
 		//interface api call
-		RoomReadOutSDO out = outIfAdapter.callRoomRead(userAgentDTO, roomReadSDO);
+		RoomReadOutSDO out = outIfService.callRoomRead(userAgentDTO, roomReadSDO);
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
