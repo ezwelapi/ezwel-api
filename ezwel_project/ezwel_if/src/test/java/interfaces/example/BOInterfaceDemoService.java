@@ -56,7 +56,7 @@ public class BOInterfaceDemoService extends TestCase {
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
-		userAgentDTO.setHttpAgentId("10000496"); //펜션라이프
+		userAgentDTO.setHttpAgentId("10055550"); //펜션라이프
 		userAgentDTO.setHttpAgentType("AP02PO");
 		userAgentDTO.setHttpChannelCd("1");
 		userAgentDTO.setHttpClientId("ez1");
@@ -88,7 +88,7 @@ public class BOInterfaceDemoService extends TestCase {
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
-		userAgentDTO.setHttpAgentId("10000496"); //펜션라이프
+		userAgentDTO.setHttpAgentId("10055550"); //펜션라이프
 		userAgentDTO.setHttpAgentType("AP02PO");
 		userAgentDTO.setHttpChannelCd("1");
 		userAgentDTO.setHttpClientId("ez1");
@@ -119,7 +119,7 @@ public class BOInterfaceDemoService extends TestCase {
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
-		userAgentDTO.setHttpAgentId("10000496"); //펜션라이프
+		userAgentDTO.setHttpAgentId("10055550"); //펜션라이프
 		userAgentDTO.setHttpAgentType("AP02PO");
 		userAgentDTO.setHttpChannelCd("1");
 		userAgentDTO.setHttpClientId("ez1");
@@ -173,7 +173,7 @@ public class BOInterfaceDemoService extends TestCase {
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
-		userAgentDTO.setHttpAgentId("10000496"); //펜션라이프
+		userAgentDTO.setHttpAgentId("10055550"); //펜션라이프
 		userAgentDTO.setHttpAgentType("AP02PO");
 		userAgentDTO.setHttpChannelCd("1");
 		userAgentDTO.setHttpClientId("ez1");
@@ -199,7 +199,7 @@ public class BOInterfaceDemoService extends TestCase {
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
-		userAgentDTO.setHttpAgentId("10000496"); //펜션라이프
+		userAgentDTO.setHttpAgentId("10055550"); //펜션라이프
 		userAgentDTO.setHttpAgentType("AP02PO");
 		userAgentDTO.setHttpChannelCd("1");
 		userAgentDTO.setHttpClientId("ez1");
@@ -227,7 +227,7 @@ public class BOInterfaceDemoService extends TestCase {
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
-		userAgentDTO.setHttpAgentId("10000496"); //펜션라이프
+		userAgentDTO.setHttpAgentId("10055550"); //펜션라이프
 		userAgentDTO.setHttpAgentType("AP02PO");
 		userAgentDTO.setHttpChannelCd("1");
 		userAgentDTO.setHttpClientId("ez1");
@@ -254,7 +254,7 @@ public class BOInterfaceDemoService extends TestCase {
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
-		userAgentDTO.setHttpAgentId("10000496"); //펜션라이프
+		userAgentDTO.setHttpAgentId("10055550"); //펜션라이프
 		userAgentDTO.setHttpAgentType("AP02PO");
 		userAgentDTO.setHttpChannelCd("1");
 		userAgentDTO.setHttpClientId("ez1");
