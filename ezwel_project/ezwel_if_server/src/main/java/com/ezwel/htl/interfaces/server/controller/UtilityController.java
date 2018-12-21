@@ -78,6 +78,8 @@ public class UtilityController {
 		regexUtil = (RegexUtil) LApplicationContext.getBean(regexUtil, RegexUtil.class);
 		apiUtil = (APIUtil) LApplicationContext.getBean(apiUtil, APIUtil.class);
 		
+		String conversion = null;
+		
 		List<List<String>> korMorphemeList = new ArrayList<List<String>>();
 		for(String input : morphemeSDO.getSentenceList()) {
 			if(input == null || input.isEmpty()) {
@@ -85,8 +87,8 @@ public class UtilityController {
 			}
 			
 			if(regexUtil.testPattern(input, MorphemeUtil.PATTERN_KOREAN_SENTENCE)) {
-				input = apiUtil.toHalfChar(input).replaceAll("(?i)".concat(MorphemeUtil.PATTERN_CORP_SIGN).concat("|").concat(MorphemeUtil.PATTERN_SPEC_CHAR).concat("|").concat(MorphemeUtil.PATTERN_ENGLISH_SENTENCE), OperateConstants.STR_BLANK).trim();
-				korMorphemeList.add(new ArrayList<String>(koreanAnalyzer.getKoreanMorphologicalAnalysis(input)));
+				conversion = apiUtil.toHalfChar(input).replaceAll("(?i)".concat(MorphemeUtil.PATTERN_CORP_SIGN).concat("|").concat(MorphemeUtil.PATTERN_SPEC_CHAR).concat("|").concat(MorphemeUtil.PATTERN_ENGLISH_SENTENCE), OperateConstants.STR_BLANK).trim();
+				korMorphemeList.add(new ArrayList<String>(koreanAnalyzer.getKoreanMorphologicalAnalysis(conversion)));
 			}
 		}		
 		out.setKorMorphemeList(korMorphemeList);
@@ -98,8 +100,8 @@ public class UtilityController {
 			}
 			
 			if(regexUtil.testPattern(input, MorphemeUtil.PATTERN_ENGLISH_SENTENCE)) {
-				input = apiUtil.toHalfChar(input).replaceAll("(?i)".concat(MorphemeUtil.PATTERN_SPEC_CHAR).concat("|").concat(MorphemeUtil.PATTERN_KOREAN_SENTENCE), OperateConstants.STR_BLANK).trim();
-				engMorphemeList.add(new ArrayList<String>(englishAnalayzer.getEnglishMorphologicalAnalysis(input)));
+				conversion = apiUtil.toHalfChar(input).replaceAll("(?i)".concat(MorphemeUtil.PATTERN_SPEC_CHAR).concat("|").concat(MorphemeUtil.PATTERN_KOREAN_SENTENCE), OperateConstants.STR_BLANK).trim();
+				engMorphemeList.add(new ArrayList<String>(englishAnalayzer.getEnglishMorphologicalAnalysis(conversion)));
 			}
 		}		
 		out.setEngMorphemeList(engMorphemeList);

@@ -15,15 +15,16 @@ import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
-import com.ezwel.htl.interfaces.http.dto.InputDTO;
-import com.ezwel.htl.interfaces.http.dto.InputDTOSub01;
-import com.ezwel.htl.interfaces.http.dto.InputDTOSub02;
-import com.ezwel.htl.interfaces.http.dto.OutputDTO;
 import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtOutSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
+
+import ezwel_if.data.InputDTO;
+import ezwel_if.data.InputDTOSub01;
+import ezwel_if.data.InputDTOSub02;
+import ezwel_if.data.OutputDTO;
 
 
 

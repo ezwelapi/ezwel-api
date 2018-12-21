@@ -82,6 +82,9 @@ public class OutsideService extends AbstractServiceObject {
 	/** 제휴사 별 시설 정보 transaction commit 건수 */
 	private static final Integer FACL_REG_DATA_TX_COUNT = 50;
 	
+	/** 이미지 다운로드 멀티쓰레드 개수 */
+	private static final Integer IMG_DOWNLOAD_MULTI_COUNT = 20;
+	
 	/** 시설 이미지 전체 조회 페이징 개수 */
 	private static final Integer FACL_IMG_PAGE_SIZE = 10000;
 	
@@ -463,7 +466,7 @@ public class OutsideService extends AbstractServiceObject {
 			if(ezcFaclImgList != null && ezcFaclImgList.size() > 0) {
 				
 				executor = new CallableExecutor();
-				executor.initThreadPool(40);
+				executor.initThreadPool(IMG_DOWNLOAD_MULTI_COUNT);
 				int count = 1;
 				for(EzcFaclImg imageParam : ezcFaclImgList) {
 					

@@ -50,7 +50,7 @@ public class KoreanAnalyzers {
 	
 	private static final Logger logger = LoggerFactory.getLogger(KoreanAnalyzers.class);
 
-	public static final boolean IS_LOGGING = true;
+	public static final boolean IS_LOGGING = false;
 	
 	private KoreanAnalyzer koreanAnalyzer;
 
@@ -59,7 +59,9 @@ public class KoreanAnalyzers {
 
 	@APIOperation(description="한글 형태소 분석 - Full") 
 	public Set<String> getKoreanMorphologicalAnalysis(String sentence) {
-		logger.debug("[START-KOREAN] getKoreanMorphologicalAnalysis input : {}", sentence);
+		if(IS_LOGGING) {
+			logger.debug("[START-KOREAN] getKoreanMorphologicalAnalysis input : {}", sentence);
+		}
 		
 		//각 형태소 분석 결과내 중복 제거를 위한 Set
 		Set<String> out = new LinkedHashSet<String>();
@@ -86,14 +88,18 @@ public class KoreanAnalyzers {
 			logger.debug("[IOException] 한글 형태소 전체 기능 분석 장애 발생", e);
 		}
 		
-		logger.debug("[END-KOREAN] getKoreanMorphologicalAnalysis output : {}", out);
+		if(IS_LOGGING) {
+			logger.debug("[END-KOREAN] getKoreanMorphologicalAnalysis output : {}", out);
+		}
 		return out;
 	}
 	
 
 	@APIOperation(description="한글 명사/복합명사 형태소 분석") 
 	public Set<String> getKoreanNounAllAnalysis(String sentence) {
-		logger.debug("[START-KOREAN] getKoreanMorphologicalAnalysis input : {}", sentence);
+		if(IS_LOGGING) {
+			logger.debug("[START-KOREAN] getKoreanMorphologicalAnalysis input : {}", sentence);
+		}
 		
 		//각 형태소 분석 결과내 중복 제거를 위한 Set
 		Set<String> out = new LinkedHashSet<String>();
@@ -117,7 +123,9 @@ public class KoreanAnalyzers {
 			logger.debug("[IOException] 한글 형태소 전체 기능 분석 장애 발생", e);
 		}
 		
-		logger.debug("[END-KOREAN] getKoreanMorphologicalAnalysis output : {}", out);
+		if(IS_LOGGING) {
+			logger.debug("[END-KOREAN] getKoreanMorphologicalAnalysis output : {}", out);
+		}
 		return out;
 	}
 	
