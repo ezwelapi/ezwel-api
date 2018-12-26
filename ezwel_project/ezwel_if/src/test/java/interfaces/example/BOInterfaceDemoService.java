@@ -66,8 +66,8 @@ public class BOInterfaceDemoService extends TestCase {
 		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
 		
 		roomReadSDO.setPdtNo("KRSEL217");
-		roomReadSDO.setCheckInDate("20190101");
-		roomReadSDO.setCheckOutDate("20190102");
+		roomReadSDO.setCheckInDate("20190114");
+		roomReadSDO.setCheckOutDate("20190115");
 		roomReadSDO.setRoomCnt(1);
 		roomReadSDO.setAdultCnt(2);
 		roomReadSDO.setChildCnt(0);
@@ -97,10 +97,10 @@ public class BOInterfaceDemoService extends TestCase {
 		//Input parameter
 		CancelFeePsrcInSDO cancelFeePsrcSDO = new CancelFeePsrcInSDO();
 		
-		cancelFeePsrcSDO.setPdtNo("KRSEL112");
-		cancelFeePsrcSDO.setCheckInDate("20190101");
-		cancelFeePsrcSDO.setCheckOutDate("20190102");
-		cancelFeePsrcSDO.setRoomNo("Yob1daQcPbOlVncEHz/Q62kMjcnsyRrO0QH/U/qJzoi^JE^t1pCAhgNe80PkfWL7SQwNgwaDCDPX6r37ofNtXZuytTAdeJAo6WO8m3wHVREg5VuHdfOXK/v5oB/X1xkrdHjAJxAzF1vEiNFvpWFBXgstG1HUZrPvh^mfp97BEQ0NnGJJHoRFdtvpsLw3PbTWdNRjNMkeXuF0n4XmUgfzxNLMP3ThbqcvENb6JCLuIek=");
+		cancelFeePsrcSDO.setPdtNo("KRSEL217");
+		cancelFeePsrcSDO.setCheckInDate("20190114");
+		cancelFeePsrcSDO.setCheckOutDate("20190115");
+		cancelFeePsrcSDO.setRoomNo("/YyrSCv5EXWAKqq6inTqsKPC3UdfZLeQ^jRHi04nUsZootJAddvlwgX5VcmUcrVrTNdxUL3SanpIteQGXSLtgqDan9^VFYmUVbzildelRxVQvda/Utk5N5kRhtrMvCgr0fX4foMqbmonu/9YiWjWAw9iPKxyPwzOQy/IHuFreyL3c6L9ARzXM^/^vPOaFRi4jgBWmg2kmYTojU2RkaW7VFJuipoJtxHncQB5qI7vq0s=");
 		cancelFeePsrcSDO.setRoomCnt(1);
 		
 		//interface api call
@@ -130,19 +130,19 @@ public class BOInterfaceDemoService extends TestCase {
 		
 		RsvHistSendDataInSDO data = new RsvHistSendDataInSDO();
 		
-		data.setRsvNo("E123456789");		
-		data.setRsvDatetime("20181219182534");
-		data.setRsvPrice(58000);
+		data.setRsvNo("E181226002");		
+		data.setRsvDatetime("20181226180000");
+		data.setRsvPrice(48000);
 		data.setRsvStat("r02");
-		data.setRsvPdtName("뉴천지 호텔");
-		data.setRsvPdtNo("P000000001");
-		data.setPdtNo("KRSEL112");
-		data.setPdtName("뉴천지 호텔");
-		data.setRoomNo("Yob1daQcPbOlVncEHz/Q62kMjcnsyRrO0QH/U/qJzoi^JE^t1pCAhgNe80PkfWL7SQwNgwaDCDPX6r37ofNtXZuytTAdeJAo6WO8m3wHVREg5VuHdfOXK/v5oB/X1xkrdHjAJxAzF1vEiNFvpWFBXgstG1HUZrPvh^mfp97BEQ0NnGJJHoRFdtvpsLw3PbTWdNRjNMkeXuF0n4XmUgfzxNLMP3ThbqcvENb6JCLuIek=");
-		data.setRoomName("Standard Double Room(1 double bed request)");
+		data.setRsvPdtName("유니크 비즈니스 호텔");
+		data.setRsvPdtNo("P181226002");
+		data.setPdtNo("KRSEL217");
+		data.setPdtName("유니크 비즈니스 호텔");
+		data.setRoomNo("/YyrSCv5EXWAKqq6inTqsKPC3UdfZLeQ^jRHi04nUsZootJAddvlwgX5VcmUcrVrTNdxUL3SanpIteQGXSLtgqDan9^VFYmUVbzildelRxVQvda/Utk5N5kRhtrMvCgr0fX4foMqbmonu/9YiWjWAw9iPKxyPwzOQy/IHuFreyL3c6L9ARzXM^/^vPOaFRi4jgBWmg2kmYTojU2RkaW7VFJuipoJtxHncQB5qI7vq0s=");
+		data.setRoomName("Twin Room(2 single beds request)");
 		data.setRoomCnt(1);
-		data.setCheckInDate("20190101");
-		data.setCheckOutDate("20190102");
+		data.setCheckInDate("20190114");
+		data.setCheckOutDate("20190115");
 		data.setMemKey("EZ0001");
 		data.setMemName("홍길동");
 		data.setMemPhone("01012341234");
@@ -182,7 +182,7 @@ public class BOInterfaceDemoService extends TestCase {
 		//Input parameter
 		CancelFeeAmtInSDO cancelFeeAmtSDO = new CancelFeeAmtInSDO();
 		
-		cancelFeeAmtSDO.setRsvNo("E123456789");
+		cancelFeeAmtSDO.setRsvNo("E181226002");
 		
 		//interface api call
 		CancelFeeAmtOutSDO out = outIfAdapter.callCancelFeeAmt(userAgentDTO, cancelFeeAmtSDO);
@@ -208,8 +208,8 @@ public class BOInterfaceDemoService extends TestCase {
 		//Input parameter
 		OrderCancelReqInSDO orderCancelReqSDO = new OrderCancelReqInSDO();
 		
-		orderCancelReqSDO.setRsvNo("E123456789");
-		orderCancelReqSDO.setOtaRsvNo("O123456789");
+		orderCancelReqSDO.setRsvNo("E181226002");
+		orderCancelReqSDO.setOtaRsvNo("1812260291-1");
 		orderCancelReqSDO.setRsvPrice(58000);
 		orderCancelReqSDO.setCancelCharge(0);
 		
@@ -236,7 +236,7 @@ public class BOInterfaceDemoService extends TestCase {
 		//Input parameter
 		OmiNumIdnInSDO omiNumIdnSDO = new OmiNumIdnInSDO();
 		
-		omiNumIdnSDO.setRsvNo("E123456789");
+		omiNumIdnSDO.setRsvNo("E181226002");
 		omiNumIdnSDO.setRsvStat("r02");
 		
 		//interface api call
@@ -263,9 +263,9 @@ public class BOInterfaceDemoService extends TestCase {
 		//Input parameter
 		EzwelJobInSDO ezwelJobSDO = new EzwelJobInSDO();
 		
-		ezwelJobSDO.setRsvNo("E123456789");
-		ezwelJobSDO.setRsvDateStart("20190101");
-		ezwelJobSDO.setRsvDateEnd("20190102");
+		ezwelJobSDO.setRsvNo("E181226002");
+		ezwelJobSDO.setRsvDateStart("20181201");
+		ezwelJobSDO.setRsvDateEnd("20181226");
 		
 		//interface api call
 		EzwelJobOutSDO out = outIfAdapter.callEzwelJob(userAgentDTO, ezwelJobSDO);

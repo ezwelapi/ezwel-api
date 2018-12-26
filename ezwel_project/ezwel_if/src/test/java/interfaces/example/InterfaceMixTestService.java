@@ -57,8 +57,8 @@ public class InterfaceMixTestService extends TestCase {
 		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
 		
 		roomReadSDO.setPdtNo("KRSEL217");
-		roomReadSDO.setCheckInDate("20190101");
-		roomReadSDO.setCheckOutDate("20190102");
+		roomReadSDO.setCheckInDate("20190114");
+		roomReadSDO.setCheckOutDate("20190115");
 		roomReadSDO.setRoomCnt(1);
 		roomReadSDO.setAdultCnt(2);
 		roomReadSDO.setChildCnt(0);
