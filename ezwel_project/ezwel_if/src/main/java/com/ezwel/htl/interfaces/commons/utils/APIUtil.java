@@ -70,17 +70,25 @@ public class APIUtil {
 		return NVL(str, null);
 	}
 	
+	@APIOperation(description="문자열의 isEmpty 여부를 체크하 고 false이면 defaultStr을 반환합니다.", isExecTest=true)
+	public static String NVL(String str, String defs) {
+		return NVL(str, defs, false);
+	}
+	
 	/**
 	 * str의 isEmpty 여부를 체크하 고 false이면 defaultStr을 반환합니다.
 	 * @param str
 	 * @param defaultStr
 	 * @return
 	 */
-	@APIOperation(description="문자열의 isEmpty 여부를 체크하 고 false이면 defaultStr을 반환합니다.", isExecTest=true)
-    public static String NVL(String str, String defs) {
+	@APIOperation(description="isTrimCheck 여부에따라 문자열을 trim하고 isEmpty 여부를 체크한 후 false이면 defaultStr을 반환합니다.", isExecTest=true)
+    public static String NVL(String str, String defs, boolean isTrimCheck) {
 		
     	String out = str;
     	String defaults = defs;
+    	if(isTrimCheck && out != null) {
+    		out = out.trim();
+    	}
     	
         if (isEmpty(out)) {
         	

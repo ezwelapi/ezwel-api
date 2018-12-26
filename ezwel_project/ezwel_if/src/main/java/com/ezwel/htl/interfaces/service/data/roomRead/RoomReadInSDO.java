@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
  * @date 2018. 11. 13.
  */
 
-@APIModel
+@APIModel(description="객실정보 조회 입력SDO")
 @Data
 @EqualsAndHashCode(callSuper=true)
 public class RoomReadInSDO extends AbstractSDO {

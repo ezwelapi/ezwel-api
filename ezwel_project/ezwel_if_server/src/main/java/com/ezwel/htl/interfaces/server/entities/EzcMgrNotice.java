@@ -39,8 +39,8 @@ public class EzcMgrNotice extends AbstractEntity {
 	@APIFields(description = "공지 대상", maxLength=8, required=true, constraints="SYS_C0011493(C)")
 	private String noticeRange;
 
-	@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="FK_EZC_PARTNER_EZC_MGR_NOTICE(R),SYS_C0011494(C) EZC_MGR_NOTICE_IF01(NONUNIQUE)")
-	private String partnerCdType;
+	//@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="FK_EZC_PARTNER_EZC_MGR_NOTICE(R),SYS_C0011494(C) EZC_MGR_NOTICE_IF01(NONUNIQUE)")
+	//private String partnerCdType;
 
 	@APIFields(description = "제목", maxLength=100)
 	private String title;
@@ -82,14 +82,6 @@ public class EzcMgrNotice extends AbstractEntity {
 
 	public void setNoticeRange(String noticeRange) {
 		this.noticeRange = noticeRange;
-	}
-
-	public String getPartnerCdType() {
-		return partnerCdType;
-	}
-
-	public void setPartnerCdType(String partnerCdType) {
-		this.partnerCdType = partnerCdType;
 	}
 
 	public String getTitle() {

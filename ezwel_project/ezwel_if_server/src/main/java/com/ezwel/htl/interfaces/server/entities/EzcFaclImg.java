@@ -84,6 +84,19 @@ public class EzcFaclImg extends AbstractEntity {
 	@APIFields(description = "다운로드 여부(시스템용)")
 	private boolean isDownload = false;
 	
+	@APIFields(description = "이미지 저장/다운로드 패스 여부")
+	private boolean isPassImage;
+	
+	
+	
+	public boolean isPassImage() {
+		return isPassImage;
+	}
+
+	public void setPassImage(boolean isPassImage) {
+		this.isPassImage = isPassImage;
+	}
+
 	public String getImgCletYn() {
 		return imgCletYn;
 	}

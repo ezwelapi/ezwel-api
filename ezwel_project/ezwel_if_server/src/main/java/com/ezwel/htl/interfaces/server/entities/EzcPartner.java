@@ -39,8 +39,8 @@ public class EzcPartner extends AbstractEntity {
 	@APIFields(description = "제휴사 유형", maxLength=8, required=true, constraints="SYS_C0011513(C)")
 	private String partnerType;
 
-	@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="SYS_C0011514(C)")
-	private String partnerCdType;
+	//@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="SYS_C0011514(C)")
+	//private String partnerCdType;
 
 	@APIFields(description = "지불 구분", maxLength=8, required=true, constraints="SYS_C0011515(C)")
 	private String payDiv;
@@ -103,14 +103,6 @@ public class EzcPartner extends AbstractEntity {
 
 	public void setPartnerType(String partnerType) {
 		this.partnerType = partnerType;
-	}
-
-	public String getPartnerCdType() {
-		return partnerCdType;
-	}
-
-	public void setPartnerCdType(String partnerCdType) {
-		this.partnerCdType = partnerCdType;
 	}
 
 	public String getPayDiv() {

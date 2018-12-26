@@ -17,7 +17,7 @@
 INSERT INTO EZC_MGR_NOTICE(	/* 운영자 공지사항 */
 	 NOTICE_SEQ	/* 공지사항 일련번호, NUMBER(0,22) */
 	,NOTICE_RANGE	/* 공지 대상, VARCHAR2(8) */
-	,PARTNER_CD_TYPE	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 	,TITLE	/* 제목, VARCHAR2(100) */
 	,CONTENT	/* 내용, VARCHAR2(2000) */
 	,VIEW_CNT	/* 조회수, NUMBER(0,22) */
@@ -27,7 +27,7 @@ INSERT INTO EZC_MGR_NOTICE(	/* 운영자 공지사항 */
 ) VALUES (
 	 #{noticeSeq, jdbcType=DECIMAL}
 	,#{noticeRange, jdbcType=VARCHAR}
-	,#{partnerCdType, jdbcType=VARCHAR}
+	
 	,#{title, jdbcType=VARCHAR}
 	,#{content, jdbcType=VARCHAR}
 	,#{viewCnt, jdbcType=NUMERIC}
@@ -41,7 +41,7 @@ INSERT INTO EZC_MGR_NOTICE(	/* 운영자 공지사항 */
 SELECT
 	 EZC_MGR_NOTICE.NOTICE_SEQ AS noticeSeq	/* 공지사항 일련번호, NUMBER(0,22) */
 	,EZC_MGR_NOTICE.NOTICE_RANGE AS noticeRange	/* 공지 대상, VARCHAR2(8) */
-	,EZC_MGR_NOTICE.PARTNER_CD_TYPE AS partnerCdType	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 	,EZC_MGR_NOTICE.TITLE AS title	/* 제목, VARCHAR2(100) */
 	,EZC_MGR_NOTICE.CONTENT AS content	/* 내용, VARCHAR2(2000) */
 	,EZC_MGR_NOTICE.VIEW_CNT AS viewCnt	/* 조회수, NUMBER(0,22) */
@@ -54,7 +54,7 @@ FROM
 	EZC_MGR_NOTICE	/* 운영자 공지사항 */
 WHERE 1=1
 	AND EZC_MGR_NOTICE.NOTICE_SEQ = #{noticeSeq, jdbcType=DECIMAL}	/* 공지사항 일련번호, NUMBER(0,22), EZC_MGR_NOTICE_PK(P),SYS_C0011492(C) */
-	AND EZC_MGR_NOTICE.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8), FK_EZC_PARTNER_EZC_MGR_NOTICE(R),SYS_C0011494(C) */
+
 </select>
 
 <select id="selectCountEzcMgrNotice" parameterType="ezcMgrNotice" resultType="java.lang.Integer">
@@ -69,9 +69,7 @@ WHERE 1=1
 	<if test="noticeRange != null and noticeRange != ''">
 	AND EZC_MGR_NOTICE.NOTICE_RANGE = #{noticeRange, jdbcType=VARCHAR}	/* 공지 대상, VARCHAR2(8) */
 	</if>
-	<if test="partnerCdType != null and partnerCdType != ''">
-	AND EZC_MGR_NOTICE.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
-	</if>
+
 	<if test="title != null and title != ''">
 	AND EZC_MGR_NOTICE.TITLE = #{title, jdbcType=VARCHAR}	/* 제목, VARCHAR2(100) */
 	</if>
@@ -105,7 +103,7 @@ SELECT * FROM (
 		SELECT
 			 EZC_MGR_NOTICE.NOTICE_SEQ AS noticeSeq	/* 공지사항 일련번호, NUMBER(0,22) */
 			,EZC_MGR_NOTICE.NOTICE_RANGE AS noticeRange	/* 공지 대상, VARCHAR2(8) */
-			,EZC_MGR_NOTICE.PARTNER_CD_TYPE AS partnerCdType	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 			,EZC_MGR_NOTICE.TITLE AS title	/* 제목, VARCHAR2(100) */
 			,EZC_MGR_NOTICE.CONTENT AS content	/* 내용, VARCHAR2(2000) */
 			,EZC_MGR_NOTICE.VIEW_CNT AS viewCnt	/* 조회수, NUMBER(0,22) */
@@ -123,9 +121,7 @@ SELECT * FROM (
 			<if test="noticeRange != null and noticeRange != ''">
 			AND EZC_MGR_NOTICE.NOTICE_RANGE = #{noticeRange, jdbcType=VARCHAR}	/* 공지 대상, VARCHAR2(8) */
 			</if>
-			<if test="partnerCdType != null and partnerCdType != ''">
-			AND EZC_MGR_NOTICE.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
-			</if>
+
 			<if test="title != null and title != ''">
 			AND EZC_MGR_NOTICE.TITLE = #{title, jdbcType=VARCHAR}	/* 제목, VARCHAR2(100) */
 			</if>
@@ -170,14 +166,14 @@ UPDATE EZC_MGR_NOTICE SET	/* 운영자 공지사항 */
 	,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 WHERE 1=1
 	AND NOTICE_SEQ = #{noticeSeq, jdbcType=DECIMAL}	/* 공지사항 일련번호, NUMBER(0,22) */
-	AND PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 </update>
 
 <update id="mergeEzcMgrNotice" parameterType="ezcMgrNotice">
 MERGE INTO EZC_MGR_NOTICE /* 운영자 공지사항 */
 	USING DUAL ON (
 		NOTICE_SEQ = #{noticeSeq, jdbcType=DECIMAL}	/* 공지사항 일련번호, NUMBER(0,22) */
-		AND PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 	)
 	WHEN MATCHED THEN
 		UPDATE SET
@@ -192,7 +188,7 @@ MERGE INTO EZC_MGR_NOTICE /* 운영자 공지사항 */
 		INSERT (
 			 NOTICE_SEQ	/* 공지사항 일련번호, NUMBER(0,22) */
 			,NOTICE_RANGE	/* 공지 대상, VARCHAR2(8) */
-			,PARTNER_CD_TYPE	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 			,TITLE	/* 제목, VARCHAR2(100) */
 			,CONTENT	/* 내용, VARCHAR2(2000) */
 			,VIEW_CNT	/* 조회수, NUMBER(0,22) */
@@ -202,7 +198,7 @@ MERGE INTO EZC_MGR_NOTICE /* 운영자 공지사항 */
 		) VALUES (
 			 #{noticeSeq, jdbcType=DECIMAL}
 			,#{noticeRange, jdbcType=VARCHAR}
-			,#{partnerCdType, jdbcType=VARCHAR}
+			
 			,#{title, jdbcType=VARCHAR}
 			,#{content, jdbcType=VARCHAR}
 			,#{viewCnt, jdbcType=NUMERIC}
@@ -216,7 +212,7 @@ MERGE INTO EZC_MGR_NOTICE /* 운영자 공지사항 */
 DELETE FROM EZC_MGR_NOTICE /* 운영자 공지사항 */
 WHERE 1=1
 	AND NOTICE_SEQ = #{noticeSeq, jdbcType=DECIMAL}	/* 공지사항 일련번호, NUMBER(0,22) */
-	AND PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 </delete>
 
 

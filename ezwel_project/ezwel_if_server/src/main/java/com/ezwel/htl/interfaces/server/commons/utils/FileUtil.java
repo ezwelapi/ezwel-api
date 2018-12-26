@@ -65,7 +65,7 @@ public class FileUtil {
 		if(imageSDO == null) {
 			throw new APIException("[getSaveImagePath] Input Prameter ImageSDO is Null...");
 		}
-		logger.debug("[START] getSaveImagePath URL : {}", imageSDO.getImageURL());
+		logger.info("[START] getSaveImagePath URL : {}", imageSDO.getImageURL());
 		
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
 		stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
@@ -92,6 +92,7 @@ public class FileUtil {
 		String orgFileName = null;
 		String lowerImageURL = null;
 		String imageURL = (imageSDO.getImageURL() != null ? imageSDO.getImageURL().trim() : null);
+		boolean isDeleted = false;
 		
 		ImageSDO namedSDO = new ImageSDO();
 		try {
@@ -112,7 +113,7 @@ public class FileUtil {
 
 				lowerImageURL = imageURL.toLowerCase();
 				if (lowerImageURL.startsWith(OperateConstants.DATA_IMAGE_PREFIX) && lowerImageURL.contains(OperateConstants.STR_BASE64)) {
-					logger.warn("- base64 data:image 제휴사에서 이미지URL을 데이터:이미지 base64 URL로 리턴할경우 추가작업 필요. 현재(20181129) 전용필차장과 의논해본결과 리턴URL 패턴 파악이 불가능하다고함.");
+					logger.info("- base64 data:image 제휴사에서 이미지URL을 데이터:이미지 base64 URL로 리턴할경우 추가작업 필요. 현재(20181129) 전용필차장과 의논해본결과 리턴URL 패턴 파악이 불가능하다고함.");
 				} 
 				else if (url.toURI().parseServerAuthority() != null) /* URL 패턴 검증 */ {
 
@@ -121,8 +122,8 @@ public class FileUtil {
 						for (Entry<String, String> entry : OperateConstants.IMAGE_EXT.entrySet()) {
 							lowerImageURL = imageURL.toLowerCase();
 
-							if (lowerImageURL.indexOf("?") > -1) {
-								lowerImageURL = lowerImageURL.substring(0, lowerImageURL.indexOf("?"));
+							if (lowerImageURL.indexOf(OperateConstants.STR_QUESTION_MARK) > -1) {
+								lowerImageURL = lowerImageURL.substring(0, lowerImageURL.indexOf(OperateConstants.STR_QUESTION_MARK));
 							}
 
 							if (lowerImageURL.endsWith(OperateConstants.STR_DOT.concat(entry.getValue()))) {
@@ -150,12 +151,17 @@ public class FileUtil {
 						chngFileName = APIUtil.getMD5HashString(orgFileName).concat(OperateConstants.STR_DOT).concat(fileExt);
 						// 파일시스템에 저장 할 파일
 						outputFile = new File(outputFile, chngFileName);
-
+						
 						if (verbose) {
-							logger.debug("- 이미지 파일명 : {}", orgFileName);
-							logger.debug("- 이미지 FS저장 파일명 : {}", chngFileName);
-							logger.debug("- 이미지 확장자 : {}", fileExt);
-							logger.debug("- 저장할 파일 전체 경로 : {}", outputFile.getPath());
+							logger.info("\n[★☆★☆★☆ 저장 대상 이미지 정보 ★☆★☆★☆]\n- 이미지 파일명 : {}\n- 이미지 FS저장 파일명 : {}\n- 이미지 확장자 : {}\n- 이미지 파일 존재여부 : {}, 저장경로 : {}", orgFileName, chngFileName, fileExt, outputFile.exists(), outputFile.getPath());
+						}
+						
+						if(outputFile.exists()) {
+							//파일이 존재하면 삭제
+							isDeleted = outputFile.delete();
+							if (verbose) {
+								logger.debug("- Delete Target File isDeleted : {}, Path : {}", isDeleted, outputFile.getPath());
+							}
 						}
 
 						namedSDO = (ImageSDO) propertyUtil.copySameProperty(imageSDO, ImageSDO.class);
@@ -180,10 +186,10 @@ public class FileUtil {
 			}
 		} catch (IOException e) {
 			namedSDO.setDescription("[ERROR] ".concat(e.getMessage()));
-			logger.error("[getSaveImagePath] IOException : {} {}", imageURL, stackTraceUtil.getStackTrace(e));
+			logger.error("[getSaveImagePath] IOException : {}\n{}", imageURL, stackTraceUtil.getStackTrace(e));
 		} catch (Exception e) {
 			namedSDO.setDescription("[ERROR] ".concat(e.getMessage()));
-			logger.error("[getSaveImagePath] Exception : {} {}", imageURL, stackTraceUtil.getStackTrace(e));
+			logger.error("[getSaveImagePath] Exception : {}\n{}", imageURL, stackTraceUtil.getStackTrace(e));
 		}
 		
 		logger.debug("[END] getSaveImagePath {} : {}", imageRootPath, namedSDO.getRelativePath());

@@ -17,7 +17,7 @@
 INSERT INTO EZC_PARTNER(	/* 제휴사 정보 */
 	 PARTNER_CD	/* 제휴사 코드, VARCHAR2(20) */
 	,PARTNER_TYPE	/* 제휴사 유형, VARCHAR2(8) */
-	,PARTNER_CD_TYPE	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 	,PAY_DIV	/* 지불 구분, VARCHAR2(8) */
 	,CAL_STD_TYPE	/* 정산 기준 유형, VARCHAR2(8) */
 	,AMT_STD_TYPE	/* 금액 기준 유형, VARCHAR2(8) */
@@ -34,7 +34,7 @@ INSERT INTO EZC_PARTNER(	/* 제휴사 정보 */
 ) VALUES (
 	 #{partnerCd, jdbcType=VARCHAR}
 	,#{partnerType, jdbcType=VARCHAR}
-	,#{partnerCdType, jdbcType=VARCHAR}
+	
 	,#{payDiv, jdbcType=VARCHAR}
 	,#{calStdType, jdbcType=VARCHAR}
 	,#{amtStdType, jdbcType=VARCHAR}
@@ -55,7 +55,7 @@ INSERT INTO EZC_PARTNER(	/* 제휴사 정보 */
 SELECT
 	 EZC_PARTNER.PARTNER_CD AS partnerCd	/* 제휴사 코드, VARCHAR2(20) */
 	,EZC_PARTNER.PARTNER_TYPE AS partnerType	/* 제휴사 유형, VARCHAR2(8) */
-	,EZC_PARTNER.PARTNER_CD_TYPE AS partnerCdType	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 	,EZC_PARTNER.PAY_DIV AS payDiv	/* 지불 구분, VARCHAR2(8) */
 	,EZC_PARTNER.CAL_STD_TYPE AS calStdType	/* 정산 기준 유형, VARCHAR2(8) */
 	,EZC_PARTNER.AMT_STD_TYPE AS amtStdType	/* 금액 기준 유형, VARCHAR2(8) */
@@ -89,9 +89,7 @@ WHERE 1=1
 	<if test="partnerType != null and partnerType != ''">
 	AND EZC_PARTNER.PARTNER_TYPE = #{partnerType, jdbcType=VARCHAR}	/* 제휴사 유형, VARCHAR2(8) */
 	</if>
-	<if test="partnerCdType != null and partnerCdType != ''">
-	AND EZC_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
-	</if>
+
 	<if test="payDiv != null and payDiv != ''">
 	AND EZC_PARTNER.PAY_DIV = #{payDiv, jdbcType=VARCHAR}	/* 지불 구분, VARCHAR2(8) */
 	</if>
@@ -146,7 +144,7 @@ SELECT * FROM (
 		SELECT
 			 EZC_PARTNER.PARTNER_CD AS partnerCd	/* 제휴사 코드, VARCHAR2(20) */
 			,EZC_PARTNER.PARTNER_TYPE AS partnerType	/* 제휴사 유형, VARCHAR2(8) */
-			,EZC_PARTNER.PARTNER_CD_TYPE AS partnerCdType	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 			,EZC_PARTNER.PAY_DIV AS payDiv	/* 지불 구분, VARCHAR2(8) */
 			,EZC_PARTNER.CAL_STD_TYPE AS calStdType	/* 정산 기준 유형, VARCHAR2(8) */
 			,EZC_PARTNER.AMT_STD_TYPE AS amtStdType	/* 금액 기준 유형, VARCHAR2(8) */
@@ -171,9 +169,7 @@ SELECT * FROM (
 			<if test="partnerType != null and partnerType != ''">
 			AND EZC_PARTNER.PARTNER_TYPE = #{partnerType, jdbcType=VARCHAR}	/* 제휴사 유형, VARCHAR2(8) */
 			</if>
-			<if test="partnerCdType != null and partnerCdType != ''">
-			AND EZC_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
-			</if>
+
 			<if test="payDiv != null and payDiv != ''">
 			AND EZC_PARTNER.PAY_DIV = #{payDiv, jdbcType=VARCHAR}	/* 지불 구분, VARCHAR2(8) */
 			</if>
@@ -231,7 +227,7 @@ WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMER
 <update id="updateEzcPartner" parameterType="ezcPartner">
 UPDATE EZC_PARTNER SET	/* 제휴사 정보 */
 	 PARTNER_TYPE = #{partnerType, jdbcType=VARCHAR}	/* 제휴사 유형, VARCHAR2(8) */
-	,PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 	,PAY_DIV = #{payDiv, jdbcType=VARCHAR}	/* 지불 구분, VARCHAR2(8) */
 	,CAL_STD_TYPE = #{calStdType, jdbcType=VARCHAR}	/* 정산 기준 유형, VARCHAR2(8) */
 	,AMT_STD_TYPE = #{amtStdType, jdbcType=VARCHAR}	/* 금액 기준 유형, VARCHAR2(8) */
@@ -257,7 +253,7 @@ MERGE INTO EZC_PARTNER /* 제휴사 정보 */
 	WHEN MATCHED THEN
 		UPDATE SET
 			 PARTNER_TYPE = #{partnerType, jdbcType=VARCHAR}	/* 제휴사 유형, VARCHAR2(8) */
-			,PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 			,PAY_DIV = #{payDiv, jdbcType=VARCHAR}	/* 지불 구분, VARCHAR2(8) */
 			,CAL_STD_TYPE = #{calStdType, jdbcType=VARCHAR}	/* 정산 기준 유형, VARCHAR2(8) */
 			,AMT_STD_TYPE = #{amtStdType, jdbcType=VARCHAR}	/* 금액 기준 유형, VARCHAR2(8) */
@@ -275,7 +271,7 @@ MERGE INTO EZC_PARTNER /* 제휴사 정보 */
 		INSERT (
 			 PARTNER_CD	/* 제휴사 코드, VARCHAR2(20) */
 			,PARTNER_TYPE	/* 제휴사 유형, VARCHAR2(8) */
-			,PARTNER_CD_TYPE	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 			,PAY_DIV	/* 지불 구분, VARCHAR2(8) */
 			,CAL_STD_TYPE	/* 정산 기준 유형, VARCHAR2(8) */
 			,AMT_STD_TYPE	/* 금액 기준 유형, VARCHAR2(8) */
@@ -292,7 +288,7 @@ MERGE INTO EZC_PARTNER /* 제휴사 정보 */
 		) VALUES (
 			 #{partnerCd, jdbcType=VARCHAR}
 			,#{partnerType, jdbcType=VARCHAR}
-			,#{partnerCdType, jdbcType=VARCHAR}
+			
 			,#{payDiv, jdbcType=VARCHAR}
 			,#{calStdType, jdbcType=VARCHAR}
 			,#{amtStdType, jdbcType=VARCHAR}

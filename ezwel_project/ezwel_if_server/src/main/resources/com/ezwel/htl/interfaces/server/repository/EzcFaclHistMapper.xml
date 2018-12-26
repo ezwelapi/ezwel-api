@@ -17,7 +17,6 @@
 INSERT INTO EZC_FACL_HIST(	/* 시설 정보 내역 */
 	 FACL_HIST_SEQ	/* 시설 내역 일련번호, NUMBER(0,22) */
 	,PARTNER_CD	/* 제휴사 코드, VARCHAR2(20) */
-	,PARTNER_CD_TYPE	/* 제휴사 코드 유형, VARCHAR2(8) */
 	,FACL_DIV	/* 시설 구분, VARCHAR2(8) */
 	,GOODS_CD	/* 상품 코드, VARCHAR2(100) */
 	,FACL_NM_KOR	/* 시설 명 한글, VARCHAR2(100) */
@@ -54,7 +53,6 @@ INSERT INTO EZC_FACL_HIST(	/* 시설 정보 내역 */
 ) VALUES (
 	 #{faclHistSeq, jdbcType=DECIMAL}
 	,#{partnerCd, jdbcType=VARCHAR}
-	,#{partnerCdType, jdbcType=VARCHAR}
 	,#{faclDiv, jdbcType=VARCHAR}
 	,#{goodsCd, jdbcType=VARCHAR}
 	,#{faclNmKor, jdbcType=VARCHAR}
@@ -95,7 +93,6 @@ INSERT INTO EZC_FACL_HIST(	/* 시설 정보 내역 */
 SELECT
 	 EZC_FACL_HIST.FACL_HIST_SEQ AS faclHistSeq	/* 시설 내역 일련번호, NUMBER(0,22) */
 	,EZC_FACL_HIST.PARTNER_CD AS partnerCd	/* 제휴사 코드, VARCHAR2(20) */
-	,EZC_FACL_HIST.PARTNER_CD_TYPE AS partnerCdType	/* 제휴사 코드 유형, VARCHAR2(8) */
 	,EZC_FACL_HIST.FACL_DIV AS faclDiv	/* 시설 구분, VARCHAR2(8) */
 	,EZC_FACL_HIST.GOODS_CD AS goodsCd	/* 상품 코드, VARCHAR2(100) */
 	,EZC_FACL_HIST.FACL_NM_KOR AS faclNmKor	/* 시설 명 한글, VARCHAR2(100) */
@@ -160,9 +157,6 @@ WHERE 1=1
 	</if>
 	<if test="partnerCd != null and partnerCd != ''">
 	AND EZC_FACL_HIST.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
-	</if>
-	<if test="partnerCdType != null and partnerCdType != ''">
-	AND EZC_FACL_HIST.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
 	</if>
 	<if test="faclDiv != null and faclDiv != ''">
 	AND EZC_FACL_HIST.FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
@@ -272,7 +266,6 @@ SELECT * FROM (
 		SELECT
 			 EZC_FACL_HIST.FACL_HIST_SEQ AS faclHistSeq	/* 시설 내역 일련번호, NUMBER(0,22) */
 			,EZC_FACL_HIST.PARTNER_CD AS partnerCd	/* 제휴사 코드, VARCHAR2(20) */
-			,EZC_FACL_HIST.PARTNER_CD_TYPE AS partnerCdType	/* 제휴사 코드 유형, VARCHAR2(8) */
 			,EZC_FACL_HIST.FACL_DIV AS faclDiv	/* 시설 구분, VARCHAR2(8) */
 			,EZC_FACL_HIST.GOODS_CD AS goodsCd	/* 상품 코드, VARCHAR2(100) */
 			,EZC_FACL_HIST.FACL_NM_KOR AS faclNmKor	/* 시설 명 한글, VARCHAR2(100) */
@@ -322,9 +315,6 @@ SELECT * FROM (
 			</if>
 			<if test="partnerCd != null and partnerCd != ''">
 			AND EZC_FACL_HIST.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
-			</if>
-			<if test="partnerCdType != null and partnerCdType != ''">
-			AND EZC_FACL_HIST.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
 			</if>
 			<if test="faclDiv != null and faclDiv != ''">
 			AND EZC_FACL_HIST.FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
@@ -437,7 +427,6 @@ WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMER
 <update id="updateEzcFaclHist" parameterType="ezcFaclHist">
 UPDATE EZC_FACL_HIST SET	/* 시설 정보 내역 */
 	 PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
-	,PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
 	,FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
 	,GOODS_CD = #{goodsCd, jdbcType=VARCHAR}	/* 상품 코드, VARCHAR2(100) */
 	,FACL_NM_KOR = #{faclNmKor, jdbcType=VARCHAR}	/* 시설 명 한글, VARCHAR2(100) */
@@ -483,7 +472,6 @@ MERGE INTO EZC_FACL_HIST /* 시설 정보 내역 */
 	WHEN MATCHED THEN
 		UPDATE SET
 			 PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
-			,PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
 			,FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
 			,GOODS_CD = #{goodsCd, jdbcType=VARCHAR}	/* 상품 코드, VARCHAR2(100) */
 			,FACL_NM_KOR = #{faclNmKor, jdbcType=VARCHAR}	/* 시설 명 한글, VARCHAR2(100) */
@@ -521,7 +509,6 @@ MERGE INTO EZC_FACL_HIST /* 시설 정보 내역 */
 		INSERT (
 			 FACL_HIST_SEQ	/* 시설 내역 일련번호, NUMBER(0,22) */
 			,PARTNER_CD	/* 제휴사 코드, VARCHAR2(20) */
-			,PARTNER_CD_TYPE	/* 제휴사 코드 유형, VARCHAR2(8) */
 			,FACL_DIV	/* 시설 구분, VARCHAR2(8) */
 			,GOODS_CD	/* 상품 코드, VARCHAR2(100) */
 			,FACL_NM_KOR	/* 시설 명 한글, VARCHAR2(100) */
@@ -558,7 +545,6 @@ MERGE INTO EZC_FACL_HIST /* 시설 정보 내역 */
 		) VALUES (
 			 #{faclHistSeq, jdbcType=DECIMAL}
 			,#{partnerCd, jdbcType=VARCHAR}
-			,#{partnerCdType, jdbcType=VARCHAR}
 			,#{faclDiv, jdbcType=VARCHAR}
 			,#{goodsCd, jdbcType=VARCHAR}
 			,#{faclNmKor, jdbcType=VARCHAR}

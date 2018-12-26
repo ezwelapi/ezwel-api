@@ -16,13 +16,13 @@
 <insert id="insertEzcChannelClientPartner" parameterType="ezcChannelClientPartner">
 INSERT INTO EZC_CHANNEL_CLIENT_PARTNER(	/* 채널 고객사 제휴사 */
 	 CLIENT_CD	/* 고객사 코드, VARCHAR2(20) */
-	,PARTNER_CD_TYPE	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 	,CHANNEL_CD	/* 채널 코드, VARCHAR2(10) */
 	,REG_ID	/* 등록자 ID, VARCHAR2(20) */
 	,REG_DT	/* 등록 일시, VARCHAR2(14) */
 ) VALUES (
 	 #{clientCd, jdbcType=VARCHAR}
-	,#{partnerCdType, jdbcType=VARCHAR}
+	
 	,#{channelCd, jdbcType=VARCHAR}
 	,#{regId, jdbcType=VARCHAR}
 	,#{regDt, jdbcType=VARCHAR}
@@ -32,7 +32,7 @@ INSERT INTO EZC_CHANNEL_CLIENT_PARTNER(	/* 채널 고객사 제휴사 */
 <select id="selectEzcChannelClientPartner" parameterType="ezcChannelClientPartner" resultType="ezcChannelClientPartner">
 SELECT
 	 EZC_CHANNEL_CLIENT_PARTNER.CLIENT_CD AS clientCd	/* 고객사 코드, VARCHAR2(20) */
-	,EZC_CHANNEL_CLIENT_PARTNER.PARTNER_CD_TYPE AS partnerCdType	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 	,EZC_CHANNEL_CLIENT_PARTNER.CHANNEL_CD AS channelCd	/* 채널 코드, VARCHAR2(10) */
 	,EZC_CHANNEL_CLIENT_PARTNER.REG_ID AS regId	/* 등록자 ID, VARCHAR2(20) */
 	,EZC_CHANNEL_CLIENT_PARTNER.REG_DT AS regDt	/* 등록 일시, VARCHAR2(14) */
@@ -43,7 +43,7 @@ WHERE 1=1
 	AND EZC_CHANNEL_CLIENT_PARTNER.CLIENT_CD = EZC_CHANNEL_CLIENT.CLIENT_CD
 	AND EZC_CHANNEL_CLIENT_PARTNER.CHANNEL_CD = EZC_CHANNEL_CLIENT.CHANNEL_CD
 	AND EZC_CHANNEL_CLIENT_PARTNER.CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20), EZC_CHANNEL_CLIENT_PARTNER_PK(P),FK_EZC_CHANNEL_CLIENT_EZC_CHAN(R),SYS_C0011241(C) */
-	AND EZC_CHANNEL_CLIENT_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8), EZC_CHANNEL_CLIENT_PARTNER_PK(P),SYS_C0011242(C) */
+
 	AND EZC_CHANNEL_CLIENT_PARTNER.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10), EZC_CHANNEL_CLIENT_PARTNER_PK(P),FK_EZC_CHANNEL_CLIENT_EZC_CHAN(R),SYS_C0011243(C) */
 </select>
 
@@ -59,9 +59,7 @@ WHERE 1=1
 	<if test="clientCd != null and clientCd != ''">
 	AND EZC_CHANNEL_CLIENT_PARTNER.CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
 	</if>
-	<if test="partnerCdType != null and partnerCdType != ''">
-	AND EZC_CHANNEL_CLIENT_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
-	</if>
+
 	<if test="channelCd != null and channelCd != ''">
 	AND EZC_CHANNEL_CLIENT_PARTNER.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 	</if>
@@ -79,7 +77,7 @@ SELECT * FROM (
 		/*  SQL Body Start  */
 		SELECT
 			 EZC_CHANNEL_CLIENT_PARTNER.CLIENT_CD AS clientCd	/* 고객사 코드, VARCHAR2(20) */
-			,EZC_CHANNEL_CLIENT_PARTNER.PARTNER_CD_TYPE AS partnerCdType	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 			,EZC_CHANNEL_CLIENT_PARTNER.CHANNEL_CD AS channelCd	/* 채널 코드, VARCHAR2(10) */
 			,EZC_CHANNEL_CLIENT_PARTNER.REG_ID AS regId	/* 등록자 ID, VARCHAR2(20) */
 			,EZC_CHANNEL_CLIENT_PARTNER.REG_DT AS regDt	/* 등록 일시, VARCHAR2(14) */
@@ -92,9 +90,7 @@ SELECT * FROM (
 			<if test="clientCd != null and clientCd != ''">
 			AND EZC_CHANNEL_CLIENT_PARTNER.CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
 			</if>
-			<if test="partnerCdType != null and partnerCdType != ''">
-			AND EZC_CHANNEL_CLIENT_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
-			</if>
+
 			<if test="channelCd != null and channelCd != ''">
 			AND EZC_CHANNEL_CLIENT_PARTNER.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 			</if>
@@ -117,7 +113,7 @@ WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMER
 UPDATE EZC_CHANNEL_CLIENT_PARTNER SET	/* 채널 고객사 제휴사 */
 WHERE 1=1
 	AND CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
-	AND PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 	AND CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 </update>
 
@@ -125,7 +121,7 @@ WHERE 1=1
 MERGE INTO EZC_CHANNEL_CLIENT_PARTNER /* 채널 고객사 제휴사 */
 	USING DUAL ON (
 		CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
-		AND PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 		AND CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 	)
 	WHEN MATCHED THEN
@@ -133,13 +129,13 @@ MERGE INTO EZC_CHANNEL_CLIENT_PARTNER /* 채널 고객사 제휴사 */
 	WHEN NOT MATCHED THEN
 		INSERT (
 			 CLIENT_CD	/* 고객사 코드, VARCHAR2(20) */
-			,PARTNER_CD_TYPE	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 			,CHANNEL_CD	/* 채널 코드, VARCHAR2(10) */
 			,REG_ID	/* 등록자 ID, VARCHAR2(20) */
 			,REG_DT	/* 등록 일시, VARCHAR2(14) */
 		) VALUES (
 			 #{clientCd, jdbcType=VARCHAR}
-			,#{partnerCdType, jdbcType=VARCHAR}
+			
 			,#{channelCd, jdbcType=VARCHAR}
 			,#{regId, jdbcType=VARCHAR}
 			,#{regDt, jdbcType=VARCHAR}
@@ -150,7 +146,7 @@ MERGE INTO EZC_CHANNEL_CLIENT_PARTNER /* 채널 고객사 제휴사 */
 DELETE FROM EZC_CHANNEL_CLIENT_PARTNER /* 채널 고객사 제휴사 */
 WHERE 1=1
 	AND CLIENT_CD = #{clientCd, jdbcType=VARCHAR}	/* 고객사 코드, VARCHAR2(20) */
-	AND PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 	AND CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 </delete>
 

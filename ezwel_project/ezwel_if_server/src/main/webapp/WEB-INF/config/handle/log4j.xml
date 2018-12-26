@@ -45,7 +45,7 @@
 	
 	<!-- jdbc.sqlonly Loggers ( Real SQL Log ) -->
 	<logger name="jdbc.sqlonly">
-		<level value="DEBUG" />
+		<level value="INFO" />
 	</logger>
 	
 	<logger name="jdbc.audit">
@@ -58,7 +58,7 @@
 	
 	<!-- jdbc.resultsettable Loggers ( Real SQL Result Log ) -->
 	<logger name="jdbc.resultsettable">
-		<level value="DEBUG" />
+		<level value="INFO" />
 	</logger>
 	
 	<!-- log4jdbc Loggers -->

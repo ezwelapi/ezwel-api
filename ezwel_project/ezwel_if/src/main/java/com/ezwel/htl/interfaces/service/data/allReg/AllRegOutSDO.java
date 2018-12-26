@@ -1,5 +1,6 @@
 package com.ezwel.htl.interfaces.service.data.allReg;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -168,6 +169,23 @@ public class AllRegOutSDO extends AbstractSDO {
 		this.createDownloadFileUrlList = createDownloadFileUrlList;
 	}
 
+	public boolean isNewDownloadFile(BigDecimal faclCd, String partnerImgUrl) {
+		boolean out = true;
+		if(faclCd == null || partnerImgUrl == null) {
+			return false;
+		}
+		
+		if(this.createDownloadFileUrlList != null) {
+			for(AllRegDataRealtimeImageOutSDO newImage : this.createDownloadFileUrlList) {
+				if(faclCd.compareTo(newImage.getFaclCd()) == 0 && partnerImgUrl.equals(newImage.getPartnerImgUrl())) {
+					out = false;
+					break;
+				}
+			}
+		}
+		return out;
+	}
+	
 	public void addCreateDownloadFileUrlList(AllRegDataRealtimeImageOutSDO createDownloadFile) {
 		if(this.createDownloadFileUrlList == null) {
 			this.createDownloadFileUrlList = new ArrayList<AllRegDataRealtimeImageOutSDO>();

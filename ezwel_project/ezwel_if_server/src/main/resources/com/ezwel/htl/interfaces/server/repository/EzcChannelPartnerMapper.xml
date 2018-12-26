@@ -16,12 +16,12 @@
 <insert id="insertEzcChannelPartner" parameterType="ezcChannelPartner">
 INSERT INTO EZC_CHANNEL_PARTNER(	/* 채널 제휴사 */
 	 CHANNEL_CD	/* 채널 코드, VARCHAR2(10) */
-	,PARTNER_CD_TYPE	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 	,REG_ID	/* 등록자 ID, VARCHAR2(20) */
 	,REG_DT	/* 등록 일시, VARCHAR2(14) */
 ) VALUES (
 	 #{channelCd, jdbcType=VARCHAR}
-	,#{partnerCdType, jdbcType=VARCHAR}
+	
 	,#{regId, jdbcType=VARCHAR}
 	,#{regDt, jdbcType=VARCHAR}
 )
@@ -30,14 +30,14 @@ INSERT INTO EZC_CHANNEL_PARTNER(	/* 채널 제휴사 */
 <select id="selectEzcChannelPartner" parameterType="ezcChannelPartner" resultType="ezcChannelPartner">
 SELECT
 	 EZC_CHANNEL_PARTNER.CHANNEL_CD AS channelCd	/* 채널 코드, VARCHAR2(10) */
-	,EZC_CHANNEL_PARTNER.PARTNER_CD_TYPE AS partnerCdType	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 	,EZC_CHANNEL_PARTNER.REG_ID AS regId	/* 등록자 ID, VARCHAR2(20) */
 	,EZC_CHANNEL_PARTNER.REG_DT AS regDt	/* 등록 일시, VARCHAR2(14) */
 FROM
 	EZC_CHANNEL_PARTNER	/* 채널 제휴사 */
 WHERE 1=1
 	AND EZC_CHANNEL_PARTNER.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10), EZC_CHANNEL_PARTNER_PK(P),SYS_C0011257(C) */
-	AND EZC_CHANNEL_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8), EZC_CHANNEL_PARTNER_PK(P),SYS_C0011258(C) */
+
 </select>
 
 <select id="selectCountEzcChannelPartner" parameterType="ezcChannelPartner" resultType="java.lang.Integer">
@@ -49,9 +49,7 @@ WHERE 1=1
 	<if test="channelCd != null and channelCd != ''">
 	AND EZC_CHANNEL_PARTNER.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 	</if>
-	<if test="partnerCdType != null and partnerCdType != ''">
-	AND EZC_CHANNEL_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
-	</if>
+
 	<if test="regId != null and regId != ''">
 	AND EZC_CHANNEL_PARTNER.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
 	</if>
@@ -66,7 +64,7 @@ SELECT * FROM (
 		/*  SQL Body Start  */
 		SELECT
 			 EZC_CHANNEL_PARTNER.CHANNEL_CD AS channelCd	/* 채널 코드, VARCHAR2(10) */
-			,EZC_CHANNEL_PARTNER.PARTNER_CD_TYPE AS partnerCdType	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 			,EZC_CHANNEL_PARTNER.REG_ID AS regId	/* 등록자 ID, VARCHAR2(20) */
 			,EZC_CHANNEL_PARTNER.REG_DT AS regDt	/* 등록 일시, VARCHAR2(14) */
 		FROM
@@ -75,9 +73,7 @@ SELECT * FROM (
 			<if test="channelCd != null and channelCd != ''">
 			AND EZC_CHANNEL_PARTNER.CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
 			</if>
-			<if test="partnerCdType != null and partnerCdType != ''">
-			AND EZC_CHANNEL_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
-			</if>
+
 			<if test="regId != null and regId != ''">
 			AND EZC_CHANNEL_PARTNER.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
 			</if>
@@ -97,26 +93,26 @@ WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMER
 UPDATE EZC_CHANNEL_PARTNER SET	/* 채널 제휴사 */
 WHERE 1=1
 	AND CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
-	AND PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 </update>
 
 <update id="mergeEzcChannelPartner" parameterType="ezcChannelPartner">
 MERGE INTO EZC_CHANNEL_PARTNER /* 채널 제휴사 */
 	USING DUAL ON (
 		CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
-		AND PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 	)
 	WHEN MATCHED THEN
 		UPDATE SET
 	WHEN NOT MATCHED THEN
 		INSERT (
 			 CHANNEL_CD	/* 채널 코드, VARCHAR2(10) */
-			,PARTNER_CD_TYPE	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 			,REG_ID	/* 등록자 ID, VARCHAR2(20) */
 			,REG_DT	/* 등록 일시, VARCHAR2(14) */
 		) VALUES (
 			 #{channelCd, jdbcType=VARCHAR}
-			,#{partnerCdType, jdbcType=VARCHAR}
+			
 			,#{regId, jdbcType=VARCHAR}
 			,#{regDt, jdbcType=VARCHAR}
 		)
@@ -126,7 +122,7 @@ MERGE INTO EZC_CHANNEL_PARTNER /* 채널 제휴사 */
 DELETE FROM EZC_CHANNEL_PARTNER /* 채널 제휴사 */
 WHERE 1=1
 	AND CHANNEL_CD = #{channelCd, jdbcType=VARCHAR}	/* 채널 코드, VARCHAR2(10) */
-	AND PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 </delete>
 
 

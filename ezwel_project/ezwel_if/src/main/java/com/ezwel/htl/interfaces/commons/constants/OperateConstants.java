@@ -106,6 +106,8 @@ public class OperateConstants {
 	public final static String EXT_DELIMETER;
 	public final static String STR_DOUBLE_QUOTATION;
 	public final static String STR_ZERO;
+	public final static String STR_QUESTION_MARK;
+	
 	
 	public final static String CURRENT_DEV_SERVER;
 	public final static String CURRENT_PROD_SERVER;
@@ -128,6 +130,7 @@ public class OperateConstants {
 		CURRENT_PC_SERVER = "DEVELOPER-PC";
 		
 		STR_ZERO = "0";
+		STR_QUESTION_MARK = "?";
 		STR_DOUBLE_QUOTATION = "\"";
 		EXT_DELIMETER = ".";
 		SYSTEM_LOCALE = (USER_LANGUAGE != null && USER_COUNTRY != null) ? USER_LANGUAGE.concat("_").concat(USER_COUNTRY) : "ko_KR";

@@ -51,8 +51,8 @@ public class EzcCacheMinAmt extends AbstractEntity {
 	@APIFields(description = "지역 코드", maxLength=10, required=true, constraints="EZC_CACHE_MIN_AMT_PK(P),FK_EZC_CACHE_SEARCH_LOG_EZC_CA(R),SYS_C0011165(C) EZC_CACHE_MIN_AMT_IF01(NONUNIQUE),EZC_CACHE_MIN_AMT_PK(UNIQUE)")
 	private String areaCd;
 
-	@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="SYS_C0011166(C)")
-	private String partnerCdType;
+	//@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="SYS_C0011166(C)")
+	//private String partnerCdType;
 
 	@APIFields(description = "객실 최저가", maxLength=8, required=true, constraints="SYS_C0011167(C)")
 	private BigDecimal roomMinPrice;
@@ -108,14 +108,6 @@ public class EzcCacheMinAmt extends AbstractEntity {
 
 	public void setAreaCd(String areaCd) {
 		this.areaCd = areaCd;
-	}
-
-	public String getPartnerCdType() {
-		return partnerCdType;
-	}
-
-	public void setPartnerCdType(String partnerCdType) {
-		this.partnerCdType = partnerCdType;
 	}
 
 	public BigDecimal getRoomMinPrice() {

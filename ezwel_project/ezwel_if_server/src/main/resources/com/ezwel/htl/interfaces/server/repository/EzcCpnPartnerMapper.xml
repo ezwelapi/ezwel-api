@@ -16,13 +16,13 @@
 <insert id="insertEzcCpnPartner" parameterType="ezcCpnPartner">
 INSERT INTO EZC_CPN_PARTNER(	/* 쿠폰 제휴사 */
 	 CPN_CD	/* 쿠폰 코드, NUMBER(0,22) */
-	,PARTNER_CD_TYPE	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 	,CAL_RATIO	/* 정산 비율, NUMBER(0,22) */
 	,REG_ID	/* 등록자 ID, VARCHAR2(20) */
 	,REG_DT	/* 등록 일시, VARCHAR2(14) */
 ) VALUES (
 	 #{cpnCd, jdbcType=DECIMAL}
-	,#{partnerCdType, jdbcType=VARCHAR}
+	
 	,#{calRatio, jdbcType=NUMERIC}
 	,#{regId, jdbcType=VARCHAR}
 	,#{regDt, jdbcType=VARCHAR}
@@ -32,7 +32,7 @@ INSERT INTO EZC_CPN_PARTNER(	/* 쿠폰 제휴사 */
 <select id="selectEzcCpnPartner" parameterType="ezcCpnPartner" resultType="ezcCpnPartner">
 SELECT
 	 EZC_CPN_PARTNER.CPN_CD AS cpnCd	/* 쿠폰 코드, NUMBER(0,22) */
-	,EZC_CPN_PARTNER.PARTNER_CD_TYPE AS partnerCdType	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 	,EZC_CPN_PARTNER.CAL_RATIO AS calRatio	/* 정산 비율, NUMBER(0,22) */
 	,EZC_CPN_PARTNER.REG_ID AS regId	/* 등록자 ID, VARCHAR2(20) */
 	,EZC_CPN_PARTNER.REG_DT AS regDt	/* 등록 일시, VARCHAR2(14) */
@@ -42,7 +42,7 @@ FROM
 WHERE 1=1
 	AND EZC_CPN_PARTNER.CPN_CD = EZC_CPN.CPN_CD
 	AND EZC_CPN_PARTNER.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22), EZC_CPN_PARTNER_PK(P),FK_EZC_CPN_EZC_CPN_PARTNER(R),SYS_C0011342(C) */
-	AND EZC_CPN_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8), EZC_CPN_PARTNER_PK(P),SYS_C0011343(C) */
+
 </select>
 
 <select id="selectCountEzcCpnPartner" parameterType="ezcCpnPartner" resultType="java.lang.Integer">
@@ -56,9 +56,7 @@ WHERE 1=1
 	<if test="cpnCd != null and cpnCd gt 0">
 	AND EZC_CPN_PARTNER.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
 	</if>
-	<if test="partnerCdType != null and partnerCdType != ''">
-	AND EZC_CPN_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
-	</if>
+
 	<if test="calRatio != null and calRatio gt 0">
 	AND EZC_CPN_PARTNER.CAL_RATIO = #{calRatio, jdbcType=NUMERIC}	/* 정산 비율, NUMBER(0,22) */
 	</if>
@@ -76,7 +74,7 @@ SELECT * FROM (
 		/*  SQL Body Start  */
 		SELECT
 			 EZC_CPN_PARTNER.CPN_CD AS cpnCd	/* 쿠폰 코드, NUMBER(0,22) */
-			,EZC_CPN_PARTNER.PARTNER_CD_TYPE AS partnerCdType	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 			,EZC_CPN_PARTNER.CAL_RATIO AS calRatio	/* 정산 비율, NUMBER(0,22) */
 			,EZC_CPN_PARTNER.REG_ID AS regId	/* 등록자 ID, VARCHAR2(20) */
 			,EZC_CPN_PARTNER.REG_DT AS regDt	/* 등록 일시, VARCHAR2(14) */
@@ -88,9 +86,7 @@ SELECT * FROM (
 			<if test="cpnCd != null and cpnCd gt 0">
 			AND EZC_CPN_PARTNER.CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
 			</if>
-			<if test="partnerCdType != null and partnerCdType != ''">
-			AND EZC_CPN_PARTNER.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
-			</if>
+
 			<if test="calRatio != null and calRatio gt 0">
 			AND EZC_CPN_PARTNER.CAL_RATIO = #{calRatio, jdbcType=NUMERIC}	/* 정산 비율, NUMBER(0,22) */
 			</if>
@@ -114,14 +110,14 @@ UPDATE EZC_CPN_PARTNER SET	/* 쿠폰 제휴사 */
 	 CAL_RATIO = #{calRatio, jdbcType=NUMERIC}	/* 정산 비율, NUMBER(0,22) */
 WHERE 1=1
 	AND CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
-	AND PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 </update>
 
 <update id="mergeEzcCpnPartner" parameterType="ezcCpnPartner">
 MERGE INTO EZC_CPN_PARTNER /* 쿠폰 제휴사 */
 	USING DUAL ON (
 		CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
-		AND PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 	)
 	WHEN MATCHED THEN
 		UPDATE SET
@@ -129,13 +125,13 @@ MERGE INTO EZC_CPN_PARTNER /* 쿠폰 제휴사 */
 	WHEN NOT MATCHED THEN
 		INSERT (
 			 CPN_CD	/* 쿠폰 코드, NUMBER(0,22) */
-			,PARTNER_CD_TYPE	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 			,CAL_RATIO	/* 정산 비율, NUMBER(0,22) */
 			,REG_ID	/* 등록자 ID, VARCHAR2(20) */
 			,REG_DT	/* 등록 일시, VARCHAR2(14) */
 		) VALUES (
 			 #{cpnCd, jdbcType=DECIMAL}
-			,#{partnerCdType, jdbcType=VARCHAR}
+			
 			,#{calRatio, jdbcType=NUMERIC}
 			,#{regId, jdbcType=VARCHAR}
 			,#{regDt, jdbcType=VARCHAR}
@@ -146,7 +142,7 @@ MERGE INTO EZC_CPN_PARTNER /* 쿠폰 제휴사 */
 DELETE FROM EZC_CPN_PARTNER /* 쿠폰 제휴사 */
 WHERE 1=1
 	AND CPN_CD = #{cpnCd, jdbcType=DECIMAL}	/* 쿠폰 코드, NUMBER(0,22) */
-	AND PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
+
 </delete>
 
 

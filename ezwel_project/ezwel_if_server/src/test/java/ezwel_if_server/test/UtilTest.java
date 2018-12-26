@@ -169,7 +169,7 @@ public class UtilTest {
         
     }
     
-    @Test
+    //@Test
     public void morpTest() {
     	
     	CommonUtil common = new CommonUtil();
@@ -194,5 +194,11 @@ public class UtilTest {
         }
         
         // 별 > 명사로 안나옴
+    }
+    
+    @Test
+    public void testSyntax() {
+    	String testData = null;
+    	logger.info( "{}", "abc".equals(testData)  );
     }
 }

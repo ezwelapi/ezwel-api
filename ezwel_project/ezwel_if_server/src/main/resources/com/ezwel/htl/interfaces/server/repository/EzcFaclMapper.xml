@@ -17,7 +17,6 @@
 INSERT INTO EZC_FACL(	/* 시설 정보 */
 	 FACL_CD	/* 시설 코드, NUMBER(0,22) */
 	,PARTNER_CD	/* 제휴사 코드, VARCHAR2(20) */
-	,PARTNER_CD_TYPE	/* 제휴사 코드 유형, VARCHAR2(8) */
 	,FACL_DIV	/* 시설 구분, VARCHAR2(8) */
 	,PARTNER_GOODS_CD	/* 제휴사 상품 코드, VARCHAR2(100) */
 	,FACL_NM_KOR	/* 시설 명 한글, VARCHAR2(100) */
@@ -55,7 +54,6 @@ INSERT INTO EZC_FACL(	/* 시설 정보 */
 ) VALUES (
 	 #{faclCd, jdbcType=DECIMAL}
 	,#{partnerCd, jdbcType=VARCHAR}
-	,#{partnerCdType, jdbcType=VARCHAR}
 	,#{faclDiv, jdbcType=VARCHAR}
 	,#{partnerGoodsCd, jdbcType=VARCHAR}
 	,#{faclNmKor, jdbcType=VARCHAR}
@@ -93,11 +91,64 @@ INSERT INTO EZC_FACL(	/* 시설 정보 */
 )
 </insert>
 
+<select id="selectFaclMappingStep1" parameterType="ezcFacl" resultType="ezcFacl">
+SELECT * FROM (
+    SELECT /*+ NO_MERGE */
+        CITY_CD,
+        AREA_CD,
+        ROOM_TYPE,
+        ROOM_CLASS
+    FROM
+        EZC_FACL
+    GROUP BY
+        CITY_CD,
+        AREA_CD,
+        ROOM_TYPE,
+        ROOM_CLASS
+)
+ORDER BY   
+    CITY_CD,
+    AREA_CD,
+    ROOM_TYPE,
+    ROOM_CLASS  
+</select>
+
+<select id="selectFaclMappingStep2" parameterType="ezcFacl" resultType="ezcFacl">
+WITH EZC_FACL_WITH AS (
+    SELECT /*+ MATERIALIZED */ 
+        FACL_CD, FACL_KOR_MORP, FACL_ENG_MORP
+    FROM 
+    	EZC_FACL
+    WHERE 1=1
+    	AND FACL_KOR_MORP IS NOT NULL
+        AND CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10), FK_EZC_CITY_CD_EZC_FACL(R),SYS_C0011067(C) */
+        AND AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10), FK_EZC_AREA_CD_EZC_FACL(R),SYS_C0011066(C) */
+        AND ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
+        AND ROOM_CLASS = #{roomClass, jdbcType=VARCHAR}	/* 숙소 등급, VARCHAR2(8) */
+)
+SELECT 
+     FACL_CD faclCd
+    ,'KR' morpType
+    ,REGEXP_SUBSTR(FACL_KOR_MORP,'[^,]+', 1, LEVEL) faclNmMorp 
+FROM 
+	EZC_FACL_WITH
+CONNECT BY 
+    REGEXP_SUBSTR(FACL_KOR_MORP, '[^,]+', 1, LEVEL) IS NOT NULL
+UNION ALL
+SELECT 
+     FACL_CD faclCd
+    ,'EN' morpType
+    ,REGEXP_SUBSTR(FACL_ENG_MORP,'[^,]+', 1, LEVEL) faclNmMorp 
+FROM 
+	EZC_FACL
+CONNECT BY 
+    REGEXP_SUBSTR(FACL_ENG_MORP, '[^,]+', 1, LEVEL) IS NOT NULL
+</select>
+
 <select id="selectEzcFacl" parameterType="ezcFacl" resultType="ezcFacl">
 SELECT
 	 EZC_FACL.FACL_CD AS faclCd	/* 시설 코드, NUMBER(0,22) */
 	,EZC_FACL.PARTNER_CD AS partnerCd	/* 제휴사 코드, VARCHAR2(20) */
-	,EZC_FACL.PARTNER_CD_TYPE AS partnerCdType	/* 제휴사 코드 유형, VARCHAR2(8) */
 	,EZC_FACL.FACL_DIV AS faclDiv	/* 시설 구분, VARCHAR2(8) */
 	,EZC_FACL.PARTNER_GOODS_CD AS partnerGoodsCd	/* 제휴사 상품 코드, VARCHAR2(100) */
 	,EZC_FACL.FACL_NM_KOR AS faclNmKor	/* 시설 명 한글, VARCHAR2(100) */
@@ -235,9 +286,6 @@ WHERE 1=1
 	<if test="partnerCd != null and partnerCd != ''">
 	AND EZC_FACL.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
 	</if>
-	<if test="partnerCdType != null and partnerCdType != ''">
-	AND EZC_FACL.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
-	</if>
 	<if test="faclDiv != null and faclDiv != ''">
 	AND EZC_FACL.FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
 	</if>
@@ -343,7 +391,6 @@ SELECT * FROM (
 		SELECT
 			 EZC_FACL.FACL_CD AS faclCd	/* 시설 코드, NUMBER(0,22) */
 			,EZC_FACL.PARTNER_CD AS partnerCd	/* 제휴사 코드, VARCHAR2(20) */
-			,EZC_FACL.PARTNER_CD_TYPE AS partnerCdType	/* 제휴사 코드 유형, VARCHAR2(8) */
 			,EZC_FACL.FACL_DIV AS faclDiv	/* 시설 구분, VARCHAR2(8) */
 			,EZC_FACL.PARTNER_GOODS_CD AS partnerGoodsCd	/* 제휴사 상품 코드, VARCHAR2(100) */
 			,EZC_FACL.FACL_NM_KOR AS faclNmKor	/* 시설 명 한글, VARCHAR2(100) */
@@ -401,9 +448,6 @@ SELECT * FROM (
 			</if>
 			<if test="partnerCd != null and partnerCd != ''">
 			AND EZC_FACL.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
-			</if>
-			<if test="partnerCdType != null and partnerCdType != ''">
-			AND EZC_FACL.PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
 			</if>
 			<if test="faclDiv != null and faclDiv != ''">
 			AND EZC_FACL.FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
@@ -512,8 +556,7 @@ WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMER
 
 <update id="updateEzcFacl" parameterType="ezcFacl">
 UPDATE EZC_FACL SET	/* 시설 정보 */
-	 PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
-	,FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
+	 FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
 	,PARTNER_GOODS_CD = #{partnerGoodsCd, jdbcType=VARCHAR}	/* 제휴사 상품 코드, VARCHAR2(100) */
 	,FACL_NM_KOR = #{faclNmKor, jdbcType=VARCHAR}	/* 시설 명 한글, VARCHAR2(100) */
 	,FACL_NM_ENG = #{faclNmEng, jdbcType=VARCHAR}	/* 시설 명 영문, VARCHAR2(100) */
@@ -549,6 +592,17 @@ WHERE 1=1
 	AND FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
 </update>
 
+<update id="updateRemoveFacl" parameterType="ezcFacl">
+UPDATE EZC_FACL SET 
+    USE_YN = #{useYn, jdbcType=VARCHAR}
+WHERE FACL_DIV = #{faclDiv, jdbcType=VARCHAR}
+	AND ( 	
+		(REG_DT IS NOT NULL AND MODI_DT IS NULL AND TO_DATE(REG_DT, 'yyyyMMddHH24miss') &lt; TO_DATE(#{regDt, jdbcType=VARCHAR}, 'yyyyMMddHH24miss'))
+    	OR  
+    	(REG_DT IS NOT NULL AND MODI_DT IS NOT NULL AND TO_DATE(MODI_DT, 'yyyyMMddHH24miss') &lt; TO_DATE(#{modiDt, jdbcType=VARCHAR}, 'yyyyMMddHH24miss')) 
+    )
+</update>
+
 <update id="mergeEzcFacl" parameterType="ezcFacl">
 MERGE INTO EZC_FACL /* 시설 정보 */
 	USING DUAL ON (
@@ -559,8 +613,7 @@ MERGE INTO EZC_FACL /* 시설 정보 */
 	)
 	WHEN MATCHED THEN
 		UPDATE SET
-			 PARTNER_CD_TYPE = #{partnerCdType, jdbcType=VARCHAR}	/* 제휴사 코드 유형, VARCHAR2(8) */
-			,FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
+			 FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
 			,PARTNER_GOODS_CD = #{partnerGoodsCd, jdbcType=VARCHAR}	/* 제휴사 상품 코드, VARCHAR2(100) */
 			,FACL_NM_KOR = #{faclNmKor, jdbcType=VARCHAR}	/* 시설 명 한글, VARCHAR2(100) */
 			,FACL_NM_ENG = #{faclNmEng, jdbcType=VARCHAR}	/* 시설 명 영문, VARCHAR2(100) */
@@ -596,7 +649,6 @@ MERGE INTO EZC_FACL /* 시설 정보 */
 		INSERT (
 			 FACL_CD	/* 시설 코드, NUMBER(0,22) */
 			,PARTNER_CD	/* 제휴사 코드, VARCHAR2(20) */
-			,PARTNER_CD_TYPE	/* 제휴사 코드 유형, VARCHAR2(8) */
 			,FACL_DIV	/* 시설 구분, VARCHAR2(8) */
 			,PARTNER_GOODS_CD	/* 제휴사 상품 코드, VARCHAR2(100) */
 			,FACL_NM_KOR	/* 시설 명 한글, VARCHAR2(100) */
@@ -634,7 +686,6 @@ MERGE INTO EZC_FACL /* 시설 정보 */
 		) VALUES (
 			 #{faclCd, jdbcType=DECIMAL}
 			,#{partnerCd, jdbcType=VARCHAR}
-			,#{partnerCdType, jdbcType=VARCHAR}
 			,#{faclDiv, jdbcType=VARCHAR}
 			,#{partnerGoodsCd, jdbcType=VARCHAR}
 			,#{faclNmKor, jdbcType=VARCHAR}
