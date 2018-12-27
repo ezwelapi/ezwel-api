@@ -1,7 +1,6 @@
 package com.ezwel.htl.interfaces.service.data.allReg;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
@@ -23,8 +22,11 @@ import lombok.EqualsAndHashCode;
 @APIModel(description="시설 정보")
 public class AllRegDataRealtimeImageOutSDO extends AbstractSDO {
 
-	@APIFields(description = "이미지 URL", maxLength=500, required=true, constraints="SYS_C0011110(C)")
+	@APIFields(description = "제휴사 이미지 URL", maxLength=500, required=true, constraints="SYS_C0011110(C)")
 	private String partnerImgUrl;
+
+	@APIFields(description = "이미지 저장경로")
+	private String imgUrl;
 	
 	@APIFields(description = "도시 코드", maxLength=10, constraints="FK_EZC_CITY_CD_EZC_FACL(R),SYS_C0011067(C) EZC_FACL_IF01(NONUNIQUE)")
 	private String cityCd;
@@ -40,6 +42,13 @@ public class AllRegDataRealtimeImageOutSDO extends AbstractSDO {
 
 	@APIFields(description = "시설 코드", maxLength=10, constraints="FK_EZC_FACL_EZC_FACL_IMG(R),SYS_C0011107(C) EZC_FACL_IMG_IF01(NONUNIQUE)")
 	private BigDecimal faclCd;
+	
+	@APIFields(description = "이미지 저장/다운로드 패스 여부")
+	private Boolean isPassImage;
+	
+	@APIFields(description = "이미지 수집성공 여부", maxLength=1)
+	private String imgCletYn;	
+	
 	
 	public String getPartnerImgUrl() {
 		return partnerImgUrl;
@@ -87,6 +96,30 @@ public class AllRegDataRealtimeImageOutSDO extends AbstractSDO {
 
 	public void setFaclCd(BigDecimal faclCd) {
 		this.faclCd = faclCd;
+	}
+
+	public Boolean getIsPassImage() {
+		return isPassImage;
+	}
+
+	public void setIsPassImage(Boolean isPassImage) {
+		this.isPassImage = isPassImage;
+	}
+
+	public String getImgCletYn() {
+		return imgCletYn;
+	}
+
+	public void setImgCletYn(String imgCletYn) {
+		this.imgCletYn = imgCletYn;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 
 	

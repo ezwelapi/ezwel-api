@@ -29,7 +29,7 @@ public class DownloadMultiService extends AbstractComponent implements Callable<
 	 * @param count
 	 */
 	public DownloadMultiService(ImageSDO inImageParam, Integer count) {
-		logger.info("- DownloadService Initialized : {}, URL : {}", count, inImageParam.getImageURL());
+		logger.warn("- DownloadService Initialized : {}, URL : {}", count, inImageParam.getImageURL());
 		/** 필요 한 지역변수 세팅 */
 		fileUtil = (FileUtil) LApplicationContext.getBean(fileUtil, FileUtil.class);
 		this.imageParam = inImageParam;

@@ -73,26 +73,46 @@ public class OutsideService extends AbstractServiceObject {
 	private PropertyUtil propertyUtil;
 	
 	/** 제휴사 별 시설 정보 transaction commit 건수 */
-	private static final Integer FACL_REG_DATA_TX_COUNT = 50;
+	private static final Integer FACL_REG_DATA_TX_COUNT;
 	
 	/** 이미지 다운로드 멀티쓰레드 개수 */
-	private static final Integer IMG_DOWNLOAD_MULTI_COUNT = 20;
+	private static final Integer IMG_DOWNLOAD_MULTI_COUNT;
 	
 	/** 시설 이미지 전체 조회 페이징 개수 */
-	private static final Integer FACL_IMG_PAGE_SIZE = 10000;
+	private static final Integer FACL_IMG_PAGE_SIZE;
 	
 	/** 시설 이미지 변경 정보 1 커넥션당 업데이트 개수  */
-	private static final Integer FACL_IMG_UPDATE_COUNT = 3000;
+	private static final Integer FACL_IMG_UPDATE_COUNT;
 	
+	/** 전체시설일괄등록 실행 중 플래그 */
+	private static boolean isCallAllRegRunning;
 	
-	private static final String ALL_REG_CHANNEL = "allReg";
-	
+	static {
+		FACL_REG_DATA_TX_COUNT = 50;
+		IMG_DOWNLOAD_MULTI_COUNT = 20;
+		FACL_IMG_PAGE_SIZE = 10000;
+		FACL_IMG_UPDATE_COUNT = 3000;
+		isCallAllRegRunning = false;
+	}
+
+	public static boolean isCallAllRegRunning() {
+		return isCallAllRegRunning;
+	}
+
 	/**
 	 * 맵핑 시설 : EZC_FACL, EZC_FACL_IMG, EZC_FACL_AMENT ( 1 : N : N ), 데이터 적제 
 	 * 요청(입력) 파라메터 없음
 	 */
 	@APIOperation(description="전체시설일괄등록 인터페이스")
-	public AllRegOutSDO callAllReg(UserAgentSDO userAgentDTO) {
+	public synchronized AllRegOutSDO callAllReg(UserAgentSDO userAgentDTO) {
+		
+		if(isCallAllRegRunning()) {
+			throw new APIException("전체시설일괄등록 인터페이스가 이미 실행중입니다.");
+		}
+		else {
+			//실행중 변환
+			isCallAllRegRunning = true;
+		}
 		
 		inteface = (HttpInterfaceExecutor) LApplicationContext.getBean(inteface, HttpInterfaceExecutor.class);
 		configureHelper = (ConfigureHelper) LApplicationContext.getBean(configureHelper, ConfigureHelper.class);
@@ -110,7 +130,9 @@ public class OutsideService extends AbstractServiceObject {
 			
 			channelList = InterfaceFactory.getChannelGroup(userAgentDTO.getHttpAgentGroupId());
 			if(channelList != null) {
+				
 				for(HttpConfigSDO httpConfigSDO : channelList) {
+					
 					multi = new MultiHttpConfigSDO();
 					configureHelper.setupUserAgentInfo(userAgentDTO, httpConfigSDO);
 					//no input 
@@ -132,16 +154,64 @@ public class OutsideService extends AbstractServiceObject {
 				inEzcDetailCd.addClassCdList(CodeDataConstants.CD_CLASS_CD_G002, CodeDataConstants.CD_CLASS_CD_G003, CodeDataConstants.CD_CLASS_CD_C007, CodeDataConstants.CD_CLASS_CD_G005);
 				/** execute save transaction */
 				out = insertAllFacl(assets, new AllRegOutSDO(), commonRepository.selectListCommonCode(inEzcDetailCd), 0);
+			
+				//등록/갱신이 실행된 yyyyMMddHHmmss이 ThradLocal의 StartTimeMillis보다 이전 데이터는 전문에서 제외된 시설로서 사용안함 처리
+				// 조건 : 시설 구분 컬럼 데이터가 API 인것만
+				EzcFacl removeEzcFacl = new EzcFacl();
+				removeEzcFacl.setFaclDiv(CodeDataConstants.CD_API_G0010001); // API
+				removeEzcFacl.setUseYn(CodeDataConstants.CD_N);
+				out.setTxCount(out.getTxCount() + outsideRepository.updateRemoveFacl(removeEzcFacl, true));
+			}
+			
+			if(out != null) {
+				logger.info("[SERVICE-FINAL] createDownloadFileUrlList size : {}", (out.getCreateDownloadFileUrlList() != null ? out.getCreateDownloadFileUrlList().size() : 0));
+				logger.info("[SERVICE-FINAL] deleteDownloadFilePathList size : {}", (out.getDeleteDownloadFilePathList() != null ? out.getDeleteDownloadFilePathList().size() : 0));
+				
+				/** 데이터 저장이 모두 끝난후 변경사항이 존재하는 제휴사 별 멀티쓰레드 이미지 다운로드/삭제 실행 */
+				downloadMultiImage(out);	
 			}
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "전체시설일괄등록 인터페이스 장애발생.", e);
+		}
+		finally {
+			//실행중 해지
+			isCallAllRegRunning = false;
 		}
 		
 		return out;
 	}	
 	
 	
+	@APIOperation(description="시설 매핑")
+	public void execFaclMapping() {
+		logger.debug("[START] execFaclMapping");
+		
+		List<EzcFacl> faclMappingStep1List = null;
+		List<EzcFacl> faclMappingStep2List = null;
+		List<EzcFacl> faclMappingStep2ListClone = null;
+		EzcFacl ezcFacl = null;
+		try {
+			ezcFacl = new EzcFacl();
+			faclMappingStep1List = outsideRepository.selectFaclMappingStep1(ezcFacl);
+			
+			for(EzcFacl faclMorp : faclMappingStep1List) {
+				faclMappingStep2List = outsideRepository.selectFaclMappingStep2(faclMorp);
+				if(faclMappingStep2List != null && faclMappingStep2List.size() > 0) {
+					//비교 대조를 위한 목록 복제
+					faclMappingStep2ListClone = new ArrayList<EzcFacl>();
+					faclMappingStep2ListClone.addAll(faclMappingStep2List);
+					
+					//분석 비교 시작(추론검색)
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		logger.debug("[END] execFaclMapping");
+	}
 	
 	/**
 	 * 맵핑 시설 : EZC_FACL, EZC_FACL_IMG, EZC_FACL_AMENT ( 1 : N : N ), 데이터 적제
@@ -192,25 +262,20 @@ public class OutsideService extends AbstractServiceObject {
 			}
 			else {
 				
-				String partnerGoodsCd = null;
-				
 				/** 제휴사 1건 별 이하 프로세스 실행 */
 				if(allReg != null && allReg.getData() != null && allReg.getData().size() > 0) {
 					/** 제휴사 별 시설 목록 */
 					faclDataList = allReg.getData();
 					/** ezwel 시설 정보 목록 */
 					ezcFaclList = new ArrayList<EzcFacl>();
-					
+					/** 제휴사 별 시설 목록 loop */
 					for(AllRegDataOutSDO faclData : faclDataList) {
-						/** 제휴사 별 시설 데이터 세팅 */  /* => 이슈 : 제휴사 ID : 호텔패스글로벌 전문에 데이터가  전달되어오지 않기때문에 임시로 APIUtil.getId() 처리함 */
-						partnerGoodsCd = APIUtil.NVL(faclData.getPdtNo()/*, APIUtil.getId()*/);
 						
 						ezcFacl = new EzcFacl(); 
 						//ezcFacl.setFaclCd(faclCd); //sequnce
 						ezcFacl.setPartnerCd(allReg.getHttpAgentId()); // 에이전트 ID
-						ezcFacl.setPartnerCdType(allReg.getPatnCdType());
 						ezcFacl.setFaclDiv(CodeDataConstants.CD_API_G0010001); //시설 구분 ( API )
-						ezcFacl.setPartnerGoodsCd( partnerGoodsCd );
+						ezcFacl.setPartnerGoodsCd( faclData.getPdtNo() ); //상품코드
 						ezcFacl.setFaclNmKor( APIUtil.NVL(faclData.getPdtName(), OperateConstants.STR_EMPTY) ); /* 시설 한글 명 => 호텔패스글로벌 전문에 데이터가 전달되어오지 않기때문에 임시로 EMPTY 처리함 */
 						ezcFacl.setFaclNmEng(faclData.getPdtNameEng());
 						ezcFacl.setRoomType( APIUtil.NVL(commonUtil.getMasterCdForCodeList(detailCdList, faclData.getTypeCode()), "NA-G002") ); // -> DB 공통코드 (테이블 : EZC_DETAIL_CD.DETAIL_CD  = '#{typeCode}' AND EZC_DETAIL_CD.CLASS_CD = 'G002' )
@@ -222,7 +287,7 @@ public class OutsideService extends AbstractServiceObject {
 						ezcFacl.setAreaCd( APIUtil.NVL(faclData.getGunguCode(), OperateConstants.STR_EMPTY) );	//지역코드(군구코드) => 호텔패스글로벌 전문에 데이터가  전달되어오지 않기때문에 임시로 EMPTY 처리함 */
 						ezcFacl.setCityCd( APIUtil.NVL(faclData.getSidoCode(), OperateConstants.STR_EMPTY) );	//도시코드(시도코드)
 						ezcFacl.setAddrType( APIUtil.NVL(commonUtil.getMasterCdForCodeList(detailCdList, faclData.getAddressType()), "NA-C007") );  //주소 유형 -> DB 공통코드 (테이블 : EZC_DETAIL_CD)
-						ezcFacl.setAddr( APIUtil.NVL(faclData.getAddress(), OperateConstants.STR_EMPTY) );	//주소
+						ezcFacl.setAddr( APIUtil.NVL(faclData.getAddress(), OperateConstants.STR_EMPTY, true) );	//주소
 						ezcFacl.setPost(faclData.getZipCode());	//우편번호
 						ezcFacl.setTelNum(faclData.getTelephone());	//전화 번호
 						ezcFacl.setCoordY(faclData.getMapX());	//위도
@@ -252,17 +317,18 @@ public class OutsideService extends AbstractServiceObject {
 							imgUrlStringList = new ArrayList<String>();
 							imageList = new ArrayList<ImageSDO>();
 							
+							//전문 이미지 loop
 							for(AllRegSubImagesOutSDO subImages : faclData.getSubImages()) {
 								ezcFaclImg = new EzcFaclImg();
 								//ezcFaclImg.setFaclCd(faclCd); sequnce
 								//ezcFaclImg.setFaclImgSeq(faclImgSeq); sequnce
 								ezcFaclImg.setFaclImgType(CodeDataConstants.CD_FACL_IMG_TYPE_G0080001);
 								//+ PARTNER_IMG_URL 컬럼 추가할 당시 PARTNER_IMG_URL 컬럼에 이미지 URL을 저장하고  IMG_URL 컬럼에 다운로드 경로 저장하라고 함 (from 전용필차장) 
-								ezcFaclImg.setPartnerImgUrl(subImages.getImage() != null ? subImages.getImage().trim() : OperateConstants.STR_BLANK); // 이미지 URL 
+								ezcFaclImg.setPartnerImgUrl(APIUtil.NVL(subImages.getImage()).trim()); // 이미지 URL 
 								ezcFaclImg.setImgDesc(subImages.getDesc()); // 이미지 설명
 								
-								//이미지 URL이 empty이면 패스 (저장할 의미가 없음)
-								if(!ezcFaclImg.getPartnerImgUrl().isEmpty() && imgUrlStringList.indexOf(ezcFaclImg.getPartnerImgUrl()) == -1) {
+								//이미지 URL이 empty이이거나 이전에 존재하는 이미지이면 패스 (저장할 의미가 없음) 
+								if(APIUtil.isNotEmpty(ezcFaclImg.getPartnerImgUrl()) && imgUrlStringList.indexOf(ezcFaclImg.getPartnerImgUrl()) == -1) {
 									
 									if(!ezcFacl.getMainImgUrl().isEmpty() && ezcFacl.getMainImgUrl().equals(ezcFaclImg.getPartnerImgUrl())) {
 										ezcFaclImg.setMainImgYn(CodeDataConstants.CD_Y); // 메인 이미지 여부
@@ -276,10 +342,8 @@ public class OutsideService extends AbstractServiceObject {
 									ezcFaclImgList.add(ezcFaclImg);
 								}
 							}
-							
-							if(imgUrlStringList != null) {
-								imgUrlStringList.clear();
-							}
+							//동일한 이미지URL 중복 체크를 위한 리스트 clear
+							imgUrlStringList.clear();
 						}
 						
 						ezcFacl.setEzcFaclImgList(ezcFaclImgList);
@@ -410,7 +474,7 @@ public class OutsideService extends AbstractServiceObject {
 				//파일 삭제
 				if(inRealtimePart.getDeleteDownloadFilePathList() != null) {
 					
-					logger.debug("# RealtimePart 삭제대상 파일 개수 : {}", inRealtimePart.getDeleteDownloadFilePathList().size());
+					logger.info("# RealtimePart 삭제대상 파일 개수 : {}", inRealtimePart.getDeleteDownloadFilePathList().size());
 					
 					for(String deletePath : inRealtimePart.getDeleteDownloadFilePathList()) {
 						deleteFile = new File(deletePath);
@@ -419,7 +483,7 @@ public class OutsideService extends AbstractServiceObject {
 							//실제 파일 삭제
 							isDelete = deleteFile.delete();
 						}
-						logger.debug("# deleteFile : {}, isDelete : {}", deletePath, isDelete);
+						logger.info("# deleteFile : {}, isDelete : {}", deletePath, isDelete);
 					}
 				}
 			}
@@ -434,7 +498,7 @@ public class OutsideService extends AbstractServiceObject {
 				
 				if(inRealtimePart.getCreateDownloadFileUrlList() != null) {
 					
-					logger.debug("# RealtimePart 신규 다운로드 대상 파일 개수 : {}", inRealtimePart.getCreateDownloadFileUrlList().size());
+					logger.info("# RealtimePart 신규 다운로드 대상 파일 개수 : {}", inRealtimePart.getCreateDownloadFileUrlList().size());
 					
 					ezcFaclImgList = new ArrayList<EzcFaclImg>();
 					for(AllRegDataRealtimeImageOutSDO realtimePartFile : inRealtimePart.getCreateDownloadFileUrlList()) {
@@ -497,7 +561,7 @@ public class OutsideService extends AbstractServiceObject {
 										outEzcFaclImg.setImgCletYn(CodeDataConstants.CD_Y);
 										outEzcFaclImg.setImgCletMsg(MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_1000));
 										outEzcFaclImg.setImgFileSize(new BigDecimal(outImageSDO.getFileSize()));
-										logger.debug("[DOWNLOAD-SUCCESS-INFO] ImgUrl : {}", outEzcFaclImg.getImgUrl());
+										logger.debug("[DOWNLOAD-SUCCESS-INFO]\n[Ｏ] PartnerImgUrl : {}\n- ImgUrl : {}", outEzcFaclImg.getPartnerImgUrl(), outEzcFaclImg.getImgUrl());
 									}
 									else {
 										//fail
@@ -506,7 +570,7 @@ public class OutsideService extends AbstractServiceObject {
 										outEzcFaclImg.setImgCletYn(CodeDataConstants.CD_N);
 										outEzcFaclImg.setImgCletMsg(outImageSDO.getDescription());
 										outEzcFaclImg.setImgFileSize(OperateConstants.BIGDECIMAL_ZERO_VALUE);
-										logger.debug("[DOWNLOAD-FAIL-INFO] ImgUrl : {}", outEzcFaclImg.getImgUrl());
+										logger.debug("[DOWNLOAD-FAIL-INFO]\n[Ｘ] PartnerImgUrl : {}", outEzcFaclImg.getPartnerImgUrl());
 									}
 									
 									finalFaclImgList.add(outEzcFaclImg);
@@ -518,6 +582,7 @@ public class OutsideService extends AbstractServiceObject {
 						}
 					}
 					
+					logger.info("[PROC] UPDATE BUILD IMAGE - START");
 					//시설 이미지 데이터 UPDATE
 					txCount = updateBuildImage(finalFaclImgList, 0, 0);
 				}

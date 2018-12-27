@@ -40,8 +40,9 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "제휴사 코드", maxLength=20, required=true, constraints="FK_EZC_PARTNER_EZC_FACL(R),SYS_C0011054(C) EZC_FACL_IF03(NONUNIQUE)")
 	private String partnerCd;
 
-	@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="SYS_C0011055(C)")
-	private String partnerCdType;
+	//AA쪽에서 컬럼삭제
+	//@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="SYS_C0011055(C)")
+	//private String partnerCdType;
 
 	@APIFields(description = "시설 구분", maxLength=8, required=true, constraints="SYS_C0011056(C)")
 	private String faclDiv;
@@ -157,9 +158,32 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "시설 형태소 영문", maxLength=1600)
 	private String faclEngMorp;	
 	
+	@APIFields(description = "형태소 유형")
+	private String morpType;
+	
+	@APIFields(description = "시설 이름 형태소")
+	private String faclNmMorp;
+	
 	@APIFields(description = "시설 부대시설 목록")
 	private List<String> ezcFaclAmentList;	
+
 	
+	public String getMorpType() {
+		return morpType;
+	}
+
+	public void setMorpType(String morpType) {
+		this.morpType = morpType;
+	}
+
+	public String getFaclNmMorp() {
+		return faclNmMorp;
+	}
+
+	public void setFaclNmMorp(String faclNmMorp) {
+		this.faclNmMorp = faclNmMorp;
+	}
+
 	public String getEzcFaclAments() {
 		return ezcFaclAments;
 	}
@@ -182,14 +206,6 @@ public class EzcFacl extends AbstractEntity {
 
 	public void setPartnerCd(String partnerCd) {
 		this.partnerCd = partnerCd;
-	}
-
-	public String getPartnerCdType() {
-		return partnerCdType;
-	}
-
-	public void setPartnerCdType(String partnerCdType) {
-		this.partnerCdType = partnerCdType;
 	}
 
 	public String getFaclDiv() {

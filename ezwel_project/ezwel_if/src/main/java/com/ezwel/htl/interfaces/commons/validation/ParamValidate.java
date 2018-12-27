@@ -202,9 +202,9 @@ public class ParamValidate {
 	@APIOperation(description="바인드된 ParamValidateSDO설정값으로 유효성검사를 실행 합니다.")
     public ParamValidateSDO run(ParamValidateSDO paramValidate){
     	
-    	if( logger.isDebugEnabled() ) {
-	    	logger.debug("유효성 검증 필드 : {}", paramValidate);
-	    }
+    	if(IS_LOGGING) {
+    		logger.debug("유효성 검증 필드 : {}", paramValidate);
+    	}
     	
     	/**
     	 * paramValidate.getValidateType()으로 벨리데이션 유형을 판단한다. 

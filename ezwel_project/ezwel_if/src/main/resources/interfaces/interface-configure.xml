@@ -225,7 +225,7 @@
 		<httpChan>
 			<chanId>allReg</chanId>
 			<httpAgentId>99999999</httpAgentId>
-			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
+			<!-- <httpAgentGroupId>multiAllReg</httpAgentGroupId> -->
 			<description>제휴사협의중 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
 			<encoding>UTF-8</encoding>

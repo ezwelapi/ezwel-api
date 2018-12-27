@@ -99,6 +99,7 @@ WHERE 1=1
 	<if test="imgDesc != null and imgDesc != ''">
 	AND EZC_FACL_IMG.IMG_DESC LIKE '%' || #{imgDesc, jdbcType=VARCHAR} || '%'	/* 이미지 설명, VARCHAR2(1000) */
 	</if>
+	<!-- 
 	<if test="regId != null and regId != ''">
 	AND EZC_FACL_IMG.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
 	</if>
@@ -111,6 +112,7 @@ WHERE 1=1
 	<if test="modiDt != null and modiDt != ''">
 	AND EZC_FACL_IMG.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 	</if>
+	-->
 	<if test="partnerImgUrl != null and partnerImgUrl != ''">
 	AND EZC_FACL_IMG.PARTNER_IMG_URL LIKE '%' || #{partnerImgUrl, jdbcType=VARCHAR} || '%'	/* 이미지 경로, VARCHAR2(500) */
 	</if>
@@ -161,6 +163,7 @@ SELECT * FROM (
 			<if test="imgDesc != null and imgDesc != ''">
 			AND EZC_FACL_IMG.IMG_DESC LIKE '%' || #{imgDesc, jdbcType=VARCHAR} || '%'	/* 이미지 설명, VARCHAR2(1000) */
 			</if>
+			<!-- 
 			<if test="regId != null and regId != ''">
 			AND EZC_FACL_IMG.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
 			</if>
@@ -173,6 +176,7 @@ SELECT * FROM (
 			<if test="modiDt != null and modiDt != ''">
 			AND EZC_FACL_IMG.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
+			-->
 			<if test="partnerImgUrl != null and partnerImgUrl != ''">
 			AND EZC_FACL_IMG.PARTNER_IMG_URL LIKE '%' || #{partnerImgUrl, jdbcType=VARCHAR} || '%'	/* 이미지 경로, VARCHAR2(500) */
 			</if>
@@ -186,49 +190,66 @@ WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMER
 </select>
 
 
-<select id="selectListPartnerImgUrlString" parameterType="ezcFaclImg" resultType="java.lang.String">
-SELECT
-	EZC_FACL_IMG.PARTNER_IMG_URL AS partnerImgUrl	/* 이미지 URL, VARCHAR2(500) */
-FROM
-	 EZC_FACL_IMG	/* 시설 이미지 */
-	,EZC_FACL	/* 시설 정보 */
-WHERE 1=1
-	AND EZC_FACL_IMG.FACL_CD = EZC_FACL.FACL_CD
-	<if test="mainImgYn != null and mainImgYn != ''">
-	AND EZC_FACL_IMG.MAIN_IMG_YN = #{mainImgYn, jdbcType=CHAR}	/* 대표 이미지 여부, CHAR(1) */
-	</if>
-	<if test="faclImgSeq != null and faclImgSeq gt 0">
-	AND EZC_FACL_IMG.FACL_IMG_SEQ = #{faclImgSeq, jdbcType=DECIMAL}	/* 시설 이미지 일련번호, NUMBER(0,22) */
-	</if>
-	<if test="faclCd != null and faclCd gt 0">
-	AND EZC_FACL_IMG.FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
-	</if>
-	<if test="faclImgType != null and faclImgType != ''">
-	AND EZC_FACL_IMG.FACL_IMG_TYPE = #{faclImgType, jdbcType=VARCHAR}	/* 시설 이미지 유형, VARCHAR2(8) */
-	</if>
-	<if test="imgUrl != null and imgUrl != ''">
-	AND EZC_FACL_IMG.IMG_URL = #{imgUrl, jdbcType=VARCHAR}	/* 이미지 URL, VARCHAR2(200) */
-	</if>
-	<if test="imgDesc != null and imgDesc != ''">
-	AND EZC_FACL_IMG.IMG_DESC LIKE '%' || #{imgDesc, jdbcType=VARCHAR} || '%'	/* 이미지 설명, VARCHAR2(1000) */
-	</if>
-	<if test="regId != null and regId != ''">
-	AND EZC_FACL_IMG.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
-	</if>
-	<if test="regDt != null and regDt != ''">
-	AND EZC_FACL_IMG.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
-	</if>
-	<if test="modiId != null and modiId != ''">
-	AND EZC_FACL_IMG.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
-	</if>
-	<if test="modiDt != null and modiDt != ''">
-	AND EZC_FACL_IMG.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
-	</if>
-	<if test="partnerImgUrl != null and partnerImgUrl != ''">
-	AND EZC_FACL_IMG.PARTNER_IMG_URL LIKE '%' || #{partnerImgUrl, jdbcType=VARCHAR} || '%'	/* 이미지 경로, VARCHAR2(500) */
-	</if>
-GROUP BY
-	EZC_FACL_IMG.PARTNER_IMG_URL
+<select id="selectListPartnerImgInfo" parameterType="ezcFaclImg" resultType="ezcFaclImg">
+SELECT /*+ NO_MERGE */ 
+	IMAGES.* 
+FROM (
+	SELECT
+		 EZC_FACL_IMG.FACL_CD AS faclCd
+		,EZC_FACL_IMG.PARTNER_IMG_URL AS partnerImgUrl	/* 이미지 URL, VARCHAR2(500) */
+		,EZC_FACL_IMG.IMG_URL AS imgUrl
+		,EZC_FACL_IMG.IMG_CLET_YN AS imgCletYn
+		,MAX(EZC_FACL_IMG.FACL_IMG_SEQ) AS faclImgSeq
+	FROM
+		 EZC_FACL_IMG	/* 시설 이미지 */
+		,EZC_FACL	/* 시설 정보 */
+	WHERE 1=1
+		AND EZC_FACL_IMG.FACL_CD = EZC_FACL.FACL_CD
+		<if test="mainImgYn != null and mainImgYn != ''">
+		AND EZC_FACL_IMG.MAIN_IMG_YN = #{mainImgYn, jdbcType=CHAR}	/* 대표 이미지 여부, CHAR(1) */
+		</if>
+		<if test="faclImgSeq != null and faclImgSeq gt 0">
+		AND EZC_FACL_IMG.FACL_IMG_SEQ = #{faclImgSeq, jdbcType=DECIMAL}	/* 시설 이미지 일련번호, NUMBER(0,22) */
+		</if>
+		<if test="faclCd != null and faclCd gt 0">
+		AND EZC_FACL_IMG.FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
+		</if>
+		<if test="faclImgType != null and faclImgType != ''">
+		AND EZC_FACL_IMG.FACL_IMG_TYPE = #{faclImgType, jdbcType=VARCHAR}	/* 시설 이미지 유형, VARCHAR2(8) */
+		</if>
+		<if test="imgUrl != null and imgUrl != ''">
+		AND EZC_FACL_IMG.IMG_URL = #{imgUrl, jdbcType=VARCHAR}	/* 이미지 URL, VARCHAR2(200) */
+		</if>
+		<if test="imgDesc != null and imgDesc != ''">
+		AND EZC_FACL_IMG.IMG_DESC LIKE '%' || #{imgDesc, jdbcType=VARCHAR} || '%'	/* 이미지 설명, VARCHAR2(1000) */
+		</if>
+		<!-- 
+		<if test="regId != null and regId != ''">
+		AND EZC_FACL_IMG.REG_ID = #{regId, jdbcType=VARCHAR}	/* 등록자 ID, VARCHAR2(20) */
+		</if>
+		<if test="regDt != null and regDt != ''">
+		AND EZC_FACL_IMG.REG_DT = #{regDt, jdbcType=VARCHAR}	/* 등록 일시, VARCHAR2(14) */
+		</if>
+		<if test="modiId != null and modiId != ''">
+		AND EZC_FACL_IMG.MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+		</if>
+		<if test="modiDt != null and modiDt != ''">
+		AND EZC_FACL_IMG.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+		</if>
+		-->
+		<if test="partnerImgUrl != null and partnerImgUrl != ''">
+		AND EZC_FACL_IMG.PARTNER_IMG_URL LIKE '%' || #{partnerImgUrl, jdbcType=VARCHAR} || '%'	/* 이미지 경로, VARCHAR2(500) */
+		</if>
+	GROUP BY
+		 EZC_FACL_IMG.FACL_CD
+		,EZC_FACL_IMG.PARTNER_IMG_URL
+		,EZC_FACL_IMG.IMG_URL
+		,EZC_FACL_IMG.IMG_CLET_YN
+) IMAGES
+ORDER BY
+	 IMAGES.faclCd
+	,IMAGES.partnerImgUrl
+	,IMAGES.imgCletYn
 </select>
 
 
@@ -243,12 +264,20 @@ UPDATE EZC_FACL_IMG SET	/* 시설 이미지 */
 	,IMG_FILE_SIZE = #{imgFileSize, jdbcType=DECIMAL}	/* 이미지 파일 사이즈 */		
 	,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
 	,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
-	,PARTNER_IMG_URL = #{partnerImgUrl, jdbcType=VARCHAR}	/* 이미지 경로, VARCHAR2(500) */
+	,PARTNER_IMG_URL = #{partnerImgUrl, jdbcType=VARCHAR}	/* 이미지 URL, VARCHAR2(500) */
 WHERE 1=1
 	AND FACL_IMG_SEQ = #{faclImgSeq, jdbcType=DECIMAL}	/* 시설 이미지 일련번호, NUMBER(0,22) */
 	AND FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
 </update>
 
+<update id="updateEzcFaclImgIsPass" parameterType="ezcFaclImg">
+UPDATE EZC_FACL_IMG SET	/* 시설 이미지 */
+	 MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+WHERE 1=1
+	AND FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
+	AND PARTNER_IMG_URL = #{partnerImgUrl, jdbcType=VARCHAR}	/* 이미지 URL, VARCHAR2(500) */
+</update>
 
 <update id="updateEzcFaclImgDownload" parameterType="ezcFaclImg">
 UPDATE EZC_FACL_IMG SET	/* 시설 이미지 */
@@ -259,8 +288,13 @@ UPDATE EZC_FACL_IMG SET	/* 시설 이미지 */
 	,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
 	,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 WHERE 1=1
-	AND FACL_IMG_SEQ = #{faclImgSeq, jdbcType=DECIMAL}	/* 시설 이미지 일련번호, NUMBER(0,22) */
 	AND FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
+	<if test="faclImgSeq != null and faclImgSeq gt 0">
+	AND FACL_IMG_SEQ = #{faclImgSeq, jdbcType=DECIMAL}	/* 시설 이미지 일련번호, NUMBER(0,22) */
+	</if>
+	<if test="partnerImgUrl != null and partnerImgUrl != ''">
+	AND PARTNER_IMG_URL = #{partnerImgUrl, jdbcType=VARCHAR} 	/* 이미지 URL, VARCHAR2(500) */
+	</if>	
 </update>
 
 <update id="mergeEzcFaclImg" parameterType="ezcFaclImg">
@@ -314,13 +348,13 @@ MERGE INTO EZC_FACL_IMG /* 시설 이미지 */
 <delete id="deleteEzcFaclImg" parameterType="ezcFaclImg">
 DELETE FROM EZC_FACL_IMG /* 시설 이미지 */
 WHERE 1=1
+	AND FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
 	<if test="faclImgSeq != null and faclImgSeq gt 0">
 	AND FACL_IMG_SEQ = #{faclImgSeq, jdbcType=DECIMAL}	/* 시설 이미지 일련번호, NUMBER(0,22) */
 	</if>
 	<if test="partnerImgUrl != null and partnerImgUrl != ''">
 	AND PARTNER_IMG_URL = #{partnerImgUrl, jdbcType=VARCHAR} 	/* 이미지 URL, VARCHAR2(500) */
 	</if>
-	AND FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
 </delete>
 
 </mapper>

@@ -16,17 +16,16 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
+import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
-import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.ExceptionUtil;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclAment;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
-import com.ezwel.htl.interfaces.server.service.DownloadMultiService;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataRealtimeImageOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
@@ -45,7 +44,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 
 	private static final Logger logger = LoggerFactory.getLogger(OutsideRepository.class);
 	
-	private CommonUtil commonUtil;
+	private PropertyUtil propertyUtil;
 	
 	/**
 	 * 맵핑 시설 : EZC_FACL, EZC_FACL_IMG, EZC_FACL_AMENT ( 1 : N : N ), 데이터 적제 
@@ -55,10 +54,12 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	@APIOperation(description="전체시설일괄등록 인터페이스")
 	public AllRegOutSDO insertAllReg(AllRegOutSDO out, List<EzcFacl> saveFaclRegDatas, Integer fromIndex, Integer toIndex, boolean isErrorPassed) {
 		
+		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		
 		Integer txCount = 0;
 		Integer txSuccess = 0;
 		List<EzcFaclImg> ezcFaclImgList = null;
-		List<String> ezcFaclImgDBList = null;
+		List<EzcFaclImg> ezcFaclImgDBList = null;
 		EzcFaclAment ezcFaclAment = null;
 		BigDecimal faclCdSeq = null;
 		EzcFacl inEzcFacl = null;
@@ -66,13 +67,14 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		EzcFacl ezcFacl = null;
 		EzcFaclImg inEzcFaclImg = null;
 		Integer i = 0;
-		Integer imageIdx = 0;
+		EzcFaclImg savedImageDB = null;
 		AllRegDataRealtimeImageOutSDO realtimeImageIO = null;
+		Integer imgIdx = OperateConstants.INTEGER_MINUS_ONE; 
 		
 		try {
 			
 			for(i = 0; i < saveFaclRegDatas.size(); i++) {
-				// 시설 정보
+				// 시설 정보 전문 데이터
 				ezcFacl = saveFaclRegDatas.get(i);
 				
 				inEzcFacl = new EzcFacl();
@@ -104,13 +106,15 @@ public class OutsideRepository extends AbstractDataAccessObject {
 				if(txSuccess > 0) {
 					txCount++; //insert/update transaction 
 					
-					/** 2. EZC_FACL_IMG N건 저장 */
+					/** 2. EZC_FACL_IMG N건 저장 : 전문 시설 이미지 목록 */
 					ezcFaclImgList = ezcFacl.getEzcFaclImgList();
 					
 					inEzcFaclImg = new EzcFaclImg();
 					inEzcFaclImg.setFaclCd(ezcFacl.getFaclCd());
+					propertyUtil.removeDefaulFieldData(inEzcFaclImg);
+					
 					//기존 저장된 이미지 정보 조회
-					ezcFaclImgDBList = sqlSession.selectList(getNamespace("FACL_IMG_MAPPER", "selectListPartnerImgUrlString"), inEzcFaclImg);
+					ezcFaclImgDBList = sqlSession.selectList(getNamespace("FACL_IMG_MAPPER", "selectListPartnerImgInfo"), inEzcFaclImg);
 					
 					if(ezcFaclImgList != null && ezcFaclImgList.size() > 0) {
 						/** 
@@ -119,52 +123,100 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						 * 그럼으로 상단의 faclCd에 해당하는 이미지 데이터를 모두 삭제후 새로 insert함
 						 **/
 
+						logger.info("# image db original data size : {}", (ezcFaclImgDBList != null ? ezcFaclImgDBList.size() : 0));
+						// 전문 시설 이미지 목록 loop
 						for(EzcFaclImg faclImg : ezcFaclImgList) {
-							logger.debug("#image db : {}", ezcFaclImgDBList);
+							//시설이미지 객체에 시설 코드 세팅
+							faclImg.setFaclCd(ezcFacl.getFaclCd());
+							
+							savedImageDB = null;
+							imgIdx = OperateConstants.INTEGER_MINUS_ONE; 
 							//이미 동일한 이미지 URL이 저장되어있는 지 체크
-							imageIdx = OperateConstants.INTEGER_MINUS_ONE;
 							if(ezcFaclImgDBList != null) {
-								imageIdx = ezcFaclImgDBList.indexOf(faclImg.getPartnerImgUrl());
+								//for(AllRegDataRealtimeImageOutSDO imageDB : ezcFaclImgDBList) {
+								for(imgIdx = 0; imgIdx < ezcFaclImgDBList.size(); imgIdx++) {
+									savedImageDB = ezcFaclImgDBList.get(imgIdx);
+									//logger.info("# image check FaclCd : '{}' equals '{}', PartnerImgUrl : '{}' equals '{}'", savedImageDB.getFaclCd(), ezcFacl.getFaclCd(), savedImageDB.getPartnerImgUrl(), faclImg.getPartnerImgUrl());
+									if(savedImageDB.getFaclCd().equals(ezcFacl.getFaclCd()) 
+										&& savedImageDB.getPartnerImgUrl().equals(faclImg.getPartnerImgUrl())) {
+										
+										logger.info("# image db equals image url : {}", faclImg.getPartnerImgUrl());
+										break;
+									}
+								}
 							}
 							
-							if(imageIdx == OperateConstants.INTEGER_MINUS_ONE) {
+							//DB에 존재하지 않는 이미지 URL이면 입력
+							if(savedImageDB == null) {
 								//저장되지 않은 신규 이미지 이면 입력
-								//sequnce
-								faclImg.setFaclImgSeq((BigDecimal) sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectEzcFaclImgSeq")));
-								txCount++; //sequnce transaction 
-								faclImg.setFaclCd(ezcFacl.getFaclCd());
-								//insert ( 신규로 다운받아야할 이미지 )
-								txCount += sqlSession.insert(getNamespace("FACL_IMG_MAPPER", "insertEzcFaclImg"), faclImg);
+								logger.info("- 입력준비 : {}", faclImg.getPartnerImgUrl());
+								
 								//신규로 다운받아야할 이미지
 								realtimeImageIO = new AllRegDataRealtimeImageOutSDO();
 								realtimeImageIO.setPartnerImgUrl(faclImg.getPartnerImgUrl());
 								realtimeImageIO.setPartnerCd(ezcFacl.getPartnerCd());
 								realtimeImageIO.setCityCd(ezcFacl.getCityCd());
 								realtimeImageIO.setAreaCd(ezcFacl.getAreaCd());
-								realtimeImageIO.setFaclImgSeq(faclImg.getFaclImgSeq());
-								realtimeImageIO.setFaclCd(faclImg.getFaclCd());
-								
-								out.addCreateDownloadFileUrlList(realtimeImageIO);
+								realtimeImageIO.setFaclCd(ezcFacl.getFaclCd());
+
+								//중복 체크
+								//if(out.isNewDownloadFile(faclImg.getFaclCd(), faclImg.getPartnerImgUrl())) {
+									
+									logger.info("- 입력실행 신규 URL : {}", faclImg.getPartnerImgUrl());
+									//sequnce
+									faclImg.setFaclImgSeq((BigDecimal) sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectEzcFaclImgSeq")));
+									txCount++; //sequnce transaction 
+									//insert ( 신규로 다운받아야할 이미지 )
+									txCount += sqlSession.insert(getNamespace("FACL_IMG_MAPPER", "insertEzcFaclImg"), faclImg);
+									
+									realtimeImageIO.setFaclImgSeq(faclImg.getFaclImgSeq());
+									out.addCreateDownloadFileUrlList(realtimeImageIO);
+								//}
 							}
 							else {
-								//pass ( -1이 아닐 경우 )
-								ezcFaclImgDBList.set(imageIdx, OperateConstants.STR_RESERVE_IS_SAVED);
+								
+								savedImageDB.setPassImage(true);
+								ezcFaclImgDBList.set(imgIdx, savedImageDB);
+								
+								if(CodeDataConstants.CD_N.equals(savedImageDB.getImgCletYn()) || APIUtil.isEmpty(savedImageDB.getImgCletYn())) {
+									logger.info("- 이전 다운로드 실패 이미지로 다운로드 재시도 URL : {}", faclImg.getPartnerImgUrl());
+									//DB에 저장은되어있지만 이전 다운로드가 실패한 이미지는 다시 다운로드를 시도한다.
+									realtimeImageIO = new AllRegDataRealtimeImageOutSDO();
+									realtimeImageIO.setPartnerImgUrl(faclImg.getPartnerImgUrl());
+									realtimeImageIO.setPartnerCd(ezcFacl.getPartnerCd());
+									realtimeImageIO.setCityCd(ezcFacl.getCityCd());
+									realtimeImageIO.setAreaCd(ezcFacl.getAreaCd());
+									realtimeImageIO.setFaclImgSeq(faclImg.getFaclImgSeq());
+									realtimeImageIO.setFaclCd(faclImg.getFaclCd());
+									
+									out.addCreateDownloadFileUrlList(realtimeImageIO);
+								}
+								else {
+									//이미 수집에 성공한 이미지는 수정자/일시만 갱신
+									//트렌젝션 개수 감소의 이유로 실행하지 않음
+									//txCount += sqlSession.update(getNamespace("FACL_IMG_MAPPER", "updateEzcFaclImgIsPass"), faclImg);
+									logger.info("- 패스 이미지 파트너코드(에이젼트코드) : {}, 시설코드 : {}, URL : {}", ezcFacl.getPartnerCd(), faclImg.getFaclCd(), faclImg.getPartnerImgUrl());
+								}
 							}
 						}
 						
 						if(ezcFaclImgDBList != null) {
 							
-							for(String deleteImage : ezcFaclImgDBList) {
+							for(EzcFaclImg deleteImage : ezcFaclImgDBList) {
 								
-								if(!deleteImage.equals(OperateConstants.STR_RESERVE_IS_SAVED)) {
+								if(!deleteImage.isPassImage()) {
+									
+									logger.info("- 삭제 실행 deleteImage URL : {}", deleteImage);
 									
 									//삭제 대상 이미지
 									inEzcFaclImg = new EzcFaclImg();
-									inEzcFaclImg.setFaclCd(ezcFacl.getFaclCd());								
-									inEzcFaclImg.setPartnerImgUrl(deleteImage);
+									inEzcFaclImg.setFaclCd(deleteImage.getFaclCd());								
+									inEzcFaclImg.setPartnerImgUrl(deleteImage.getPartnerImgUrl());
 									
 									//삭제 대상 이미지 전체 경로
-									out.addDeleteDownloadFilePathList(APIUtil.getImageCanonicalPath(deleteImage));
+									if(APIUtil.isNotEmpty(deleteImage.getImgUrl())) {
+										out.addDeleteDownloadFilePathList(APIUtil.getImageCanonicalPath(deleteImage.getImgUrl()));
+									}
 									
 									//삭제
 									txCount += sqlSession.delete(getNamespace("FACL_IMG_MAPPER", "deleteEzcFaclImg"), inEzcFaclImg);
@@ -173,20 +225,26 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						}
 					}
 					else {
-						
-						if(ezcFaclImgDBList != null) {
 
-							//제휴사 전문에서 전달된 이미지 정보가 없으면 기존 이미지 삭제
+						//제휴사 전문에서 전달된 이미지 정보가 없으면 기존 이미지 삭제
+						if(ezcFaclImgDBList != null) {
+							
+							logger.info("- 제휴사 전문에서 전달된 이미지 정보가 없으면 기존 이미지 삭제 : {}", ezcFaclImgDBList);
+							
 							inEzcFaclImg = new EzcFaclImg();
 							inEzcFaclImg.setFaclCd(ezcFacl.getFaclCd());
 							txCount += sqlSession.delete(getNamespace("FACL_IMG_MAPPER", "deleteEzcFaclImg"), inEzcFaclImg);
 							
-							for(String deletePath : ezcFaclImgDBList) {
+							for(EzcFaclImg deleteImage : ezcFaclImgDBList) {
 								//삭제 대상 이미지 전체 경로
-								out.addDeleteDownloadFilePathList(APIUtil.getImageCanonicalPath(deletePath));
+								if(APIUtil.isNotEmpty(deleteImage.getImgUrl())) {
+									out.addDeleteDownloadFilePathList(APIUtil.getImageCanonicalPath(deleteImage.getImgUrl()));
+								}
 							}
 						}
 					}
+					
+					logger.info("# fianl image filter list : {}", ezcFaclImgDBList);
 					
 					/** 3. EZC_FACL_AMENT N건 저장 */
 					if(ezcFacl.getEzcFaclAmentList() != null) {
@@ -234,6 +292,41 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		return out;
 	}	
 	
+	
+	@Transactional(propagation=Propagation.REQUIRED)
+	@APIOperation(description="전문에서 삭제된 시설정보 사용안함 처리")
+	public Integer updateRemoveFacl(EzcFacl ezcFacl, boolean isErrorPassed) {
+		
+		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
+		
+		try {
+			
+			txCount = sqlSession.update(getNamespace("FACL_MAPPER", "updateRemoveFacl"), ezcFacl);
+		}
+		catch(Exception e) {
+			
+			if(isErrorPassed) {
+				
+				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
+				
+				/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
+				exceptionUtil.writeBatchErrorLog("{}\n{}@{}\n에러 발생 객체 : {}", 
+						new Object[] {"[전문에서 삭제된 시설정보 사용안함 처리 장애발생]", this.getClass().getCanonicalName(), "updateRemoveFacl", ezcFacl},
+						new StringBuffer().append(this.getClass().getSimpleName()).append(OperateConstants.STR_AT).append("updateRemoveFacl-").append(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).toString(), 
+						e);
+				
+				logger.error("[전문에서 삭제된 시설정보 사용안함 처리 장애 발생]\nCode : {}\nMessage : {}", MessageConstants.RESPONSE_CODE_9500, e.getMessage());
+				e.getStackTrace();
+				
+			}
+			else {
+				throw new APIException("전문에서 삭제된 시설정보 사용안함 처리 실패 {}", new Object[] {e.getMessage()}, e) ;
+			}
+		}
+
+		return txCount;
+	}
+	
 
 	@APIOperation(description="시설 이미지 조회")
 	public List<EzcFaclImg> selectListBuildImage(EzcFaclImg ezcFaclImg) {
@@ -254,7 +347,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	
 	@Transactional(propagation=Propagation.REQUIRED)
 	@APIOperation(description="전체시설 이미지 다운로드 경로 다건 저장")
-	public Integer updateBuildImage(List<EzcFaclImg> finalFaclImgList, boolean isErrorPassed) {
+	public Integer updateMultiBuildImage(List<EzcFaclImg> finalFaclImgList, boolean isErrorPassed) {
 		
 		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
 		Integer dataIndex = OperateConstants.INTEGER_ZERO_VALUE;
@@ -302,13 +395,17 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		return txCount;
 	}
 	
+	@Transactional(propagation=Propagation.REQUIRED)
 	@APIOperation(description="전체시설 이미지 다운로드 경로 단건 저장")
-	public Integer updateBuildImage(EzcFaclImg ezcFaclImg, boolean isErrorPassed) {
+	public Integer updateBuildImage(List<EzcFaclImg> finalFaclImgList, boolean isErrorPassed) {
 		
 		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
+		EzcFaclImg ezcFaclImg = null;
 		try {
-		
-			txCount = sqlSession.update(getNamespace("FACL_IMG_MAPPER", "updateEzcFaclImgDownload"), ezcFaclImg);
+			for(int i = 0; i < finalFaclImgList.size(); i++) {
+				ezcFaclImg = finalFaclImgList.get(i);
+				txCount = sqlSession.update(getNamespace("FACL_IMG_MAPPER", "updateEzcFaclImgDownload"), ezcFaclImg);
+			}
 		}
 		catch(Exception e) {
 			
@@ -334,6 +431,36 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		}
 
 		return txCount;
+	}
+	
+	@APIOperation(description="시설 타입 그룹 목록 조회")
+	public List<EzcFacl> selectFaclMappingStep1(EzcFacl ezcFacl) {
+			
+		List<EzcFacl> out = null;
+		
+		try {
+			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectFaclMappingStep1"), ezcFacl);
+		}
+		catch(APIException e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
+		}
+			
+		return out;
+	}
+	
+	@APIOperation(description="타입 그룹 별 시설 형태소 행 목록(형태소 열을 행으로 변환한 목록)")
+	public List<EzcFacl> selectFaclMappingStep2(EzcFacl ezcFacl) {
+			
+		List<EzcFacl> out = null;
+		
+		try {
+			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectFaclMappingStep2"), ezcFacl);
+		}
+		catch(APIException e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
+		}
+			
+		return out;
 	}
 	
 	

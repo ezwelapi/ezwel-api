@@ -36,8 +36,8 @@ public class EzcChannelPartner extends AbstractEntity {
 	@APIFields(description = "채널 코드", maxLength=10, required=true, constraints="EZC_CHANNEL_PARTNER_PK(P),SYS_C0011257(C) EZC_CHANNEL_PARTNER_PK(UNIQUE),EZC_CHANNEL_PARTNER_IF01(NONUNIQUE)")
 	private String channelCd;
 
-	@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="EZC_CHANNEL_PARTNER_PK(P),SYS_C0011258(C) EZC_CHANNEL_PARTNER_PK(UNIQUE)")
-	private String partnerCdType;
+	//@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="EZC_CHANNEL_PARTNER_PK(P),SYS_C0011258(C) EZC_CHANNEL_PARTNER_PK(UNIQUE)")
+	//private String partnerCdType;
 
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011259(C)")
 	private String regId = Local.commonHeader().getSystemUserId();
@@ -53,14 +53,6 @@ public class EzcChannelPartner extends AbstractEntity {
 
 	public void setChannelCd(String channelCd) {
 		this.channelCd = channelCd;
-	}
-
-	public String getPartnerCdType() {
-		return partnerCdType;
-	}
-
-	public void setPartnerCdType(String partnerCdType) {
-		this.partnerCdType = partnerCdType;
 	}
 
 	public String getRegId() {

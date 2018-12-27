@@ -36,8 +36,8 @@ public class EzcCpnPartner extends AbstractEntity {
 	@APIFields(description = "쿠폰 코드", maxLength=10, required=true, constraints="EZC_CPN_PARTNER_PK(P),FK_EZC_CPN_EZC_CPN_PARTNER(R),SYS_C0011342(C) EZC_CPN_PARTNER_PK(UNIQUE),EZC_CPN_PARTNER_IF01(NONUNIQUE)")
 	private BigDecimal cpnCd;
 
-	@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="EZC_CPN_PARTNER_PK(P),SYS_C0011343(C) EZC_CPN_PARTNER_PK(UNIQUE)")
-	private String partnerCdType;
+	//@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="EZC_CPN_PARTNER_PK(P),SYS_C0011343(C) EZC_CPN_PARTNER_PK(UNIQUE)")
+	//private String partnerCdType;
 
 	@APIFields(description = "정산 비율", maxLength=3)
 	private BigDecimal calRatio;
@@ -56,14 +56,6 @@ public class EzcCpnPartner extends AbstractEntity {
 
 	public void setCpnCd(BigDecimal cpnCd) {
 		this.cpnCd = cpnCd;
-	}
-
-	public String getPartnerCdType() {
-		return partnerCdType;
-	}
-
-	public void setPartnerCdType(String partnerCdType) {
-		this.partnerCdType = partnerCdType;
 	}
 
 	public BigDecimal getCalRatio() {

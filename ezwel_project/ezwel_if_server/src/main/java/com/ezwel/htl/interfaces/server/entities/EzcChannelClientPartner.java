@@ -36,8 +36,8 @@ public class EzcChannelClientPartner extends AbstractEntity {
 	@APIFields(description = "고객사 코드", maxLength=20, required=true, constraints="EZC_CHANNEL_CLIENT_PARTNER_PK(P),FK_EZC_CHANNEL_CLIENT_EZC_CHAN(R),SYS_C0011241(C) EZC_CHANNEL_CLIENT_PARTNER_PK(UNIQUE),EZC_CHANNEL_CLIENT_PARTNER_IF0(NONUNIQUE)")
 	private String clientCd;
 
-	@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="EZC_CHANNEL_CLIENT_PARTNER_PK(P),SYS_C0011242(C) EZC_CHANNEL_CLIENT_PARTNER_PK(UNIQUE)")
-	private String partnerCdType;
+	//@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="EZC_CHANNEL_CLIENT_PARTNER_PK(P),SYS_C0011242(C) EZC_CHANNEL_CLIENT_PARTNER_PK(UNIQUE)")
+	//private String partnerCdType;
 
 	@APIFields(description = "채널 코드", maxLength=10, required=true, constraints="EZC_CHANNEL_CLIENT_PARTNER_PK(P),FK_EZC_CHANNEL_CLIENT_EZC_CHAN(R),SYS_C0011243(C) EZC_CHANNEL_CLIENT_PARTNER_IF0(NONUNIQUE),EZC_CHANNEL_CLIENT_PARTNER_PK(UNIQUE)")
 	private String channelCd;
@@ -56,14 +56,6 @@ public class EzcChannelClientPartner extends AbstractEntity {
 
 	public void setClientCd(String clientCd) {
 		this.clientCd = clientCd;
-	}
-
-	public String getPartnerCdType() {
-		return partnerCdType;
-	}
-
-	public void setPartnerCdType(String partnerCdType) {
-		this.partnerCdType = partnerCdType;
 	}
 
 	public String getChannelCd() {
