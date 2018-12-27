@@ -285,6 +285,8 @@ public class OutsideService extends AbstractServiceObject {
 		int engEqualsIndex = OperateConstants.INTEGER_ZERO_VALUE;
 		int korEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
 		int engEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
+		int korEqualsPer = OperateConstants.INTEGER_ZERO_VALUE;
+		int engEqualsPer = OperateConstants.INTEGER_ZERO_VALUE;
 		
 		try {
 			
@@ -334,6 +336,7 @@ public class OutsideService extends AbstractServiceObject {
 							faclCompMorp = faclMorpCompareList.get(j);
 							
 							if(faclMorp.getFaclCd().compareTo(faclCompMorp.getFaclCd()) == 0) {
+								logger.debug("[PASS] {}.compareTo({})", faclMorp.getFaclCd(), faclCompMorp.getFaclCd());
 								//동일한 시설은 패스
 								continue;
 							}
@@ -357,7 +360,7 @@ public class OutsideService extends AbstractServiceObject {
 								if(korEqualsIndex > -1) {
 									korEqualsCount++;
 								}
-							}
+							} 
 							
 							if(faclEngCompareMorpArray != null && faclEngRootMorpArray != null) {
 								//영문 형태소 탐색
@@ -367,19 +370,29 @@ public class OutsideService extends AbstractServiceObject {
 									if(engEqualsIndex > -1) {
 										engEqualsCount++;
 									}
-								}
+								} 
+							} 
+							
+							
+							korEqualsPer = (korEqualsCount / faclKorRootMorpArray.length) * 100;
+							
+							if(faclEngCompareMorpArray != null && faclEngRootMorpArray != null) {
+								engEqualsPer = (engEqualsCount / faclEngRootMorpArray.length) * 100;
+							}
+							else {
+								engEqualsPer = OperateConstants.INTEGER_ZERO_VALUE;
 							}
 							
-							logger.debug("# FaclCd : {} matched : {}, korEqualsCount : {}, engEqualsCount : {}", faclMorp.getFaclCd(), faclCompMorp.getFaclCd(), korEqualsCount, engEqualsCount);
-							
+							logger.debug("== > FaclCd : {} check : {}, korEqualsCount : {}, korEqualsPer : {}, engEqualsCount : {}, engEqualsPer : {}", 
+											faclMorp.getFaclCd(), faclCompMorp.getFaclCd(), korEqualsCount, korEqualsPer, engEqualsCount, engEqualsPer);
 							//국문 일치 확율 체크  
-							if(((korEqualsCount / faclKorRootMorpArray.length) * 100) >= MORP_MATCH_DETERMINATION_PROBABILITY) {
+							if(korEqualsPer >= MORP_MATCH_DETERMINATION_PROBABILITY) {
 								faclMorp.addMatchMorpFaclCdList(faclCompMorp.getFaclCd());
 							}
 							
 							if(faclEngCompareMorpArray != null && faclEngRootMorpArray != null) {
 								//영문 일치 확율 체크  
-								if(((engEqualsCount / faclEngRootMorpArray.length) * 100) >= MORP_MATCH_DETERMINATION_PROBABILITY) {
+								if(engEqualsPer >= MORP_MATCH_DETERMINATION_PROBABILITY) {
 									faclMorp.addMatchMorpFaclCdList(faclCompMorp.getFaclCd());
 								}
 							}
