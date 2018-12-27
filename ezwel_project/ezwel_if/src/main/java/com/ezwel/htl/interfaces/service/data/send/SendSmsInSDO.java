@@ -57,6 +57,17 @@ public class SendSmsInSDO extends AbstractSDO {
 	
 	@APIFields(description = "문자발송 Input 카카오 알림톡 템플릿 번호")
 	private String templateCode;
+	
+	@APIFields(description = "문자발송 Input 카카오 서비스 시퀀스")
+	private String serviceSeqno;
+
+	public String getServiceSeqno() {
+		return serviceSeqno;
+	}
+
+	public void setServiceSeqno(String serviceSeqno) {
+		this.serviceSeqno = serviceSeqno;
+	}
 
 	public String getCallTo() {
 		return callTo;

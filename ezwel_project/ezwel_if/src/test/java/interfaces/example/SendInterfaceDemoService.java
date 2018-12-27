@@ -48,13 +48,15 @@ public class SendInterfaceDemoService extends TestCase {
 		//Input parameter
 		SendSmsInSDO sendSmsSDO = new SendSmsInSDO();
 		
-		sendSmsSDO.setCallTo("010-3744-0698");
-		sendSmsSDO.setCallFrom("02-2161-0800");
-		sendSmsSDO.setMmsSubject("테스트");
-		sendSmsSDO.setSmsText("테스트");
+		sendSmsSDO.setCallTo("01037440698");
+		sendSmsSDO.setCallFrom("0232820579");
+		sendSmsSDO.setMsgType("SMS");
+		sendSmsSDO.setMmsSubject("test");
+		sendSmsSDO.setSmsText("test");
 		sendSmsSDO.setSvcType("1008");
-		sendSmsSDO.setSmsUseYn("N");
-		sendSmsSDO.setTemplateCode("N");
+		sendSmsSDO.setSmsUseYn("Y");
+		sendSmsSDO.setTemplateCode("10013");
+		sendSmsSDO.setServiceSeqno("1710002752");
 		
 		//interface api call
 		SendSmsOutSDO out = ezcIfService.callSendSms(userAgentDTO, sendSmsSDO);
