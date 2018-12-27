@@ -322,11 +322,11 @@ public class OutsideService extends AbstractServiceObject {
 						faclMorp = faclMorpRootList.get(i);
 						//국문
 						faclKorRootMorpArray = faclMorp.getKorMorpArray();
-						Arrays.sort(faclKorRootMorpArray);
+						//Arrays.sort(faclKorRootMorpArray);
 						//영문
 						faclEngRootMorpArray = faclMorp.getEngMorpArray();
 						if(faclEngRootMorpArray != null) {
-							Arrays.sort(faclEngRootMorpArray);
+							//Arrays.sort(faclEngRootMorpArray);
 						}
 						
 						korEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
@@ -343,16 +343,18 @@ public class OutsideService extends AbstractServiceObject {
 							
 							//국문
 							faclKorCompareMorpArray = faclCompMorp.getKorMorpArray(); 
-							Arrays.sort(faclKorCompareMorpArray);
+							//Arrays.sort(faclKorCompareMorpArray);
 							//영문
 							faclEngCompareMorpArray = faclCompMorp.getEngMorpArray(); 
 							if(faclEngCompareMorpArray != null && faclEngRootMorpArray != null) {
-								Arrays.sort(faclEngCompareMorpArray);
+								//Arrays.sort(faclEngCompareMorpArray);
 							}
 							
+							logger.debug("[국문 형태소 탐색] faclMorp : {}", faclMorp.getFaclCd());
 							//국문 형태소 탐색
 							for(String rootMorp : faclKorRootMorpArray) {
 								korEqualsIndex = Arrays.binarySearch(faclKorCompareMorpArray, rootMorp);
+								logger.debug("[국문 형태소 탐색:{}, length: {}] index : {} / {} : {}", faclMorp.getFaclCd(), faclKorRootMorpArray.length, korEqualsIndex, rootMorp, faclKorCompareMorpArray);
 								if(korEqualsIndex > -1) {
 									korEqualsCount++;
 								}
@@ -366,7 +368,7 @@ public class OutsideService extends AbstractServiceObject {
 										engEqualsCount++;
 									}
 								}
-							} 
+							}
 							
 							//일치 개수 세팅
 							faclMorp.setKorEqualsCount(korEqualsCount);
@@ -385,9 +387,9 @@ public class OutsideService extends AbstractServiceObject {
 							}
 						}
 						
-						logger.debug("faclMorp({}) : {}", i, faclMorp);
+						//logger.debug("faclMorp({}) : {}", i, faclMorp);
 						
-						fileUtil.mkfile("D:/ezwel-repository", "compareMorp-finder.txt", faclMorp.toString(), "UTF-8", true, true);
+						fileUtil.mkfile("D:/ezwel-repository", "compareMorp-finder"+Local.commonHeader().getStartTimeMillis()+".txt", faclMorp.toString(), "UTF-8", true, true);
 						
 						morpCompareFinalList.add(faclMorp);
 					}

@@ -516,7 +516,7 @@ public class CommonUtil {
 		}
 		
 		if(APIUtil.isEmpty(division)) {
-			division = OperateConstants.STR_SPEC_COMA;
+			division = OperateConstants.STR_COMA;
 		}
 		
 		//WARN : getBeanInstance is test getBeanInstance
@@ -569,6 +569,9 @@ public class CommonUtil {
 		
 		finalBuffer = new StringBuffer();
 		for(String morpheme : finalSet) {
+			if(division.equals(morpheme)) {
+				continue;
+			}
 			finalBuffer.append(morpheme);
 			finalBuffer.append(division);
 		}

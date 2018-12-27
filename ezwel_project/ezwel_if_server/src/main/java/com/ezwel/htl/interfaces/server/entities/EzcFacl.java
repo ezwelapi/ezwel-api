@@ -224,7 +224,7 @@ public class EzcFacl extends AbstractEntity {
 
 	public String[] getKorMorpArray() {
 		if( APIUtil.isNotEmpty(this.faclKorMorp) ) {
-			this.korMorpArray = this.faclKorMorp.split(OperateConstants.STR_SPEC_COMA);
+			this.korMorpArray = this.faclKorMorp.split(OperateConstants.STR_COMA);
 		}
 		return korMorpArray;
 	}
@@ -235,7 +235,7 @@ public class EzcFacl extends AbstractEntity {
 
 	public String[] getEngMorpArray() {
 		if( APIUtil.isNotEmpty(this.faclEngMorp) ) {
-			this.engMorpArray = this.faclEngMorp.split(OperateConstants.STR_SPEC_COMA);
+			this.engMorpArray = this.faclEngMorp.split(OperateConstants.STR_COMA);
 		}		
 		return engMorpArray;
 	}
