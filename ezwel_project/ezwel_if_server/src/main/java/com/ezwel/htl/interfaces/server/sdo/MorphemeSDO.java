@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.server.commons.sdo;
+package com.ezwel.htl.interfaces.server.sdo;
 
 import java.util.List;
 

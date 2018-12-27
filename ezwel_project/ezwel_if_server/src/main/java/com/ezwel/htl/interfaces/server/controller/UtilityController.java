@@ -20,10 +20,10 @@ import com.ezwel.htl.interfaces.commons.utils.RegexUtil;
 import com.ezwel.htl.interfaces.server.commons.morpheme.cm.MorphemeUtil;
 import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzers;
-import com.ezwel.htl.interfaces.server.commons.sdo.AgentApiKeySDO;
-import com.ezwel.htl.interfaces.server.commons.sdo.MorphemeSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
+import com.ezwel.htl.interfaces.server.sdo.AgentApiKeySDO;
+import com.ezwel.htl.interfaces.server.sdo.MorphemeSDO;
 
 @Controller
 public class UtilityController {

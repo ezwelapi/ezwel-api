@@ -336,8 +336,16 @@ var testAssets = {
 					,"新罗首尔"					
 				]
 			}
-		}
-		
+		},
+		"시설 매핑 실행" : {
+			 url : "/service/execFaclMapping"
+			,input : {
+				 "areaCd" : ""
+				,"cityCd" : ""
+				,"roomType" : ""
+				,"roomClass" : ""
+			}
+		},
 	},
 	requestHeader : {
 		"http-client-id" : "",
@@ -357,6 +365,7 @@ var testAssets = {
 		passAgentIdURI.push("/morp/korean");
 		passAgentIdURI.push("/service/allReg/imageDownload");
 		passAgentIdURI.push("/service/allReg");
+		passAgentIdURI.push("/service/execFaclMapping");
 		
 		try {
 			if(!jsonString || $.trim(jsonString) === "") {

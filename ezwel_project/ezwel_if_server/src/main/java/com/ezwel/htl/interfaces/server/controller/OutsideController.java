@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.sdo.FaclSDO;
 import com.ezwel.htl.interfaces.server.service.OutsideService;
 import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegFaclImgOutSDO;
@@ -45,6 +46,10 @@ public class OutsideController {
 	private OutsideService outsideService = (OutsideService) LApplicationContext.getBean(OutsideService.class);
 	
 	private OutsideIFService outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
+	
+	/**************************************
+	 * [START] ezwel_if_server API 
+	 **************************************/
 	
 	/**
 	 * <pre>
@@ -102,8 +107,19 @@ public class OutsideController {
 		return out;
 	}
 	
+	
+	@APIOperation(description="시설 매핑", isOutputJsonMarshall=true, returnType=FaclSDO.class)
+	@RequestMapping(value="/service/execFaclMapping")
+	public Object execFaclMapping(FaclSDO faclSDO) {
+		
+		FaclSDO out = outsideService.execFaclMapping(faclSDO);
+		
+		return out;
+	}
+	
+	
 	/**************************************
-	 * interface_if API
+	 * [START] ezwel_if API 
 	 **************************************/
 	
 	@RequestMapping(value="/service/callRoomRead")

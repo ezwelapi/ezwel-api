@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.server.entities;
+package com.ezwel.htl.interfaces.server.sdo;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractEntity;
 @Alias("ezcFacl")
 //@EqualsAndHashCode(callSuper=true)
 @APIModel(modelNames="시설 정보", description="시설 정보 ( EZC_FACL )", modelTypes="TABLE")
-public class EzcFacl extends AbstractEntity {
+public class FaclSDO extends AbstractEntity {
 
 	@APIFields(description = "시설 코드", maxLength=10, required=true, constraints="EZC_FACL_PK(P),SYS_C0011053(C) EZC_FACL_PK(UNIQUE)")
 	private BigDecimal faclCd;
@@ -149,12 +149,6 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
 	private String modiDt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
 
-	@APIFields(description = "시설 이미지", required=false)
-	private List<EzcFaclImg> ezcFaclImgList = null;
-	
-	@APIFields(description = "시설 부대시설 전문(,)구분", maxLength=500)
-	private String ezcFaclAments;
-
 	@APIFields(description = "시설 형태소 한글", maxLength=1600)
 	private String faclKorMorp;
 	
@@ -166,10 +160,6 @@ public class EzcFacl extends AbstractEntity {
 	
 	@APIFields(description = "시설 이름 형태소")
 	private String faclNmMorp;
-	
-	@APIFields(description = "시설 부대시설 목록")
-	private List<String> ezcFaclAmentList;	
-
 	
 	public String getFaclNm() {
 		return faclNm;
@@ -194,15 +184,7 @@ public class EzcFacl extends AbstractEntity {
 	public void setFaclNmMorp(String faclNmMorp) {
 		this.faclNmMorp = faclNmMorp;
 	}
-
-	public String getEzcFaclAments() {
-		return ezcFaclAments;
-	}
-
-	public void setEzcFaclAments(String ezcFaclAments) {
-		this.ezcFaclAments = ezcFaclAments;
-	}
-
+	
 	public BigDecimal getFaclCd() {
 		return faclCd;
 	}
@@ -489,29 +471,6 @@ public class EzcFacl extends AbstractEntity {
 
 	public void setModiDt(String modiDt) {
 		this.modiDt = modiDt;
-	}
-
-	public List<EzcFaclImg> getEzcFaclImgList() {
-		return ezcFaclImgList;
-	}
-
-	public void setEzcFaclImgList(List<EzcFaclImg> ezcFaclImgList) {
-		this.ezcFaclImgList = ezcFaclImgList;
-	}
-
-	public List<String> getEzcFaclAmentList() {
-		return ezcFaclAmentList;
-	}
-
-	public void setEzcFaclAmentList(List<String> ezcFaclAmentList) {
-		this.ezcFaclAmentList = ezcFaclAmentList;
-	}
-
-	public void addEzcFaclAmentList(String ezcFaclAment) {
-		if(this.ezcFaclAmentList == null) {
-			this.ezcFaclAmentList = new ArrayList<String>();
-		}
-		this.ezcFaclAmentList.add(ezcFaclAment);
 	}
 
 	public String getFaclKorMorp() {

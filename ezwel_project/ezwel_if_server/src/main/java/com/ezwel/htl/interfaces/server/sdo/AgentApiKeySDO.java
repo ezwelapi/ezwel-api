@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.server.commons.sdo;
+package com.ezwel.htl.interfaces.server.sdo;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;

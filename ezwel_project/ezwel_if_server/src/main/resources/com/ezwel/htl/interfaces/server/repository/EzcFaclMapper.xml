@@ -91,7 +91,7 @@ INSERT INTO EZC_FACL(	/* 시설 정보 */
 )
 </insert>
 
-<select id="selectFaclMappingStep1" parameterType="ezcFacl" resultType="ezcFacl">
+<select id="selectFaclMappingData1" parameterType="ezcFacl" resultType="ezcFacl">
 SELECT * FROM (
     SELECT /*+ NO_MERGE */
         CITY_CD,
@@ -100,6 +100,20 @@ SELECT * FROM (
         ROOM_CLASS
     FROM
         EZC_FACL
+    WHERE
+        CITY_CD != 'EMPTY'        
+		<if test="areaCd != null and areaCd != ''">
+		AND AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10), FK_EZC_AREA_CD_EZC_FACL(R),SYS_C0011066(C) */
+		</if>
+		<if test="cityCd != null and cityCd != ''">	
+		AND CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10), FK_EZC_CITY_CD_EZC_FACL(R),SYS_C0011067(C) */
+		</if>
+		<if test="roomType != null and roomType != ''">
+		AND ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
+		</if>
+		<if test="roomClass != null and roomClass != ''">
+		AND ROOM_CLASS = #{roomClass, jdbcType=VARCHAR}	/* 숙소 등급, VARCHAR2(8) */
+		</if>        
     GROUP BY
         CITY_CD,
         AREA_CD,
@@ -113,10 +127,14 @@ ORDER BY
     ROOM_CLASS  
 </select>
 
-<select id="selectFaclMappingStep2" parameterType="ezcFacl" resultType="ezcFacl">
+<select id="selectFaclMappingData2" parameterType="ezcFacl" resultType="ezcFacl">
 WITH EZC_FACL_WITH AS (
     SELECT /*+ MATERIALIZED */ 
-        FACL_CD, FACL_KOR_MORP, FACL_ENG_MORP
+         FACL_CD
+        ,FACL_NM_KOR
+        ,FACL_NM_ENG
+        ,FACL_KOR_MORP
+        ,FACL_ENG_MORP
     FROM 
     	EZC_FACL
     WHERE 1=1
@@ -128,6 +146,7 @@ WITH EZC_FACL_WITH AS (
 )
 SELECT 
      FACL_CD faclCd
+    ,FACL_NM_KOR faclNm
     ,'KR' morpType
     ,REGEXP_SUBSTR(FACL_KOR_MORP,'[^,]+', 1, LEVEL) faclNmMorp 
 FROM 
@@ -137,10 +156,11 @@ CONNECT BY
 UNION ALL
 SELECT 
      FACL_CD faclCd
+    ,FACL_NM_ENG faclNm
     ,'EN' morpType
     ,REGEXP_SUBSTR(FACL_ENG_MORP,'[^,]+', 1, LEVEL) faclNmMorp 
 FROM 
-	EZC_FACL
+	EZC_FACL_WITH
 CONNECT BY 
     REGEXP_SUBSTR(FACL_ENG_MORP, '[^,]+', 1, LEVEL) IS NOT NULL
 </select>

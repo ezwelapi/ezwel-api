@@ -4,6 +4,8 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
@@ -42,6 +44,7 @@ import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
 import com.ezwel.htl.interfaces.server.repository.CommonRepository;
 import com.ezwel.htl.interfaces.server.repository.OutsideRepository;
+import com.ezwel.htl.interfaces.server.sdo.FaclSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataRealtimeImageOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegFaclImgOutSDO;
@@ -184,33 +187,87 @@ public class OutsideService extends AbstractServiceObject {
 	
 	
 	@APIOperation(description="시설 매핑")
-	public void execFaclMapping() {
+	public FaclSDO execFaclMapping(FaclSDO faclSDO) {
 		logger.debug("[START] execFaclMapping");
 		
-		List<EzcFacl> faclMappingStep1List = null;
-		List<EzcFacl> faclMappingStep2List = null;
-		List<EzcFacl> faclMappingStep2ListClone = null;
+		FaclSDO out = null;
+		List<EzcFacl> mappingStep1List = null;
+		List<EzcFacl> mappingStep2List = null;
+		List<EzcFacl> mappingStep2ListClone = null;
 		EzcFacl ezcFacl = null;
+		
 		try {
-			ezcFacl = new EzcFacl();
-			faclMappingStep1List = outsideRepository.selectFaclMappingStep1(ezcFacl);
 			
-			for(EzcFacl faclMorp : faclMappingStep1List) {
-				faclMappingStep2List = outsideRepository.selectFaclMappingStep2(faclMorp);
-				if(faclMappingStep2List != null && faclMappingStep2List.size() > 0) {
+			ezcFacl = (EzcFacl) propertyUtil.copySameProperty(faclSDO, EzcFacl.class);
+			
+			mappingStep1List = outsideRepository.selectFaclMappingData1(ezcFacl);
+			
+			for(EzcFacl faclMorp : mappingStep1List) {
+				//도시,지역,숙소유형,숙소등급 파라매터의 시설코드별 형태소 목록 
+				mappingStep2List = outsideRepository.selectFaclMappingData2(faclMorp);
+				
+				if(mappingStep2List != null && mappingStep2List.size() > 0) {
 					//비교 대조를 위한 목록 복제
-					faclMappingStep2ListClone = new ArrayList<EzcFacl>();
-					faclMappingStep2ListClone.addAll(faclMappingStep2List);
-					
+					mappingStep2ListClone = new ArrayList<EzcFacl>();
+					mappingStep2ListClone.addAll(mappingStep2List);
 					//분석 비교 시작(추론검색)
 				}
 			}
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			throw new APIException(MessageConstants.RESPONSE_CODE_9600, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_9600), e);
+		}
+		finally {
+			if(mappingStep1List != null) {
+				mappingStep1List.clear();
+			}
+			if(mappingStep2List != null) {
+				mappingStep2List.clear();
+			}
+			if(mappingStep2ListClone != null) {
+				mappingStep2ListClone.clear();
+			}
 		}
 		
 		logger.debug("[END] execFaclMapping");
+		return out;
+	}
+	
+	
+	/**
+	 * 리스트에 담긴 문자목록을 HashCode (아스키) 를 기준으로 sending 방향대로 정렬하여 줍니다.
+	 * @param arrays
+	 * @param sending
+	 * @return
+	 */
+	public List<?> listHashCodeOrdered(List<?> arrays, String sending){
+
+		if(arrays == null) return null;
+
+		List<?> array = arrays;
+		final String orderBy = sending;
+
+        Collections.sort(array, new Comparator<Object>(){
+        	int frontStr = 0;
+        	int backStr = 0;
+	    		int position = 0;
+
+				public int compare(final Object front, final Object backend )
+	            {
+	            	frontStr = front.toString().hashCode();
+	            	backStr = backend.toString().hashCode();
+            		if(orderBy.equalsIgnoreCase("desc")){
+            			position = backStr - frontStr;
+            		}else{
+            			position = frontStr - backStr;
+            		}
+
+	                return position;
+	            }
+	        }
+	    );
+
+        return array;
 	}
 	
 	/**
