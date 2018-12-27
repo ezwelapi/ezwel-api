@@ -30,9 +30,6 @@ import java.math.BigDecimal;
 @APIModel(modelNames="CACHE 최저가 정보", description="CACHE 최저가 정보 ( EZC_CACHE_MIN_AMT )", modelTypes="TABLE")
 public class EzcCacheMinAmt extends AbstractEntity {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
-	
 	@APIFields(description = "체크인 일자", maxLength=8, required=true, constraints="EZC_CACHE_MIN_AMT_PK(P),FK_EZC_CACHE_SEARCH_LOG_EZC_CA(R),SYS_C0011160(C) EZC_CACHE_MIN_AMT_PK(UNIQUE),EZC_CACHE_MIN_AMT_IF01(NONUNIQUE)")
 	private String checkInDd;
 
@@ -53,15 +50,31 @@ public class EzcCacheMinAmt extends AbstractEntity {
 
 	//@APIFields(description = "제휴사 코드 유형", maxLength=8, required=true, constraints="SYS_C0011166(C)")
 	//private String partnerCdType;
-
+	
 	@APIFields(description = "객실 최저가", maxLength=8, required=true, constraints="SYS_C0011167(C)")
 	private BigDecimal roomMinPrice;
 
 	@APIFields(description = "특가최저가", maxLength=8)
 	private BigDecimal spRoomMinPrice;
 
-
+	//20181227 추가
+	@APIFields(description = "제휴사 코드", maxLength=20, required=true)
+	private BigDecimal partnerCd;
 	
+	@APIFields(description = "객실 정상가", maxLength=22)
+	private BigDecimal roomNetPrice;
+	
+	@APIFields(description = "특가 정상가", maxLength=22)
+	private BigDecimal spRoomNetPrice;
+
+	public BigDecimal getPartnerCd() {
+		return partnerCd;
+	}
+
+	public void setPartnerCd(BigDecimal partnerCd) {
+		this.partnerCd = partnerCd;
+	}
+
 	public String getCheckInDd() {
 		return checkInDd;
 	}

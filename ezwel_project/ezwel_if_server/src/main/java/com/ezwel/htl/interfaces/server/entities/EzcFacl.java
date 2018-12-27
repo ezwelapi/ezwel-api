@@ -2,7 +2,9 @@ package com.ezwel.htl.interfaces.server.entities;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 //import lombok.Data;
 //import lombok.EqualsAndHashCode;
@@ -10,6 +12,7 @@ import org.apache.ibatis.type.Alias;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractEntity;
@@ -170,7 +173,77 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "시설 부대시설 목록")
 	private List<String> ezcFaclAmentList;	
 
+	@APIFields(description = "한글 형태소 목록")
+	private String[] korMorpArray;	
 	
+	@APIFields(description = "영문 형태소 목록")
+	private String[] engMorpArray;	
+	
+	@APIFields(description = "한글 형태소 일치 개수")
+	private Integer korEqualsCount;	
+	
+	@APIFields(description = "영문 형태소 일치 개수")
+	private Integer engEqualsCount;	
+	
+	@APIFields(description = "일치 형태소 시설 코드 목록")
+	private Set<BigDecimal> matchMorpFaclCdList;	
+
+	
+	
+	
+	public Set<BigDecimal> getMatchMorpFaclCdList() {
+		return matchMorpFaclCdList;
+	}
+
+	public void setMatchMorpFaclCdList(Set<BigDecimal> matchMorpFaclCdList) {
+		this.matchMorpFaclCdList = matchMorpFaclCdList;
+	}
+
+	public void addMatchMorpFaclCdList(BigDecimal matchMorpFaclCd) {
+		if(this.matchMorpFaclCdList == null) {
+			this.matchMorpFaclCdList = new LinkedHashSet<BigDecimal>();
+		}
+		this.matchMorpFaclCdList.add(matchMorpFaclCd);
+	}
+	
+	public Integer getKorEqualsCount() {
+		return korEqualsCount;
+	}
+
+	public void setKorEqualsCount(Integer korEqualsCount) {
+		this.korEqualsCount = korEqualsCount;
+	}
+
+	public Integer getEngEqualsCount() {
+		return engEqualsCount;
+	}
+
+	public void setEngEqualsCount(Integer engEqualsCount) {
+		this.engEqualsCount = engEqualsCount;
+	}
+
+	public String[] getKorMorpArray() {
+		if( APIUtil.isNotEmpty(this.faclKorMorp) ) {
+			this.korMorpArray = this.faclKorMorp.split(OperateConstants.STR_SPEC_COMA);
+		}
+		return korMorpArray;
+	}
+
+	public void setKorMorpArray(String[] engMorpArray) {
+		this.engMorpArray = engMorpArray;
+	}
+
+	public String[] getEngMorpArray() {
+		if( APIUtil.isNotEmpty(this.faclEngMorp) ) {
+			this.engMorpArray = this.faclEngMorp.split(OperateConstants.STR_SPEC_COMA);
+		}		
+		return engMorpArray;
+	}
+
+	public void setEngMorpArray(String[] engMorpArray) {
+		this.engMorpArray = engMorpArray;
+	}
+
 	public String getFaclNm() {
 		return faclNm;
 	}

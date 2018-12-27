@@ -434,12 +434,12 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	}
 	
 	@APIOperation(description="시설 타입 그룹 목록 조회")
-	public List<EzcFacl> selectFaclMappingData1(EzcFacl ezcFacl) {
+	public List<EzcFacl> selectFaclCodeGroupList(EzcFacl ezcFacl) {
 			
 		List<EzcFacl> out = null;
 		
 		try {
-			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectFaclMappingData1"), ezcFacl);
+			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectFaclCodeGroupList"), ezcFacl);
 		}
 		catch(APIException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
@@ -449,12 +449,12 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	}
 	
 	@APIOperation(description="타입 그룹 별 시설 형태소 행 목록(형태소 열을 행으로 변환한 목록)")
-	public List<EzcFacl> selectFaclMappingData2(EzcFacl ezcFacl) {
+	public List<EzcFacl> selectFaclMappingMorpDataList(EzcFacl ezcFacl) {
 			
 		List<EzcFacl> out = null;
 		
 		try {
-			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectFaclMappingData2"), ezcFacl);
+			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectFaclMappingMorpDataList"), ezcFacl);
 		}
 		catch(APIException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
@@ -463,6 +463,21 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		return out;
 	}
 	
+	
+	@APIOperation(description="타입 그룹 별 시설 형태소 행 목록(형태소 열을 행으로 변환한 목록)")
+	public List<EzcFacl> selectFaclMappingMorpRowData(EzcFacl ezcFacl) {
+			
+		List<EzcFacl> out = null;
+		
+		try {
+			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectFaclMappingMorpRowData"), ezcFacl);
+		}
+		catch(APIException e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
+		}
+			
+		return out;
+	}
 	
 	/**
 	 * 멀티쓰레드

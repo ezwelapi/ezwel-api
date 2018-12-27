@@ -72,6 +72,9 @@ public class OperateConstants {
 	public final static String SPRING_CONTROLLER;
 	public final static String DEFAULT_SERVLET;
 
+	public final static String STR_SENDING_ASC;
+	public final static String STR_SENDING_DESC;
+	
 	public static final String USER_DIR;
 	public static final String FILE_ENCODING;
 	/** TypeUtil use exclude package starts array */
@@ -153,6 +156,9 @@ public class OperateConstants {
 		DEF_IMAGE_EXTENSION = "png";
 		
 		SYSTEM_ID = "IF_SYS_USR";
+		
+		STR_SENDING_ASC = "ASC";
+		STR_SENDING_DESC = "DESC";
 		
 		CONTENT_TYPE_MULTIPART_FORM_DATA = "multipart/form-data";
 		CONTENT_TYPE_APPLICATION_JSON = "application/json";

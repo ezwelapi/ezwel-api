@@ -91,20 +91,25 @@ INSERT INTO EZC_FACL(	/* 시설 정보 */
 )
 </insert>
 
-<select id="selectFaclMappingData1" parameterType="ezcFacl" resultType="ezcFacl">
+<select id="selectFaclCodeGroupList" parameterType="ezcFacl" resultType="ezcFacl">
 SELECT * FROM (
     SELECT /*+ NO_MERGE */
-        CITY_CD,
-        AREA_CD,
-        ROOM_TYPE,
-        ROOM_CLASS
+        CITY_CD cityCd,
+        AREA_CD areaCd,
+        ROOM_TYPE roomType,
+        ROOM_CLASS roomClass,
+        FACL_DIV faclDiv
     FROM
         EZC_FACL
-    WHERE
-        CITY_CD != 'EMPTY'        
-		<if test="areaCd != null and areaCd != ''">
-		AND AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10), FK_EZC_AREA_CD_EZC_FACL(R),SYS_C0011066(C) */
-		</if>
+    WHERE 1=1
+        <choose>        
+			<when test="areaCd != null and areaCd != ''">
+			AND AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10), FK_EZC_AREA_CD_EZC_FACL(R),SYS_C0011066(C) */
+			</when>
+			<otherwise> 
+			AND CITY_CD != 'EMPTY'
+			</otherwise> 
+		</choose>
 		<if test="cityCd != null and cityCd != ''">	
 		AND CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10), FK_EZC_CITY_CD_EZC_FACL(R),SYS_C0011067(C) */
 		</if>
@@ -113,21 +118,71 @@ SELECT * FROM (
 		</if>
 		<if test="roomClass != null and roomClass != ''">
 		AND ROOM_CLASS = #{roomClass, jdbcType=VARCHAR}	/* 숙소 등급, VARCHAR2(8) */
-		</if>        
+		</if>      
+		<if test="faclDiv != null and faclDiv != ''">
+		AND FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
+		</if>  		  
     GROUP BY
         CITY_CD,
         AREA_CD,
         ROOM_TYPE,
-        ROOM_CLASS
+        ROOM_CLASS,
+        FACL_DIV 
 )
 ORDER BY   
-    CITY_CD,
-    AREA_CD,
-    ROOM_TYPE,
-    ROOM_CLASS  
+    CITYCD,
+    AREACD,
+    ROOMTYPE, 
+    ROOMCLASS,
+    FACLDIV 
 </select>
 
-<select id="selectFaclMappingData2" parameterType="ezcFacl" resultType="ezcFacl">
+<select id="selectFaclMappingMorpDataList" parameterType="ezcFacl" resultType="ezcFacl">
+SELECT * FROM (
+	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
+		/*  SQL Body Start  */
+		SELECT * FROM (
+		    SELECT 
+		         FACL_CD faclCd
+		        ,PARTNER_CD partnerCd
+		        ,FACL_NM_KOR faclNmKor
+		        ,FACL_NM_ENG faclNmEng
+		        ,FACL_KOR_MORP faclKorMorp
+		        ,FACL_ENG_MORP faclEngMorp
+		        ,COORD_X coordX
+		        ,COORD_Y coordY
+		        ,FACL_DIV faclDiv
+		        ,LENGTH(FACL_KOR_MORP) faclNmKorCnt
+		        ,LENGTH(FACL_ENG_MORP) faclEngMorpCnt
+		    FROM 
+		    	EZC_FACL
+		    WHERE 1=1
+		    	AND FACL_KOR_MORP IS NOT NULL
+		        AND CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10), FK_EZC_CITY_CD_EZC_FACL(R),SYS_C0011067(C) */
+		        AND AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10), FK_EZC_AREA_CD_EZC_FACL(R),SYS_C0011066(C) */
+		        AND ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
+		        AND ROOM_CLASS = #{roomClass, jdbcType=VARCHAR}	/* 숙소 등급, VARCHAR2(8) */
+		        AND FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
+	    )
+		ORDER BY
+			 FACLNMKORCNT DESC
+			,FACLENGMORPCNT DESC
+	        ,FACLKORMORP
+	        ,FACLENGMORP
+	        ,FACLNMKOR
+	        ,FACLNMENG
+	        ,FACLDIV   
+	        ,COORDX
+	        ,COORDY
+		/*  SQL Body End  */
+	) RECORDS
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})) 
+)
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}    
+</select>
+
+
+<select id="selectFaclMappingMorpRowData" parameterType="ezcFacl" resultType="ezcFacl">
 WITH EZC_FACL_WITH AS (
     SELECT /*+ MATERIALIZED */ 
          FACL_CD
@@ -144,25 +199,33 @@ WITH EZC_FACL_WITH AS (
         AND ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
         AND ROOM_CLASS = #{roomClass, jdbcType=VARCHAR}	/* 숙소 등급, VARCHAR2(8) */
 )
-SELECT 
-     FACL_CD faclCd
-    ,FACL_NM_KOR faclNm
-    ,'KR' morpType
-    ,REGEXP_SUBSTR(FACL_KOR_MORP,'[^,]+', 1, LEVEL) faclNmMorp 
-FROM 
-	EZC_FACL_WITH
-CONNECT BY 
-    REGEXP_SUBSTR(FACL_KOR_MORP, '[^,]+', 1, LEVEL) IS NOT NULL
-UNION ALL
-SELECT 
-     FACL_CD faclCd
-    ,FACL_NM_ENG faclNm
-    ,'EN' morpType
-    ,REGEXP_SUBSTR(FACL_ENG_MORP,'[^,]+', 1, LEVEL) faclNmMorp 
-FROM 
-	EZC_FACL_WITH
-CONNECT BY 
-    REGEXP_SUBSTR(FACL_ENG_MORP, '[^,]+', 1, LEVEL) IS NOT NULL
+SELECT * FROM (
+	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
+		/*  SQL Body Start  */
+		SELECT 
+		     FACL_CD faclCd
+		    ,FACL_NM_KOR faclNm 
+		    ,'KR' morpType
+		    ,REGEXP_SUBSTR(FACL_KOR_MORP,'[^,]+', 1, LEVEL) faclNmMorp 
+		FROM 
+			EZC_FACL_WITH
+		CONNECT BY 
+		    REGEXP_SUBSTR(FACL_KOR_MORP, '[^,]+', 1, LEVEL) IS NOT NULL
+		UNION ALL
+		SELECT 
+		     FACL_CD faclCd
+		    ,FACL_NM_ENG faclNm
+		    ,'EN' morpType
+		    ,REGEXP_SUBSTR(FACL_ENG_MORP,'[^,]+', 1, LEVEL) faclNmMorp 
+		FROM 
+			EZC_FACL_WITH
+		CONNECT BY 
+		    REGEXP_SUBSTR(FACL_ENG_MORP, '[^,]+', 1, LEVEL) IS NOT NULL
+		/*  SQL Body End  */
+	) RECORDS
+	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})) 
+)
+WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}    
 </select>
 
 <select id="selectEzcFacl" parameterType="ezcFacl" resultType="ezcFacl">
