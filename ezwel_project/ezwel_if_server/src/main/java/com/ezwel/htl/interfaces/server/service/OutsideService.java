@@ -329,9 +329,6 @@ public class OutsideService extends AbstractServiceObject {
 							//Arrays.sort(faclEngRootMorpArray);
 						}
 						
-						korEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
-						engEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
-						
 						//비교대상 시설 정보
 						for(int j = 0; j < faclMorpCompareList.size(); j++) {
 							faclCompMorp = faclMorpCompareList.get(j);
@@ -340,6 +337,9 @@ public class OutsideService extends AbstractServiceObject {
 								//동일한 시설은 패스
 								continue;
 							}
+							
+							korEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
+							engEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
 							
 							//국문
 							faclKorCompareMorpArray = faclCompMorp.getKorMorpArray(); 
@@ -350,11 +350,10 @@ public class OutsideService extends AbstractServiceObject {
 								//Arrays.sort(faclEngCompareMorpArray);
 							}
 							
-							logger.debug("[국문 형태소 탐색] faclMorp : {}", faclMorp.getFaclCd());
 							//국문 형태소 탐색
 							for(String rootMorp : faclKorRootMorpArray) {
 								korEqualsIndex = Arrays.binarySearch(faclKorCompareMorpArray, rootMorp);
-								logger.debug("[국문 형태소 탐색:{}, length: {}] index : {} / {} : {}", faclMorp.getFaclCd(), faclKorRootMorpArray.length, korEqualsIndex, rootMorp, faclKorCompareMorpArray);
+								//logger.debug("[국문 형태소 탐색:{}, length: {}] index : {} / {} : {}", faclMorp.getFaclCd(), faclKorRootMorpArray.length, korEqualsIndex, rootMorp, faclKorCompareMorpArray);
 								if(korEqualsIndex > -1) {
 									korEqualsCount++;
 								}
@@ -364,15 +363,14 @@ public class OutsideService extends AbstractServiceObject {
 								//영문 형태소 탐색
 								for(String rootMorp : faclEngRootMorpArray) {
 									engEqualsIndex = Arrays.binarySearch(faclEngCompareMorpArray, rootMorp);
+									//logger.debug("[영문 형태소 탐색:{}, length: {}] index : {} / {} : {}", faclMorp.getFaclCd(), faclEngRootMorpArray.length, engEqualsIndex, rootMorp, faclEngRootMorpArray);
 									if(engEqualsIndex > -1) {
 										engEqualsCount++;
 									}
 								}
 							}
 							
-							//일치 개수 세팅
-							faclMorp.setKorEqualsCount(korEqualsCount);
-							faclMorp.setEngEqualsCount(engEqualsCount);
+							logger.debug("# FaclCd : {} matched : {}, korEqualsCount : {}, engEqualsCount : {}", faclMorp.getFaclCd(), faclCompMorp.getFaclCd(), korEqualsCount, engEqualsCount);
 							
 							//국문 일치 확율 체크  
 							if(((korEqualsCount / faclKorRootMorpArray.length) * 100) >= MORP_MATCH_DETERMINATION_PROBABILITY) {

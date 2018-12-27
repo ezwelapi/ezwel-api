@@ -8,11 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.ConfigureHelper;
-import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
-import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
-import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
-import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.service.OutsideIFService;
@@ -76,7 +72,6 @@ public class OutsideIFAdapter {
 	public RoomReadOutSDO callRoomRead(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
 		return outsideIFService.callRoomRead(userAgentSDO, roomReadSDO, true);
 	}
-
 	
 	@APIOperation(description="취소수수규정 인터페이스")
 	public CancelFeePsrcOutSDO callCancelFeePsrc(UserAgentSDO userAgentSDO, CancelFeePsrcInSDO cancelFeePsrcSDO) {

@@ -21,7 +21,6 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.data.FileRepositoryConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.InterfaceRootConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.ServerAddressConfig;
-import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;

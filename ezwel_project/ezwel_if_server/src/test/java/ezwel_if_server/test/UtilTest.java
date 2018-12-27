@@ -146,7 +146,7 @@ public class UtilTest {
         
         String sentence = "보헤미안 랩소디의 흥행으로 또다시 사랑받고 있는 '퀸'의 대표곡이자, 유명한 응원가인 We are the champion의 가사 중 우리가 챔피언이며 끝까지 싸워나갈 것이라는 가사는 많은 사람들에게 용기와 희망을 준다. In an August issue of Monthly Microsource Software, I posted an article about Apache Lucene. Suddenly, the schedule of the project has been abrupt, I am going to try to help you a little bit. I would appreciate it if you pointed out the wrong or missing parts. 언젠가는 챔피언이 될 것이라는 희망, 언젠가는 꿈꿔왔던 목표에 이르게 될 것이라는 희망을. 아티스트 조윤진씨는 테이프를 만나 아프고 무기력했던 그녀의 세상에서 싸워나갔고 이루고자 하는 것들에 다가가고, 이루며, 또다시 꿈을 꾼다. 그녀가 그려내는 반짝이는 눈동자를 지닌 인물들은 강인한 생명력을 가진 테이프와 바로 그녀 자신을, 닮아있다.";
         sentence = "영광 노을연가 펜션,강화 J모텔 펜션,추억이있는바다(유리바다),제주 천제빌 펜션,바다옆히든밸리,태안 오슈 펜션,태안 하늬바람 펜션,사라디펜션,제주바다의향기,행복한家1,(구)신비펜션,제주 2jj 게스트하우스,광주숲속의정원,서귀포 엘리시움 펜션,하늘땅별땅펜션,정선 강과소나무 펜션,유명산장펜션,브라우니펜션,청운골 생태마을,오렌지펜션,양평 삼호 펜션,단양 패러마을 펜션,양평 애플 펜션,단양 풀내음 펜션,통영여행게스트펜션,제주 공항길 펜션,양평 베네 펜션,라파로마휴양펜션,경주그린벨리,제주 소설 펜션,포천 숲속의장발장 스파 펜션,레만펜션,바다빛펜션,하늘바다,비치플레이스,청평호 OK펜션,포천 굿데이 카라반 오토캠핑,천상의 노을,제주산토리니펜션,태안 카밀리아하우스 펜션,홍천 해피데이 펜션,작은뜨락 숲속의향기,제주 제주하늘 펜션,구름위스파 n 산책,가평 연인가족벨리 펜션,여수 프롬갤러리 펜션,행복한집(구),엘린휴버트,평창 더숲 펜션,티엔느펜션,양평 양지 펜션,라고스펜션,경주 그린벨리 펜션,홍천 신영 펜션,홍천 별이빛나는밤펜션,진주빛펜션";
-        String division = OperateConstants.STR_SPEC_COMA;
+        String division = OperateConstants.STR_COMA;
         common.getMorphologicalAnalysis("eng", sentence, division); 
         
         //logger.debug("韩国弹性搜索韩国形态分析仪有商业产品和开源项目, 現在弾性サーチ用韓国語形態素解析では、商用製品とオープンソースプロジェクトがあり、必要であれば、ユーザーが独自に開発しています。 유명한 응원가인 We are the champion의 가사 중 우리가 챔피언이며 끝까지 ".replaceAll("(?i)([\\p{S}\\p{P}ºㄱ-ㅎㅏ-ㅣ가-힣ァ-ンあ-んー一-齢𠮟\u2e80-\u2eff\u31c0-\u31ef\u3200-\u32ff\u3400-\u4dbf\u4e00-\u9fbf\uf900-\ufaff]+)", OperateConstants.STR_BLANK));
