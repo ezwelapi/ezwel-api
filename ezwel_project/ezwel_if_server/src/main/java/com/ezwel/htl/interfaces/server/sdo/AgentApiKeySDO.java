@@ -5,7 +5,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
 @APIModel
-public class AgentApiKeyIOSDO extends AbstractSDO {
+public class AgentApiKeySDO extends AbstractSDO {
 
 	@APIFields(description = "졔휴사 명", required=true)
 	private String agentName;

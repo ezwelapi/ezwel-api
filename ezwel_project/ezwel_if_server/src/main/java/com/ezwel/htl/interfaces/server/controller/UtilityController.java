@@ -22,7 +22,7 @@ import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
-import com.ezwel.htl.interfaces.server.sdo.AgentApiKeyIOSDO;
+import com.ezwel.htl.interfaces.server.sdo.AgentApiKeySDO;
 import com.ezwel.htl.interfaces.server.sdo.MorphemeSDO;
 
 @Controller
@@ -44,14 +44,14 @@ public class UtilityController {
 	}
 
 	
-	@APIOperation(description="에이젼트 키 발급", isOutputJsonMarshall=true, returnType=AgentApiKeyIOSDO.class)
+	@APIOperation(description="에이젼트 키 발급", isOutputJsonMarshall=true, returnType=AgentApiKeySDO.class)
 	@RequestMapping(value="/agent/apiKey")
-	public Object agentApiKey(AgentApiKeyIOSDO in) {
+	public Object agentApiKey(AgentApiKeySDO in) {
 		logger.debug("[START] agentApiKey \n{}", in);
 		
 		apiUtil = (APIUtil) LApplicationContext.getBean(apiUtil, APIUtil.class);
 		
-		AgentApiKeyIOSDO out = new AgentApiKeyIOSDO();
+		AgentApiKeySDO out = new AgentApiKeySDO();
 		
 		out.setAgentName(in.getAgentName());
 		out.setHttpAgentId(in.getHttpAgentId());
