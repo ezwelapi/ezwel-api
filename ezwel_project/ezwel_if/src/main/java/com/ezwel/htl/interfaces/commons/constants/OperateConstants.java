@@ -51,7 +51,6 @@ public class OperateConstants {
 	public static final String STR_AT;
 	public static final String STR_DOT;
 	public static final String STR_COMA;
-	public static final String STR_SPEC_COMA;
 	public final static String STR_PAREN_START;
 	public final static String STR_PAREN_END;	
 	public static final String LINE_SEPARATOR;
@@ -204,7 +203,6 @@ public class OperateConstants {
 		STR_AT = "@";
 		STR_DOT = ".";
 		STR_COMA = ",";
-		STR_SPEC_COMA = "，";
 		STR_PAREN_START = "(";
 		STR_PAREN_END  = ")";		
 		LINE_SEPARATOR = APIUtil.getProperty("line.separator");

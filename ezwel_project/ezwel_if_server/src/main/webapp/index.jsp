@@ -340,11 +340,11 @@ var testAssets = {
 		"시설 매핑 실행" : {
 			 url : "/service/execFaclMapping"
 			,input : {
-				 "cityCd" : "33"
-				,"areaCd" : "33380"
-				,"roomType" : "NA-G002"
-				,"roomClass" : "NA-G003"
-				,"faclDiv" : "G0010001"
+				 "cityCd" : ""
+				,"areaCd" : ""
+				,"roomType" : ""
+				,"roomClass" : ""
+				,"faclDiv" : ""
 			}
 		}
 	},
