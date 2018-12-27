@@ -89,7 +89,7 @@ public class OutsideService extends AbstractServiceObject {
 	private static final Integer FACL_MORP_PAGE_SIZE;
 	
 	/** 시설 이미지 변경 정보 1 커넥션당 업데이트 개수  */
-	private static final Integer FACL_IMG_UPDATE_COUNT;
+	private static final Integer FACL_COMM_SAVE_COUNT;
 
 	/** 시설 형태소 일치 판정 확율  */
 	private static final Integer MORP_MATCH_DETERMINATION_PROBABILITY;
@@ -102,7 +102,7 @@ public class OutsideService extends AbstractServiceObject {
 		IMG_DOWNLOAD_MULTI_COUNT = 20;
 		FACL_IMG_PAGE_SIZE = 10000;
 		FACL_MORP_PAGE_SIZE = 5000;
-		FACL_IMG_UPDATE_COUNT = 3000;
+		FACL_COMM_SAVE_COUNT = 3000;
 		MORP_MATCH_DETERMINATION_PROBABILITY = 70;
 		isCallAllRegRunning = false;
 	}
@@ -272,6 +272,7 @@ public class OutsideService extends AbstractServiceObject {
 		List<EzcFacl> faclCodeGroupList = null;
 		List<EzcFacl> faclMorpRootList = null;
 		List<EzcFacl> faclMorpCompareList = null;
+		List<EzcFacl> morpCompareFinalList = null;
 		EzcFacl ezcFacl = null;
 		EzcFacl faclMorp = null;
 		EzcFacl faclCompMorp = null;
@@ -286,6 +287,8 @@ public class OutsideService extends AbstractServiceObject {
 		int engEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
 		
 		try {
+			
+			morpCompareFinalList = new ArrayList<EzcFacl>();
 			
 			ezcFacl = (EzcFacl) propertyUtil.copySameProperty(faclSDO, EzcFacl.class);
 			// CITY_CD, AREA_CD, ROOM_TYPE, ROOM_CLASS, FACL_DIV 그룹 목록
@@ -384,12 +387,15 @@ public class OutsideService extends AbstractServiceObject {
 						
 						logger.debug("faclMorp({}) : {}", i, faclMorp);
 						
-						fileUtil.mkfile("D:/ezwel-repository", "compareMorp-finder.txt", faclMorp.toString(), "UTF-8", true, true);						
+						fileUtil.mkfile("D:/ezwel-repository", "compareMorp-finder.txt", faclMorp.toString(), "UTF-8", true, true);
+						
+						morpCompareFinalList.add(faclMorp);
 					}
 				}
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			throw new APIException(MessageConstants.RESPONSE_CODE_9600, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_9600), e);
 		}
 		finally {
@@ -405,7 +411,49 @@ public class OutsideService extends AbstractServiceObject {
 			}
 		}
 		
+		if(morpCompareFinalList != null) {
+			//시설 매핑 데이터 저장
+			//mergeFaclMappingData(morpCompareFinalList, 0, 0);
+		}
+		
 		logger.debug("[END] execFaclMapping");
+		return out;
+	}
+
+	@APIOperation(description="시설 매핑 데이터 저장") 
+	private Integer mergeFaclMappingData(List<EzcFacl> morpCompareFinalList, Integer txCount, Integer fromIndex) {
+		logger.debug("[START] mergeFaclMappingData size : {}, fromIndex : {}", (morpCompareFinalList != null ? morpCompareFinalList.size() : 0), fromIndex);
+		Integer out = OperateConstants.INTEGER_ZERO_VALUE;
+
+		/**
+		 * 시설 매핑 3000 개씩 connection 끊어서 실행
+		 */
+		Integer toIndex = fromIndex + FACL_COMM_SAVE_COUNT;
+		
+		List<EzcFacl> saveFaclMappingList = null;
+		if(toIndex > morpCompareFinalList.size()) {
+			toIndex = morpCompareFinalList.size();
+		}
+
+		try {
+			
+			logger.debug("* mergeFaclMappingData subList 'fromIndex : {} ~ toIndex : {}'", fromIndex, toIndex);
+			saveFaclMappingList = morpCompareFinalList.subList(fromIndex, toIndex);
+			logger.debug("* mergeFaclMappingData saveFaclMappingList.size {}", (saveFaclMappingList != null ? saveFaclMappingList.size() : 0));
+			
+			if(saveFaclMappingList != null && saveFaclMappingList.size() > 0) {
+				txCount += outsideRepository.mergeFaclMappingData(saveFaclMappingList, fromIndex, toIndex, true);
+			}
+			
+			if(morpCompareFinalList != null && morpCompareFinalList.size() > toIndex) {
+				mergeFaclMappingData(morpCompareFinalList, txCount, toIndex);
+			}
+		}
+		catch(Exception e) {
+			logger.error(APIUtil.formatMessage("시설 매핑 데이터 저장 장애발생 (입력 구간 from/to : {} ~ {})", new Object[]{fromIndex, toIndex}), e);
+		}
+		
+		logger.debug("[END] mergeFaclMappingData txCount : {}", out);
 		return out;
 	}
 	
@@ -883,7 +931,7 @@ public class OutsideService extends AbstractServiceObject {
 		/**
 		 * EZC_FACL_IMG update를 3000개씩 commit 처리 
 		 */
-		Integer toIndex = fromIndex + FACL_IMG_UPDATE_COUNT;
+		Integer toIndex = fromIndex + FACL_COMM_SAVE_COUNT;
 		List<EzcFaclImg> subFaclImgList = null;
 		if(toIndex > finalFaclImgList.size()) {
 			toIndex = finalFaclImgList.size();

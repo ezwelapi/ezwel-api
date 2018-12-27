@@ -26,6 +26,8 @@ import com.ezwel.htl.interfaces.server.commons.utils.ExceptionUtil;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclAment;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
+import com.ezwel.htl.interfaces.server.entities.EzcMappingFacl;
+import com.ezwel.htl.interfaces.server.entities.EzcMappingGrpFacl;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataRealtimeImageOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
@@ -291,6 +293,8 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		
 		return out;
 	}	
+
+	
 	
 	
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -394,6 +398,93 @@ public class OutsideRepository extends AbstractDataAccessObject {
 
 		return txCount;
 	}
+	
+	
+	@Transactional(propagation=Propagation.REQUIRED)
+	@APIOperation(description="시설 매핑 데이터 저장")
+	public Integer mergeFaclMappingData(List<EzcFacl> finalFaclList, Integer fromIndex, Integer toIndex, boolean isErrorPassed) {
+		
+		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		
+		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
+		EzcFacl ezcFacl = null;
+		EzcMappingGrpFacl ezcMappingGrpFacl = null;
+		EzcMappingGrpFacl dbMappingGrpFacl = null;
+		
+		EzcMappingFacl ezcMappingFacl = null;
+		EzcMappingFacl dbMappingFacl = null;
+		
+		BigDecimal grpFaclCdSeq = null;
+		
+		try {
+			for(int i = 0; i < finalFaclList.size(); i++) {
+				ezcFacl = finalFaclList.get(i);
+				
+				if(true) /* 필터 필요!! */ {
+					ezcMappingGrpFacl = (EzcMappingGrpFacl) propertyUtil.copySameProperty(ezcFacl, EzcMappingGrpFacl.class);
+					
+					//맴핑 그룹 시설 조회
+					dbMappingGrpFacl = sqlSession.selectOne(getNamespace("MAPPING_GRP_FACL_MAPPER", "selectEzcMappingGrpFacl"), ezcMappingGrpFacl);
+					
+					if(dbMappingGrpFacl != null) {
+						//맴핑 그룹 시설 갱신
+						ezcMappingGrpFacl.setGrpFaclCd(dbMappingGrpFacl.getGrpFaclCd());
+						txCount = sqlSession.update(getNamespace("MAPPING_GRP_FACL_MAPPER", "updateEzcMappingGrpFacl"), ezcMappingGrpFacl);
+					}
+					else {
+						//맴핑 그룹 시설 입력
+						grpFaclCdSeq = sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectEzcMappingGrpFaclSeq"));
+						ezcMappingGrpFacl.setGrpFaclCd(grpFaclCdSeq);
+						txCount = sqlSession.insert(getNamespace("MAPPING_GRP_FACL_MAPPER", "insertEzcMappingGrpFacl"), ezcMappingGrpFacl);
+					}
+				}
+				
+				//매핑 시설 DB 핸들링 ###################################################################
+				ezcMappingFacl = (EzcMappingFacl) propertyUtil.copySameProperty(ezcFacl, EzcMappingFacl.class);
+				
+				//맴핑 그룹 시설 조회
+				dbMappingFacl = sqlSession.selectOne(getNamespace("MAPPING_FACL_MAPPER", "selectEzcMappingFacl"), ezcMappingFacl);
+				
+				if(dbMappingFacl != null) {
+					//맴핑 그룹 시설 갱신
+					ezcMappingFacl.setFaclCd(dbMappingFacl.getFaclCd());
+					ezcMappingFacl.setGrpFaclCd(dbMappingFacl.getGrpFaclCd());
+					txCount = sqlSession.update(getNamespace("MAPPING_FACL_MAPPER", "updateEzcMappingFacl"), ezcMappingFacl);
+				}
+				else {
+					//맴핑 그룹 시설 입력
+					ezcMappingFacl.setFaclCd(ezcFacl.getFaclCd());
+					ezcMappingFacl.setGrpFaclCd(ezcMappingGrpFacl.getGrpFaclCd());
+					txCount = sqlSession.insert(getNamespace("MAPPING_FACL_MAPPER", "insertEzcMappingFacl"), ezcMappingFacl);
+				}
+			}
+		}
+		catch(Exception e) {
+			
+			//에러 발생 레코드 errorItems에 저장후 runtimeException 없이 로깅후 종료
+			if(isErrorPassed) {
+				
+				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
+				
+				/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
+				exceptionUtil.writeBatchErrorLog("{}\n{}@{}\n에러 발생 객체 : {}", 
+						new Object[] {"[시설 매핑 데이터 저장 장애발생]", this.getClass().getCanonicalName(), "mergeFaclMappingData", ezcFacl},
+						new StringBuffer().append(this.getClass().getSimpleName()).append(OperateConstants.STR_AT).append("mergeFaclMappingData-").append(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).toString(), 
+						e);
+				
+				logger.error("Code : {}", MessageConstants.RESPONSE_CODE_9600);
+				logger.error("Message : {}", e.getMessage());
+				e.getStackTrace();
+				
+			}
+			else {
+				throw new APIException("시설 매핑 데이터 저장 장애발생 : {}", new Object[] {e.getMessage()}, e) ; 
+			}
+		}
+
+		return txCount;
+	}
+	
 	
 	@Transactional(propagation=Propagation.REQUIRED)
 	@APIOperation(description="전체시설 이미지 다운로드 경로 단건 저장")
