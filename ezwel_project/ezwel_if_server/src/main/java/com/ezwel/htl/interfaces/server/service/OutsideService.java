@@ -271,7 +271,7 @@ public class OutsideService extends AbstractServiceObject {
 		FaclSDO out = null;
 		List<EzcFacl> faclCodeGroupList = null;
 		List<EzcFacl> faclMorpRootList = null;
-		List<EzcFacl> faclMorpCompareList = null;
+		//List<EzcFacl> faclMorpCompareList = null;
 		List<EzcFacl> morpCompareFinalList = null;
 		EzcFacl ezcFacl = null;
 		EzcFacl faclMorp = null;
@@ -305,8 +305,9 @@ public class OutsideService extends AbstractServiceObject {
 				if(faclMorpRootList != null && faclMorpRootList.size() > 0) {
 					
 					//비교 대조를 위한 목록 복제
-					faclMorpCompareList = new ArrayList<EzcFacl>();
-					faclMorpCompareList.addAll(faclMorpRootList);
+					//faclMorpCompareList = new ArrayList<EzcFacl>();
+					//faclMorpCompareList.addAll(faclMorpRootList);
+					
 					//분석 비교 시작(추론검색)
 					/* 데이터 목록
 			         FACL_CD faclCd
@@ -332,8 +333,8 @@ public class OutsideService extends AbstractServiceObject {
 						}
 						
 						//비교대상 시설 정보
-						for(int j = 0; j < faclMorpCompareList.size(); j++) {
-							faclCompMorp = faclMorpCompareList.get(j);
+						for(int j = 0; j < faclMorpRootList.size(); j++) {
+							faclCompMorp = faclMorpRootList.get(j);
 							
 							if(faclMorp.getFaclCd().compareTo(faclCompMorp.getFaclCd()) == 0) {
 								logger.debug("[PASS] {}.compareTo({})", faclMorp.getFaclCd(), faclCompMorp.getFaclCd());
@@ -419,10 +420,10 @@ public class OutsideService extends AbstractServiceObject {
 			if(faclMorpRootList != null) {
 				faclMorpRootList.clear();
 			}
-			if(faclMorpCompareList != null) {
-				faclMorpCompareList.clear();
-			}
-		}
+			//if(faclMorpCompareList != null) {
+			//	faclMorpCompareList.clear();
+			//}
+		} 
 		
 		if(morpCompareFinalList != null) {
 			//시설 매핑 데이터 저장
