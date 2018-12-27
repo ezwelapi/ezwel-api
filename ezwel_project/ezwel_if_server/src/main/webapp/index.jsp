@@ -340,12 +340,13 @@ var testAssets = {
 		"시설 매핑 실행" : {
 			 url : "/service/execFaclMapping"
 			,input : {
-				 "areaCd" : ""
-				,"cityCd" : ""
-				,"roomType" : ""
-				,"roomClass" : ""
+				 "cityCd" : "33"
+				,"areaCd" : "33380"
+				,"roomType" : "NA-G002"
+				,"roomClass" : "NA-G003"
+				,"faclDiv" : "G0010001"
 			}
-		},
+		}
 	},
 	requestHeader : {
 		"http-client-id" : "",
@@ -354,7 +355,14 @@ var testAssets = {
 		"http-agent-id" : "",
 		"http-agent-type" : "",
 	}
+	,util : {
+		removeTag : function( html ) {
+			return html.replace(/(<([^>]+)>)/gi, "");
+		}		
+	}
 	,send : function( httpAgentId, restURL, jsonString ) {
+		
+		
 		
 		console.info(arguments);
 		
@@ -442,7 +450,7 @@ var testAssets = {
 				console.error(textStatus);
 				console.error(errorThrown);
 
-				$('#outputJson').text(output);
+				$('#outputJson').text(testAssets.util.removeTag(output.split("<br>").join("\n")));
 			},
 			statusCode : {
 				404 : function() {

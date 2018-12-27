@@ -60,6 +60,10 @@
 	<logger name="jdbc.resultsettable">
 		<level value="INFO" />
 	</logger>
+
+	<logger name="jdbc.resultset">
+		<level value="WARN" />
+	</logger>
 	
 	<!-- log4jdbc Loggers -->
 	<logger name="log4jdbc">

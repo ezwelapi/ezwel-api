@@ -35,10 +35,9 @@ import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractServiceObject;
 import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
 import com.ezwel.htl.interfaces.server.commons.morpheme.cm.MorphemeUtil;
-import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzers;
-import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzer;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
+import com.ezwel.htl.interfaces.server.commons.utils.FileUtil;
 import com.ezwel.htl.interfaces.server.entities.EzcDetailCd;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
@@ -75,6 +74,8 @@ public class OutsideService extends AbstractServiceObject {
 	
 	private PropertyUtil propertyUtil;
 	
+	private FileUtil fileUtil;
+	
 	/** 제휴사 별 시설 정보 transaction commit 건수 */
 	private static final Integer FACL_REG_DATA_TX_COUNT;
 	
@@ -83,9 +84,15 @@ public class OutsideService extends AbstractServiceObject {
 	
 	/** 시설 이미지 전체 조회 페이징 개수 */
 	private static final Integer FACL_IMG_PAGE_SIZE;
+
+	/** 시설 형태소 조회 페이징 개수 */
+	private static final Integer FACL_MORP_PAGE_SIZE;
 	
 	/** 시설 이미지 변경 정보 1 커넥션당 업데이트 개수  */
-	private static final Integer FACL_IMG_UPDATE_COUNT;
+	private static final Integer FACL_COMM_SAVE_COUNT;
+
+	/** 시설 형태소 일치 판정 확율  */
+	private static final Integer MORP_MATCH_DETERMINATION_PROBABILITY;
 	
 	/** 전체시설일괄등록 실행 중 플래그 */
 	private static boolean isCallAllRegRunning;
@@ -94,7 +101,9 @@ public class OutsideService extends AbstractServiceObject {
 		FACL_REG_DATA_TX_COUNT = 50;
 		IMG_DOWNLOAD_MULTI_COUNT = 20;
 		FACL_IMG_PAGE_SIZE = 10000;
-		FACL_IMG_UPDATE_COUNT = 3000;
+		FACL_MORP_PAGE_SIZE = 5000;
+		FACL_COMM_SAVE_COUNT = 3000;
+		MORP_MATCH_DETERMINATION_PROBABILITY = 70;
 		isCallAllRegRunning = false;
 	}
 
@@ -186,9 +195,17 @@ public class OutsideService extends AbstractServiceObject {
 	}	
 	
 	
+	/**
+	 * 현제 사용 보류 20181227
+	 * @param faclSDO
+	 * @return
+	 */
 	@APIOperation(description="시설 매핑")
-	public FaclSDO execFaclMapping(FaclSDO faclSDO) {
+	public FaclSDO execFaclMappingWithMorpRowData(FaclSDO faclSDO) {
 		logger.debug("[START] execFaclMapping");
+		
+		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
 		
 		FaclSDO out = null;
 		List<EzcFacl> mappingStep1List = null;
@@ -200,13 +217,21 @@ public class OutsideService extends AbstractServiceObject {
 			
 			ezcFacl = (EzcFacl) propertyUtil.copySameProperty(faclSDO, EzcFacl.class);
 			
-			mappingStep1List = outsideRepository.selectFaclMappingData1(ezcFacl);
+			mappingStep1List = outsideRepository.selectFaclCodeGroupList(ezcFacl);
 			
 			for(EzcFacl faclMorp : mappingStep1List) {
+				logger.debug("[LOOP] faclMorp : {}", faclMorp);
 				//도시,지역,숙소유형,숙소등급 파라매터의 시설코드별 형태소 목록 
-				mappingStep2List = outsideRepository.selectFaclMappingData2(faclMorp);
+				mappingStep2List = outsideRepository.selectFaclMappingMorpRowData(faclMorp);
 				
 				if(mappingStep2List != null && mappingStep2List.size() > 0) {
+					
+					logger.debug("sort before : {}", mappingStep2List);
+					
+					mappingStep2List = sortFaclList(mappingStep2List, OperateConstants.STR_SENDING_ASC);
+					
+					logger.debug("sort after : {}", mappingStep2List);
+					
 					//비교 대조를 위한 목록 복제
 					mappingStep2ListClone = new ArrayList<EzcFacl>();
 					mappingStep2ListClone.addAll(mappingStep2List);
@@ -218,6 +243,7 @@ public class OutsideService extends AbstractServiceObject {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9600, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_9600), e);
 		}
 		finally {
+			
 			if(mappingStep1List != null) {
 				mappingStep1List.clear();
 			}
@@ -234,40 +260,260 @@ public class OutsideService extends AbstractServiceObject {
 	}
 	
 	
+	@APIOperation(description="시설 매핑")
+	public FaclSDO execFaclMapping(FaclSDO faclSDO) {
+		logger.debug("[START] execFaclMapping");
+		
+		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
+		fileUtil = (FileUtil) LApplicationContext.getBean(fileUtil, FileUtil.class);
+		
+		FaclSDO out = null;
+		List<EzcFacl> faclCodeGroupList = null;
+		List<EzcFacl> faclMorpRootList = null;
+		List<EzcFacl> faclMorpCompareList = null;
+		List<EzcFacl> morpCompareFinalList = null;
+		EzcFacl ezcFacl = null;
+		EzcFacl faclMorp = null;
+		EzcFacl faclCompMorp = null;
+		String[] faclKorRootMorpArray = null;
+		String[] faclKorCompareMorpArray = null;
+		String[] faclEngRootMorpArray = null;
+		String[] faclEngCompareMorpArray = null;
+		
+		int korEqualsIndex = OperateConstants.INTEGER_ZERO_VALUE;
+		int engEqualsIndex = OperateConstants.INTEGER_ZERO_VALUE;
+		int korEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
+		int engEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
+		
+		try {
+			
+			morpCompareFinalList = new ArrayList<EzcFacl>();
+			
+			ezcFacl = (EzcFacl) propertyUtil.copySameProperty(faclSDO, EzcFacl.class);
+			// CITY_CD, AREA_CD, ROOM_TYPE, ROOM_CLASS, FACL_DIV 그룹 목록
+			faclCodeGroupList = outsideRepository.selectFaclCodeGroupList(ezcFacl);
+			
+			for(EzcFacl faclCode : faclCodeGroupList) {
+				
+				logger.debug("[LOOP] faclCode : {}", faclCode);
+				//도시,지역,숙소유형,숙소등급 파라매터의 시설코드별 형태소 목록  ( FACL_MORP_PAGE_SIZE 개수 만큼 끊어 읽음 속도 및 타임아웃 이슈 )
+				faclMorpRootList = getFaclMappingMorpDataList(new ArrayList<EzcFacl>(), faclCode, 1, FACL_MORP_PAGE_SIZE);
+				
+				if(faclMorpRootList != null && faclMorpRootList.size() > 0) {
+					
+					//비교 대조를 위한 목록 복제
+					faclMorpCompareList = new ArrayList<EzcFacl>();
+					faclMorpCompareList.addAll(faclMorpRootList);
+					//분석 비교 시작(추론검색)
+					/* 데이터 목록
+			         FACL_CD faclCd
+			        ,FACL_NM_KOR faclNmKor
+			        ,FACL_NM_ENG faclNmEng
+			        ,FACL_KOR_MORP faclKorMorp
+			        ,FACL_ENG_MORP faclEngMorp
+			        ,COORD_X coordX
+			        ,COORD_Y coordY
+			        ,FACL_DIV faclDiv   					
+					*/
+					
+					//비교기준 시설 정보
+					for(int i = 0; i < faclMorpRootList.size(); i++) {
+						faclMorp = faclMorpRootList.get(i);
+						//국문
+						faclKorRootMorpArray = faclMorp.getKorMorpArray();
+						Arrays.sort(faclKorRootMorpArray);
+						//영문
+						faclEngRootMorpArray = faclMorp.getEngMorpArray();
+						if(faclEngRootMorpArray != null) {
+							Arrays.sort(faclEngRootMorpArray);
+						}
+						
+						korEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
+						engEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
+						
+						//비교대상 시설 정보
+						for(int j = 0; j < faclMorpCompareList.size(); j++) {
+							faclCompMorp = faclMorpCompareList.get(j);
+							
+							if(faclMorp.getFaclCd().compareTo(faclCompMorp.getFaclCd()) == 0) {
+								//동일한 시설은 패스
+								continue;
+							}
+							
+							//국문
+							faclKorCompareMorpArray = faclCompMorp.getKorMorpArray(); 
+							Arrays.sort(faclKorCompareMorpArray);
+							//영문
+							faclEngCompareMorpArray = faclCompMorp.getEngMorpArray(); 
+							if(faclEngCompareMorpArray != null && faclEngRootMorpArray != null) {
+								Arrays.sort(faclEngCompareMorpArray);
+							}
+							
+							//국문 형태소 탐색
+							for(String rootMorp : faclKorRootMorpArray) {
+								korEqualsIndex = Arrays.binarySearch(faclKorCompareMorpArray, rootMorp);
+								if(korEqualsIndex > -1) {
+									korEqualsCount++;
+								}
+							}
+							
+							if(faclEngCompareMorpArray != null && faclEngRootMorpArray != null) {
+								//영문 형태소 탐색
+								for(String rootMorp : faclEngRootMorpArray) {
+									engEqualsIndex = Arrays.binarySearch(faclEngCompareMorpArray, rootMorp);
+									if(engEqualsIndex > -1) {
+										engEqualsCount++;
+									}
+								}
+							} 
+							
+							//일치 개수 세팅
+							faclMorp.setKorEqualsCount(korEqualsCount);
+							faclMorp.setEngEqualsCount(engEqualsCount);
+							
+							//국문 일치 확율 체크  
+							if(((korEqualsCount / faclKorRootMorpArray.length) * 100) >= MORP_MATCH_DETERMINATION_PROBABILITY) {
+								faclMorp.addMatchMorpFaclCdList(faclCompMorp.getFaclCd());
+							}
+							
+							if(faclEngCompareMorpArray != null && faclEngRootMorpArray != null) {
+								//영문 일치 확율 체크  
+								if(((engEqualsCount / faclEngRootMorpArray.length) * 100) >= MORP_MATCH_DETERMINATION_PROBABILITY) {
+									faclMorp.addMatchMorpFaclCdList(faclCompMorp.getFaclCd());
+								}
+							}
+						}
+						
+						logger.debug("faclMorp({}) : {}", i, faclMorp);
+						
+						fileUtil.mkfile("D:/ezwel-repository", "compareMorp-finder.txt", faclMorp.toString(), "UTF-8", true, true);
+						
+						morpCompareFinalList.add(faclMorp);
+					}
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			throw new APIException(MessageConstants.RESPONSE_CODE_9600, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_9600), e);
+		}
+		finally {
+			
+			if(faclCodeGroupList != null) {
+				faclCodeGroupList.clear();
+			}
+			if(faclMorpRootList != null) {
+				faclMorpRootList.clear();
+			}
+			if(faclMorpCompareList != null) {
+				faclMorpCompareList.clear();
+			}
+		}
+		
+		if(morpCompareFinalList != null) {
+			//시설 매핑 데이터 저장
+			//mergeFaclMappingData(morpCompareFinalList, 0, 0);
+		}
+		
+		logger.debug("[END] execFaclMapping");
+		return out;
+	}
+
+	@APIOperation(description="시설 매핑 데이터 저장") 
+	private Integer mergeFaclMappingData(List<EzcFacl> morpCompareFinalList, Integer txCount, Integer fromIndex) {
+		logger.debug("[START] mergeFaclMappingData size : {}, fromIndex : {}", (morpCompareFinalList != null ? morpCompareFinalList.size() : 0), fromIndex);
+		Integer out = OperateConstants.INTEGER_ZERO_VALUE;
+
+		/**
+		 * 시설 매핑 3000 개씩 connection 끊어서 실행
+		 */
+		Integer toIndex = fromIndex + FACL_COMM_SAVE_COUNT;
+		
+		List<EzcFacl> saveFaclMappingList = null;
+		if(toIndex > morpCompareFinalList.size()) {
+			toIndex = morpCompareFinalList.size();
+		}
+
+		try {
+			
+			logger.debug("* mergeFaclMappingData subList 'fromIndex : {} ~ toIndex : {}'", fromIndex, toIndex);
+			saveFaclMappingList = morpCompareFinalList.subList(fromIndex, toIndex);
+			logger.debug("* mergeFaclMappingData saveFaclMappingList.size {}", (saveFaclMappingList != null ? saveFaclMappingList.size() : 0));
+			
+			if(saveFaclMappingList != null && saveFaclMappingList.size() > 0) {
+				txCount += outsideRepository.mergeFaclMappingData(saveFaclMappingList, fromIndex, toIndex, true);
+			}
+			
+			if(morpCompareFinalList != null && morpCompareFinalList.size() > toIndex) {
+				mergeFaclMappingData(morpCompareFinalList, txCount, toIndex);
+			}
+		}
+		catch(Exception e) {
+			logger.error(APIUtil.formatMessage("시설 매핑 데이터 저장 장애발생 (입력 구간 from/to : {} ~ {})", new Object[]{fromIndex, toIndex}), e);
+		}
+		
+		logger.debug("[END] mergeFaclMappingData txCount : {}", out);
+		return out;
+	}
+	
+
+	@APIOperation(description="조건 별 시설 전체 조회(페이징조회)")
+	private List<EzcFacl> getFaclMappingMorpDataList(List<EzcFacl> ezcFaclList, EzcFacl ezcFacl, Integer pageNum, Integer pageSize) {
+		logger.debug("[START] getFaclMappingDataAll pageNum : {}, pageSize : {}", pageNum, pageSize);
+		
+		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
+		
+		ezcFacl.setPageNum(pageNum);
+		ezcFacl.setPageCount(pageSize);
+		
+		List<EzcFacl> list = outsideRepository.selectFaclMappingMorpDataList(ezcFacl);
+		
+		if(list != null && list.size() > 0) {
+			ezcFaclList.addAll(list);
+			getFaclMappingMorpDataList(ezcFaclList, ezcFacl, (pageNum + 1), pageSize);
+		}
+		
+		logger.debug("[END] getFaclMappingData2All");
+		return ezcFaclList;
+	}
+	
 	/**
+	 * 현제 사용 보류
 	 * 리스트에 담긴 문자목록을 HashCode (아스키) 를 기준으로 sending 방향대로 정렬하여 줍니다.
 	 * @param arrays
 	 * @param sending
 	 * @return
 	 */
-	public List<?> listHashCodeOrdered(List<?> arrays, String sending){
+	public List<EzcFacl> sortFaclList(List<EzcFacl> ezcFaclList, String sending) {
 
-		if(arrays == null) return null;
+		if(ezcFaclList == null || ezcFaclList.size() == 0) {
+			return null;
+		}
 
-		List<?> array = arrays;
+		List<EzcFacl> faclList = ezcFaclList;
 		final String orderBy = sending;
 
-        Collections.sort(array, new Comparator<Object>(){
-        	int frontStr = 0;
-        	int backStr = 0;
-	    		int position = 0;
+        Collections.sort(faclList, new Comparator<EzcFacl>(){
+        	int frontHashCode = OperateConstants.INTEGER_ZERO_VALUE;
+        	int backendHashCode = OperateConstants.INTEGER_ZERO_VALUE;        	
+	    	int position = OperateConstants.INTEGER_ZERO_VALUE;
 
-				public int compare(final Object front, final Object backend )
-	            {
-	            	frontStr = front.toString().hashCode();
-	            	backStr = backend.toString().hashCode();
-            		if(orderBy.equalsIgnoreCase("desc")){
-            			position = backStr - frontStr;
-            		}else{
-            			position = frontStr - backStr;
-            		}
+			public int compare(final EzcFacl front, final EzcFacl backend ) {
+				frontHashCode = front.getFaclCd().toPlainString().concat(front.getFaclNm()).hashCode(); 
+				backendHashCode = backend.getFaclCd().toPlainString().concat(backend.getFaclNm()).hashCode();
+				
+        		if(OperateConstants.STR_SENDING_DESC.equalsIgnoreCase(orderBy)){
+        			position = backendHashCode - frontHashCode;
+        		}else{
+        			position = frontHashCode - backendHashCode;
+        		}
 
-	                return position;
-	            }
-	        }
-	    );
+                return position;
+            }
+		});
 
-        return array;
+        return faclList;
 	}
 	
 	/**
@@ -685,7 +931,7 @@ public class OutsideService extends AbstractServiceObject {
 		/**
 		 * EZC_FACL_IMG update를 3000개씩 commit 처리 
 		 */
-		Integer toIndex = fromIndex + FACL_IMG_UPDATE_COUNT;
+		Integer toIndex = fromIndex + FACL_COMM_SAVE_COUNT;
 		List<EzcFaclImg> subFaclImgList = null;
 		if(toIndex > finalFaclImgList.size()) {
 			toIndex = finalFaclImgList.size();
