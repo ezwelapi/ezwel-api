@@ -46,6 +46,10 @@ public class OutsideController {
 	
 	private OutsideIFService outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
 	
+	/**************************************
+	 * [START] ezwel_if_server API 
+	 **************************************/
+	
 	/**
 	 * <pre>
 	 * [메서드 설명]
@@ -103,7 +107,7 @@ public class OutsideController {
 	}
 	
 	/**************************************
-	 * interface_if API
+	 * [START] ezwel_if API 
 	 **************************************/
 	
 	@RequestMapping(value="/service/callRoomRead")

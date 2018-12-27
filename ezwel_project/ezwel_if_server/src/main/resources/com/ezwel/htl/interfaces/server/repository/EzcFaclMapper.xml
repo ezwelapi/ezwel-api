@@ -100,6 +100,8 @@ SELECT * FROM (
         ROOM_CLASS
     FROM
         EZC_FACL
+    WHERE
+        CITY_CD != 'EMPTY'        
     GROUP BY
         CITY_CD,
         AREA_CD,
@@ -116,7 +118,11 @@ ORDER BY
 <select id="selectFaclMappingStep2" parameterType="ezcFacl" resultType="ezcFacl">
 WITH EZC_FACL_WITH AS (
     SELECT /*+ MATERIALIZED */ 
-        FACL_CD, FACL_KOR_MORP, FACL_ENG_MORP
+         FACL_CD
+        ,FACL_NM_KOR
+        ,FACL_NM_ENG
+        ,FACL_KOR_MORP
+        ,FACL_ENG_MORP
     FROM 
     	EZC_FACL
     WHERE 1=1
@@ -128,6 +134,7 @@ WITH EZC_FACL_WITH AS (
 )
 SELECT 
      FACL_CD faclCd
+    ,FACL_NM_KOR faclNm
     ,'KR' morpType
     ,REGEXP_SUBSTR(FACL_KOR_MORP,'[^,]+', 1, LEVEL) faclNmMorp 
 FROM 
@@ -137,10 +144,11 @@ CONNECT BY
 UNION ALL
 SELECT 
      FACL_CD faclCd
+    ,FACL_NM_ENG faclNm
     ,'EN' morpType
     ,REGEXP_SUBSTR(FACL_ENG_MORP,'[^,]+', 1, LEVEL) faclNmMorp 
 FROM 
-	EZC_FACL
+	EZC_FACL_WITH
 CONNECT BY 
     REGEXP_SUBSTR(FACL_ENG_MORP, '[^,]+', 1, LEVEL) IS NOT NULL
 </select>

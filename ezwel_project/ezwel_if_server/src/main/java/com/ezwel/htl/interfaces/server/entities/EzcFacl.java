@@ -56,6 +56,9 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "시설 명 영문", maxLength=100, required=false, constraints="SYS_C0011059(C)")
 	private String faclNmEng;
 
+	@APIFields(description = "시설 명", maxLength=100)
+	private String faclNm;
+	
 	@APIFields(description = "숙소 유형", maxLength=8, required=true, constraints="SYS_C0011060(C)")
 	private String roomType;
 
@@ -168,6 +171,14 @@ public class EzcFacl extends AbstractEntity {
 	private List<String> ezcFaclAmentList;	
 
 	
+	public String getFaclNm() {
+		return faclNm;
+	}
+
+	public void setFaclNm(String faclNm) {
+		this.faclNm = faclNm;
+	}
+
 	public String getMorpType() {
 		return morpType;
 	}
