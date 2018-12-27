@@ -20,10 +20,10 @@ import com.ezwel.htl.interfaces.commons.utils.RegexUtil;
 import com.ezwel.htl.interfaces.server.commons.morpheme.cm.MorphemeUtil;
 import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzers;
-import com.ezwel.htl.interfaces.server.commons.sdo.AgentApiKeySDO;
-import com.ezwel.htl.interfaces.server.commons.sdo.MorphemeSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
+import com.ezwel.htl.interfaces.server.sdo.AgentApiKeyIOSDO;
+import com.ezwel.htl.interfaces.server.sdo.MorphemeSDO;
 
 @Controller
 public class UtilityController {
@@ -44,14 +44,14 @@ public class UtilityController {
 	}
 
 	
-	@APIOperation(description="에이젼트 키 발급", isOutputJsonMarshall=true, returnType=AgentApiKeySDO.class)
+	@APIOperation(description="에이젼트 키 발급", isOutputJsonMarshall=true, returnType=AgentApiKeyIOSDO.class)
 	@RequestMapping(value="/agent/apiKey")
-	public Object agentApiKey(AgentApiKeySDO in) {
+	public Object agentApiKey(AgentApiKeyIOSDO in) {
 		logger.debug("[START] agentApiKey \n{}", in);
 		
 		apiUtil = (APIUtil) LApplicationContext.getBean(apiUtil, APIUtil.class);
 		
-		AgentApiKeySDO out = new AgentApiKeySDO();
+		AgentApiKeyIOSDO out = new AgentApiKeyIOSDO();
 		
 		out.setAgentName(in.getAgentName());
 		out.setHttpAgentId(in.getHttpAgentId());

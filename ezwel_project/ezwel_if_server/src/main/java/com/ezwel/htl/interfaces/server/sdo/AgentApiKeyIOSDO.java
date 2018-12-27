@@ -1,11 +1,11 @@
-package com.ezwel.htl.interfaces.server.commons.sdo;
+package com.ezwel.htl.interfaces.server.sdo;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
 @APIModel
-public class AgentApiKeySDO extends AbstractSDO {
+public class AgentApiKeyIOSDO extends AbstractSDO {
 
 	@APIFields(description = "졔휴사 명", required=true)
 	private String agentName;

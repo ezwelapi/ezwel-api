@@ -44,6 +44,7 @@ import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
 import com.ezwel.htl.interfaces.server.repository.CommonRepository;
 import com.ezwel.htl.interfaces.server.repository.OutsideRepository;
+import com.ezwel.htl.interfaces.server.sdo.FaclSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataRealtimeImageOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegFaclImgOutSDO;
@@ -186,19 +187,24 @@ public class OutsideService extends AbstractServiceObject {
 	
 	
 	@APIOperation(description="시설 매핑")
-	public void execFaclMapping(EzcFacl ezcFacl) {
+	public FaclSDO execFaclMapping(FaclSDO faclSDO) {
 		logger.debug("[START] execFaclMapping");
 		
+		FaclSDO out = null;
 		List<EzcFacl> mappingStep1List = null;
 		List<EzcFacl> mappingStep2List = null;
 		List<EzcFacl> mappingStep2ListClone = null;
+		EzcFacl ezcFacl = null;
 		
 		try {
-			mappingStep1List = outsideRepository.selectFaclMappingStep1(ezcFacl);
+			
+			ezcFacl = (EzcFacl) propertyUtil.copySameProperty(faclSDO, EzcFacl.class);
+			
+			mappingStep1List = outsideRepository.selectFaclMappingData1(ezcFacl);
 			
 			for(EzcFacl faclMorp : mappingStep1List) {
 				//도시,지역,숙소유형,숙소등급 파라매터의 시설코드별 형태소 목록 
-				mappingStep2List = outsideRepository.selectFaclMappingStep2(faclMorp);
+				mappingStep2List = outsideRepository.selectFaclMappingData2(faclMorp);
 				
 				if(mappingStep2List != null && mappingStep2List.size() > 0) {
 					//비교 대조를 위한 목록 복제
@@ -209,10 +215,22 @@ public class OutsideService extends AbstractServiceObject {
 			}
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			throw new APIException(MessageConstants.RESPONSE_CODE_9600, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_9600), e);
+		}
+		finally {
+			if(mappingStep1List != null) {
+				mappingStep1List.clear();
+			}
+			if(mappingStep2List != null) {
+				mappingStep2List.clear();
+			}
+			if(mappingStep2ListClone != null) {
+				mappingStep2ListClone.clear();
+			}
 		}
 		
 		logger.debug("[END] execFaclMapping");
+		return out;
 	}
 	
 	

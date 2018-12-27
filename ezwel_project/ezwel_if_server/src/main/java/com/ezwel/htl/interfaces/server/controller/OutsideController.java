@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.sdo.FaclSDO;
 import com.ezwel.htl.interfaces.server.service.OutsideService;
 import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegFaclImgOutSDO;
@@ -105,6 +106,17 @@ public class OutsideController {
 		
 		return out;
 	}
+	
+	
+	@APIOperation(description="시설 매핑", isOutputJsonMarshall=true, returnType=FaclSDO.class)
+	@RequestMapping(value="/service/execFaclMapping")
+	public Object execFaclMapping(FaclSDO faclSDO) {
+		
+		FaclSDO out = outsideService.execFaclMapping(faclSDO);
+		
+		return out;
+	}
+	
 	
 	/**************************************
 	 * [START] ezwel_if API 

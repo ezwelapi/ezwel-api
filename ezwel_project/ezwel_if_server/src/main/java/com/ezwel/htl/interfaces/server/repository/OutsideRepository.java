@@ -434,12 +434,12 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	}
 	
 	@APIOperation(description="시설 타입 그룹 목록 조회")
-	public List<EzcFacl> selectFaclMappingStep1(EzcFacl ezcFacl) {
+	public List<EzcFacl> selectFaclMappingData1(EzcFacl ezcFacl) {
 			
 		List<EzcFacl> out = null;
 		
 		try {
-			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectFaclMappingStep1"), ezcFacl);
+			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectFaclMappingData1"), ezcFacl);
 		}
 		catch(APIException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
@@ -449,12 +449,12 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	}
 	
 	@APIOperation(description="타입 그룹 별 시설 형태소 행 목록(형태소 열을 행으로 변환한 목록)")
-	public List<EzcFacl> selectFaclMappingStep2(EzcFacl ezcFacl) {
+	public List<EzcFacl> selectFaclMappingData2(EzcFacl ezcFacl) {
 			
 		List<EzcFacl> out = null;
 		
 		try {
-			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectFaclMappingStep2"), ezcFacl);
+			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectFaclMappingData2"), ezcFacl);
 		}
 		catch(APIException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
