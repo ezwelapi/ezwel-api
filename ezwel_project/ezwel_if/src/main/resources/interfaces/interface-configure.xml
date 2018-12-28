@@ -350,7 +350,7 @@
 			<chanId>ezwelJob</chanId>
 			<description>주문대사(이지웰)</description>
 			<httpAgentId>10055550</httpAgentId>
-			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/HTPWS_EZWEL_META.asmx?op=gfnGetBookingList</restURI>
+			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/BookingListRQ.ashx</restURI>
 			<receiverRestURI>/service/callEzwelJob</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
