@@ -66,7 +66,7 @@ public class CryptUtil {
 	public static String getSHA256Hex(String word) {
 		if(APIUtil.isEmpty(word)) {
 			logger.warn("SHA256Hex input parameter is empty or null...");
-			return null;
+			return word;
 		}
 		
 		String out = DigestUtils.sha256Hex(word);
