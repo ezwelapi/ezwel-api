@@ -34,6 +34,8 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.utils.crypt.Base64Codec;
+import com.ezwel.htl.interfaces.commons.utils.crypt.MD5;
 
 /**
  * <pre>
@@ -258,28 +260,11 @@ public class APIUtil {
 			reference = "";
 		}
 		/** getRandomUUID 36 byte + rmi.VMID 43 byte + reference */
-		String uuidMD5 = MD5.getInstance().getHashString(getRandomUUID().concat(getVMID()).concat(reference));
+		String uuidMD5 = CryptUtil.getMD5HashString(getRandomUUID().concat(getVMID()).concat(reference));
 		
 		//logger.debug("uuidMD5 : {}, uuidMD5.length() : {} ", uuidMD5, uuidMD5.length());
 		return uuidMD5;
 	}
-	
-	
-	@APIOperation(description="바인드된 문자열을 MD5로 암호화하여 리턴합니다.", isExecTest=true)
-	public static String getMD5HashString(String sentences){
-		String sentence = sentences;
-		
-		/** reference null check */
-		if(sentence == null || sentence.isEmpty()) {
-			throw new APIException("getMD5HashString parameter string is null...");
-		}
-		/** getRandomUUID 36 byte + rmi.VMID 43 byte + reference */
-		String md5 = MD5.getInstance().getHashString(sentence);
-		
-		//logger.debug("uuidMD5 : {}, uuidMD5.length() : {} ", uuidMD5, uuidMD5.length());
-		return md5;
-	}
-	
 	
 	/**
 	 * <pre>
@@ -431,7 +416,7 @@ public class APIUtil {
 		
 		logger.debug("httpSignature Original : {}", httpApiSignature);
 		
-		out = new Base64Codec().encode(httpApiSignature);
+		out = CryptUtil.getEncodeBase64(httpApiSignature);
 		logger.debug("[END] getSecretId : {}", out);
 		return out;
 	}
@@ -480,11 +465,11 @@ public class APIUtil {
 		String apiKey = null;
 		if(prevfix.equalsIgnoreCase("i")) {
 			// inside
-			apiKey = (MD5.getInstance().getHashString(agentName.concat(prevfix).concat(httpAgentId).concat(toDay))).concat(prevfix).toLowerCase();
+			apiKey = (CryptUtil.getMD5HashString(agentName.concat(prevfix).concat(httpAgentId).concat(toDay))).concat(prevfix).toLowerCase();
 		}
 		else {
 			//outside
-			apiKey = (MD5.getInstance().getHashString(httpAgentId.concat(prevfix).concat(agentName).concat(toDay))).concat(prevfix).toLowerCase();
+			apiKey = (CryptUtil.getMD5HashString(httpAgentId.concat(prevfix).concat(agentName).concat(toDay))).concat(prevfix).toLowerCase();
 		}
 		return apiKey;
 	}

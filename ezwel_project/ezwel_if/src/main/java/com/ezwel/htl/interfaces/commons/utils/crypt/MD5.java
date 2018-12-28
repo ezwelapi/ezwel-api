@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.commons.utils;
+package com.ezwel.htl.interfaces.commons.utils.crypt;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
+
+import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 
@@ -18,7 +20,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
  * @date 2018. 11. 5.
  * @serviceType API
  */
-@APIType
+@APIType(description="MD5암호화모듈")
 public class MD5 {
 
     private static final MD5 INSTANCE = new MD5();

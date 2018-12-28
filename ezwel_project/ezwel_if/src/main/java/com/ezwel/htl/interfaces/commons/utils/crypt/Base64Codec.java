@@ -1,9 +1,10 @@
-package com.ezwel.htl.interfaces.commons.utils;
+package com.ezwel.htl.interfaces.commons.utils.crypt;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 
 /**
 * <p>Title: Base64Codec</p>
@@ -16,7 +17,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 * @author ksw
 * @version 1.0
 */
-@Component
+@APIType(description="BASE64 EN/DE Coder")
 public class Base64Codec {
 
 	private static final Base64Codec INSTANCE = new Base64Codec();

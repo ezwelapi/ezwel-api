@@ -14,8 +14,9 @@ import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
-import com.ezwel.htl.interfaces.commons.utils.Base64Codec;
-import com.ezwel.htl.interfaces.commons.utils.MD5;
+import com.ezwel.htl.interfaces.commons.utils.CryptUtil;
+import com.ezwel.htl.interfaces.commons.utils.crypt.Base64Codec;
+import com.ezwel.htl.interfaces.commons.utils.crypt.MD5;
 /**
  * <pre>
  * 
@@ -137,7 +138,7 @@ public class APIUtilTest {
 		String newSign = apiUtil.getHttpSignature("10000495", "d099b5ed2d8d352d6bb539febb4b46aai", Long.toString(System.currentTimeMillis()));
 		logger.debug("new signature({}) : {}", newSign.length(), newSign);
 		
-		logger.debug("decode : {}", new Base64Codec().decode(newSign));
+		logger.debug("decode : {}", CryptUtil.getDecodeBase64(newSign));
 	}
 	
 	/**

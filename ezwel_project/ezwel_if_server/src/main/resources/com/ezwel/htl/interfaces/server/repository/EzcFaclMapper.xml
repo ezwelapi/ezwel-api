@@ -141,39 +141,37 @@ ORDER BY
 SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/*  SQL Body Start  */
-		SELECT * FROM (
-		    SELECT 
-		         FACL_CD faclCd
-		        ,PARTNER_CD partnerCd
-		        ,FACL_NM_KOR faclNmKor
-		        ,FACL_NM_ENG faclNmEng
-		        ,FACL_KOR_MORP faclKorMorp
-		        ,FACL_ENG_MORP faclEngMorp
-		        ,COORD_X coordX
-		        ,COORD_Y coordY
-		        ,FACL_DIV faclDiv
-		        ,LENGTH(FACL_KOR_MORP) faclNmKorCnt
-		        ,LENGTH(FACL_ENG_MORP) faclEngMorpCnt
-		    FROM 
-		    	EZC_FACL
-		    WHERE 1=1
-		    	AND FACL_KOR_MORP IS NOT NULL
-		        AND CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10), FK_EZC_CITY_CD_EZC_FACL(R),SYS_C0011067(C) */
-		        AND AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10), FK_EZC_AREA_CD_EZC_FACL(R),SYS_C0011066(C) */
-		        AND ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
-		        AND ROOM_CLASS = #{roomClass, jdbcType=VARCHAR}	/* 숙소 등급, VARCHAR2(8) */
-		        AND FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
-	    )
-		ORDER BY
-			 FACLNMKORCNT DESC
-			,FACLENGMORPCNT DESC
-	        ,FACLKORMORP
-	        ,FACLENGMORP
-	        ,FACLNMKOR
-	        ,FACLNMENG
-	        ,FACLDIV   
-	        ,COORDX
-	        ,COORDY
+	    SELECT 
+	         FACL_CD faclCd
+	        ,PARTNER_CD partnerCd
+	        ,FACL_NM_KOR faclNmKor
+	        ,FACL_NM_ENG faclNmEng
+	        ,FACL_KOR_MORP faclKorMorp
+	        ,FACL_ENG_MORP faclEngMorp
+	        ,COORD_X coordX
+	        ,COORD_Y coordY
+	        ,FACL_DIV faclDiv
+	        ,LENGTH(FACL_KOR_MORP) faclNmKorCnt
+	        ,LENGTH(FACL_ENG_MORP) faclEngMorpCnt
+	    FROM 
+	    	EZC_FACL
+	    WHERE 1=1
+	    	AND FACL_KOR_MORP IS NOT NULL
+	        AND CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10), FK_EZC_CITY_CD_EZC_FACL(R),SYS_C0011067(C) */
+	        AND AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10), FK_EZC_AREA_CD_EZC_FACL(R),SYS_C0011066(C) */
+	        AND ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
+	        AND ROOM_CLASS = #{roomClass, jdbcType=VARCHAR}	/* 숙소 등급, VARCHAR2(8) */
+	        AND FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
+        ORDER BY
+             LENGTH(FACL_KOR_MORP) DESC
+            ,LENGTH(FACL_ENG_MORP) DESC
+            ,FACL_KOR_MORP
+            ,FACL_ENG_MORP
+            ,FACL_NM_KOR
+            ,FACL_NM_ENG
+            ,FACL_DIV   
+            ,COORD_X
+            ,COORD_Y  
 		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})) 

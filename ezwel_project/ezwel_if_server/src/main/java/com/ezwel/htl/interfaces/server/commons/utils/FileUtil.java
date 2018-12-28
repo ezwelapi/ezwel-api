@@ -25,6 +25,7 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.commons.utils.CryptUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.commons.utils.RegexUtil;
 import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
@@ -148,7 +149,7 @@ public class FileUtil {
 						}
 
 						// 파일시스템에 저장 할 파일명
-						chngFileName = APIUtil.getMD5HashString(orgFileName).concat(OperateConstants.STR_DOT).concat(fileExt);
+						chngFileName = CryptUtil.getMD5HashString(orgFileName).concat(OperateConstants.STR_DOT).concat(fileExt);
 						// 파일시스템에 저장 할 파일
 						outputFile = new File(outputFile, chngFileName);
 						
