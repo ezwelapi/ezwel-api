@@ -2,6 +2,8 @@ package com.ezwel.htl.interfaces.server.service;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,6 +37,7 @@ import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractServiceObject;
 import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
 import com.ezwel.htl.interfaces.server.commons.morpheme.cm.MorphemeUtil;
+import com.ezwel.htl.interfaces.server.commons.sdo.EzcFaclMappingSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.FileUtil;
@@ -92,7 +95,7 @@ public class OutsideService extends AbstractServiceObject {
 	private static final Integer FACL_COMM_SAVE_COUNT;
 
 	/** 시설 형태소 일치 판정 확율  */
-	private static final Integer MORP_MATCH_DETERMINATION_PROBABILITY;
+	private static final BigDecimal MORP_MATCH_DETERMINATION_PROBABILITY;
 	
 	/** 전체시설일괄등록 실행 중 플래그 */
 	private static boolean isCallAllRegRunning;
@@ -103,7 +106,7 @@ public class OutsideService extends AbstractServiceObject {
 		FACL_IMG_PAGE_SIZE = 10000;
 		FACL_MORP_PAGE_SIZE = 5000;
 		FACL_COMM_SAVE_COUNT = 3000;
-		MORP_MATCH_DETERMINATION_PROBABILITY = 70;
+		MORP_MATCH_DETERMINATION_PROBABILITY = new BigDecimal(60);
 		isCallAllRegRunning = false;
 	}
 
@@ -270,12 +273,12 @@ public class OutsideService extends AbstractServiceObject {
 		
 		FaclSDO out = null;
 		List<EzcFacl> faclCodeGroupList = null;
-		List<EzcFacl> faclMorpRootList = null;
-		//List<EzcFacl> faclMorpCompareList = null;
+		List<EzcFacl> faclMorpSearchList = null;
 		List<EzcFacl> morpCompareFinalList = null;
 		EzcFacl ezcFacl = null;
 		EzcFacl faclMorp = null;
 		EzcFacl faclCompMorp = null;
+		EzcFaclMappingSDO ezcFaclMappingSDO = null;
 		String[] faclKorRootMorpArray = null;
 		String[] faclKorCompareMorpArray = null;
 		String[] faclEngRootMorpArray = null;
@@ -283,11 +286,13 @@ public class OutsideService extends AbstractServiceObject {
 		
 		int korEqualsIndex = OperateConstants.INTEGER_ZERO_VALUE;
 		int engEqualsIndex = OperateConstants.INTEGER_ZERO_VALUE;
-		int korEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
-		int engEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
-		int korEqualsPer = OperateConstants.INTEGER_ZERO_VALUE;
-		int engEqualsPer = OperateConstants.INTEGER_ZERO_VALUE;
+		int korMorpEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
+		int engMorpEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
+		BigDecimal korMorpEqualsPer = OperateConstants.BIGDECIMAL_ZERO_VALUE;
+		BigDecimal engMorpEqualsPer = OperateConstants.BIGDECIMAL_ZERO_VALUE;
 		
+    	DecimalFormat decimalFormat = new DecimalFormat("000.00");
+    	
 		try {
 			
 			morpCompareFinalList = new ArrayList<EzcFacl>();
@@ -300,13 +305,13 @@ public class OutsideService extends AbstractServiceObject {
 				
 				logger.debug("[LOOP] faclCode : {}", faclCode);
 				//도시,지역,숙소유형,숙소등급 파라매터의 시설코드별 형태소 목록  ( FACL_MORP_PAGE_SIZE 개수 만큼 끊어 읽음 속도 및 타임아웃 이슈 )
-				faclMorpRootList = getFaclMappingMorpDataList(new ArrayList<EzcFacl>(), faclCode, 1, FACL_MORP_PAGE_SIZE);
+				faclMorpSearchList = getFaclMappingMorpDataList(new ArrayList<EzcFacl>(), faclCode, 1, FACL_MORP_PAGE_SIZE);
 				
-				if(faclMorpRootList != null && faclMorpRootList.size() > 0) {
+				if(faclMorpSearchList != null && faclMorpSearchList.size() > 0) {
 					
 					//비교 대조를 위한 목록 복제
 					//faclMorpCompareList = new ArrayList<EzcFacl>();
-					//faclMorpCompareList.addAll(faclMorpRootList);
+					//faclMorpCompareList.addAll(faclMorpSearchList);
 					
 					//분석 비교 시작(추론검색)
 					/* 데이터 목록
@@ -321,37 +326,37 @@ public class OutsideService extends AbstractServiceObject {
 					*/
 					
 					//비교기준 시설 정보
-					for(int i = 0; i < faclMorpRootList.size(); i++) {
-						faclMorp = faclMorpRootList.get(i);
+					for(int i = 0; i < faclMorpSearchList.size(); i++) {
+						faclMorp = faclMorpSearchList.get(i);
 						//국문
 						faclKorRootMorpArray = faclMorp.getKorMorpArray();
-						//Arrays.sort(faclKorRootMorpArray);
+						Arrays.sort(faclKorRootMorpArray);
 						//영문
 						faclEngRootMorpArray = faclMorp.getEngMorpArray();
 						if(faclEngRootMorpArray != null) {
-							//Arrays.sort(faclEngRootMorpArray);
+							Arrays.sort(faclEngRootMorpArray);
 						}
 						
 						//비교대상 시설 정보
-						for(int j = 0; j < faclMorpRootList.size(); j++) {
-							faclCompMorp = faclMorpRootList.get(j);
+						for(int j = 0; j < faclMorpSearchList.size(); j++) {
+							faclCompMorp = faclMorpSearchList.get(j);
 							
-							if(faclMorp.getFaclCd().compareTo(faclCompMorp.getFaclCd()) == 0) {
-								logger.debug("[PASS] {}.compareTo({})", faclMorp.getFaclCd(), faclCompMorp.getFaclCd());
+							if(/*(faclMorp.getPartnerCd().equals(faclCompMorp.getPartnerCd())) || */(faclMorp.getFaclCd().compareTo(faclCompMorp.getFaclCd()) == 0)) {
+								logger.debug("[PASS] PartnerCd : {}.equals({}), FaclCd : {}.compareTo({})", faclMorp.getPartnerCd(), faclCompMorp.getPartnerCd(), faclMorp.getFaclCd(), faclCompMorp.getFaclCd());
 								//동일한 시설은 패스
 								continue;
 							}
 							
-							korEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
-							engEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
+							korMorpEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
+							engMorpEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
 							
 							//국문
 							faclKorCompareMorpArray = faclCompMorp.getKorMorpArray(); 
-							//Arrays.sort(faclKorCompareMorpArray);
+							Arrays.sort(faclKorCompareMorpArray);
 							//영문
 							faclEngCompareMorpArray = faclCompMorp.getEngMorpArray(); 
 							if(faclEngCompareMorpArray != null && faclEngRootMorpArray != null) {
-								//Arrays.sort(faclEngCompareMorpArray);
+								Arrays.sort(faclEngCompareMorpArray);
 							}
 							
 							//국문 형태소 탐색
@@ -359,7 +364,7 @@ public class OutsideService extends AbstractServiceObject {
 								korEqualsIndex = Arrays.binarySearch(faclKorCompareMorpArray, rootMorp);
 								//logger.debug("[국문 형태소 탐색:{}, length: {}] index : {} / {} : {}", faclMorp.getFaclCd(), faclKorRootMorpArray.length, korEqualsIndex, rootMorp, faclKorCompareMorpArray);
 								if(korEqualsIndex > -1) {
-									korEqualsCount++;
+									korMorpEqualsCount++;
 								}
 							} 
 							
@@ -369,47 +374,59 @@ public class OutsideService extends AbstractServiceObject {
 									engEqualsIndex = Arrays.binarySearch(faclEngCompareMorpArray, rootMorp);
 									//logger.debug("[영문 형태소 탐색:{}, length: {}] index : {} / {} : {}", faclMorp.getFaclCd(), faclEngRootMorpArray.length, engEqualsIndex, rootMorp, faclEngRootMorpArray);
 									if(engEqualsIndex > -1) {
-										engEqualsCount++;
+										engMorpEqualsCount++;
 									}
 								} 
 							} 
 							
+							//국문 매치 확율 계산
+							korMorpEqualsPer = ((new BigDecimal(korMorpEqualsCount).divide(new BigDecimal(faclKorRootMorpArray.length), MathContext.DECIMAL32)).multiply(new BigDecimal(100)));
+							engMorpEqualsPer = OperateConstants.BIGDECIMAL_ZERO_VALUE;
 							
-							korEqualsPer = (korEqualsCount / faclKorRootMorpArray.length) * 100;
-							
-							if(faclEngCompareMorpArray != null && faclEngRootMorpArray != null) {
-								engEqualsPer = (engEqualsCount / faclEngRootMorpArray.length) * 100;
-							}
-							else {
-								engEqualsPer = OperateConstants.INTEGER_ZERO_VALUE;
-							}
-							
-							logger.debug("== > FaclCd : {} check : {}, korEqualsCount : {}, korEqualsPer : {}, engEqualsCount : {}, engEqualsPer : {}", 
-											faclMorp.getFaclCd(), faclCompMorp.getFaclCd(), korEqualsCount, korEqualsPer, engEqualsCount, engEqualsPer);
 							//국문 일치 확율 체크  
-							if(korEqualsPer >= MORP_MATCH_DETERMINATION_PROBABILITY) {
+							if(korMorpEqualsPer.compareTo(MORP_MATCH_DETERMINATION_PROBABILITY) >= 0) {
+								logger.debug("== > [Matched] KOR Calc : (({} / {}) * 100) = {}", korMorpEqualsCount, faclKorRootMorpArray.length, korMorpEqualsPer);
+								logger.debug("== > KOR FaclCd : {} check : {}, korMorpEqualsCount : {}, korMorpEqualsPer : {}", faclMorp.getFaclCd(), faclCompMorp.getFaclCd(), korMorpEqualsCount, korMorpEqualsPer);
+
 								faclMorp.addMatchMorpFaclCdList(faclCompMorp.getFaclCd());
 							}
 							
 							if(faclEngCompareMorpArray != null && faclEngRootMorpArray != null) {
+								
+								//영문 매치 확율 계산
+								engMorpEqualsPer = ((new BigDecimal(engMorpEqualsCount).divide(new BigDecimal(faclEngRootMorpArray.length), MathContext.DECIMAL32)).multiply(new BigDecimal(100)));
+								
 								//영문 일치 확율 체크  
-								if(engEqualsPer >= MORP_MATCH_DETERMINATION_PROBABILITY) {
+								if(engMorpEqualsPer.compareTo(MORP_MATCH_DETERMINATION_PROBABILITY) >= 0) {
+									logger.debug("== > [Matched] ENG Calc : (({} / {}) * 100) = {}", engMorpEqualsCount, faclEngRootMorpArray.length, engMorpEqualsPer);
+									logger.debug("== > ENG FaclCd : {} check : {}, engMorpEqualsCount : {}, engMorpEqualsPer : {}", faclMorp.getFaclCd(), faclCompMorp.getFaclCd(), engMorpEqualsCount, engMorpEqualsPer);
+									
 									faclMorp.addMatchMorpFaclCdList(faclCompMorp.getFaclCd());
 								}
 							}
+							
+							if( faclMorp.getMatchMorpFaclCdList() != null && faclMorp.getMatchMorpFaclCdList().size() > 0 ) {
+								
+								//매핑된 하위 시설 정보
+								ezcFaclMappingSDO = (EzcFaclMappingSDO) propertyUtil.copySameProperty(faclCompMorp, EzcFaclMappingSDO.class);
+								ezcFaclMappingSDO.setHandMappingYn(CodeDataConstants.CD_N);
+								ezcFaclMappingSDO.setDispOrder(OperateConstants.BIGDECIMAL_ZERO_VALUE);
+								ezcFaclMappingSDO.setKorMorpEqualsCount(korMorpEqualsCount);
+								ezcFaclMappingSDO.setEngMorpEqualsCount(engMorpEqualsCount);
+								ezcFaclMappingSDO.setKorMorpEqualsPer(korMorpEqualsPer.intValue());
+								ezcFaclMappingSDO.setEngMorpEqualsPer(engMorpEqualsPer.intValue());
+								
+								faclMorp.addEzcFaclMappingSDO(ezcFaclMappingSDO);
+							}
 						}
 						
-						//logger.debug("faclMorp({}) : {}", i, faclMorp);
-						
-						fileUtil.mkfile("D:/ezwel-repository", "compareMorp-finder"+Local.commonHeader().getStartTimeMillis()+".txt", faclMorp.toString(), "UTF-8", true, true);
-						
+						//fileUtil.mkfile("D:/ezwel-repository", "compareMorp-finder"+Local.commonHeader().getStartTimeMillis()+".txt", faclMorp.toString(), "UTF-8", true, true);
 						morpCompareFinalList.add(faclMorp);
 					}
 				}
 			}
 		}
 		catch(Exception e) {
-			e.printStackTrace();
 			throw new APIException(MessageConstants.RESPONSE_CODE_9600, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_9600), e);
 		}
 		finally {
@@ -417,23 +434,40 @@ public class OutsideService extends AbstractServiceObject {
 			if(faclCodeGroupList != null) {
 				faclCodeGroupList.clear();
 			}
-			if(faclMorpRootList != null) {
-				faclMorpRootList.clear();
+			if(faclMorpSearchList != null) {
+				faclMorpSearchList.clear();
 			}
-			//if(faclMorpCompareList != null) {
-			//	faclMorpCompareList.clear();
-			//}
 		} 
 		
 		if(morpCompareFinalList != null) {
 			//시설 매핑 데이터 저장
-			//mergeFaclMappingData(morpCompareFinalList, 0, 0);
+			mergeFaclMappingData(morpCompareFinalList);
 		}
 		
 		logger.debug("[END] execFaclMapping");
 		return out;
 	}
 
+	@APIOperation(description="시설 매핑 데이터 저장") 
+	private Integer mergeFaclMappingData(List<EzcFacl> morpCompareFinalList) {
+		Integer out = OperateConstants.INTEGER_ZERO_VALUE;
+		
+		try {
+			//out = mergeFaclMappingData(morpCompareFinalList, 0, 0);
+		}
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "시설 매핑 데이터 저장 장애발생", e);
+		}
+		finally {
+			if(morpCompareFinalList != null) {
+				morpCompareFinalList.clear();
+			}
+		}
+		
+		return out;
+	}
+	
+	
 	@APIOperation(description="시설 매핑 데이터 저장") 
 	private Integer mergeFaclMappingData(List<EzcFacl> morpCompareFinalList, Integer txCount, Integer fromIndex) {
 		logger.debug("[START] mergeFaclMappingData size : {}, fromIndex : {}", (morpCompareFinalList != null ? morpCompareFinalList.size() : 0), fromIndex);

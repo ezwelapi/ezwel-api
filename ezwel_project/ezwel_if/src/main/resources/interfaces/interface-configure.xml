@@ -21,6 +21,12 @@
 		</errorLog>
 	</fileRepository>
 	
+	<!-- 시설 매핑 설정 정보 -->
+	<faclMapping>
+		<!-- 시설 형태소 매핑 성공 확율  -->
+		<faclMorpMappingPersent>60</faclMorpMappingPersent>
+	</faclMapping>
+	
 	<agentList>
 		<agentInfo>
 			<agentName>호텔엔조이 메이트아이</agentName>

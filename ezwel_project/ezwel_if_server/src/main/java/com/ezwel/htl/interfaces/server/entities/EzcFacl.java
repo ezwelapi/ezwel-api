@@ -16,6 +16,7 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractEntity;
+import com.ezwel.htl.interfaces.server.commons.sdo.EzcFaclMappingSDO;
 
 
 /**
@@ -188,8 +189,25 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "일치 형태소 시설 코드 목록")
 	private Set<BigDecimal> matchMorpFaclCdList;	
 
+	@APIFields(description = "시군/지역/숙소(유형/등급)별 형태소 매핑 정보")
+	private List<EzcFaclMappingSDO> ezcFaclMapping;
 	
-	
+
+	public List<EzcFaclMappingSDO> getEzcFaclMappingSDO() {
+		return ezcFaclMapping;
+	}
+
+	public void setEzcFaclMappingSDO(List<EzcFaclMappingSDO> ezcFaclMapping) {
+		this.ezcFaclMapping = ezcFaclMapping;
+	}
+
+	public void addEzcFaclMappingSDO(EzcFaclMappingSDO ezcFaclMapping) {
+		if(this.ezcFaclMapping == null) {
+			this.ezcFaclMapping = new ArrayList<EzcFaclMappingSDO>();
+		}
+		
+		
+	}
 	
 	public Set<BigDecimal> getMatchMorpFaclCdList() {
 		return matchMorpFaclCdList;

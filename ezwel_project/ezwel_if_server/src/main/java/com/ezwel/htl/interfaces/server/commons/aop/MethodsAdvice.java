@@ -21,6 +21,7 @@ import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
+import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
 import com.ezwel.htl.interfaces.server.commons.sdo.ExceptionSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.ResponseUtil;
@@ -111,6 +112,8 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		if (apiOperAnno == null) {
 			throw new APIException("■■ 유효하지 않은 API 오퍼레이션 APIOperation어노테이션이 존재하지 않습니다. '{}'", typeMethodName);
 		}
+		StackTraceElement traceElement = StackTraceUtil.getCurrentStack(MethodsAdvice.class);
+		logger.debug("Test Stack : {}", traceElement);
 		
 		// inputParam 변경가능
 		Object[] inputParamObjects = thisJoinPoint.getArgs();

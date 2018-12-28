@@ -1,6 +1,9 @@
 package ezwel_if_server.test;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -200,5 +203,9 @@ public class UtilTest {
     public void testSyntax() {
     	String testData = null;
     	logger.info( "{}", "abc".equals(testData)  );
+    	DecimalFormat df = new DecimalFormat("000.00");
+    	BigDecimal calc = ((new BigDecimal(9).divide(new BigDecimal(14), MathContext.DECIMAL32)).multiply(new BigDecimal(100)));
+    	logger.debug("==> {}", df.format(calc));
+    	
     }
 }

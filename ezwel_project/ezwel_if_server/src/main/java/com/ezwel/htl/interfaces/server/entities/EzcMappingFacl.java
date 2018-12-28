@@ -43,8 +43,17 @@ public class EzcMappingFacl extends AbstractEntity {
 	private String handMappingYn;
 
 	@APIFields(description = "정렬 순서", maxLength=4)
-	private BigDecimal dispOrder;
-
+	private Integer dispOrder;
+	
+	@APIFields(description = "국문 형태소 매칭 퍼센트", maxLength=4)
+	private Integer korMorpMatcPcnt;
+	
+	@APIFields(description = "영문 형태소 매칭 퍼센트", maxLength=4)
+	private Integer engMorpMatcPcnt;	
+	
+	
+	
+	
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011117(C)")
 	private String regId = Local.commonHeader().getSystemUserId();
 
@@ -83,11 +92,11 @@ public class EzcMappingFacl extends AbstractEntity {
 		this.handMappingYn = handMappingYn;
 	}
 
-	public BigDecimal getDispOrder() {
+	public Integer getDispOrder() {
 		return dispOrder;
 	}
 
-	public void setDispOrder(BigDecimal dispOrder) {
+	public void setDispOrder(Integer dispOrder) {
 		this.dispOrder = dispOrder;
 	}
 
