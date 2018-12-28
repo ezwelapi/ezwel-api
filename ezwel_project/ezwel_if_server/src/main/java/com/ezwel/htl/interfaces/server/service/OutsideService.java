@@ -439,7 +439,7 @@ public class OutsideService extends AbstractServiceObject {
 			}
 		} 
 		
-		if(morpCompareFinalList != null) {
+		if(morpCompareFinalList != null && morpCompareFinalList.size() > 0) {
 			//시설 매핑 데이터 저장
 			mergeFaclMappingData(morpCompareFinalList);
 		}
