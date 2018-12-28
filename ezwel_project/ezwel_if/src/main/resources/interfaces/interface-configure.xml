@@ -23,7 +23,7 @@
 	
 	<!-- 시설 매핑 설정 정보 -->
 	<faclMapping>
-		<!-- 시설 형태소 매핑 성공 확율  -->
+		<!-- 시설 형태소 매핑 성공 확율 -->
 		<faclMorpMappingPersent>60</faclMorpMappingPersent>
 	</faclMapping>
 	
