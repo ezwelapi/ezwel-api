@@ -23,7 +23,7 @@
 	
 	<!-- 시설 매핑 설정 정보 -->
 	<faclMapping>
-		<!-- 시설 형태소 매핑 성공 확율 -->
+		<!-- 시설 형태소 매핑 성공 확율  -->
 		<faclMorpMappingPersent>60</faclMorpMappingPersent>
 	</faclMapping>
 	
@@ -350,7 +350,7 @@
 			<chanId>ezwelJob</chanId>
 			<description>주문대사(이지웰)</description>
 			<httpAgentId>10055550</httpAgentId>
-			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/BookingListRQ.ashx</restURI>
+			<restURI>http://xml.hotelpass.com/HTPWS_EZwel_META/HTPWS_EZWEL_META.asmx?op=gfnGetBookingList</restURI>
 			<receiverRestURI>/service/callEzwelJob</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
