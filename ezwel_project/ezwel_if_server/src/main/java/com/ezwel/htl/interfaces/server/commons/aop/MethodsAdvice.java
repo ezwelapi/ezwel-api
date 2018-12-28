@@ -112,8 +112,6 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		if (apiOperAnno == null) {
 			throw new APIException("■■ 유효하지 않은 API 오퍼레이션 APIOperation어노테이션이 존재하지 않습니다. '{}'", typeMethodName);
 		}
-		StackTraceElement traceElement = StackTraceUtil.getCurrentStack(MethodsAdvice.class);
-		logger.debug("Test Stack : {}", traceElement);
 		
 		// inputParam 변경가능
 		Object[] inputParamObjects = thisJoinPoint.getArgs();
