@@ -1,5 +1,7 @@
 package com.ezwel.htl.interfaces.server.commons.utils;
 
+import java.math.BigDecimal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -15,43 +17,43 @@ public class OracleFuncUtil {
 	
 	//POWER
 	@APIOperation(description="오라클 POWER 대응 함수")
-	public double getPower(double value, double squareNum) {
-		double out = Math.pow(value, squareNum);
+	public BigDecimal getPower(BigDecimal value, BigDecimal squareNum) {
+		BigDecimal out = new BigDecimal(Math.pow(value.doubleValue(), squareNum.doubleValue()));
 		return out;
 	}
 	
 	//SIN
 	@APIOperation(description="오라클 SIN 대응 함수")
-	public double getSin(double value) {
-		double out = Math.sin(value);
+	public BigDecimal getSin(BigDecimal value) {
+		BigDecimal out = new BigDecimal(Math.sin(value.doubleValue()));
 		return out;
 	}
 	
 	//COS
 	@APIOperation(description="오라클 COS 대응 함수")
-	public double getCos(double value) {
-		double out = Math.cos(value);
+	public BigDecimal getCos(BigDecimal value) {
+		BigDecimal out = new BigDecimal(Math.cos(value.doubleValue()));
 		return out;
 	}
 	
-	//ATAN2 결과 다름!!
+	//ATAN2 결과 다름!! ( 직접 구현 필요 )
 	@APIOperation(description="오라클 ATAN2 대응 함수")
-	public double getAtan2(double x, double y) {
-		double out = Math.atan2(y, x);
+	public BigDecimal getAtan2(BigDecimal x, BigDecimal y) {
+		BigDecimal out = new BigDecimal(Math.atan2(y.doubleValue(), x.doubleValue()));
 		return out;
 	}
 	
 	//SQRT
 	@APIOperation(description="오라클 SQRT 대응 함수")
-	public double getSqrt(double value) {
-		double out = Math.sqrt(value);
+	public BigDecimal getSqrt(BigDecimal value) {
+		BigDecimal out = new BigDecimal(Math.sqrt(value.doubleValue()));
 		return out;
 	}	
 	
-	//ROUND
+	//ROUND 소수점 자리수 설정할수 없음!! ( 직접 구현 필요 )
 	@APIOperation(description="오라클 ROUND 대응 함수")
-	public double getRound(double value, double decimalPlaces) {
-		double out = Math.round(value);
+	public BigDecimal getRound(BigDecimal value, BigDecimal decimalPlaces) {
+		BigDecimal out = new BigDecimal(Math.round(value.doubleValue()));
 		return out;
 	}	
 }

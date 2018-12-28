@@ -42,8 +42,9 @@ public class CoordinateUtil {
 		 * To convert decimal degrees to radians, multiply the number of degrees by
 		 * pi/180 = 0.017453293 radians/degrees.
 		 */
-
+		
 		BigDecimal multiplyValue = new BigDecimal(0.017453293);
+		
 		BigDecimal vLat1Rad = pLat1.multiply(multiplyValue);
 		BigDecimal vLat2Rad = pLat2.multiply(multiplyValue);
 		BigDecimal vLon1Rad = pLon1.multiply(multiplyValue);
@@ -51,19 +52,18 @@ public class CoordinateUtil {
 
 		BigDecimal vLon = vLon2Rad.subtract(vLon1Rad);
 		BigDecimal vLat = vLat2Rad.subtract(vLat1Rad);
+		
 		// a := POWER(SIN(vLat/2),2) + ((COS(vLat1Rad) * COS(vLat2Rad)) * POWER(SIN(vLon/2),2));
-		BigDecimal a = new BigDecimal(oracleFuncUtil.getPower(
-							oracleFuncUtil.getSin(vLat.divide(new BigDecimal(2), MathContext.DECIMAL32).doubleValue()),2D)).add(
-									(new BigDecimal(oracleFuncUtil.getCos(vLat1Rad.doubleValue())).multiply(
-										new BigDecimal(oracleFuncUtil.getCos(vLat2Rad.doubleValue()))
+		BigDecimal a = oracleFuncUtil.getPower(
+								oracleFuncUtil.getSin(vLat.divide(OperateConstants.BIGDECIMAL_TWO_VALUE, MathContext.DECIMAL32)), OperateConstants.BIGDECIMAL_TWO_VALUE
+							).add(
+								((oracleFuncUtil.getCos(vLat1Rad)).multiply(
+										(oracleFuncUtil.getCos(vLat2Rad))
 									)).multiply(
-										new BigDecimal(
 											oracleFuncUtil.getPower(
-												oracleFuncUtil.getSin(vLon.divide(new BigDecimal(2), MathContext.DECIMAL32).doubleValue()),2D
+												oracleFuncUtil.getSin(vLon.divide(OperateConstants.BIGDECIMAL_TWO_VALUE, MathContext.DECIMAL32)), OperateConstants.BIGDECIMAL_TWO_VALUE
 											)
-										)
-									)
-								); 
+									));
 
 		
 		/*
@@ -74,7 +74,7 @@ public class CoordinateUtil {
 		 */
 
 		//out = ROUND(cSpherRad * 2 * ATAN2(SQRT(a), SQRT(1-a)),1);
-		out = new BigDecimal(oracleFuncUtil.getRound( ((cSpherRad.multiply(new BigDecimal(2))).multiply(new BigDecimal(oracleFuncUtil.getAtan2( oracleFuncUtil.getSqrt(a.doubleValue()), oracleFuncUtil.getSqrt(new BigDecimal(1).subtract(a).doubleValue() ) )))).doubleValue(), 1 ));
+		out = oracleFuncUtil.getRound( cSpherRad.multiply(OperateConstants.BIGDECIMAL_TWO_VALUE).multiply((oracleFuncUtil.getAtan2( oracleFuncUtil.getSqrt(a), oracleFuncUtil.getSqrt(OperateConstants.BIGDECIMAL_ONE_VALUE.subtract(a) ) ))), OperateConstants.BIGDECIMAL_ONE_VALUE );
 		
 		return out;
 	}

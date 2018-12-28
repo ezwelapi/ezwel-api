@@ -42,6 +42,8 @@ public class OperateConstants {
 	public static final int	   INTEGER_ZERO_VALUE;
 	public static final int    INTEGER_MINUS_ONE;
 	public static final BigDecimal   BIGDECIMAL_ZERO_VALUE;
+	public static final BigDecimal   BIGDECIMAL_ONE_VALUE;
+	public static final BigDecimal   BIGDECIMAL_TWO_VALUE;
 	public static final BigDecimal   BIGDECIMAL_MINUS_ONE;	
 	public static final String MESSAGE_ISNULL;
 	public static final String HTTP_METHOD_POST;
@@ -193,6 +195,10 @@ public class OperateConstants {
 		INTEGER_ZERO_VALUE = 0;
 		INTEGER_MINUS_ONE = -1;
 		BIGDECIMAL_ZERO_VALUE = BigDecimal.ZERO;
+		
+		BIGDECIMAL_ONE_VALUE = new BigDecimal(1);
+		BIGDECIMAL_TWO_VALUE = new BigDecimal(2);
+		
 		BIGDECIMAL_MINUS_ONE = new BigDecimal(-1);		 	
 		//META_COMM_HEADER = "commonHeader";
 		MESSAGE_ISNULL = "message is null.";

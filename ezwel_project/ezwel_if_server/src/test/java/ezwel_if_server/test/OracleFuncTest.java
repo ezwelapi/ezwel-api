@@ -1,5 +1,7 @@
 package ezwel_if_server.test;
 
+import java.math.BigDecimal;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,22 +17,23 @@ public class OracleFuncTest {
 	@Test
 	public void test() {
 		
-		logger.debug( "POWER : {}" , func.getPower(3D, 3D) );
+		logger.debug( "POWER : {}" , func.getPower(new BigDecimal(3), new BigDecimal(3)) );
 		//27
 		
-		logger.debug( "SIN : {}" , func.getSin(3D) );
+		logger.debug( "SIN : {}" , func.getSin(new BigDecimal(3)) );
 		//0.141120008059867
 		
-		logger.debug( "COS : {}" , func.getCos(3D) );
+		logger.debug( "COS : {}" , func.getCos(new BigDecimal(3)) );
 		//-0.989992496600445
 		
-		logger.debug( "ATAN2 : {}" , func.getAtan2(3D, 2D) );		
+		logger.debug( "ATAN2 : {}" , func.getAtan2(new BigDecimal(3), new BigDecimal(2)) );		
 		//0.982793723247329
 		
-		logger.debug( "SQRT : {}" , func.getSqrt(12D) );
+		logger.debug( "SQRT : {}" , func.getSqrt(new BigDecimal(12)) );
 		//3.46410161513775
 		
-		logger.debug( "ROUND : {}" , func.getRound(12.523D) );
+		logger.debug( "ROUND : {}" , func.getRound(new BigDecimal(12.523), new BigDecimal(1)) );
 		//13
+		
 	}
 }
