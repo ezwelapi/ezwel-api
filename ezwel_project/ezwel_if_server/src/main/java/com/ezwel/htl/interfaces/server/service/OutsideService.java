@@ -205,72 +205,7 @@ public class OutsideService extends AbstractServiceObject {
 		
 		return out;
 	}	
-	
-	
-	/**
-	 * 현제 사용 보류 20181227
-	 * @param faclSDO
-	 * @return
-	 */
-	@APIOperation(description="시설 매핑")
-	public FaclSDO execFaclMappingWithMorpRowData(FaclSDO faclSDO) {
-		logger.debug("[START] execFaclMapping");
-		
-		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
-		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
-		
-		FaclSDO out = null;
-		List<EzcFacl> mappingStep1List = null;
-		List<EzcFacl> mappingStep2List = null;
-		List<EzcFacl> mappingStep2ListClone = null;
-		EzcFacl ezcFacl = null;
-		
-		try {
-			
-			ezcFacl = (EzcFacl) propertyUtil.copySameProperty(faclSDO, EzcFacl.class);
-			
-			mappingStep1List = outsideRepository.selectFaclCodeGroupList(ezcFacl);
-			
-			for(EzcFacl faclMorp : mappingStep1List) {
-				logger.debug("[LOOP] faclMorp : {}", faclMorp);
-				//도시,지역,숙소유형,숙소등급 파라매터의 시설코드별 형태소 목록 
-				mappingStep2List = outsideRepository.selectFaclMappingMorpRowData(faclMorp);
-				
-				if(mappingStep2List != null && mappingStep2List.size() > 0) {
-					
-					logger.debug("sort before : {}", mappingStep2List);
-					
-					mappingStep2List = sortFaclList(mappingStep2List, OperateConstants.STR_SENDING_ASC);
-					
-					logger.debug("sort after : {}", mappingStep2List);
-					
-					//비교 대조를 위한 목록 복제
-					mappingStep2ListClone = new ArrayList<EzcFacl>();
-					mappingStep2ListClone.addAll(mappingStep2List);
-					//분석 비교 시작(추론검색)
-				}
-			}
-		}
-		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9600, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_9600), e);
-		}
-		finally {
-			
-			if(mappingStep1List != null) {
-				mappingStep1List.clear();
-			}
-			if(mappingStep2List != null) {
-				mappingStep2List.clear();
-			}
-			if(mappingStep2ListClone != null) {
-				mappingStep2ListClone.clear();
-			}
-		}
-		
-		logger.debug("[END] execFaclMapping");
-		return out;
-	}
-	
+
 	
 	@APIOperation(description="시설 매핑")
 	public FaclSDO execFaclMapping(FaclSDO faclSDO) {
@@ -580,43 +515,6 @@ public class OutsideService extends AbstractServiceObject {
 		return ezcFaclList;
 	}
 	
-	/**
-	 * 현제 사용 보류
-	 * 리스트에 담긴 문자목록을 HashCode (아스키) 를 기준으로 sending 방향대로 정렬하여 줍니다.
-	 * @param arrays
-	 * @param sending
-	 * @return
-	 */
-	public List<EzcFacl> sortFaclList(List<EzcFacl> ezcFaclList, String sending) {
-
-		if(ezcFaclList == null || ezcFaclList.size() == 0) {
-			return null;
-		}
-
-		List<EzcFacl> faclList = ezcFaclList;
-		final String orderBy = sending;
-
-        Collections.sort(faclList, new Comparator<EzcFacl>(){
-        	int frontHashCode = OperateConstants.INTEGER_ZERO_VALUE;
-        	int backendHashCode = OperateConstants.INTEGER_ZERO_VALUE;        	
-	    	int position = OperateConstants.INTEGER_ZERO_VALUE;
-
-			public int compare(final EzcFacl front, final EzcFacl backend ) {
-				frontHashCode = front.getFaclCd().toPlainString().concat(front.getFaclNm()).hashCode(); 
-				backendHashCode = backend.getFaclCd().toPlainString().concat(backend.getFaclNm()).hashCode();
-				
-        		if(OperateConstants.STR_SENDING_DESC.equalsIgnoreCase(orderBy)){
-        			position = backendHashCode - frontHashCode;
-        		}else{
-        			position = frontHashCode - backendHashCode;
-        		}
-
-                return position;
-            }
-		});
-
-        return faclList;
-	}
 	
 	/**
 	 * 맵핑 시설 : EZC_FACL, EZC_FACL_IMG, EZC_FACL_AMENT ( 1 : N : N ), 데이터 적제
@@ -1185,4 +1083,109 @@ public class OutsideService extends AbstractServiceObject {
 			
 		return out;
 	}
+
+
+	/**
+	 * 현제 사용 보류 20181227
+	 * @param faclSDO
+	 * @return
+	 */
+	@APIOperation(description="시설 매핑")
+	public FaclSDO execFaclMappingWithMorpRowData(FaclSDO faclSDO) {
+		logger.debug("[START] execFaclMapping");
+		
+		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
+		
+		FaclSDO out = null;
+		List<EzcFacl> mappingStep1List = null;
+		List<EzcFacl> mappingStep2List = null;
+		List<EzcFacl> mappingStep2ListClone = null;
+		EzcFacl ezcFacl = null;
+		
+		try {
+			
+			ezcFacl = (EzcFacl) propertyUtil.copySameProperty(faclSDO, EzcFacl.class);
+			
+			mappingStep1List = outsideRepository.selectFaclCodeGroupList(ezcFacl);
+			
+			for(EzcFacl faclMorp : mappingStep1List) {
+				logger.debug("[LOOP] faclMorp : {}", faclMorp);
+				//도시,지역,숙소유형,숙소등급 파라매터의 시설코드별 형태소 목록 
+				mappingStep2List = outsideRepository.selectFaclMappingMorpRowData(faclMorp);
+				
+				if(mappingStep2List != null && mappingStep2List.size() > 0) {
+					
+					logger.debug("sort before : {}", mappingStep2List);
+					
+					mappingStep2List = sortFaclList(mappingStep2List, OperateConstants.STR_SENDING_ASC);
+					
+					logger.debug("sort after : {}", mappingStep2List);
+					
+					//비교 대조를 위한 목록 복제
+					mappingStep2ListClone = new ArrayList<EzcFacl>();
+					mappingStep2ListClone.addAll(mappingStep2List);
+					//분석 비교 시작(추론검색)
+				}
+			}
+		}
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9600, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_9600), e);
+		}
+		finally {
+			
+			if(mappingStep1List != null) {
+				mappingStep1List.clear();
+			}
+			if(mappingStep2List != null) {
+				mappingStep2List.clear();
+			}
+			if(mappingStep2ListClone != null) {
+				mappingStep2ListClone.clear();
+			}
+		}
+		
+		logger.debug("[END] execFaclMapping");
+		return out;
+	}
+	
+
+	/**
+	 * 현제 사용 보류
+	 * 리스트에 담긴 문자목록을 HashCode (아스키) 를 기준으로 sending 방향대로 정렬하여 줍니다.
+	 * @param arrays
+	 * @param sending
+	 * @return
+	 */
+	public List<EzcFacl> sortFaclList(List<EzcFacl> ezcFaclList, String sending) {
+
+		if(ezcFaclList == null || ezcFaclList.size() == 0) {
+			return null;
+		}
+
+		List<EzcFacl> faclList = ezcFaclList;
+		final String orderBy = sending;
+
+        Collections.sort(faclList, new Comparator<EzcFacl>(){
+        	int frontHashCode = OperateConstants.INTEGER_ZERO_VALUE;
+        	int backendHashCode = OperateConstants.INTEGER_ZERO_VALUE;        	
+	    	int position = OperateConstants.INTEGER_ZERO_VALUE;
+
+			public int compare(final EzcFacl front, final EzcFacl backend ) {
+				frontHashCode = front.getFaclCd().toPlainString().concat(front.getFaclNm()).hashCode(); 
+				backendHashCode = backend.getFaclCd().toPlainString().concat(backend.getFaclNm()).hashCode();
+				
+        		if(OperateConstants.STR_SENDING_DESC.equalsIgnoreCase(orderBy)){
+        			position = backendHashCode - frontHashCode;
+        		}else{
+        			position = frontHashCode - backendHashCode;
+        		}
+
+                return position;
+            }
+		});
+
+        return faclList;
+	}
+
 }
