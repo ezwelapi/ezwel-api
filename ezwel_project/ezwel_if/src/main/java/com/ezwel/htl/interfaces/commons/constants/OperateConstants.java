@@ -41,10 +41,17 @@ public class OperateConstants {
 	public static final long   LONG_MAX_VALUE;
 	public static final int	   INTEGER_ZERO_VALUE;
 	public static final int    INTEGER_MINUS_ONE;
+	public static final int    INTEGER_ONE_VALUE;
+	public static final int    INTEGER_TWO_VALUE;
 	public static final BigDecimal   BIGDECIMAL_ZERO_VALUE;
 	public static final BigDecimal   BIGDECIMAL_ONE_VALUE;
 	public static final BigDecimal   BIGDECIMAL_TWO_VALUE;
 	public static final BigDecimal   BIGDECIMAL_MINUS_ONE;	
+	
+	public static final Double   DOUBLE_ZERO_VALUE;
+	public static final Double   DOUBLE_ONE_VALUE;
+	public static final Double   DOUBLE_TWO_VALUE;	
+	
 	public static final String MESSAGE_ISNULL;
 	public static final String HTTP_METHOD_POST;
 	public static final String HTTP_METHOD_GET;
@@ -194,12 +201,19 @@ public class OperateConstants {
 	 	LONG_MAX_VALUE = 9223372036854775807L;
 		INTEGER_ZERO_VALUE = 0;
 		INTEGER_MINUS_ONE = -1;
+		INTEGER_ONE_VALUE = 1;
+		INTEGER_TWO_VALUE = 2;
 		BIGDECIMAL_ZERO_VALUE = BigDecimal.ZERO;
 		
 		BIGDECIMAL_ONE_VALUE = new BigDecimal(1);
 		BIGDECIMAL_TWO_VALUE = new BigDecimal(2);
 		
-		BIGDECIMAL_MINUS_ONE = new BigDecimal(-1);		 	
+		BIGDECIMAL_MINUS_ONE = new BigDecimal(-1);
+		
+		DOUBLE_ZERO_VALUE = 0D;
+		DOUBLE_ONE_VALUE = 1D;
+		DOUBLE_TWO_VALUE = 2D;
+		
 		//META_COMM_HEADER = "commonHeader";
 		MESSAGE_ISNULL = "message is null.";
 		HTTP_METHOD_POST = "POST";

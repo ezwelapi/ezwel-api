@@ -30,9 +30,6 @@ import java.math.BigDecimal;
 @APIModel(modelNames="맵핑 시설", description="맵핑 시설 ( EZC_MAPPING_FACL )", modelTypes="TABLE")
 public class EzcMappingFacl extends AbstractEntity {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
-	
 	@APIFields(description = "그룹 시설 코드", maxLength=10, required=true, constraints="EZC_MAPPING_FACL_PK(P),FK_EZC_MAPPING_GRP_FACL_EZC_MA(R),SYS_C0011114(C) EZC_MAPPING_FACL_PK(UNIQUE),EZC_MAPPING_FACL_IF01(NONUNIQUE)")
 	private BigDecimal grpFaclCd;
 
@@ -45,14 +42,14 @@ public class EzcMappingFacl extends AbstractEntity {
 	@APIFields(description = "정렬 순서", maxLength=4)
 	private Integer dispOrder;
 	
-	@APIFields(description = "국문 형태소 매칭 퍼센트", maxLength=4)
-	private Integer korMorpMatcPcnt;
+	@APIFields(description = "국문 형태소 매칭 퍼센트", maxLength=9)
+	private BigDecimal korMorpMatcPcnt;
 	
-	@APIFields(description = "영문 형태소 매칭 퍼센트", maxLength=4)
-	private Integer engMorpMatcPcnt;	
+	@APIFields(description = "영문 형태소 매칭 퍼센트", maxLength=9)
+	private BigDecimal engMorpMatcPcnt;	
 	
-	
-	
+	@APIFields(description = "좌표 거리", maxLength=9)
+	private BigDecimal cordDist;
 	
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011117(C)")
 	private String regId = Local.commonHeader().getSystemUserId();
@@ -98,6 +95,30 @@ public class EzcMappingFacl extends AbstractEntity {
 
 	public void setDispOrder(Integer dispOrder) {
 		this.dispOrder = dispOrder;
+	}
+	
+	public BigDecimal getKorMorpMatcPcnt() {
+		return korMorpMatcPcnt;
+	}
+
+	public void setKorMorpMatcPcnt(BigDecimal korMorpMatcPcnt) {
+		this.korMorpMatcPcnt = korMorpMatcPcnt;
+	}
+
+	public BigDecimal getEngMorpMatcPcnt() {
+		return engMorpMatcPcnt;
+	}
+
+	public void setEngMorpMatcPcnt(BigDecimal engMorpMatcPcnt) {
+		this.engMorpMatcPcnt = engMorpMatcPcnt;
+	}
+
+	public BigDecimal getCordDist() {
+		return cordDist;
+	}
+
+	public void setCordDist(BigDecimal cordDist) {
+		this.cordDist = cordDist;
 	}
 
 	public String getRegId() {

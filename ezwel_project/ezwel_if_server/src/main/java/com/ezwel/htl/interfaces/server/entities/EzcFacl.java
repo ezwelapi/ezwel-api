@@ -99,10 +99,10 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "전화 번호", maxLength=20)
 	private String telNum;
 
-	@APIFields(description = "위도", maxLength=20)
+	@APIFields(description = "위도", required=true, maxLength=20)
 	private String coordY;
 
-	@APIFields(description = "경도", maxLength=20)
+	@APIFields(description = "경도", required=true, maxLength=20)
 	private String coordX;
 
 	@APIFields(description = "최저 금액", maxLength=8)
@@ -141,6 +141,9 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "사용 여부", maxLength=1, required=true, constraints="SYS_C0011073(C)")
 	private String useYn;
 
+	@APIFields(description = "그룹 시설 코드", maxLength=10)
+	private BigDecimal grpFaclCd;
+	
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011074(C)")
 	private String regId = Local.commonHeader().getSystemUserId();
 
@@ -190,23 +193,34 @@ public class EzcFacl extends AbstractEntity {
 	private Set<BigDecimal> matchMorpFaclCdList;	
 
 	@APIFields(description = "시군/지역/숙소(유형/등급)별 형태소 매핑 정보")
-	private List<EzcFaclMappingSDO> ezcFaclMapping;
+	private List<EzcFaclMappingSDO> ezcFaclMappingSDO;
 	
+	@APIFields(description = "그룹 데이터 여부")
+	private boolean isGroupData = false;	
+
+	
+	
+	public boolean isGroupData() {
+		return isGroupData;
+	}
+
+	public void setGroupData(boolean isGroupData) {
+		this.isGroupData = isGroupData;
+	}
 
 	public List<EzcFaclMappingSDO> getEzcFaclMappingSDO() {
-		return ezcFaclMapping;
+		return ezcFaclMappingSDO;
 	}
 
 	public void setEzcFaclMappingSDO(List<EzcFaclMappingSDO> ezcFaclMapping) {
-		this.ezcFaclMapping = ezcFaclMapping;
+		this.ezcFaclMappingSDO = ezcFaclMapping;
 	}
 
 	public void addEzcFaclMappingSDO(EzcFaclMappingSDO ezcFaclMapping) {
-		if(this.ezcFaclMapping == null) {
-			this.ezcFaclMapping = new ArrayList<EzcFaclMappingSDO>();
+		if(this.ezcFaclMappingSDO == null) {
+			this.ezcFaclMappingSDO = new ArrayList<EzcFaclMappingSDO>();
 		}
-		
-		
+		this.ezcFaclMappingSDO.add(ezcFaclMapping);
 	}
 	
 	public Set<BigDecimal> getMatchMorpFaclCdList() {
@@ -540,6 +554,14 @@ public class EzcFacl extends AbstractEntity {
 
 	public void setRejectContent(String rejectContent) {
 		this.rejectContent = rejectContent;
+	}
+
+	public BigDecimal getGrpFaclCd() {
+		return grpFaclCd;
+	}
+
+	public void setGrpFaclCd(BigDecimal grpFaclCd) {
+		this.grpFaclCd = grpFaclCd;
 	}
 
 	public String getUseYn() {

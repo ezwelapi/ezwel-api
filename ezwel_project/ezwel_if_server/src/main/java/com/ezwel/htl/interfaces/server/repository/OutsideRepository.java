@@ -21,6 +21,7 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
 import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
+import com.ezwel.htl.interfaces.server.commons.sdo.EzcFaclMappingSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.ExceptionUtil;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
@@ -417,10 +418,12 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		BigDecimal grpFaclCdSeq = null;
 		
 		try {
+			
 			for(int i = 0; i < finalFaclList.size(); i++) {
 				ezcFacl = finalFaclList.get(i);
 				
-				if(true) /* 필터 필요!! */ {
+				//1. EZC_매핑_그룹_시설 DB 핸들링 !! ###################################################################
+				if(ezcFacl.isGroupData()) {
 					ezcMappingGrpFacl = (EzcMappingGrpFacl) propertyUtil.copySameProperty(ezcFacl, EzcMappingGrpFacl.class);
 					
 					//맴핑 그룹 시설 조회
@@ -437,10 +440,39 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						ezcMappingGrpFacl.setGrpFaclCd(grpFaclCdSeq);
 						txCount = sqlSession.insert(getNamespace("MAPPING_GRP_FACL_MAPPER", "insertEzcMappingGrpFacl"), ezcMappingGrpFacl);
 					}
+					
+					ezcFacl.setGrpFaclCd(ezcMappingGrpFacl.getGrpFaclCd());
 				}
 				
-				//매핑 시설 DB 핸들링 ###################################################################
+				//2. EZC_매핑_시설 DB 핸들링 !! ###################################################################
 				ezcMappingFacl = (EzcMappingFacl) propertyUtil.copySameProperty(ezcFacl, EzcMappingFacl.class);
+				ezcMappingFacl.setHandMappingYn(CodeDataConstants.CD_N); //핸드매핑 아님
+				ezcMappingFacl.setDispOrder(OperateConstants.INTEGER_ZERO_VALUE); //순서 0
+
+				// 그룹 코드를 찾음
+				for(EzcFacl innerEzcFacl : finalFaclList) {
+					
+					if(ezcFacl.isGroupData() && innerEzcFacl.getMatchMorpFaclCdList().contains(ezcFacl.getFaclCd())) {
+						
+						if(innerEzcFacl.getGrpFaclCd() == null) {
+							throw new APIException(" 그룹 시설 객체에 그룹시설코드가 세팅되지 않았습니다!! : {}", ezcFacl.getFaclCd());
+						}
+						ezcMappingFacl.setGrpFaclCd(innerEzcFacl.getGrpFaclCd());
+						
+						for(EzcFaclMappingSDO faclMappingSDO : innerEzcFacl.getEzcFaclMappingSDO()) {
+							/** 아래 3가지 정보를  innerEzcFacl.getEzcFaclMappingSDO() 에서 찾는다. */
+							if(faclMappingSDO.getFaclCd().compareTo(ezcFacl.getFaclCd()) == 0) {
+								ezcMappingFacl.setKorMorpMatcPcnt(faclMappingSDO.getKorMorpEqualsPer());
+								ezcMappingFacl.setEngMorpMatcPcnt(faclMappingSDO.getEngMorpEqualsPer());
+								ezcMappingFacl.setCordDist(faclMappingSDO.getCordDist());
+							}
+						}
+
+						break;
+					}
+				}
+
+				logger.debug("[FINED GROUP CODE] {}", ezcMappingFacl.getGrpFaclCd());
 				
 				//맴핑 그룹 시설 조회
 				dbMappingFacl = sqlSession.selectOne(getNamespace("MAPPING_FACL_MAPPER", "selectEzcMappingFacl"), ezcMappingFacl);

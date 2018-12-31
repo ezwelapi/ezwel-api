@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.server.commons.utils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,43 +18,50 @@ public class OracleFuncUtil {
 	
 	//POWER
 	@APIOperation(description="오라클 POWER 대응 함수")
-	public BigDecimal getPower(BigDecimal value, BigDecimal squareNum) {
-		BigDecimal out = new BigDecimal(Math.pow(value.doubleValue(), squareNum.doubleValue()));
+	public double getPower(double value, double squareNum) {
+		double out = Math.pow(value, squareNum);
 		return out;
-	}
+	} 
 	
 	//SIN
 	@APIOperation(description="오라클 SIN 대응 함수")
-	public BigDecimal getSin(BigDecimal value) {
-		BigDecimal out = new BigDecimal(Math.sin(value.doubleValue()));
+	public double getSin(double value) {
+		double out = Math.sin(value);
+		logger.debug(".sin : {}", out);
 		return out;
 	}
-	
+	 
 	//COS
 	@APIOperation(description="오라클 COS 대응 함수")
-	public BigDecimal getCos(BigDecimal value) {
-		BigDecimal out = new BigDecimal(Math.cos(value.doubleValue()));
+	public double getCos(double value) {
+		double out = Math.cos(value);
 		return out;
 	}
 	
 	//ATAN2 결과 다름!! ( 직접 구현 필요 )
 	@APIOperation(description="오라클 ATAN2 대응 함수")
-	public BigDecimal getAtan2(BigDecimal x, BigDecimal y) {
-		BigDecimal out = new BigDecimal(Math.atan2(y.doubleValue(), x.doubleValue()));
+	public double getAtan2(double y, double x) {
+		double out = Math.atan2(y, x);
 		return out;
 	}
 	
 	//SQRT
 	@APIOperation(description="오라클 SQRT 대응 함수")
-	public BigDecimal getSqrt(BigDecimal value) {
-		BigDecimal out = new BigDecimal(Math.sqrt(value.doubleValue()));
+	public double getSqrt(double value) {
+		double out = Math.sqrt(value);
 		return out;
 	}	
+
+	//ROUND 소수점 자리수 설정할수 없음!! ( 직접 구현 필요 )
+	@APIOperation(description="오라클 ROUND 대응 함수")
+	public double getRound(double value, int decimalPlaces) {
+		return getRound(value, decimalPlaces, RoundingMode.HALF_UP);
+	}
 	
 	//ROUND 소수점 자리수 설정할수 없음!! ( 직접 구현 필요 )
 	@APIOperation(description="오라클 ROUND 대응 함수")
-	public BigDecimal getRound(BigDecimal value, BigDecimal decimalPlaces) {
-		BigDecimal out = new BigDecimal(Math.round(value.doubleValue()));
+	public double getRound(double value, int decimalPlaces, RoundingMode roundingMode) {
+		double out = new BigDecimal(Double.toString(value)).setScale(decimalPlaces, roundingMode).doubleValue();
 		return out;
-	}	
+	}
 }

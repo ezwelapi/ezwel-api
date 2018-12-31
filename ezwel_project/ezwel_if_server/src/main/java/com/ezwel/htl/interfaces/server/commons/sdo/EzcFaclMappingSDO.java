@@ -86,10 +86,13 @@ public class EzcFaclMappingSDO extends AbstractEntity {
 	private Integer engMorpEqualsCount;
 	
 	@APIFields(description = "한글 형태소 일치 율", maxLength=9)
-	private Integer korMorpEqualsPer;
+	private BigDecimal korMorpEqualsPer;
 	
 	@APIFields(description = "영문 형태소 일치 율", maxLength=9)
-	private Integer engMorpEqualsPer;
+	private BigDecimal engMorpEqualsPer;
+	
+	@APIFields(description = "좌표 거리", maxLength=29)
+	private BigDecimal cordDist;
 	
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011074(C)")
 	private String regId = Local.commonHeader().getSystemUserId();
@@ -263,20 +266,29 @@ public class EzcFaclMappingSDO extends AbstractEntity {
 		this.engMorpEqualsCount = engMorpEqualsCount;
 	}
 
-	public Integer getKorMorpEqualsPer() {
+
+	public BigDecimal getKorMorpEqualsPer() {
 		return korMorpEqualsPer;
 	}
 
-	public void setKorMorpEqualsPer(Integer korMorpEqualsPer) {
+	public void setKorMorpEqualsPer(BigDecimal korMorpEqualsPer) {
 		this.korMorpEqualsPer = korMorpEqualsPer;
 	}
 
-	public Integer getEngMorpEqualsPer() {
+	public BigDecimal getEngMorpEqualsPer() {
 		return engMorpEqualsPer;
 	}
 
-	public void setEngMorpEqualsPer(Integer engMorpEqualsPer) {
+	public void setEngMorpEqualsPer(BigDecimal engMorpEqualsPer) {
 		this.engMorpEqualsPer = engMorpEqualsPer;
+	}
+
+	public BigDecimal getCordDist() {
+		return cordDist;
+	}
+
+	public void setCordDist(BigDecimal cordDist) {
+		this.cordDist = cordDist;
 	}
 
 	public String getRegId() {

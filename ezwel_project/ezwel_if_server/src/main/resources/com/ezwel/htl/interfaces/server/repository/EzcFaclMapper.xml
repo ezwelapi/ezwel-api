@@ -97,7 +97,6 @@ SELECT * FROM (
         CITY_CD cityCd,
         AREA_CD areaCd,
         ROOM_TYPE roomType,
-        ROOM_CLASS roomClass,
         FACL_DIV faclDiv
     FROM
         EZC_FACL
@@ -116,9 +115,6 @@ SELECT * FROM (
 		<if test="roomType != null and roomType != ''">
 		AND ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
 		</if>
-		<if test="roomClass != null and roomClass != ''">
-		AND ROOM_CLASS = #{roomClass, jdbcType=VARCHAR}	/* 숙소 등급, VARCHAR2(8) */
-		</if>      
 		<if test="faclDiv != null and faclDiv != ''">
 		AND FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
 		</if>  		  
@@ -126,14 +122,12 @@ SELECT * FROM (
         CITY_CD,
         AREA_CD,
         ROOM_TYPE,
-        ROOM_CLASS,
         FACL_DIV 
 )
 ORDER BY   
     CITYCD,
     AREACD,
     ROOMTYPE, 
-    ROOMCLASS,
     FACLDIV 
 </select>
 
@@ -169,7 +163,6 @@ SELECT * FROM (
 	        AND CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10), FK_EZC_CITY_CD_EZC_FACL(R),SYS_C0011067(C) */
 	        AND AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10), FK_EZC_AREA_CD_EZC_FACL(R),SYS_C0011066(C) */
 	        AND ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
-	        AND ROOM_CLASS = #{roomClass, jdbcType=VARCHAR}	/* 숙소 등급, VARCHAR2(8) */
 	        AND FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
         ORDER BY
              LENGTH(FACL_KOR_MORP) DESC

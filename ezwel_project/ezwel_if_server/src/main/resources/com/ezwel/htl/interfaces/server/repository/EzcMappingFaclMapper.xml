@@ -19,6 +19,9 @@ INSERT INTO EZC_MAPPING_FACL(	/* 맵핑 시설 */
 	,FACL_CD	/* 시설 코드, NUMBER(0,22) */
 	,HAND_MAPPING_YN	/* 수동 맵핑 여부, CHAR(1) */
 	,DISP_ORDER	/* 정렬 순서, NUMBER(0,22) */
+	,KOR_MORP_MATC_PCNT
+	,ENG_MORP_MATC_PCNT
+	,CORD_DIST	
 	,REG_ID	/* 등록자 ID, VARCHAR2(20) */
 	,REG_DT	/* 등록 일시, VARCHAR2(14) */
 	,MODIDT	/* 수정일시, VARCHAR2(14) */
@@ -27,6 +30,9 @@ INSERT INTO EZC_MAPPING_FACL(	/* 맵핑 시설 */
 	,#{faclCd, jdbcType=DECIMAL}
 	,#{handMappingYn, jdbcType=CHAR}
 	,#{dispOrder, jdbcType=NUMERIC}
+	,#{korMorpMatcPcnt, jdbcType=DECIMAL}
+	,#{engMorpMatcPcnt, jdbcType=DECIMAL}
+	,#{cordDist, jdbcType=DECIMAL}	
 	,#{regId, jdbcType=VARCHAR}
 	,#{regDt, jdbcType=VARCHAR}
 	,#{modidt, jdbcType=VARCHAR}
@@ -39,6 +45,9 @@ SELECT
 	,EZC_MAPPING_FACL.FACL_CD AS faclCd	/* 시설 코드, NUMBER(0,22) */
 	,EZC_MAPPING_FACL.HAND_MAPPING_YN AS handMappingYn	/* 수동 맵핑 여부, CHAR(1) */
 	,EZC_MAPPING_FACL.DISP_ORDER AS dispOrder	/* 정렬 순서, NUMBER(0,22) */
+	,EZC_MAPPING_FACL.KOR_MORP_MATC_PCNT AS korMorpMatcPcnt
+	,EZC_MAPPING_FACL.ENG_MORP_MATC_PCNT AS engMorpMatcPcnt
+	,EZC_MAPPING_FACL.CORD_DIST AS cordDist	
 	,EZC_MAPPING_FACL.REG_ID AS regId	/* 등록자 ID, VARCHAR2(20) */
 	,EZC_MAPPING_FACL.REG_DT AS regDt	/* 등록 일시, VARCHAR2(14) */
 	,EZC_MAPPING_FACL.MODI_ID AS modiId	/* 수정자 ID, VARCHAR2(20) */
@@ -116,6 +125,9 @@ SELECT * FROM (
 			,EZC_MAPPING_FACL.FACL_CD AS faclCd	/* 시설 코드, NUMBER(0,22) */
 			,EZC_MAPPING_FACL.HAND_MAPPING_YN AS handMappingYn	/* 수동 맵핑 여부, CHAR(1) */
 			,EZC_MAPPING_FACL.DISP_ORDER AS dispOrder	/* 정렬 순서, NUMBER(0,22) */
+			,EZC_MAPPING_FACL.KOR_MORP_MATC_PCNT AS korMorpMatcPcnt
+			,EZC_MAPPING_FACL.ENG_MORP_MATC_PCNT AS engMorpMatcPcnt
+			,EZC_MAPPING_FACL.CORD_DIST AS cordDist			
 			,EZC_MAPPING_FACL.REG_ID AS regId	/* 등록자 ID, VARCHAR2(20) */
 			,EZC_MAPPING_FACL.REG_DT AS regDt	/* 등록 일시, VARCHAR2(14) */
 			,EZC_MAPPING_FACL.MODI_ID AS modiId	/* 수정자 ID, VARCHAR2(20) */
@@ -171,6 +183,9 @@ WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMER
 UPDATE EZC_MAPPING_FACL SET	/* 맵핑 시설 */
 	 HAND_MAPPING_YN = #{handMappingYn, jdbcType=CHAR}	/* 수동 맵핑 여부, CHAR(1) */
 	,DISP_ORDER = #{dispOrder, jdbcType=NUMERIC}	/* 정렬 순서, NUMBER(0,22) */
+	,KOR_MORP_MATC_PCNT = #{korMorpMatcPcnt, jdbcType=DECIMAL}
+	,ENG_MORP_MATC_PCNT = #{engMorpMatcPcnt, jdbcType=DECIMAL}
+	,CORD_DIST = #{cordDist, jdbcType=DECIMAL}	
 	,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
 	,MODIDT = #{modidt, jdbcType=VARCHAR}	/* 수정일시, VARCHAR2(14) */
 WHERE 1=1
@@ -188,6 +203,9 @@ MERGE INTO EZC_MAPPING_FACL /* 맵핑 시설 */
 		UPDATE SET
 			 HAND_MAPPING_YN = #{handMappingYn, jdbcType=CHAR}	/* 수동 맵핑 여부, CHAR(1) */
 			,DISP_ORDER = #{dispOrder, jdbcType=NUMERIC}	/* 정렬 순서, NUMBER(0,22) */
+			,KOR_MORP_MATC_PCNT = #{korMorpMatcPcnt, jdbcType=DECIMAL}
+			,ENG_MORP_MATC_PCNT = #{engMorpMatcPcnt, jdbcType=DECIMAL}
+			,CORD_DIST = #{cordDist, jdbcType=DECIMAL}			
 			,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
 			,MODIDT = #{modidt, jdbcType=VARCHAR}	/* 수정일시, VARCHAR2(14) */
 	WHEN NOT MATCHED THEN
@@ -196,6 +214,9 @@ MERGE INTO EZC_MAPPING_FACL /* 맵핑 시설 */
 			,FACL_CD	/* 시설 코드, NUMBER(0,22) */
 			,HAND_MAPPING_YN	/* 수동 맵핑 여부, CHAR(1) */
 			,DISP_ORDER	/* 정렬 순서, NUMBER(0,22) */
+			,KOR_MORP_MATC_PCNT
+			,ENG_MORP_MATC_PCNT
+			,CORD_DIST			
 			,REG_ID	/* 등록자 ID, VARCHAR2(20) */
 			,REG_DT	/* 등록 일시, VARCHAR2(14) */
 			,MODIDT	/* 수정일시, VARCHAR2(14) */
@@ -204,6 +225,9 @@ MERGE INTO EZC_MAPPING_FACL /* 맵핑 시설 */
 			,#{faclCd, jdbcType=DECIMAL}
 			,#{handMappingYn, jdbcType=CHAR}
 			,#{dispOrder, jdbcType=NUMERIC}
+			,#{korMorpMatcPcnt, jdbcType=DECIMAL}
+			,#{engMorpMatcPcnt, jdbcType=DECIMAL}
+			,#{cordDist, jdbcType=DECIMAL}			
 			,#{regId, jdbcType=VARCHAR}
 			,#{regDt, jdbcType=VARCHAR}
 			,#{modidt, jdbcType=VARCHAR}

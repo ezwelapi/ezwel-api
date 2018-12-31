@@ -4,14 +4,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
-import com.ezwel.htl.interfaces.server.repository.OutsideRepository;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataRealtimeImageOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 
@@ -19,8 +17,8 @@ public class LogicTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(LogicTest.class);
 	
-	
-	@Test
+
+	//@Test
 	public void testAsset01() {
 		AllRegOutSDO out = new AllRegOutSDO();
 		
