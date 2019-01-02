@@ -118,16 +118,6 @@ public class InterfaceFactory {
 		LOCAL_CANONICAL_HOST_NAME = APIUtil.getLocalHost().getCanonicalHostName();
 	}
 	
-	/**
-	 * WebApplicationContext
-	 */
-	@Autowired
-	private WebApplicationContext context;
-
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.context = (WebApplicationContext) applicationContext;
-    }
-	
 	public InterfaceFactory() {
 		this.init();
 	}
@@ -261,28 +251,19 @@ public class InterfaceFactory {
 		return cacheId;
 	}
 	
-	
 	public void initFactory() {
-		logger.debug("[INITIALIZE] INTERFACE FACTORY ... {}", webRootKey);
-
+		logger.debug("[INITIALIZE] INTERFACE FACTORY ... ");
+		
 		WebApplicationContext webContext = ContextLoader.getCurrentWebApplicationContext();
+		webRootKey = webContext.getEnvironment().getProperty(ManagedConstants.getWebRootKeyName());
+		
+		/*
+		logger.debug("# webRootKey : {}", webRootKey);
 		logger.debug("# context.getId() : {}", webContext.getId());
 		logger.debug("# context.getApplicationName() : {}", webContext.getApplicationName());
 		logger.debug("# context.getEnvironment() : {}", webContext.getEnvironment());
-		logger.debug("# getEnvironment.getWebRootKeyName() : {}", webContext.getEnvironment().getProperty(ManagedConstants.getWebRootKeyName()));
-		//logger.debug("# getEnvironment.getWebRootKeyName() : {}", webContext.getEnvironment().);
-		
-		
-		//WebUtils.setWebAppRootSystemProperty(webContext.getServletContext());
-		
-		//String param = context.getInitParameter(WebUtils.WEB_APP_ROOT_KEY_PARAM);
-		
-//		String webAppRootKey = servletContext
-//                .getInitParameter(WebUtils.WEB_APP_ROOT_KEY_PARAM);
-//		
-//		WebUtils.
-//		
-//		webRootKey = System.getProperty(ManagedConstants.getWebRootKeyName());
+		logger.debug("# context.getEnvironment().getProperty : {}", webContext.getEnvironment().getProperty(ManagedConstants.getWebRootKeyName()));
+		*/
 		
 		JAXBContext jaxbc = null;
 		Unmarshaller unmarshaller = null;
@@ -309,7 +290,7 @@ public class InterfaceFactory {
 			jaxbc = JAXBContext.newInstance(InterfaceRootConfig.class);
 			unmarshaller = jaxbc.createUnmarshaller();
 			
-			isMasterServer = true;
+			//isMasterServer = true;
 			
 			if(isMasterServer) {
 				

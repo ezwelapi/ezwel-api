@@ -126,7 +126,7 @@ public class UtilityController {
 			throw new APIException("요청하신 서버는 인터페이스 마스터 서버가 아닙니다. 인터페이스 설정정보 요청은 인터페이스 마스터 서버에게만 가능합니다.");
 		}
 		
-		fileUtil = (FileUtil) LApplicationContext.getBean(fileUtil, APIUtil.class);
+		fileUtil = (FileUtil) LApplicationContext.getBean(fileUtil, FileUtil.class);
 		responseUtil = (ResponseUtil) LApplicationContext.getBean(responseUtil, ResponseUtil.class);
 		
 		ResponseEntity<String> out = null;
