@@ -275,7 +275,7 @@ public class InterfaceFactory {
 		URL resourceURL = null;
 		ServerAddressConfig serverAddress = null;
 		isMasterServer = (ManagedConstants.getIfServerWebRootKey().equals(webRootKey));
-		logger.debug("This server is master server ? {} ({} / {})", isMasterServer, ManagedConstants.getIfServerWebRootKey(), webRootKey);
+		logger.debug("This server is master server ? {} " /* ({} / {}) */, isMasterServer, ManagedConstants.getIfServerWebRootKey(), webRootKey);
 		
 		try {
 			
