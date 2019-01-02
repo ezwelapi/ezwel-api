@@ -17,9 +17,11 @@ import javax.xml.bind.Unmarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.data.FileRepositoryConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.InterfaceRootConfig;
+import com.ezwel.htl.interfaces.commons.configure.data.OptAppsConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.ServerAddressConfig;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
@@ -57,7 +59,9 @@ public class InterfaceFactory {
 	public final static String LOCAL_HOST_ADDRESS; 
 	public final static String LOCAL_HOST_NAME;
 	public final static String LOCAL_CANONICAL_HOST_NAME;
-
+	
+	@APIFields(description = "인터페이스 부가기능 설정정보")
+	public static OptAppsConfig optionalApps;
 	
 	private static String imageRootPath;
 	private static String serverHttpDomainURI;
@@ -168,6 +172,10 @@ public class InterfaceFactory {
 		return interfaceAgents.get(httpAgentId);
 	}
 	
+	public static OptAppsConfig getOptionalApps() {
+		return optionalApps;
+	}
+
 	private static String getCacheId(String chanId, String agentId) {
 		
 		if(APIUtil.isEmpty(chanId) || APIUtil.isEmpty(agentId)) {
@@ -315,6 +323,9 @@ public class InterfaceFactory {
 					logger.debug("# imageRootPath : {}", InterfaceFactory.imageRootPath);
 					logger.debug("# serverHttpDomainURI : {}", InterfaceFactory.serverHttpDomainURI);
 					logger.debug("# interfaceBatchErrorLogPath : {}", InterfaceFactory.interfaceBatchErrorLogPath);	
+					
+					/** 인터페이스 부가기능 설정 정보 */
+					InterfaceFactory.optionalApps = ifc.getOptionalApps();
 				}
 			}
 		} catch (JAXBException e) {
@@ -323,6 +334,7 @@ public class InterfaceFactory {
 			throw new APIException("InterfaceFactory 초기화중 장애발생.", e);
 		}
 		finally {
+			
 			if(ifc != null) {
 				ifc.clear();
 			}

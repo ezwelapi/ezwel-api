@@ -26,8 +26,6 @@ import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 @APIModel(description="인터페이스 설정")
 public class InterfaceRootConfig extends APIObject {
 
-	private static final long serialVersionUID = 1L;
-
 	@APIFields(description = "나가는 인터페이스 체널 목록")
 	private List<HttpConfigSDO> outsideChans;
 	
@@ -42,6 +40,10 @@ public class InterfaceRootConfig extends APIObject {
 	
 	@APIFields(description = "서버 주소")
 	private ServerAddressConfig serverAddress;
+	
+	@APIFields(description = "인터페이스 부가기능(fax/mail/sms)")
+	private OptAppsConfig optionalApps;	
+	
 	
 	public InterfaceRootConfig() {
 		this.reset();
@@ -103,6 +105,15 @@ public class InterfaceRootConfig extends APIObject {
 		this.fileRepository = fileRepository;
 	}
 	
+	public OptAppsConfig getOptionalApps() {
+		return optionalApps;
+	}
+
+	@XmlElement
+	public void setOptionalApps(OptAppsConfig optionalApps) {
+		this.optionalApps = optionalApps;
+	}
+
 	public void clear() {
 		if(agentList != null) {
 			agentList.clear();
