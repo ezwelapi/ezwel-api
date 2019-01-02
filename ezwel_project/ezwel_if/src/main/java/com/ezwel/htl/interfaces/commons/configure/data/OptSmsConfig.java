@@ -5,7 +5,6 @@ import javax.xml.bind.annotation.XmlElement;
 import com.ezwel.htl.interfaces.commons.abstracts.APIObject;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
-import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
 @APIModel(description="SMS/MMS/KAKAO")
 public class OptSmsConfig extends APIObject {

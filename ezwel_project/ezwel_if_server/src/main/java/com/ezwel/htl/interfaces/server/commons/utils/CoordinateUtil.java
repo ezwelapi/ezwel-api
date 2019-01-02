@@ -32,13 +32,21 @@ public class CoordinateUtil {
 		}
 	}
 	
+	/**
+	 * 두 좌표간의 거리(METER) 계산
+	 * @param latY1
+	 * @param lonX1
+	 * @param latY2
+	 * @param lonX2
+	 * @return
+	 */
+	@APIOperation(description="두 좌표간의 거리(METER) 계산")
 	public double getCoordDistance(double latY1, double lonX1, double latY2, double lonX2) {
 		return getCoordDistance(latY1, lonX1, latY2, lonX2, CoordinateUtil.CALC_UNIT_METER);
 	}
 	
     /**
-     * 두 지점(좌표)간의 거리 계산
-     *
+     * 두 좌표간의 거리(MILE/METER/KILOMETER) 계산합니다
      * @param latY1 지점 1 위도
      * @param lonX1 지점 1 경도
      * @param latY2 지점 2 위도
@@ -46,7 +54,7 @@ public class CoordinateUtil {
      * @param unit 거리 표출단위
      * @return
      */
-	@APIOperation
+	@APIOperation(description="두 좌표간의 거리(MILE/METER/KILOMETER) 계산합니다")
     public double getCoordDistance(double latY1, double lonX1, double latY2, double lonX2, int unit) {
         
 		double out = 0.0;
@@ -76,12 +84,22 @@ public class CoordinateUtil {
     }
      
  
-    // This function converts decimal degrees to radians
+    /**
+     * 십진수도를 라디안으로 변환합니다.
+     * @param deg
+     * @return
+     */
+	@APIOperation(description="십진수를 라디안으로 변환합니다.")
     private double deg2rad(double deg) {
         return (deg * Math.PI / 180.0);
     }
      
-    // This function converts radians to decimal degrees
+    /**
+     * 라디안을 십진수로 변환합니다.
+     * @param rad
+     * @return
+     */
+    @APIOperation(description="라디안을 십진수로 변환합니다.")
     private double rad2deg(double rad) {
         return (rad * 180 / Math.PI);
     }
