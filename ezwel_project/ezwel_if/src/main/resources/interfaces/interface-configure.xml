@@ -25,6 +25,7 @@
 	<faclMapping>
 		<!-- 시설 형태소 매핑 성공 확율 -->
 		<faclMorpMappingPersent>60</faclMorpMappingPersent>
+		<cordMatchCriteria>50</cordMatchCriteria>
 	</faclMapping>
 
 	<optionalApps>
@@ -32,13 +33,12 @@
 			<restURI>http://wow.ezwel.com/common/sms/send.ez</restURI>
 			<encoding>UTF-8</encoding>
 		</smsConfig>
-		<faxConfig>
-			
-		</faxConfig>
-		<emailConfig>
-			
-		</emailConfig>
+		<!-- 
+		<faxConfig></faxConfig>
+		<emailConfig></emailConfig>
+		 -->	
 	</optionalApps>
+	
 	
 	<agentList>
 		<agentInfo>

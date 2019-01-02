@@ -22,7 +22,7 @@ public class OptSmsConfig extends APIObject {
 	
 	private void reset() {
 		restURI = null;
-		encoding = OperateConstants.DEFAULT_ENCODING;
+		encoding = null;
 	}
 
 	public String getRestURI() {
@@ -34,14 +34,5 @@ public class OptSmsConfig extends APIObject {
 		this.restURI = restURI;
 	}
 
-	public String getEncoding() {
-		return encoding;
-	}
-
-	@XmlElement
-	public void setEncoding(String encoding) {
-		this.encoding = encoding;
-	}
-	
 	
 }

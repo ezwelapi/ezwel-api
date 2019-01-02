@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.configure.data.FaclMappingConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.FileRepositoryConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.InterfaceRootConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.OptAppsConfig;
@@ -42,29 +43,47 @@ public class InterfaceFactory {
 
 	private static final Logger logger = LoggerFactory.getLogger(InterfaceFactory.class);
 	
+	private final static boolean IS_LOGGING = false;
+
+	private PropertyUtil propertyUtil;
+
+	@APIFields(description = "인터페이스 체널 목록")
 	private static Map<String, List<HttpConfigSDO>> interfaceChannels;
 	
+	@APIFields(description = "인터페이스 에이전트 목록")
 	private static Map<String, AgentInfoSDO> interfaceAgents;
 	
+	@APIFields(description = "파일 저장소 정보")
 	private static FileRepositoryConfig fileRepository;
 	
+	@APIFields(description = "운영/개발 서버 설정 정보")
 	private static ServerAddressConfig serverAddress;
 	
-	private PropertyUtil propertyUtil;
-	
-	private final static boolean IS_LOGGING = false;
-	
+	@APIFields(description = "그룹체널 캐쉬명 접미사")
 	private final static String GROUP_CACHE_POSTFIX;
 	
+	@APIFields(description = "로컬 호스트 주소")
 	public final static String LOCAL_HOST_ADDRESS; 
+	
+	@APIFields(description = "로컬 호스트 이름")
 	public final static String LOCAL_HOST_NAME;
+	
+	@APIFields(description = "로컬 호스트 정규화 된 도메인명")
 	public final static String LOCAL_CANONICAL_HOST_NAME;
 	
 	@APIFields(description = "인터페이스 부가기능 설정정보")
 	public static OptAppsConfig optionalApps;
 	
+	@APIFields(description = "시설 매핑 설정정보")
+	public static FaclMappingConfig faclMapping;
+	
+	@APIFields(description = "이미지 저장 루트 경로")
 	private static String imageRootPath;
+	
+	@APIFields(description = "서버 도메인 URI")
 	private static String serverHttpDomainURI;
+	
+	@APIFields(description = "인터페이스 배치 에러 로그 루트 경로")
 	private static String interfaceBatchErrorLogPath;
 	
 	static {
@@ -324,8 +343,11 @@ public class InterfaceFactory {
 					logger.debug("# serverHttpDomainURI : {}", InterfaceFactory.serverHttpDomainURI);
 					logger.debug("# interfaceBatchErrorLogPath : {}", InterfaceFactory.interfaceBatchErrorLogPath);	
 					
+					/** 시설정보 매핑 설정 */
+					InterfaceFactory.faclMapping = (FaclMappingConfig) propertyUtil.copySameProperty(ifc.getFaclMapping(), FaclMappingConfig.class);
+					
 					/** 인터페이스 부가기능 설정 정보 */
-					InterfaceFactory.optionalApps = ifc.getOptionalApps();
+					//InterfaceFactory.optionalApps =  (OptAppsConfig) propertyUtil.copySameProperty(ifc.getOptionalApps(), OptAppsConfig.class);
 				}
 			}
 		} catch (JAXBException e) {

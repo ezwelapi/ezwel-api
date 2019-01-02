@@ -22,7 +22,7 @@ import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
  * @date   2018. 11. 14.
  */
 @XmlRootElement( name = "interfaceConfigure" )
-@XmlType (propOrder={"serverAddress", "fileRepository", "agentList", "insideChans", "outsideChans"})
+@XmlType (propOrder={"serverAddress", "fileRepository", "faclMapping", "optionalApps", "agentList", "insideChans", "outsideChans"})
 @APIModel(description="인터페이스 설정")
 public class InterfaceRootConfig extends APIObject {
 
@@ -41,6 +41,9 @@ public class InterfaceRootConfig extends APIObject {
 	@APIFields(description = "서버 주소")
 	private ServerAddressConfig serverAddress;
 	
+	@APIFields(description = "시설 매핑 설정")
+	private FaclMappingConfig faclMapping;
+	
 	@APIFields(description = "인터페이스 부가기능(fax/mail/sms)")
 	private OptAppsConfig optionalApps;	
 	
@@ -53,8 +56,10 @@ public class InterfaceRootConfig extends APIObject {
 		outsideChans = new ArrayList<HttpConfigSDO>();
 		insideChans = new ArrayList<HttpConfigSDO>();
 		agentList = new ArrayList<AgentInfoSDO>();
+		faclMapping = null;
 		fileRepository = null;
 		serverAddress = null;
+		optionalApps = null;
 	}
 
 	public ServerAddressConfig getServerAddress() {
@@ -105,6 +110,15 @@ public class InterfaceRootConfig extends APIObject {
 		this.fileRepository = fileRepository;
 	}
 	
+	public FaclMappingConfig getFaclMapping() {
+		return faclMapping;
+	}
+
+	@XmlElement
+	public void setFaclMapping(FaclMappingConfig faclMapping) {
+		this.faclMapping = faclMapping;
+	}
+	
 	public OptAppsConfig getOptionalApps() {
 		return optionalApps;
 	}
@@ -127,6 +141,7 @@ public class InterfaceRootConfig extends APIObject {
 		//memory release
 		fileRepository = null;
 		serverAddress = null;
+		optionalApps = null;
 	}
 	
 }
