@@ -255,22 +255,6 @@ public class OutsideService extends AbstractServiceObject {
 				
 				if(faclMorpSearchList != null && faclMorpSearchList.size() > 0) {
 					
-					//비교 대조를 위한 목록 복제
-					//faclMorpCompareList = new ArrayList<EzcFacl>();
-					//faclMorpCompareList.addAll(faclMorpSearchList);
-					
-					//분석 비교 시작(추론검색)
-					/* 데이터 목록
-			         FACL_CD faclCd
-			        ,FACL_NM_KOR faclNmKor
-			        ,FACL_NM_ENG faclNmEng
-			        ,FACL_KOR_MORP faclKorMorp
-			        ,FACL_ENG_MORP faclEngMorp
-			        ,COORD_X coordX
-			        ,COORD_Y coordY
-			        ,FACL_DIV faclDiv   					
-					*/
-					
 					//비교기준 시설 정보
 					for(int i = 0; i < faclMorpSearchList.size(); i++) {
 						faclMorp = faclMorpSearchList.get(i);
@@ -346,7 +330,7 @@ public class OutsideService extends AbstractServiceObject {
 							//국문 일치 확율 체크  
 							if(korMorpEqualsPer.compareTo(MORP_MATCH_DETERMINATION_PROBABILITY) >= 0) {
 								logger.debug("== > [Matched] KOR Calc : (({} / {}) * 100) = {}", korMorpEqualsCount, faclKorRootMorpArray.length, korMorpEqualsPer);
-								logger.debug("== > KOR FaclCd : {} check : {}, korMorpEqualsCount : {}, korMorpEqualsPer : {}", faclMorp.getFaclCd(), faclCompMorp.getFaclCd(), korMorpEqualsCount, korMorpEqualsPer);
+								logger.debug("== > KOR FaclCd : {}({}) Target : {}({}), korMorpEqualsCount : {}, korMorpEqualsPer : {}", faclMorp.getFaclNmKor(), faclMorp.getFaclCd(), faclCompMorp.getFaclNmKor(), faclCompMorp.getFaclCd(), korMorpEqualsCount, korMorpEqualsPer);
 								//매치
 								faclMorp.addMatchMorpFaclCdList(faclCompMorp.getFaclCd());
 								morpMatch = true;
@@ -360,7 +344,7 @@ public class OutsideService extends AbstractServiceObject {
 								//영문 일치 확율 체크  
 								if(engMorpEqualsPer.compareTo(MORP_MATCH_DETERMINATION_PROBABILITY) >= 0) {
 									logger.debug("== > [Matched] ENG Calc : (({} / {}) * 100) = {}", engMorpEqualsCount, faclEngRootMorpArray.length, engMorpEqualsPer);
-									logger.debug("== > ENG FaclCd : {} check : {}, engMorpEqualsCount : {}, engMorpEqualsPer : {}", faclMorp.getFaclCd(), faclCompMorp.getFaclCd(), engMorpEqualsCount, engMorpEqualsPer);
+									logger.debug("== > ENG FaclCd : {}({}) Target : {}({}), engMorpEqualsCount : {}, engMorpEqualsPer : {}", faclMorp.getFaclNmEng(), faclMorp.getFaclCd(), faclCompMorp.getFaclNmEng(), faclCompMorp.getFaclCd(), engMorpEqualsCount, engMorpEqualsPer);
 									//매치
 									faclMorp.addMatchMorpFaclCdList(faclCompMorp.getFaclCd());
 									morpMatch = true;
@@ -442,7 +426,7 @@ public class OutsideService extends AbstractServiceObject {
 		Integer out = OperateConstants.INTEGER_ZERO_VALUE;
 		
 		try {
-			//out = mergeFaclMappingData(morpCompareFinalList, 0, 0);
+			out = mergeFaclMappingData(morpCompareFinalList, 0, 0);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "시설 매핑 데이터 저장 장애발생", e);

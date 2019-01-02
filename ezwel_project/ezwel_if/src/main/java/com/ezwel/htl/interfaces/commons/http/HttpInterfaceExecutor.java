@@ -588,11 +588,11 @@ public class HttpInterfaceExecutor {
 			conn.connect();
 			out = true;
 		} catch (ProtocolException e) {
-			logger.error("■ 연결이 불가능한 주소입니다. {}", stackTraceUtil.getStackTrace(e)); 
+			logger.error("■ 연결이 불가능한 주소입니다. {}", e.getMessage()); 
 		} catch (MalformedURLException e) {
-			logger.error("■ 프로토콜이 잘못되었습니다. {}", stackTraceUtil.getStackTrace(e));
+			logger.error("■ 프로토콜이 잘못되었습니다. {}", e.getMessage());
 		} catch (IOException e) {
-			logger.error("■ 통신 장애 발생. {}", stackTraceUtil.getStackTrace(e));
+			logger.error("■ 통신 장애 발생. {}", e.getMessage());
 		} finally {
 			if(conn != null) {
 				conn.disconnect();

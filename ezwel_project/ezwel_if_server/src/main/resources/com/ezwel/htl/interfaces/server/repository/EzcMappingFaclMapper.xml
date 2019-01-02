@@ -55,16 +55,9 @@ SELECT
 FROM
 	 EZC_MAPPING_FACL	/* 맵핑 시설 */
 	,EZC_FACL	/* 시설 정보 */
-	,EZC_AREA_CD	/* 지역 코드 */
-	,EZC_CITY_CD	/* 도시 코드 */
-	,EZC_PARTNER	/* 제휴사 정보 */
 	,EZC_MAPPING_GRP_FACL	/* 맵핑 그룹 시설 */
 WHERE 1=1
 	AND EZC_MAPPING_FACL.FACL_CD = EZC_FACL.FACL_CD
-	AND EZC_FACL.AREA_CD = EZC_AREA_CD.AREA_CD
-	AND EZC_AREA_CD.CITY_CD = EZC_CITY_CD.CITY_CD
-	AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
-	AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
 	AND EZC_MAPPING_FACL.GRP_FACL_CD = EZC_MAPPING_GRP_FACL.GRP_FACL_CD
 	<if test="handMappingYn != null and handMappingYn != ''">
 	AND EZC_MAPPING_FACL.HAND_MAPPING_YN = #{handMappingYn, jdbcType=CHAR}	/* 수동 맵핑 여부, CHAR(1) */
@@ -79,16 +72,9 @@ SELECT
 FROM
 	 EZC_MAPPING_FACL	/* 맵핑 시설 */
 	,EZC_FACL	/* 시설 정보 */
-	,EZC_AREA_CD	/* 지역 코드 */
-	,EZC_CITY_CD	/* 도시 코드 */
-	,EZC_PARTNER	/* 제휴사 정보 */
 	,EZC_MAPPING_GRP_FACL	/* 맵핑 그룹 시설 */
 WHERE 1=1
 	AND EZC_MAPPING_FACL.FACL_CD = EZC_FACL.FACL_CD
-	AND EZC_FACL.AREA_CD = EZC_AREA_CD.AREA_CD
-	AND EZC_AREA_CD.CITY_CD = EZC_CITY_CD.CITY_CD
-	AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
-	AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
 	AND EZC_MAPPING_FACL.GRP_FACL_CD = EZC_MAPPING_GRP_FACL.GRP_FACL_CD
 	<if test="handMappingYn != null and handMappingYn != ''">
 	AND EZC_MAPPING_FACL.HAND_MAPPING_YN = #{handMappingYn, jdbcType=CHAR}	/* 수동 맵핑 여부, CHAR(1) */
@@ -135,16 +121,9 @@ SELECT * FROM (
 		FROM
 			 EZC_MAPPING_FACL	/* 맵핑 시설 */
 			,EZC_FACL	/* 시설 정보 */
-			,EZC_AREA_CD	/* 지역 코드 */
-			,EZC_CITY_CD	/* 도시 코드 */
-			,EZC_PARTNER	/* 제휴사 정보 */
 			,EZC_MAPPING_GRP_FACL	/* 맵핑 그룹 시설 */
 		WHERE 1=1
 			AND EZC_MAPPING_FACL.FACL_CD = EZC_FACL.FACL_CD
-			AND EZC_FACL.AREA_CD = EZC_AREA_CD.AREA_CD
-			AND EZC_AREA_CD.CITY_CD = EZC_CITY_CD.CITY_CD
-			AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
-			AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
 			AND EZC_MAPPING_FACL.GRP_FACL_CD = EZC_MAPPING_GRP_FACL.GRP_FACL_CD
 			<if test="handMappingYn != null and handMappingYn != ''">
 			AND EZC_MAPPING_FACL.HAND_MAPPING_YN = #{handMappingYn, jdbcType=CHAR}	/* 수동 맵핑 여부, CHAR(1) */
@@ -182,7 +161,9 @@ WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMER
 <update id="updateEzcMappingFacl" parameterType="ezcMappingFacl">
 UPDATE EZC_MAPPING_FACL SET	/* 맵핑 시설 */
 	 HAND_MAPPING_YN = #{handMappingYn, jdbcType=CHAR}	/* 수동 맵핑 여부, CHAR(1) */
+	<if test="dispOrder != null and dispOrder gt 0">
 	,DISP_ORDER = #{dispOrder, jdbcType=NUMERIC}	/* 정렬 순서, NUMBER(0,22) */
+	</if>
 	,KOR_MORP_MATC_PCNT = #{korMorpMatcPcnt, jdbcType=DECIMAL}
 	,ENG_MORP_MATC_PCNT = #{engMorpMatcPcnt, jdbcType=DECIMAL}
 	,CORD_DIST = #{cordDist, jdbcType=DECIMAL}	

@@ -41,6 +41,8 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 	
 	private MethodsAdviceHelper methodsAdviceHelper;
 	
+	private StackTraceUtil stackTraceUtil;
+	
 	private int order = 1;
 
 	@Override
@@ -100,6 +102,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		beanMarshaller = (BeanMarshaller) LApplicationContext.getBean(beanMarshaller, BeanMarshaller.class);
 		responseUtil = (ResponseUtil) LApplicationContext.getBean(responseUtil, ResponseUtil.class);
 		methodsAdviceHelper = (MethodsAdviceHelper) LApplicationContext.getBean(methodsAdviceHelper, MethodsAdviceHelper.class);
+		stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
 		
 		Class<?> typeClass = thisJoinPoint.getTarget().getClass();
 		String className = typeClass.getSimpleName();
@@ -121,24 +124,31 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		/** method description */
 		String description = APIUtil.NVL(apiOperAnno.description(), className.concat(OperateConstants.STR_DOT).concat(methodName));
 
-		logger.debug("■■ [START APIOperation] {}, methodGuid : {} ", typeMethodName, methodGuid);
+		if(controlAnno != null) {
+			logger.debug("■■ [START APIOperation] {}, methodGuid : {} ", typeMethodName, methodGuid);
+		}
 
 		Object retVal = null;
 		ExceptionSDO output = null;
 		long executeLapTimeMillis = 0L;
+		double operationLapTime = 0D;
 		
 		try {
 				
 			if(controlAnno != null && !Local.commonHeader().isControlMarshalling()) {
 
-				logger.debug("■■ [INPUTSTREAM]");
+				if (IS_LOGGING) {
+					logger.debug("■■ [INPUTSTREAM]");
+				}
 				methodsAdviceHelper.doMethodInputUnmarshall(proccesMethod.getParameterTypes(), inputParamObjects);
 				Local.commonHeader().setControlMarshalling(true);
 			}
 			
 			if(controlAnno != null || apiOperAnno.isInputBeanValidation()) {
 				
-				logger.debug("■■ [VALIDATE] {} {}", controlAnno, apiOperAnno.isInputBeanValidation());
+				if (IS_LOGGING) {
+					logger.debug("■■ [VALIDATE] {} {}", controlAnno, apiOperAnno.isInputBeanValidation());
+				}
 				methodsAdviceHelper.doMethodInputValidation(proccesMethod.getParameterTypes(), inputParamObjects);
 			}
 			
@@ -167,6 +177,8 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				output = new ExceptionSDO();
 				output.setCode(e.getResultCodeString());
 				output.setMessage(e.getMessages());
+				output.setDetailMessage(stackTraceUtil.getStackTrace(e));
+				
 				retVal = responseUtil.getResponseEntity(beanMarshaller.toJSONString(output));
 				
 				e.printStackTrace();
@@ -174,12 +186,19 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			else {
 				throw new APIException("■■ [AOP-APIException] {} ({}) 장애발생" , new Object[]{ typeMethodName, description }, e);
 			}
-		} 
+		}
 		finally {
 			
 			executeLapTimeMillis = Local.endOperation(methodGuid).getLapTimeMillis();
+			operationLapTime = APIUtil.getTimeMillisToSecond(executeLapTimeMillis);
 			
-			logger.debug("■■ [END APIOperation] {}, lapTime : {} sec, methodGuid : {}", typeMethodName, APIUtil.getTimeMillisToSecond(executeLapTimeMillis), methodGuid);
+			if(controlAnno != null) {
+				logger.debug("■■ [END APIOperation({})] {}, lapTime : {} sec, methodGuid : {}", Local.commonHeader().isHandlerInterceptorComplete(), typeMethodName, operationLapTime, methodGuid);
+			}
+			else if(operationLapTime > 3D) {
+				logger.debug("■■ [This APIOperation runs longer than 3 seconds] {}, lapTime : {} sec, methodGuid : {}", typeMethodName, operationLapTime, methodGuid);
+			}
+			
 			if(Local.commonHeader().isHandlerInterceptorComplete()) {
 				Local.remove();
 			}

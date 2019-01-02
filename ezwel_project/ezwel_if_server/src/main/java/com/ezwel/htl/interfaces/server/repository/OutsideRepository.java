@@ -422,7 +422,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			for(int i = 0; i < finalFaclList.size(); i++) {
 				ezcFacl = finalFaclList.get(i);
 				
-				//1. EZC_매핑_그룹_시설 DB 핸들링 !! ###################################################################
+				//1. EZC 매핑 그룹 시설 DB 저장
 				if(ezcFacl.isGroupData()) {
 					ezcMappingGrpFacl = (EzcMappingGrpFacl) propertyUtil.copySameProperty(ezcFacl, EzcMappingGrpFacl.class);
 					
@@ -444,49 +444,33 @@ public class OutsideRepository extends AbstractDataAccessObject {
 					ezcFacl.setGrpFaclCd(ezcMappingGrpFacl.getGrpFaclCd());
 				}
 				
-				//2. EZC_매핑_시설 DB 핸들링 !! ###################################################################
+				//2. EZC 매핑 시설 DB 저장
 				ezcMappingFacl = (EzcMappingFacl) propertyUtil.copySameProperty(ezcFacl, EzcMappingFacl.class);
-				ezcMappingFacl.setHandMappingYn(CodeDataConstants.CD_N); //핸드매핑 아님
-				ezcMappingFacl.setDispOrder(OperateConstants.INTEGER_ZERO_VALUE); //순서 0
-
 				// 그룹 코드를 찾음
-				for(EzcFacl innerEzcFacl : finalFaclList) {
-					
-					if(ezcFacl.isGroupData() && innerEzcFacl.getMatchMorpFaclCdList().contains(ezcFacl.getFaclCd())) {
-						
-						if(innerEzcFacl.getGrpFaclCd() == null) {
-							throw new APIException(" 그룹 시설 객체에 그룹시설코드가 세팅되지 않았습니다!! : {}", ezcFacl.getFaclCd());
-						}
-						ezcMappingFacl.setGrpFaclCd(innerEzcFacl.getGrpFaclCd());
-						
-						for(EzcFaclMappingSDO faclMappingSDO : innerEzcFacl.getEzcFaclMappingSDO()) {
-							/** 아래 3가지 정보를  innerEzcFacl.getEzcFaclMappingSDO() 에서 찾는다. */
-							if(faclMappingSDO.getFaclCd().compareTo(ezcFacl.getFaclCd()) == 0) {
-								ezcMappingFacl.setKorMorpMatcPcnt(faclMappingSDO.getKorMorpEqualsPer());
-								ezcMappingFacl.setEngMorpMatcPcnt(faclMappingSDO.getEngMorpEqualsPer());
-								ezcMappingFacl.setCordDist(faclMappingSDO.getCordDist());
-							}
-						}
-
-						break;
-					}
+				findFaclGroupCd(ezcFacl, finalFaclList, ezcMappingFacl);
+				
+				if(ezcMappingFacl.getGrpFaclCd() == null) {
+					throw new APIException(" 시설 코드({})의 그룹 시설 코드를 찾을수 없습니다. !! : {}", ezcMappingFacl.getFaclCd()) ;
 				}
-
-				logger.debug("[FINED GROUP CODE] {}", ezcMappingFacl.getGrpFaclCd());
 				
 				//맴핑 그룹 시설 조회
 				dbMappingFacl = sqlSession.selectOne(getNamespace("MAPPING_FACL_MAPPER", "selectEzcMappingFacl"), ezcMappingFacl);
 				
+				// 자동 매핑의 경우 N
+				ezcMappingFacl.setHandMappingYn(CodeDataConstants.CD_N); //핸드매핑 아님
+				
 				if(dbMappingFacl != null) {
+					
+					if(CodeDataConstants.CD_Y.equals(dbMappingFacl.getHandMappingYn())) {
+						// 관리자에서 수동 매핑한 정보는 변경하지 않는다.
+						continue;
+					}
+					
 					//맴핑 그룹 시설 갱신
-					ezcMappingFacl.setFaclCd(dbMappingFacl.getFaclCd());
-					ezcMappingFacl.setGrpFaclCd(dbMappingFacl.getGrpFaclCd());
 					txCount = sqlSession.update(getNamespace("MAPPING_FACL_MAPPER", "updateEzcMappingFacl"), ezcMappingFacl);
 				}
 				else {
 					//맴핑 그룹 시설 입력
-					ezcMappingFacl.setFaclCd(ezcFacl.getFaclCd());
-					ezcMappingFacl.setGrpFaclCd(ezcMappingGrpFacl.getGrpFaclCd());
 					txCount = sqlSession.insert(getNamespace("MAPPING_FACL_MAPPER", "insertEzcMappingFacl"), ezcMappingFacl);
 				}
 			}
@@ -515,6 +499,42 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		}
 
 		return txCount;
+	}
+	
+	
+	/**
+	 * 시설의 매핑 그룹 코드(부모코드)를 찾아 세팅하고 형태소 및 좌표 매칭 정보를 세팅합니다.
+	 * @param ezcFacl
+	 * @param finalFaclList
+	 * @param ezcMappingFacl
+	 */
+	@APIOperation(description="시설의 매핑 그룹 코드(부모코드)를 찾아 세팅하고 형태소 및 좌표 매칭 정보를 세팅합니다.")
+	private void findFaclGroupCd(EzcFacl ezcFacl, List<EzcFacl> finalFaclList, EzcMappingFacl ezcMappingFacl) {
+		
+		for(EzcFacl innerEzcFacl : finalFaclList) {
+			
+			if(ezcFacl.isGroupData() && innerEzcFacl.getMatchMorpFaclCdList().contains(ezcFacl.getFaclCd())) {
+				
+				if(innerEzcFacl.getGrpFaclCd() == null) {
+					throw new APIException(" 그룹 시설 객체에 그룹시설코드가 세팅되지 않았습니다!! : {}", ezcFacl.getFaclCd());
+				}
+				//부모 그룹 코드 세팅
+				ezcMappingFacl.setGrpFaclCd(innerEzcFacl.getGrpFaclCd());
+				
+				for(EzcFaclMappingSDO faclMappingSDO : innerEzcFacl.getEzcFaclMappingSDO()) {
+					/** 아래 3가지 정보를  innerEzcFacl.getEzcFaclMappingSDO() 에서 찾는다. */
+					if(faclMappingSDO.getFaclCd().compareTo(ezcFacl.getFaclCd()) == 0) {
+						ezcMappingFacl.setKorMorpMatcPcnt(faclMappingSDO.getKorMorpEqualsPer());
+						ezcMappingFacl.setEngMorpMatcPcnt(faclMappingSDO.getEngMorpEqualsPer());
+						ezcMappingFacl.setCordDist(faclMappingSDO.getCordDist());
+					}
+				}
+
+				break;
+			}
+		}
+		
+		logger.debug("== >> Parent facility {} a {}", ezcFacl.getFaclCd(), ezcMappingFacl.getGrpFaclCd());
 	}
 	
 	
