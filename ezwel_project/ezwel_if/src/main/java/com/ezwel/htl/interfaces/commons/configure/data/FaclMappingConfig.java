@@ -22,7 +22,7 @@ public class FaclMappingConfig extends APIObject {
 	}
 	
 	private void reset() {
-		faclMorpMappingPersent = new BigDecimal(60);
+		faclMorpMappingPersent = new BigDecimal(70);
 		cordMatchCriteria = new BigDecimal(50);
 	}
 

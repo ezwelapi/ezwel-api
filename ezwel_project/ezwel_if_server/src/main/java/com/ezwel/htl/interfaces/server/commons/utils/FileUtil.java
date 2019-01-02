@@ -1,9 +1,11 @@
 package com.ezwel.htl.interfaces.server.commons.utils;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -455,4 +457,54 @@ public class FileUtil {
     }
     
 	
+    @APIOperation
+    public String getTextFileContent(String userFilePath) {
+    	if(userFilePath == null) {
+    		logger.error("[getTextFileContent] 텍스트 파일 경로가 존재하지 않습니다.");
+    		return null;
+    	}
+    	
+        StringBuffer contents = null;
+        String filePath = userFilePath;
+        FileReader fileReader = null;
+        BufferedReader in = null;
+        
+        try {
+        	
+        	logger.debug(" +- getTextFileContent filePath : {}", filePath);
+
+        	File target = new File(filePath);
+            if(!target.exists()) {
+            	throw new FileNotFoundException(filePath.concat(" 파일이 존재하지 않습니다."));
+            }
+
+            fileReader = new FileReader(target);
+            in = new BufferedReader(fileReader);
+
+            String read;
+            contents = new StringBuffer();
+            while((read = in.readLine()) != null) {
+            	contents.append((new StringBuilder(String.valueOf(read))).append("\n").toString());
+            }
+
+        }
+        catch(IOException io) {
+        	logger.error("[IOException] getTextFileContent Message : {}", io);
+        }
+        catch(Exception e) {
+            logger.error("[Exception] getTextFileContent Message : {}", e);
+        }
+        finally {
+        	if(in != null) {
+        		try {
+					in.close();
+				} catch (IOException e) {
+					logger.error("[IOException] Close BufferedReader Error Message : {}", e);
+				}
+        	}
+        }
+        
+        return (contents != null ? contents.toString() : null);
+    }
+    
 }

@@ -141,6 +141,9 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "사용 여부", maxLength=1, required=true, constraints="SYS_C0011073(C)")
 	private String useYn;
 
+	@APIFields(description = "부모 시설 코드", maxLength=10)
+	private BigDecimal prntFaclCd;
+	
 	@APIFields(description = "그룹 시설 코드", maxLength=10)
 	private BigDecimal grpFaclCd;
 	
@@ -554,6 +557,14 @@ public class EzcFacl extends AbstractEntity {
 
 	public void setRejectContent(String rejectContent) {
 		this.rejectContent = rejectContent;
+	}
+
+	public BigDecimal getPrntFaclCd() {
+		return prntFaclCd;
+	}
+
+	public void setPrntFaclCd(BigDecimal prntFaclCd) {
+		this.prntFaclCd = prntFaclCd;
 	}
 
 	public BigDecimal getGrpFaclCd() {

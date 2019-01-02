@@ -9,8 +9,6 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 @APIModel(description="파일 저장소 설정")
 public class FileRepositoryConfig extends APIObject {
 	
-	private static final long serialVersionUID = 1L;
-	
 	@APIFields(description="숙박 건물 이미지 저장 경로")
 	private BuildImageConfig buildImage;
 

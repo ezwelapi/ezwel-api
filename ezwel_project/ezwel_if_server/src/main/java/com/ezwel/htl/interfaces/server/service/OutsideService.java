@@ -98,11 +98,6 @@ public class OutsideService extends AbstractServiceObject {
 	
 	/** 시설 이미지 변경 정보 1 커넥션당 업데이트 개수  */
 	private static final Integer FACL_COMM_SAVE_COUNT;
-
-	/** 시설 형태소 일치 판정 확율  */
-	private static final BigDecimal MORP_MATCH_DETERMINATION_PROBABILITY;
-	
-	private static final BigDecimal CORD_MATCH_CRITERIA;
 	
 	/** 전체시설일괄등록 실행 중 플래그 */
 	private static boolean isCallAllRegRunning;
@@ -114,8 +109,6 @@ public class OutsideService extends AbstractServiceObject {
 		FACL_IMG_PAGE_SIZE = 10000;
 		FACL_MORP_PAGE_SIZE = 5000;
 		FACL_COMM_SAVE_COUNT = 3000;
-		MORP_MATCH_DETERMINATION_PROBABILITY = new BigDecimal(60);
-		CORD_MATCH_CRITERIA = new BigDecimal(50);
 		isCallAllRegRunning = false;
 	}
 
@@ -240,6 +233,7 @@ public class OutsideService extends AbstractServiceObject {
     	boolean morpMatch = false;
     	
 		try {
+			
 			childfaclCdSet = new HashSet<BigDecimal>();
 			morpCompareFinalList = new ArrayList<EzcFacl>();
 			
@@ -258,6 +252,11 @@ public class OutsideService extends AbstractServiceObject {
 					//비교기준 시설 정보
 					for(int i = 0; i < faclMorpSearchList.size(); i++) {
 						faclMorp = faclMorpSearchList.get(i);
+						// NOT NULL 데이터 NVL 처리 (전문 설계 문제로 들어가는 코드)
+						faclMorp.setAddrType(APIUtil.NVL(faclMorp.getAddrType(), OperateConstants.STR_EMPTY));
+						faclMorp.setAddr(APIUtil.NVL(faclMorp.getAddr(), OperateConstants.STR_EMPTY));
+						faclMorp.setPost(APIUtil.NVL(faclMorp.getPost(), OperateConstants.STR_EMPTY));
+						
 						//국문
 						faclKorRootMorpArray = faclMorp.getKorMorpArray();
 						Arrays.sort(faclKorRootMorpArray);
@@ -266,6 +265,15 @@ public class OutsideService extends AbstractServiceObject {
 						if(faclEngRootMorpArray != null) {
 							Arrays.sort(faclEngRootMorpArray);
 						}
+						
+						logger.debug(" ### == >> PrntFaclCd : {}", faclMorp.getPrntFaclCd());
+						
+						if(faclMorp.getPrntFaclCd() != null) {
+							logger.debug(" ### == >> [PASS] '{}' use parent facility", faclMorp.getFaclCd());
+							continue;
+						}
+						
+						logger.debug(" ### == >> [START FIND PARENT FACILITY] Name is {}", faclMorp.getFaclNmKor());
 						
 						//비교대상 시설 정보
 						for(int j = 0; j < faclMorpSearchList.size(); j++) {
@@ -321,6 +329,8 @@ public class OutsideService extends AbstractServiceObject {
 										coordinateUtil.getCoordDistance(Double.parseDouble(faclMorp.getCoordY()), Double.parseDouble(faclMorp.getCoordX()), 
 																		Double.parseDouble(faclCompMorp.getCoordY()), Double.parseDouble(faclCompMorp.getCoordX())))
 										);
+								
+								logger.debug("=== >>> [COORD] Distance : {}", cordDist);
 							}
 							
 							//국문 매치 확율 계산
@@ -328,9 +338,10 @@ public class OutsideService extends AbstractServiceObject {
 							engMorpEqualsPer = OperateConstants.BIGDECIMAL_ZERO_VALUE;
 							
 							//국문 일치 확율 체크  
-							if(korMorpEqualsPer.compareTo(MORP_MATCH_DETERMINATION_PROBABILITY) >= 0) {
+							if(korMorpEqualsPer.compareTo(InterfaceFactory.getFaclMapping().getFaclMorpMappingPersent()) >= 0) {
 								logger.debug("== > [Matched] KOR Calc : (({} / {}) * 100) = {}", korMorpEqualsCount, faclKorRootMorpArray.length, korMorpEqualsPer);
-								logger.debug("== > KOR FaclCd : {}({}) Target : {}({}), korMorpEqualsCount : {}, korMorpEqualsPer : {}", faclMorp.getFaclNmKor(), faclMorp.getFaclCd(), faclCompMorp.getFaclNmKor(), faclCompMorp.getFaclCd(), korMorpEqualsCount, korMorpEqualsPer);
+								logger.debug("== > KOR FaclCd : {}({}) Target : {}({}), korMorpEqualsCount : {}, korMorpEqualsPer : {}\n- RootMorp : {}\n- CompMorp : {}"
+										, faclMorp.getFaclNmKor(), faclMorp.getFaclCd(), faclCompMorp.getFaclNmKor(), faclCompMorp.getFaclCd(), korMorpEqualsCount, korMorpEqualsPer, faclMorp.getFaclKorMorp(), faclCompMorp.getFaclKorMorp());
 								//매치
 								faclMorp.addMatchMorpFaclCdList(faclCompMorp.getFaclCd());
 								morpMatch = true;
@@ -342,9 +353,10 @@ public class OutsideService extends AbstractServiceObject {
 								engMorpEqualsPer = ((new BigDecimal(engMorpEqualsCount).divide(new BigDecimal(faclEngRootMorpArray.length), MathContext.DECIMAL32)).multiply(new BigDecimal(100)));
 								
 								//영문 일치 확율 체크  
-								if(engMorpEqualsPer.compareTo(MORP_MATCH_DETERMINATION_PROBABILITY) >= 0) {
+								if(engMorpEqualsPer.compareTo(InterfaceFactory.getFaclMapping().getFaclMorpMappingPersent()) >= 0) {
 									logger.debug("== > [Matched] ENG Calc : (({} / {}) * 100) = {}", engMorpEqualsCount, faclEngRootMorpArray.length, engMorpEqualsPer);
-									logger.debug("== > ENG FaclCd : {}({}) Target : {}({}), engMorpEqualsCount : {}, engMorpEqualsPer : {}", faclMorp.getFaclNmEng(), faclMorp.getFaclCd(), faclCompMorp.getFaclNmEng(), faclCompMorp.getFaclCd(), engMorpEqualsCount, engMorpEqualsPer);
+									logger.debug("== > ENG FaclCd : {}({}) Target : {}({}), engMorpEqualsCount : {}, engMorpEqualsPer : {}\n- RootMorp : {}\n- CompMorp : {}"
+											, faclMorp.getFaclNmEng(), faclMorp.getFaclCd(), faclCompMorp.getFaclNmEng(), faclCompMorp.getFaclCd(), engMorpEqualsCount, engMorpEqualsPer, faclMorp.getFaclEngMorp(), faclCompMorp.getFaclEngMorp());
 									//매치
 									faclMorp.addMatchMorpFaclCdList(faclCompMorp.getFaclCd());
 									morpMatch = true;
@@ -354,16 +366,19 @@ public class OutsideService extends AbstractServiceObject {
 							//좌표 거리검증 : 좌표 계산 데이터가 존재할때 거리가 50m이하이면 일치 아니면 불일치
 							if(cordDist != null ) {
 								
-								if(cordDist.compareTo(CORD_MATCH_CRITERIA) <= 0) {
+								if(cordDist.compareTo(InterfaceFactory.getFaclMapping().getCordMatchCriteria()) <= 0) {
 									faclMorp.addMatchMorpFaclCdList(faclCompMorp.getFaclCd());
 									morpMatch = true;
 								}
 								else {
 									morpMatch = false;
 								}
+								
 							}
 							
 							if( morpMatch ) {
+								
+								logger.debug("== >> [FINAL] Matched > {}({}) and {}({})", faclMorp.getFaclNmKor(), faclMorp.getFaclCd(), faclCompMorp.getFaclNmKor(), faclCompMorp.getFaclCd());
 								
 								//매핑된 하위 시설 정보
 								ezcFaclMappingSDO = (EzcFaclMappingSDO) propertyUtil.copySameProperty(faclCompMorp, EzcFaclMappingSDO.class);
@@ -377,6 +392,8 @@ public class OutsideService extends AbstractServiceObject {
 								
 								//부모가 존재하는 시설코드 세팅(필터용)
 								childfaclCdSet.add(faclCompMorp.getFaclCd());
+								//부모 그룹 시설 코드
+								faclCompMorp.setPrntFaclCd(faclMorp.getFaclCd());
 								
 								faclMorp.addEzcFaclMappingSDO(ezcFaclMappingSDO);
 							}

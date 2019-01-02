@@ -25,11 +25,11 @@ public class ResponseUtil {
 	
 	@APIOperation(description="ResponseEntity JSON String")
 	public ResponseEntity<String> getResponseEntity(String jsonString) {
-		return getResponseEntity(jsonString, null);
+		return getResponseEntity(jsonString, null, OperateConstants.DATA_TYPE_JSON);
 	}
 	
 	@APIOperation(description="ResponseEntity JSON String")
-	public ResponseEntity<String> getResponseEntity(String jsonString, String userCharset) {
+	public ResponseEntity<String> getResponseEntity(String jsonString, String userCharset, String dataType) {
 		logger.debug("[START] responseEntity\n{}", jsonString);
 		
 		String charset = null;
@@ -39,8 +39,14 @@ public class ResponseUtil {
 		else {
 			charset = userCharset;
 		}
+		
 		HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("Content-Type", "application/json;charset=".concat(charset));
+		if(dataType.equals(OperateConstants.DATA_TYPE_JSON)) {
+			responseHeaders.add("Content-Type", "application/json;charset=".concat(charset));
+		}
+		else {
+			responseHeaders.add("Content-Type", "application/xml;charset=".concat(charset));
+		}
 		
         logger.debug("[END] responseEntity");
 		return new ResponseEntity<String>(jsonString, responseHeaders, HttpStatus.OK);

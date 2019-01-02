@@ -9,8 +9,6 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 @APIModel(description="서버 주소")
 public class ServerAddressConfig extends APIObject {
 
-	private static final long serialVersionUID = 1L;
-	
 	@APIFields(description="개발 서버 IP 범위(대역)")
 	private String devServerIpRange;
 

@@ -150,6 +150,7 @@ SELECT * FROM (
 	        ,ROOM_TYPE roomType
 	        ,ROOM_CLASS roomClass
 	        ,FACL_DIV faclDiv
+	        ,ADDR_TYPE addrType
 	        ,ADDR addr
 	        ,POST post
 	        ,TEL_NUM telNum

@@ -16,6 +16,11 @@ import javax.xml.bind.Unmarshaller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
@@ -24,10 +29,12 @@ import com.ezwel.htl.interfaces.commons.configure.data.FileRepositoryConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.InterfaceRootConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.OptAppsConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.ServerAddressConfig;
+import com.ezwel.htl.interfaces.commons.constants.ManagedConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 
@@ -86,7 +93,21 @@ public class InterfaceFactory {
 	@APIFields(description = "인터페이스 배치 에러 로그 루트 경로")
 	private static String interfaceBatchErrorLogPath;
 	
+	@APIFields(description = "인터페이스 초기화 에러 메시지")
+	private final static String INIT_ERROR_MESSAGE;
+	
+	private static String webRootKey;
+	
+	private static String configXmlFilePath;
+	
+	private static boolean isMasterServer;
+	
+	private String configXmlPath;
+
 	static {
+		
+		INIT_ERROR_MESSAGE = "InterfaceFactory 초기화중 장애발생.";
+		
 		interfaceChannels = new LinkedHashMap<String, List<HttpConfigSDO>>();
 		interfaceAgents = new LinkedHashMap<String, AgentInfoSDO>();
 		
@@ -97,8 +118,16 @@ public class InterfaceFactory {
 		LOCAL_CANONICAL_HOST_NAME = APIUtil.getLocalHost().getCanonicalHostName();
 	}
 	
-	private String configXmlPath;
+	/**
+	 * WebApplicationContext
+	 */
+	@Autowired
+	private WebApplicationContext context;
 
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.context = (WebApplicationContext) applicationContext;
+    }
+	
 	public InterfaceFactory() {
 		this.init();
 	}
@@ -191,10 +220,27 @@ public class InterfaceFactory {
 		return interfaceAgents.get(httpAgentId);
 	}
 	
+	public static FaclMappingConfig getFaclMapping() {
+		return faclMapping;
+	}
+
 	public static OptAppsConfig getOptionalApps() {
 		return optionalApps;
 	}
+	
+	public static String getConfigXmlFilePath() {
+		return configXmlFilePath;
+	}
 
+	public static boolean isMasterServer() {
+		return isMasterServer;
+	}
+	
+	public static String getWebRootKey() {
+		return webRootKey;
+	}
+
+	
 	private static String getCacheId(String chanId, String agentId) {
 		
 		if(APIUtil.isEmpty(chanId) || APIUtil.isEmpty(agentId)) {
@@ -217,6 +263,26 @@ public class InterfaceFactory {
 	
 	
 	public void initFactory() {
+		logger.debug("[INITIALIZE] INTERFACE FACTORY ... {}", webRootKey);
+
+		WebApplicationContext webContext = ContextLoader.getCurrentWebApplicationContext();
+		logger.debug("# context.getId() : {}", webContext.getId());
+		logger.debug("# context.getApplicationName() : {}", webContext.getApplicationName());
+		logger.debug("# context.getEnvironment() : {}", webContext.getEnvironment());
+		logger.debug("# getEnvironment.getWebRootKeyName() : {}", webContext.getEnvironment().getProperty(ManagedConstants.getWebRootKeyName()));
+		//logger.debug("# getEnvironment.getWebRootKeyName() : {}", webContext.getEnvironment().);
+		
+		
+		//WebUtils.setWebAppRootSystemProperty(webContext.getServletContext());
+		
+		//String param = context.getInitParameter(WebUtils.WEB_APP_ROOT_KEY_PARAM);
+		
+//		String webAppRootKey = servletContext
+//                .getInitParameter(WebUtils.WEB_APP_ROOT_KEY_PARAM);
+//		
+//		WebUtils.
+//		
+//		webRootKey = System.getProperty(ManagedConstants.getWebRootKeyName());
 		
 		JAXBContext jaxbc = null;
 		Unmarshaller unmarshaller = null;
@@ -226,54 +292,93 @@ public class InterfaceFactory {
 		String xmlPath = null;
 		ChannelListData cld = null;
 		URL resourceURL = null;
-
+		ServerAddressConfig serverAddress = null;
+		isMasterServer = (ManagedConstants.getIfServerWebRootKey().equals(webRootKey));
+		logger.debug("This server is master server ? {} ({} / {})", isMasterServer, ManagedConstants.getIfServerWebRootKey(), webRootKey);
+		
 		try {
+			
+			// 서버 IP대역 및 URI => 자바 상수 파일에서 관리하도록 변경 20190102 (XML환경파일에서 제거)
+			serverAddress = new ServerAddressConfig();
+			serverAddress.setDevServerDomain(ManagedConstants.getDevServerDomain());
+			serverAddress.setDevServerIpRange(ManagedConstants.getDevServerIpRange());
+			serverAddress.setProdServerDomain(ManagedConstants.getProdServerDomain());
+			serverAddress.setProdServerIpRange(ManagedConstants.getProdServerIpRange());
+			InterfaceFactory.serverAddress = serverAddress;
 			
 			jaxbc = JAXBContext.newInstance(InterfaceRootConfig.class);
 			unmarshaller = jaxbc.createUnmarshaller();
 			
-			// 1. xmlPath를 canonical로 채크
-			configureXml = new File(getConfigXmlPath());
-			logger.debug("# 1. config xml -> canonical path scan -> caninocalPath : {}", getConfigXmlPath());
+			isMasterServer = true;
 			
-			if(!configureXml.exists()) {
+			if(isMasterServer) {
 				
-				// 2. xmlPath를 application classes class loader아래에서 채크
-				classesRoot = getClass().getResource("/").getPath();
-				xmlPath = classesRoot.concat(File.separator).concat(getConfigXmlPath());
-				configureXml = new File(xmlPath);
-				logger.debug("# 2. config xml -> classes scan -> classes xmlPath : {}", xmlPath);
+				// 1. xmlPath를 canonical로 채크
+				configureXml = new File(getConfigXmlPath());
+				logger.debug("# 1. config xml -> canonical path scan -> caninocalPath : {}", getConfigXmlPath());
 				
 				if(!configureXml.exists()) {
-					// 3. xmlPath를 application class loader 이하 jar에서 채크
-					resourceURL = getClass().getResource(getConfigXmlPath());
-					logger.debug("# 3. config xml -> current jar scan -> resourceURL : {}", resourceURL);
-					if(resourceURL == null) {
-						throw new APIException("인터페이스 설정파일 이 존재하지 않거나 경로가 잘못되었습니다. 인터페이스 설정파일 경로를 확인하세요.");
+					
+					// 2. xmlPath를 application classes class loader아래에서 채크
+					classesRoot = getClass().getResource("/").getPath();
+					xmlPath = classesRoot.concat(File.separator).concat(getConfigXmlPath());
+					configureXml = new File(xmlPath);
+					logger.debug("# 2. config xml -> classes scan -> classes xmlPath : {}", xmlPath);
+					
+					if(!configureXml.exists()) {
+						// 3. xmlPath를 application class loader 이하 jar에서 채크
+						resourceURL = getClass().getResource(getConfigXmlPath());
+						logger.debug("# 3. config xml -> current jar scan -> resourceURL : {}", resourceURL);
+						if(resourceURL == null) {
+							throw new APIException("인터페이스 설정파일 이 존재하지 않거나 경로가 잘못되었습니다. 인터페이스 설정파일 경로를 확인하세요.");
+						}
+						else {
+							logger.debug("# find application jar");
+						}
 					}
 					else {
-						logger.debug("# find application jar");
+						logger.debug("# find application classes");
 					}
 				}
 				else {
-					logger.debug("# find application classes");
+					logger.debug("# find filesystem canonicalPath");
 				}
+				
+				if(resourceURL == null) {
+					
+					if(!configureXml.exists()) {
+						throw new APIException("인터페이스 설정파일 이 존재하지 않거나 경로가 잘못되었습니다. 인터페이스 설정파일 경로를 확인하세요.");
+					}
+					
+					if(!configureXml.canRead()) {
+						throw new APIException("인터페이스 설정파일을 읽을 권한이 없습니다. 설정파일 권한을 확인하세요.");
+					}
+					
+					resourceURL = Paths.get(configureXml.getCanonicalPath()).toUri().toURL();
+				}
+				
+				configXmlFilePath = resourceURL.getFile();
+				logger.debug(" ==> CONFIG_XML_FILE_PATH : {}", configXmlFilePath);
+				
 			}
 			else {
-				logger.debug("# find filesystem canonicalPath");
-			}
-			
-			if(resourceURL == null) {
 				
-				if(!configureXml.exists()) {
-					throw new APIException("인터페이스 설정파일 이 존재하지 않거나 경로가 잘못되었습니다. 인터페이스 설정파일 경로를 확인하세요.");
+				// 인터페이스 마스터 서버에게 설정 정보를 가저온다.
+				if(APIUtil.getServerAddress() == null) {
+					throw new APIException("인터페이스 환경파일에 설정된 개발 또는 운영서버의 IP또는 IP대역과 현제 서버의 IP가 일치하지 않습니다.");
 				}
-				
-				if(!configureXml.canRead()) {
-					throw new APIException("인터페이스 설정파일을 읽을 권한이 없습니다. 설정파일 권한을 확인하세요.");
+				else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_PROD_SERVER)) {
+					// prod server
+					resourceURL = new URL(ManagedConstants.getProdServerDomain().concat(ManagedConstants.getConfigXmlServerUri()));
 				}
-				
-				resourceURL = Paths.get(configureXml.getCanonicalPath()).toUri().toURL();
+				else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_DEV_SERVER)) {
+					// dev server
+					resourceURL = new URL(ManagedConstants.getDevServerDomain().concat(ManagedConstants.getConfigXmlServerUri()));
+				}
+				else {
+					// developer local pc server
+					resourceURL = new URL(ManagedConstants.getDevServerDomain().concat(ManagedConstants.getConfigXmlServerUri()));
+				}
 			}
 			
 			ifc = (InterfaceRootConfig) unmarshaller.unmarshal(resourceURL);
@@ -287,24 +392,9 @@ public class InterfaceFactory {
 					cld.addAllInsideConfigList(ifc.getInsideChans());
 					cld.addAllOutsideConfigList(ifc.getOutsideChans());
 					
-					logger.debug("# Agent Size : {}", ifc.getAgentList().size());
-					logger.debug("# InsideChans Channel Size : {}", ifc.getInsideChans().size());
-					logger.debug("# OutsideChans Channel Size : {}", ifc.getOutsideChans().size());
-					
 					initInterfaceChannels(cld);
-					
-					InterfaceFactory.serverAddress = ifc.getServerAddress();
+
 					InterfaceFactory.fileRepository = ifc.getFileRepository();
-					
-					logger.debug("# LOCAL_HOST_ADDRESS : {}", LOCAL_HOST_ADDRESS);
-					logger.debug("# LOCAL_HOST_NAME : {}", LOCAL_HOST_NAME);
-					logger.debug("# LOCAL_CANONICAL_HOST_NAME : {}", LOCAL_CANONICAL_HOST_NAME);
-					logger.debug("# serverAddress : {}", InterfaceFactory.serverAddress);
-					logger.debug("# fileRepository : {}", InterfaceFactory.fileRepository);
-					logger.debug("# Real Cached Size : {}", interfaceChannels.size());
-					if(IS_LOGGING)  {
-						logger.debug("# interfaceChannels : {}", interfaceChannels);
-					}
 					
 					/**
 					 * 초기화 서버 별 이미지 경로 & 도메인 URI 세팅 
@@ -339,21 +429,42 @@ public class InterfaceFactory {
 					InterfaceFactory.imageRootPath = getRevisionPath(imageRootPath);
 					InterfaceFactory.interfaceBatchErrorLogPath = getRevisionPath(interfaceBatchErrorLogPath);
 					
-					logger.debug("# imageRootPath : {}", InterfaceFactory.imageRootPath);
-					logger.debug("# serverHttpDomainURI : {}", InterfaceFactory.serverHttpDomainURI);
-					logger.debug("# interfaceBatchErrorLogPath : {}", InterfaceFactory.interfaceBatchErrorLogPath);	
-					
 					/** 시설정보 매핑 설정 */
-					InterfaceFactory.faclMapping = (FaclMappingConfig) propertyUtil.copySameProperty(ifc.getFaclMapping(), FaclMappingConfig.class);
+					InterfaceFactory.faclMapping = ifc.getFaclMapping();
 					
 					/** 인터페이스 부가기능 설정 정보 */
-					//InterfaceFactory.optionalApps =  (OptAppsConfig) propertyUtil.copySameProperty(ifc.getOptionalApps(), OptAppsConfig.class);
+					InterfaceFactory.optionalApps = ifc.getOptionalApps();
 				}
+				
+				logger.debug("# LOCAL_HOST_ADDRESS : {}", LOCAL_HOST_ADDRESS);
+				logger.debug("# LOCAL_HOST_NAME : {}", LOCAL_HOST_NAME);
+				logger.debug("# LOCAL_CANONICAL_HOST_NAME : {}", LOCAL_CANONICAL_HOST_NAME);
+				logger.debug("# serverAddress : {}", InterfaceFactory.serverAddress);
+				
+				logger.debug("# imageRootPath : {}", InterfaceFactory.imageRootPath);
+				logger.debug("# serverHttpDomainURI : {}", InterfaceFactory.serverHttpDomainURI);
+				logger.debug("# interfaceBatchErrorLogPath : {}", InterfaceFactory.interfaceBatchErrorLogPath);	
+
+				logger.debug("# Agent Size : {}", ifc.getAgentList().size());
+				logger.debug("# InsideChans Channel Size : {}", ifc.getInsideChans().size());
+				logger.debug("# OutsideChans Channel Size : {}", ifc.getOutsideChans().size());
+				
+				logger.debug("# Real Cached Size : {}", interfaceChannels.size());
+				if(IS_LOGGING)  {
+					logger.debug("# interfaceChannels : {}", interfaceChannels);
+				}
+				
+				logger.debug("# fileRepository : {}", InterfaceFactory.fileRepository);
+				logger.debug("# faclMapping : {}", InterfaceFactory.faclMapping);	
+				logger.debug("# optionalApps : {}", InterfaceFactory.optionalApps);	
+				
 			}
 		} catch (JAXBException e) {
-			throw new APIException("InterfaceFactory 초기화중 장애발생.", e);
+			throw new APIException(INIT_ERROR_MESSAGE, e);
 		} catch (IOException e) {
-			throw new APIException("InterfaceFactory 초기화중 장애발생.", e);
+			throw new APIException(INIT_ERROR_MESSAGE, e);
+		} catch (Exception e) {
+			throw new APIException(INIT_ERROR_MESSAGE, e);
 		}
 		finally {
 			
@@ -510,12 +621,15 @@ public class InterfaceFactory {
 	}
 	
 	public void destroyFactory() {
+		
 		if(interfaceChannels != null) {
 			interfaceChannels.clear();
 		}
 		if(interfaceAgents != null) {
 			interfaceAgents.clear();
 		}
+		
+		Local.remove();
 	}
 
 	private class ChannelListData {

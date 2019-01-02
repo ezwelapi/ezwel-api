@@ -22,7 +22,7 @@ import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
  * @date   2018. 11. 14.
  */
 @XmlRootElement( name = "interfaceConfigure" )
-@XmlType (propOrder={"serverAddress", "fileRepository", "faclMapping", "optionalApps", "agentList", "insideChans", "outsideChans"})
+@XmlType (propOrder={"fileRepository", "faclMapping", "optionalApps", "agentList", "insideChans", "outsideChans"})
 @APIModel(description="인터페이스 설정")
 public class InterfaceRootConfig extends APIObject {
 
@@ -38,8 +38,9 @@ public class InterfaceRootConfig extends APIObject {
 	@APIFields(description = "인터페이스 URL/FAX 이미지 다운로드 시스템 설정")
 	private FileRepositoryConfig fileRepository;
 	
+	/*
 	@APIFields(description = "서버 주소")
-	private ServerAddressConfig serverAddress;
+	private ServerAddressConfig serverAddress;*/
 	
 	@APIFields(description = "시설 매핑 설정")
 	private FaclMappingConfig faclMapping;
@@ -58,18 +59,20 @@ public class InterfaceRootConfig extends APIObject {
 		agentList = new ArrayList<AgentInfoSDO>();
 		faclMapping = null;
 		fileRepository = null;
-		serverAddress = null;
+		//serverAddress = null;
 		optionalApps = null;
 	}
 
+	/*
 	public ServerAddressConfig getServerAddress() {
 		return serverAddress;
-	}
+	}*/
 
+	/*
 	@XmlElement
 	public void setServerAddress(ServerAddressConfig serverAddress) {
 		this.serverAddress = serverAddress;
-	}
+	}*/
 	
 	public List<HttpConfigSDO> getOutsideChans() {
 		return outsideChans;
@@ -140,7 +143,7 @@ public class InterfaceRootConfig extends APIObject {
 		}
 		//memory release
 		fileRepository = null;
-		serverAddress = null;
+		//serverAddress = null;
 		optionalApps = null;
 	}
 	

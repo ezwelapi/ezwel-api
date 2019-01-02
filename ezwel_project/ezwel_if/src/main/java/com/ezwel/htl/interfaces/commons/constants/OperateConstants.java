@@ -97,6 +97,9 @@ public class OperateConstants {
 	public static final String CONTENT_TYPE_APPLICATION_JSON;
 	public static final String CONTENT_TYPE_QUERY_STRING;
 	
+	public static final String DATA_TYPE_JSON;
+	public static final String DATA_TYPE_XML;
+	
 	//Interface Batch System Info
 	public static final String SYSTEM_ID;
 	
@@ -133,7 +136,7 @@ public class OperateConstants {
 	public static final String USER_LANGUAGE = APIUtil.getProperty("user.language");
 	
 	static {
-
+		
 		STR_RESERVE_IS_SAVED = "isSaved";
 		STR_EMPTY = "EMPTY";
 		CURRENT_DEV_SERVER = "DEV-SERVER";
@@ -167,6 +170,9 @@ public class OperateConstants {
 		
 		STR_SENDING_ASC = "ASC";
 		STR_SENDING_DESC = "DESC";
+		
+		DATA_TYPE_JSON = "JSON";
+		DATA_TYPE_XML = "XML";
 		
 		CONTENT_TYPE_MULTIPART_FORM_DATA = "multipart/form-data";
 		CONTENT_TYPE_APPLICATION_JSON = "application/json";

@@ -36,10 +36,11 @@ public class OptAppsConfig extends APIObject {
 		return smsConfig;
 	}
 
-	@XmlElement
+	@XmlElement(name = "smsConfig")
 	public void setSmsConfig(OptSmsConfig smsConfig) {
 		this.smsConfig = smsConfig;
 	}
+	
 	/*
 	public OptEmailConfig getEmailConfig() {
 		return emailConfig;

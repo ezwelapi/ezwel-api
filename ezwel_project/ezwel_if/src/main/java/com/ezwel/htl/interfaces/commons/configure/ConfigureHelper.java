@@ -33,6 +33,7 @@ public class ConfigureHelper {
 		logger.debug("[START] setupUserAgentInfo userAgentDTO : {}, httpConfigSDO : {}", userAgentDTO, httpConfigSDO);
 		propertyUtil.copySameProperty(userAgentDTO, httpConfigSDO, false);
 		
+		httpConfigSDO.setConfirmConnect(httpConfigSDO.isEzwelInsideInterface());
 		/** setup httpApiSignature */
 		if(!httpConfigSDO.isEzwelInsideInterface()) {
 			httpConfigSDO.setHttpApiSignature(APIUtil.getHttpSignature(httpConfigSDO.getHttpAgentId(), httpConfigSDO.getHttpApiKey(), httpConfigSDO.getHttpApiTimestamp()));

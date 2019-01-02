@@ -110,6 +110,8 @@ public class HttpConfigSDO extends AbstractSDO {
 	@APIFields(description = "내부 인터페이스 여부(Adapter)")
 	private boolean isEzwelInsideInterface;
 	
+	@APIFields(description = "접속 확인 여부")
+	private boolean isConfirmConnect;
 	
 	public HttpConfigSDO() {
 		this.reset();
@@ -145,8 +147,8 @@ public class HttpConfigSDO extends AbstractSDO {
 		lapTimeMillis = OperateConstants.LONG_ZERO_VALUE;
 		callCount = OperateConstants.INTEGER_ZERO_VALUE;
 		isEzwelInsideInterface = false;
+		isConfirmConnect = true;
 	}
-	
 	
 	public String getPatnCdType() {
 		return patnCdType;
@@ -401,4 +403,14 @@ public class HttpConfigSDO extends AbstractSDO {
 		this.isEzwelInsideInterface = isEzwelInsideInterface;
 	}
 
+	public boolean isConfirmConnect() {
+		return isConfirmConnect;
+	}
+
+	public void setConfirmConnect(boolean isConfirmConnect) {
+		this.isConfirmConnect = isConfirmConnect;
+	}
+
+	
+	
 }

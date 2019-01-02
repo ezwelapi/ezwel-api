@@ -8,13 +8,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
+import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.RegexUtil;
 import com.ezwel.htl.interfaces.server.commons.morpheme.cm.MorphemeUtil;
@@ -22,6 +25,8 @@ import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
+import com.ezwel.htl.interfaces.server.commons.utils.FileUtil;
+import com.ezwel.htl.interfaces.server.commons.utils.ResponseUtil;
 import com.ezwel.htl.interfaces.server.sdo.AgentApiKeySDO;
 import com.ezwel.htl.interfaces.server.sdo.MorphemeSDO;
 
@@ -31,10 +36,12 @@ public class UtilityController {
 	private static final Logger logger = LoggerFactory.getLogger(UtilityController.class);
 	
 	private APIUtil apiUtil;
+	private FileUtil fileUtil;
 	private CommonUtil commonUtil;
 	private KoreanAnalyzers koreanAnalyzer;
 	private EnglishAnalyzers englishAnalayzer;
 	private RegexUtil regexUtil;
+	private ResponseUtil responseUtil;
 	
 	@APIOperation(description="테스트 JSP Forward Operation")
 	@RequestMapping(value="/test/{fileName}")
@@ -108,5 +115,35 @@ public class UtilityController {
 		
 		logger.debug("[END] morpKorean ");
 		return out;
-	}	
+	}	 
+	
+	@APIOperation(description="인터페이스 환경설정파일 XML")
+	@RequestMapping(value="/server/configXML")
+	public ResponseEntity<String> getInterfaceConfigXML(HttpServletRequest request) {
+		logger.debug("[START] getInterfaceConfigXML");
+		
+		if(!InterfaceFactory.isMasterServer()) {
+			throw new APIException("요청하신 서버는 인터페이스 마스터 서버가 아닙니다. 인터페이스 설정정보 요청은 인터페이스 마스터 서버에게만 가능합니다.");
+		}
+		
+		fileUtil = (FileUtil) LApplicationContext.getBean(fileUtil, APIUtil.class);
+		responseUtil = (ResponseUtil) LApplicationContext.getBean(responseUtil, ResponseUtil.class);
+		
+		ResponseEntity<String> out = null;
+		String configFilePath = InterfaceFactory.getConfigXmlFilePath();
+		String configXml = null;
+		logger.debug("*- configFilePath : {}", configFilePath);
+		
+		if(configFilePath == null) {
+			throw new APIException("인터페이스 마스터 서버에 환경 설정 파일 경로가 캐쉬되지 않았습니다.");
+		}
+
+		configXml = fileUtil.getTextFileContent(configFilePath);
+		logger.debug("*- XML Contents : {}", configXml);
+		
+		out = responseUtil.getResponseEntity(configXml);
+		
+		logger.debug("[END] getInterfaceConfigXML");
+		return out;
+	}
 }

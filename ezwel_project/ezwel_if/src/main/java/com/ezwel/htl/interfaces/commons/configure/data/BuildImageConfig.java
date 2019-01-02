@@ -9,8 +9,6 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 @APIModel(description="숙박 건물 이미지 저장 경로")
 public class BuildImageConfig extends APIObject {
 
-	private static final long serialVersionUID = 1L;
-	
 	@APIFields(description="로컬(PC) 경로 루트")
 	private String localRootPath;
 

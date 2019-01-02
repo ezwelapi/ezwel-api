@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <interfaceConfigure>
 
+	<!-- 20190102 제거함 (자바 상수로 관리) File Name : ManagedConstants
 	<serverAddress>
 		<prodServerIpRange>xxx.xxx.xxx.*</prodServerIpRange>
 		<prodServerDomain>http://ezc-api.ezwel.com/API1.0</prodServerDomain>
 		<devServerIpRange>192.168.110.83</devServerIpRange>
 		<devServerDomain>http://ezc-api.dev.ezwel.com/API1.0</devServerDomain>
 	</serverAddress>
+	-->
 
 	<fileRepository>
 		<buildImage>
@@ -24,21 +26,22 @@
 	<!-- 시설 매핑 설정 정보 -->
 	<faclMapping>
 		<!-- 시설 형태소 매핑 성공 확율 -->
-		<faclMorpMappingPersent>60</faclMorpMappingPersent>
+		<faclMorpMappingPersent>70</faclMorpMappingPersent>
 		<cordMatchCriteria>50</cordMatchCriteria>
 	</faclMapping>
-
+	
+	<!-- 부가 기능 설정 정보 -->
 	<optionalApps>
 		<smsConfig>
+			<!-- SMS 설정 정보 -->
 			<restURI>http://wow.ezwel.com/common/sms/send.ez</restURI>
 			<encoding>UTF-8</encoding>
 		</smsConfig>
 		<!-- 
 		<faxConfig></faxConfig>
 		<emailConfig></emailConfig>
-		 -->	
+		 -->
 	</optionalApps>
-	
 	
 	<agentList>
 		<agentInfo>

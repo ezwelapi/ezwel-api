@@ -102,7 +102,6 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		beanMarshaller = (BeanMarshaller) LApplicationContext.getBean(beanMarshaller, BeanMarshaller.class);
 		responseUtil = (ResponseUtil) LApplicationContext.getBean(responseUtil, ResponseUtil.class);
 		methodsAdviceHelper = (MethodsAdviceHelper) LApplicationContext.getBean(methodsAdviceHelper, MethodsAdviceHelper.class);
-		stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
 		
 		Class<?> typeClass = thisJoinPoint.getTarget().getClass();
 		String className = typeClass.getSimpleName();
@@ -172,7 +171,9 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		}
 		catch(APIException e) {
 			
-			if(controlAnno != null && apiOperAnno != null && apiOperAnno.isOutputJsonMarshall()) {
+			//if(controlAnno != null && apiOperAnno != null && apiOperAnno.isOutputJsonMarshall()) {
+			
+				stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
 				
 				output = new ExceptionSDO();
 				output.setCode(e.getResultCodeString());
@@ -182,10 +183,10 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				retVal = responseUtil.getResponseEntity(beanMarshaller.toJSONString(output));
 				
 				e.printStackTrace();
-			}
-			else {
-				throw new APIException("■■ [AOP-APIException] {} ({}) 장애발생" , new Object[]{ typeMethodName, description }, e);
-			}
+			//}
+			//else {
+			//	throw new APIException("■■ [AOP-APIException] {} ({}) 장애발생" , new Object[]{ typeMethodName, description }, e);
+			//}
 		}
 		finally {
 			

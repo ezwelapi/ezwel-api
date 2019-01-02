@@ -33,5 +33,14 @@ public class OptSmsConfig extends APIObject {
 		this.restURI = restURI;
 	}
 
+	public String getEncoding() {
+		return encoding;
+	}
+
+	@XmlElement
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
+	}
+
 	
 }

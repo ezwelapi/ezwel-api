@@ -567,12 +567,16 @@ public class HttpInterfaceExecutor {
 	@APIOperation(description="HTTP URL 커넥션 체크(커넥션 체크전용)", isExecTest=true)
 	public boolean isHttpConnect(HttpConfigSDO in) {
 		
+		if(!in.isConfirmConnect()) {
+			// confirmConnect가 false면 connection check 하지 않음
+			return true;
+		}
+		
 		boolean out = false;
 		HttpURLConnection conn = null;
 		URL url = null;
 		
-		//int httpConnTimeout = (in.getConnTimeout() != null ? in.getConnTimeout() : urlConnTimeout);
-		int httpConnTimeout = 1000; //커넥트 테스트는 1초로 함
+		int httpConnTimeout = (in.getConnTimeout() != null ? in.getConnTimeout() : urlConnTimeout);
 		logger.debug("# isHttpConnect : {}", httpConnTimeout);
 		
 		try {
