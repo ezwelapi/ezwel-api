@@ -1091,7 +1091,7 @@ public class OutsideService extends AbstractServiceObject {
 	 * @return
 	 */
 	@APIOperation(description="시설 매핑")
-	public FaclSDO execFaclMappingWithMorpRowData(FaclSDO faclSDO) {
+	private FaclSDO execFaclMappingWithMorpRowData(FaclSDO faclSDO) {
 		logger.debug("[START] execFaclMapping");
 		
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
@@ -1157,7 +1157,7 @@ public class OutsideService extends AbstractServiceObject {
 	 * @param sending
 	 * @return
 	 */
-	public List<EzcFacl> sortFaclList(List<EzcFacl> ezcFaclList, String sending) {
+	private List<EzcFacl> sortFaclList(List<EzcFacl> ezcFaclList, String sending) {
 
 		if(ezcFaclList == null || ezcFaclList.size() == 0) {
 			return null;
