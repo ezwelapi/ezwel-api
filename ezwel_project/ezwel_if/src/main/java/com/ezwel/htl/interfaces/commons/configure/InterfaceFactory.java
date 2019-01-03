@@ -314,7 +314,6 @@ public class InterfaceFactory {
 			}
 			else {
 				logger.warn("★☆★☆★☆★☆★☆ WebApplicationContext에 정상등록되지 않은 스프링 웹앱 컨텍스트 입니다. ★☆★☆★☆★☆★☆");
-				isMasterServer = false;
 			}
 			
 			logger.debug("- This server is interface master server ? {}, webAppRootKey : {}", isMasterServer, webRootKey);
