@@ -518,6 +518,7 @@ var $interfaceTester = {
 		});
 		
 		$("#getXmlConfigBtn").on("click", function(e){
+			$("#inputJson").val("");
 			$interfaceTester.send( null, $interfaceTester.datas["InterfaceConfigXml"].url, null, "xml" );
 		});
 	}
