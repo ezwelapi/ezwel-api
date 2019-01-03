@@ -313,7 +313,7 @@ public class InterfaceFactory {
 				logger.debug("- Environment : {}", webContext.getEnvironment().toString());
 			}
 			else {
-				logger.warn("★☆★☆★☆★☆★☆ WebApplicationContext에 정상등록이 안된 스프링 웹앱 컨텍스트 입니다. ★☆★☆★☆★☆★☆");
+				logger.warn("★☆★☆★☆★☆★☆ WebApplicationContext에 정상등록되지 않은 스프링 웹앱 컨텍스트 입니다. ★☆★☆★☆★☆★☆");
 				isMasterServer = false;
 			}
 			
