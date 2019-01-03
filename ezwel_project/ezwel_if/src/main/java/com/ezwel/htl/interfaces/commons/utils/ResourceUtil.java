@@ -42,6 +42,8 @@ public class ResourceUtil {
 	private static void setResourceMap(String key, Map<String, Object> value){
 		initResourceMap();
 		resourceMap.put(key, value);
+		
+		logger.debug("- entered after resource cache size : {}", resourceMap.size());
 	}
 	
 	private static Map<String, Object> getResourceMap(String key){
@@ -153,13 +155,12 @@ public class ResourceUtil {
 			}
 			
 			out = getResourceMap(propertyPath);
-			logger.debug(APIUtil.addString("- resource cache size : ", resourceMap.size()));
 			
 			if(out != null && out.get(OperateConstants.RESOURCE_LASTMODIFIED_KEY) != null) {
 				resourceLastmodified = (Long) out.get(OperateConstants.RESOURCE_LASTMODIFIED_KEY);
 			}
 			
-			logger.debug(APIUtil.addString(OperateConstants.LINE_SEPARATOR, " file : ", file, OperateConstants.LINE_SEPARATOR, " resourceLastmodified : ", resourceLastmodified));
+			logger.debug(" file : {}, resourceLastmodified : {}", file, resourceLastmodified);
 	
 			if( file.lastModified() != resourceLastmodified ) {
 				out = null;
