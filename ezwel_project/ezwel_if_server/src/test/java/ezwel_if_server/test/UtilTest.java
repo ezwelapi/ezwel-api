@@ -1,8 +1,13 @@
 package ezwel_if_server.test;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +18,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -25,13 +31,13 @@ import com.ezwel.htl.interfaces.server.commons.utils.UnicodeUtil;
 public class UtilTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(UtilTest.class);
-	/*
+	
 	public UtilTest() {
 		InterfaceFactory factory = new InterfaceFactory();
 		factory.setConfigXmlPath("/interfaces/interface-configure.xml");
 		factory.initFactory();
 	}
-	*/
+	
 	
 	//@Test
 	public void test() {
@@ -207,5 +213,17 @@ public class UtilTest {
     	BigDecimal calc = ((new BigDecimal(9).divide(new BigDecimal(14), MathContext.DECIMAL32)).multiply(new BigDecimal(100)));
     	logger.debug("==> {}", df.format(calc));
     	
+    	logger.debug("## {} / {}", InterfaceFactory.getOptionalApps().getSmsConfig().getRestURI(), InterfaceFactory.getOptionalApps().getSmsConfig().getEncoding());
+    	
+		try {
+			URI path = new URL("file://D:/02.Workspace/eclipse/eclipse-ezwel/tomcat-context/deploy/ezwel_if_server(8282)-v7.0.79/ezwel_if_server/WEB-INF/lib/ezwel_if-0.0.1-SNAPSHOT.jar!/interfaces/interface-configure.xml").toURI();
+			File test = new File(path);
+	    	logger.debug("exists : {}", test.exists());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+    
     }
 }

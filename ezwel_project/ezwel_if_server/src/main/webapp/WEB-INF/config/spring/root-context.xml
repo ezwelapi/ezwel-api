@@ -6,5 +6,4 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<import resource="../mybatis/mybatis-context.xml" />
 	
-	<!-- <beans id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" /> -->
 </beans>

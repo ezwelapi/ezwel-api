@@ -19,9 +19,9 @@
 <script src="//code.jquery.com/jquery.js"></script>
 
 <script type="text/javascript">
-var testAssets = {
+var $interfaceTester = {
 	color : {
-		// testAssets.color.metro_palette
+		// $interfaceTester.color.metro_palette
 		metro_palette : {
 			1:"black",
 			2:"lime",
@@ -48,16 +48,16 @@ var testAssets = {
 			23:"darkRed",
 			24:"darkBlue"
 		},
-		// testAssets.color.metroColor
+		// $interfaceTester.color.metroColor
 		metroColor: function(){
-			var randomNumber = Math.ceil(Math.random() * Object.keys(testAssets.color.metro_palette).length ); // ceil 올림
-			var color = testAssets.color.metro_palette[ randomNumber ];
+			var randomNumber = Math.ceil(Math.random() * Object.keys($interfaceTester.color.metro_palette).length ); // ceil 올림
+			var color = $interfaceTester.color.metro_palette[ randomNumber ];
 			console.debug("color : " + color);
 			$("body").css("background-color", color);
 		}		
 	}
-	,contextPath : "/API1.0" // testAssets.contextPath
-	,datas : {
+	,contextPath : "/API1.0" // $interfaceTester.contextPath
+	,datas : {  // $interfaceTester.datas
 		"IN-신규시설등록수정" : {
 			 url : "/{httpAgentId}/facl/record"
 			,input : {
@@ -346,6 +346,9 @@ var testAssets = {
 				,"roomClass" : ""
 				,"faclDiv" : ""
 			}
+		}, 
+		"InterfaceConfigXml" : {
+			url : "/server/configXML"
 		}
 	},
 	requestHeader : {
@@ -360,9 +363,7 @@ var testAssets = {
 			return html.replace(/(<([^>]+)>)/gi, "");
 		}		
 	}
-	,send : function( httpAgentId, restURL, jsonString ) {
-		
-		
+	,send : function( httpAgentId, restURL, jsonString, dataType ) {
 		
 		console.info(arguments);
 		
@@ -374,6 +375,11 @@ var testAssets = {
 		passAgentIdURI.push("/service/allReg/imageDownload");
 		passAgentIdURI.push("/service/allReg");
 		passAgentIdURI.push("/service/execFaclMapping");
+		passAgentIdURI.push("/server/configXML");
+		
+		if(!dataType) {
+			dataType = "json";	
+		}
 		
 		try {
 			if(!jsonString || $.trim(jsonString) === "") {
@@ -403,8 +409,15 @@ var testAssets = {
 				$("#httpAgentId").val("");
 			}
 			
-			headerJson["Accept"] = "application/json";
-			headerJson["Content-Type"] = "application/json; charset=UTF-8";			
+			if(dataType === "json") {
+				headerJson["Accept"] = "application/json";
+				headerJson["Content-Type"] = "application/json; charset=UTF-8";				
+			}
+			else if(dataType === "xml") {
+				headerJson["Accept"] = "application/xml";
+				headerJson["Content-Type"] = "application/xml; charset=UTF-8";				
+			}
+			
 		}
 		catch( e ) {
 			alert("입력 파라메터 필드의 JSON 문자열이 잘못되었습니다.\n" + e.message);
@@ -418,10 +431,10 @@ var testAssets = {
 		
 		$.ajax({ 
 			type: "POST", 
-			url : testAssets.contextPath + restURL, 
+			url : $interfaceTester.contextPath + restURL, 
 			data: JSON.stringify(inputJson),
 			headers : headerJson,
-			dataType: "json", 
+			dataType: dataType, 
 			async: true,
 			cache: false,
 			processData: true,
@@ -450,7 +463,7 @@ var testAssets = {
 				console.error(textStatus);
 				console.error(errorThrown);
 
-				$('#outputJson').text(testAssets.util.removeTag(output.split("<br>").join("\n")));
+				$('#outputJson').text($interfaceTester.util.removeTag(output.split("<br>").join("\n")));
 			},
 			statusCode : {
 				404 : function() {
@@ -477,8 +490,8 @@ var testAssets = {
 			var selectText = $("#restURL option:selected").text();
 			console.debug("text : " + selectText);
 			
-			var userHeader = testAssets.requestHeader;
-			var datas = testAssets.datas;
+			var userHeader = $interfaceTester.requestHeader;
+			var datas = $interfaceTester.datas;
 			var input = datas[selectText].input;
 			$("#inputJson").val(JSON.stringify(input, undefined, 4));
 			$("#inputHeader").val(JSON.stringify(userHeader, undefined, 4));
@@ -501,12 +514,16 @@ var testAssets = {
 				}			
 			}
 			restURL = restURL.replace("{httpAgentId}", httpAgentId);
-			testAssets.send( httpAgentId, restURL, inputJson );
+			$interfaceTester.send( httpAgentId, restURL, inputJson );
+		});
+		
+		$("#getXmlConfigBtn").on("click", function(e){
+			$interfaceTester.send( null, $interfaceTester.datas["InterfaceConfigXml"].url, null, "xml" );
 		});
 	}
 	,init : function() {
 
-		testAssets.color.metroColor();
+		$interfaceTester.color.metroColor();
 		
 		var datas = this.datas;
 		var keys = Object.keys(datas);
@@ -522,7 +539,7 @@ var testAssets = {
 };
 
 $(document).ready(function() {
-	testAssets.init();
+	$interfaceTester.init();
 });
 </script>
 
@@ -548,6 +565,7 @@ $(document).ready(function() {
 		</select>
 	</span>
 	<span style="padding-left:2px;"><button id="sendBtn">SEND</button></span>
+	<span style="padding-left:2px;"><button id="getXmlConfigBtn">IF설정파일조회</button></span>
 </div>
 <div>
 <textarea placeholder="API 입력 파라메터(JSON)" id="inputJson" name="inputJson" style="float:left;width:69%;height:200px;"></textarea>

@@ -255,7 +255,9 @@ public class InterfaceFactory {
 		logger.debug("[INITIALIZE] INTERFACE FACTORY ... ");
 		
 		WebApplicationContext webContext = ContextLoader.getCurrentWebApplicationContext();
-		webRootKey = webContext.getEnvironment().getProperty(ManagedConstants.getWebRootKeyName());
+		if(webContext != null) {
+			webRootKey = webContext.getEnvironment().getProperty(ManagedConstants.getWebRootKeyName());
+		}
 		
 		/*
 		logger.debug("# webRootKey : {}", webRootKey);
@@ -290,7 +292,7 @@ public class InterfaceFactory {
 			jaxbc = JAXBContext.newInstance(InterfaceRootConfig.class);
 			unmarshaller = jaxbc.createUnmarshaller();
 			
-			//isMasterServer = true;
+			isMasterServer = true;
 			
 			if(isMasterServer) {
 				

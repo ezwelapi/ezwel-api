@@ -489,17 +489,17 @@ public class FileUtil {
 
         }
         catch(IOException io) {
-        	logger.error("[IOException] getTextFileContent Message : {}", io);
+        	logger.error("[IOException] getTextFileContent Message : ", io);
         }
         catch(Exception e) {
-            logger.error("[Exception] getTextFileContent Message : {}", e);
+            logger.error("[Exception] getTextFileContent Message : ", e);
         }
         finally {
         	if(in != null) {
         		try {
 					in.close();
 				} catch (IOException e) {
-					logger.error("[IOException] Close BufferedReader Error Message : {}", e);
+					logger.error("[IOException] Close BufferedReader Error Message : ", e);
 				}
         	}
         }
