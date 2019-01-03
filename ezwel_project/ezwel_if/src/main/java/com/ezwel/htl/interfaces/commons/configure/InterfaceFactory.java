@@ -96,13 +96,20 @@ public class InterfaceFactory {
 	@APIFields(description = "인터페이스 초기화 에러 메시지")
 	private final static String INIT_ERROR_MESSAGE;
 	
+	@APIFields(description = "웹앱 루트키")
 	private static String webRootKey;
 	
+	@APIFields(description = "로딩된 인터페이스 환경 XML 파일 경로")
 	private static String configXmlFilePath;
 	
+	@APIFields(description = "인터페이스 마스터 서버 여부")
 	private static boolean isMasterServer;
 	
+	@APIFields(description = "인터페이스 환경 XML 파일 경로 파라메터")
 	private String configXmlPath;
+
+	@APIFields(description = "로컬 테스트여부")
+	private boolean isLocalTestInit;
 
 	static {
 		
@@ -230,6 +237,9 @@ public class InterfaceFactory {
 		return webRootKey;
 	}
 
+	public void setLocalTestInit(boolean isLocalTestInit) {
+		this.isLocalTestInit = isLocalTestInit;
+	}
 	
 	private static String getCacheId(String chanId, String agentId) {
 		
@@ -294,7 +304,7 @@ public class InterfaceFactory {
 			
 			isMasterServer = true;
 			
-			if(isMasterServer) {
+			if(isMasterServer || isLocalTestInit) {
 				
 				// 1. xmlPath를 canonical로 채크
 				configureXml = new File(getConfigXmlPath());
@@ -665,5 +675,28 @@ public class InterfaceFactory {
 				agentList.clear();
 			}			
 		}
-	}	
+	}
+
+	/**
+	 * 로컬 테스트용 인터페이스 팩토리 초기화
+	 */
+	public static void initLocalTestInterfaceFactory() {
+		initLocalTestInterfaceFactory(null);
+	}
+	
+	/**
+	 * 로컬 테스트용 인터페이스 팩토리 초기화(설정 파일 경로 입력 가능)
+	 * @param xmlConfigPath
+	 */
+	public static void initLocalTestInterfaceFactory(String xmlConfigPath) {
+		InterfaceFactory factory = new InterfaceFactory();
+		if(xmlConfigPath == null) {
+			factory.setConfigXmlPath("/interfaces/interface-configure.xml");
+		}
+		else {
+			factory.setConfigXmlPath(xmlConfigPath);
+		}
+		factory.setLocalTestInit(true); /* 로컬 테스트시 필수 세팅 */
+		factory.initFactory();
+	}
 }

@@ -33,9 +33,7 @@ public class UtilTest {
 	private static final Logger logger = LoggerFactory.getLogger(UtilTest.class);
 	
 	public UtilTest() {
-		InterfaceFactory factory = new InterfaceFactory();
-		factory.setConfigXmlPath("/interfaces/interface-configure.xml");
-		factory.initFactory();
+		InterfaceFactory.initLocalTestInterfaceFactory();
 	}
 	
 	

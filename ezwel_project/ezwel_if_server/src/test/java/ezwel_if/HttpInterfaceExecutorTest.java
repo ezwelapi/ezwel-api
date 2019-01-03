@@ -48,9 +48,7 @@ public class HttpInterfaceExecutorTest  {
 	}
 	
 	private void interfaceInit() {
-		InterfaceFactory factory = new InterfaceFactory();
-		factory.setConfigXmlPath("/interfaces/interface-configure.xml");
-		factory.initFactory();		
+		InterfaceFactory.initLocalTestInterfaceFactory();		
 	}
 	
 	

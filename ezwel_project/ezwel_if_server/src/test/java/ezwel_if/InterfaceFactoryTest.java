@@ -20,10 +20,8 @@ public class InterfaceFactoryTest {
 	@Test
 	public void test() {
 		
-		InterfaceFactory factory = new InterfaceFactory();
-		
-		factory.setConfigXmlPath("/interfaces/interface-configure.xml");
-		factory.initFactory();
+		InterfaceFactory.initLocalTestInterfaceFactory();
+
 		//logger.debug("###################################");
 		//logger.debug(">> {}", InterfaceFactory.getInterfaceChannels());
 		//logger.debug("###################################");

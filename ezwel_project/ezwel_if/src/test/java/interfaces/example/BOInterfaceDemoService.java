@@ -42,9 +42,7 @@ public class BOInterfaceDemoService extends TestCase {
 	 * InterfaceFactory는 스프링 어플리케이션 초기화시 스프링 빈으로 초기화된다.
 	 */
 	public BOInterfaceDemoService()  throws Exception {
-		InterfaceFactory factory = new InterfaceFactory();
-		factory.setConfigXmlPath("/interfaces/interface-configure.xml");
-		factory.initFactory();
+		InterfaceFactory.initLocalTestInterfaceFactory();
 		
 		outIfAdapter = new OutsideIFAdapter();
 	}

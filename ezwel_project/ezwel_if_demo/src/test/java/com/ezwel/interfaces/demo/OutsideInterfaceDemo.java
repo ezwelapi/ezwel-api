@@ -20,9 +20,7 @@ public class OutsideInterfaceDemo {
 	private static final Logger logger = LoggerFactory.getLogger(InterfaceDemoService.class);
 
 	public OutsideInterfaceDemo() {
-		InterfaceFactory factory = new InterfaceFactory();
-		factory.setConfigXmlPath("/interfaces/interface-configure.xml");
-		factory.initFactory();
+		InterfaceFactory.initLocalTestInterfaceFactory();
 	}
 	
 	@Test

@@ -25,9 +25,7 @@ public class InsideInterfaceDemo {
 	private static final Logger logger = LoggerFactory.getLogger(InterfaceDemoService.class);
 
 	public InsideInterfaceDemo() {
-		InterfaceFactory factory = new InterfaceFactory();
-		factory.setConfigXmlPath("/interfaces/interface-configure.xml");
-		factory.initFactory();
+		InterfaceFactory.initLocalTestInterfaceFactory();
 	}
 	
 	//전체시설일괄등록
