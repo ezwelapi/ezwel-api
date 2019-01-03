@@ -1,5 +1,11 @@
 package com.ezwel.htl.interfaces.server.controller;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
+import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -125,23 +132,53 @@ public class UtilityController {
 		if(!InterfaceFactory.isMasterServer()) {
 			throw new APIException("요청하신 서버는 인터페이스 마스터 서버가 아닙니다. 인터페이스 설정정보 요청은 인터페이스 마스터 서버에게만 가능합니다.");
 		}
-		
 		fileUtil = (FileUtil) LApplicationContext.getBean(fileUtil, FileUtil.class);
 		responseUtil = (ResponseUtil) LApplicationContext.getBean(responseUtil, ResponseUtil.class);
 		
 		ResponseEntity<String> out = null;
-		String configFilePath = InterfaceFactory.getConfigXmlFilePath();
 		String configXml = null;
-		logger.debug("*- configFilePath : {}", configFilePath);
+		URL configFileURL = null;
+		BufferedReader bufferedReader = null;
+		InputStream inputStream = null;
 		
-		if(configFilePath == null) {
-			throw new APIException("인터페이스 마스터 서버에 환경 설정 파일 경로가 캐쉬되지 않았습니다.");
-		}
+		try {
+			configFileURL = InterfaceFactory.getConfigXmlFileURL();
+			logger.debug("*- configFileURL : {}", configFileURL);
+			
+			if(configFileURL == null) {
+				throw new APIException("인터페이스 마스터 서버에 환경 설정 파일 경로가 캐쉬되지 않았습니다.");
+			}
 
-		configXml = fileUtil.getTextFileContent(configFilePath);
-		logger.debug("*- XML Contents : {}", configXml);
-		
-		out = responseUtil.getResponseEntity(configXml);
+			if(configFileURL.getPath().indexOf(OperateConstants.JAR_SEPARATOR) > -1) {
+	            configXml = fileUtil.getInnerJarTextResource(configFileURL);
+			}
+			else {
+				configXml = fileUtil.getTextFileContent(new File(configFileURL.getPath()));
+			}
+			
+			logger.debug("*- XML Contents : {}", configXml);
+			out = responseUtil.getResponseEntity(configXml, OperateConstants.DATA_TYPE_XML);
+		}
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9301, e);
+		}
+		finally {
+			if(bufferedReader != null) {
+				try {
+					bufferedReader.close();
+				} catch (IOException e) {
+					logger.error("[IOException] bufferedReader.close", e);
+				}
+			}
+			
+			if(inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					logger.error("[IOException] inputStream.close", e);
+				};
+			}
+		}
 		
 		logger.debug("[END] getInterfaceConfigXML");
 		return out;

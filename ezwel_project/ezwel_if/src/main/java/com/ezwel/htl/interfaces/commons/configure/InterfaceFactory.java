@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -16,9 +17,7 @@ import javax.xml.bind.Unmarshaller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -28,15 +27,16 @@ import com.ezwel.htl.interfaces.commons.configure.data.FaclMappingConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.FileRepositoryConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.InterfaceRootConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.OptAppsConfig;
-import com.ezwel.htl.interfaces.commons.configure.data.ServerAddressConfig;
-import com.ezwel.htl.interfaces.commons.constants.ManagedConstants;
+import com.ezwel.htl.interfaces.commons.configure.data.ServerManagedConfig;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
+import com.ezwel.htl.interfaces.commons.utils.ResourceUtil;
 
 /**
  * <pre>
@@ -52,8 +52,15 @@ public class InterfaceFactory {
 	
 	private final static boolean IS_LOGGING = false;
 
+	@Autowired
 	private PropertyUtil propertyUtil;
 
+	@Autowired
+	private ResourceUtil resourceUtil;
+	
+	@Autowired
+	private BeanMarshaller beanMarshaller;
+	
 	@APIFields(description = "인터페이스 체널 목록")
 	private static Map<String, List<HttpConfigSDO>> interfaceChannels;
 	
@@ -64,7 +71,7 @@ public class InterfaceFactory {
 	private static FileRepositoryConfig fileRepository;
 	
 	@APIFields(description = "운영/개발 서버 설정 정보")
-	private static ServerAddressConfig serverAddress;
+	private static ServerManagedConfig serverManaged;
 	
 	@APIFields(description = "그룹체널 캐쉬명 접미사")
 	private final static String GROUP_CACHE_POSTFIX;
@@ -99,8 +106,8 @@ public class InterfaceFactory {
 	@APIFields(description = "웹앱 루트키")
 	private static String webRootKey;
 	
-	@APIFields(description = "로딩된 인터페이스 환경 XML 파일 경로")
-	private static String configXmlFilePath;
+	@APIFields(description = "로딩된 인터페이스 환경 XML 파일 URL")
+	private static URL configXmlFileURL;
 	
 	@APIFields(description = "인터페이스 마스터 서버 여부")
 	private static boolean isMasterServer;
@@ -111,7 +118,12 @@ public class InterfaceFactory {
 	@APIFields(description = "로컬 테스트여부")
 	private boolean isLocalTestInit;
 
+	@APIFields(description = "인터페이스 운영환경 프로퍼티 파일명")
+	private final static String MANAGED_PROPERTIES_FILE_NAME;
+	
 	static {
+		
+		MANAGED_PROPERTIES_FILE_NAME = "interface-managed.properties";
 		
 		INIT_ERROR_MESSAGE = "InterfaceFactory 초기화중 장애발생.";
 		
@@ -136,6 +148,10 @@ public class InterfaceFactory {
 		
 		if(propertyUtil == null) {
 			propertyUtil = new PropertyUtil();
+		}
+		
+		if(resourceUtil == null) {
+			resourceUtil = new ResourceUtil();	
 		}
 	}
 	
@@ -197,8 +213,8 @@ public class InterfaceFactory {
 		return interfaceBatchErrorLogPath;
 	}
 
-	public static ServerAddressConfig getServerAddress() {
-		return serverAddress;
+	public static ServerManagedConfig getServerAddress() {
+		return serverManaged;
 	}
 
 	public static FileRepositoryConfig getFileRepository() {
@@ -225,8 +241,8 @@ public class InterfaceFactory {
 		return optionalApps;
 	}
 	
-	public static String getConfigXmlFilePath() {
-		return configXmlFilePath;
+	public static URL getConfigXmlFileURL() {
+		return configXmlFileURL;
 	}
 
 	public static boolean isMasterServer() {
@@ -264,19 +280,6 @@ public class InterfaceFactory {
 	public void initFactory() {
 		logger.debug("[INITIALIZE] INTERFACE FACTORY ... ");
 		
-		WebApplicationContext webContext = ContextLoader.getCurrentWebApplicationContext();
-		if(webContext != null) {
-			webRootKey = webContext.getEnvironment().getProperty(ManagedConstants.getWebRootKeyName());
-		}
-		
-		/*
-		logger.debug("# webRootKey : {}", webRootKey);
-		logger.debug("# context.getId() : {}", webContext.getId());
-		logger.debug("# context.getApplicationName() : {}", webContext.getApplicationName());
-		logger.debug("# context.getEnvironment() : {}", webContext.getEnvironment());
-		logger.debug("# context.getEnvironment().getProperty : {}", webContext.getEnvironment().getProperty(ManagedConstants.getWebRootKeyName()));
-		*/
-		
 		JAXBContext jaxbc = null;
 		Unmarshaller unmarshaller = null;
 		String classesRoot = null;
@@ -285,24 +288,41 @@ public class InterfaceFactory {
 		String xmlPath = null;
 		ChannelListData cld = null;
 		URL resourceURL = null;
-		ServerAddressConfig serverAddress = null;
-		isMasterServer = (ManagedConstants.getIfServerWebRootKey().equals(webRootKey));
-		logger.debug("This server is master server ? {} " /* ({} / {}) */, isMasterServer, ManagedConstants.getIfServerWebRootKey(), webRootKey);
 		
 		try {
+			URL fileURL = getClass().getResource(MANAGED_PROPERTIES_FILE_NAME);
+			logger.debug("# interface-managed URL : {}", fileURL);
 			
-			// 서버 IP대역 및 URI => 자바 상수 파일에서 관리하도록 변경 20190102 (XML환경파일에서 제거)
-			serverAddress = new ServerAddressConfig();
-			serverAddress.setDevServerDomain(ManagedConstants.getDevServerDomain());
-			serverAddress.setDevServerIpRange(ManagedConstants.getDevServerIpRange());
-			serverAddress.setProdServerDomain(ManagedConstants.getProdServerDomain());
-			serverAddress.setProdServerIpRange(ManagedConstants.getProdServerIpRange());
-			InterfaceFactory.serverAddress = serverAddress;
+			Properties managedConfig = resourceUtil.load(fileURL);
+			//logger.debug("# managedConfig : {}", managedConfig);
+			
+			if(managedConfig == null) {
+				logger.warn("★ 인터페이스  운영환경 프로퍼티를 찾을수 없습니다. 인터페이스 펙토리가 초기화 되지 않습니다.");
+				return;
+			} 
+			
+ 			// 서버 IP대역 및 URI => 자바 상수 파일에서 관리하도록 변경 20190102 (XML환경파일에서 제거)
+			InterfaceFactory.serverManaged = (ServerManagedConfig) beanMarshaller.mapToBean((Map) managedConfig, ServerManagedConfig.class);
+			
+			logger.debug("# INTERFACE MANAGED PROPERTIES : {}", InterfaceFactory.serverManaged);
+			
+			WebApplicationContext webContext = ContextLoader.getCurrentWebApplicationContext();
+			if(webContext != null) {   
+				webRootKey = webContext.getEnvironment().getProperty(InterfaceFactory.serverManaged.getWebRootKeyName());
+				isMasterServer = (InterfaceFactory.serverManaged.getIfServerWebRootKey().equals(webRootKey));
+				logger.debug("- Environment : {}", webContext.getEnvironment().toString());
+			}
+			else {
+				logger.warn("★☆★☆★☆★☆★☆ WebApplicationContext에 정상등록이 안된 스프링 웹앱 컨텍스트 입니다. ★☆★☆★☆★☆★☆");
+				isMasterServer = false;
+			}
+			
+			logger.debug("- This server is interface master server ? {}, webAppRootKey : {}", isMasterServer, webRootKey);
 			
 			jaxbc = JAXBContext.newInstance(InterfaceRootConfig.class);
 			unmarshaller = jaxbc.createUnmarshaller();
 			
-			isMasterServer = true;
+			//isMasterServer = true;
 			
 			if(isMasterServer || isLocalTestInit) {
 				
@@ -350,8 +370,8 @@ public class InterfaceFactory {
 					resourceURL = Paths.get(configureXml.getCanonicalPath()).toUri().toURL();
 				}
 				
-				configXmlFilePath = resourceURL.getFile();
-				logger.debug(" ==> CONFIG_XML_FILE_PATH : {}", configXmlFilePath);
+				configXmlFileURL = resourceURL;
+				logger.debug(" ==> CONFIG_XML_FILE_PATH : {}", configXmlFileURL);
 				
 			}
 			else {
@@ -361,16 +381,16 @@ public class InterfaceFactory {
 					throw new APIException("인터페이스 환경파일에 설정된 개발 또는 운영서버의 IP또는 IP대역과 현제 서버의 IP가 일치하지 않습니다.");
 				}
 				else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_PROD_SERVER)) {
-					// prod server
-					resourceURL = new URL(ManagedConstants.getProdServerDomain().concat(ManagedConstants.getConfigXmlServerUri()));
+					// prod server  InterfaceFactory.serverManaged
+					resourceURL = new URL(InterfaceFactory.serverManaged.getProdMasterServerName().concat(InterfaceFactory.serverManaged.getConfigXmlServerUri()));
 				}
 				else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_DEV_SERVER)) {
 					// dev server
-					resourceURL = new URL(ManagedConstants.getDevServerDomain().concat(ManagedConstants.getConfigXmlServerUri()));
+					resourceURL = new URL(InterfaceFactory.serverManaged.getDevMasterServerName().concat(InterfaceFactory.serverManaged.getConfigXmlServerUri()));
 				}
 				else {
 					// developer local pc server
-					resourceURL = new URL(ManagedConstants.getDevServerDomain().concat(ManagedConstants.getConfigXmlServerUri()));
+					resourceURL = new URL(InterfaceFactory.serverManaged.getDevMasterServerName().concat(InterfaceFactory.serverManaged.getConfigXmlServerUri()));
 				}
 			}
 			
@@ -432,7 +452,7 @@ public class InterfaceFactory {
 				logger.debug("# LOCAL_HOST_ADDRESS : {}", LOCAL_HOST_ADDRESS);
 				logger.debug("# LOCAL_HOST_NAME : {}", LOCAL_HOST_NAME);
 				logger.debug("# LOCAL_CANONICAL_HOST_NAME : {}", LOCAL_CANONICAL_HOST_NAME);
-				logger.debug("# serverAddress : {}", InterfaceFactory.serverAddress);
+				logger.debug("# serverManaged : {}", InterfaceFactory.serverManaged);
 				
 				logger.debug("# imageRootPath : {}", InterfaceFactory.imageRootPath);
 				logger.debug("# serverHttpDomainURI : {}", InterfaceFactory.serverHttpDomainURI);

@@ -33,7 +33,24 @@ public class UtilTest {
 	private static final Logger logger = LoggerFactory.getLogger(UtilTest.class);
 	
 	public UtilTest() {
-		InterfaceFactory.initLocalTestInterfaceFactory();
+		//InterfaceFactory.initLocalTestInterfaceFactory();
+	}
+	
+	@Test
+	public void resourceTest() {
+		
+		
+		try {
+			URI path = new URL("file:/D:/02.Workspace/eclipse/eclipse-ezwel/tomcat-context/deploy/ezwel_if_server(8282)-v7.0.79/ezwel_if_server/WEB-INF/lib/ezwel_if-0.0.1-SNAPSHOT.jar!/interfaces/interface-configure.xml").toURI();
+			path = new URL("file:/D:/02.Workspace/testFile.txt").toURI();
+			File test = new File(path);
+	    	logger.debug("exists : {}", test.exists());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	
@@ -203,7 +220,7 @@ public class UtilTest {
         // 별 > 명사로 안나옴
     }
     
-    @Test
+    //@Test
     public void testSyntax() {
     	String testData = null;
     	logger.info( "{}", "abc".equals(testData)  );
@@ -213,15 +230,5 @@ public class UtilTest {
     	
     	logger.debug("## {} / {}", InterfaceFactory.getOptionalApps().getSmsConfig().getRestURI(), InterfaceFactory.getOptionalApps().getSmsConfig().getEncoding());
     	
-		try {
-			URI path = new URL("file://D:/02.Workspace/eclipse/eclipse-ezwel/tomcat-context/deploy/ezwel_if_server(8282)-v7.0.79/ezwel_if_server/WEB-INF/lib/ezwel_if-0.0.1-SNAPSHOT.jar!/interfaces/interface-configure.xml").toURI();
-			File test = new File(path);
-	    	logger.debug("exists : {}", test.exists());
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-    
     }
 }

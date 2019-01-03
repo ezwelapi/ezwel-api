@@ -4,6 +4,7 @@ import java.util.concurrent.Callable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
@@ -28,8 +29,10 @@ public class HttpInterfaceHelper implements Callable<AbstractSDO> {
 
 	private MultiHttpConfigSDO multiHttpConfigDTO;
 	
+	@Autowired
 	private HttpInterfaceExecutor httpInterface;
 	
+	@Autowired
 	private PropertyUtil propertyUtil;
 	
 	public HttpInterfaceHelper(MultiHttpConfigSDO multiHttpConfigDTO) {

@@ -29,6 +29,11 @@ public class ResponseUtil {
 	}
 	
 	@APIOperation(description="ResponseEntity JSON String")
+	public ResponseEntity<String> getResponseEntity(String jsonString, String dataType) {
+		return getResponseEntity(jsonString, null, dataType);
+	}
+	
+	@APIOperation(description="ResponseEntity JSON String")
 	public ResponseEntity<String> getResponseEntity(String jsonString, String userCharset, String dataType) {
 		logger.debug("[START] responseEntity\n{}", jsonString);
 		
