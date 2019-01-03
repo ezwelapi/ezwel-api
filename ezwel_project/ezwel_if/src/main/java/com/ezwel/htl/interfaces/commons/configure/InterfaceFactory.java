@@ -451,8 +451,7 @@ public class InterfaceFactory {
 				logger.debug("# LOCAL_HOST_ADDRESS : {}", LOCAL_HOST_ADDRESS);
 				logger.debug("# LOCAL_HOST_NAME : {}", LOCAL_HOST_NAME);
 				logger.debug("# LOCAL_CANONICAL_HOST_NAME : {}", LOCAL_CANONICAL_HOST_NAME);
-				logger.debug("# serverManaged : {}", InterfaceFactory.serverManaged);
-				
+								
 				logger.debug("# imageRootPath : {}", InterfaceFactory.imageRootPath);
 				logger.debug("# serverHttpDomainURI : {}", InterfaceFactory.serverHttpDomainURI);
 				logger.debug("# interfaceBatchErrorLogPath : {}", InterfaceFactory.interfaceBatchErrorLogPath);	
