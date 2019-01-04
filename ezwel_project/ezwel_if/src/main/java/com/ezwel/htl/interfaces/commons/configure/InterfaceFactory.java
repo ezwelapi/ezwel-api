@@ -146,13 +146,21 @@ public class InterfaceFactory {
 			this.configXmlPath = "interface-configure.xml";
 		}
 		
-		if(propertyUtil == null) {
-			propertyUtil = new PropertyUtil();
+		if(isLocalTestInit) {
+			
+			if(propertyUtil == null) {
+				propertyUtil = new PropertyUtil();
+			}
+			
+			if(resourceUtil == null) {
+				resourceUtil = new ResourceUtil();	
+			}
+			
+			if(beanMarshaller == null) {
+				beanMarshaller = new BeanMarshaller();
+			}
 		}
 		
-		if(resourceUtil == null) {
-			resourceUtil = new ResourceUtil();	
-		}
 	}
 	
 	public String getConfigXmlPath() {
@@ -290,6 +298,8 @@ public class InterfaceFactory {
 		URL resourceURL = null;
 		WebApplicationContext webContext = null;
 		
+		logger.debug("# 인터페이스 팩토리 초기화 방식 : {}", (isLocalTestInit ? "로컬" : "스프링"));
+		
 		try {
 			URL fileURL = getClass().getResource(MANAGED_PROPERTIES_FILE_NAME);
 			logger.debug("# interface-managed URL : {}", fileURL);
@@ -314,7 +324,7 @@ public class InterfaceFactory {
 				logger.debug("- Environment : {}", webContext.getEnvironment().toString());
 			}
 			else {
-				logger.warn("★☆★☆★☆★☆★☆ 스프링 ContextLoader에 정상등록되지 않은 스프링 WAC입니다. ★☆★☆★☆★☆★☆");
+				logger.warn("★☆★☆★☆★☆★☆ 스프링 ContextLoader에 정상등록되지 않은 WAC입니다. ★☆★☆★☆★☆★☆");
 			}
 			
 			logger.debug("- Direct Parse Xml Config : {}", InterfaceFactory.serverManaged.getDirectParseXmlYn());
