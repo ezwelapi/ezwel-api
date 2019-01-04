@@ -1,12 +1,9 @@
-package com.ezwel.htl.interfaces.service.data.send;
+package com.ezwel.htl.interfaces.server.commons.send.data;
 
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * <pre>
@@ -17,9 +14,7 @@ import lombok.EqualsAndHashCode;
  * @date 2018. 11. 13.
  */
 @APIModel
-@Data
-@EqualsAndHashCode(callSuper=true)
-public class SendSmsOutSDO extends AbstractSDO {
+public class SmsSenderOutSDO extends AbstractSDO {
 
 	@APIFields(description = "문자발송 output 결과코드", required=true)
 	private Integer errorCode;

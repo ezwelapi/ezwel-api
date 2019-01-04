@@ -1,12 +1,9 @@
-package com.ezwel.htl.interfaces.service.data.send;
+package com.ezwel.htl.interfaces.server.commons.send.data;
 
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * <pre>
@@ -18,9 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 
 @APIModel
-@Data
-@EqualsAndHashCode(callSuper=true)
-public class SendSmsInSDO extends AbstractSDO {
+public class SmsSenderInSDO extends AbstractSDO {
 	
 	@APIFields(description = "문자발송 Input 수신번호", required=true, maxLength=12)
 	private String callTo;
