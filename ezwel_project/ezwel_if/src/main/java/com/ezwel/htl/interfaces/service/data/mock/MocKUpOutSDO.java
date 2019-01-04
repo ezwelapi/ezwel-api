@@ -18,7 +18,6 @@ import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOptionsOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadPenaltyOutSDO;
 import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendOutSDO;
-import com.ezwel.htl.interfaces.service.data.send.SendSmsOutSDO;
 
 public class MocKUpOutSDO {
 
@@ -211,17 +210,6 @@ public class MocKUpOutSDO {
 		
 		return out;
 		
-	}
-	
-	//문자발송
-	public static SendSmsOutSDO getSendSmsOut() {
-		
-		SendSmsOutSDO sendSmsOutSDO = new SendSmsOutSDO();		
-		sendSmsOutSDO.setErrorCode(0000);
-		sendSmsOutSDO.setErrorMessage("");
-		sendSmsOutSDO.setData("2001578");
-		
-		return sendSmsOutSDO;
 	}
 	
 }
