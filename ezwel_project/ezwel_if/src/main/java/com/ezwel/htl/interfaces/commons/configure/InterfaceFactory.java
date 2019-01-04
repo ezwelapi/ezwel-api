@@ -324,7 +324,7 @@ public class InterfaceFactory {
 				logger.debug("- Environment : {}", webContext.getEnvironment().toString());
 			}
 			else {
-				logger.warn("★☆★☆★☆★☆★☆ 스프링 ContextLoader에 정상등록되지 않은 WAC입니다. ★☆★☆★☆★☆★☆");
+				logger.warn("☆★☆★☆★☆ 스프링 ContextLoader에 정상등록되지 않은 WAC입니다. ContextLoader.getCurrentWebApplicationContext() is null... ☆★☆★☆★☆");
 			}
 			
 			logger.debug("- Direct Parse Xml Config : {}", InterfaceFactory.serverManaged.getDirectParseXmlYn());
