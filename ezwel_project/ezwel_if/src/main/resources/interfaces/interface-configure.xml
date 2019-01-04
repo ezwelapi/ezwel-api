@@ -46,10 +46,10 @@
 			<host>211.180.161.86</host>
 		 	<port>25</port>
 		 	<auth>true</auth>
-		 	<username>yanagi10@outbound.ezwel.com</username>
+		 	<username>yanagi10</username>
 		 	<password>20312@jong</password>
-		 	<connectiontimeout>3000</connectiontimeout>
-			<timeout>6000</timeout>
+		 	<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
 		</emailConfig>
 	</optionalApps>
 	

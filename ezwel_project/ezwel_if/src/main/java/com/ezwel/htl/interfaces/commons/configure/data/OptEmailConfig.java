@@ -7,23 +7,26 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 @APIModel(description="EMAIL")
 public class OptEmailConfig extends APIObject {
 		
-	@APIFields(description = "EMAIL HOST")
+	@APIFields(description = "EMAIL host")
 	private String host;
 	
-	@APIFields(description = "EMAIL AUTH")
+	@APIFields(description = "EMAIL port")
+	private String port;
+	
+	@APIFields(description = "EMAIL auth")
 	private String auth;
 	
-	@APIFields(description = "EMAIL USERNAME")
+	@APIFields(description = "EMAIL username")
 	private String username;
 	
-	@APIFields(description = "EMAIL PASSWORD")
+	@APIFields(description = "EMAIL password")
 	private String password;
 	
-	@APIFields(description = "EMAIL connectiontimeout")
-	private String connectiontimeout;
+	@APIFields(description = "EMAIL connTimeout")
+	private String connTimeout;
 	
-	@APIFields(description = "EMAIL timeout")
-	private String timeout;
+	@APIFields(description = "EMAIL readTimeout")
+	private String readTimeout;
 	
 	public OptEmailConfig() {
 		this.reset();
@@ -31,11 +34,12 @@ public class OptEmailConfig extends APIObject {
 	
 	private void reset() {
 		host = null;
+		port = null;
 		auth = null;
 		username = null;
 		password = null;
-		connectiontimeout = null;
-		timeout = null;
+		connTimeout = null;
+		readTimeout = null;
 	}
 
 	public String getHost() {
@@ -44,6 +48,14 @@ public class OptEmailConfig extends APIObject {
 
 	public void setHost(String host) {
 		this.host = host;
+	}
+
+	public String getPort() {
+		return port;
+	}
+
+	public void setPort(String port) {
+		this.port = port;
 	}
 
 	public String getAuth() {
@@ -70,20 +82,20 @@ public class OptEmailConfig extends APIObject {
 		this.password = password;
 	}
 
-	public String getConnectiontimeout() {
-		return connectiontimeout;
+	public String getConnTimeout() {
+		return connTimeout;
 	}
 
-	public void setConnectiontimeout(String connectiontimeout) {
-		this.connectiontimeout = connectiontimeout;
+	public void setConnTimeout(String connTimeout) {
+		this.connTimeout = connTimeout;
 	}
 
-	public String getTimeout() {
-		return timeout;
+	public String getReadTimeout() {
+		return readTimeout;
 	}
 
-	public void setTimeout(String timeout) {
-		this.timeout = timeout;
+	public void setReadTimeout(String readTimeout) {
+		this.readTimeout = readTimeout;
 	}
 	
 }

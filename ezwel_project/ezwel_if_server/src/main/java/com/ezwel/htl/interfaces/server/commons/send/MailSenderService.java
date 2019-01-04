@@ -27,11 +27,8 @@ public class MailSenderService {
 	 * @param body 내용
 	 */
 	@Async
-	public void asyncSimpleSend(String from, String fromName, String recipient, String subject, String body){
-		try {
-			
-			logger.info("asyncSimpleSend : " + from + fromName + recipient + subject + body);
-			
+	public void asyncSimpleSend(final String from, final String fromName, final String recipient, final String subject, final String body){
+		try {			
 			mailSender.callMailSender(from, fromName, recipient, subject, body);
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);

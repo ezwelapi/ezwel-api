@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.utils.CryptUtil;
+import com.ezwel.htl.interfaces.server.commons.send.MailSender;
 import com.ezwel.htl.interfaces.server.commons.send.MailSenderService;
 import com.ezwel.htl.interfaces.server.commons.send.SmsSender;
 import com.ezwel.htl.interfaces.server.commons.send.data.SmsSenderInSDO;
@@ -19,6 +20,8 @@ public class SendTest {
 	
 	private MailSenderService mailSenderService;
 	
+	private MailSender mailSender;
+	
 	public SendTest() {
 		
 		InterfaceFactory.initLocalTestInterfaceFactory();
@@ -26,10 +29,11 @@ public class SendTest {
 		smsSender = new SmsSender();
 		
 		mailSenderService = new MailSenderService();
+		
+		mailSender = new MailSender();
 	}
 	
 	//문자
-	@Test
 	public void smsSenderTest()  throws Exception {
 		
 		logger.debug("[START] smsSenderTest");
@@ -89,18 +93,28 @@ public class SendTest {
 	}
 	
 	//메일
-	public void MailSenderTest() {
+	@Test
+	public void MailSenderGmailTest() {
 		
-		logger.debug("[START] MailSenderTest");
+		logger.debug("[START] MailSenderGmailTest");
 		
-		String from = "yanagi10@ezwel.com";
-		String fromName = "이지웰";
-		String recipient = "java124@naver.com"; 
+		mailSender.gmailSend();
+		
+		logger.debug("[END] MailSenderGmailTest");
+	}
+	
+	public void MailSenderDevTest() {
+		
+		logger.debug("[START] MailSenderDevTest");
+		
+		String from = "java124@naver.com";
+		String fromName = "전용필";
+		String recipient = "jyp0698@gmail.com"; 
 		String subject = "메일 제목 테스트";
 		String body = "메일 내용 테스트";
 		
 		mailSenderService.asyncSimpleSend(from, fromName, recipient, subject, body);
 		
-		logger.debug("[END] MailSenderTest");
+		logger.debug("[END] MailSenderDevTest");
 	}
 }
