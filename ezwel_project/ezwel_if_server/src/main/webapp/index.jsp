@@ -413,11 +413,6 @@ var $interfaceTester = {
 				headerJson["Accept"] = "application/json";
 				headerJson["Content-Type"] = "application/json; charset=UTF-8";				
 			}
-			else if(dataType === "xml") {
-				headerJson["Accept"] = "application/xml";
-				headerJson["Content-Type"] = "application/xml; charset=UTF-8";				
-			}
-			
 		}
 		catch( e ) {
 			alert("입력 파라메터 필드의 JSON 문자열이 잘못되었습니다.\n" + e.message);
@@ -448,7 +443,16 @@ var $interfaceTester = {
 			success : function(data, status, xhr) {
 				console.info("[SUCCESS]");
 				console.info(data);
-				$('#outputJson').text(JSON.stringify(data, undefined, 4));
+				
+				if(dataType === "json") {
+					$('#outputJson').text(JSON.stringify(data, undefined, 4));
+				}
+				else if(dataType === "xml") {
+					$('#outputJson').text(new XMLSerializer().serializeToString(data));
+				}
+				else {
+					$('#outputJson').text(data);
+				}
 			}, 
 			error: function(jqXHR, textStatus, errorThrown) {
 				console.error("[ERROR]");
