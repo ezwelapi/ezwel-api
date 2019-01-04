@@ -77,6 +77,34 @@ WHERE 1=1
 	AND EZC_MAPPING_GRP_FACL.GRP_FACL_CD = #{grpFaclCd, jdbcType=DECIMAL}	/* 그룹 시설 코드, NUMBER(0,22), EZC_MAPPING_GRP_FACL_PK(P),SYS_C0011120(C) */
 </select>
 
+<select id="selectEzcGrpFacl" parameterType="ezcMappingGrpFacl" resultType="ezcMappingGrpFacl">
+SELECT
+     EZC_MAPPING_GRP_FACL.GRP_FACL_CD AS grpFaclCd    /* 그룹 시설 코드, NUMBER(0,22) */
+    ,EZC_MAPPING_GRP_FACL.CITY_CD AS cityCd    /* 도시 코드, VARCHAR2(10) */
+    ,EZC_MAPPING_GRP_FACL.AREA_CD AS areaCd    /* 지역 코드, VARCHAR2(10) */
+    ,EZC_MAPPING_GRP_FACL.FACL_NM_KOR AS faclNmKor    /* 시설 명 한글, VARCHAR2(100) */
+    ,EZC_MAPPING_GRP_FACL.FACL_NM_ENG AS faclNmEng    /* 시설 명 영문, VARCHAR2(100) */
+    ,EZC_MAPPING_GRP_FACL.ROOM_CLASS AS roomClass    /* 숙소 등급, VARCHAR2(8) */
+    ,EZC_MAPPING_GRP_FACL.ROOM_TYPE AS roomType    /* 숙소 유형, VARCHAR2(8) */
+    ,EZC_MAPPING_GRP_FACL.ADDR_TYPE AS addrType    /* 주소 유형, VARCHAR2(8) */
+    ,EZC_MAPPING_GRP_FACL.ADDR AS addr    /* 주소, VARCHAR2(200) */
+    ,EZC_MAPPING_GRP_FACL.POST AS post    /* 우편번호, VARCHAR2(7) */
+    ,EZC_MAPPING_GRP_FACL.TEL_NUM AS telNum    /* 전화 번호, VARCHAR2(20) */
+    ,EZC_MAPPING_GRP_FACL.COORD_Y AS coordY    /* 위도, VARCHAR2(20) */
+    ,EZC_MAPPING_GRP_FACL.COORD_X AS coordX    /* 경도, VARCHAR2(20) */
+    ,EZC_MAPPING_GRP_FACL.TRIP_PROP_ID AS tripPropId    /* 트립어드바이저 프로퍼티 ID, VARCHAR2(100) */
+    ,EZC_MAPPING_GRP_FACL.REG_ID AS regId    /* 등록자 ID, VARCHAR2(20) */
+    ,EZC_MAPPING_GRP_FACL.REG_DT AS regDt    /* 등록 일시, VARCHAR2(14) */
+    ,EZC_MAPPING_GRP_FACL.MODI_ID AS modiId    /* 수정자 ID, VARCHAR2(20) */
+    ,EZC_MAPPING_GRP_FACL.MODI_DT AS modiDt    /* 수정 일시, VARCHAR2(14) */
+FROM
+     EZC_MAPPING_GRP_FACL   /* 맵핑 그룹 시설 */
+    ,EZC_MAPPING_FACL       /* 맵핑 그룹 시설 */
+WHERE 1=1
+    AND EZC_MAPPING_GRP_FACL.GRP_FACL_CD = EZC_MAPPING_FACL.GRP_FACL_CD
+    AND EZC_MAPPING_FACL.FACL_CD = #{faclCd, jdbcType=DECIMAL}    /* 시설 코드 */
+</select>
+
 <select id="selectCountEzcMappingGrpFacl" parameterType="ezcMappingGrpFacl" resultType="java.lang.Integer">
 SELECT 
 	COUNT(1)

@@ -389,7 +389,7 @@ public class FileUtil {
     @APIOperation
     public File mkfile(String fileDir, String fileName, String contents, String encoding, boolean inheritfile, boolean verbose) {
 
-    	if (logger.isDebugEnabled() && verbose) {
+    	if (verbose) {
     		logger.debug("[START] mkfile\n mkfile fileDir : {}\n mkfile fileName : {}\n mkfile fileContents : {}" , fileDir , fileName , contents);
     		logger.debug("..wget() mkfile start.. ");
     	}
@@ -408,47 +408,50 @@ public class FileUtil {
         OutputStreamWriter out = null;
         String fileContent = APIUtil.NVL(contents);
 
-        if (logger.isDebugEnabled() && verbose) {
+        if (verbose) {
         	logger.debug("..new file() will save to {}", mkfileName);
         }
 		try {
 			out = new OutputStreamWriter(new FileOutputStream(file, inheritfile), encoding); // 파일에 문자를 적을 스트림 생성
-			if (logger.isDebugEnabled() && verbose) {
+			if (verbose) {
 				logger.debug ("..new file() make stream ");
 			}
 			
 			out.write(fileContent); // 파일에 쓰기
-			if (logger.isDebugEnabled() && verbose) {
+			if (verbose) {
 				logger.debug ("..new file() write contents. ");
 			}
 			
 			out.flush(); // 파일 에 문자열전달
-			if (logger.isDebugEnabled() && verbose) {
+			if (verbose) {
 				logger.debug ("..new file() flush ");
 			}
 		}
 		catch (UnsupportedEncodingException e) {
-			throw new APIException(e);
+			throw new APIException("지원하지 않는 파일 인코딩 입니다.", e);
 		}
 		catch (FileNotFoundException e) {
-			throw new APIException(e);
+			throw new APIException("작성할 파일이 존재하지 않습니다.", e);
 		}
 		catch (IOException e) {
-			throw new APIException(e);
+			throw new APIException("파일에 내용 작성도중 장애 발생.", e);
+		}
+		catch (Exception e) {
+			throw new APIException("디렉토리 및 파일 생성 또는 파일에 내용 작성중 장애 발생.", e);
 		}
 		finally {
 	        try {
 				if(out != null) {
 					out.close(); // 스트림 닫기
-					if (logger.isDebugEnabled() && verbose) {
+					if (verbose) {
 						logger.debug ("..new file() close ");
 					}
 				}
 			} catch (IOException e) {
-				throw new APIException(e);
+				logger.error("[IOException] mkfile", e);
 			}
 		}
-		if (logger.isDebugEnabled() && verbose) {
+		if (verbose) {
 			logger.debug ("..wget() end ");
 		}
 		

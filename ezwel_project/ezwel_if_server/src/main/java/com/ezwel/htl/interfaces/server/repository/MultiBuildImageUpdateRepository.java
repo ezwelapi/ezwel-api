@@ -12,6 +12,7 @@ import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.ExceptionUtil;
@@ -35,6 +36,8 @@ public class MultiBuildImageUpdateRepository extends AbstractDataAccessObject im
 	private EzcFaclImg ezcFaclImg;
 	
 	private boolean isErrorPassed;
+	
+	private StackTraceUtil stackTraceUtil;
 	
 	public MultiBuildImageUpdateRepository() {
 		logger.info("- OutsideBuildImageRepository");
@@ -64,18 +67,30 @@ public class MultiBuildImageUpdateRepository extends AbstractDataAccessObject im
 			//에러 발생 레코드 errorItems에 저장후 runtimeException 없이 로깅후 종료
 			if(isErrorPassed) {
 				
-				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
+				stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
 				
+				logger.error(new StringBuffer()
+						.append( "전체시설 이미지 다운로드 경로 저장 장애발생" )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Code : " )
+						.append( MessageConstants.RESPONSE_CODE_9500 )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Message : " )
+						.append( e.getMessage() )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "StackTrace : " )
+						.append( stackTraceUtil.getStackTrace(e) )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Error Object : " )
+						.append( ezcFaclImg )							
+						.toString());
+				
+				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
 				/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
 				exceptionUtil.writeBatchErrorLog("{}\n{}@{}\n에러 발생 객체 : {}", 
 						new Object[] {"[전체시설 이미지 다운로드 경로 저장 장애발생]", this.getClass().getCanonicalName(), "updateBuildImage", ezcFaclImg},
 						new StringBuffer().append(this.getClass().getSimpleName()).append(OperateConstants.STR_AT).append("updateBuildImage-").append(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).toString(), 
 						e);
-				
-				logger.error("Code : {}", MessageConstants.RESPONSE_CODE_9500);
-				logger.error("Message : {}", e.getMessage());
-				e.getStackTrace();
-				
 			}
 			else {
 				throw new APIException("이미지 다운르드 경로 DB 저장 실패 {}", new Object[] {e.getMessage()}, e) ; 

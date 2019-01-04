@@ -51,6 +51,13 @@ public class UtilTest {
 			e.printStackTrace();
 		}
 		
+		logger.debug(
+				APIUtil.formatMessage("Exception Time : {}\nException Message : {}\nException Cause : {}\n\n", 
+						 APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT)
+						,"e.getMessage()"
+						,"e.getStackTrace()")
+				);
+		
 	}
 	
 	
