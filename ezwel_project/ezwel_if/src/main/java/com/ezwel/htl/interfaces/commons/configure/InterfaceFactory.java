@@ -118,12 +118,17 @@ public class InterfaceFactory {
 	@APIFields(description = "로컬 테스트여부")
 	private boolean isLocalTestInit;
 
-	@APIFields(description = "인터페이스 운영환경 프로퍼티 파일명")
+	@APIFields(description = "인터페이스 서버환경 프로퍼티 파일명")
 	private final static String MANAGED_PROPERTIES_FILE_NAME;
+
+	@APIFields(description = "인터페이스 운영환경 XML 파일명")
+	private final static String MANAGED_XML_FILE_NAME;
 	
 	static {
 		
 		MANAGED_PROPERTIES_FILE_NAME = "interface-managed.properties";
+		
+		MANAGED_XML_FILE_NAME = "interface-configure.xml";
 		
 		INIT_ERROR_MESSAGE = "InterfaceFactory 초기화중 장애발생.";
 		
@@ -143,7 +148,7 @@ public class InterfaceFactory {
 	
 	private void init() {
 		if(APIUtil.isEmpty(this.configXmlPath)) {
-			this.configXmlPath = "interface-configure.xml";
+			this.configXmlPath = MANAGED_XML_FILE_NAME;
 		}
 	}
 	
@@ -287,7 +292,7 @@ public class InterfaceFactory {
 	public void initFactory() {
 		logger.debug("[INITIALIZE] INTERFACE FACTORY ... ");
 		
-		if(isLocalTestInit) {
+		if( isLocalTestInit ) {
 			testBeanInit();
 		}
 		
