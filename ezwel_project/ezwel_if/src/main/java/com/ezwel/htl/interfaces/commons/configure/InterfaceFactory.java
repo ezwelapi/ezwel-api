@@ -426,19 +426,19 @@ public class InterfaceFactory {
 					else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_PROD_SERVER)) {
 						// prod server
 						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getProdRootPath();
-						serverHttpDomainUri = InterfaceFactory.getServerAddress().getProdServerDomain();
+						serverHttpDomainUri = InterfaceFactory.getServerAddress().getProdServerL4Domain();
 						interfaceBatchErrorLogPath = InterfaceFactory.getFileRepository().getErrorLog().getProdRootPath();
 					}
 					else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_DEV_SERVER)) {
 						// dev server
 						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getDevRootPath();
-						serverHttpDomainUri = InterfaceFactory.getServerAddress().getDevServerDomain();
+						serverHttpDomainUri = InterfaceFactory.getServerAddress().getDevServerL4Domain();
 						interfaceBatchErrorLogPath = InterfaceFactory.getFileRepository().getErrorLog().getDevRootPath();
 					}
 					else {
 						// developer local pc server
 						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getLocalRootPath();
-						serverHttpDomainUri = InterfaceFactory.getServerAddress().getDevServerDomain();
+						serverHttpDomainUri = InterfaceFactory.getServerAddress().getDevServerL4Domain();
 						interfaceBatchErrorLogPath = InterfaceFactory.getFileRepository().getErrorLog().getLocalRootPath();
 					}
 					
