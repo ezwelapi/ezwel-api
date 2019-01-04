@@ -38,6 +38,7 @@
 		 -->
 	</optionalApps>
 	
+	<!-- 제휴사 목록 -->
 	<agentList>
 		<agentInfo>
 			<agentName>호텔엔조이 메이트아이</agentName>
@@ -111,7 +112,7 @@
 		</agentInfo>
 	</agentList>
 
-	<!-- inside interface channel -->
+	<!-- inside interface channel list -->
 	<insideChans>
 		<httpChan>
 			<chanId>record</chanId>
@@ -145,7 +146,7 @@
 		</httpChan>
 	</insideChans>
 	
-	<!-- outside interface channel -->
+	<!-- outside interface channel list -->
 	<outsideChans>
 		<!--// START 시설일괄등록 -->
 		<httpChan>
