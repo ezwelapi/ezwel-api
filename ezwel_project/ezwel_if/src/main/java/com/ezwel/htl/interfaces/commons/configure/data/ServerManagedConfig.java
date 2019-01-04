@@ -3,6 +3,7 @@ package com.ezwel.htl.interfaces.commons.configure.data;
 import com.ezwel.htl.interfaces.commons.abstracts.APIObject;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
 @APIModel(description="서버 주소")
 public class ServerManagedConfig extends APIObject {
@@ -34,6 +35,9 @@ public class ServerManagedConfig extends APIObject {
 	@APIFields(description="인터페이스 서버 웹앱 루트 키")
 	private String ifServerWebRootKey;
 	
+	@APIFields(description="슬레이브 서버가 인터페이스 환경파일을 직접파싱할것인지 여부")
+	private String directParseXmlYn;
+	
 	
 	public ServerManagedConfig() {
 		this.reset();
@@ -48,7 +52,8 @@ public class ServerManagedConfig extends APIObject {
 		prodMasterServerName = null;
 		webRootKeyName = null;
 		configXmlServerUri = null;
-		ifServerWebRootKey = null;		
+		ifServerWebRootKey = null;	
+		directParseXmlYn = OperateConstants.STR_N;
 	}
 
 	public String getDevServerIpRange() {
@@ -122,6 +127,13 @@ public class ServerManagedConfig extends APIObject {
 	public void setIfServerWebRootKey(String ifServerWebRootKey) {
 		this.ifServerWebRootKey = ifServerWebRootKey;
 	}
-	
-	
+
+	public String getDirectParseXmlYn() {
+		return directParseXmlYn;
+	}
+
+	public void setDirectParseXmlYn(String directParseXmlYn) {
+		this.directParseXmlYn = directParseXmlYn;
+	}
+
 }
