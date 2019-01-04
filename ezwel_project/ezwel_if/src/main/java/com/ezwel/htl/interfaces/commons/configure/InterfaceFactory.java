@@ -145,22 +145,6 @@ public class InterfaceFactory {
 		if(APIUtil.isEmpty(this.configXmlPath)) {
 			this.configXmlPath = "interface-configure.xml";
 		}
-		
-		if(isLocalTestInit) {
-			
-			if(propertyUtil == null) {
-				propertyUtil = new PropertyUtil();
-			}
-			
-			if(resourceUtil == null) {
-				resourceUtil = new ResourceUtil();	
-			}
-			
-			if(beanMarshaller == null) {
-				beanMarshaller = new BeanMarshaller();
-			}
-		}
-		
 	}
 	
 	public String getConfigXmlPath() {
@@ -285,8 +269,27 @@ public class InterfaceFactory {
 		return cacheId;
 	}
 	
+	private void testBeanInit() {
+			
+		if(propertyUtil == null) {
+			propertyUtil = new PropertyUtil();
+		}
+		
+		if(resourceUtil == null) {
+			resourceUtil = new ResourceUtil();	
+		}
+		
+		if(beanMarshaller == null) {
+			beanMarshaller = new BeanMarshaller();
+		}
+	}
+	
 	public void initFactory() {
 		logger.debug("[INITIALIZE] INTERFACE FACTORY ... ");
+		
+		if(isLocalTestInit) {
+			testBeanInit();
+		}
 		
 		JAXBContext jaxbc = null;
 		Unmarshaller unmarshaller = null;
@@ -324,7 +327,9 @@ public class InterfaceFactory {
 				logger.debug("- Environment : {}", webContext.getEnvironment().toString());
 			}
 			else {
-				logger.warn("★☆★☆★☆★☆★☆ 스프링 ContextLoader에 정상등록되지 않은 WAC입니다. ★☆★☆★☆★☆★☆");
+				if(!isLocalTestInit) {
+					logger.warn("☆★☆★☆★☆ 스프링 ContextLoader에 정상등록되지 않은 WAC입니다. ContextLoader.getCurrentWebApplicationContext() is null... ☆★☆★☆★☆");
+				}
 			}
 			
 			logger.debug("- Direct Parse Xml Config : {}", InterfaceFactory.serverManaged.getDirectParseXmlYn());
