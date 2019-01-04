@@ -298,7 +298,7 @@ public class InterfaceFactory {
 		URL resourceURL = null;
 		WebApplicationContext webContext = null;
 		
-		logger.debug("# 인터페이스 팩토리 초기화 방식 : {}", (isLocalTestInit ? "로컬" : "스프링"));
+		logger.debug("# 인터페이스 팩토리 초기화 방식 : {}", (isLocalTestInit ? "로컬개발도구" : "스프링"));
 		
 		try {
 			URL fileURL = getClass().getResource(MANAGED_PROPERTIES_FILE_NAME);
