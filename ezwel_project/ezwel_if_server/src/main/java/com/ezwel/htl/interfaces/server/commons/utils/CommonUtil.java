@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -585,7 +586,13 @@ public class CommonUtil {
 		//logger.debug("[END] getKorEngMorphemes : {}", out);
 		return out;
 	}
-	
-	
-	
+
+
+    @APIOperation(description="Byte를 Long으로 변환")
+	public long byteToLong(byte[] byteParam) {
+		ByteBuffer bb = ByteBuffer.allocate(byteParam.length);
+		bb.put(byteParam);
+		return bb.getLong();
+	}
+		
 }

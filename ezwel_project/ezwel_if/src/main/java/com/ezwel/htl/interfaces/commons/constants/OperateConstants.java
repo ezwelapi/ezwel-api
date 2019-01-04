@@ -65,6 +65,9 @@ public class OperateConstants {
 	public static final String LINE_SEPARATOR;
 	public static final String FILE_SEPARATOR;
 	public static final String PATH_SEPARATOR;
+	
+	public static final String JAR_SEPARATOR;
+	
 	public static final String OS_NAME;
 	public static final String JAVA_VM_VERSION;
 	public static final String JAVA_CLASS_VERSION;
@@ -231,6 +234,7 @@ public class OperateConstants {
 		STR_COMA = ",";
 		STR_PAREN_START = "(";
 		STR_PAREN_END  = ")";		
+		JAR_SEPARATOR = ".jar!";
 		LINE_SEPARATOR = APIUtil.getProperty("line.separator");
 		FILE_SEPARATOR = APIUtil.getProperty("file.separator");
 		PATH_SEPARATOR = APIUtil.getProperty("path.separator");

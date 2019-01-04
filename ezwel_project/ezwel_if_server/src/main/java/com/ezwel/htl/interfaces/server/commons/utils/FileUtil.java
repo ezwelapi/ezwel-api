@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -23,6 +25,7 @@ import org.springframework.web.util.WebUtils;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
+import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
@@ -51,11 +54,7 @@ public class FileUtil {
 	
 	private StackTraceUtil stackTraceUtil;
 	
-	private CommonUtil commonUtil;
-	
 	private RegexUtil regexUtil;
-	
-	private APIUtil apiUtil;
 	
 	/**
 	 * URL 이미지를 저장할 디렉토리를 만들고 FS에 저장할 실제 파일경로를 포함한 Object를 리턴합니다. (다운로드는 하지 않습니다.)
@@ -458,24 +457,23 @@ public class FileUtil {
     
 	
     @APIOperation
-    public String getTextFileContent(String userFilePath) {
-    	if(userFilePath == null) {
+    public String getTextFileContent(File userFile) {
+    	if(userFile == null) {
     		logger.error("[getTextFileContent] 텍스트 파일 경로가 존재하지 않습니다.");
     		return null;
     	}
     	
         StringBuffer contents = null;
-        String filePath = userFilePath;
         FileReader fileReader = null;
         BufferedReader in = null;
         
         try {
         	
-        	logger.debug(" +- getTextFileContent filePath : {}", filePath);
+        	logger.debug(" +- getTextFileContent filePath : {}", userFile.getPath());
 
-        	File target = new File(filePath);
+        	File target = userFile;
             if(!target.exists()) {
-            	throw new FileNotFoundException(filePath.concat(" 파일이 존재하지 않습니다."));
+            	throw new FileNotFoundException(target.getPath().concat(" 파일이 존재하지 않습니다."));
             }
 
             fileReader = new FileReader(target);
@@ -505,6 +503,63 @@ public class FileUtil {
         }
         
         return (contents != null ? contents.toString() : null);
+    }
+    
+    @APIOperation
+    public String getInnerJarTextResource(URL configFileURL) {
+
+		if(configFileURL == null) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_2001, "- [InnerJarTextResource] 파라메터 URL이 존재하지 않습니다. ");
+		}
+		if(configFileURL.getPath().indexOf(OperateConstants.JAR_SEPARATOR) == -1) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_2001, "- [InnerJarTextResource] 바인드된 URL은 jar 내부의 파일경로를 포함하는 URL이 아닙니다. URL : {}", configFileURL.getPath());
+		}
+		
+		String out = null;
+    	String absolutePath = null;
+		BufferedReader bufferedReader = null;
+		InputStream inputStream = null;
+		StringBuffer contents = null;
+		String line = null;
+		
+    	try {
+    		contents = new StringBuffer(); 
+
+    		absolutePath = configFileURL.getPath();
+			absolutePath = absolutePath.substring(absolutePath.lastIndexOf(OperateConstants.JAR_SEPARATOR) + OperateConstants.JAR_SEPARATOR.length());
+			logger.debug("- in jar absolutePath : {}", absolutePath);
+			
+			inputStream = getClass().getClassLoader().getResourceAsStream(absolutePath);
+	        bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+	        while ((line = bufferedReader.readLine()) != null) {
+	        	contents.append(line);   
+	        	contents.append(OperateConstants.LINE_SEPARATOR);
+	        }
+	        
+	        out = contents.toString();
+		}
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_2001, "JAR파일 내부의 텍스트기반 파일 내용 추출 장애 발생", e);
+		}
+		finally {
+			if(bufferedReader != null) {
+				try {
+					bufferedReader.close();
+				} catch (IOException e) {
+					logger.error("[IOException] bufferedReader.close", e);
+				}
+			}
+			
+			if(inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					logger.error("[IOException] inputStream.close", e);
+				};
+			}
+		}
+    	
+    	return out;
     }
     
 }
