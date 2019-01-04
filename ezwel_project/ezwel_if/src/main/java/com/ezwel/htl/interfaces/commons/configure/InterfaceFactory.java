@@ -288,6 +288,7 @@ public class InterfaceFactory {
 		String xmlPath = null;
 		ChannelListData cld = null;
 		URL resourceURL = null;
+		WebApplicationContext webContext = null;
 		
 		try {
 			URL fileURL = getClass().getResource(MANAGED_PROPERTIES_FILE_NAME);
@@ -306,22 +307,26 @@ public class InterfaceFactory {
 			
 			logger.debug("# INTERFACE MANAGED PROPERTIES : {}", InterfaceFactory.serverManaged);
 			
-			WebApplicationContext webContext = ContextLoader.getCurrentWebApplicationContext();
+			webContext = ContextLoader.getCurrentWebApplicationContext();
 			if(webContext != null) {   
 				webRootKey = webContext.getEnvironment().getProperty(InterfaceFactory.serverManaged.getWebRootKeyName());
 				isMasterServer = (InterfaceFactory.serverManaged.getIfServerWebRootKey().equals(webRootKey));
 				logger.debug("- Environment : {}", webContext.getEnvironment().toString());
 			}
 			else {
-				logger.warn("★☆★☆★☆★☆★☆ WebApplicationContext에 정상등록되지 않은 스프링 웹앱 컨텍스트 입니다. ★☆★☆★☆★☆★☆");
+				logger.warn("★☆★☆★☆★☆★☆ 스프링 ContextLoader에 정상등록되지 않은 스프링 WAC입니다. ★☆★☆★☆★☆★☆");
 			}
 			
+			logger.debug("- Direct Parse Xml Config : {}", InterfaceFactory.serverManaged.getDirectParseXmlYn());
 			logger.debug("- This server is interface master server ? {}, webAppRootKey : {}", isMasterServer, webRootKey);
 			
 			jaxbc = JAXBContext.newInstance(InterfaceRootConfig.class);
 			unmarshaller = jaxbc.createUnmarshaller();
 			
-			//isMasterServer = true;
+			if(OperateConstants.STR_Y.equals(InterfaceFactory.serverManaged.getDirectParseXmlYn())) {
+				isMasterServer = true;
+				logger.debug("- Direct Parse : {}", isMasterServer);
+			}
 			
 			if(isMasterServer || isLocalTestInit) {
 				
@@ -421,19 +426,19 @@ public class InterfaceFactory {
 					else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_PROD_SERVER)) {
 						// prod server
 						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getProdRootPath();
-						serverHttpDomainUri = InterfaceFactory.getServerAddress().getProdServerDomain();
+						serverHttpDomainUri = InterfaceFactory.getServerAddress().getProdServerL4Domain();
 						interfaceBatchErrorLogPath = InterfaceFactory.getFileRepository().getErrorLog().getProdRootPath();
 					}
 					else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_DEV_SERVER)) {
 						// dev server
 						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getDevRootPath();
-						serverHttpDomainUri = InterfaceFactory.getServerAddress().getDevServerDomain();
+						serverHttpDomainUri = InterfaceFactory.getServerAddress().getDevServerL4Domain();
 						interfaceBatchErrorLogPath = InterfaceFactory.getFileRepository().getErrorLog().getDevRootPath();
 					}
 					else {
 						// developer local pc server
 						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getLocalRootPath();
-						serverHttpDomainUri = InterfaceFactory.getServerAddress().getDevServerDomain();
+						serverHttpDomainUri = InterfaceFactory.getServerAddress().getDevServerL4Domain();
 						interfaceBatchErrorLogPath = InterfaceFactory.getFileRepository().getErrorLog().getLocalRootPath();
 					}
 					

@@ -138,7 +138,12 @@ public class OperateConstants {
 	public static final String USER_COUNTRY = APIUtil.getProperty("user.country");
 	public static final String USER_LANGUAGE = APIUtil.getProperty("user.language");
 	
+	public static final String STR_Y;
+	public static final String STR_N;
+	
 	static {
+		STR_Y = "Y";
+		STR_N = "N";
 		
 		STR_RESERVE_IS_SAVED = "isSaved";
 		STR_EMPTY = "EMPTY";

@@ -3,6 +3,7 @@ package com.ezwel.htl.interfaces.commons.configure.data;
 import com.ezwel.htl.interfaces.commons.abstracts.APIObject;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
 @APIModel(description="서버 주소")
 public class ServerManagedConfig extends APIObject {
@@ -11,7 +12,7 @@ public class ServerManagedConfig extends APIObject {
 	private String devServerIpRange;
 	
 	@APIFields(description="개발 서버 도메인")
-	private String devServerDomain;
+	private String devServerL4Domain;
 
 	@APIFields(description="운영 서버 도메인")
 	private String devMasterServerName;
@@ -20,7 +21,7 @@ public class ServerManagedConfig extends APIObject {
 	private String prodServerIpRange;
 	
 	@APIFields(description="운영 서버 도메인")
-	private String prodServerDomain;
+	private String prodServerL4Domain;
 	
 	@APIFields(description="운영 인터페이스 마스터 서버네임")
 	private String prodMasterServerName;
@@ -34,21 +35,25 @@ public class ServerManagedConfig extends APIObject {
 	@APIFields(description="인터페이스 서버 웹앱 루트 키")
 	private String ifServerWebRootKey;
 	
+	@APIFields(description="슬레이브 서버가 인터페이스 환경파일을 직접파싱할것인지 여부")
+	private String directParseXmlYn;
+	
 	
 	public ServerManagedConfig() {
 		this.reset();
 	}
 	
 	private void reset() {
-		devServerDomain = null;
+		devServerL4Domain = null;
 		devServerIpRange = null;
 		devMasterServerName = null;
 		prodServerIpRange = null;
-		prodServerDomain = null;
+		prodServerL4Domain = null;
 		prodMasterServerName = null;
 		webRootKeyName = null;
 		configXmlServerUri = null;
-		ifServerWebRootKey = null;		
+		ifServerWebRootKey = null;	
+		directParseXmlYn = OperateConstants.STR_N;
 	}
 
 	public String getDevServerIpRange() {
@@ -67,20 +72,20 @@ public class ServerManagedConfig extends APIObject {
 		this.prodServerIpRange = prodServerIpRange;
 	}
 
-	public String getDevServerDomain() {
-		return devServerDomain;
+	public String getDevServerL4Domain() {
+		return devServerL4Domain;
 	}
 
-	public void setDevServerDomain(String devServerDomain) {
-		this.devServerDomain = devServerDomain;
+	public void setDevServerL4Domain(String devServerL4Domain) {
+		this.devServerL4Domain = devServerL4Domain;
 	}
 
-	public String getProdServerDomain() {
-		return prodServerDomain;
+	public String getProdServerL4Domain() {
+		return prodServerL4Domain;
 	}
 
-	public void setProdServerDomain(String prodServerDomain) {
-		this.prodServerDomain = prodServerDomain;
+	public void setProdServerL4Domain(String prodServerL4Domain) {
+		this.prodServerL4Domain = prodServerL4Domain;
 	}
 
 	public String getDevMasterServerName() {
@@ -122,6 +127,13 @@ public class ServerManagedConfig extends APIObject {
 	public void setIfServerWebRootKey(String ifServerWebRootKey) {
 		this.ifServerWebRootKey = ifServerWebRootKey;
 	}
-	
-	
+
+	public String getDirectParseXmlYn() {
+		return directParseXmlYn;
+	}
+
+	public void setDirectParseXmlYn(String directParseXmlYn) {
+		this.directParseXmlYn = directParseXmlYn;
+	}
+
 }
