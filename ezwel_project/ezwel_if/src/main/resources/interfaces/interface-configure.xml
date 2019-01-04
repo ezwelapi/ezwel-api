@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <interfaceConfigure>
-
-	<!-- 20190102 제거함 (자바 상수로 관리) File Name : ManagedConstants
-	<serverAddress>
-		<prodServerIpRange>xxx.xxx.xxx.*</prodServerIpRange>
-		<prodServerDomain>http://ezc-api.ezwel.com/API1.0</prodServerDomain>
-		<devServerIpRange>192.168.110.83</devServerIpRange>
-		<devServerDomain>http://ezc-api.dev.ezwel.com/API1.0</devServerDomain>
-	</serverAddress>
-	-->
-
+	
+	<!-- 파일 저장소 경로 -->
 	<fileRepository>
+		<!-- 시설이미지 저장 ROOT PATH -->
 		<buildImage>
 			<localRootPath>D:/ezwel-repository/tempFileRepository/image/</localRootPath>
 			<devRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/image/</devRootPath>
 			<prodRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/image/</prodRootPath>
 		</buildImage>
+		<!-- 배치 에러로그 저장 ROOT PATH -->
 		<errorLog>
 			<localRootPath>D:/ezwel-repository/tempFileRepository/batchLog/</localRootPath>
 			<devRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/batchLog/</devRootPath>
@@ -27,6 +21,7 @@
 	<faclMapping>
 		<!-- 시설 형태소 매핑 성공 확율 -->
 		<faclMorpMappingPersent>70</faclMorpMappingPersent>
+		<!-- 매핑 시설간 최대 거리(m) -->
 		<cordMatchCriteria>50</cordMatchCriteria>
 	</faclMapping>
 	
