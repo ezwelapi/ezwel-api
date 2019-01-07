@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
+import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractComponent;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.FileUtil;
@@ -29,7 +30,10 @@ public class DownloadMultiService extends AbstractComponent implements Callable<
 	 * @param count
 	 */
 	public DownloadMultiService(ImageSDO inImageParam, Integer count) {
-		logger.warn("- DownloadService Initialized : {}, URL : {}", count, inImageParam.getImageURL());
+		//ThreadLocal 초기화
+		Local.commonHeader();
+		
+		logger.debug("- DownloadService Initialized : {}, URL : {}", count, inImageParam.getImageURL());
 		/** 필요 한 지역변수 세팅 */
 		fileUtil = (FileUtil) LApplicationContext.getBean(fileUtil, FileUtil.class);
 		this.imageParam = inImageParam;
@@ -59,6 +63,10 @@ public class DownloadMultiService extends AbstractComponent implements Callable<
 		catch(Exception e) {
 			//이미지 다운로드중 발생한 익셉션 무시
 			logger.error("[Exception] Build Image Download : {}", getCause(e));
+		}
+		finally {
+			//ThreadLocal 종료
+			Local.remove();
 		}
 		
 		return out;

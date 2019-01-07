@@ -38,6 +38,9 @@ import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionLengthAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
+
+@APIType(description="한글 필터")
 public final class KoreanFilter extends TokenFilter {
 
   private final LinkedList<KoreanToken> morphQueue = new LinkedList<KoreanToken>();

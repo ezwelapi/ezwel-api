@@ -27,11 +27,17 @@ public class MessageConstants {
 	public static final int RESPONSE_CODE_9401;
 	public static final int RESPONSE_CODE_9500;
 	public static final int RESPONSE_CODE_9600;
+	public static final int RESPONSE_CODE_9700;
 	
 	public static final Map<Integer, String> MESSAGE_MAP;
 
 	public static final String RESPONSE_CODE_FIELD_NAME;
 	public static final String RESPONSE_MESSAGE_FIELD_NAME;
+	
+	public static final String RESPONSE_TYPE_NAME_FIELD_NAME;
+	public static final String RESPONSE_TYPE_DESC_FIELD_NAME;
+	public static final String RESPONSE_OPERATION_NAME_FIELD_NAME;
+	public static final String RESPONSE_OPERATION_DESC_FIELD_NAME;
 	
 	static {
 		MESSAGE_MAP = new HashMap<Integer, String>();
@@ -51,6 +57,7 @@ public class MessageConstants {
 		RESPONSE_CODE_9401 = 9401;	// MessageConstants.RESPONSE_CODE_9401
 		RESPONSE_CODE_9500 = 9500;	// MessageConstants.RESPONSE_CODE_9500
 		RESPONSE_CODE_9600 = 9600;	// MessageConstants.RESPONSE_CODE_9600
+		RESPONSE_CODE_9700 = 9700;	// MessageConstants.RESPONSE_CODE_9700
 		
 		MESSAGE_MAP.put(RESPONSE_CODE_1000, "정상적으로 처리되었습니다.");
 		MESSAGE_MAP.put(RESPONSE_CODE_2000, "필수 파라메터 누락");
@@ -67,9 +74,14 @@ public class MessageConstants {
 		MESSAGE_MAP.put(RESPONSE_CODE_9401, "시설 이미지 다운로드 실패!!");
 		MESSAGE_MAP.put(RESPONSE_CODE_9500, "DB 핸들링 장애발생");
 		MESSAGE_MAP.put(RESPONSE_CODE_9600, "숙박 시설 매핑 장애발생");
+		MESSAGE_MAP.put(RESPONSE_CODE_9700, "프로세스 실행중");
 		
 		RESPONSE_CODE_FIELD_NAME = "code";
 		RESPONSE_MESSAGE_FIELD_NAME = "message";
+		RESPONSE_TYPE_NAME_FIELD_NAME = "typeName";
+		RESPONSE_TYPE_DESC_FIELD_NAME = "typeDesc";
+		RESPONSE_OPERATION_NAME_FIELD_NAME = "operationName";
+		RESPONSE_OPERATION_DESC_FIELD_NAME = "operationDesc";
 	}
 	
 	public static String getMessage(Integer resultCode) {

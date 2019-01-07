@@ -82,7 +82,7 @@ public class FaclSDO extends AbstractSDO {
 	
 	@APIFields(description = "시설 이름 형태소")
 	private String faclNmMorp;
-
+	
 	public BigDecimal getFaclCd() {
 		return faclCd;
 	}

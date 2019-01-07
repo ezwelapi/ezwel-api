@@ -1,10 +1,11 @@
 package com.ezwel.htl.interfaces.commons.exception;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
-
+@APIType(description="런타임 익셉셥 클래스")
 public class RunTimeException extends RuntimeException {
 
 	static final long serialVersionUID = 5930391908933291621L;

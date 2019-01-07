@@ -1,11 +1,13 @@
 package com.ezwel.htl.interfaces.server.commons.utils;
 
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 
 @Component
 @APIType(description="좌표(위도/경도) 차이 계산 유틸")
@@ -57,17 +59,31 @@ public class CoordinateUtil {
 	@APIOperation(description="두 좌표간의 거리(MILE/METER/KILOMETER) 계산합니다")
     public double getCoordDistance(double latY1, double lonX1, double latY2, double lonX2, int unit) {
         
-		double out = 0.0;
+		double out = 0D;
 		
 		try {
+			//x, y 가 모두 동잉하면 0리턴
+			if((latY1 == latY2) && (lonX1 == lonX2)) {
+				return out;
+			}
+			
+			oracleFuncUtil = (OracleFuncUtil) LApplicationContext.getBean(oracleFuncUtil, OracleFuncUtil.class);
 			
 	        double theta = lonX1 - lonX2;
+	        //logger.debug("[CoordDistance] theta : {}", theta);
+	        
 	        double dist = Math.sin(deg2rad(latY1)) * Math.sin(deg2rad(latY2)) + Math.cos(deg2rad(latY1)) * Math.cos(deg2rad(latY2)) * Math.cos(deg2rad(theta));
-	         
+	        //logger.debug("[CoordDistance] dist : {}", dist); 
+	        
 	        dist = Math.acos(dist);
+	        //logger.debug("[CoordDistance] acos : {}", dist);
+	        
 	        dist = rad2deg(dist);
+	        //logger.debug("[CoordDistance] rad2deg : {}", dist);
+	        
 	        dist = dist * 60 * 1.1515;
-	         
+	        //logger.debug("[CoordDistance] dist : {}", dist);
+	        
 	        if (unit == CoordinateUtil.CALC_UNIT_KILOMETER) {
 	            dist = dist * 1.609344;
 	        } else if(unit == CoordinateUtil.CALC_UNIT_METER) {
@@ -77,12 +93,11 @@ public class CoordinateUtil {
 	        out = oracleFuncUtil.getRound(dist, 2);
 		}
 		catch(Exception e) {
-			logger.error("두 지점(좌표)간의 거리 계산 문제 발생 : {}", e.getMessage());
+			logger.error("두 지점(좌표)간의 거리 계산 문제 발생 ==>> latY1 : {}, lonX1 : {}, latY2 : {}, lonX2 : {}, unit : {}", latY1, lonX1, latY2, lonX2, unit, e);
 		}
         
         return out;
     }
-     
  
     /**
      * 십진수도를 라디안으로 변환합니다.

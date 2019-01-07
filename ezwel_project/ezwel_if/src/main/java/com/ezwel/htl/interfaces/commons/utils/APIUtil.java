@@ -47,8 +47,8 @@ import com.ezwel.htl.interfaces.commons.utils.crypt.MD5;
  * @serviceType API
  */
 
-@APIType
 @Component
+@APIType(description="IF API 공통 유틸")
 public class APIUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(APIUtil.class);

@@ -21,14 +21,14 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
 
 /**
  * <pre>
- * Bean과 JSON간의 Marshall/Unmarshall수행 클래스 
+ * 
  * </pre>
  * @author swkim@ebsolution.co.kr
  * @date 2018. 11. 8.
  * @serviceType API
  */
-@APIType
 @Component
+@APIType(description="자바 프로퍼티 핸들링 유틸")
 public class PropertyUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(PropertyUtil.class);

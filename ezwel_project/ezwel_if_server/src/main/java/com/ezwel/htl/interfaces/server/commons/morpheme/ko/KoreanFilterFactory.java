@@ -22,62 +22,65 @@ import java.util.Map;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.util.TokenFilterFactory;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
+
 /**
  * Factory for {@link org.apache.lucene.analysis.ko.KoreanFilter}.
  * <pre class="prettyprint">
- * &lt;fieldType name="text_kr" class="solr.TextField"&gt;
- *   &lt;analyzer&gt;
- *     &lt;tokenizer class="solr.KoreanTokenizerFilterFactory"/&gt;
- *     &lt;filter class="solr.KoreanFilter"
+ * <fieldType name="text_kr" class="solr.TextField">
+ *   <analyzer>
+ *     <tokenizer class="solr.KoreanTokenizerFilterFactory"/>
+ *     <filter class="solr.KoreanFilter"
  *       bigrammable="true"
  *       hasOrigin="true"
  *       hasCNoun="true"
  *       exactMatch="false"
- *     /&gt;
- *   &lt;/filter&gt;
- * &lt;/fieldType&gt;
+ *     />
+ *   </filter>
+ * </fieldType>
  * </pre>
  */
-
+@APIType(description="한글 형태소 토큰 필터")
 public class KoreanFilterFactory extends TokenFilterFactory {
 
-  private static final String BIGRAMMABLE_PARAM = "bigrammable";
+	private static final String BIGRAMMABLE_PARAM = "bigrammable";
 
-  private static final String HAS_ORIGIN_PARAM = "hasOrigin";
+	private static final String HAS_ORIGIN_PARAM = "hasOrigin";
 
-  private static final String HAS_COMPOUND_NOUN_PARAM = "hasCNoun";
-  
-  private static final String IS_QUERY_MODE_PARAM = "queryMode";
+	private static final String HAS_COMPOUND_NOUN_PARAM = "hasCNoun";
 
-  // Decides whether the original compound noun is returned or not if analyzed morphologically
-  private static final String EXACT_MATCH_PARAM = "exactMatch";
-  
-  private final boolean bigrammable;
+	private static final String IS_QUERY_MODE_PARAM = "queryMode";
 
-  private final boolean hasOrigin;
+	// Decides whether the original compound noun is returned or not if analyzed
+	// morphologically
+	private static final String EXACT_MATCH_PARAM = "exactMatch";
 
-  private final boolean hasCNoun;
+	private final boolean bigrammable;
 
-  private final boolean exactMatch;
-  
-  private final boolean queryMode;
-  
-  /**
-   * Initialize this factory via a set of key-value pairs.
-   */
-  public KoreanFilterFactory(Map<String, String> args) {
-    super(args);
-    bigrammable = getBoolean(args, BIGRAMMABLE_PARAM, true);
-    hasOrigin = getBoolean(args, HAS_ORIGIN_PARAM, true);
-    exactMatch = getBoolean(args, EXACT_MATCH_PARAM, false);
-    hasCNoun = getBoolean(args, HAS_COMPOUND_NOUN_PARAM, true);
-    queryMode = getBoolean(args, IS_QUERY_MODE_PARAM, true);
-    if (!args.isEmpty()) {
-      throw new IllegalArgumentException("Unknown parameters: " + args);
-    }
-  }
+	private final boolean hasOrigin;
 
-  public TokenStream create(TokenStream tokenstream) {
-    return new KoreanFilter(tokenstream, bigrammable, hasOrigin, exactMatch, hasCNoun, queryMode);
-  }
+	private final boolean hasCNoun;
+
+	private final boolean exactMatch;
+
+	private final boolean queryMode;
+
+	/**
+	 * Initialize this factory via a set of key-value pairs.
+	 */
+	public KoreanFilterFactory(Map<String, String> args) {
+		super(args);
+		bigrammable = getBoolean(args, BIGRAMMABLE_PARAM, true);
+		hasOrigin = getBoolean(args, HAS_ORIGIN_PARAM, true);
+		exactMatch = getBoolean(args, EXACT_MATCH_PARAM, false);
+		hasCNoun = getBoolean(args, HAS_COMPOUND_NOUN_PARAM, true);
+		queryMode = getBoolean(args, IS_QUERY_MODE_PARAM, true);
+		if (!args.isEmpty()) {
+			throw new IllegalArgumentException("Unknown parameters: " + args);
+		}
+	}
+
+	public TokenStream create(TokenStream tokenstream) {
+		return new KoreanFilter(tokenstream, bigrammable, hasOrigin, exactMatch, hasCNoun, queryMode);
+	}
 }

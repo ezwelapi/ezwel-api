@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 
 /**
  * <pre>
@@ -12,6 +13,8 @@ import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
  * @author swkim@ebsolution.co.kr
  * @date   2018. 12. 11.
  */
+
+@APIType(description="유니코드 변환 유틸")
 public class UnicodeUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(UnicodeUtil.class);

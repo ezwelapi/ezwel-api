@@ -12,10 +12,10 @@ import org.apache.lucene.analysis.tokenattributes.KeywordAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 
-/**
- * Created by SooMyung(soomyung.lee@gmail.com) on 2014. 7. 30.
- */
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 
+
+@APIType(description="PunctuationDelimitFilter")
 public final class PunctuationDelimitFilter extends TokenFilter {
 
     private final LinkedList<Token> outQueue = new LinkedList<Token>();

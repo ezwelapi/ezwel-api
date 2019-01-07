@@ -30,8 +30,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @date 2018. 11. 8.
  * @serviceType API
  */
-@APIType
 @Component
+@APIType(description="Bean과 JSON간의 Marshall/Unmarshall수행 클래스 ")
 public class BeanMarshaller {
 
 	private static final Logger logger = LoggerFactory.getLogger(BeanMarshaller.class);

@@ -22,10 +22,10 @@ import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionLengthAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 
-/**
- * Created by SooMyung(soomyung.lee@gmail.com) on 2014. 7. 29.
- */
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 
+
+@APIType(description="한자 매핑 필터")
 public final class HanjaMappingFilter extends TokenFilter {
 
     private final LinkedList<KoreanToken> outQueue = new LinkedList<KoreanToken>();

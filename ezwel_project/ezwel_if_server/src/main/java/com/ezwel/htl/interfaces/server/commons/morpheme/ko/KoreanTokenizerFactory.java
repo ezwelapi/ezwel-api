@@ -23,6 +23,9 @@ import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.util.TokenizerFactory;
 import org.apache.lucene.util.AttributeFactory;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
+
+@APIType(description="한글 토크나이저 생성기")
 public class KoreanTokenizerFactory extends TokenizerFactory {
 
   /**

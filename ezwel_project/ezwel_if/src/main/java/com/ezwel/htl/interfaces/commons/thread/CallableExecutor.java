@@ -23,7 +23,7 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
  * @date 2018. 11. 8.
  * @serviceType API
  */
-@APIType
+@APIType(description="멈티쓰레드 풀 생성 및 실행 유틸")
 public class CallableExecutor {
 
 	private static final Logger logger = LoggerFactory.getLogger(CallableExecutor.class);

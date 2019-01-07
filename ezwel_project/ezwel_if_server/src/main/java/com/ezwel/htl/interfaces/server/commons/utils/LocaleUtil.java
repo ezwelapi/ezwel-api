@@ -8,9 +8,11 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
+@APIType(description="로케일 핸들링 유틸")
 public class LocaleUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(LocaleUtil.class);

@@ -49,7 +49,7 @@ import com.google.common.io.ByteStreams;
  * @author swkim@ebsolution.co.kr
  * @date   2018. 11. 21.
  */
-@APIType
+@APIType(description="IF 서버 공통 유틸")
 @Component
 public class CommonUtil {
 

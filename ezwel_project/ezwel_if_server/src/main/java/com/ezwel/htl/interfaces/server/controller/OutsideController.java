@@ -6,9 +6,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
+import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.sdo.FaclSDO;
+import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
 import com.ezwel.htl.interfaces.server.service.OutsideService;
 import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegFaclImgOutSDO;
@@ -35,22 +39,24 @@ import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
  * <pre>
  *  http://localhost:8282/ezwel_if_server/API1.0/inside-03/facl/record
  * </pre>
+ * 
  * @author swkim@ebsolution.co.kr
- * @date   2018. 11. 15.
+ * @date 2018. 11. 15.
  */
 @Controller
+@APIType(description = "Outside Caller Interface Controller")
 public class OutsideController {
 
 	private static final Logger logger = LoggerFactory.getLogger(OutsideController.class);
-	
+
 	private OutsideService outsideService = (OutsideService) LApplicationContext.getBean(OutsideService.class);
-	
+
 	private OutsideIFService outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
-	
+
 	/**************************************
-	 * [START] ezwel_if_server API 
+	 * [START] ezwel_if_server API
 	 **************************************/
-	
+
 	/**
 	 * <pre>
 	 * [메서드 설명]
@@ -58,133 +64,134 @@ public class OutsideController {
 	 * [사용방법 설명]
 	 * 
 	 * </pre>
+	 * 
 	 * @param httpAgentId
 	 * @param in
 	 * @param request
 	 * @param response
 	 * @return
 	 * @author swkim@ebsolution.co.kr
-	 * @since  2018. 11. 21.
+	 * @since 2018. 11. 21.
 	 */
-	@APIOperation(description="전체시설일괄등록 인터페이스", isOutputJsonMarshall=true, returnType=AllRegOutSDO.class)
-	@RequestMapping(value="/service/allReg")
+	@APIOperation(description = "전체시설일괄등록 인터페이스", isOutputJsonMarshall = true, returnType = AllRegOutSDO.class)
+	@RequestMapping(value = "/service/allReg")
 	public Object callAllReg(UserAgentSDO userAgentSDO) {
-		
-		AllRegOutSDO out = outsideService.callAllReg(userAgentSDO);
-		
-		return out;
-	}
-	
-	
-	@APIOperation(description="전체시설 이미지 다운로드 인터페이스", isOutputJsonMarshall=true, returnType=AllRegFaclImgOutSDO.class)
-	@RequestMapping(value="/service/allReg/imageDownload")
-	public Object callAllRegImageDownload() {
-		
-		/** 데이터 저장이 모두 끝난후 제휴사 별 별도 멀티쓰레드 이미지 다운로드 실행 */
-		AllRegFaclImgOutSDO out = outsideService.downloadMultiImage();	
-		
-		return out;
-	}
-	
-	
 
-	@APIOperation(description="시설검색 인터페이스", isOutputJsonMarshall=true, returnType=FaclSearchOutSDO.class)
-	@RequestMapping(value="/service/callFaclSearch")
+		if (OutsideService.isCallAllRegRunning()) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9700, "전체시설일괄등록 인터페이스가 이미 실행중입니다.");
+		}
+
+		AllRegOutSDO out = outsideService.callAllReg(userAgentSDO);
+
+		return out;
+	}
+
+	@APIOperation(description = "전체시설 이미지 다운로드 인터페이스", isOutputJsonMarshall = true, returnType = AllRegFaclImgOutSDO.class)
+	@RequestMapping(value = "/service/allReg/imageDownload")
+	public Object callAllRegImageDownload() {
+
+		/** 데이터 저장이 모두 끝난후 제휴사 별 별도 멀티쓰레드 이미지 다운로드 실행 */
+		AllRegFaclImgOutSDO out = outsideService.downloadMultiImage();
+
+		return out;
+	}
+
+	@APIOperation(description = "시설 매핑", isOutputJsonMarshall = true, returnType = FaclSDO.class)
+	@RequestMapping(value = "/service/execFaclMapping")
+	public Object execFaclMapping(FaclSDO faclSDO) {
+
+		if (OutsideService.isFaclMappingRunning()) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9700, "시설 매핑 프로세스가 이미 실행중입니다.");
+		}
+
+		TransactionOutSDO out = outsideService.execFaclMapping(faclSDO);
+
+		return out;
+	}
+
+	@APIOperation(description = "시설검색 인터페이스", isOutputJsonMarshall = true, returnType = FaclSearchOutSDO.class)
+	@RequestMapping(value = "/service/callFaclSearch")
 	public Object callFaclSearch(UserAgentSDO userAgentSDO, FaclSearchInSDO faclSearchSDO) {
-		
+
 		FaclSearchOutSDO out = outsideService.callFaclSearch(userAgentSDO, faclSearchSDO);
 
 		return out;
 	}
-	
 
-	@APIOperation(description="당일특가검색 인터페이스", isOutputJsonMarshall=true, returnType=SddSearchOutSDO.class)
-	@RequestMapping(value="/service/callSddSearch")
+	@APIOperation(description = "당일특가검색 인터페이스", isOutputJsonMarshall = true, returnType = SddSearchOutSDO.class)
+	@RequestMapping(value = "/service/callSddSearch")
 	public Object callSddSearch(UserAgentSDO userAgentSDO) {
-		
+
 		SddSearchOutSDO out = outsideService.callSddSearch(userAgentSDO);
-		
+
 		return out;
 	}
-	
-	
-	@APIOperation(description="시설 매핑", isOutputJsonMarshall=true, returnType=FaclSDO.class)
-	@RequestMapping(value="/service/execFaclMapping")
-	public Object execFaclMapping(FaclSDO faclSDO) {
-		
-		FaclSDO out = outsideService.execFaclMapping(faclSDO);
-		
-		return out;
-	}
-	
-	
+
 	/**************************************
-	 * [START] ezwel_if API 
+	 * [START] ezwel_if API
 	 **************************************/
-	
-	@RequestMapping(value="/service/callRoomRead")
-	@APIOperation(description="객실정보조회 인터페이스", isOutputJsonMarshall=true, returnType=RoomReadOutSDO.class)
+
+	@RequestMapping(value = "/service/callRoomRead")
+	@APIOperation(description = "객실정보조회 인터페이스", isOutputJsonMarshall = true, returnType = RoomReadOutSDO.class)
 	public Object callRoomRead(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
 		logger.debug("[START] callRoomRead {} {}", userAgentSDO, roomReadSDO);
 		RoomReadOutSDO out = outsideIFService.callRoomRead(userAgentSDO, roomReadSDO);
-					
-		return out;		
+
+		return out;
 	}
-	
-	@RequestMapping(value="/service/callCancelFeePsrc")
-	@APIOperation(description="취소수수규정 인터페이스", isOutputJsonMarshall=true, returnType=CancelFeePsrcOutSDO.class)
+
+	@RequestMapping(value = "/service/callCancelFeePsrc")
+	@APIOperation(description = "취소수수규정 인터페이스", isOutputJsonMarshall = true, returnType = CancelFeePsrcOutSDO.class)
 	public Object callCancelFeePsrc(UserAgentSDO userAgentSDO, CancelFeePsrcInSDO cancelFeePsrcSDO) {
-		
+
 		CancelFeePsrcOutSDO out = outsideIFService.callCancelFeePsrc(userAgentSDO, cancelFeePsrcSDO);
-		
-		return out;		
+
+		return out;
 	}
-	
-	@RequestMapping(value="/service/callRsvHistSend")
-	@APIOperation(description="결재완료내역전송 인터페이스", isOutputJsonMarshall=true, returnType=RsvHistSendOutSDO.class)
+
+	@RequestMapping(value = "/service/callRsvHistSend")
+	@APIOperation(description = "결재완료내역전송 인터페이스", isOutputJsonMarshall = true, returnType = RsvHistSendOutSDO.class)
 	public Object callRsvHistSend(UserAgentSDO userAgentSDO, RsvHistSendInSDO rsvHistSendSDO) {
-		
+
 		RsvHistSendOutSDO out = outsideIFService.callRsvHistSend(userAgentSDO, rsvHistSendSDO);
-		
+
 		return out;
 	}
-	
-	@RequestMapping(value="/service/callCancelFeeAmt")
-	@APIOperation(description="취소수수료계산 인터페이스", isOutputJsonMarshall=true, returnType=CancelFeeAmtOutSDO.class)
+
+	@RequestMapping(value = "/service/callCancelFeeAmt")
+	@APIOperation(description = "취소수수료계산 인터페이스", isOutputJsonMarshall = true, returnType = CancelFeeAmtOutSDO.class)
 	public Object callCancelFeeAmt(UserAgentSDO userAgentSDO, CancelFeeAmtInSDO cancelFeeAmtSDO) {
-		
+
 		CancelFeeAmtOutSDO out = outsideIFService.callCancelFeeAmt(userAgentSDO, cancelFeeAmtSDO);
-		
+
 		return out;
 	}
-	
-	@RequestMapping(value="/service/callOrderCancelReq")
-	@APIOperation(description="주문취소요청 인터페이스", isOutputJsonMarshall=true, returnType=OrderCancelReqOutSDO.class)
+
+	@RequestMapping(value = "/service/callOrderCancelReq")
+	@APIOperation(description = "주문취소요청 인터페이스", isOutputJsonMarshall = true, returnType = OrderCancelReqOutSDO.class)
 	public Object callOrderCancelReq(UserAgentSDO userAgentSDO, OrderCancelReqInSDO orderCancelReqSDO) {
-		
+
 		OrderCancelReqOutSDO out = outsideIFService.callOrderCancelReq(userAgentSDO, orderCancelReqSDO);
-		
+
 		return out;
 	}
 
-	@RequestMapping(value="/service/callOmiNumIdn")
-	@APIOperation(description="누락건확인 인터페이스", isOutputJsonMarshall=true, returnType=OmiNumIdnOutSDO.class)
+	@RequestMapping(value = "/service/callOmiNumIdn")
+	@APIOperation(description = "누락건확인 인터페이스", isOutputJsonMarshall = true, returnType = OmiNumIdnOutSDO.class)
 	public Object callOmiNumIdn(UserAgentSDO userAgentSDO, OmiNumIdnInSDO omiNumIdnSDO) {
-		
+
 		OmiNumIdnOutSDO out = outsideIFService.callOmiNumIdn(userAgentSDO, omiNumIdnSDO);
-		
+
 		return out;
 	}
 
-	@RequestMapping(value="/service/callEzwelJob")
-	@APIOperation(description="주문대사(이지웰) 인터페이스", isOutputJsonMarshall=true, returnType=EzwelJobOutSDO.class)
+	@RequestMapping(value = "/service/callEzwelJob")
+	@APIOperation(description = "주문대사(이지웰) 인터페이스", isOutputJsonMarshall = true, returnType = EzwelJobOutSDO.class)
 	public Object callEzwelJob(UserAgentSDO userAgentSDO, EzwelJobInSDO ezwelJobSDO) {
-		
-		EzwelJobOutSDO out = outsideIFService.callEzwelJob(userAgentSDO, ezwelJobSDO);
-		
-		return out;
-	}	
-	
 
-	
+		EzwelJobOutSDO out = outsideIFService.callEzwelJob(userAgentSDO, ezwelJobSDO);
+
+		return out;
+	}
+
 }

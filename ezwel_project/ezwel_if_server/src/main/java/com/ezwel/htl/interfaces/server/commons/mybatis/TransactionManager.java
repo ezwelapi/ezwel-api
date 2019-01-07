@@ -5,8 +5,10 @@ import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 
+@APIType(description="마이바티스 트랜젝션 관련 유틸")
 public class TransactionManager extends DefaultTransactionDefinition {
 
 	private static final long serialVersionUID = 1L;

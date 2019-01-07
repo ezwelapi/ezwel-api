@@ -14,6 +14,7 @@ import org.springframework.core.Ordered;
 import org.springframework.stereotype.Controller;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
@@ -25,6 +26,7 @@ import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
 import com.ezwel.htl.interfaces.server.commons.sdo.ExceptionSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.ResponseUtil;
+import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
 
 @Aspect
 public class MethodsAdvice implements MethodInterceptor, Ordered {
@@ -110,6 +112,11 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		Method proccesMethod = ((MethodSignature) thisJoinPoint.getSignature()).getMethod();
 		APIOperation apiOperAnno = proccesMethod.getAnnotation(APIOperation.class);
 		Controller controlAnno = typeClass.getAnnotation(Controller.class);
+		APIType apiTypeAnno = typeClass.getAnnotation(APIType.class);
+		
+		if (apiTypeAnno == null) {
+			throw new APIException("■■ 유효하지 않은 API타입(클래스) APIType어노테이션이 존재하지 않습니다. '{}'", className);
+		}
 		
 		if (apiOperAnno == null) {
 			throw new APIException("■■ 유효하지 않은 API 오퍼레이션 APIOperation어노테이션이 존재하지 않습니다. '{}'", typeMethodName);
@@ -121,7 +128,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		/** method당 실행시간 세팅 및 쓰레드내 메소드의 고유 값 생성 */
 		String methodGuid = Local.startOperation();
 		/** method description */
-		String description = APIUtil.NVL(apiOperAnno.description(), className.concat(OperateConstants.STR_DOT).concat(methodName));
+		//String description = APIUtil.NVL(apiOperAnno.description(), className.concat(OperateConstants.STR_DOT).concat(methodName));
 
 		if(controlAnno != null) {
 			logger.debug("■■ [START APIOperation] {}, methodGuid : {} ", typeMethodName, methodGuid);
@@ -156,13 +163,32 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			
 			if(controlAnno != null && retVal != null && Local.commonHeader().isControlMarshalling() && apiOperAnno.isOutputJsonMarshall()) {
 				
-				if(APIUtil.isEmpty((String) propertyUtil.getProperty(retVal, MessageConstants.RESPONSE_CODE_FIELD_NAME))) {
-					propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_CODE_FIELD_NAME, Integer.toString(MessageConstants.RESPONSE_CODE_1000));
-				}
+				logger.debug(new StringBuffer()
+	            		.append(OperateConstants.LINE_SEPARATOR )
+	            		.append( " ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ " )
+	            		.append( OperateConstants.LINE_SEPARATOR )
+	            		.append( " ■■ [AOP-Reverse] Converts the result of method '")
+	            		.append( className)
+	            		.append( OperateConstants.STR_DOT)
+	            		.append( methodName)
+	            		.append( "' to a JSON ResponseEntity.")
+	            		.append( OperateConstants.LINE_SEPARATOR )
+	            		.append( " ■■ guid : " )
+	            		.append( Local.getId() )
+	            		.append( OperateConstants.LINE_SEPARATOR )
+	            		.append( " ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ " )
+	            		.append( OperateConstants.LINE_SEPARATOR )
+	            		.toString());
 				
-				if(APIUtil.isEmpty((String) propertyUtil.getProperty(retVal, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME))) {
-					propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_1000));						
+				if(TransactionOutSDO.class.isAssignableFrom(retVal.getClass())) {
+					propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_TYPE_NAME_FIELD_NAME, typeClass.getCanonicalName());
+					propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_TYPE_DESC_FIELD_NAME, apiTypeAnno.description());
+					propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_OPERATION_NAME_FIELD_NAME, methodName);
+					propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_OPERATION_DESC_FIELD_NAME, apiOperAnno.description());
 				}
+
+				propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_CODE_FIELD_NAME, Integer.toString(MessageConstants.RESPONSE_CODE_1000));
+				propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_1000));						
 				
 				retVal = responseUtil.getResponseEntity(beanMarshaller.toJSONString(retVal));
 			}
@@ -170,6 +196,8 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			//logger.debug("■■ [OUTPUT] {} {}", typeMethodName, retVal);
 		}
 		catch(APIException e) {
+			
+			stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
 			
 			//if(controlAnno != null && apiOperAnno != null && apiOperAnno.isOutputJsonMarshall()) {
         		logger.error(new StringBuffer()
@@ -182,16 +210,14 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
             		.append( Local.getId() )
             		.append( OperateConstants.LINE_SEPARATOR )
             		.append( " ■■ Message : " )
-            		.append( e )
+            		.append( stackTraceUtil.getStackTrace(e) )
             		.append( OperateConstants.LINE_SEPARATOR )
             		.append( " ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ " )
             		.append( OperateConstants.LINE_SEPARATOR )
             		.toString()
             	);
 			
-				//e.printStackTrace();
-			
-				stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
+				e.printStackTrace();
 				
 				output = new ExceptionSDO();
 				output.setCode(e.getResultCodeString());
