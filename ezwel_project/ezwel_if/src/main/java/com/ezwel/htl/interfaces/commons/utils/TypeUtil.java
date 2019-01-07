@@ -20,10 +20,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 
 @Component
+@APIType(description="타입 핸들링 유틸")
 public class TypeUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(RegexUtil.class);

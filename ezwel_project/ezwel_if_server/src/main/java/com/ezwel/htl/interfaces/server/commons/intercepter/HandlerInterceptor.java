@@ -15,6 +15,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.entity.CommonHeader;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
@@ -26,7 +27,7 @@ import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 
-
+@APIType(description="인터페이스 서버 핸들러 인터셉터 아답터")
 public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);

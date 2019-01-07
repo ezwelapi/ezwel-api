@@ -1,10 +1,14 @@
 package ezwel_if_server.morpheme.v5;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzer;
 
 import junit.framework.TestCase;
@@ -57,6 +61,27 @@ public class TestKoreanAnalyzer extends TestCase {
 		    logger.debug("{}", actual);
 		    ts.end();
 		    ts.close();
+		}
+		
+		
+		
+		EnglishAnalyzers englishAnalyzers = new EnglishAnalyzers();
+		
+		List<String> eng = null;
+		String word = null;
+		
+		word = "Namhae Alhambra Pension";
+		eng = new ArrayList<String>(englishAnalyzers.getEnglishMorphologicalAnalysis(word));
+		for(String test : eng) {
+			logger.debug("{} : {}", word, test);
+		}
+		
+		logger.debug("-----------------------------");
+		
+		word = "Namhae Soulmate Pension";
+		eng = new ArrayList<String>(englishAnalyzers.getEnglishMorphologicalAnalysis(word));
+		for(String test : eng) {
+			logger.debug("{} : {}", word, test);
 		}
 	}
 	

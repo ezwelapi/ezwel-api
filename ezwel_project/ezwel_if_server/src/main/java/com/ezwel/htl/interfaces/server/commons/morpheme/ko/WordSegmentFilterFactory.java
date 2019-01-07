@@ -5,6 +5,9 @@ import java.util.Map;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.util.TokenFilterFactory;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
+
+@APIType(description="WordSegmentFilterFactory")
 public class WordSegmentFilterFactory extends TokenFilterFactory {
 
 	private static final String HAS_ORIGIN_PARAM = "hasOrigin";

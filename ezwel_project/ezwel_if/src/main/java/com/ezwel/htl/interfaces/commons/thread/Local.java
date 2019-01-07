@@ -20,7 +20,7 @@ import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
  * @date 2018. 11. 5.
  * @serviceType API
  */
-@APIType
+@APIType(description="ThreadLocal")
 public class Local {
 
 	private static final Logger logger = LoggerFactory.getLogger(Local.class);

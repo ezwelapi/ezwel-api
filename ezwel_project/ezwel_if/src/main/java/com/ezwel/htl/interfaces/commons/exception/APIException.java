@@ -13,7 +13,7 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
  * @date 2018. 11. 5.
  * @serviceType API
  */
-@APIType
+@APIType(description="API 익셉셥 클래스")
 public class APIException extends RunTimeException {
 
 	private static final long serialVersionUID = 8537976232349035843L;

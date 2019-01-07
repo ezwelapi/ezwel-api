@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.exception.APIException;
 
 @Component
 @APIType(description="오라클 내장함수 > 자바 구현 유틸")
@@ -61,7 +62,14 @@ public class OracleFuncUtil {
 	//ROUND 소수점 자리수 설정할수 없음!! ( 직접 구현 필요 )
 	@APIOperation(description="오라클 ROUND 대응 함수")
 	public double getRound(double value, int decimalPlaces, RoundingMode roundingMode) {
-		double out = new BigDecimal(Double.toString(value)).setScale(decimalPlaces, roundingMode).doubleValue();
+		//logger.debug("[START] getRound ==>> value : {}, decimalPlaces : {}, roundingMode : {}", value, decimalPlaces, roundingMode);
+		double out = 0D;
+		try {
+			out = new BigDecimal(Double.toString(value)).setScale(decimalPlaces, roundingMode).doubleValue();
+		}
+		catch(Exception e) {
+			throw new APIException("ROUND 실행중 장애발생 ==>> value : {}, decimalPlaces : {}, roundingMode : {}", new Object[] {value, decimalPlaces, roundingMode}, e);
+		}
 		return out;
 	}
 }

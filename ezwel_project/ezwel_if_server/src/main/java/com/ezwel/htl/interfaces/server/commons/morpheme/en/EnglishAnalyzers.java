@@ -83,12 +83,12 @@ public class EnglishAnalyzers {
 		STOP_SET = new CharArraySet(ENGLISH_STOP_WORDS, false);
 		
 		ENGLISH_ANALYZERS = new Analyzer[]{
-				//new CustomEnglishAnalyzer(STOP_SET, EXCLUSION_ENGLISH_STOP_WORDS, true),
+				new CustomEnglishAnalyzer(STOP_SET,/* EXCLUSION_ENGLISH_STOP_WORDS,*/ true),
 				new StandardAnalyzer(STOP_SET),
-				new WhitespaceAnalyzer(),
-				new SimpleAnalyzer(),
-				new StopAnalyzer(STOP_SET),
-				new org.apache.lucene.analysis.en.EnglishAnalyzer(STOP_SET, EXCLUSION_ENGLISH_STOP_WORDS),
+				/*new WhitespaceAnalyzer(),*/
+				/*new SimpleAnalyzer(),*/
+				/*new StopAnalyzer(STOP_SET),*/
+				/*new org.apache.lucene.analysis.en.EnglishAnalyzer(STOP_SET, EXCLUSION_ENGLISH_STOP_WORDS),*/
 				//new SnowballAnalyzer("English", StopAnalyzer.ENGLISH_STOP_WORDS_SET),
 				//new SnowballAnalyzer("English", ENGLISH_STOP_WORDS),
 			 };
@@ -147,7 +147,7 @@ public class EnglishAnalyzers {
 							logger.debug("- English Morpheme : {}", termAtt.toString());
 						}
 						if(APIUtil.isNotEmpty(termAtt.toString().trim())) {
-							out.add(termAtt.toString().trim()); 
+							out.add(termAtt.toString().trim().toLowerCase()); 
 						}
 					}
 				

@@ -2,6 +2,7 @@ package com.ezwel.htl.interfaces.server.repository;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
@@ -31,6 +32,7 @@ import com.ezwel.htl.interfaces.server.entities.EzcFaclAment;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
 import com.ezwel.htl.interfaces.server.entities.EzcMappingFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcMappingGrpFacl;
+import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataRealtimeImageOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
@@ -418,7 +420,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	
 	@APIOperation(description="시설 매핑 데이터 저장")
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
-	public Integer mergeFaclMappingData(List<EzcFacl> finalFaclList, Integer fromIndex, Integer toIndex, boolean isErrorPassed) {
+	public Integer mergeFaclMappingData(List<EzcFacl> finalFaclList, Integer fromIndex, Integer toIndex, boolean isErrorPassed, TransactionOutSDO txOut) {
 		
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
 		
@@ -431,14 +433,16 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		EzcMappingFacl dbMappingFacl = null;
 		
 		BigDecimal grpFaclCdSeq = null;
+		List<EzcFaclMappingSDO> ezcFaclMappingList = null;
 		
 		try {
 			
 			for(int i = 0; i < finalFaclList.size(); i++) {
 				ezcFacl = finalFaclList.get(i);
 				
-				//1. EZC 매핑 그룹 시설 DB 저장
 				if(ezcFacl.isGroupData()) {
+					
+					//1. EZC 매핑 그룹 시설 DB 저장
 					ezcMappingGrpFacl = (EzcMappingGrpFacl) propertyUtil.copySameProperty(ezcFacl, EzcMappingGrpFacl.class);
 					
 					logger.debug("::맵핑 그룹 시설 파라메터 : {}", ezcMappingGrpFacl);
@@ -459,39 +463,54 @@ public class OutsideRepository extends AbstractDataAccessObject {
 					}
 					
 					ezcFacl.setGrpFaclCd(ezcMappingGrpFacl.getGrpFaclCd());
-				}
-				
-				//2. EZC 매핑 시설 DB 저장
-				ezcMappingFacl = (EzcMappingFacl) propertyUtil.copySameProperty(ezcFacl, EzcMappingFacl.class);
-				// 그룹 코드를 찾음
-				findFaclGroupCd(finalFaclList, ezcMappingFacl, isErrorPassed);
-				
-				if(ezcMappingFacl.getGrpFaclCd() == null) {
-					//다른 시설과 매핑 정보가 없으면 매핑된 시설이 없는 시설 자신이 1:1로 등록됨
-					ezcMappingFacl.setGrpFaclCd(ezcFacl.getGrpFaclCd());
-				}
-				
-				logger.debug("::맵핑 시설 파라메터 : {}", ezcMappingFacl);
-				
-				//맵핑 그룹 시설 조회
-				dbMappingFacl = sqlSession.selectOne(getNamespace("MAPPING_FACL_MAPPER", "selectEzcMappingFacl"), ezcMappingFacl);
-				
-				// 자동 매핑의 경우 N
-				ezcMappingFacl.setHandMappingYn(CodeDataConstants.CD_N); //핸드매핑 아님
-				
-				if(dbMappingFacl != null) {
 					
-					if(CodeDataConstants.CD_Y.equals(dbMappingFacl.getHandMappingYn())) {
-						// 관리자에서 수동 매핑한 정보는 변경하지 않는다.
-						continue;
+					ezcFaclMappingList = ezcFacl.getEzcFaclMappingSDO();
+					if(ezcFaclMappingList != null) {
+						
+						//2. EZC 매핑 시설 DB 저장
+						Integer cnt = (Integer) txOut.getProfileMap("맵핑 그룹 시설 매핑 개수");
+						txOut.addProfileMap("맵핑 그룹 시설 매핑 개수", (cnt != null ? cnt : 0) + ezcFaclMappingList.size());
+						
+						for(EzcFaclMappingSDO ezcFaclMappingSDO : ezcFaclMappingList) {
+
+							ezcMappingFacl = (EzcMappingFacl) propertyUtil.copySameProperty(ezcFaclMappingSDO, EzcMappingFacl.class);
+							ezcMappingFacl.setGrpFaclCd(ezcMappingGrpFacl.getGrpFaclCd());
+							
+							// 그룹 코드를 찾음
+							//findFaclGroupCd(finalFaclList, ezcMappingFacl, isErrorPassed);
+							
+							//if(ezcMappingFacl.getGrpFaclCd() == null) {
+								//다른 시설과 매핑 정보가 없으면 매핑된 시설이 없는 시설 자신이 1:1로 등록됨
+								//ezcMappingFacl.setGrpFaclCd(ezcFacl.getGrpFaclCd());
+							//}
+							
+							logger.debug("::맵핑 시설 파라메터 : {}", ezcMappingFacl);
+							
+							//맵핑 그룹 시설 조회
+							dbMappingFacl = sqlSession.selectOne(getNamespace("MAPPING_FACL_MAPPER", "selectEzcMappingFacl"), ezcMappingFacl);
+							
+							// 자동 매핑의 경우 N
+							ezcMappingFacl.setHandMappingYn(CodeDataConstants.CD_N); //핸드매핑 아님
+							
+							if(dbMappingFacl != null) {
+								
+								if(CodeDataConstants.CD_Y.equals(dbMappingFacl.getHandMappingYn())) {
+									// 관리자에서 수동 매핑한 정보는 변경하지 않는다.
+									continue;
+								}
+								
+								//맵핑 그룹 시설 갱신
+								txCount = sqlSession.update(getNamespace("MAPPING_FACL_MAPPER", "updateEzcMappingFacl"), ezcMappingFacl);
+							}
+							else {
+								//맵핑 그룹 시설 입력
+								txCount = sqlSession.insert(getNamespace("MAPPING_FACL_MAPPER", "insertEzcMappingFacl"), ezcMappingFacl);
+							}
+						}
 					}
-					
-					//맵핑 그룹 시설 갱신
-					txCount = sqlSession.update(getNamespace("MAPPING_FACL_MAPPER", "updateEzcMappingFacl"), ezcMappingFacl);
 				}
 				else {
-					//맵핑 그룹 시설 입력
-					txCount = sqlSession.insert(getNamespace("MAPPING_FACL_MAPPER", "insertEzcMappingFacl"), ezcMappingFacl);
+					logger.debug("자식 시설 : {}", ezcFacl);
 				}
 			}
 		}
@@ -518,6 +537,17 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						.append( ezcFacl )						
 						.toString());
 				
+				if(e.getMessage().indexOf("EZ_CHECKIN.UK_EZC_MAPPING_FACL_01") > -1) {
+					
+					//EzcMappingFacl
+					List<EzcMappingFacl> ezcFaclMappingErrorData = (List<EzcMappingFacl>) txOut.getProfileMap("ezcFaclMappingErrorData");
+					if(ezcFaclMappingErrorData == null) {
+						ezcFaclMappingErrorData = new ArrayList<EzcMappingFacl>();
+					}
+					ezcFaclMappingErrorData.add(ezcMappingFacl);				
+					
+					txOut.addProfileMap("ezcFaclMappingErrorData", ezcFaclMappingErrorData);
+				}
 				
 				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
 				/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
@@ -559,8 +589,8 @@ public class OutsideRepository extends AbstractDataAccessObject {
 							/** 아래 3가지 정보를  innerEzcFacl.getEzcFaclMappingSDO() 에서 찾는다. */
 							logger.debug("# Compare Mapping FaclCd ({} == {}) data : {}", ezcMappingFacl.getFaclCd(), faclMappingSDO.getFaclCd(), faclMappingSDO );
 							if(faclMappingSDO.getFaclCd().compareTo(ezcMappingFacl.getFaclCd()) == 0) {
-								ezcMappingFacl.setKorMorpMatcPcnt(faclMappingSDO.getKorMorpEqualsPer());
-								ezcMappingFacl.setEngMorpMatcPcnt(faclMappingSDO.getEngMorpEqualsPer());
+								ezcMappingFacl.setKorMorpMatcPcnt(faclMappingSDO.getKorMorpMatcPcnt());
+								ezcMappingFacl.setEngMorpMatcPcnt(faclMappingSDO.getEngMorpMatcPcnt());
 								ezcMappingFacl.setCordDist(faclMappingSDO.getCordDist());
 								break;
 							}

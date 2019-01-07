@@ -26,8 +26,8 @@ import com.ezwel.htl.interfaces.commons.utils.TypeUtil;
 import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 
 
-@APIType
 @Component
+@APIType(description="유효성 검사기")
 public class ParamValidate {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());

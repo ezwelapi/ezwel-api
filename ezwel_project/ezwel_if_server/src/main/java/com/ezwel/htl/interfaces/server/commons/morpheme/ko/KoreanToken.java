@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.apache.lucene.analysis.ko.morph.AnalysisOutput;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
+
 /**
  * Created by SooMyung(soomyung.lee@gmail.com) on 2014. 7. 28.
  */
 
+@APIType(description="한글 형태소 토큰")
 public class KoreanToken {
 
     private String term;

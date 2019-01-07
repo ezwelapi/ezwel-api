@@ -77,22 +77,31 @@ public class EzcFaclMappingSDO extends AbstractEntity {
 	private String handMappingYn;
 
 	@APIFields(description = "정렬 순서", maxLength=4)
-	private BigDecimal dispOrder;
+	private Integer dispOrder;
 	
 	@APIFields(description = "한글 형태소 일치 개수", maxLength=9)
 	private Integer korMorpEqualsCount;
+
+	@APIFields(description = "한글 형태소 전채 개수", maxLength=9)
+	private Integer korMorpTotlCount;
 	
 	@APIFields(description = "영문 형태소 일치 개수", maxLength=9)
 	private Integer engMorpEqualsCount;
 	
+	@APIFields(description = "영문 형태소 전채 개수", maxLength=9)
+	private Integer engMorpTotlCount;
+	
 	@APIFields(description = "한글 형태소 일치 율", maxLength=9)
-	private BigDecimal korMorpEqualsPer;
+	private BigDecimal korMorpMatcPcnt;
 	
 	@APIFields(description = "영문 형태소 일치 율", maxLength=9)
-	private BigDecimal engMorpEqualsPer;
+	private BigDecimal engMorpMatcPcnt;
 	
 	@APIFields(description = "좌표 거리", maxLength=29)
 	private BigDecimal cordDist;
+	
+	@APIFields(description = "부모 시설 코드", maxLength=10)
+	private BigDecimal prntFaclCd;
 	
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011074(C)")
 	private String regId = Local.commonHeader().getSystemUserId();
@@ -242,11 +251,11 @@ public class EzcFaclMappingSDO extends AbstractEntity {
 		this.handMappingYn = handMappingYn;
 	}
 
-	public BigDecimal getDispOrder() {
+	public Integer getDispOrder() {
 		return dispOrder;
 	}
 
-	public void setDispOrder(BigDecimal dispOrder) {
+	public void setDispOrder(Integer dispOrder) {
 		this.dispOrder = dispOrder;
 	}
 
@@ -266,21 +275,36 @@ public class EzcFaclMappingSDO extends AbstractEntity {
 		this.engMorpEqualsCount = engMorpEqualsCount;
 	}
 
-
-	public BigDecimal getKorMorpEqualsPer() {
-		return korMorpEqualsPer;
+	public Integer getKorMorpTotlCount() {
+		return korMorpTotlCount;
 	}
 
-	public void setKorMorpEqualsPer(BigDecimal korMorpEqualsPer) {
-		this.korMorpEqualsPer = korMorpEqualsPer;
+	public void setKorMorpTotlCount(Integer korMorpTotlCount) {
+		this.korMorpTotlCount = korMorpTotlCount;
 	}
 
-	public BigDecimal getEngMorpEqualsPer() {
-		return engMorpEqualsPer;
+	public Integer getEngMorpTotlCount() {
+		return engMorpTotlCount;
 	}
 
-	public void setEngMorpEqualsPer(BigDecimal engMorpEqualsPer) {
-		this.engMorpEqualsPer = engMorpEqualsPer;
+	public void setEngMorpTotlCount(Integer engMorpTotlCount) {
+		this.engMorpTotlCount = engMorpTotlCount;
+	}
+
+	public BigDecimal getKorMorpMatcPcnt() {
+		return korMorpMatcPcnt;
+	}
+
+	public void setKorMorpMatcPcnt(BigDecimal korMorpMatcPcnt) {
+		this.korMorpMatcPcnt = korMorpMatcPcnt;
+	}
+
+	public BigDecimal getEngMorpMatcPcnt() {
+		return engMorpMatcPcnt;
+	}
+
+	public void setEngMorpMatcPcnt(BigDecimal engMorpMatcPcnt) {
+		this.engMorpMatcPcnt = engMorpMatcPcnt;
 	}
 
 	public BigDecimal getCordDist() {
@@ -289,6 +313,14 @@ public class EzcFaclMappingSDO extends AbstractEntity {
 
 	public void setCordDist(BigDecimal cordDist) {
 		this.cordDist = cordDist;
+	}
+	
+	public BigDecimal getPrntFaclCd() {
+		return prntFaclCd;
+	}
+
+	public void setPrntFaclCd(BigDecimal prntFaclCd) {
+		this.prntFaclCd = prntFaclCd;
 	}
 
 	public String getRegId() {

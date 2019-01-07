@@ -33,7 +33,7 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
  * @date 2018. 11. 7.
  * @serviceType API
  */
-@APIType
+@APIType(description="스프링 웹 컨텍스트 관련 유틸")
 public class LApplicationContext implements ApplicationContextAware, BeanNameAware {
 	
 	private static final Logger logger = LoggerFactory.getLogger(LApplicationContext.class);

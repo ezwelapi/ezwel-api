@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
@@ -19,6 +20,7 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
  * @date   2018. 11. 16.
  */
 @Component
+@APIType(description="응답 처리 유틸")
 public class ResponseUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(ResponseUtil.class);

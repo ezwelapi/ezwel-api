@@ -34,6 +34,9 @@ import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 import org.apache.lucene.analysis.util.CharacterUtils;
 import org.apache.lucene.util.AttributeFactory;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
+
+@APIType(description="한글 형태소 토크나이저")
 public final class KoreanTokenizer extends Tokenizer {
 
     private static Pattern PTN_KOREAN = Pattern.compile("([.]+)[\"'\\[\\(\\{]+([.]+)[\"'\\]\\)\\}]+");

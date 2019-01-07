@@ -14,8 +14,8 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 
 
 
-@APIType
 @Component
+@APIType(description="정규식(Regex) 핸들링 유틸")
 public class RegexUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(RegexUtil.class);

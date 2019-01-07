@@ -47,6 +47,7 @@ public class OperateConstants {
 	public static final BigDecimal   BIGDECIMAL_ONE_VALUE;
 	public static final BigDecimal   BIGDECIMAL_TWO_VALUE;
 	public static final BigDecimal   BIGDECIMAL_MINUS_ONE;	
+	public static final BigDecimal   BIGDECIMAL_ONE_HUNDRED_VALUE;
 	
 	public static final Double   DOUBLE_ZERO_VALUE;
 	public static final Double   DOUBLE_ONE_VALUE;
@@ -223,6 +224,7 @@ public class OperateConstants {
 		BIGDECIMAL_TWO_VALUE = new BigDecimal(2);
 		
 		BIGDECIMAL_MINUS_ONE = new BigDecimal(-1);
+		BIGDECIMAL_ONE_HUNDRED_VALUE = new BigDecimal(100);
 		
 		DOUBLE_ZERO_VALUE = 0D;
 		DOUBLE_ONE_VALUE = 1D;

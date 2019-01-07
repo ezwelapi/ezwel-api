@@ -2,6 +2,9 @@ package com.ezwel.htl.interfaces.commons.abstracts;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
@@ -48,10 +51,17 @@ public abstract class APIObject implements Serializable {
 			buffer.append(OperateConstants.STR_MID_BRACKET_R);
 			buffer.append(OperateConstants.LINE_SEPARATOR);
 			
-			Field[] field = this.getClass().getDeclaredFields();
+			List<Field> fields = new ArrayList<Field>();
+			if(this.getClass().getFields() != null) {
+				fields.addAll(Arrays.asList(this.getClass().getFields()));
+			}
+			if(this.getClass().getDeclaredFields() != null) {
+				fields.addAll(Arrays.asList(this.getClass().getDeclaredFields()));
+			}
+
 			Class<?> fieldType = null;
 			Object fieldValue = null;
-			for(Field item : field) {
+			for(Field item : fields) {
 				item.setAccessible(true);
 				fieldType = item.getType();
 				fieldValue = item.get(this);

@@ -1,5 +1,6 @@
 package com.ezwel.htl.interfaces.commons.abstracts;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
 import lombok.Data;

@@ -147,6 +147,9 @@ public class InterfaceFactory {
 	}
 	
 	private void init() {
+		//ThreadLocal 초기화
+		Local.commonHeader();
+		
 		if(APIUtil.isEmpty(this.configXmlPath)) {
 			this.configXmlPath = MANAGED_XML_FILE_NAME;
 		}
@@ -309,6 +312,7 @@ public class InterfaceFactory {
 		logger.debug("# 인터페이스 팩토리 초기화 방식 : {}", (isLocalTestInit ? "로컬개발도구" : "스프링"));
 		
 		try {
+			
 			URL fileURL = getClass().getResource(MANAGED_PROPERTIES_FILE_NAME);
 			logger.debug("# interface-managed URL : {}", fileURL);
 			
@@ -511,6 +515,9 @@ public class InterfaceFactory {
 			if(cld != null) {
 				cld.clear();
 			}
+			
+			//ThreadLocal 종료
+			Local.remove();
 		}
 	}
 	

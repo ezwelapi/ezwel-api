@@ -17,6 +17,9 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
+
+@APIType(description="WordSegmentFilter")
 public final class WordSegmentFilter extends TokenFilter {
 
     private final LinkedList<KoreanToken> outQueue = new LinkedList<KoreanToken>();
