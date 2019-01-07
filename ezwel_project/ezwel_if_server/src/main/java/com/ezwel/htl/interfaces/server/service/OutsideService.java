@@ -206,7 +206,7 @@ public class OutsideService extends AbstractServiceObject {
 				logger.info("[SERVICE-FINAL] deleteDownloadFilePathList size : {}", (out.getDeleteDownloadFilePathList() != null ? out.getDeleteDownloadFilePathList().size() : 0));
 				
 				/** 데이터 저장이 모두 끝난후 변경사항이 존재하는 제휴사 별 멀티쓰레드 이미지 다운로드/삭제 실행 */
-				//downloadMultiImage(out);	
+				downloadMultiImage(out);	
 			}
 		}
 		catch(Exception e) {
