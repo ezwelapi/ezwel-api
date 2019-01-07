@@ -36,6 +36,9 @@ public class EzcMappingGrpFacl extends AbstractEntity {
 	@APIFields(description = "그룹 시설 코드", maxLength=10, required=true, constraints="EZC_MAPPING_GRP_FACL_PK(P),SYS_C0011120(C) EZC_MAPPING_GRP_FACL_PK(UNIQUE)")
 	private BigDecimal grpFaclCd;
 
+	@APIFields(description = "시설 코드", maxLength=10, constraints="EZC_FACL_PK(P),SYS_C0011053(C) EZC_FACL_PK(UNIQUE)")
+	private BigDecimal faclCd;
+	
 	@APIFields(description = "도시 코드", maxLength=10, required=true, constraints="SYS_C0011121(C)")
 	private String cityCd;
 
@@ -95,6 +98,15 @@ public class EzcMappingGrpFacl extends AbstractEntity {
 
 	public void setGrpFaclCd(BigDecimal grpFaclCd) {
 		this.grpFaclCd = grpFaclCd;
+	}
+
+	
+	public BigDecimal getFaclCd() {
+		return faclCd;
+	}
+
+	public void setFaclCd(BigDecimal faclCd) {
+		this.faclCd = faclCd;
 	}
 
 	public String getCityCd() {

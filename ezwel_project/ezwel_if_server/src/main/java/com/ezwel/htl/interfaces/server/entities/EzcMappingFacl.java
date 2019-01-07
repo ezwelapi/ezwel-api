@@ -60,8 +60,8 @@ public class EzcMappingFacl extends AbstractEntity {
 	@APIFields(description = "수정자 ID", maxLength=20)
 	private String modiId = Local.commonHeader().getSystemUserId();
 
-	@APIFields(description = "수정일시", maxLength=14)
-	private String modidt;
+	@APIFields(description = "수정일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
+	private String modidt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
 
 
 	

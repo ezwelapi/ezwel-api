@@ -43,18 +43,17 @@
 	
 	<beans:bean id="mainJdbcDataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
 		<beans:constructor-arg ref="loadJdbcDataSource" />
- 
 		<beans:property name="logFormatter">
 			<beans:bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
 				<beans:property name="loggingType" value="MULTI_LINE"/>
-				<!-- beans:property name="margin" value="1"/-->
+				<!-- <beans:property name="margin" value="19"/> -->
 				<beans:property name="sqlPrefix" value="::SQL ==> "/>
 			</beans:bean>
 		</beans:property>
 	</beans:bean>
 	
 	<!-- DefaultTransactionDefinition -->
-	<bean class="com.ezwel.htl.interfaces.server.commons.mybatis.TransactionManager" scope="prototype" />
+	<beans:bean class="com.ezwel.htl.interfaces.server.commons.mybatis.TransactionManager" scope="prototype" />
 	
 	<!-- Mybatis Spring Works SqlSessionFactoryBean : http://mybatis.github.io/spring/ko/factorybean.html -->
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

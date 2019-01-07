@@ -252,10 +252,12 @@ public class OutsideService extends AbstractServiceObject {
 					//비교기준 시설 정보
 					for(int i = 0; i < faclMorpSearchList.size(); i++) {
 						faclMorp = faclMorpSearchList.get(i);
-						// NOT NULL 데이터 NVL 처리 (전문 설계 문제로 들어가는 코드)
+						// NOT NULL 데이터 NVL 처리 (전문 설계 문제, 테이블 설계도 문제로 들어가는 코드)
 						faclMorp.setAddrType(APIUtil.NVL(faclMorp.getAddrType(), OperateConstants.STR_EMPTY));
 						faclMorp.setAddr(APIUtil.NVL(faclMorp.getAddr(), OperateConstants.STR_EMPTY));
 						faclMorp.setPost(APIUtil.NVL(faclMorp.getPost(), OperateConstants.STR_EMPTY));
+						faclMorp.setFaclNmEng(APIUtil.NVL(faclMorp.getFaclNmEng(), OperateConstants.STR_EMPTY));
+						faclMorp.setTelNum(APIUtil.NVL(faclMorp.getTelNum(), OperateConstants.STR_EMPTY));
 						
 						//국문
 						faclKorRootMorpArray = faclMorp.getKorMorpArray();
@@ -266,14 +268,14 @@ public class OutsideService extends AbstractServiceObject {
 							Arrays.sort(faclEngRootMorpArray);
 						}
 						
-						logger.debug(" ### == >> PrntFaclCd : {}", faclMorp.getPrntFaclCd());
+						//logger.debug(" ### == >> PrntFaclCd : {}", faclMorp.getPrntFaclCd());
 						
 						if(faclMorp.getPrntFaclCd() != null) {
 							logger.debug(" ### == >> [PASS] '{}' use parent facility", faclMorp.getFaclCd());
 							continue;
 						}
 						
-						logger.debug(" ### == >> [START FIND PARENT FACILITY] Name is {}", faclMorp.getFaclNmKor());
+						//logger.debug(" ### == >> [START FIND PARENT FACILITY] Name is {}", faclMorp.getFaclNmKor());
 						
 						//비교대상 시설 정보
 						for(int j = 0; j < faclMorpSearchList.size(); j++) {
@@ -329,8 +331,6 @@ public class OutsideService extends AbstractServiceObject {
 										coordinateUtil.getCoordDistance(Double.parseDouble(faclMorp.getCoordY()), Double.parseDouble(faclMorp.getCoordX()), 
 																		Double.parseDouble(faclCompMorp.getCoordY()), Double.parseDouble(faclCompMorp.getCoordX())))
 										);
-								
-								logger.debug("=== >>> [COORD] Distance : {}", cordDist);
 							}
 							
 							//국문 매치 확율 계산
@@ -367,18 +367,20 @@ public class OutsideService extends AbstractServiceObject {
 							if(cordDist != null ) {
 								
 								if(cordDist.compareTo(InterfaceFactory.getFaclMapping().getCordMatchCriteria()) <= 0) {
+									logger.debug("=== >>> [COORD] Distance : {}", cordDist);
+
 									faclMorp.addMatchMorpFaclCdList(faclCompMorp.getFaclCd());
 									morpMatch = true;
 								}
 								else {
 									morpMatch = false;
 								}
-								
 							}
 							
 							if( morpMatch ) {
 								
 								logger.debug("== >> [FINAL] Matched > {}({}) and {}({})", faclMorp.getFaclNmKor(), faclMorp.getFaclCd(), faclCompMorp.getFaclNmKor(), faclCompMorp.getFaclCd());
+								logger.debug("==>> faclCompMorp : {}", faclCompMorp);
 								
 								//매핑된 하위 시설 정보
 								ezcFaclMappingSDO = (EzcFaclMappingSDO) propertyUtil.copySameProperty(faclCompMorp, EzcFaclMappingSDO.class);
@@ -395,6 +397,7 @@ public class OutsideService extends AbstractServiceObject {
 								//부모 그룹 시설 코드
 								faclCompMorp.setPrntFaclCd(faclMorp.getFaclCd());
 								
+								logger.debug("==>> save data ezcFaclMappingSDO : {}", ezcFaclMappingSDO);
 								faclMorp.addEzcFaclMappingSDO(ezcFaclMappingSDO);
 							}
 						}
@@ -466,7 +469,7 @@ public class OutsideService extends AbstractServiceObject {
 		/**
 		 * 시설 매핑 3000 개씩 connection 끊어서 실행
 		 */
-		Integer toIndex = fromIndex + FACL_COMM_SAVE_COUNT;
+		Integer toIndex = fromIndex + 1000 /*FACL_COMM_SAVE_COUNT*/;
 		
 		List<EzcFacl> saveFaclMappingList = null;
 		if(toIndex > morpCompareFinalList.size()) {
@@ -484,6 +487,7 @@ public class OutsideService extends AbstractServiceObject {
 			}
 			
 			if(morpCompareFinalList != null && morpCompareFinalList.size() > toIndex) {
+				logger.debug("* Next Call MergeFaclMappingData txCount : {}, toIndex : {}", txCount, toIndex);
 				mergeFaclMappingData(morpCompareFinalList, txCount, toIndex);
 			}
 		}
@@ -734,6 +738,7 @@ public class OutsideService extends AbstractServiceObject {
 			}
 			
 			if(ezcFacls != null && ezcFacls.size() > toIndex) {
+				logger.debug("* Next Call InsertFaclRegData txCount : {}, toIndex : {}", out.getTxCount(), toIndex);
 				insertFaclRegData(out, ezcFacls/* 제휴사 별 시설 목록 */, toIndex);
 			}
 		}
@@ -950,6 +955,7 @@ public class OutsideService extends AbstractServiceObject {
 			}
 			
 			if(finalFaclImgList != null && finalFaclImgList.size() > toIndex) {
+				logger.debug("* Next Call UpdateBuildImage txCount : {}, toIndex : {}", txCount, toIndex);
 				updateBuildImage(finalFaclImgList, toIndex, txCount);
 			}
 		}

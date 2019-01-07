@@ -26,7 +26,7 @@
 	<!-- File -->
 	<appender name="fileAppender" class="org.apache.log4j.DailyRollingFileAppender">
 		<!-- 톰켓 -->
-		<param name="File" value="${catalina.base}/logs/ezwel_if_server_log4j.log" /> 
+		<param name="File" value="${catalina.base}/logs/ezc_api_log4j.log" /> 
 		<!-- ${servicename.webapp.root}/ -->
 		<param name="Append" value="true" />
 		<param name="encoding" value="UTF-8" />
@@ -130,11 +130,6 @@
 	<logger name="org.springframework.aop.framework.autoproxy.InfrastructureAdvisorAutoProxyCreator">
 		<level value="WARN" />
 	</logger>	
-
-  	<!-- All DWR session information will be written here --> 
-	<logger name="org.directwebremoting.spring.DwrAnnotationPostProcessor">
-	   <level value="WARN"/>
-	</logger>
 
   	<!-- ######################################################### -->
   	

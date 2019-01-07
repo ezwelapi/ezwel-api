@@ -172,6 +172,24 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		catch(APIException e) {
 			
 			//if(controlAnno != null && apiOperAnno != null && apiOperAnno.isOutputJsonMarshall()) {
+        		logger.error(new StringBuffer()
+            		.append(OperateConstants.LINE_SEPARATOR )
+            		.append( " ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ " )
+            		.append( OperateConstants.LINE_SEPARATOR )
+            		.append( " ■■ [AOP-APIException]")
+            		.append( OperateConstants.LINE_SEPARATOR )
+            		.append( " ■■ guid : " )
+            		.append( Local.getId() )
+            		.append( OperateConstants.LINE_SEPARATOR )
+            		.append( " ■■ Message : " )
+            		.append( e )
+            		.append( OperateConstants.LINE_SEPARATOR )
+            		.append( " ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ " )
+            		.append( OperateConstants.LINE_SEPARATOR )
+            		.toString()
+            	);
+			
+				//e.printStackTrace();
 			
 				stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
 				
@@ -182,7 +200,6 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				
 				retVal = responseUtil.getResponseEntity(beanMarshaller.toJSONString(output));
 				
-				e.printStackTrace();
 			//}
 			//else {
 			//	throw new APIException("■■ [AOP-APIException] {} ({}) 장애발생" , new Object[]{ typeMethodName, description }, e);
@@ -193,11 +210,12 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			executeLapTimeMillis = Local.endOperation(methodGuid).getLapTimeMillis();
 			operationLapTime = APIUtil.getTimeMillisToSecond(executeLapTimeMillis);
 			
+			if(operationLapTime > 3D) {
+				logger.debug("■■ [This APIOperation runs longer than 3 seconds] {}, lapTime : {} sec, methodGuid : {}", typeMethodName, operationLapTime, methodGuid);
+			}
+			
 			if(controlAnno != null) {
 				logger.debug("■■ [END APIOperation({})] {}, lapTime : {} sec, methodGuid : {}", Local.commonHeader().isHandlerInterceptorComplete(), typeMethodName, operationLapTime, methodGuid);
-			}
-			else if(operationLapTime > 3D) {
-				logger.debug("■■ [This APIOperation runs longer than 3 seconds] {}, lapTime : {} sec, methodGuid : {}", typeMethodName, operationLapTime, methodGuid);
 			}
 			
 			if(Local.commonHeader().isHandlerInterceptorComplete()) {

@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.server.repository;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
@@ -19,6 +20,7 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
+import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
 import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
 import com.ezwel.htl.interfaces.server.commons.sdo.EzcFaclMappingSDO;
@@ -49,12 +51,14 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	
 	private PropertyUtil propertyUtil;
 	
+	private StackTraceUtil stackTraceUtil;
+	
 	/**
 	 * 맵핑 시설 : EZC_FACL, EZC_FACL_IMG, EZC_FACL_AMENT ( 1 : N : N ), 데이터 적제 
 	 * 요청(입력) 파라메터 없음
 	 */
-	@Transactional(propagation=Propagation.REQUIRED)
 	@APIOperation(description="전체시설일괄등록 인터페이스")
+	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
 	public AllRegOutSDO insertAllReg(AllRegOutSDO out, List<EzcFacl> saveFaclRegDatas, Integer fromIndex, Integer toIndex, boolean isErrorPassed) {
 		
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
@@ -272,17 +276,30 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			
 			if(isErrorPassed) {
 				
-				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
+				stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
 				
+				logger.error(new StringBuffer()
+						.append( "전체시설일괄등록 인터페이스 데이터 저장 장애발생" )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Code : " )
+						.append( MessageConstants.RESPONSE_CODE_9500 )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Message : " )
+						.append( e.getMessage() )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "StackTrace : " )
+						.append( stackTraceUtil.getStackTrace(e) )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Error Object : " )
+						.append( ezcFacl )						
+						.toString());
+				
+				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
 				/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
 				exceptionUtil.writeBatchErrorLog("{}\n{}@{}\n에러 발생 구간(index) from : {} ~ to : {}\n에러 발생 시설 index : {}\n에이전트코드 : {}\n시설코드 : {}\n시설명(한글) : {}\n시설명(영문) : {}", 
 						new Object[] {"[전체시설일괄등록 인터페이스 데이터 저장 장애발생]", this.getClass().getCanonicalName(), "insertAllReg", fromIndex, toIndex, i, ezcFacl.getPartnerCd(), ezcFacl.getPartnerGoodsCd(), ezcFacl.getFaclNmKor(), ezcFacl.getFaclNmEng()},
 						new StringBuffer().append(this.getClass().getSimpleName()).append(OperateConstants.STR_AT).append("insertAllReg-").append(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).toString(), 
 						e);
-				
-				logger.error("Code : {}", MessageConstants.RESPONSE_CODE_9500);
-				logger.error("Message : {}", e.getMessage());
-				e.getStackTrace();
 			}
 			else {
 				throw new APIException("시설정보 DB 저장 실패 {}", new Object[] {e.getMessage()}, e) ;
@@ -294,12 +311,10 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		
 		return out;
 	}	
-
 	
 	
-	
-	@Transactional(propagation=Propagation.REQUIRED)
 	@APIOperation(description="전문에서 삭제된 시설정보 사용안함 처리")
+	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
 	public Integer updateRemoveFacl(EzcFacl ezcFacl, boolean isErrorPassed) {
 		
 		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
@@ -350,8 +365,8 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		return ezcFaclImgList;
 	}
 	
-	@Transactional(propagation=Propagation.REQUIRED)
 	@APIOperation(description="전체시설 이미지 다운로드 경로 다건 저장")
+	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
 	public Integer updateMultiBuildImage(List<EzcFaclImg> finalFaclImgList, boolean isErrorPassed) {
 		
 		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
@@ -399,10 +414,10 @@ public class OutsideRepository extends AbstractDataAccessObject {
 
 		return txCount;
 	}
+
 	
-	
-	@Transactional(propagation=Propagation.REQUIRED)
 	@APIOperation(description="시설 매핑 데이터 저장")
+	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
 	public Integer mergeFaclMappingData(List<EzcFacl> finalFaclList, Integer fromIndex, Integer toIndex, boolean isErrorPassed) {
 		
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
@@ -426,16 +441,18 @@ public class OutsideRepository extends AbstractDataAccessObject {
 				if(ezcFacl.isGroupData()) {
 					ezcMappingGrpFacl = (EzcMappingGrpFacl) propertyUtil.copySameProperty(ezcFacl, EzcMappingGrpFacl.class);
 					
-					//맴핑 그룹 시설 조회
-					dbMappingGrpFacl = sqlSession.selectOne(getNamespace("MAPPING_GRP_FACL_MAPPER", "selectEzcMappingGrpFacl"), ezcMappingGrpFacl);
+					logger.debug("::맵핑 그룹 시설 파라메터 : {}", ezcMappingGrpFacl);
+					
+					//맵핑 그룹 시설 조회
+					dbMappingGrpFacl = sqlSession.selectOne(getNamespace("MAPPING_GRP_FACL_MAPPER", "selectEzcGrpFacl"), ezcMappingGrpFacl);
 					
 					if(dbMappingGrpFacl != null) {
-						//맴핑 그룹 시설 갱신
+						//맵핑 그룹 시설 갱신
 						ezcMappingGrpFacl.setGrpFaclCd(dbMappingGrpFacl.getGrpFaclCd());
 						txCount = sqlSession.update(getNamespace("MAPPING_GRP_FACL_MAPPER", "updateEzcMappingGrpFacl"), ezcMappingGrpFacl);
 					}
 					else {
-						//맴핑 그룹 시설 입력
+						//맵핑 그룹 시설 입력
 						grpFaclCdSeq = sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectEzcMappingGrpFaclSeq"));
 						ezcMappingGrpFacl.setGrpFaclCd(grpFaclCdSeq);
 						txCount = sqlSession.insert(getNamespace("MAPPING_GRP_FACL_MAPPER", "insertEzcMappingGrpFacl"), ezcMappingGrpFacl);
@@ -447,13 +464,16 @@ public class OutsideRepository extends AbstractDataAccessObject {
 				//2. EZC 매핑 시설 DB 저장
 				ezcMappingFacl = (EzcMappingFacl) propertyUtil.copySameProperty(ezcFacl, EzcMappingFacl.class);
 				// 그룹 코드를 찾음
-				findFaclGroupCd(ezcFacl, finalFaclList, ezcMappingFacl);
+				findFaclGroupCd(finalFaclList, ezcMappingFacl, isErrorPassed);
 				
 				if(ezcMappingFacl.getGrpFaclCd() == null) {
-					throw new APIException(" 시설 코드({})의 그룹 시설 코드를 찾을수 없습니다. !! : {}", ezcMappingFacl.getFaclCd()) ;
+					//다른 시설과 매핑 정보가 없으면 매핑된 시설이 없는 시설 자신이 1:1로 등록됨
+					ezcMappingFacl.setGrpFaclCd(ezcFacl.getGrpFaclCd());
 				}
 				
-				//맴핑 그룹 시설 조회
+				logger.debug("::맵핑 시설 파라메터 : {}", ezcMappingFacl);
+				
+				//맵핑 그룹 시설 조회
 				dbMappingFacl = sqlSession.selectOne(getNamespace("MAPPING_FACL_MAPPER", "selectEzcMappingFacl"), ezcMappingFacl);
 				
 				// 자동 매핑의 경우 N
@@ -466,11 +486,11 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						continue;
 					}
 					
-					//맴핑 그룹 시설 갱신
+					//맵핑 그룹 시설 갱신
 					txCount = sqlSession.update(getNamespace("MAPPING_FACL_MAPPER", "updateEzcMappingFacl"), ezcMappingFacl);
 				}
 				else {
-					//맴핑 그룹 시설 입력
+					//맵핑 그룹 시설 입력
 					txCount = sqlSession.insert(getNamespace("MAPPING_FACL_MAPPER", "insertEzcMappingFacl"), ezcMappingFacl);
 				}
 			}
@@ -480,18 +500,31 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			//에러 발생 레코드 errorItems에 저장후 runtimeException 없이 로깅후 종료
 			if(isErrorPassed) {
 				
-				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
+				stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
 				
+				logger.error(new StringBuffer()
+						.append( "시설 매핑 데이터 저장 장애발생" )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Code : " )
+						.append( MessageConstants.RESPONSE_CODE_9600 )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Message : " )
+						.append( e.getMessage() )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "StackTrace : " )
+						.append( stackTraceUtil.getStackTrace(e) )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Error Object : " )
+						.append( ezcFacl )						
+						.toString());
+				
+				
+				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
 				/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
 				exceptionUtil.writeBatchErrorLog("{}\n{}@{}\n에러 발생 객체 : {}", 
 						new Object[] {"[시설 매핑 데이터 저장 장애발생]", this.getClass().getCanonicalName(), "mergeFaclMappingData", ezcFacl},
 						new StringBuffer().append(this.getClass().getSimpleName()).append(OperateConstants.STR_AT).append("mergeFaclMappingData-").append(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).toString(), 
 						e);
-				
-				logger.error("Code : {}", MessageConstants.RESPONSE_CODE_9600);
-				logger.error("Message : {}", e.getMessage());
-				e.getStackTrace();
-				
 			}
 			else {
 				throw new APIException("시설 매핑 데이터 저장 장애발생 : {}", new Object[] {e.getMessage()}, e) ; 
@@ -509,42 +542,84 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	 * @param ezcMappingFacl
 	 */
 	@APIOperation(description="시설의 매핑 그룹 코드(부모코드)를 찾아 세팅하고 형태소 및 좌표 매칭 정보를 세팅합니다.")
-	private void findFaclGroupCd(EzcFacl ezcFacl, List<EzcFacl> finalFaclList, EzcMappingFacl ezcMappingFacl) {
+	private void findFaclGroupCd(List<EzcFacl> finalFaclList, EzcMappingFacl ezcMappingFacl, boolean isErrorPassed) {
 		
-		for(EzcFacl innerEzcFacl : finalFaclList) {
+		try {
 			
-			if(ezcFacl.isGroupData() && innerEzcFacl.getMatchMorpFaclCdList().contains(ezcFacl.getFaclCd())) {
+			for(EzcFacl innerEzcFacl : finalFaclList) {
 				
-				if(innerEzcFacl.getGrpFaclCd() == null) {
-					throw new APIException(" 그룹 시설 객체에 그룹시설코드가 세팅되지 않았습니다!! : {}", ezcFacl.getFaclCd());
-				}
-				//부모 그룹 코드 세팅
-				ezcMappingFacl.setGrpFaclCd(innerEzcFacl.getGrpFaclCd());
-				
-				for(EzcFaclMappingSDO faclMappingSDO : innerEzcFacl.getEzcFaclMappingSDO()) {
-					/** 아래 3가지 정보를  innerEzcFacl.getEzcFaclMappingSDO() 에서 찾는다. */
-					if(faclMappingSDO.getFaclCd().compareTo(ezcFacl.getFaclCd()) == 0) {
-						ezcMappingFacl.setKorMorpMatcPcnt(faclMappingSDO.getKorMorpEqualsPer());
-						ezcMappingFacl.setEngMorpMatcPcnt(faclMappingSDO.getEngMorpEqualsPer());
-						ezcMappingFacl.setCordDist(faclMappingSDO.getCordDist());
+				if(innerEzcFacl.isGroupData() && innerEzcFacl.getMatchMorpFaclCdList() != null && innerEzcFacl.getMatchMorpFaclCdList().contains(ezcMappingFacl.getFaclCd())) {
+					
+					//부모 그룹 코드 세팅
+					ezcMappingFacl.setGrpFaclCd(innerEzcFacl.getGrpFaclCd());
+					logger.debug("# ezcMappingFacl.getGrpFaclCd : {}", ezcMappingFacl.getGrpFaclCd());
+					if(ezcMappingFacl.getGrpFaclCd() != null) {
+						logger.debug("# Mapping facl size : {}", innerEzcFacl.getEzcFaclMappingSDO().size());
+						for(EzcFaclMappingSDO faclMappingSDO : innerEzcFacl.getEzcFaclMappingSDO()) {
+							/** 아래 3가지 정보를  innerEzcFacl.getEzcFaclMappingSDO() 에서 찾는다. */
+							logger.debug("# Compare Mapping FaclCd ({} == {}) data : {}", ezcMappingFacl.getFaclCd(), faclMappingSDO.getFaclCd(), faclMappingSDO );
+							if(faclMappingSDO.getFaclCd().compareTo(ezcMappingFacl.getFaclCd()) == 0) {
+								ezcMappingFacl.setKorMorpMatcPcnt(faclMappingSDO.getKorMorpEqualsPer());
+								ezcMappingFacl.setEngMorpMatcPcnt(faclMappingSDO.getEngMorpEqualsPer());
+								ezcMappingFacl.setCordDist(faclMappingSDO.getCordDist());
+								break;
+							}
+						}
 					}
+					else {
+						logger.error(" 그룹 시설 객체에 그룹시설코드가 세팅되지 않았습니다!! : {}", ezcMappingFacl.getFaclCd());
+					}
+					
+					break;
 				}
-
-				break;
+			}
+			
+			logger.debug("== >> Parent facility FaclCd : {}, GrpFaclCd : {}", ezcMappingFacl.getFaclCd(), ezcMappingFacl.getGrpFaclCd());
+		}
+		catch(Exception e) {
+			
+			if(isErrorPassed) {
+				
+				stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
+				
+				logger.error(new StringBuffer()
+						.append( "시설 그룹 코드(부모코드)검색 도중 장애발생" )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Code : " )
+						.append( MessageConstants.RESPONSE_CODE_9600 )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Message : " )
+						.append( e.getMessage() )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "StackTrace : " )
+						.append( stackTraceUtil.getStackTrace(e) )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Error Object : " )
+						.append( ezcMappingFacl )						
+						.toString());
+				
+				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
+				/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
+				exceptionUtil.writeBatchErrorLog("{}\n{}@{}\n에러 발생 객체 : {}", 
+						new Object[] {"[시설 매핑 데이터 저장 장애발생]", this.getClass().getCanonicalName(), "mergeFaclMappingData", ezcMappingFacl},
+						new StringBuffer().append(this.getClass().getSimpleName()).append(OperateConstants.STR_AT).append("mergeFaclMappingData-").append(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).toString(), 
+						e);				
+			}
+			else {
+				throw new APIException("시설 그룹 코드(부모코드)검색 도중 장애발생 : {}", new Object[] {e.getMessage()}, e) ;
 			}
 		}
-		
-		logger.debug("== >> Parent facility {} a {}", ezcFacl.getFaclCd(), ezcMappingFacl.getGrpFaclCd());
 	}
 	
 	
-	@Transactional(propagation=Propagation.REQUIRED)
 	@APIOperation(description="전체시설 이미지 다운로드 경로 단건 저장")
+	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
 	public Integer updateBuildImage(List<EzcFaclImg> finalFaclImgList, boolean isErrorPassed) {
 		
 		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
 		EzcFaclImg ezcFaclImg = null;
 		try {
+			
 			for(int i = 0; i < finalFaclImgList.size(); i++) {
 				ezcFaclImg = finalFaclImgList.get(i);
 				txCount = sqlSession.update(getNamespace("FACL_IMG_MAPPER", "updateEzcFaclImgDownload"), ezcFaclImg);
@@ -555,18 +630,30 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			//에러 발생 레코드 errorItems에 저장후 runtimeException 없이 로깅후 종료
 			if(isErrorPassed) {
 				
-				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
+				stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
 				
+				logger.error(new StringBuffer()
+						.append( "전체시설 이미지 다운로드 경로 저장 장애발생" )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Code : " )
+						.append( MessageConstants.RESPONSE_CODE_9500 )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Message : " )
+						.append( e.getMessage() )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "StackTrace : " )
+						.append( stackTraceUtil.getStackTrace(e) )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Error Object : " )
+						.append( ezcFaclImg )								
+						.toString());
+				
+				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
 				/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
 				exceptionUtil.writeBatchErrorLog("{}\n{}@{}\n에러 발생 객체 : {}", 
 						new Object[] {"[전체시설 이미지 다운로드 경로 저장 장애발생]", this.getClass().getCanonicalName(), "updateBuildImage", ezcFaclImg},
 						new StringBuffer().append(this.getClass().getSimpleName()).append(OperateConstants.STR_AT).append("updateBuildImage-").append(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).toString(), 
 						e);
-				
-				logger.error("Code : {}", MessageConstants.RESPONSE_CODE_9500);
-				logger.error("Message : {}", e.getMessage());
-				e.getStackTrace();
-				
 			}
 			else {
 				throw new APIException("이미지 다운르드 경로 DB 저장 실패 {}", new Object[] {e.getMessage()}, e) ; 

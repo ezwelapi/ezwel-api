@@ -27,6 +27,12 @@ public class ExceptionUtil {
 	
 	private APIUtil apiUtil;
 	
+	private final static String LOG_FILE_EXT;
+	
+	static { 
+		LOG_FILE_EXT = ".log";
+	}
+	
 	@APIOperation(description="전체시설일괄등록 인터페이스 배치 에러로그 작성")
 	public boolean writeBatchErrorLog(String userMessages, Object[] messageArguments, String fileName, Exception e) {
 		logger.debug("[START] writeBatchErrorLog fileName : {}", fileName);
@@ -64,9 +70,9 @@ public class ExceptionUtil {
 					 APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT)
 					,e.getMessage()
 					,e.getStackTrace()));
-
+			
 			if(filePath.indexOf(OperateConstants.STR_DOT) == -1) {
-				filePath = filePath.concat(".log");
+				filePath = filePath.concat(LOG_FILE_EXT);
 			}
 			
 			/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
