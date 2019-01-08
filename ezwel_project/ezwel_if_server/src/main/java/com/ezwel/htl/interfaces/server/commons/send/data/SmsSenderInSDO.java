@@ -30,7 +30,7 @@ public class SmsSenderInSDO extends AbstractSDO {
 	private String mmsSubject;
 	
 	@APIFields(description = "문자발송 Input 메세지 내용", required=true, maxLength=200)
-	private String smsText;
+	private String smsTxt;
 	
 	@APIFields(description = "문자발송 Input 서비스 구분코드", required=true, maxLength=4)
 	private String svcType;
@@ -52,17 +52,6 @@ public class SmsSenderInSDO extends AbstractSDO {
 	
 	@APIFields(description = "문자발송 Input 카카오 알림톡 템플릿 번호")
 	private String templateCode;
-	
-	@APIFields(description = "문자발송 Input 카카오 서비스 시퀀스")
-	private String serviceSeqno;
-
-	public String getServiceSeqno() {
-		return serviceSeqno;
-	}
-
-	public void setServiceSeqno(String serviceSeqno) {
-		this.serviceSeqno = serviceSeqno;
-	}
 
 	public String getCallTo() {
 		return callTo;
@@ -96,12 +85,12 @@ public class SmsSenderInSDO extends AbstractSDO {
 		this.mmsSubject = mmsSubject;
 	}
 
-	public String getSmsText() {
-		return smsText;
+	public String getSmsTxt() {
+		return smsTxt;
 	}
 
-	public void setSmsText(String smsText) {
-		this.smsText = smsText;
+	public void setSmsText(String smsTxt) {
+		this.smsTxt = smsTxt;
 	}
 
 	public String getSvcType() {
