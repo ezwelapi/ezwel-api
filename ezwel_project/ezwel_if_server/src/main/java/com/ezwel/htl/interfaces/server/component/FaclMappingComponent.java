@@ -120,16 +120,23 @@ public class FaclMappingComponent {
 								continue;
 							}
 							*/
+							
 							//같은 제휴사 또는 시설일경우 패스 (제휴사 잠시 주석)
 							if((faclMorp.getFaclCd().compareTo(faclCompMorp.getFaclCd()) == 0)) {
 								logger.debug("[PASS] 동일한 시설은 패스합니다. FaclCd : {}.compareTo({})", faclMorp.getFaclCd(), faclCompMorp.getFaclCd());
 								continue;
 							}
-							
+
 							if(faclCompMorp.isGroupData()) {
-								logger.debug("이미 그룹데이터로 선정된 시설입니다. \n:: 자식시설정보 ::{}", faclCompMorp.getEzcFaclMappingSDO());
+								logger.debug("이미 그룹데이터로 선정되고 자식시설이있는 시설입니다. EzcFaclMappingSDO \n=> faclMorp {}\n=> faclCompMorp {}", faclMorp.getEzcFaclMappingSDO(), faclCompMorp.getEzcFaclMappingSDO());
 								continue;
 							}
+							
+							if(faclCompMorp.getPrntFaclCd() != null) {
+								logger.debug("[PASS] 이미 그룹에 속한 시설은 패스합니다. PrntFaclCd => faclMorp '{}', faclCompMorp '{}'", faclMorp.getPrntFaclCd(), faclCompMorp.getPrntFaclCd());
+								continue;
+							}
+							
 							
 							//국문
 							faclKorCompareMorpArray = faclCompMorp.getKorMorpArray(); 
