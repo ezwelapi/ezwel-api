@@ -196,7 +196,7 @@ public class EzcFacl extends AbstractEntity {
 	private Set<BigDecimal> matchMorpFaclCdList;	
 
 	@APIFields(description = "시군/지역/숙소(유형/등급)별 형태소 매핑 정보")
-	private List<EzcFaclMappingSDO> ezcFaclMappingSDO;
+	private List<EzcFaclMappingSDO> ezcFaclMappingList;
 	
 	@APIFields(description = "그룹 데이터 여부")
 	private boolean isGroupData = false;	
@@ -211,19 +211,19 @@ public class EzcFacl extends AbstractEntity {
 		this.isGroupData = isGroupData;
 	}
 
-	public List<EzcFaclMappingSDO> getEzcFaclMappingSDO() {
-		return ezcFaclMappingSDO;
+	public List<EzcFaclMappingSDO> getEzcFaclMappingList() {
+		return ezcFaclMappingList;
 	}
 
-	public void setEzcFaclMappingSDO(List<EzcFaclMappingSDO> ezcFaclMapping) {
-		this.ezcFaclMappingSDO = ezcFaclMapping;
+	public void setEzcFaclMappingList(List<EzcFaclMappingSDO> ezcFaclMapping) {
+		this.ezcFaclMappingList = ezcFaclMapping;
 	}
 
-	public void addEzcFaclMappingSDO(EzcFaclMappingSDO ezcFaclMapping) {
-		if(this.ezcFaclMappingSDO == null) {
-			this.ezcFaclMappingSDO = new ArrayList<EzcFaclMappingSDO>();
+	public void addEzcFaclMappingList(EzcFaclMappingSDO ezcFaclMapping) {
+		if(this.ezcFaclMappingList == null) {
+			this.ezcFaclMappingList = new ArrayList<EzcFaclMappingSDO>();
 		}
-		this.ezcFaclMappingSDO.add(ezcFaclMapping);
+		this.ezcFaclMappingList.add(ezcFaclMapping);
 	}
 	
 	public Set<BigDecimal> getMatchMorpFaclCdList() {

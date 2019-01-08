@@ -103,6 +103,9 @@ public class EzcFaclMappingSDO extends AbstractEntity {
 	@APIFields(description = "부모 시설 코드", maxLength=10)
 	private BigDecimal prntFaclCd;
 	
+	@APIFields(description = "그룹 시설 코드", maxLength=10)
+	private BigDecimal grpFaclCd;
+	
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011074(C)")
 	private String regId = Local.commonHeader().getSystemUserId();
 
@@ -321,6 +324,15 @@ public class EzcFaclMappingSDO extends AbstractEntity {
 
 	public void setPrntFaclCd(BigDecimal prntFaclCd) {
 		this.prntFaclCd = prntFaclCd;
+	}
+
+	
+	public BigDecimal getGrpFaclCd() {
+		return grpFaclCd;
+	}
+
+	public void setGrpFaclCd(BigDecimal grpFaclCd) {
+		this.grpFaclCd = grpFaclCd;
 	}
 
 	public String getRegId() {

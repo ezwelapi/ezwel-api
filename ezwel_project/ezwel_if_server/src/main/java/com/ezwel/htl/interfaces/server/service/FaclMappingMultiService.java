@@ -78,7 +78,7 @@ public class FaclMappingMultiService extends AbstractComponent implements Callab
 			
 			if(faclMorpSearchList != null && faclMorpSearchList.size() > 0) {
 				//시설 정보 분석 매핑
-				out = faclMappingComponent.getSearchForSameFacility(faclMorpSearchList);
+				out = faclMappingComponent.getSearchForSameFacility(faclMorpSearchList, true);
 				
 				if(faclMorpSearchList.size() != out.size()) {
 					throw new APIException(MessageConstants.RESPONSE_CODE_9600, "그룹조건별 시설갯수와 시설 분석 매핑 갯수가 다릅니다. 그룹조건별 시설 개수 : {} / 매핑시설 개수 : {}", faclMorpSearchList.size(), out.size());

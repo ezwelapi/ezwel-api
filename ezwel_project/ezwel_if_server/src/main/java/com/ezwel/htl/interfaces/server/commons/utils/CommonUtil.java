@@ -55,12 +55,6 @@ public class CommonUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
 	
-	private WebApplicationContext context;
-	
-	private PropertyUtil propertyUtil;
-	
-	private StackTraceUtil stackTraceUtil;
-	
 	private KoreanAnalyzers koreanAnalyzers;
 	
 	private EnglishAnalyzers englishAnalyzers;
@@ -595,4 +589,23 @@ public class CommonUtil {
 		return bb.getLong();
 	}
 		
+    @APIOperation(description="두개의 문자열 배열을 병합 합니다.")    
+	public String[] mergeStringArray(String[] a, String[] b){
+    	String[] result = null;
+    	
+    	if(a != null && b != null) {
+	        int length = a.length + b.length;
+	        result = new String[length];
+	        System.arraycopy(a, 0, result, 0, a.length);
+	        System.arraycopy(b, 0, result, a.length, b.length);
+    	}
+    	else if(a == null) {
+    		result = b;
+    	}
+    	else if(b == null) {
+    		result = a;
+        }
+        return result;
+    }
+	
 }

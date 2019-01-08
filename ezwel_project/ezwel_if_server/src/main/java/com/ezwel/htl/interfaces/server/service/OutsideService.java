@@ -35,6 +35,7 @@ import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractServiceObject;
 import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
 import com.ezwel.htl.interfaces.server.commons.morpheme.cm.MorphemeUtil;
+import com.ezwel.htl.interfaces.server.commons.sdo.EzcFaclMappingSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.CoordinateUtil;
@@ -206,7 +207,7 @@ public class OutsideService extends AbstractServiceObject {
 				logger.info("[SERVICE-FINAL] deleteDownloadFilePathList size : {}", (out.getDeleteDownloadFilePathList() != null ? out.getDeleteDownloadFilePathList().size() : 0));
 				
 				/** 데이터 저장이 모두 끝난후 변경사항이 존재하는 제휴사 별 멀티쓰레드 이미지 다운로드/삭제 실행 */
-				//downloadMultiImage(out);	
+				downloadMultiImage(out);	
 			}
 		}
 		catch(Exception e) {
@@ -339,9 +340,27 @@ public class OutsideService extends AbstractServiceObject {
 	private Integer mergeFaclMappingData(List<EzcFacl> morpCompareFinalList, TransactionOutSDO txOut) {
 		logger.debug("[START] 시설 매핑 데이터 저장 list size : {}", (morpCompareFinalList != null ? morpCompareFinalList.size() : 0));
 		Integer out = OperateConstants.INTEGER_ZERO_VALUE;
-		
+		List<EzcFaclMappingSDO> mappingFaclFinalList = null;
 		try {
-			out = mergeFaclMappingData(morpCompareFinalList, 0, 0, txOut);
+			//매핑 그룹 시설 데이터 저장
+			out += mergeFaclMappingGrpData(morpCompareFinalList, out, 0, txOut);
+			
+			mappingFaclFinalList = new ArrayList<EzcFaclMappingSDO>();	
+			for(EzcFacl groupFacl : morpCompareFinalList) {
+				logger.debug("- Final grpFaclCd : {}, Prnt : {}", groupFacl.getGrpFaclCd(), groupFacl.getPrntFaclCd());
+				
+				if(groupFacl.getEzcFaclMappingList() != null) {
+					for(EzcFaclMappingSDO mappingFinal : groupFacl.getEzcFaclMappingList()) {
+						mappingFinal.setGrpFaclCd(groupFacl.getGrpFaclCd());
+						logger.debug("# mappingFinal : {}", mappingFinal);
+						mappingFaclFinalList.add(mappingFinal);
+					}
+				}
+			}
+			
+			logger.debug("$mappingFaclFinalList size : {}", mappingFaclFinalList.size());
+			//매핑 시설 데이터 저장
+			out += mergeFaclMappingData(mappingFaclFinalList, out, 0, txOut);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "시설 매핑 데이터 저장 장애발생", e);
@@ -351,21 +370,20 @@ public class OutsideService extends AbstractServiceObject {
 				morpCompareFinalList.clear();
 			}
 		}
-		
+		 
 		logger.debug("[END] 시설 매핑 데이터 저장 txCount : {}", out);
 		return out;
 	}
 	
 	
-	@APIOperation(description="시설 매핑 데이터 저장") 
-	private Integer mergeFaclMappingData(List<EzcFacl> morpCompareFinalList, Integer txCount, Integer fromIndex, TransactionOutSDO txOut) {
-		logger.debug("[START] mergeFaclMappingData size : {}, fromIndex : {}", (morpCompareFinalList != null ? morpCompareFinalList.size() : 0), fromIndex);
-		Integer out = OperateConstants.INTEGER_ZERO_VALUE;
+	@APIOperation(description="시설 매핑 그룹 데이터 저장") 
+	private Integer mergeFaclMappingGrpData(List<EzcFacl> morpCompareFinalList, Integer txCount, Integer fromIndex, TransactionOutSDO txOut) {
+		logger.debug("[START] mergeFaclMappingGrpData size : {}, fromIndex : {}", (morpCompareFinalList != null ? morpCompareFinalList.size() : 0), fromIndex);
 
 		/**
 		 * 시설 매핑 3000 개씩 connection 끊어서 실행
 		 */
-		Integer toIndex = fromIndex + 1000 /*FACL_COMM_SAVE_COUNT*/;
+		Integer toIndex = fromIndex + FACL_COMM_SAVE_COUNT;
 		
 		List<EzcFacl> saveFaclMappingList = null;
 		if(toIndex > morpCompareFinalList.size()) {
@@ -374,17 +392,56 @@ public class OutsideService extends AbstractServiceObject {
 
 		try {
 			
-			logger.debug("* mergeFaclMappingData subList 'fromIndex : {} ~ toIndex : {}'", fromIndex, toIndex);
+			logger.debug("* mergeFaclMappingGrpData subList 'fromIndex : {} ~ toIndex : {}'", fromIndex, toIndex);
 			saveFaclMappingList = morpCompareFinalList.subList(fromIndex, toIndex);
+			logger.debug("* mergeFaclMappingGrpData saveFaclMappingList.size {}", (saveFaclMappingList != null ? saveFaclMappingList.size() : 0));
+			
+			if(saveFaclMappingList != null && saveFaclMappingList.size() > 0) {
+				txCount += outsideRepository.mergeFaclMappingGrpData(saveFaclMappingList, fromIndex, toIndex, true, txOut);
+			}
+			
+			if(morpCompareFinalList != null && morpCompareFinalList.size() > toIndex) {
+				logger.debug("* Next Call MergeFaclMappingGrpData txCount : {}, toIndex : {}", txCount, toIndex);
+				mergeFaclMappingGrpData(morpCompareFinalList, txCount, toIndex, txOut);
+			}
+		}
+		catch(Exception e) {
+			logger.error(APIUtil.formatMessage("시설 매핑 데이터 저장 장애발생 (입력 구간 from/to : {} ~ {})", new Object[]{fromIndex, toIndex}), e);
+		}
+		
+		logger.debug("[END] mergeFaclMappingGrpData txCount : {}", txCount);
+		return txCount;
+	}
+	
+
+	@APIOperation(description="시설 매핑 데이터 저장") 
+	private Integer mergeFaclMappingData(List<EzcFaclMappingSDO> mappingFaclFinalList, Integer txCount, Integer fromIndex, TransactionOutSDO txOut) {
+		logger.debug("[START] mergeFaclMappingData size : {}, fromIndex : {}", (mappingFaclFinalList != null ? mappingFaclFinalList.size() : 0), fromIndex);
+		Integer out = OperateConstants.INTEGER_ZERO_VALUE;
+
+		/**
+		 * 시설 매핑 3000 개씩 connection 끊어서 실행
+		 */
+		Integer toIndex = fromIndex + 1000 /*FACL_COMM_SAVE_COUNT*/;
+		
+		List<EzcFaclMappingSDO> saveFaclMappingList = null;
+		if(toIndex > mappingFaclFinalList.size()) {
+			toIndex = mappingFaclFinalList.size();
+		}
+
+		try {
+			
+			logger.debug("* mergeFaclMappingData subList 'fromIndex : {} ~ toIndex : {}'", fromIndex, toIndex);
+			saveFaclMappingList = mappingFaclFinalList.subList(fromIndex, toIndex);
 			logger.debug("* mergeFaclMappingData saveFaclMappingList.size {}", (saveFaclMappingList != null ? saveFaclMappingList.size() : 0));
 			
 			if(saveFaclMappingList != null && saveFaclMappingList.size() > 0) {
 				txCount += outsideRepository.mergeFaclMappingData(saveFaclMappingList, fromIndex, toIndex, true, txOut);
 			}
 			
-			if(morpCompareFinalList != null && morpCompareFinalList.size() > toIndex) {
+			if(mappingFaclFinalList != null && mappingFaclFinalList.size() > toIndex) {
 				logger.debug("* Next Call MergeFaclMappingData txCount : {}, toIndex : {}", txCount, toIndex);
-				mergeFaclMappingData(morpCompareFinalList, txCount, toIndex, txOut);
+				mergeFaclMappingData(mappingFaclFinalList, txCount, toIndex, txOut);
 			}
 		}
 		catch(Exception e) {
@@ -395,7 +452,6 @@ public class OutsideService extends AbstractServiceObject {
 		return out;
 	}
 	
-
 	@APIOperation(description="조건 별 시설 전체 조회(페이징조회)")
 	List<EzcFacl> getFaclMappingMorpDataList(List<EzcFacl> ezcFaclList, EzcFacl ezcFacl, Integer pageNum, Integer pageSize) {
 		logger.debug("[START] getFaclMappingDataAll pageNum : {}, pageSize : {}", pageNum, pageSize);

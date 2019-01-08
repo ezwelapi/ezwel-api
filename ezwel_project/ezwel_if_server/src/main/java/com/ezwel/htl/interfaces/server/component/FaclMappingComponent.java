@@ -5,7 +5,6 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -13,9 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import com.ezwel.htl.interfaces.commons.abstracts.APIObject;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
+import com.ezwel.htl.interfaces.commons.configure.data.FaclMappingConfig;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
@@ -24,6 +25,7 @@ import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
 import com.ezwel.htl.interfaces.server.commons.sdo.EzcFaclMappingSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.CoordinateUtil;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 
@@ -37,11 +39,14 @@ public class FaclMappingComponent {
 	
 	private PropertyUtil propertyUtil;
 	
+	private CommonUtil commonUtil;
+	
 	@APIOperation(description="시설 정보 분석 매핑")
-	public List<EzcFacl> getSearchForSameFacility(List<EzcFacl> faclMorpSearchList) throws Exception {
+	public List<EzcFacl> getSearchForSameFacility(List<EzcFacl> faclMorpSearchList, boolean verbose) throws Exception {
 		
 		coordinateUtil = (CoordinateUtil) LApplicationContext.getBean(coordinateUtil, CoordinateUtil.class);
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
 		List<EzcFacl> out = null;
 		//비교 기준 객체
@@ -60,12 +65,14 @@ public class FaclMappingComponent {
 		int engMorpEqualsCount = OperateConstants.INTEGER_ZERO_VALUE;
 		boolean morpMatch = false;
 		BigDecimal cordDist = null; //거리 차이 (m)
-		int korEqualsIndex = OperateConstants.INTEGER_ZERO_VALUE;
-		int engEqualsIndex = OperateConstants.INTEGER_ZERO_VALUE;
 		BigDecimal korMorpMatcPer = OperateConstants.BIGDECIMAL_ZERO_VALUE;
 		BigDecimal engMorpMatcPer = OperateConstants.BIGDECIMAL_ZERO_VALUE;
 		EzcFaclMappingSDO ezcFaclMappingSDO = null;
-
+		boolean isExcpetion = false;
+		
+		SearchMorpVO korMorpVo = null;
+		SearchMorpVO engMorpVo = null;
+		
 		try {
 			
 			//결과 목록
@@ -98,10 +105,12 @@ public class FaclMappingComponent {
 					
 					if(faclMorp.getPrntFaclCd() == null) {
 						
-						logger.debug(" ### == >> [START FIND PARENT FACILITY] Name is {}", faclMorp.getFaclNmKor());
+						if(verbose) {
+							logger.debug(" ### == >> [START FIND PARENT FACILITY] Name is {}", faclMorp.getFaclNmKor());
+						}
 						
 						//중복필터 초기화
-						childfaclCdFilter = new HashSet<BigDecimal>();
+						//childfaclCdFilter = new HashSet<BigDecimal>();
 						
 						//비교대상 시설 정보
 						for(int j = 0; j < faclMorpSearchList.size(); j++) {
@@ -120,14 +129,26 @@ public class FaclMappingComponent {
 								continue;
 							}
 							*/
+							
 							//같은 제휴사 또는 시설일경우 패스 (제휴사 잠시 주석)
 							if((faclMorp.getFaclCd().compareTo(faclCompMorp.getFaclCd()) == 0)) {
-								logger.debug("[PASS] 동일한 시설은 패스합니다. FaclCd : {}.compareTo({})", faclMorp.getFaclCd(), faclCompMorp.getFaclCd());
+								if(verbose) {
+									logger.debug("[PASS] 동일한 시설은 패스합니다. => FaclCd : {}.compareTo({})", faclMorp.getFaclCd(), faclCompMorp.getFaclCd());
+								}
+								continue;
+							}
+
+							if(faclCompMorp.isGroupData()) {
+								if(verbose) {
+									logger.debug("이미 그룹데이터로 선정된 시설 입니다. => faclCompMorp.ezcFaclMappingList size : {}", faclCompMorp.getEzcFaclMappingList().size());
+								}
 								continue;
 							}
 							
-							if(faclCompMorp.isGroupData()) {
-								logger.debug("이미 그룹데이터로 선정된 시설입니다. \n:: 자식시설정보 ::{}", faclCompMorp.getEzcFaclMappingSDO());
+							if(faclCompMorp.getPrntFaclCd() != null) {
+								if(verbose) {
+									logger.debug("[PASS] 이미 그룹에 속한 시설은 패스합니다. PrntFaclCd => faclMorp '{}', faclCompMorp '{}'", faclMorp.getPrntFaclCd());
+								}
 								continue;
 							}
 							
@@ -140,83 +161,78 @@ public class FaclMappingComponent {
 								Arrays.sort(faclEngCompareMorpArray);
 							}
 							
-							//국문 형태소 탐색
-							for(String rootMorp : faclKorRootMorpArray) {
-								korEqualsIndex = Arrays.binarySearch(faclKorCompareMorpArray, rootMorp);
-								//logger.debug("[국문 형태소 탐색:{}, length: {}] index : {} / {} : {}", faclMorp.getFaclCd(), faclKorRootMorpArray.length, korEqualsIndex, rootMorp, faclKorCompareMorpArray);
-								if(korEqualsIndex > -1) {
-									korMorpEqualsCount++;
-								}
-							} 
-							
-							if(faclEngCompareMorpArray != null && faclEngRootMorpArray != null) {
-								//영문 형태소 탐색
-								for(String rootMorp : faclEngRootMorpArray) {
-									engEqualsIndex = Arrays.binarySearch(faclEngCompareMorpArray, rootMorp);
-									//logger.debug("[영문 형태소 탐색:{}, length: {}] index : {} / {} : {}", faclMorp.getFaclCd(), faclEngRootMorpArray.length, engEqualsIndex, rootMorp, faclEngRootMorpArray);
-									if(engEqualsIndex > -1) {
-										engMorpEqualsCount++;
-									}
-								} 
-							}
-							
-							//좌표 50m이내 인 업장인지 계산
+							//좌표 유형별 설정된 미터(m)이내 인 업장인지 계산
 							if(APIUtil.isNotEmpty(faclMorp.getCoordY()) && APIUtil.isNotEmpty(faclMorp.getCoordX())
 							  && APIUtil.isNotEmpty(faclCompMorp.getCoordY()) && APIUtil.isNotEmpty(faclCompMorp.getCoordY()) ) {
 								//좌표 (M)변환 및 좌표간 거리를 구함 
 								cordDist = new BigDecimal(Double.toString( coordinateUtil.getCoordDistance(Double.parseDouble(faclMorp.getCoordY()), Double.parseDouble(faclMorp.getCoordX()), Double.parseDouble(faclCompMorp.getCoordY()), Double.parseDouble(faclCompMorp.getCoordX()))) );
 							}
 							
+							//국문 형태소 탐색
+							korMorpVo = getMorpMatchData("KOR", faclKorRootMorpArray, faclKorCompareMorpArray, verbose);
+							//영문 형태소 탐색
+							engMorpVo = getMorpMatchData("ENG", faclEngRootMorpArray, faclEngCompareMorpArray, verbose);
+							
+							//국문 형태소 탐색
+							korMorpEqualsCount = korMorpVo.matchCount;
+							//영문 형태소 탐색
+							engMorpEqualsCount = engMorpVo.matchCount;
+							
 							//국문 매치 확율 계산
-							korMorpMatcPer = ((new BigDecimal(korMorpEqualsCount).divide(new BigDecimal(faclKorRootMorpArray.length), MathContext.DECIMAL32)).multiply(OperateConstants.BIGDECIMAL_ONE_HUNDRED_VALUE));
-							engMorpMatcPer = OperateConstants.BIGDECIMAL_ZERO_VALUE;
+							korMorpMatcPer = korMorpVo.matchPcnt; // ((new BigDecimal(korMorpEqualsCount).divide(new BigDecimal(faclKorRootMorpArray.length), MathContext.DECIMAL32)).multiply(OperateConstants.BIGDECIMAL_ONE_HUNDRED_VALUE));
+							//영문 매치 확율 계산
+							engMorpMatcPer = engMorpVo.matchPcnt;
 							
 							//국문 일치 확율 체크  
 							if(korMorpMatcPer.compareTo(InterfaceFactory.getFaclMapping().getFaclMorpMappingPersent()) >= 0) {
-								logger.debug("== > [Matched] KOR Calc : (({} / {}) * 100) = {}", korMorpEqualsCount, faclKorRootMorpArray.length, korMorpMatcPer);
-								logger.debug("== > KOR FaclCd : {}({}) Target : {}({}), korMorpEqualsCount : {}, korMorpMatcPer : {}\n- RootMorp : {}\n- CompMorp : {}"
-										, faclMorp.getFaclNmKor(), faclMorp.getFaclCd(), faclCompMorp.getFaclNmKor(), faclCompMorp.getFaclCd(), korMorpEqualsCount, korMorpMatcPer, faclMorp.getFaclKorMorp(), faclCompMorp.getFaclKorMorp());
-								//매치
-								faclMorp.addMatchMorpFaclCdList(faclCompMorp.getFaclCd());
-								morpMatch = true;
+								
+								if((korMorpVo.standardMorpArray.length - korMorpVo.matchCount) == 1) {
+									//기준형태소 배열 개수와 매치 개수의 차가 1개 일때는 실패
+									morpMatch = false;
+								}
+								else {
+									//매치
+									morpMatch = true;
+								}
 							}
 							
-							if(faclEngCompareMorpArray != null && faclEngRootMorpArray != null) {
+							//영문 일치 확율 체크  
+							if(engMorpMatcPer.compareTo(InterfaceFactory.getFaclMapping().getFaclMorpMappingPersent()) >= 0) {
 								
-								//영문 매치 확율 계산
-								engMorpMatcPer = ((new BigDecimal(engMorpEqualsCount).divide(new BigDecimal(faclEngRootMorpArray.length), MathContext.DECIMAL32)).multiply(OperateConstants.BIGDECIMAL_ONE_HUNDRED_VALUE));
-								
-								//영문 일치 확율 체크  
-								if(engMorpMatcPer.compareTo(InterfaceFactory.getFaclMapping().getFaclMorpMappingPersent()) >= 0) {
-									logger.debug("== > [Matched] ENG Calc : (({} / {}) * 100) = {}", engMorpEqualsCount, faclEngRootMorpArray.length, engMorpMatcPer);
-									logger.debug("== > ENG FaclCd : {}({}) Target : {}({}), engMorpEqualsCount : {}, engMorpMatcPer : {}\n- RootMorp : {}\n- CompMorp : {}"
-											, faclMorp.getFaclNmEng(), faclMorp.getFaclCd(), faclCompMorp.getFaclNmEng(), faclCompMorp.getFaclCd(), engMorpEqualsCount, engMorpMatcPer, faclMorp.getFaclEngMorp(), faclCompMorp.getFaclEngMorp());
+								if((engMorpVo.standardMorpArray.length - engMorpVo.matchCount) == 1) {
+									//기준형태소 배열 개수와 매치 개수의 차가 1개 일때는 실패
+									morpMatch = false;
+								}
+								else {
 									//매치
-									faclMorp.addMatchMorpFaclCdList(faclCompMorp.getFaclCd());
 									morpMatch = true;
 								}
 							}
 							
 							//좌표 비교 값이 있고 한글 또는 영문 형태소가 기준치 이상일때
-							if(cordDist != null && morpMatch) {
+							if(morpMatch && cordDist != null) {
 								
-								//좌표 거리검증 : 좌표 계산 데이터가 존재할때 거리가 50m이하이면 일치 
-								if(cordDist.compareTo(InterfaceFactory.getFaclMapping().getCordMatchCriteria()) <= 0) {
-									logger.debug("=== >>> [COORD] Distance : {}", cordDist);
-			
-									faclMorp.addMatchMorpFaclCdList(faclCompMorp.getFaclCd());
+								//좌표 거리검증 : 좌표 계산 데이터가 존재할때 거리가 설정된 미터(m)이하이면 일치 
+								if(cordDist.compareTo(getCordMatchCriteria(faclKorRootMorpArray, faclEngRootMorpArray, verbose)) <= 0) {
+									if(verbose) {
+										logger.debug("=== >>> [COORD] Distance : {}", cordDist);
+									}
 									morpMatch = true;
 								}
 								else {
-									//50M를 초과하면 불일치
+									//설정된 미터(m)를 초과하면 불일치
 									morpMatch = false;
 								}
 							}
 							
 							if( morpMatch ) {
 								
-								logger.debug("== >> [FINAL] Matched > {}({}) and {}({})", faclMorp.getFaclNmKor(), faclMorp.getFaclCd(), faclCompMorp.getFaclNmKor(), faclCompMorp.getFaclCd());
-								logger.debug("== >> faclCompMorp : {}", faclCompMorp);
+								faclMorp.addMatchMorpFaclCdList(faclCompMorp.getFaclCd());
+								
+								if(verbose) {
+									logger.debug("== >> [FINAL] Matched > {}({}) and {}({})", faclMorp.getFaclNmKor(), faclMorp.getFaclCd(), faclCompMorp.getFaclNmKor(), faclCompMorp.getFaclCd());
+									logger.debug("== >> faclCompMorp : {}", faclCompMorp);
+								}
 								
 								//매핑된 하위 시설 정보
 								ezcFaclMappingSDO = (EzcFaclMappingSDO) propertyUtil.copySameProperty(faclCompMorp, EzcFaclMappingSDO.class);
@@ -237,54 +253,33 @@ public class FaclMappingComponent {
 								faclCompMorp.setPrntFaclCd(faclMorp.getFaclCd());
 								
 								//부모가 존재하는 시설코드 세팅(필터용)
-								childfaclCdFilter.add(faclCompMorp.getFaclCd());
+								//childfaclCdFilter.add(faclCompMorp.getFaclCd());
 								
-								logger.debug("==>> 일치 판정된 비교대상 저장 : {}", ezcFaclMappingSDO);
+								if(verbose) {
+									logger.debug("==>> 일치 판정된 비교대상 저장 : {}", ezcFaclMappingSDO);
+								}
 								//일치 판정된 비교대상 그룹시설의 자식으로 저장
-								faclMorp.addEzcFaclMappingSDO(ezcFaclMappingSDO);
+								faclMorp.addEzcFaclMappingList(ezcFaclMappingSDO);
+								//그룹 데이터 확정 (자식 데이터가 존재함)
+								if(!faclMorp.isGroupData()) {
+									if(verbose) {
+										logger.debug("그룹 데이터 확정 {}", faclMorp);
+									}
+									setConfirmGroupData(faclMorp, faclKorRootMorpArray, faclEngRootMorpArray, verbose);
+								}
 							}
 						}//# end j for
 						
-						if(faclMorp.getEzcFaclMappingSDO() == null || faclMorp.getEzcFaclMappingSDO().size() == 0) {
-							//매칭되는 시설이 없을 경우 싱글 그룹 데이터임
-							faclMorp.setGroupData(true);
-						}
-						else {
-							//매칭되는 시설이 있고 자식 데이터로 설정된 이력이 없으면 그룹 데이터임
-							if(!childfaclCdFilter.contains(faclMorp.getFaclCd())) {
-								faclMorp.setGroupData(true);
-							}
-						}
-						
-						//그룹판정일경우 자기 자신정보 세팅 
-						if(faclMorp.isGroupData()) {
+						//그룹판정이 아닐경우 자기 자신정보 세팅 (self group)
+						if(!faclMorp.isGroupData()) {
 							
-							//매핑된 하위 시설 정보
-							ezcFaclMappingSDO = (EzcFaclMappingSDO) propertyUtil.copySameProperty(faclMorp, EzcFaclMappingSDO.class);
-							ezcFaclMappingSDO.setHandMappingYn(CodeDataConstants.CD_N);
-							ezcFaclMappingSDO.setDispOrder(OperateConstants.INTEGER_ZERO_VALUE);
-							//한글형태소 검증값
-							ezcFaclMappingSDO.setKorMorpTotlCount(faclKorRootMorpArray.length); //비교대상값의 한글 형태소 개수
-							ezcFaclMappingSDO.setKorMorpEqualsCount(faclKorRootMorpArray.length); //비교대상 한글 형태소가 기준형태소와 일치하는 개수
-							ezcFaclMappingSDO.setKorMorpMatcPcnt(OperateConstants.BIGDECIMAL_ONE_HUNDRED_VALUE); //한글 형태소 일치율
-							//영문형태소 검증값
-							ezcFaclMappingSDO.setEngMorpTotlCount((faclEngRootMorpArray != null ? faclEngRootMorpArray.length : 0)); //비교대상값의 영문 형태소 개수								
-							ezcFaclMappingSDO.setEngMorpEqualsCount((faclEngRootMorpArray != null ? faclEngRootMorpArray.length : 0)); //비교대상 영문 형태소가 기준형태소와 일치하는 개수
-							ezcFaclMappingSDO.setEngMorpMatcPcnt(OperateConstants.BIGDECIMAL_ONE_HUNDRED_VALUE); //영문 형태소 일치율
-							//좌표계산
-							ezcFaclMappingSDO.setCordDist(OperateConstants.BIGDECIMAL_ZERO_VALUE); // 기준 시설과 비교대상 시설의 좌표간 거리
-							//부모 그룹 시설 코드 (자신)
-							ezcFaclMappingSDO.setPrntFaclCd(faclMorp.getFaclCd());
-							//부모 시설 코드 (자신)
-							faclMorp.setPrntFaclCd(faclMorp.getFaclCd());
-							
-							logger.debug("==>> 그룹판정일경우 자기 자신정보 세팅 : {}", ezcFaclMappingSDO);
-							//일치 판정된 비교대상 저장
-							faclMorp.addEzcFaclMappingSDO(ezcFaclMappingSDO);						
+							setConfirmGroupData(faclMorp, faclKorRootMorpArray, faclEngRootMorpArray, verbose);						
 						}
 					}
 					else {
-						logger.debug(" ### == >> [PASS] '{}' use parent facility", faclMorp.getFaclCd());
+						if(verbose) {
+							logger.debug(" ### == >> [PASS] '{}' use parent facility", faclMorp.getFaclCd());
+						}
 					}
 					
 					//fileUtil.mkfile("D:/ezwel-repository", "compareMorp-finder"+Local.commonHeader().getStartTimeMillis()+".txt", faclMorp.toString(), "UTF-8", true, true);
@@ -297,14 +292,46 @@ public class FaclMappingComponent {
 			}
 		}
 		catch(APIException e) {
+			isExcpetion = true;
 			throw new APIException(MessageConstants.RESPONSE_CODE_9600, "시설 데이터 매핑 중 장애 발생", e);
 		}
 		finally {
-			
-			clearArrays(faclKorRootMorpArray, faclEngRootMorpArray, faclKorCompareMorpArray, faclEngCompareMorpArray, childfaclCdFilter);
+			//Exception 발생시 finally 에서 clear
+			if(isExcpetion) {
+				clearArrays(faclKorRootMorpArray, faclEngRootMorpArray, faclKorCompareMorpArray, faclEngCompareMorpArray, childfaclCdFilter);
+			}
 		}
 		
 		return out;
+	}
+	
+	
+	private void setConfirmGroupData(EzcFacl faclMorp, String[] faclKorRootMorpArray, String[] faclEngRootMorpArray, boolean verbose) {
+		
+		//매핑된 하위 시설 정보
+		EzcFaclMappingSDO ezcFaclMappingSDO = (EzcFaclMappingSDO) propertyUtil.copySameProperty(faclMorp, EzcFaclMappingSDO.class);
+		ezcFaclMappingSDO.setHandMappingYn(CodeDataConstants.CD_N);
+		ezcFaclMappingSDO.setDispOrder(OperateConstants.INTEGER_ZERO_VALUE);
+		//한글형태소 검증값
+		ezcFaclMappingSDO.setKorMorpTotlCount(faclKorRootMorpArray.length); //비교대상값의 한글 형태소 개수
+		ezcFaclMappingSDO.setKorMorpEqualsCount(faclKorRootMorpArray.length); //비교대상 한글 형태소가 기준형태소와 일치하는 개수
+		ezcFaclMappingSDO.setKorMorpMatcPcnt(OperateConstants.BIGDECIMAL_ONE_HUNDRED_VALUE); //한글 형태소 일치율
+		//영문형태소 검증값
+		ezcFaclMappingSDO.setEngMorpTotlCount((faclEngRootMorpArray != null ? faclEngRootMorpArray.length : 0)); //비교대상값의 영문 형태소 개수								
+		ezcFaclMappingSDO.setEngMorpEqualsCount((faclEngRootMorpArray != null ? faclEngRootMorpArray.length : 0)); //비교대상 영문 형태소가 기준형태소와 일치하는 개수
+		ezcFaclMappingSDO.setEngMorpMatcPcnt(OperateConstants.BIGDECIMAL_ONE_HUNDRED_VALUE); //영문 형태소 일치율
+		//좌표계산
+		ezcFaclMappingSDO.setCordDist(OperateConstants.BIGDECIMAL_ZERO_VALUE); // 기준 시설과 비교대상 시설의 좌표간 거리
+		//부모 그룹 시설 코드 (자신)
+		ezcFaclMappingSDO.setPrntFaclCd(faclMorp.getFaclCd());
+		//부모 시설 코드 (자신)
+		//faclMorp.setPrntFaclCd(faclMorp.getFaclCd());
+		faclMorp.setGroupData(true);
+		if(verbose) {
+			logger.debug("==>> 그룹판정일경우 자기 자신정보 세팅 : {}", ezcFaclMappingSDO);
+		}
+		//일치 판정된 비교대상 저장
+		faclMorp.addEzcFaclMappingList(ezcFaclMappingSDO);	
 	}
 	
 	
@@ -330,5 +357,79 @@ public class FaclMappingComponent {
 		if(childfaclCdFilter != null) {
 			childfaclCdFilter.clear();
 		}
+	}
+	
+	private SearchMorpVO getMorpMatchData(String language, String[] firstArray, String[] secondArray, boolean verbose) {
+		SearchMorpVO out = new SearchMorpVO();
+		
+		if(firstArray == null || secondArray == null || firstArray.length == OperateConstants.INTEGER_ZERO_VALUE || secondArray.length == OperateConstants.INTEGER_ZERO_VALUE) {
+			//둘중 하나라도 null이거나 길이가 0이면 일치개수 0 리턴
+			return out;
+		}
+		
+		//길이에 따른 기준 대상 배열
+		out.language = language;
+		out.firstCount = firstArray.length;
+		out.secondCount = secondArray.length;
+		//out.equalsIndex = OperateConstants.INTEGER_MINUS_ONE;
+		
+		//갯수가 짧은 형태소 배열을 기준으로 기준/대상 선정
+		if(out.firstCount > out.secondCount) {
+			out.standardMorpArray = secondArray;
+			out.comparedMorpArray = firstArray;
+		}
+		else {
+			out.standardMorpArray = firstArray;
+			out.comparedMorpArray = secondArray;			
+		}
+		
+		for(String rootMorp : out.standardMorpArray) {
+			out.equalsIndex = Arrays.binarySearch(out.comparedMorpArray, rootMorp);
+			if(verbose) {
+				logger.debug("[형태소 탐색 standard length: {}] index : {} / {} : {}", out.standardMorpArray.length, out.equalsIndex, rootMorp, out.comparedMorpArray);
+			}
+			
+			if(out.equalsIndex > -1) {
+				out.matchCount++;
+			}
+		}
+		
+		out.matchPcnt = ((new BigDecimal(out.matchCount).divide(new BigDecimal(out.comparedMorpArray.length), MathContext.DECIMAL32)).multiply(OperateConstants.BIGDECIMAL_ONE_HUNDRED_VALUE));
+		
+		if(verbose) {
+			StringBuffer message = new StringBuffer();
+			message.append(APIUtil.formatMessage("== > [Matched] {} Calc : (({} / {}) * 100) = {}", out.language, out.matchCount, out.comparedMorpArray.length, out.matchPcnt));
+			message.append(APIUtil.formatMessage("== > {} MatchCount : {}, MatchPcnt : {}, StandardMorpArray : {}, ComparedMorpArray : {}", out.language ,out.matchCount, out.matchPcnt, out.standardMorpArray, out.comparedMorpArray));
+			message.append(APIUtil.formatMessage("== > SearchMorpVO : {}", out));
+			logger.debug("{}", message.toString());
+		}
+		return out;
+	}
+	
+	private BigDecimal getCordMatchCriteria(String[] faclKorRootMorpArray, String[] faclEngRootMorpArray, boolean verbose) {
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+		
+		BigDecimal out = OperateConstants.BIGDECIMAL_ZERO_VALUE;
+		
+		FaclMappingConfig config = InterfaceFactory.getFaclMapping();
+
+		out = config.getTypeCordMatchCriteriaData(commonUtil.mergeStringArray(faclKorRootMorpArray, faclEngRootMorpArray));
+		if(verbose) {
+			logger.debug("[END] getCordMatchCriteria value : {}", out); 
+		}
+		
+		return out;
+	}
+	
+	private class SearchMorpVO extends APIObject {
+		
+		String language = null;
+		String[] standardMorpArray = null;
+		String[] comparedMorpArray = null;
+		Integer firstCount = OperateConstants.INTEGER_MINUS_ONE;
+		Integer secondCount = OperateConstants.INTEGER_MINUS_ONE;	
+		Integer equalsIndex = OperateConstants.INTEGER_MINUS_ONE;
+		Integer matchCount  = OperateConstants.INTEGER_ZERO_VALUE;
+		BigDecimal matchPcnt  = OperateConstants.BIGDECIMAL_ZERO_VALUE;
 	}
 }

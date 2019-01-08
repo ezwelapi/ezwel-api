@@ -22,7 +22,11 @@
 		<!-- 시설 형태소 매핑 성공 확율 -->
 		<faclMorpMappingPersent>70</faclMorpMappingPersent>
 		<!-- 매핑 시설간 최대 거리(m) -->
-		<cordMatchCriteria>50</cordMatchCriteria>
+		<pensionCordMatchCriteria>20</pensionCordMatchCriteria>
+		<hotelCordMatchCriteria>50</hotelCordMatchCriteria>
+		<condoCordMatchCriteria>100</condoCordMatchCriteria>
+		<resortCordMatchCriteria>100</resortCordMatchCriteria>
+		<etcCordMatchCriteria>40</etcCordMatchCriteria>
 	</faclMapping>
 	
 	<!-- 부가 기능 설정 정보 -->
