@@ -6,6 +6,7 @@ import java.util.Map;
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
 @APIModel(modelNames="트랜젝션 결과")
 public class TransactionOutSDO extends AbstractSDO {
@@ -23,7 +24,7 @@ public class TransactionOutSDO extends AbstractSDO {
 	private String operationDesc;
 
 	@APIFields(description = "트랜젝션 개수")
-	private Integer txCount;
+	private Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
 
 	@APIFields(description = "결과 코드")
 	private String code;

@@ -420,99 +420,61 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	
 	@APIOperation(description="시설 매핑 데이터 저장")
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
-	public Integer mergeFaclMappingData(List<EzcFacl> finalFaclList, Integer fromIndex, Integer toIndex, boolean isErrorPassed, TransactionOutSDO txOut) {
+	public Integer mergeFaclMappingGrpData(List<EzcFacl> finalFaclList, Integer fromIndex, Integer toIndex, boolean isErrorPassed, TransactionOutSDO txOut) {
 		
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
 		
 		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
-		EzcFacl ezcFacl = null;
 		EzcMappingGrpFacl ezcMappingGrpFacl = null;
 		EzcMappingGrpFacl dbMappingGrpFacl = null;
-		
-		EzcMappingFacl ezcMappingFacl = null;
-		EzcMappingFacl dbMappingFacl = null;
-		
 		BigDecimal grpFaclCdSeq = null;
-		List<EzcFaclMappingSDO> ezcFaclMappingList = null;
+		EzcFacl ezcFacl = null;
 		
 		try {
 			
+			Integer groupRowCnt = (Integer) txOut.getProfileMap("매핑그룹시설 개수 groupRowCnt");
+			if(groupRowCnt == null) {
+				groupRowCnt = 0;
+			}
+			
+			logger.debug("$finalFaclList size : {}" , finalFaclList.size());
+
+			//그룹 데이터만 저장
 			for(int i = 0; i < finalFaclList.size(); i++) {
 				ezcFacl = finalFaclList.get(i);
 				
-				if(ezcFacl.isGroupData()) {
-					
-					//1. EZC 매핑 그룹 시설 DB 저장
-					ezcMappingGrpFacl = (EzcMappingGrpFacl) propertyUtil.copySameProperty(ezcFacl, EzcMappingGrpFacl.class);
-					
-					logger.debug("::맵핑 그룹 시설 파라메터 : {}", ezcMappingGrpFacl);
-					
-					//맵핑 그룹 시설 조회
-					dbMappingGrpFacl = sqlSession.selectOne(getNamespace("MAPPING_GRP_FACL_MAPPER", "selectEzcGrpFacl"), ezcMappingGrpFacl);
-					
-					if(dbMappingGrpFacl != null) {
-						//맵핑 그룹 시설 갱신
-						ezcMappingGrpFacl.setGrpFaclCd(dbMappingGrpFacl.getGrpFaclCd());
-						txCount = sqlSession.update(getNamespace("MAPPING_GRP_FACL_MAPPER", "updateEzcMappingGrpFacl"), ezcMappingGrpFacl);
-					}
-					else {
-						//맵핑 그룹 시설 입력
-						grpFaclCdSeq = sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectEzcMappingGrpFaclSeq"));
-						ezcMappingGrpFacl.setGrpFaclCd(grpFaclCdSeq);
-						txCount = sqlSession.insert(getNamespace("MAPPING_GRP_FACL_MAPPER", "insertEzcMappingGrpFacl"), ezcMappingGrpFacl);
-					}
-					
-					ezcFacl.setGrpFaclCd(ezcMappingGrpFacl.getGrpFaclCd());
-					
-					ezcFaclMappingList = ezcFacl.getEzcFaclMappingSDO();
-					if(ezcFaclMappingList != null) {
-						
-						//2. EZC 매핑 시설 DB 저장
-						Integer cnt = (Integer) txOut.getProfileMap("맵핑 그룹 시설 매핑 개수");
-						txOut.addProfileMap("맵핑 그룹 시설 매핑 개수", (cnt != null ? cnt : 0) + ezcFaclMappingList.size());
-						
-						for(EzcFaclMappingSDO ezcFaclMappingSDO : ezcFaclMappingList) {
-
-							ezcMappingFacl = (EzcMappingFacl) propertyUtil.copySameProperty(ezcFaclMappingSDO, EzcMappingFacl.class);
-							ezcMappingFacl.setGrpFaclCd(ezcMappingGrpFacl.getGrpFaclCd());
-							
-							// 그룹 코드를 찾음
-							//findFaclGroupCd(finalFaclList, ezcMappingFacl, isErrorPassed);
-							
-							//if(ezcMappingFacl.getGrpFaclCd() == null) {
-								//다른 시설과 매핑 정보가 없으면 매핑된 시설이 없는 시설 자신이 1:1로 등록됨
-								//ezcMappingFacl.setGrpFaclCd(ezcFacl.getGrpFaclCd());
-							//}
-							
-							logger.debug("::맵핑 시설 파라메터 : {}", ezcMappingFacl);
-							
-							//맵핑 그룹 시설 조회
-							dbMappingFacl = sqlSession.selectOne(getNamespace("MAPPING_FACL_MAPPER", "selectEzcMappingFacl"), ezcMappingFacl);
-							
-							// 자동 매핑의 경우 N
-							ezcMappingFacl.setHandMappingYn(CodeDataConstants.CD_N); //핸드매핑 아님
-							
-							if(dbMappingFacl != null) {
-								
-								if(CodeDataConstants.CD_Y.equals(dbMappingFacl.getHandMappingYn())) {
-									// 관리자에서 수동 매핑한 정보는 변경하지 않는다.
-									continue;
-								}
-								
-								//맵핑 그룹 시설 갱신
-								txCount = sqlSession.update(getNamespace("MAPPING_FACL_MAPPER", "updateEzcMappingFacl"), ezcMappingFacl);
-							}
-							else {
-								//맵핑 그룹 시설 입력
-								txCount = sqlSession.insert(getNamespace("MAPPING_FACL_MAPPER", "insertEzcMappingFacl"), ezcMappingFacl);
-							}
-						}
-					}
+				logger.debug("# FaclCd( {} ) : {}, Prnt : {}, 자식 개수 : {}", ezcFacl.isGroupData(), ezcFacl.getFaclCd(), ezcFacl.getPrntFaclCd(), (ezcFacl.getEzcFaclMappingList() != null ? ezcFacl.getEzcFaclMappingList().size() : 0));
+				if(!ezcFacl.isGroupData()) {
+					logger.debug("#그룹 제외 데이터 {}", ezcFacl);
+					continue;
+				}
+				
+				//1. EZC 매핑 그룹 시설 DB 저장
+				ezcMappingGrpFacl = (EzcMappingGrpFacl) propertyUtil.copySameProperty(ezcFacl, EzcMappingGrpFacl.class);
+				
+				logger.debug("::맵핑 그룹 시설 파라메터 : {}", ezcMappingGrpFacl);
+				
+				//맵핑 그룹 시설 조회
+				dbMappingGrpFacl = sqlSession.selectOne(getNamespace("MAPPING_GRP_FACL_MAPPER", "selectEzcGrpFacl"), ezcMappingGrpFacl);
+				
+				if(dbMappingGrpFacl != null) {
+					//맵핑 그룹 시설 갱신
+					ezcMappingGrpFacl.setGrpFaclCd(dbMappingGrpFacl.getGrpFaclCd());
+					txCount += sqlSession.update(getNamespace("MAPPING_GRP_FACL_MAPPER", "updateEzcMappingGrpFacl"), ezcMappingGrpFacl);
 				}
 				else {
-					logger.debug("자식 시설 : {}", ezcFacl);
+					//맵핑 그룹 시설 입력
+					grpFaclCdSeq = sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectEzcMappingGrpFaclSeq"));
+					ezcMappingGrpFacl.setGrpFaclCd(grpFaclCdSeq);
+					txCount += sqlSession.insert(getNamespace("MAPPING_GRP_FACL_MAPPER", "insertEzcMappingGrpFacl"), ezcMappingGrpFacl);
 				}
+				
+				ezcFacl.setGrpFaclCd(ezcMappingGrpFacl.getGrpFaclCd());
+				groupRowCnt++;
 			}
+			
+			logger.debug("매핑그룹시설 개수 groupRowCnt : {}", groupRowCnt);
+			txOut.addProfileMap("매핑그룹시설 개수 groupRowCnt", groupRowCnt);
 		}
 		catch(Exception e) {
 			
@@ -534,7 +496,105 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						.append( stackTraceUtil.getStackTrace(e) )
 						.append( OperateConstants.LINE_SEPARATOR )
 						.append( "Error Object : " )
-						.append( ezcFacl )						
+						.append( ezcMappingGrpFacl )						
+						.toString());
+				
+				if(e.getMessage().indexOf("EZ_CHECKIN.UK_EZC_MAPPING_FACL_01") > -1) {
+					
+					//EzcMappingFacl
+					List<EzcMappingGrpFacl> ezcMappingGrpFaclErrorData = (List<EzcMappingGrpFacl>) txOut.getProfileMap("ezcMappingGrpFaclErrorData");
+					if(ezcMappingGrpFaclErrorData == null) {
+						ezcMappingGrpFaclErrorData = new ArrayList<EzcMappingGrpFacl>();
+					}
+					ezcMappingGrpFaclErrorData.add(ezcMappingGrpFacl);				
+					
+					txOut.addProfileMap("ezcMappingGrpFaclErrorData", ezcMappingGrpFaclErrorData);
+				}
+				
+				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
+				/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
+				exceptionUtil.writeBatchErrorLog("{}\n{}@{}\n에러 발생 객체 : {}", 
+						new Object[] {"[시설 매핑 데이터 저장 장애발생]", this.getClass().getCanonicalName(), "mergeFaclMappingGrpData", ezcMappingGrpFacl},
+						new StringBuffer().append(this.getClass().getSimpleName()).append(OperateConstants.STR_AT).append("mergeFaclMappingGrpData-").append(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).toString(), 
+						e);
+			}
+			else {
+				throw new APIException("시설 매핑 데이터 저장 장애발생 : {}", new Object[] {e.getMessage()}, e) ; 
+			}
+		}
+
+		return txCount;
+	}
+	
+	@APIOperation(description="시설 매핑 데이터 저장")
+	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
+	public Integer mergeFaclMappingData(List<EzcFaclMappingSDO> finalFaclList, Integer fromIndex, Integer toIndex, boolean isErrorPassed, TransactionOutSDO txOut) {
+		
+		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		
+		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
+		EzcFaclMappingSDO ezcFaclMappingSDO = null;
+		EzcMappingFacl ezcMappingFacl = null;
+		EzcMappingFacl dbMappingFacl = null;
+		
+		try {
+			
+			logger.debug("$finalFaclList size : {}" , finalFaclList.size());
+							
+			//2. EZC 매핑 시설 DB 저장
+			for(int i = 0; i < finalFaclList.size(); i++) {
+				ezcFaclMappingSDO = finalFaclList.get(i); 
+				
+				ezcMappingFacl = (EzcMappingFacl) propertyUtil.copySameProperty(ezcFaclMappingSDO, EzcMappingFacl.class);
+				
+				logger.debug("::맵핑 시설 파라메터 : {}", ezcMappingFacl);
+				
+				//맵핑 그룹 시설 조회
+				dbMappingFacl = sqlSession.selectOne(getNamespace("MAPPING_FACL_MAPPER", "selectEzcMappingFacl"), ezcMappingFacl);
+				
+				// 자동 매핑의 경우 N
+				ezcMappingFacl.setHandMappingYn(CodeDataConstants.CD_N); //핸드매핑 아님
+				
+				if(dbMappingFacl != null) {
+					
+					if(CodeDataConstants.CD_Y.equals(dbMappingFacl.getHandMappingYn())) {
+						// 관리자에서 수동 매핑한 정보는 변경하지 않는다.
+						continue;
+					}
+					
+					//맵핑 그룹 시설 갱신
+					txCount = sqlSession.update(getNamespace("MAPPING_FACL_MAPPER", "updateEzcMappingFacl"), ezcMappingFacl);
+				}
+				else {
+					//맵핑 그룹 시설 입력
+					txCount = sqlSession.insert(getNamespace("MAPPING_FACL_MAPPER", "insertEzcMappingFacl"), ezcMappingFacl);
+				}
+			}
+			
+			Integer childCount = (Integer) (txOut.getProfileMap("자식시설 개수") != null ? txOut.getProfileMap("자식시설 개수") : 0);
+			txOut.addProfileMap("자식시설 개수", finalFaclList.size() + childCount);
+		}
+		catch(Exception e) {
+			
+			//에러 발생 레코드 errorItems에 저장후 runtimeException 없이 로깅후 종료
+			if(isErrorPassed) {
+				
+				stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
+				
+				logger.error(new StringBuffer()
+						.append( "시설 매핑 데이터 저장 장애발생" )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Code : " )
+						.append( MessageConstants.RESPONSE_CODE_9600 )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Message : " )
+						.append( e.getMessage() )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "StackTrace : " )
+						.append( stackTraceUtil.getStackTrace(e) )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "Error Object : " )
+						.append( ezcFaclMappingSDO )						
 						.toString());
 				
 				if(e.getMessage().indexOf("EZ_CHECKIN.UK_EZC_MAPPING_FACL_01") > -1) {
@@ -552,7 +612,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
 				/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
 				exceptionUtil.writeBatchErrorLog("{}\n{}@{}\n에러 발생 객체 : {}", 
-						new Object[] {"[시설 매핑 데이터 저장 장애발생]", this.getClass().getCanonicalName(), "mergeFaclMappingData", ezcFacl},
+						new Object[] {"[시설 매핑 데이터 저장 장애발생]", this.getClass().getCanonicalName(), "mergeFaclMappingData", ezcFaclMappingSDO},
 						new StringBuffer().append(this.getClass().getSimpleName()).append(OperateConstants.STR_AT).append("mergeFaclMappingData-").append(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).toString(), 
 						e);
 			}
@@ -563,7 +623,6 @@ public class OutsideRepository extends AbstractDataAccessObject {
 
 		return txCount;
 	}
-	
 	
 	/**
 	 * 시설의 매핑 그룹 코드(부모코드)를 찾아 세팅하고 형태소 및 좌표 매칭 정보를 세팅합니다.
@@ -584,8 +643,8 @@ public class OutsideRepository extends AbstractDataAccessObject {
 					ezcMappingFacl.setGrpFaclCd(innerEzcFacl.getGrpFaclCd());
 					logger.debug("# ezcMappingFacl.getGrpFaclCd : {}", ezcMappingFacl.getGrpFaclCd());
 					if(ezcMappingFacl.getGrpFaclCd() != null) {
-						logger.debug("# Mapping facl size : {}", innerEzcFacl.getEzcFaclMappingSDO().size());
-						for(EzcFaclMappingSDO faclMappingSDO : innerEzcFacl.getEzcFaclMappingSDO()) {
+						logger.debug("# Mapping facl size : {}", innerEzcFacl.getEzcFaclMappingList().size());
+						for(EzcFaclMappingSDO faclMappingSDO : innerEzcFacl.getEzcFaclMappingList()) {
 							/** 아래 3가지 정보를  innerEzcFacl.getEzcFaclMappingSDO() 에서 찾는다. */
 							logger.debug("# Compare Mapping FaclCd ({} == {}) data : {}", ezcMappingFacl.getFaclCd(), faclMappingSDO.getFaclCd(), faclMappingSDO );
 							if(faclMappingSDO.getFaclCd().compareTo(ezcMappingFacl.getFaclCd()) == 0) {
