@@ -89,42 +89,23 @@ public class FaclMappingComponent {
 			
 			if(faclMorpSearchList != null && faclMorpSearchList.size() > 0) {
 				
+				//앞전 매핑된 데이터의 그룹시설 여부와 부모(그룹)정보를 찾음 (DB설계상 데이터를 적제할곳이 없음으로 프로그램에서 처리함)
+				findPrntGroup(faclMorpSearchList);
+				
 				//비교기준 시설 정보
 				for(int i = 0; i < faclMorpSearchList.size(); i++) {
 					
 					//비교기준
 					faclMorp = faclMorpSearchList.get(i);
+					logger.debug("■■■■ 기준데이터 FaclCd : {}, GroupData : {}, PrntFaclCd : {}", faclMorp.getFaclCd(), faclMorp.isGroupData(), faclMorp.getPrntFaclCd());
+					
 					// NOT NULL 데이터 NVL 처리 (전문 설계 문제, 테이블 설계도 문제로 들어가는 코드)
 					faclMorp.setAddrType(APIUtil.NVL(faclMorp.getAddrType(), OperateConstants.STR_EMPTY));
 					faclMorp.setAddr(APIUtil.NVL(faclMorp.getAddr(), OperateConstants.STR_EMPTY));
 					faclMorp.setPost(APIUtil.NVL(faclMorp.getPost(), OperateConstants.STR_EMPTY));
 					faclMorp.setFaclNmEng(APIUtil.NVL(faclMorp.getFaclNmEng(), OperateConstants.STR_EMPTY));
 					faclMorp.setTelNum(APIUtil.NVL(faclMorp.getTelNum(), OperateConstants.STR_EMPTY));
-					
-					//이전 매핑된 데이터중 비교기준이된 그룹 데이터의 실제 데이터는 cordDist에 값 -1을 저장하고있다. 즉 비교기준 부모 시설 데이터이다.
-					if(faclMorp.getCordDist() != null && faclMorp.getGrpFaclCd() != null) {
-						logger.debug("*** faclMorp.getCordDist() : {}", faclMorp.getCordDist());
-						
-						if(faclMorp.getCordDist().compareTo(OperateConstants.BIGDECIMAL_MINUS_ONE) == 0) {
-							//부모인 데이터
-							faclMorp.setGroupData(true);
-						}
-						else {
-							//부모 탐색
-							for(int x = 0; x < faclMorpSearchList.size(); x++) {
-								faclGrpMorp = faclMorpSearchList.get(x);
-								//cordDist가 -1(그룹시설)인것들중 같은 그룹시설코드를 찾는다.
-								if(faclGrpMorp.getCordDist() != null 
-									&& faclGrpMorp.getCordDist().compareTo(OperateConstants.BIGDECIMAL_MINUS_ONE) == 0
-									&& faclMorp.getGrpFaclCd().compareTo(faclGrpMorp.getGrpFaclCd()) == 0) {
-									//그룹이된 부모 시설 코드 세팅
-									faclMorp.setPrntFaclCd(faclGrpMorp.getFaclCd());
-									break;
-								}
-							}
-						}
-					}
-					
+		
 					//국문
 					faclKorRootMorpArray = faclMorp.getKorMorpArray();
 					Arrays.sort(faclKorRootMorpArray);
@@ -336,6 +317,49 @@ public class FaclMappingComponent {
 		}
 		
 		return out;
+	}
+	
+	
+	/**
+	 * 앞전 매핑된 데이터의 그룹시설 여부와 부모(그룹)정보를 찾음 (DB설계상 데이터를 적제할곳이 없음으로 프로그램에서 처리함)
+	 * @param faclMorpSearchList
+	 */
+	@APIOperation(description="앞전 매핑된 데이터의 그룹시설 여부와 부모(그룹)정보를 찾음 (DB설계상 데이터를 적제할곳이 없음으로 프로그램에서 처리함)")
+	private void findPrntGroup(List<EzcFacl> faclMorpSearchList) {
+		
+		EzcFacl faclMorp = null;
+		EzcFacl faclGrpMorp = null;
+		
+		//비교기준 시설 정보
+		for(int i = 0; i < faclMorpSearchList.size(); i++) {
+			
+			//비교기준
+			faclMorp = faclMorpSearchList.get(i);
+
+			//이전 매핑된 데이터중 비교기준이된 그룹 데이터의 실제 데이터는 cordDist에 값 -1을 저장하고있다. 즉 비교기준 부모 시설 데이터이다.
+			if(faclMorp.getCordDist() != null && faclMorp.getGrpFaclCd() != null) {
+				logger.debug("*** faclMorp.getCordDist() : {}", faclMorp.getCordDist());
+				
+				if(faclMorp.getCordDist().compareTo(OperateConstants.BIGDECIMAL_MINUS_ONE) == 0) {
+					//부모인 데이터
+					faclMorp.setGroupData(true);
+				}
+				else {
+					//부모 탐색
+					for(int x = 0; x < faclMorpSearchList.size(); x++) {
+						faclGrpMorp = faclMorpSearchList.get(x);
+						//cordDist가 -1(그룹시설)인것들중 같은 그룹시설코드를 찾는다.
+						if(faclGrpMorp.getCordDist() != null 
+							&& faclGrpMorp.getCordDist().compareTo(OperateConstants.BIGDECIMAL_MINUS_ONE) == 0
+							&& faclMorp.getGrpFaclCd().compareTo(faclGrpMorp.getGrpFaclCd()) == 0) {
+							//그룹이된 부모 시설 코드 세팅
+							faclMorp.setPrntFaclCd(faclGrpMorp.getFaclCd());
+							break;
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	

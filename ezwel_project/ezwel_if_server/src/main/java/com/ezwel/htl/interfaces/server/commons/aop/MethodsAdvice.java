@@ -187,8 +187,15 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 					propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_OPERATION_DESC_FIELD_NAME, apiOperAnno.description());
 				}
 
-				propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_CODE_FIELD_NAME, Integer.toString(MessageConstants.RESPONSE_CODE_1000));
-				propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_1000));						
+				logger.debug("#CODE : {}", propertyUtil.getProperty(retVal, MessageConstants.RESPONSE_CODE_FIELD_NAME));
+				logger.debug("#MESSAGE : {}", propertyUtil.getProperty(retVal, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME));
+				
+				if(propertyUtil.getProperty(retVal, MessageConstants.RESPONSE_CODE_FIELD_NAME) == null) {
+					propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_CODE_FIELD_NAME, Integer.toString(MessageConstants.RESPONSE_CODE_1000));
+				}
+				if(propertyUtil.getProperty(retVal, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME) == null) {
+					propertyUtil.setProperty(retVal, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_1000));						
+				}
 				
 				retVal = responseUtil.getResponseEntity(beanMarshaller.toJSONString(retVal));
 			}
