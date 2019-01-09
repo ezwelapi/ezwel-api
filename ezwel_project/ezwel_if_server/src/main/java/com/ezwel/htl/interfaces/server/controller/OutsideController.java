@@ -1,5 +1,9 @@
 package com.ezwel.htl.interfaces.server.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -27,8 +31,10 @@ import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
 import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnInSDO;
 import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnOutSDO;
+import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnReservesOutSDO;
 import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqInSDO;
 import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqOutSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendInSDO;
@@ -53,6 +59,22 @@ public class OutsideController {
 
 	private OutsideIFService outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
 
+	private final static Map<String, String> TEMP_IF_CODE_MAPPER; 
+	
+	static {
+		
+		TEMP_IF_CODE_MAPPER = new HashMap<String, String>();
+		//이곳에 전문코드 : 이지웰코드 추가
+		TEMP_IF_CODE_MAPPER.put("전문코드1","EZWEL코드1");
+		TEMP_IF_CODE_MAPPER.put("전문코드2","EZWEL코드2");
+		TEMP_IF_CODE_MAPPER.put("전문코드3","EZWEL코드3");
+		
+	}
+	
+	private String getEzcCode(String telgCode) {
+		return TEMP_IF_CODE_MAPPER.get(telgCode);
+	}
+	
 	/**************************************
 	 * [START] ezwel_if_server API
 	 **************************************/
@@ -137,6 +159,14 @@ public class OutsideController {
 		logger.debug("[START] callRoomRead {} {}", userAgentSDO, roomReadSDO);
 		RoomReadOutSDO out = outsideIFService.callRoomRead(userAgentSDO, roomReadSDO);
 
+		//전문코드를 이지웰코드로 변환 예제. 1
+		List<RoomReadDataOutSDO> dataList = out.getData();
+		for(RoomReadDataOutSDO data : dataList) {
+			//코드 데이터 만큼 아래의 set/getEzcCode(전문코드) 를 실행한다.
+			data.setRsvTypeCode(getEzcCode(data.getRsvTypeCode()));
+		}
+		out.setData(dataList);
+		
 		return out;
 	}
 
@@ -145,7 +175,7 @@ public class OutsideController {
 	public Object callCancelFeePsrc(UserAgentSDO userAgentSDO, CancelFeePsrcInSDO cancelFeePsrcSDO) {
 
 		CancelFeePsrcOutSDO out = outsideIFService.callCancelFeePsrc(userAgentSDO, cancelFeePsrcSDO);
-
+		
 		return out;
 	}
 
@@ -182,6 +212,13 @@ public class OutsideController {
 
 		OmiNumIdnOutSDO out = outsideIFService.callOmiNumIdn(userAgentSDO, omiNumIdnSDO);
 
+		//전문코드를 이지웰코드로 변환 예제. 2
+		OmiNumIdnReservesOutSDO data = out.getReserves();
+		//코드 데이터 만큼 아래의 set/getEzcCode(전문코드) 를 실행한다.
+		data.setRsvStat(getEzcCode(data.getRsvStat()));
+		//변경된 객체 세팅
+		out.setReserves(data);
+		
 		return out;
 	}
 
