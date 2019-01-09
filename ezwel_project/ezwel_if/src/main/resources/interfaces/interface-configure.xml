@@ -6,14 +6,14 @@
 		<!-- 시설이미지 저장 ROOT PATH -->
 		<buildImage>
 			<localRootPath>D:/ezwel-repository/tempFileRepository/image/</localRootPath>
-			<devRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/image/</devRootPath>
-			<prodRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/image/</prodRootPath>
-		</buildImage>
+			<devRootPath>/Volume/data/nas_image/ezcheckin/api_facl_image/</devRootPath>
+			<prodRootPath>/Volume/data/nas_image/ezcheckin/api_facl_image/</prodRootPath>
+		</buildImage>  
 		<!-- 배치 에러로그 저장 ROOT PATH -->
 		<errorLog>
 			<localRootPath>D:/ezwel-repository/tempFileRepository/batchLog/</localRootPath>
-			<devRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/batchLog/</devRootPath>
-			<prodRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/batchLog/</prodRootPath>
+			<devRootPath>/Volume/data/webroot/ezwel-welfare-checkin/services/ezc-api/logs/batch/</devRootPath>
+			<prodRootPath>/Volume/data/webroot/ezwel-welfare-checkin/services/ezc-api/logs/batch/</prodRootPath>
 		</errorLog>
 	</fileRepository>
 	
@@ -26,6 +26,9 @@
 		<hotelCordMatchCriteria>50</hotelCordMatchCriteria>
 		<condoCordMatchCriteria>100</condoCordMatchCriteria>
 		<resortCordMatchCriteria>100</resortCordMatchCriteria>
+		<motelCordMatchCriteria>20</motelCordMatchCriteria>
+		<guestCordMatchCriteria>20</guestCordMatchCriteria>
+		<residenceCordMatchCriteria>30</residenceCordMatchCriteria>
 		<etcCordMatchCriteria>40</etcCordMatchCriteria>
 	</faclMapping>
 	
@@ -229,7 +232,8 @@
 			<httpAgentId>10054233</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>웹투어 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
+			<!-- <restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI> -->
+			<restURI>http://www.webtour.com/Webupload/xml/ezwel_gdshMETA.txt</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>

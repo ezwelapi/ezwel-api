@@ -352,7 +352,7 @@ public class HttpInterfaceExecutor {
 			}
 			
 			/** 응답 코드 채크 */
-			logger.debug("■ responseCode : {}, URI : {}", conn.getResponseCode(), in.getRestURI());
+			logger.debug("■ responseCode : {}, ResponseMessage : {}, URI : {}", conn.getResponseCode(), conn.getResponseMessage(), in.getRestURI());
 			//200 : ok, 201 : created
 			if(conn.getResponseCode() != 200 && conn.getResponseCode() != 201) {
 				/** 서버측 에러 발생시 에러메시지 세팅 */

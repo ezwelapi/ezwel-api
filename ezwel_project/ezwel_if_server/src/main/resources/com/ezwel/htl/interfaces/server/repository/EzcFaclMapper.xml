@@ -102,15 +102,15 @@ SELECT * FROM (
         EZC_FACL
     WHERE 1=1
         <choose>        
-			<when test="areaCd != null and areaCd != ''">
-			AND AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10), FK_EZC_AREA_CD_EZC_FACL(R),SYS_C0011066(C) */
+			<when test="cityCd != null and cityCd != ''">
+			AND CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10), FK_EZC_CITY_CD_EZC_FACL(R),SYS_C0011067(C) */
 			</when>
 			<otherwise> 
 			AND CITY_CD != 'EMPTY'
 			</otherwise> 
 		</choose>
-		<if test="cityCd != null and cityCd != ''">	
-		AND CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10), FK_EZC_CITY_CD_EZC_FACL(R),SYS_C0011067(C) */
+		<if test="areaCd != null and areaCd != ''">	
+		AND AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10), FK_EZC_AREA_CD_EZC_FACL(R),SYS_C0011066(C) */
 		</if>
 		<if test="roomType != null and roomType != ''">
 		AND ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
@@ -136,43 +136,46 @@ SELECT * FROM (
 	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (
 		/*  SQL Body Start  */
 	    SELECT 
-	         FACL_CD faclCd
-	        ,PARTNER_CD partnerCd
-	        ,PARTNER_GOODS_CD partnerGoodsCd
-	        ,FACL_NM_KOR faclNmKor
-	        ,FACL_NM_ENG faclNmEng
-	        ,FACL_KOR_MORP faclKorMorp
-	        ,FACL_ENG_MORP faclEngMorp
-	        ,COORD_X coordX
-	        ,COORD_Y coordY
-	        ,CITY_CD cityCd
-	        ,AREA_CD areaCd
-	        ,ROOM_TYPE roomType
-	        ,ROOM_CLASS roomClass
-	        ,FACL_DIV faclDiv
-	        ,ADDR_TYPE addrType
-	        ,ADDR addr
-	        ,POST post
-	        ,TEL_NUM telNum
-	        ,TRIP_PROP_ID tripPropId 
-	        ,LENGTH(FACL_KOR_MORP) faclNmKorCnt
-	        ,LENGTH(FACL_ENG_MORP) faclEngMorpCnt
+		     EZC_FACL.FACL_CD faclCd
+		    ,EZC_MAPPING_FACL.GRP_FACL_CD grpFaclCd
+		    ,EZC_MAPPING_FACL.CORD_DIST cordDist
+		    ,EZC_FACL.PARTNER_CD partnerCd
+		    ,EZC_FACL.PARTNER_GOODS_CD partnerGoodsCd
+		    ,EZC_FACL.FACL_NM_KOR faclNmKor
+		    ,EZC_FACL.FACL_NM_ENG faclNmEng
+		    ,EZC_FACL.FACL_KOR_MORP faclKorMorp
+		    ,EZC_FACL.FACL_ENG_MORP faclEngMorp
+		    ,(REGEXP_COUNT(EZC_FACL.FACL_KOR_MORP, #{morpDelt, jdbcType=VARCHAR}) + 1) faclNmKorCnt
+		    ,(REGEXP_COUNT(EZC_FACL.FACL_ENG_MORP, #{morpDelt, jdbcType=VARCHAR}) + 1) faclEngMorpCnt    
+		    ,EZC_FACL.COORD_X coordX
+		    ,EZC_FACL.COORD_Y coordY
+		    ,EZC_FACL.CITY_CD cityCd
+		    ,EZC_FACL.AREA_CD areaCd
+		    ,EZC_FACL.ROOM_TYPE roomType
+		    ,EZC_FACL.ROOM_CLASS roomClass
+		    ,EZC_FACL.FACL_DIV faclDiv
+		    ,EZC_FACL.ADDR_TYPE addrType
+		    ,EZC_FACL.ADDR addr
+		    ,EZC_FACL.POST post
+		    ,EZC_FACL.TEL_NUM telNum
+		    ,EZC_FACL.TRIP_PROP_ID tripPropId 
 	    FROM 
-	    	EZC_FACL
+	    	 EZC_FACL
+  			,EZC_MAPPING_FACL	
 	    WHERE 1=1
-	    	AND FACL_KOR_MORP IS NOT NULL
-	        AND CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10), FK_EZC_CITY_CD_EZC_FACL(R),SYS_C0011067(C) */
-	        AND AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10), FK_EZC_AREA_CD_EZC_FACL(R),SYS_C0011066(C) */
-	        AND ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
-	        AND FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
+	    	AND EZC_FACL.FACL_CD = EZC_MAPPING_FACL.FACL_CD(+)
+    		AND EZC_FACL.FACL_KOR_MORP IS NOT NULL
+	        AND EZC_FACL.CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10), FK_EZC_CITY_CD_EZC_FACL(R),SYS_C0011067(C) */
+	        AND EZC_FACL.AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10), FK_EZC_AREA_CD_EZC_FACL(R),SYS_C0011066(C) */
+	        AND EZC_FACL.ROOM_TYPE = #{roomType, jdbcType=VARCHAR}	/* 숙소 유형, VARCHAR2(8) */
+	        AND EZC_FACL.FACL_DIV = #{faclDiv, jdbcType=VARCHAR}	/* 시설 구분, VARCHAR2(8) */
         ORDER BY
-             LENGTH(FACL_KOR_MORP) DESC
-            ,LENGTH(FACL_ENG_MORP) DESC
+             REGEXP_COUNT(EZC_FACL.FACL_KOR_MORP, #{morpDelt, jdbcType=VARCHAR}) DESC
+            ,REGEXP_COUNT(EZC_FACL.FACL_ENG_MORP, #{morpDelt, jdbcType=VARCHAR}) DESC
             ,FACL_KOR_MORP
             ,FACL_ENG_MORP
             ,FACL_NM_KOR
-            ,FACL_NM_ENG
-            ,FACL_DIV   
+            ,FACL_NM_ENG   
             ,COORD_X
             ,COORD_Y  
 		/*  SQL Body End  */

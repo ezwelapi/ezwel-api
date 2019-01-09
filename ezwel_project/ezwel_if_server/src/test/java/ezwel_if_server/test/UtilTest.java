@@ -27,6 +27,8 @@ import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.FileUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.UnicodeUtil;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadDataOutSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 
 public class UtilTest {
 
@@ -57,6 +59,37 @@ public class UtilTest {
 						,"e.getMessage()"
 						,"e.getStackTrace()")
 				);
+		
+		RoomReadDataOutSDO line = null;
+		List<RoomReadDataOutSDO> datas = new ArrayList<RoomReadDataOutSDO>();
+		line = new RoomReadDataOutSDO();
+		line.setRsvTypeCode("AAAAA");
+		datas.add(line);
+		
+		RoomReadOutSDO out = new RoomReadOutSDO(); 
+		out.setData(datas);
+		
+		logger.debug("TOP : {}", out.getData());
+		
+		//List<RoomReadDataOutSDO> dataList = out.getData();
+		for(RoomReadDataOutSDO data : out.getData()) {
+			//코드 데이터 만큼 아래의 set/getEzcCode(전문코드) 를 실행한다.
+			data.setRsvTypeCode("BBBB");
+		}
+		//out.setData(dataList);
+		
+		logger.debug("DOWN : {}", out.getData());
+		
+		
+		line = new RoomReadDataOutSDO();
+		line.setRsvTypeCode("CCCCCC");
+		
+		logger.debug("line 1 : {}", line);
+		
+		RoomReadDataOutSDO line2 = line;
+		line2.setRsvTypeCode("DDDDDD");
+		
+		logger.debug("line 2 : {}", line);
 		
 	}
 	

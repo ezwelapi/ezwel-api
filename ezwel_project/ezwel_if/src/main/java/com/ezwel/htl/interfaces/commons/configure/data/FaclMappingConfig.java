@@ -31,6 +31,15 @@ public class FaclMappingConfig extends APIObject {
 	
 	@APIFields(description = "리조트 좌표 매치 M 범위")
 	private BigDecimal resortCordMatchCriteria;
+
+	@APIFields(description = "모텔 좌표 매치 M 범위")
+	private BigDecimal motelCordMatchCriteria;
+	
+	@APIFields(description = "게스트하우스 좌표 매치 M 범위")
+	private BigDecimal guestCordMatchCriteria;
+	
+	@APIFields(description = "레지던스 좌표 매치 M 범위")
+	private BigDecimal residenceCordMatchCriteria;
 	
 	@APIFields(description = "기타 좌표 매치 M 범위")
 	private BigDecimal etcCordMatchCriteria;
@@ -40,10 +49,12 @@ public class FaclMappingConfig extends APIObject {
 	
 	static {
 		typeCordMatchCriteriaData = new HashMap<List<String>, BigDecimal>();
-		typeCordMatchCriteriaData.put(new ArrayList<String>(Arrays.asList(new String[] {"팬션", "펜션", "pension"})), null);
-		typeCordMatchCriteriaData.put(new ArrayList<String>(Arrays.asList(new String[] {"호탤", "호텔", "hotel"})), null);
-		typeCordMatchCriteriaData.put(new ArrayList<String>(Arrays.asList(new String[] {"콘도", "condo"})), null);
-		typeCordMatchCriteriaData.put(new ArrayList<String>(Arrays.asList(new String[] {"리조트", "resort"})), null);
+		typeCordMatchCriteriaData.put(new ArrayList<String>(Arrays.asList(new String[] {"G002T03", "팬션", "펜션", "pension"})), null);
+		typeCordMatchCriteriaData.put(new ArrayList<String>(Arrays.asList(new String[] {"G002T01", "호탤", "호텔", "hotel"})), null);
+		typeCordMatchCriteriaData.put(new ArrayList<String>(Arrays.asList(new String[] {"G002T02", "리조트", "콘도", "resort", "condo"})), null);
+		typeCordMatchCriteriaData.put(new ArrayList<String>(Arrays.asList(new String[] {"G002T06", "레지던스", "래지던스", "residence"})), null);
+		typeCordMatchCriteriaData.put(new ArrayList<String>(Arrays.asList(new String[] {"G002T05", "게스트하우스", "개스트하우스", "게스트", "개스트", "guest house",  "guesthouse", "guest"})), null);
+		typeCordMatchCriteriaData.put(new ArrayList<String>(Arrays.asList(new String[] {"G002T04", "모텔", "모탤", "motel"})), null);
 		typeCordMatchCriteriaData.put(new ArrayList<String>(Arrays.asList(new String[] {"기타", "etc"})), null);
 	}
 	
@@ -52,15 +63,19 @@ public class FaclMappingConfig extends APIObject {
 	}
 	
 	private void reset() {
+		//default
 		faclMorpMappingPersent = new BigDecimal(70);
 		pensionCordMatchCriteria = new BigDecimal(20);
 		hotelCordMatchCriteria = new BigDecimal(50);
 		condoCordMatchCriteria = new BigDecimal(100);
 		resortCordMatchCriteria = new BigDecimal(100);
+		motelCordMatchCriteria = new BigDecimal(20);
+		guestCordMatchCriteria = new BigDecimal(20);
+		residenceCordMatchCriteria = new BigDecimal(30);
 		etcCordMatchCriteria = new BigDecimal(40);
 	}
 	
-	public BigDecimal getTypeCordMatchCriteriaData(String[] faclMorp) {
+	public BigDecimal getTypeCordMatchCriteriaData(String roomType, String[] faclMorp) {
 		
 		BigDecimal out = null;
 		
@@ -152,10 +167,39 @@ public class FaclMappingConfig extends APIObject {
 	}
 
 	@XmlElement
+	public void setMotelCordMatchCriteria(BigDecimal motelCordMatchCriteria) {
+		this.motelCordMatchCriteria = motelCordMatchCriteria;
+		this.setTypeCordMatchCriteriaData("motel", motelCordMatchCriteria);
+	}
+
+	public BigDecimal getGuestCordMatchCriteria() {
+		return guestCordMatchCriteria;
+	}
+
+	@XmlElement
+	public void setGuestCordMatchCriteria(BigDecimal guestCordMatchCriteria) {
+		this.guestCordMatchCriteria = guestCordMatchCriteria;
+		this.setTypeCordMatchCriteriaData("guest", guestCordMatchCriteria);
+	}
+
+	public BigDecimal getResidenceCordMatchCriteria() {
+		return residenceCordMatchCriteria;
+	}
+
+	@XmlElement
+	public void setResidenceCordMatchCriteria(BigDecimal residenceCordMatchCriteria) {
+		this.residenceCordMatchCriteria = residenceCordMatchCriteria;
+		this.setTypeCordMatchCriteriaData("residence", residenceCordMatchCriteria);
+	}
+
+	@XmlElement
 	public void setEtcCordMatchCriteria(BigDecimal etcCordMatchCriteria) {
 		this.etcCordMatchCriteria = etcCordMatchCriteria;
 		this.setTypeCordMatchCriteriaData("etc", etcCordMatchCriteria);
 	}
 
-	
+	public BigDecimal getMotelCordMatchCriteria() {
+		return motelCordMatchCriteria;
+	}
+
 }

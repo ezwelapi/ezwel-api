@@ -147,6 +147,9 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "그룹 시설 코드", maxLength=10)
 	private BigDecimal grpFaclCd;
 	
+	@APIFields(description = "좌표 거리", maxLength=9)
+	private BigDecimal cordDist;
+	
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011074(C)")
 	private String regId = Local.commonHeader().getSystemUserId();
 
@@ -201,8 +204,19 @@ public class EzcFacl extends AbstractEntity {
 	@APIFields(description = "그룹 데이터 여부")
 	private boolean isGroupData = false;	
 
+	@APIFields(description = "형태소 구분자")
+	private String morpDelt = OperateConstants.STR_COMA;	
 	
 	
+	
+	public String getMorpDelt() {
+		return morpDelt;
+	}
+
+	public void setMorpDelt(String morpDelt) {
+		this.morpDelt = morpDelt;
+	}
+
 	public boolean isGroupData() {
 		return isGroupData;
 	}
@@ -652,6 +666,14 @@ public class EzcFacl extends AbstractEntity {
 
 	public void setFaclEngMorp(String faclEngMorp) {
 		this.faclEngMorp = faclEngMorp;
+	}
+
+	public BigDecimal getCordDist() {
+		return cordDist;
+	}
+
+	public void setCordDist(BigDecimal cordDist) {
+		this.cordDist = cordDist;
 	}
 	
 	
