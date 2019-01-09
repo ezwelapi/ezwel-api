@@ -157,8 +157,13 @@ public class OutsideController {
 	@APIOperation(description = "객실정보조회 인터페이스", isOutputJsonMarshall = true, returnType = RoomReadOutSDO.class)
 	public Object callRoomRead(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
 		logger.debug("[START] callRoomRead {} {}", userAgentSDO, roomReadSDO);
+		
+		
+		
+		
 		RoomReadOutSDO out = outsideIFService.callRoomRead(userAgentSDO, roomReadSDO);
-
+		
+		//결과 코드 변환
 		//전문코드를 이지웰코드로 변환 예제. 1
 		List<RoomReadDataOutSDO> dataList = out.getData();
 		for(RoomReadDataOutSDO data : dataList) {

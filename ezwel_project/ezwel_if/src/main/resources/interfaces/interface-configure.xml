@@ -6,14 +6,14 @@
 		<!-- 시설이미지 저장 ROOT PATH -->
 		<buildImage>
 			<localRootPath>D:/ezwel-repository/tempFileRepository/image/</localRootPath>
-			<devRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/image/</devRootPath>
-			<prodRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/image/</prodRootPath>
-		</buildImage>
+			<devRootPath>/Volume/data/nas_image/ezcheckin/api_facl_image/</devRootPath>
+			<prodRootPath>/Volume/data/nas_image/ezcheckin/api_facl_image/</prodRootPath>
+		</buildImage>  
 		<!-- 배치 에러로그 저장 ROOT PATH -->
 		<errorLog>
 			<localRootPath>D:/ezwel-repository/tempFileRepository/batchLog/</localRootPath>
-			<devRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/batchLog/</devRootPath>
-			<prodRootPath>/Volume/data/webroot/ezwel-welfare-checkin/ezwel_if_server/tempFileRepository/batchLog/</prodRootPath>
+			<devRootPath>/Volume/data/webroot/ezwel-welfare-checkin/services/ezc-api/logs/batch/</devRootPath>
+			<prodRootPath>/Volume/data/webroot/ezwel-welfare-checkin/services/ezc-api/logs/batch/</prodRootPath>
 		</errorLog>
 	</fileRepository>
 	
@@ -26,6 +26,9 @@
 		<hotelCordMatchCriteria>50</hotelCordMatchCriteria>
 		<condoCordMatchCriteria>100</condoCordMatchCriteria>
 		<resortCordMatchCriteria>100</resortCordMatchCriteria>
+		<motelCordMatchCriteria>20</motelCordMatchCriteria>
+		<guestCordMatchCriteria>20</guestCordMatchCriteria>
+		<residenceCordMatchCriteria>30</residenceCordMatchCriteria>
 		<etcCordMatchCriteria>40</etcCordMatchCriteria>
 	</faclMapping>
 	

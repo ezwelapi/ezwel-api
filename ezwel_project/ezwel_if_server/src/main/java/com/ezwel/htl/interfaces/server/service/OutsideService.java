@@ -271,6 +271,7 @@ public class OutsideService extends AbstractServiceObject {
 			int count = 1;
 			for(EzcFacl faclCode : faclCodeGroupList) {
 				
+				faclCode.setMorpDelt(OperateConstants.STR_COMA);
 				//쓰레드 세팅
 				callable = new FaclMappingMultiService(faclCode, count, out);
 				//설정된 멀티쓰레드 개수만큼 반복 실행 
