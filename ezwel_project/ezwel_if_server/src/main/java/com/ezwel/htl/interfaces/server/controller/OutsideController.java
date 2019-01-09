@@ -68,7 +68,7 @@ public class OutsideController {
 		TEMP_IF_CODE_MAPPER.put("전문코드1","EZWEL코드1");
 		TEMP_IF_CODE_MAPPER.put("전문코드2","EZWEL코드2");
 		TEMP_IF_CODE_MAPPER.put("전문코드3","EZWEL코드3");
-		
+		 
 	}
 	
 	private String getEzcCode(String telgCode) {
