@@ -3,6 +3,7 @@ package com.ezwel.htl.interfaces.server.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,7 @@ import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqOutSDO
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
+import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendDataInSDO;
 import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendInSDO;
 import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendOutSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
@@ -71,9 +73,31 @@ public class OutsideController {
 		 
 	}
 	
-	private String getEzcCode(String telgCode) {
+	/**
+	 * 제휴사에서 받은 전문중 코드데이터를 이지웰 코드데이터로 변환함
+	 * @param telgCode
+	 * @return
+	 */
+	private String getEzcOutputCode(String telgCode) {
 		return TEMP_IF_CODE_MAPPER.get(telgCode);
 	}
+	
+	/**
+	 * 이지웰코드데이터중 코드데이터를 제휴사용 코드로 변환
+	 * @param ezcCode
+	 * @return
+	 */
+	private String getEzcInputCode(String ezcCode) {
+		String out = null;
+		for(Entry<String, String> entry : TEMP_IF_CODE_MAPPER.entrySet()) {
+			if(entry.getValue().equals(ezcCode)) {
+				out = entry.getKey(); 
+				break;
+			}
+		}
+		return out;
+	}
+	
 	
 	/**************************************
 	 * [START] ezwel_if_server API
@@ -158,19 +182,14 @@ public class OutsideController {
 	public Object callRoomRead(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
 		logger.debug("[START] callRoomRead {} {}", userAgentSDO, roomReadSDO);
 		
-		
-		
-		
 		RoomReadOutSDO out = outsideIFService.callRoomRead(userAgentSDO, roomReadSDO);
 		
 		//결과 코드 변환
-		//전문코드를 이지웰코드로 변환 예제. 1
-		List<RoomReadDataOutSDO> dataList = out.getData();
-		for(RoomReadDataOutSDO data : dataList) {
+		//전문코드를 이지웰코드로 변환 예제.(목록)
+		for(RoomReadDataOutSDO data : out.getData()) {
 			//코드 데이터 만큼 아래의 set/getEzcCode(전문코드) 를 실행한다.
-			data.setRsvTypeCode(getEzcCode(data.getRsvTypeCode()));
+			data.setRsvTypeCode(getEzcOutputCode(data.getRsvTypeCode()));
 		}
-		out.setData(dataList);
 		
 		return out;
 	}
@@ -188,6 +207,11 @@ public class OutsideController {
 	@APIOperation(description = "결재완료내역전송 인터페이스", isOutputJsonMarshall = true, returnType = RsvHistSendOutSDO.class)
 	public Object callRsvHistSend(UserAgentSDO userAgentSDO, RsvHistSendInSDO rsvHistSendSDO) {
 
+		//입력 코드 변환
+		RsvHistSendDataInSDO data = rsvHistSendSDO.getData();
+		//이지웰코드를 제휴사 코드로 변환 예제.
+		data.setRsvStat(getEzcInputCode(data.getRsvStat()));
+		
 		RsvHistSendOutSDO out = outsideIFService.callRsvHistSend(userAgentSDO, rsvHistSendSDO);
 
 		return out;
@@ -215,14 +239,16 @@ public class OutsideController {
 	@APIOperation(description = "누락건확인 인터페이스", isOutputJsonMarshall = true, returnType = OmiNumIdnOutSDO.class)
 	public Object callOmiNumIdn(UserAgentSDO userAgentSDO, OmiNumIdnInSDO omiNumIdnSDO) {
 
+		//입력 코드 변환
+		//이지웰코드를 제휴사 코드로 변환 예제.
+		omiNumIdnSDO.setRsvStat(getEzcInputCode(omiNumIdnSDO.getRsvStat()));
+		
 		OmiNumIdnOutSDO out = outsideIFService.callOmiNumIdn(userAgentSDO, omiNumIdnSDO);
 
-		//전문코드를 이지웰코드로 변환 예제. 2
+		//전문코드를 이지웰코드로 변환 예제.
 		OmiNumIdnReservesOutSDO data = out.getReserves();
 		//코드 데이터 만큼 아래의 set/getEzcCode(전문코드) 를 실행한다.
-		data.setRsvStat(getEzcCode(data.getRsvStat()));
-		//변경된 객체 세팅
-		out.setReserves(data);
+		data.setRsvStat(getEzcOutputCode(data.getRsvStat()));
 		
 		return out;
 	}
