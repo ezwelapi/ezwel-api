@@ -154,16 +154,8 @@ public class OutsideController {
 		
 		//그룹시설코드가 존재할경우
 		if(roomReadSDO.getGrpFaclCd() != null) {
-			/**
-			 * 그릅코드 이용
-			 * 
-	        "pdtNo": "KRSEL402",  --> DB데이터
-	        "checkInDate": "20190101",
-	        "checkOutDate": "20190102",
-	        "roomCnt": 1,
-	        "adultCnt": 2,
-	        "childCnt": 0
-			 */
+			/** 그릅코드 이용 */ 
+
 			out = new RoomReadOutSDO();
 			EzcFacl inEzcFacl = new EzcFacl();
 			inEzcFacl.setGrpFaclCd(roomReadSDO.getGrpFaclCd());
