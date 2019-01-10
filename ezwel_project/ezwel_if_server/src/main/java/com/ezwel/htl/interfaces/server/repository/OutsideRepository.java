@@ -847,7 +847,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 				inCacheMinAmt.setRoomNetPrice(new BigDecimal(data.getSellNorPrice())); //객실 정상가
 				inCacheMinAmt.setSpRoomNetPrice(new BigDecimal(data.getSpcNorPrice())); //특가 정상가
 				inCacheMinAmt.setPartnerGoodsCd(data.getPdtNo());
-				inCacheMinAmt.setPartnerCd(new BigDecimal(data.getHttpAgentId()));
+				//inCacheMinAmt.setPartnerCd(new BigDecimal(data.getHttpAgentId()));
 				
 				outCacheMinAmt = sqlSession.selectOne(getNamespace("CACHE_MIN_AMT_MAPPER", "selectEzcPartnerGoodsMinAmt"), inCacheMinAmt);
 				
