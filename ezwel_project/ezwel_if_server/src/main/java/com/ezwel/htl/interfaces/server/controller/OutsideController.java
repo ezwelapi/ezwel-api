@@ -88,7 +88,7 @@ public class OutsideController {
 	 * @return
 	 */
 	private String getEzcInputCode(String ezcCode) {
-		String out = ezcCode;
+		String out = null;
 		for(Entry<String, String> entry : TEMP_IF_CODE_MAPPER.entrySet()) {
 			if(entry.getValue().equals(ezcCode)) {
 				out = entry.getKey(); 
@@ -97,6 +97,7 @@ public class OutsideController {
 		}
 		return out;
 	}
+	
 	
 	/**************************************
 	 * [START] ezwel_if_server API

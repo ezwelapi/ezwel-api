@@ -14,6 +14,7 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
+import com.ezwel.htl.interfaces.commons.utils.CodeUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtOutSDO;
@@ -137,6 +138,8 @@ public class OutsideIFService {
 	public RsvHistSendOutSDO callRsvHistSend(UserAgentSDO userAgentSDO, RsvHistSendInSDO rsvHistSendSDO, boolean isEzwelInsideInterface) {
 		
 		RsvHistSendOutSDO out = null;
+		
+		rsvHistSendSDO = CodeUtil.getEzcRsvHistSendInputCode(rsvHistSendSDO);
 		
 		try {
 			
@@ -277,8 +280,7 @@ public class OutsideIFService {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "주문대사(이지웰) 인터페이스 장애발생.", e);
 		}
 		
-		return out;
+		return CodeUtil.getEzwelJobRsvStat(out);
 	}
-	
 
 }

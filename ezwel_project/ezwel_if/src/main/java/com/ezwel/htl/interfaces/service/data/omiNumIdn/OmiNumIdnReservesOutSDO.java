@@ -42,7 +42,7 @@ public class OmiNumIdnReservesOutSDO extends AbstractSDO {
 		this.rsvNo = rsvNo;
 	}
 
-	public String getRsvStat() {
+	public String getRsvStat() {		
 		return rsvStat;
 	}
 

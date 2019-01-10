@@ -2,10 +2,11 @@ package com.ezwel.htl.interfaces.service.data.ezwelJob;
 
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -36,6 +37,9 @@ public class EzwelJobReservesOutSDO extends AbstractSDO {
 	
 	@APIFields(description = "주문대사(이지웰) output 주문상태코드", required=true, maxLength=5)
 	private String rsvStat;
+	
+	@APIFields(description = "주문대사(이지웰) output 주문상태명", required=true, maxLength=10)
+	private String rsvStatName;
 
 	public String getRsvNo() {
 		return rsvNo;
@@ -83,6 +87,14 @@ public class EzwelJobReservesOutSDO extends AbstractSDO {
 
 	public void setRsvStat(String rsvStat) {
 		this.rsvStat = rsvStat;
+	}
+	
+	public String setRsvStatName() {
+		return rsvStatName;
+	}
+
+	public void setRsvStatName(String rsvStatName) {
+		this.rsvStatName = rsvStatName;
 	}
 
 }
