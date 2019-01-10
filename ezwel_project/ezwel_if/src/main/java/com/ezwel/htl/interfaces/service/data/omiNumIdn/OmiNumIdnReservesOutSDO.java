@@ -27,13 +27,19 @@ public class OmiNumIdnReservesOutSDO extends AbstractSDO {
 	
 	@APIFields(description = "누락건확인 output 주문상태코드", required=true, maxLength=5)
 	private String rsvStat;
+
+	@APIFields(description = "누락건확인 output 주문상태코드 명")
+	private String rsvStatName;
 	
 	@APIFields(description = "누락건확인 output 주문번호(제휴사)", maxLength=100)
 	private String otaRsvNo;
 	
-	@APIFields(description = "누락건확인 output 주문상태비교결과코드", required=true, maxLength=1)
+	@APIFields(description = "누락건확인 output 주문상태비교결과코드", required=true, maxLength=3)
 	private String compareStat;
 
+	@APIFields(description = "누락건확인 output 주문상태비교결과코드 명")
+	private String compareStatName;
+	
 	public String getRsvNo() {
 		return rsvNo;
 	}
@@ -50,6 +56,7 @@ public class OmiNumIdnReservesOutSDO extends AbstractSDO {
 		this.rsvStat = rsvStat;
 	}
 
+	
 	public String getOtaRsvNo() {
 		return otaRsvNo;
 	}
@@ -66,4 +73,21 @@ public class OmiNumIdnReservesOutSDO extends AbstractSDO {
 		this.compareStat = compareStat;
 	}
 
+	public String getRsvStatName() {
+		return rsvStatName;
+	}
+
+	public void setRsvStatName(String rsvStatName) {
+		this.rsvStatName = rsvStatName;
+	}
+
+	public String getCompareStatName() {
+		return compareStatName;
+	}
+
+	public void setCompareStatName(String compareStatName) {
+		this.compareStatName = compareStatName;
+	}
+
+	
 }

@@ -1,5 +1,7 @@
 package com.ezwel.htl.interfaces.service;
 
+import java.util.Map.Entry;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +11,12 @@ import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.ConfigureHelper;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
+import com.ezwel.htl.interfaces.commons.constants.CodeMappingConstants;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
-import com.ezwel.htl.interfaces.commons.utils.CodeUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtInSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeeAmt.CancelFeeAmtOutSDO;
@@ -22,9 +24,11 @@ import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcInSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcOutSDO;
 import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobInSDO;
 import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobOutSDO;
+import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobReservesOutSDO;
 import com.ezwel.htl.interfaces.service.data.mock.MocKUpOutSDO;
 import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnInSDO;
 import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnOutSDO;
+import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnReservesOutSDO;
 import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqInSDO;
 import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
@@ -53,6 +57,42 @@ public class OutsideIFService {
 	
 	@Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */
 	private PropertyUtil propertyUtil;
+	
+	
+	/**
+	 * 제휴사에서 받은 전문중 코드데이터를 이지웰 코드데이터로 변환함
+	 * @param telgCode
+	 * @return
+	 */
+	private String getEzcOutputCode(String telgCode) {
+		return CodeMappingConstants.TEMP_IF_CODE_MAPPER.get(telgCode);
+	}
+	
+	/**
+	 * 제휴사에서 받은 전문중 코드데이터에 해당하는 명칭을 리턴함
+	 * @param telgCode
+	 * @return
+	 */
+	private String getEzcOutputName(String telgCode) {
+		return CodeMappingConstants.TEMP_IF_NAME_MAPPER.get(telgCode);
+	}
+	
+	
+	/**
+	 * 이지웰코드데이터중 코드데이터를 제휴사용 코드로 변환
+	 * @param ezcCode
+	 * @return
+	 */
+	private String getEzcInputCode(String ezcCode) {
+		String out = null;
+		for(Entry<String, String> entry : CodeMappingConstants.TEMP_IF_CODE_MAPPER.entrySet()) {
+			if(entry.getValue().equals(ezcCode)) {
+				out = entry.getKey(); 
+				break;
+			}
+		}
+		return out;
+	}
 	
 	public OutsideIFService() {
 		
@@ -139,7 +179,8 @@ public class OutsideIFService {
 		
 		RsvHistSendOutSDO out = null;
 		
-		rsvHistSendSDO = CodeUtil.getEzcRsvHistSendInputCode(rsvHistSendSDO);
+		//입력 코드 변환
+		rsvHistSendSDO.getData().setRsvStat(getEzcInputCode(rsvHistSendSDO.getData().getRsvStat()));
 		
 		try {
 			
@@ -235,6 +276,10 @@ public class OutsideIFService {
 		
 		try {
 			
+			//입력 코드 변환
+			//이지웰코드를 제휴사 코드로 변환 예제.
+			omiNumIdnSDO.setRsvStat(getEzcInputCode(omiNumIdnSDO.getRsvStat()));
+			
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("omiNumIdn", userAgentSDO.getHttpAgentId());
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
@@ -245,6 +290,15 @@ public class OutsideIFService {
 			else {
 				out = MocKUpOutSDO.getOmiNumIdnOut();
 			}
+			
+			//전문코드를 이지웰코드로 변환 예제.
+			OmiNumIdnReservesOutSDO data = out.getReserves();
+			//코드 데이터 만큼 아래의 set/getEzcCode(전문코드) 를 실행한다.
+			data.setRsvStat(getEzcOutputCode(data.getRsvStat()));
+			data.setRsvStatName(getEzcOutputName(data.getRsvStat()));
+			data.setCompareStat(getEzcOutputCode(data.getCompareStat()));
+			data.setCompareStatName(getEzcOutputName(data.getCompareStat()));
+			
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "누락건확인 인터페이스 장애발생.", e);
@@ -275,12 +329,19 @@ public class OutsideIFService {
 			else {
 				out = MocKUpOutSDO.getEzwelJobOut();
 			}
+			
+			//전문코드를 이지웰코드로 변환 예제.(목록)
+			for(EzwelJobReservesOutSDO data : out.getReserves()) {
+				//코드 데이터 만큼 아래의 set/getEzcCode(전문코드) 를 실행한다.
+				data.setRsvStat(getEzcOutputCode(data.getRsvStat()));	//cd
+				data.setRsvStatName(getEzcOutputName(data.getRsvStat())); //nm
+			}
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "주문대사(이지웰) 인터페이스 장애발생.", e);
 		}
 		
-		return CodeUtil.getEzwelJobRsvStat(out);
+		return out;
 	}
 
 }
