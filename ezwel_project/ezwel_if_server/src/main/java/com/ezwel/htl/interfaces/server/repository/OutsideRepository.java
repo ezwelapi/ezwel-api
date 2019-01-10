@@ -27,6 +27,7 @@ import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
 import com.ezwel.htl.interfaces.server.commons.sdo.EzcFaclMappingSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.ExceptionUtil;
+import com.ezwel.htl.interfaces.server.entities.EzcCacheMinAmt;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclAment;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
@@ -35,7 +36,10 @@ import com.ezwel.htl.interfaces.server.entities.EzcMappingGrpFacl;
 import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataRealtimeImageOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
+import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchDataOutSDO;
+import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 
 /**
@@ -798,6 +802,23 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		return out;
 	}
 	
+	
+	@APIOperation(description="시도/지역 그룹 목록 조회")
+	public List<EzcFacl> selectCityAreaGroupList(EzcFacl ezcFacl) {
+			
+		List<EzcFacl> out = null;
+		
+		try {
+			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectCityAreaGroupList"), ezcFacl);
+		}
+		catch(APIException e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
+		}
+			
+		return out;
+	}
+	
+	
 	/**
 	 * 멀티쓰레드
 	 * EZC_CACHE_MIN_AMT 데이터 적제
@@ -806,19 +827,38 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	 * @param faclSearchDTO
 	 * @return
 	 */
-	@APIOperation(description="시설검색 인터페이스")
-	public FaclSearchOutSDO callFaclSearch(List<FaclSearchOutSDO> assets) {
+	@APIOperation(description="시설검색 인터페이스(최저가 정보)")
+	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
+	public Integer callFaclSearch(FaclSearchInSDO faclSearchDTO, List<FaclSearchDataOutSDO> datas) {
 			
-		FaclSearchOutSDO out = null;
+		EzcCacheMinAmt inCacheMinAmt = null;
+		EzcCacheMinAmt outCacheMinAmt = null;
+		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
 		
 		try {
-			
+					
+			for(FaclSearchDataOutSDO data : datas) {
+				
+				inCacheMinAmt = new EzcCacheMinAmt();
+				inCacheMinAmt.setCheckInDd(faclSearchDTO.getCheckInDate());
+				inCacheMinAmt.setCheckOutDd(faclSearchDTO.getCheckOutDate());
+				inCacheMinAmt.setRoomMinPrice(new BigDecimal(data.getSellPrice())); //객실 최저가
+				inCacheMinAmt.setSpRoomMinPrice(new BigDecimal(data.getSpcPrice())); //특가최저가
+				inCacheMinAmt.setRoomNetPrice(new BigDecimal(data.getSellNorPrice())); //객실 정상가
+				inCacheMinAmt.setSpRoomNetPrice(new BigDecimal(data.getSpcNorPrice())); //특가 정상가
+				inCacheMinAmt.setPartnerGoodsCd(data.getPdtNo());
+				inCacheMinAmt.setPartnerCd(new BigDecimal(data.getHttpAgentId()));
+				
+				outCacheMinAmt = sqlSession.selectOne(getNamespace("CACHE_MIN_AMT_MAPPER", "selectEzcPartnerGoodsMinAmt"), inCacheMinAmt);
+				
+				txCount += sqlSession.update(getNamespace("CACHE_MIN_AMT_MAPPER", "mergeEzcCacheMinAmt"), outCacheMinAmt);
+			}
 		}
 		catch(APIException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색(최저가 정보 저장) 장애발생.", e);
 		}
 			
-		return out;
+		return txCount;
 	}
 	
 	/**
@@ -841,4 +881,20 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		return out;
 	}
 	
+	
+	@APIOperation(description="그룹시설코드 기준 시설목록검색")
+	public List<EzcFacl> selectRoomReadFaclList(EzcFacl inEzcFacl) {
+		
+		List<EzcFacl> out = null;
+		
+		try {
+			
+			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectRoomReadFaclList"), inEzcFacl);
+		}
+		catch(APIException e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "그룹시설코드 기준 시설목록검색 장애발생", e);
+		}
+		
+		return out;
+	}
 }

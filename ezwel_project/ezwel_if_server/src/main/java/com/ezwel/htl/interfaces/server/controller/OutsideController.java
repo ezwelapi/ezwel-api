@@ -1,8 +1,7 @@
 package com.ezwel.htl.interfaces.server.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
+import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.sdo.FaclSDO;
 import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
 import com.ezwel.htl.interfaces.server.service.OutsideService;
@@ -27,18 +29,15 @@ import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcInSDO;
 import com.ezwel.htl.interfaces.service.data.cancelFeePsrc.CancelFeePsrcOutSDO;
 import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobInSDO;
 import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobOutSDO;
-import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobReservesOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
 import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnInSDO;
 import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnOutSDO;
-import com.ezwel.htl.interfaces.service.data.omiNumIdn.OmiNumIdnReservesOutSDO;
 import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqInSDO;
 import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
-import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendDataInSDO;
 import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendInSDO;
 import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendOutSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
@@ -117,7 +116,7 @@ public class OutsideController {
 		return out;
 	}
 
-	@APIOperation(description = "시설검색 인터페이스", isOutputJsonMarshall = true, returnType = FaclSearchOutSDO.class)
+	@APIOperation(description = "시설검색(최저가 정보) 인터페이스", isOutputJsonMarshall = true, returnType = FaclSearchOutSDO.class)
 	@RequestMapping(value = "/service/callFaclSearch")
 	public Object callFaclSearch(UserAgentSDO userAgentSDO, FaclSearchInSDO faclSearchSDO) {
 
@@ -144,11 +143,95 @@ public class OutsideController {
 	public Object callRoomRead(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
 		logger.debug("[START] callRoomRead {} {}", userAgentSDO, roomReadSDO);
 		
+		outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
+		
+		List<EzcFacl> faclList = null;
+		List<RoomReadOutSDO> roomReadList = null;
+		RoomReadOutSDO out = null;
+		//최저가 객실 정보
+		RoomReadDataOutSDO minAmtRoom = null;
+		
+		//그룹시설코드가 존재할경우
+		if(roomReadSDO.getGrpFaclCd() != null) {
+			/**
+			 * 그릅코드 이용
+			 * 
+	        "pdtNo": "KRSEL402",  --> DB데이터
+	        "checkInDate": "20190101",
+	        "checkOutDate": "20190102",
+	        "roomCnt": 1,
+	        "adultCnt": 2,
+	        "childCnt": 0
+			 */
+			out = new RoomReadOutSDO();
+			EzcFacl inEzcFacl = new EzcFacl();
+			inEzcFacl.setGrpFaclCd(roomReadSDO.getGrpFaclCd());
+			faclList = outsideService.selectRoomReadFaclList(inEzcFacl);
+			
+			//그룹시설코드에 대한 목록이 있으면...
+			if(faclList != null && faclList.size() > 0) {
+				
+				// 지지고 복고 
+				roomReadList = new ArrayList<RoomReadOutSDO>();
+				for(EzcFacl faclitem : faclList) {
+					//제휴사 상품 코드
+					roomReadSDO.setPdtNo(faclitem.getPartnerGoodsCd());
+					//1개 상품에 대한 객실 목록
+					roomReadList.add((RoomReadOutSDO) callRoomReadInterface(userAgentSDO, roomReadSDO));
+				}
+				
+				logger.debug("# roomReadList size : {}", roomReadList.size());
+				
+				//각 제휴사 상품 객실 목록에서 최저가를 뽑는다.
+				for(RoomReadOutSDO item : roomReadList) {
+					
+					logger.debug("- RoomReadOutSDO : {}", item);
+					
+					//최저가 정보를 담을 객체
+					minAmtRoom = null;
+					//인터페이스 정상 성공인경우
+					if(item.getCode().equals(Integer.toString(MessageConstants.RESPONSE_CODE_1000)) && item.getData() != null) {
+						
+						for(RoomReadDataOutSDO roomItem : item.getData()) {
+							//최저가 정보를 담는다.
+							//minAmtRoom.set ...
+							if(minAmtRoom == null) {
+								minAmtRoom = roomItem;
+							}
+							else if(roomItem.getPriceForSale() < minAmtRoom.getPriceForSale()) {
+								minAmtRoom = roomItem;
+							}
+						}
+					}
+					
+					out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(item.getCode()).toString().trim());
+					out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(item.getMessage()).toString().trim());
+					out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(item.getRestURI()).toString().trim());
+
+					if(minAmtRoom != null) {
+						out.addData(minAmtRoom);
+					}
+				}
+			}
+		}
+		else {
+			out = (RoomReadOutSDO) callRoomReadInterface(userAgentSDO, roomReadSDO);
+		}
+		
+		return out;
+	}
+
+	@APIOperation(description = "객실정보조회 인터페이스", isOutputJsonMarshall = true, returnType = RoomReadOutSDO.class)
+	private Object callRoomReadInterface(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
+		logger.debug("[START] callRoomRead {} {}", userAgentSDO, roomReadSDO);
+		
 		RoomReadOutSDO out = outsideIFService.callRoomRead(userAgentSDO, roomReadSDO);
 		
 		return out;
 	}
 
+	
+	
 	@RequestMapping(value = "/service/callCancelFeePsrc")
 	@APIOperation(description = "취소수수규정 인터페이스", isOutputJsonMarshall = true, returnType = CancelFeePsrcOutSDO.class)
 	public Object callCancelFeePsrc(UserAgentSDO userAgentSDO, CancelFeePsrcInSDO cancelFeePsrcSDO) {

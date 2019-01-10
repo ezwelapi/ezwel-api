@@ -55,6 +55,7 @@ import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegSubImagesOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 
 /**
@@ -1019,26 +1020,46 @@ public class OutsideService extends AbstractServiceObject {
 		configureHelper = (ConfigureHelper) LApplicationContext.getBean(configureHelper, ConfigureHelper.class);
 		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
 		
+		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
 		FaclSearchOutSDO out = null;
 		MultiHttpConfigSDO multi = null;
 		List<HttpConfigSDO> channelList = null;
 		List<MultiHttpConfigSDO> multiHttpConfigList = null;
+		boolean isConfirm = false;
 		
 		try {
+			out = new FaclSearchOutSDO();
 			multiHttpConfigList = new ArrayList<MultiHttpConfigSDO>();
 			
 			channelList = InterfaceFactory.getChannelGroup(userAgentDTO.getHttpAgentGroupId());
 			if(channelList != null) {
 				for(HttpConfigSDO httpConfigSDO : channelList) {
-					multi = new MultiHttpConfigSDO();
-					configureHelper.setupUserAgentInfo(userAgentDTO, httpConfigSDO);
-					//config
-					multi.setHttpConfigDTO(httpConfigSDO);
-					//input
-					multi.setInputDTO(faclSearchDTO);
-					//output
-					multi.setOutputType(FaclSearchOutSDO.class);
-					multiHttpConfigList.add(multi);
+					
+					isConfirm = false;
+					if(!userAgentDTO.isReadOnly()) /* ReadOnly False */ {
+						//읽기전용이 아닐때 
+						isConfirm = true;
+					}
+					else /* ReadOnly True */{
+						//읽기전용일때
+						if(APIUtil.isEmpty(userAgentDTO.getHttpAgentId()) || httpConfigSDO.getHttpAgentId().equals(userAgentDTO.getHttpAgentId())) {
+							isConfirm = true;
+						}
+					}
+					
+					if(isConfirm) {
+						
+						multi = new MultiHttpConfigSDO();
+						configureHelper.setupUserAgentInfo(userAgentDTO, httpConfigSDO);
+						//config
+						multi.setHttpConfigDTO(httpConfigSDO);
+						//input
+						multi.setInputDTO(faclSearchDTO);
+						//output
+						multi.setOutputType(FaclSearchOutSDO.class);
+						//add
+						multiHttpConfigList.add(multi);					
+					}
 				}
 			}
 			
@@ -1046,8 +1067,38 @@ public class OutsideService extends AbstractServiceObject {
 			//멀티 쓰레드 인터페이스 실행
 			List<FaclSearchOutSDO> assets = inteface.sendMultiJSON(multiHttpConfigList);
 			
-			/** execute dbio */
-			out = outsideRepository.callFaclSearch(assets);
+			if(assets != null) {
+				
+				//읽기 전용
+				if(userAgentDTO.isReadOnly()) {
+					
+					//특정 제휴사 지정일경우 인터페이스 데이터 세팅
+					for(FaclSearchOutSDO data : assets) {
+						
+						if(Integer.toString(MessageConstants.RESPONSE_CODE_1000).equals(data.getCode()) && data.getData() != null) {
+							out.addAllData(data.getData());
+						}
+
+						out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(data.getCode()).toString().trim());
+						out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(data.getMessage()).toString().trim());
+						out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(data.getRestURI()).toString().trim());
+					}
+				}
+				else {
+					
+					//읽기 전용이 아닐경우 배치실행
+					for(FaclSearchOutSDO data : assets) {
+						//정상 처리되었을경우 데이터 저장
+						if(Integer.toString(MessageConstants.RESPONSE_CODE_1000).equals(data.getCode()) && data.getData() != null) {
+							/** execute dbio */
+							//제휴사 별 최저가 목록 데이터 저장
+							txCount += outsideRepository.callFaclSearch(faclSearchDTO, data.getData());
+						}
+					}
+					
+					out.setTxCount(txCount);
+				}
+			}
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
@@ -1160,4 +1211,21 @@ public class OutsideService extends AbstractServiceObject {
         return faclList;
 	}
 
+	@APIOperation(description="그룹시설코드 기준 시설목록검색")
+	public List<EzcFacl> selectRoomReadFaclList(EzcFacl inEzcFacl) {
+		
+		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
+		
+		List<EzcFacl> out = null;
+		
+		try {
+			out = outsideRepository.selectRoomReadFaclList(inEzcFacl);
+		}
+		catch(APIException e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "그룹시설코드 기준 시설목록검색 장애발생", e);
+		}
+		
+		return out;
+	}
+	
 }

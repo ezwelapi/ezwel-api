@@ -20,6 +20,7 @@ public class MessageConstants {
 	public static final int RESPONSE_CODE_5000;
 	public static final int RESPONSE_CODE_9000;
 	public static final int RESPONSE_CODE_9100;
+	public static final int RESPONSE_CODE_9101;
 	public static final int RESPONSE_CODE_9200;
 	public static final int RESPONSE_CODE_9300;
 	public static final int RESPONSE_CODE_9301;
@@ -50,6 +51,7 @@ public class MessageConstants {
 		RESPONSE_CODE_5000 = 5000;	// MessageConstants.RESPONSE_CODE_5000
 		RESPONSE_CODE_9000 = 9000;	// MessageConstants.RESPONSE_CODE_9000
 		RESPONSE_CODE_9100 = 9100;	// MessageConstants.RESPONSE_CODE_9100
+		RESPONSE_CODE_9101 = 9101;	// MessageConstants.RESPONSE_CODE_9101
 		RESPONSE_CODE_9200 = 9200;	// MessageConstants.RESPONSE_CODE_9200
 		RESPONSE_CODE_9300 = 9300;	// MessageConstants.RESPONSE_CODE_9300
 		RESPONSE_CODE_9301 = 9301;	// MessageConstants.RESPONSE_CODE_9301
@@ -67,6 +69,7 @@ public class MessageConstants {
 		MESSAGE_MAP.put(RESPONSE_CODE_5000, "시스템 에러");
 		MESSAGE_MAP.put(RESPONSE_CODE_9000, "어플리케이션 장애 발생");
 		MESSAGE_MAP.put(RESPONSE_CODE_9100, "인터페이스 장애 발생");
+		MESSAGE_MAP.put(RESPONSE_CODE_9101, "일부 인터페이스 장애 발생");
 		MESSAGE_MAP.put(RESPONSE_CODE_9200, "원격지 서버 에러 발생");
 		MESSAGE_MAP.put(RESPONSE_CODE_9300, "인터페이스 초기화 실패");
 		MESSAGE_MAP.put(RESPONSE_CODE_9301, "인터페이스 설정 파일 경로가 변경 되었거나 읽을 수 없습니다.");

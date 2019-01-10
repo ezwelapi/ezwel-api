@@ -1,16 +1,14 @@
 package com.ezwel.htl.interfaces.service.data.faclSearch;
 
+import java.util.ArrayList;
 import java.util.List;
 
-
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-
-
-import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -34,6 +32,12 @@ public class FaclSearchOutSDO extends AbstractSDO {
 	@APIFields(description = "RestAPI URI")
 	private String restURI;
 
+	@APIFields(description = "시설검색 output data")
+	private List<FaclSearchDataOutSDO> data = null;
+
+	@APIFields(description = "시설검색 output message", maxLength=100)
+	private Integer txCount;
+	
 	public String getRestURI() {
 		return restURI;
 	}
@@ -41,15 +45,6 @@ public class FaclSearchOutSDO extends AbstractSDO {
 	public void setRestURI(String restURI) {
 		this.restURI = restURI;
 	}
-
-	
-	@APIFields(description = "시설검색 output data")
-	private List<FaclSearchDataOutSDO> data = null;
-
-	@APIFields(description = "시설검색 output message", maxLength=100)
-	private Integer txCount;
-
-	
 	
 	public Integer getTxCount() {
 		return txCount;
@@ -83,4 +78,18 @@ public class FaclSearchOutSDO extends AbstractSDO {
 		this.data = data;
 	}
 
+	public void addData(FaclSearchDataOutSDO data) {
+		if(this.data == null) {
+			this.data = new ArrayList<FaclSearchDataOutSDO>();
+		}
+		this.data.add(data);
+	}
+	
+	public void addAllData(List<FaclSearchDataOutSDO> datas) {
+		if(this.data == null) {
+			this.data = new ArrayList<FaclSearchDataOutSDO>();
+		}
+		this.data.addAll(datas);
+	}
+	
 }

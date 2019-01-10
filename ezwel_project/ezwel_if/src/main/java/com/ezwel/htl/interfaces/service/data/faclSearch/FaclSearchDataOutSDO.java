@@ -19,6 +19,12 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @EqualsAndHashCode(callSuper=true)
 public class FaclSearchDataOutSDO extends AbstractSDO {
 
+	@APIFields(description = "에이전트 아이디(제휴사 코드)")
+	private String httpAgentId;
+
+	@APIFields(description = "에이전트(제휴사 명)")
+	private String httpAgentDesc;
+	
 	@APIFields(description = "시설검색 output 상품코드", required=true, maxLength=100)
 	private String  pdtNo;
 	
@@ -33,6 +39,23 @@ public class FaclSearchDataOutSDO extends AbstractSDO {
 	
 	@APIFields(description = "시설검색 output 시설특가최저가(판매가)", required=true)
 	private Integer spcPrice;
+
+
+	public String getHttpAgentId() {
+		return httpAgentId;
+	}
+
+	public void setHttpAgentId(String httpAgentId) {
+		this.httpAgentId = httpAgentId;
+	}
+
+	public String getHttpAgentDesc() {
+		return httpAgentDesc;
+	}
+
+	public void setHttpAgentDesc(String httpAgentDesc) {
+		this.httpAgentDesc = httpAgentDesc;
+	}
 
 	public String getPdtNo() {
 		return pdtNo;

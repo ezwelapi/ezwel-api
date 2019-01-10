@@ -123,7 +123,8 @@ var $interfaceTester = {
 				faclSearchInSDO : {
 					"checkInDate": "20190101",	/* {setClientUserData} */
 					"checkOutDate": "20190102",	/* {setClientUserData} */
-					"sidoCode": "11"	/* {setClientUserData} */
+					"sidoCode": "11",	/* {setClientUserData} */
+					"gunguCode": ""	/* {setClientUserData} */
 				}
 			}
 		},
@@ -152,6 +153,7 @@ var $interfaceTester = {
 					"readTimeout": 100000	/* {setClientUserData} */
 				},
 				roomReadInSDO : {
+					"grpFaclCd": "",
 					"pdtNo": "KRSEL402",	/* {setClientUserData} */
 					"checkInDate": "20190101",	/* {setClientUserData} */
 					"checkOutDate": "20190102",	/* {setClientUserData} */
@@ -356,7 +358,7 @@ var $interfaceTester = {
 		"http-request-id" : "",
 		"http-channel-cd" : "",
 		"http-agent-id" : "",
-		"http-agent-type" : "",
+		"http-agent-type" : ""
 	}
 	,util : {
 		removeTag : function( html ) {
@@ -390,6 +392,11 @@ var $interfaceTester = {
 			}
 			
 			if( passAgentIdURI.indexOf(restURL) === -1 && inputJson["userAgentSDO"] && inputJson["userAgentSDO"]["httpAgentId"] ) {
+				if(!httpAgentId || $.trim(httpAgentId) === "") {
+					alert("제휴사를 선택하세요.");
+					return false;
+				}
+				
 				inputJson.userAgentSDO.httpAgentId = httpAgentId;
 			}
 			

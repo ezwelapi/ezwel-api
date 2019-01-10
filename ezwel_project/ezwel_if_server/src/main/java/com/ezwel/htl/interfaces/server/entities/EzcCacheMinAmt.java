@@ -67,12 +67,40 @@ public class EzcCacheMinAmt extends AbstractEntity {
 	@APIFields(description = "특가 정상가", maxLength=22)
 	private BigDecimal spRoomNetPrice;
 
+	@APIFields(description = "제휴사 상품 코드", maxLength=100)
+	private String partnerGoodsCd;
+	
+	
 	public BigDecimal getPartnerCd() {
 		return partnerCd;
 	}
 
 	public void setPartnerCd(BigDecimal partnerCd) {
 		this.partnerCd = partnerCd;
+	}
+
+	public BigDecimal getRoomNetPrice() {
+		return roomNetPrice;
+	}
+
+	public void setRoomNetPrice(BigDecimal roomNetPrice) {
+		this.roomNetPrice = roomNetPrice;
+	}
+
+	public BigDecimal getSpRoomNetPrice() {
+		return spRoomNetPrice;
+	}
+
+	public void setSpRoomNetPrice(BigDecimal spRoomNetPrice) {
+		this.spRoomNetPrice = spRoomNetPrice;
+	}
+
+	public String getPartnerGoodsCd() {
+		return partnerGoodsCd;
+	}
+
+	public void setPartnerGoodsCd(String partnerGoodsCd) {
+		this.partnerGoodsCd = partnerGoodsCd;
 	}
 
 	public String getCheckInDd() {

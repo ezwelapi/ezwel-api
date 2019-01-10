@@ -41,6 +41,54 @@ INSERT INTO EZC_CACHE_MIN_AMT(	/* CACHE 최저가 정보 */
 )
 </insert>
 
+<select id="selectEzcPartnerGoodsMinAmt" parameterType="ezcCacheMinAmt" resultType="ezcCacheMinAmt">
+SELECT
+     NVL(EZC_CACHE_MIN_AMT.CHECK_IN_DD, #{checkInDd, jdbcType=VARCHAR}) AS checkInDd    /* 체크인 일자, VARCHAR2(8) */
+    ,NVL(EZC_CACHE_MIN_AMT.CHECK_OUT_DD, #{checkOutDd, jdbcType=VARCHAR}) AS checkOutDd    /* 체크아웃 일자, VARCHAR2(8) */
+    ,EZC_MAPPING_FACL.GRP_FACL_CD AS grpFaclCd    /* 그룹 시설 코드, NUMBER(0,22) */
+    ,EZC_MAPPING_FACL.FACL_CD AS faclCd    /* 시설 코드, NUMBER(0,22) */
+    ,NVL(EZC_CACHE_MIN_AMT.ROOM_MIN_PRICE, #{roomMinPrice, jdbcType=NUMERIC}) AS roomMinPrice    /* 객실 최저가, NUMBER(0,22) */
+    ,NVL(EZC_CACHE_MIN_AMT.SP_ROOM_MIN_PRICE, #{spRoomMinPrice, jdbcType=NUMERIC}) AS spRoomMinPrice    /* 특가최저가, NUMBER(0,22) */
+    ,NVL(EZC_CACHE_MIN_AMT.ROOM_NET_PRICE, #{roomNetPrice, jdbcType=DECIMAL}) AS roomNetPrice
+    ,NVL(EZC_CACHE_MIN_AMT.SP_ROOM_NET_PRICE, #{spRoomNetPrice, jdbcType=DECIMAL}) AS spRoomNetPrice
+FROM
+     EZC_FACL
+    ,EZC_MAPPING_FACL
+    ,EZC_CACHE_MIN_AMT
+WHERE 1=1 
+    AND EZC_FACL.FACL_CD = EZC_MAPPING_FACL.FACL_CD 
+    AND EZC_MAPPING_FACL.GRP_FACL_CD = EZC_CACHE_MIN_AMT.GRP_FACL_CD(+)
+    AND EZC_MAPPING_FACL.FACL_CD = EZC_CACHE_MIN_AMT.FACL_CD(+)
+    AND EZC_FACL.PARTNER_GOODS_CD = #{partnerGoodsCd, jdbcType=VARCHAR}
+    AND EZC_FACL.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}
+</select>
+
+
+<select id="___selectEzcPartnerGoodsMinAmt" parameterType="ezcCacheMinAmt" resultType="ezcCacheMinAmt">
+SELECT
+     NVL(EZC_CACHE_MIN_AMT.CHECK_IN_DD, #{checkInDd, jdbcType=VARCHAR}) AS checkInDd    /* 체크인 일자, VARCHAR2(8) */
+    ,NVL(EZC_CACHE_MIN_AMT.CHECK_OUT_DD, #{checkOutDd, jdbcType=VARCHAR}) AS checkOutDd    /* 체크아웃 일자, VARCHAR2(8) */
+    ,EZC_MAPPING_FACL.GRP_FACL_CD AS grpFaclCd    /* 그룹 시설 코드, NUMBER(0,22) */
+    ,EZC_MAPPING_FACL.FACL_CD AS faclCd    /* 시설 코드, NUMBER(0,22) */
+    ,EZC_FACL.CITY_CD AS cityCd    /* 도시 코드, VARCHAR2(10) */
+    ,EZC_FACL.AREA_CD AS areaCd    /* 지역 코드, VARCHAR2(10) */
+    ,NVL(EZC_CACHE_MIN_AMT.ROOM_MIN_PRICE, #{roomMinPrice, jdbcType=NUMERIC}) AS roomMinPrice    /* 객실 최저가, NUMBER(0,22) */
+    ,NVL(EZC_CACHE_MIN_AMT.SP_ROOM_MIN_PRICE, #{spRoomMinPrice, jdbcType=NUMERIC}) AS spRoomMinPrice    /* 특가최저가, NUMBER(0,22) */
+    ,NVL(EZC_CACHE_MIN_AMT.ROOM_NET_PRICE, #{roomNetPrice, jdbcType=DECIMAL}) AS roomNetPrice
+    ,NVL(EZC_CACHE_MIN_AMT.SP_ROOM_NET_PRICE, #{spRoomNetPrice, jdbcType=DECIMAL}) AS spRoomNetPrice
+    ,EZC_FACL.PARTNER_CD AS partnerCd
+FROM
+     EZC_FACL
+    ,EZC_MAPPING_FACL
+    ,EZC_CACHE_MIN_AMT
+WHERE 1=1 
+    AND EZC_FACL.FACL_CD = EZC_MAPPING_FACL.FACL_CD 
+    AND EZC_MAPPING_FACL.GRP_FACL_CD = EZC_CACHE_MIN_AMT.GRP_FACL_CD(+)
+    AND EZC_MAPPING_FACL.FACL_CD = EZC_CACHE_MIN_AMT.FACL_CD(+)
+    AND EZC_FACL.PARTNER_GOODS_CD = #{partnerGoodsCd, jdbcType=VARCHAR}
+    AND EZC_FACL.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}
+</select>
+
 <select id="selectEzcCacheMinAmt" parameterType="ezcCacheMinAmt" resultType="ezcCacheMinAmt">
 SELECT
 	 EZC_CACHE_MIN_AMT.CHECK_IN_DD AS checkInDd	/* 체크인 일자, VARCHAR2(8) */
@@ -228,23 +276,19 @@ MERGE INTO EZC_CACHE_MIN_AMT /* CACHE 최저가 정보 */
 		AND CHECK_OUT_DD = #{checkOutDd, jdbcType=VARCHAR}	/* 체크아웃 일자, VARCHAR2(8) */
 		AND GRP_FACL_CD = #{grpFaclCd, jdbcType=DECIMAL}	/* 그룹 시설 코드, NUMBER(0,22) */
 		AND FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
-		AND CITY_CD = #{cityCd, jdbcType=VARCHAR}	/* 도시 코드, VARCHAR2(10) */
-		AND AREA_CD = #{areaCd, jdbcType=VARCHAR}	/* 지역 코드, VARCHAR2(10) */
 	)
 	WHEN MATCHED THEN
 		UPDATE SET
 			 ROOM_MIN_PRICE = #{roomMinPrice, jdbcType=NUMERIC}	/* 객실 최저가, NUMBER(0,22) */
 			,SP_ROOM_MIN_PRICE = #{spRoomMinPrice, jdbcType=NUMERIC}	/* 특가최저가, NUMBER(0,22) */
 			,ROOM_NET_PRICE = #{roomNetPrice, jdbcType=DECIMAL}
-			,SP_ROOM_NET_PRICE = #{spRoomNetPrice, jdbcType=DECIMAL}			
+			,SP_ROOM_NET_PRICE = #{spRoomNetPrice, jdbcType=DECIMAL}
 	WHEN NOT MATCHED THEN
 		INSERT (
 			 CHECK_IN_DD	/* 체크인 일자, VARCHAR2(8) */
 			,CHECK_OUT_DD	/* 체크아웃 일자, VARCHAR2(8) */
 			,GRP_FACL_CD	/* 그룹 시설 코드, NUMBER(0,22) */
 			,FACL_CD	/* 시설 코드, NUMBER(0,22) */
-			,CITY_CD	/* 도시 코드, VARCHAR2(10) */
-			,AREA_CD	/* 지역 코드, VARCHAR2(10) */
 			,ROOM_MIN_PRICE	/* 객실 최저가, NUMBER(0,22) */
 			,SP_ROOM_MIN_PRICE	/* 특가최저가, NUMBER(0,22) */
 			,ROOM_NET_PRICE
@@ -254,12 +298,10 @@ MERGE INTO EZC_CACHE_MIN_AMT /* CACHE 최저가 정보 */
 			,#{checkOutDd, jdbcType=VARCHAR}
 			,#{grpFaclCd, jdbcType=DECIMAL}
 			,#{faclCd, jdbcType=DECIMAL}
-			,#{cityCd, jdbcType=VARCHAR}
-			,#{areaCd, jdbcType=VARCHAR}
 			,#{roomMinPrice, jdbcType=NUMERIC}
 			,#{spRoomMinPrice, jdbcType=NUMERIC}
 			,#{roomNetPrice, jdbcType=DECIMAL}
-			,#{spRoomNetPrice, jdbcType=DECIMAL}	
+			,#{spRoomNetPrice, jdbcType=DECIMAL}
 		)
 </update>
 

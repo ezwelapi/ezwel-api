@@ -272,7 +272,7 @@
 		
 		<!--// START 시설검색 -->
 		<httpChan>
-			<description>시설검색-호텔패스글로벌 (시설 검색 멀티쓰레드 인터페이스체널)</description>
+			<description>시설검색-호텔패스글로벌 (최저가 정보 시설 검색 멀티쓰레드 인터페이스체널)</description>
 			<chanId>faclSearch</chanId>
 			<httpAgentId>10055550</httpAgentId>
 			<httpAgentGroupId>multiFaclSearch</httpAgentGroupId>
@@ -282,7 +282,7 @@
 			<readTimeout>6000</readTimeout>
 		</httpChan>	
 		<httpChan>
-			<description>시설검색-팬션라이프 (시설 검색 멀티쓰레드 인터페이스체널)</description>
+			<description>시설검색-팬션라이프 (최저가 정보 시설 검색 멀티쓰레드 인터페이스체널)</description>
 			<chanId>faclSearch</chanId>
 			<httpAgentId>10000496</httpAgentId>
 			<httpAgentGroupId>multiFaclSearch</httpAgentGroupId>

@@ -1,13 +1,15 @@
 package com.ezwel.htl.interfaces.service.data.roomRead;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -67,4 +69,10 @@ public class RoomReadOutSDO extends AbstractSDO {
 		this.data = data;
 	}
 
+	public void addData(RoomReadDataOutSDO data) {
+		if(this.data == null) {
+			this.data = new ArrayList<RoomReadDataOutSDO>();
+		}
+		this.data.add(data);
+	}
 }

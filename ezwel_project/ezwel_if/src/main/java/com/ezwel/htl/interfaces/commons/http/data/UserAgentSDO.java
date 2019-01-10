@@ -40,6 +40,9 @@ public class UserAgentSDO extends AbstractSDO {
 	
 	@APIFields(description = "http read timeout")
 	private Integer readTimeout;
+
+	@APIFields(description = "인터페이스 데이터 읽기 전용 여부")
+	private boolean isReadOnly;
 	
 	
 	public UserAgentSDO() {
@@ -121,4 +124,13 @@ public class UserAgentSDO extends AbstractSDO {
 		this.connTimeout = connTimeout;
 	}
 
+	public boolean isReadOnly() {
+		return isReadOnly;
+	}
+
+	public void setReadOnly(boolean isReadOnly) {
+		this.isReadOnly = isReadOnly;
+	}
+
+	
 }

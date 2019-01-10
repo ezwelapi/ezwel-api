@@ -116,6 +116,8 @@ public class OperateConstants {
 	public static final String FIELD_HTTP_AGENT_ID;
 	public static final String FIELD_PATN_CD_TYPE;
 	
+	public static final String FIELD_HTTP_AGENT_DESC;
+	
 	public final static String RESOURCE_LASTMODIFIED_KEY;
 	public final static String RESOURCE_PROPERTIES_KEY;
 	
@@ -162,6 +164,7 @@ public class OperateConstants {
 		RESOURCE_PROPERTIES_KEY = "properties";
 		
 		FIELD_HTTP_AGENT_ID = "httpAgentId";
+		FIELD_HTTP_AGENT_DESC = "httpAgentDesc";
 		FIELD_PATN_CD_TYPE = "patnCdType";
 		
 		DATA_IMAGE_PREFIX = "data:image/";

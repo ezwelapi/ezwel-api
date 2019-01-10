@@ -91,6 +91,24 @@ INSERT INTO EZC_FACL(	/* 시설 정보 */
 )
 </insert>
 
+<select id="selectCityAreaGroupList" parameterType="ezcFacl" resultType="ezcFacl">
+SELECT * FROM (
+    SELECT /*+ NO_MERGE */
+        CITY_CD cityCd,
+        AREA_CD areaCd
+    FROM
+        EZC_FACL
+    WHERE 1=1
+		AND CITY_CD != 'EMPTY'
+    GROUP BY
+        CITY_CD,
+        AREA_CD
+)
+ORDER BY   
+    CITYCD,
+    AREACD
+</select>
+
 <select id="selectFaclCodeGroupList" parameterType="ezcFacl" resultType="ezcFacl">
 SELECT * FROM (
     SELECT /*+ NO_MERGE */
@@ -129,6 +147,28 @@ ORDER BY
     AREACD,
     ROOMTYPE, 
     FACLDIV 
+</select>
+
+
+<select id="selectRoomReadFaclList" parameterType="ezcFacl" resultType="ezcFacl">
+SELECT 
+	 EZC_FACL.FACL_CD faclCd
+    ,EZC_MAPPING_FACL.GRP_FACL_CD grpFaclCd
+    ,EZC_MAPPING_FACL.CORD_DIST cordDist
+    ,EZC_FACL.PARTNER_CD partnerCd
+    ,EZC_FACL.PARTNER_GOODS_CD partnerGoodsCd
+    ,EZC_FACL.FACL_NM_KOR faclNmKor
+    ,EZC_FACL.FACL_NM_ENG faclNmEng
+FROM
+     EZC_FACL
+    ,EZC_MAPPING_FACL
+WHERE 1=1
+	AND EZC_FACL.FACL_CD = EZC_MAPPING_FACL.FACL_CD
+	AND EZC_FACL.USE_YN = 'Y'
+	AND EZC_MAPPING_FACL.GRP_FACL_CD = #{grpFaclCd, jdbcType=DECIMAL} 
+ORDER BY 
+     EZC_FACL.PARTNER_CD
+    ,EZC_FACL.FACL_NM_KOR	    
 </select>
 
 <select id="selectFaclMappingMorpDataList" parameterType="ezcFacl" resultType="ezcFacl">
