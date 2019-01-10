@@ -22,6 +22,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper=true)
 public class RoomReadDataOutSDO extends AbstractSDO {
 
+	@APIFields(description = "제휴사 코드")
+	private String partnerCd;
+	
 	@APIFields(description = "객실정보조회 output 객실상품코드", required=true, maxLength=500)
 	private String roomNo;
 	
@@ -63,6 +66,16 @@ public class RoomReadDataOutSDO extends AbstractSDO {
 	
 	@APIFields(description = "객실정보조회 output penalty")
 	private List<RoomReadPenaltyOutSDO> penalty = null;
+
+	
+
+	public String getPartnerCd() {
+		return partnerCd;
+	}
+
+	public void setPartnerCd(String partnerCd) {
+		this.partnerCd = partnerCd;
+	}
 
 	public String getRoomNo() {
 		return roomNo;

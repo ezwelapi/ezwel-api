@@ -43,6 +43,8 @@ public class HttpInterfaceHelper implements Callable<AbstractSDO> {
 			this.propertyUtil = new PropertyUtil();
 		}
 		this.multiHttpConfigDTO = multiHttpConfigDTO;
+		
+		//logger.debug("- HttpInterfaceHelper : {}", multiHttpConfigDTO);
 	}
 	
 	@Override
@@ -53,7 +55,7 @@ public class HttpInterfaceHelper implements Callable<AbstractSDO> {
 		Object output = httpInterface.sendJSON(multiHttpConfigDTO.getHttpConfigDTO(), multiHttpConfigDTO.getInputDTO(), multiHttpConfigDTO.getOutputType());
 
 		if(output != null) {
-			
+			//logger.debug("$output : {}", output);
 			//setup httpAgentId
 			propertyUtil.setProperty(output, OperateConstants.FIELD_HTTP_AGENT_ID, multiHttpConfigDTO.getHttpConfigDTO().getHttpAgentId());
 			//setup httpAgentDesc

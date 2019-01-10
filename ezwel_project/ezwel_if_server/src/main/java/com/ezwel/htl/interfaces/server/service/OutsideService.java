@@ -1092,7 +1092,7 @@ public class OutsideService extends AbstractServiceObject {
 						if(Integer.toString(MessageConstants.RESPONSE_CODE_1000).equals(data.getCode()) && data.getData() != null) {
 							/** execute dbio */
 							//제휴사 별 최저가 목록 데이터 저장
-							txCount += outsideRepository.callFaclSearch(faclSearchDTO, data.getData());
+							txCount += outsideRepository.callFaclSearch(faclSearchDTO, data);
 						}
 					}
 					

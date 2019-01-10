@@ -150,6 +150,7 @@ public class OutsideController {
 		RoomReadOutSDO out = null;
 		//최저가 객실 정보
 		RoomReadDataOutSDO minAmtRoom = null;
+		RoomReadOutSDO minAmtRoomOut = null;
 		
 		//그룹시설코드가 존재할경우
 		if(roomReadSDO.getGrpFaclCd() != null) {
@@ -168,6 +169,7 @@ public class OutsideController {
 			inEzcFacl.setGrpFaclCd(roomReadSDO.getGrpFaclCd());
 			faclList = outsideService.selectRoomReadFaclList(inEzcFacl);
 			
+			
 			//그룹시설코드에 대한 목록이 있으면...
 			if(faclList != null && faclList.size() > 0) {
 				
@@ -177,7 +179,9 @@ public class OutsideController {
 					//제휴사 상품 코드
 					roomReadSDO.setPdtNo(faclitem.getPartnerGoodsCd());
 					//1개 상품에 대한 객실 목록
-					roomReadList.add((RoomReadOutSDO) callRoomReadInterface(userAgentSDO, roomReadSDO));
+					minAmtRoomOut = (RoomReadOutSDO) callRoomReadInterface(userAgentSDO, roomReadSDO);
+					minAmtRoomOut.setPartnerCd(faclitem.getPartnerCd());
+					roomReadList.add(minAmtRoomOut);
 				}
 				
 				logger.debug("# roomReadList size : {}", roomReadList.size());
@@ -197,9 +201,11 @@ public class OutsideController {
 							//minAmtRoom.set ...
 							if(minAmtRoom == null) {
 								minAmtRoom = roomItem;
+								minAmtRoom.setPartnerCd(item.getPartnerCd());
 							}
 							else if(roomItem.getPriceForSale() < minAmtRoom.getPriceForSale()) {
 								minAmtRoom = roomItem;
+								minAmtRoom.setPartnerCd(item.getPartnerCd());
 							}
 						}
 					}

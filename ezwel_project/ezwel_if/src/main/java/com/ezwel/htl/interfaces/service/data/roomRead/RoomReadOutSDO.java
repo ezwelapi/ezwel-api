@@ -33,6 +33,9 @@ public class RoomReadOutSDO extends AbstractSDO {
 	@APIFields(description = "RestAPI URI")
 	private String restURI;
 
+	@APIFields(description = "제휴사 코드")
+	private String partnerCd;
+	
 	@APIFields(description = "객실정보조회 output data")
 	private List<RoomReadDataOutSDO> data;
 
@@ -59,6 +62,14 @@ public class RoomReadOutSDO extends AbstractSDO {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+	public String getPartnerCd() {
+		return partnerCd;
+	}
+
+	public void setPartnerCd(String partnerCd) {
+		this.partnerCd = partnerCd;
 	}
 
 	public List<RoomReadDataOutSDO> getData() {

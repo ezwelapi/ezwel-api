@@ -829,7 +829,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	 */
 	@APIOperation(description="시설검색 인터페이스(최저가 정보)")
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
-	public Integer callFaclSearch(FaclSearchInSDO faclSearchDTO, List<FaclSearchDataOutSDO> datas) {
+	public Integer callFaclSearch(FaclSearchInSDO faclSearchDTO, FaclSearchOutSDO datas) {
 			
 		EzcCacheMinAmt inCacheMinAmt = null;
 		EzcCacheMinAmt outCacheMinAmt = null;
@@ -837,7 +837,8 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		
 		try {
 					
-			for(FaclSearchDataOutSDO data : datas) {
+			for(FaclSearchDataOutSDO data : datas.getData()) {
+				//logger.debug("$data : {} ", data);
 				
 				inCacheMinAmt = new EzcCacheMinAmt();
 				inCacheMinAmt.setCheckInDd(faclSearchDTO.getCheckInDate());
@@ -847,7 +848,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 				inCacheMinAmt.setRoomNetPrice(new BigDecimal(data.getSellNorPrice())); //객실 정상가
 				inCacheMinAmt.setSpRoomNetPrice(new BigDecimal(data.getSpcNorPrice())); //특가 정상가
 				inCacheMinAmt.setPartnerGoodsCd(data.getPdtNo());
-				//inCacheMinAmt.setPartnerCd(new BigDecimal(data.getHttpAgentId()));
+				inCacheMinAmt.setPartnerCd(new BigDecimal(datas.getHttpAgentId()));
 				
 				outCacheMinAmt = sqlSession.selectOne(getNamespace("CACHE_MIN_AMT_MAPPER", "selectEzcPartnerGoodsMinAmt"), inCacheMinAmt);
 				

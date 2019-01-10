@@ -32,6 +32,12 @@ public class FaclSearchOutSDO extends AbstractSDO {
 	@APIFields(description = "RestAPI URI")
 	private String restURI;
 
+	@APIFields(description = "에이전트 아이디(제휴사 코드)")
+	private String httpAgentId;
+
+	@APIFields(description = "에이전트(제휴사 명)")
+	private String httpAgentDesc;
+	
 	@APIFields(description = "시설검색 output data")
 	private List<FaclSearchDataOutSDO> data = null;
 
@@ -90,6 +96,22 @@ public class FaclSearchOutSDO extends AbstractSDO {
 			this.data = new ArrayList<FaclSearchDataOutSDO>();
 		}
 		this.data.addAll(datas);
+	}
+
+	public String getHttpAgentId() {
+		return httpAgentId;
+	}
+
+	public void setHttpAgentId(String httpAgentId) {
+		this.httpAgentId = httpAgentId;
+	}
+
+	public String getHttpAgentDesc() {
+		return httpAgentDesc;
+	}
+
+	public void setHttpAgentDesc(String httpAgentDesc) {
+		this.httpAgentDesc = httpAgentDesc;
 	}
 	
 }
