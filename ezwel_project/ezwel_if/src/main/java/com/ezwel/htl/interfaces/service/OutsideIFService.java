@@ -65,7 +65,8 @@ public class OutsideIFService {
 	 * @return
 	 */
 	private String getEzcOutputCode(String telgCode) {
-		return CodeMappingConstants.TEMP_IF_CODE_MAPPER.get(telgCode);
+		String out = CodeMappingConstants.TEMP_IF_CODE_MAPPER.get(telgCode);
+		return (out != null ? out : telgCode);
 	}
 	
 	/**
@@ -74,7 +75,8 @@ public class OutsideIFService {
 	 * @return
 	 */
 	private String getEzcOutputName(String telgCode) {
-		return CodeMappingConstants.TEMP_IF_NAME_MAPPER.get(telgCode);
+		String out = CodeMappingConstants.TEMP_IF_NAME_MAPPER.get(telgCode);
+		return (out != null ? out : telgCode); 
 	}
 	
 	
@@ -84,7 +86,7 @@ public class OutsideIFService {
 	 * @return
 	 */
 	private String getEzcInputCode(String ezcCode) {
-		String out = null;
+		String out = ezcCode;
 		for(Entry<String, String> entry : CodeMappingConstants.TEMP_IF_CODE_MAPPER.entrySet()) {
 			if(entry.getValue().equals(ezcCode)) {
 				out = entry.getKey(); 
@@ -294,10 +296,13 @@ public class OutsideIFService {
 			//전문코드를 이지웰코드로 변환 예제.
 			OmiNumIdnReservesOutSDO data = out.getReserves();
 			//코드 데이터 만큼 아래의 set/getEzcCode(전문코드) 를 실행한다.
-			data.setRsvStat(getEzcOutputCode(data.getRsvStat()));
-			data.setRsvStatName(getEzcOutputName(data.getRsvStat()));
-			data.setCompareStat(getEzcOutputCode(data.getCompareStat()));
-			data.setCompareStatName(getEzcOutputName(data.getCompareStat()));
+			String rsvStat = data.getRsvStat();
+			data.setRsvStat(getEzcOutputCode(rsvStat));
+			data.setRsvStatName(getEzcOutputName(rsvStat));
+			//주문상태비교결과코드
+			String compareStat = data.getCompareStat();
+			data.setCompareStat(getEzcOutputCode(compareStat));
+			data.setCompareStatName(getEzcOutputName(compareStat));
 			
 		}
 		catch(Exception e) {
@@ -331,15 +336,20 @@ public class OutsideIFService {
 			}
 			
 			//전문코드를 이지웰코드로 변환 예제.(목록)
+			String rsvStat = null;
 			for(EzwelJobReservesOutSDO data : out.getReserves()) {
+				rsvStat = data.getRsvStat();
+				logger.debug("##rsvStat : {}", rsvStat);
 				//코드 데이터 만큼 아래의 set/getEzcCode(전문코드) 를 실행한다.
-				data.setRsvStat(getEzcOutputCode(data.getRsvStat()));	//cd
-				data.setRsvStatName(getEzcOutputName(data.getRsvStat())); //nm
+				data.setRsvStat(getEzcOutputCode(rsvStat));	//cd
+				data.setRsvStatName(getEzcOutputName(rsvStat)); //nm
 			}
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "주문대사(이지웰) 인터페이스 장애발생.", e);
 		}
+		
+		logger.debug("#주문대사(이지웰) : {}", out);
 		
 		return out;
 	}

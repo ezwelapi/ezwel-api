@@ -7,6 +7,8 @@ import com.ezwel.htl.interfaces.adapter.OutsideIFAdapter;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.service.OutsideIFService;
+import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobInSDO;
+import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobOutSDO;
 import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendDataInSDO;
 import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendInSDO;
 import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendOutSDO;
@@ -38,7 +40,7 @@ public class InterfaceMixTestService extends TestCase {
 		outIfAdapter = new OutsideIFAdapter();
 		outIfService = new OutsideIFService();
 	}
-
+/*
 	public void testRsvHistSend()  throws Exception {		
 		logger.debug("[START] callRsvHistSend");
 		
@@ -90,6 +92,36 @@ public class InterfaceMixTestService extends TestCase {
 		logger.debug("OtaRsvNo : {}", out.getOtaRsvNo());
 		
 		logger.debug("[END] callRsvHistSend");
+	}
+	*/
+	
+	// 주문대사(이지웰)
+	public void testEzwelJob()  throws Exception {		
+		logger.debug("[START] callEzwelJob");
+		
+		UserAgentSDO userAgentDTO = new UserAgentSDO();
+		
+		userAgentDTO.setHttpAgentId("10055550"); //호텔패스
+		userAgentDTO.setHttpAgentType("AP02PO");
+		userAgentDTO.setHttpChannelCd("1");
+		userAgentDTO.setHttpClientId("ez1");
+		userAgentDTO.setHttpRequestId("test");
+		
+		//Input parameter
+		EzwelJobInSDO ezwelJobSDO = new EzwelJobInSDO();
+		
+		//ezwelJobSDO.setRsvNo("E181226002");
+		ezwelJobSDO.setRsvDateStart("20190101");
+		ezwelJobSDO.setRsvDateEnd("20190110");
+		
+		//interface api call
+		EzwelJobOutSDO out = outIfAdapter.callEzwelJob(userAgentDTO, ezwelJobSDO);
+		
+		logger.debug("Code : {}", out.getCode());
+		logger.debug("Message : {}", out.getMessage());
+		logger.debug("Reserves : {}", out.getReserves());
+		
+		logger.debug("[END] callEzwelJob");
 	}
 	
 }

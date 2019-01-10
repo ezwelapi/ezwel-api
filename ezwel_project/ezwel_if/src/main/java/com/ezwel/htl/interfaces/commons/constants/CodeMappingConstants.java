@@ -20,7 +20,7 @@ public class CodeMappingConstants {
 		//이곳에 전문코드 : 이지웰코드 추가
 		TEMP_IF_CODE_MAPPER.put("r01","R001RW");
 		TEMP_IF_CODE_MAPPER.put("r02","R001OK");
-		TEMP_IF_CODE_MAPPER.put("r03","R001OK");
+		TEMP_IF_CODE_MAPPER.put("r03","R001XW");
 		TEMP_IF_CODE_MAPPER.put("r04","R001XX");
 
 		TEMP_IF_NAME_MAPPER = new HashMap<String, String>();
@@ -29,5 +29,9 @@ public class CodeMappingConstants {
 		TEMP_IF_NAME_MAPPER.put("r02","예약완료");
 		TEMP_IF_NAME_MAPPER.put("r03","취소대기");
 		TEMP_IF_NAME_MAPPER.put("r04","취소완료");
+		TEMP_IF_NAME_MAPPER.put("R001RW","예약대기");
+		TEMP_IF_NAME_MAPPER.put("R001OK","예약완료");
+		TEMP_IF_NAME_MAPPER.put("R001XW","취소대기");
+		TEMP_IF_NAME_MAPPER.put("R001XX","취소완료");		
 	}
 }

@@ -233,7 +233,7 @@
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>웹투어 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
 			<!-- <restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI> -->
-			<restURI>http://www.webtour.com/Webupload/xml/ezwel_gdshMETA.txt</restURI>
+			<restURI>http://dev.webtour.com/Partner/ezwel/ws_ezwelMeta.asp?cmd=DayBatch</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -295,7 +295,7 @@
 		
 		<!--// START 당일특가검색 -->
 		<httpChan>
-			<description>당일특가검색-호텔엔조이 (시설 검색 멀티쓰레드 인터페이스체널)</description>
+			<description>당일특가검색-호텔엔조이 (시설 최저가 조회 멀티쓰레드 인터페이스체널)</description>
 			<chanId>sddSearch</chanId>
 			<httpAgentId>10000495</httpAgentId>
 			<httpAgentGroupId>multiSddSearch</httpAgentGroupId>
@@ -305,7 +305,7 @@
 			<readTimeout>6000</readTimeout>
 		</httpChan>
 		<httpChan>
-			<description>당일특가검색-팬션라이프 (시설 검색 멀티쓰레드 인터페이스체널)</description>
+			<description>당일특가검색-팬션라이프 (시설 최저가 조회 멀티쓰레드 인터페이스체널)</description>
 			<chanId>sddSearch</chanId>
 			<httpAgentId>10000496</httpAgentId>
 			<httpAgentGroupId>multiSddSearch</httpAgentGroupId>

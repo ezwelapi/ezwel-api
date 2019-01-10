@@ -38,7 +38,7 @@ public class EzwelJobReservesOutSDO extends AbstractSDO {
 	@APIFields(description = "주문대사(이지웰) output 주문상태코드", required=true, maxLength=5)
 	private String rsvStat;
 	
-	@APIFields(description = "주문대사(이지웰) output 주문상태명", required=true, maxLength=10)
+	@APIFields(description = "주문대사(이지웰) output 주문상태명")
 	private String rsvStatName;
 
 	public String getRsvNo() {
@@ -89,7 +89,8 @@ public class EzwelJobReservesOutSDO extends AbstractSDO {
 		this.rsvStat = rsvStat;
 	}
 	
-	public String setRsvStatName() {
+	//전차장님 오타 get 을 set 이라 해두심 -_-
+	public String getRsvStatName() {
 		return rsvStatName;
 	}
 
