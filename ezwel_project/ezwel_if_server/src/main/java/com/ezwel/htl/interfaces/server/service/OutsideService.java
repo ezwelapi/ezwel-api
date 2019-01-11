@@ -983,12 +983,14 @@ public class OutsideService extends AbstractServiceObject {
 		configureHelper = (ConfigureHelper) LApplicationContext.getBean(configureHelper, ConfigureHelper.class);
 		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
 		
+		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
 		SddSearchOutSDO out = null;
 		MultiHttpConfigSDO multi = null;
-		List<MultiHttpConfigSDO> multiHttpConfigList = null;
 		List<HttpConfigSDO> channelList = null;
+		List<MultiHttpConfigSDO> multiHttpConfigList = null;
 		
 		try {
+			out = new SddSearchOutSDO();
 			multiHttpConfigList = new ArrayList<MultiHttpConfigSDO>();
 			
 			channelList = InterfaceFactory.getChannelGroup(userAgentDTO.getHttpAgentGroupId());
@@ -1010,8 +1012,17 @@ public class OutsideService extends AbstractServiceObject {
 			//멀티 쓰레드 인터페이스 실행
 			List<SddSearchOutSDO> assets = inteface.sendMultiJSON(multiHttpConfigList);
 			
-			/** execute dbio */
-			out = outsideRepository.callSddSearch(assets);			
+			//읽기 전용이 아닐경우 배치실행
+			for(SddSearchOutSDO data : assets) {
+				//정상 처리되었을경우 데이터 저장
+				if(Integer.toString(MessageConstants.RESPONSE_CODE_1000).equals(data.getCode()) && data.getData() != null) {
+					/** execute dbio */
+					//제휴사 별 최저가 목록 데이터 저장
+					/** execute dbio */
+					txCount += outsideRepository.callSddSearch(data);
+				}
+			}
+			
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "당일특가검색 인터페이스 장애발생.", e);
