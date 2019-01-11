@@ -869,6 +869,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	 * @return 
 	 */
 	@APIOperation(description="당일특가검색 인터페이스")
+	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
 	public Integer callSddSearch(SddSearchOutSDO assets) {
 		
 		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
