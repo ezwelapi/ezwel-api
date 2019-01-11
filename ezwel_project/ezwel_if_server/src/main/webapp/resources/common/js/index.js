@@ -31,7 +31,13 @@ var $util = {
 		//$.logger.debug("[COMMONS CORE REPLACE ALL] : " + jsRes);
 		
 		return jsRes;
-	}		
+	},
+	//$util.fetch_unix_timestamp()
+	fetch_unix_timestamp : function() {
+		
+		//return parseInt(new Date().getTime().toString().substring(0, 10));
+		return Math.floor(new Date().getTime() / 1000);
+	}	
 };
 
 var $interface = {
@@ -83,7 +89,7 @@ var $interface = {
 		"IN-시설판매중지설정" : {
 			  url : requestNamespace + "/facl/saleStop"
 			 ,input : {
-				"pdtNo": "1",
+				"pdtNo": "KRSEL340",
 				"sellFlag": "N"
 			 }
 		},
@@ -393,87 +399,18 @@ var $interface = {
 		"http-client-id" : "",
 		"http-request-id" : "",
 		"http-channel-cd" : "",
+		"http-agent-type" : "",
 		"http-agent-id" : "",
-		"http-agent-type" : ""
+		"http-api-key" : "",
+		"http-api-signature" : "",
+		"http-api-timestamp" : ""
 	}
 	,util : {
 		removeTag : function( html ) {
 			return html.replace(/(<([^>]+)>)/gi, "");
 		}		
 	}
-	,send : function( httpAgentId, restURL, jsonString, dataType ) {
-		
-		console.info(arguments);
-		
-		var inputJson = null;
-		var headerJson = null;
-		
-		var passAgentIdURI = new Array();
-		passAgentIdURI.push(requestNamespace + "/agent/apiKey");
-		passAgentIdURI.push(requestNamespace + "/morp/korean");
-		passAgentIdURI.push(requestNamespace + "/allReg/imageDownload");
-		passAgentIdURI.push(requestNamespace + "/allReg");
-		passAgentIdURI.push(requestNamespace + "/execFaclMapping");
-		passAgentIdURI.push(requestNamespace + "/configXML");
-		
-		if(!dataType) {
-			dataType = "json";	
-		}
-		
-		try {
-			
-			if(!jsonString || $.trim(jsonString) === "") {
-				inputJson = JSON.parse("{}");
-			}
-			else {
-				inputJson = JSON.parse(jsonString);
-			}
-			
-			if( passAgentIdURI.indexOf(restURL) === -1 && inputJson["userAgentSDO"] && inputJson["userAgentSDO"]["httpAgentId"] ) {
-				if(!httpAgentId || $.trim(httpAgentId) === "") {
-					alert("제휴사를 선택하세요.");
-					return false;
-				}
-				
-				inputJson.userAgentSDO.httpAgentId = httpAgentId;
-			}
-			else {
-				$("#httpAgentId").val("");
-			}
-			
-			headerJson = $("#inputHeader").val();
-			if(!headerJson || $.trim(headerJson) === "") {
-				headerJson = JSON.parse("{}");
-			}
-			else {
-				headerJson = JSON.parse(headerJson);
-			}
-			
-			if( passAgentIdURI.indexOf(restURL) === -1 && ((headerJson["http-agent-id"] && headerJson["http-agent-id"] !== "") || !headerJson["http-agent-id"]) ) {
-				headerJson["http-agent-id"] = httpAgentId;
-			}	
-			
-			if(passAgentIdURI.indexOf(restURL) > -1) {
-				$("#httpAgentId").val("");
-			}
-			
-			if(dataType === "json") {
-				headerJson["Accept"] = "application/json";
-				headerJson["Content-Type"] = "application/json; charset=UTF-8";				
-			}
-		}
-		catch( e ) {
-			alert("입력 파라메터 필드의 JSON 문자열이 잘못되었습니다.\n" + e.message);
-			return false;
-		}
-
-		var URL = $interface.contextPath + restURL;
-		
-		console.info("RestURI : " + URL);
-		console.info("Request Header");
-		console.info(headerJson);
-		console.info("Input Parameter");
-		console.info(inputJson);
+	,sendAjax : function( URL, inputJson, headerJson, dataType ) {
 		
 		var escapeHTML = function( response ) {
 			var out = response;
@@ -491,6 +428,7 @@ var $interface = {
 			return out;
 		}
 		
+		// $interface.sendAjax( URL, inputJson, headerJson, dataType )
 		$.ajax({ 
 			type: "POST", 
 			url : URL, 
@@ -564,7 +502,116 @@ var $interface = {
 			complete : function(){
 				console.debug( "[TRANSACTION COMPLETE]" );
 			}			
-		}); 
+		}); 		
+	}
+	,send : function( httpAgentId, restURL, jsonString, dataType ) {
+		
+		console.info(arguments);
+		
+		var inputJson = null;
+		var headerJson = null;
+		
+		var passAgentIdURI = new Array();
+		passAgentIdURI.push(requestNamespace + "/agent/apiKey");
+		passAgentIdURI.push(requestNamespace + "/morp/korean");
+		passAgentIdURI.push(requestNamespace + "/allReg/imageDownload");
+		passAgentIdURI.push(requestNamespace + "/allReg");
+		passAgentIdURI.push(requestNamespace + "/execFaclMapping");
+		passAgentIdURI.push(requestNamespace + "/configXML");
+		
+		if(!dataType) {
+			dataType = "json";	
+		}
+		
+		try {
+			
+			if(!jsonString || $.trim(jsonString) === "") {
+				inputJson = JSON.parse("{}");
+			}
+			else {
+				inputJson = JSON.parse(jsonString);
+			}
+			
+			if( passAgentIdURI.indexOf(restURL) === -1 ) {
+				
+				if(!httpAgentId || $.trim(httpAgentId) === "") {
+					alert("제휴사를 선택하세요.");
+					return false;
+				}
+				
+				if(inputJson["userAgentSDO"] && inputJson["userAgentSDO"]["httpAgentId"]) {
+					inputJson.userAgentSDO.httpAgentId = httpAgentId;
+				}
+			}
+			else {
+				$("#httpAgentId").val("");
+			}
+			
+			headerJson = $("#inputHeader").val();
+			if(!headerJson || $.trim(headerJson) === "") {
+				headerJson = JSON.parse("{}");
+			}
+			else {
+				headerJson = JSON.parse(headerJson);
+			}
+			
+			if( passAgentIdURI.indexOf(restURL) === -1 && ((headerJson["http-agent-id"] && headerJson["http-agent-id"] !== "") || !headerJson["http-agent-id"]) ) {
+				headerJson["http-agent-id"] = httpAgentId;
+			}	
+			
+			if(passAgentIdURI.indexOf(restURL) > -1) {
+				$("#httpAgentId").val("");
+			}
+			
+			if(dataType === "json") {
+				headerJson["Accept"] = "application/json";
+				headerJson["Content-Type"] = "application/json; charset=UTF-8";				
+			}
+		}
+		catch( e ) {
+			alert("입력 파라메터 필드의 JSON 문자열이 잘못되었습니다.\n" + e.message);
+			return false;
+		}
+
+		var URL = $interface.contextPath + restURL;
+		
+		var httpApiKey = $('#httpAgentId option:selected').attr('httpApiKey');
+		headerJson["http-api-key"] = httpApiKey;
+		headerJson["http-api-timestamp"] = $util.fetch_unix_timestamp();
+		headerJson["http-api-signature"] = "empty";
+		
+		console.info("RestURI : " + URL);
+		console.info("Request Header");
+		console.info(headerJson);
+		console.info("Input Parameter");
+		console.info(inputJson);
+		
+		if($("#httpAgentId").val() !== "") {
+			
+			$.post( 
+				$interface.contextPath + requestNamespace + "/getHttpSignature", 
+				{
+					 httpAgentId: headerJson["http-agent-id"]
+					,httpApiKey: headerJson["http-api-key"]
+					,httpApiTimestamp: headerJson["http-api-timestamp"]
+					,httpApiSignature: headerJson["http-api-signature"]
+				}, 
+				function( data ) {
+					
+					console.info( data );
+					//execute ajax 
+					
+					headerJson["http-api-signature"] = data.httpApiSignature;
+					$("#inputHeader").val(JSON.stringify(headerJson, undefined, 4));
+					
+					$interface.sendAjax( URL, inputJson, headerJson, dataType );
+				}, 
+				"json"
+			);
+		}
+		else {
+			$interface.sendAjax( URL, inputJson, headerJson, dataType );
+		}
 	}
 	,bind : function() {
 		

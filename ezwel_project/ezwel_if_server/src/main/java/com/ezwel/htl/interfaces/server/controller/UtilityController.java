@@ -25,6 +25,7 @@ import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.send.data.SmsSenderInSDO;
 import com.ezwel.htl.interfaces.commons.send.data.SmsSenderOutSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -41,6 +42,7 @@ import com.ezwel.htl.interfaces.server.sdo.MorphemeSDO;
 import com.ezwel.htl.interfaces.service.SendIFService;
 
 @Controller
+@RequestMapping(value = RequestNamespace.NAME_SPACE)
 @APIType(description = "부가기능 컨트롤러")
 public class UtilityController {
 	
@@ -55,7 +57,7 @@ public class UtilityController {
 	private SendIFService sendIFService;
 	
 	@APIOperation(description="테스트 JSP Forward Operation")
-	@RequestMapping(value="/test/{fileName}")
+	@RequestMapping(value="/{fileName}")
 	public String forward(@PathVariable("fileName") String fileName, Model model, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[FORWARD] {}", fileName);
 		return RequestNamespace.NAME_SPACE.concat("/").concat(fileName);
@@ -83,6 +85,19 @@ public class UtilityController {
 		return out;
 	}
 	
+
+	@RequestMapping(value = "/getHttpSignature")
+	@APIOperation(description = "시그니처 발급", isOutputJsonMarshall=true, returnType=HttpConfigSDO.class)
+	public Object getHttpSignature(HttpConfigSDO httpConfigSDO) {
+		logger.debug("[START] getHttpSignature {}", httpConfigSDO);
+		
+		HttpConfigSDO out = httpConfigSDO;
+		
+		out.setHttpApiSignature(APIUtil.getHttpSignature(out.getHttpAgentId(), out.getHttpApiKey(), out.getHttpApiTimestamp()));
+		
+		logger.debug("[END] getHttpSignature {}", out);
+		return out;
+	}
 	
 	@APIOperation(description="한글 형태소 분석", isOutputJsonMarshall=true, returnType=MorphemeSDO.class)
 	@RequestMapping(value="/morp/korean")
@@ -199,5 +214,7 @@ public class UtilityController {
 		
 		return out;
 	}
+	
+	
 	
 }

@@ -640,11 +640,12 @@ public class CommonUtil {
     	String signature = httpConfigSDO.getHttpApiSignature();
     	logger.debug("[PROC] Signature : {}", signature);
     	
-    	String decodeSignature = CryptUtil.getEncodeBase64(signature);
+    	String decodeSignature = CryptUtil.getDecodeBase64(signature);
+    	logger.debug("[PROC] DecodeSignature : {}", decodeSignature);
+    	
     	if(decodeSignature.indexOf(OperateConstants.STR_HYPHEN) == -1) {
     		throw new APIException(MessageConstants.RESPONSE_CODE_4000, "시그니처 유형이 잘못되었습니다.");
     	}
-    	logger.debug("[PROC] DecodeSignature : {}", decodeSignature);
 
     	String signatureItem = null;
     	List<String> signatureSplit = Arrays.asList(decodeSignature.split(OperateConstants.STR_HYPHEN));
