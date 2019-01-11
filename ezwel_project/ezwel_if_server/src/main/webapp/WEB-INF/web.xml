@@ -98,7 +98,7 @@
 		
 	<servlet-mapping>
 		<servlet-name>applicationServlet</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>/serviceEndpoint</url-pattern>
 	</servlet-mapping>
 	
 	<!-- The specified timeout must be expressed in a whole number of minutes. -->

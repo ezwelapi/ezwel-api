@@ -15,6 +15,7 @@ import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
+import com.ezwel.htl.interfaces.server.commons.interfaces.RequestNamespace;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.service.InsideService;
@@ -37,6 +38,7 @@ import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegOutSDO;
  * @date   2018. 11. 15.
  */
 @Controller
+@RequestMapping(value = RequestNamespace.NAME_SPACE)
 @APIType(description = "Inside Callee Interface Controller")
 public class InsideController {
 
@@ -64,7 +66,7 @@ public class InsideController {
 	 * @since  2018. 11. 21.
 	 */
 	@APIOperation(description="신규시설등록수정 인터페이스", isOutputJsonMarshall=true, returnType=RecordOutSDO.class)
-	@RequestMapping(value="/{httpAgentId}/facl/record")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/facl/record")
 	public Object callRecord(@PathVariable("httpAgentId") String httpAgentId, RecordInSDO recordInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callRecord {}", recordInSDO);
 		
@@ -107,7 +109,7 @@ public class InsideController {
 	}	
 	
 	@APIOperation(description="시설판매중지설정 인터페이스", isOutputJsonMarshall=true, returnType=SaleStopOutSDO.class)
-	@RequestMapping(value="/{httpAgentId}/facl/saleStop")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/facl/saleStop")
 	public Object callSaleStop(@PathVariable("httpAgentId") String httpAgentId, SaleStopInSDO saleStopInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callSaleStop {}", saleStopInSDO);
 		
@@ -149,7 +151,7 @@ public class InsideController {
 	
 	
 	@APIOperation(description="예약내역조회 인터페이스", isOutputJsonMarshall=true, returnType=ViewOutSDO.class)
-	@RequestMapping(value="/{httpAgentId}/facl/view")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/facl/view")
 	public Object callView(@PathVariable("httpAgentId") String httpAgentId, ViewInSDO viewInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callView {}", viewInSDO);
 		
@@ -191,7 +193,7 @@ public class InsideController {
 	
 	/*@ResponseBody
 	@APIOperation(description="시설바우처번호등록 인터페이스")
-	@RequestMapping(value="/{httpAgentId}/facl/voucherReg")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/facl/voucherReg")
 	public ResponseEntity<VoucherRegOutSDO> callVoucherReg(@PathVariable("httpAgentId") String httpAgentId, VoucherRegInSDO voucherRegInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callVoucherReg {}", voucherRegInSDO);
 		
@@ -220,7 +222,7 @@ public class InsideController {
 	}*/
 	
 	@APIOperation(description="시설바우처번호등록 인터페이스", isOutputJsonMarshall=true, returnType=VoucherRegOutSDO.class)
-	@RequestMapping(value="/{httpAgentId}/facl/voucherReg")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/facl/voucherReg")
 	public Object callVoucherReg(@PathVariable("httpAgentId") String httpAgentId, VoucherRegInSDO voucherRegInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callVoucherReg {}", voucherRegInSDO);
 		
@@ -263,7 +265,7 @@ public class InsideController {
 	
 	/*@ResponseBody
 	@APIOperation(description="주문대사(제휴사) 인터페이스")
-	@RequestMapping(value="/{httpAgentId}/order/agentJob")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/order/agentJob")
 	public ResponseEntity<AgentJobOutSDO> callAgentJob(@PathVariable("httpAgentId") String httpAgentId, AgentJobInSDO agentJobInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callAgentJob {}", agentJobInSDO);
 		
@@ -292,7 +294,7 @@ public class InsideController {
 	}*/
 	
 	@APIOperation(description="주문대사(제휴사) 인터페이스", isOutputJsonMarshall=true, returnType=AgentJobOutSDO.class)
-	@RequestMapping(value="/{httpAgentId}/facl/agentJob")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/facl/agentJob")
 	public Object callAgentJob(@PathVariable("httpAgentId") String httpAgentId, AgentJobInSDO agentJobInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callAgentJob {}", agentJobInSDO);
 		

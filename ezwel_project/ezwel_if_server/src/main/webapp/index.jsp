@@ -5,14 +5,516 @@
 <meta charset="UTF-8">
 <title>ezwel api test</title>
 <style>
-	body, ul, li {
-		margin:0px;
-		padding:0px 14px 0px 10px;
-	}
-	h2, span {
-		color : #ffffff
-	}
+@import url(https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css);
+@import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
+
+body {
+	margin: 0px;
+	padding: 0px 14px 0px 10px;
+	font-family: 'Lato', sans-serif;
+}
+
+h2, span {
+	color: #ffffff
+}
+
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	border: 0;
+	float: left;
+}
+
+.jumbotron h1 {
+	color: #353535;
+}
+
+footer {
+	margin-bottom: 0 !important;
+	margin-top: 80px;
+}
+
+footer p {
+	margin: 0;
+	padding: 0;
+}
+
+span.icon {
+	margin: 0 5px;
+	color: #D64541;
+}
+
+h2 {
+	color: #BDC3C7;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.mrng-60-top {
+	margin-top: 60px;
+}
+/* Global Button Styles */
+a.animated-button:link, a.animated-button:visited {
+	position: relative;
+	display: block;
+	margin: 30px auto 0;
+	padding: 14px 15px;
+	color: #fff;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+	text-transform: uppercase;
+	overflow: hidden;
+	letter-spacing: .08em;
+	border-radius: 0;
+	text-shadow: 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.2);
+	-webkit-transition: all 1s ease;
+	-moz-transition: all 1s ease;
+	-o-transition: all 1s ease;
+	transition: all 1s ease;
+}
+
+a.animated-button:link:after, a.animated-button:visited:after {
+	content: "";
+	position: absolute;
+	height: 0%;
+	left: 50%;
+	top: 50%;
+	width: 150%;
+	z-index: -1;
+	-webkit-transition: all 0.75s ease 0s;
+	-moz-transition: all 0.75s ease 0s;
+	-o-transition: all 0.75s ease 0s;
+	transition: all 0.75s ease 0s;
+}
+
+a.animated-button:link:hover, a.animated-button:visited:hover {
+	color: #FFF;
+	text-shadow: none;
+}
+
+a.animated-button:link:hover:after, a.animated-button:visited:hover:after
+	{
+	height: 450%;
+}
+
+a.animated-button:link, a.animated-button:visited {
+	position: relative;
+	display: block;
+	margin: 30px auto 0;
+	padding: 14px 15px;
+	color: #fff;
+	font-size: 14px;
+	border-radius: 0;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+	text-transform: uppercase;
+	overflow: hidden;
+	letter-spacing: .08em;
+	text-shadow: 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.2);
+	-webkit-transition: all 1s ease;
+	-moz-transition: all 1s ease;
+	-o-transition: all 1s ease;
+	transition: all 1s ease;
+}
+
+/* Victoria Buttons */
+a.animated-button.victoria-one {
+	border: 2px solid #D24D57;
+}
+
+a.animated-button.victoria-one:after {
+	background: #D24D57;
+	-moz-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+	-ms-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+	-webkit-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+	transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+}
+
+a.animated-button.victoria-two {
+	border: 2px solid #D24D57;
+}
+
+a.animated-button.victoria-two:after {
+	background: #D24D57;
+	-moz-transform: translateX(-50%) translateY(-50%) rotate(25deg);
+	-ms-transform: translateX(-50%) translateY(-50%) rotate(25deg);
+	-webkit-transform: translateX(-50%) translateY(-50%) rotate(25deg);
+	transform: translateX(-50%) translateY(-50%) rotate(25deg);
+}
+
+a.animated-button.victoria-three {
+	border: 2px solid #D24D57;
+}
+
+a.animated-button.victoria-three:after {
+	background: #D24D57;
+	opacity: .5;
+	-moz-transform: translateX(-50%) translateY(-50%);
+	-ms-transform: translateX(-50%) translateY(-50%);
+	-webkit-transform: translateX(-50%) translateY(-50%);
+	transform: translateX(-50%) translateY(-50%);
+}
+
+a.animated-button.victoria-three:hover:after {
+	height: 140%;
+	opacity: 1;
+}
+
+a.animated-button.victoria-four {
+	border: 2px solid #D24D57;
+}
+
+a.animated-button.victoria-four:after {
+	background: #D24D57;
+	opacity: .5;
+	-moz-transform: translateY(-50%) translateX(-50%) rotate(90deg);
+	-ms-transform: translateY(-50%) translateX(-50%) rotate(90deg);
+	-webkit-transform: translateY(-50%) translateX(-50%) rotate(90deg);
+	transform: translateY(-50%) translateX(-50%) rotate(90deg);
+}
+
+a.animated-button.victoria-four:hover:after {
+	opacity: 1;
+	height: 600% !important;
+}
+/* Sandy Buttons */
+a.animated-button.sandy-one {
+	border: 2px solid #AEA8D3;
+	color: #FFF;
+}
+
+a.animated-button.sandy-one:after {
+	border: 3px solid #AEA8D3;
+	opacity: 0;
+	-moz-transform: translateX(-50%) translateY(-50%);
+	-ms-transform: translateX(-50%) translateY(-50%);
+	-webkit-transform: translateX(-50%) translateY(-50%);
+	transform: translateX(-50%) translateY(-50%);
+}
+
+a.animated-button.sandy-one:hover:after {
+	height: 120% !important;
+	opacity: 1;
+	color: #FFF;
+}
+
+a.animated-button.sandy-two {
+	border: 2px solid #AEA8D3;
+	color: #FFF;
+}
+
+a.animated-button.sandy-two:after {
+	border: 3px solid #AEA8D3;
+	opacity: 0;
+	-moz-transform: translateY(-50%) translateX(-50%) rotate(90deg);
+	-ms-transform: translateY(-50%) translateX(-50%) rotate(90deg);
+	-webkit-transform: translateY(-50%) translateX(-50%) rotate(90deg);
+	transform: translateY(-50%) translateX(-50%) rotate(90deg);
+}
+
+a.animated-button.sandy-two:hover:after {
+	height: 600% !important;
+	opacity: 1;
+	color: #FFF;
+}
+
+a.animated-button.sandy-three {
+	border: 2px solid #AEA8D3;
+	color: #FFF;
+}
+
+a.animated-button.sandy-three:after {
+	border: 3px solid #AEA8D3;
+	opacity: 0;
+	-moz-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+	-ms-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+	-webkit-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+	transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+}
+
+a.animated-button.sandy-three:hover:after {
+	height: 400% !important;
+	opacity: 1;
+	color: #FFF;
+}
+
+a.animated-button.sandy-four {
+	border: 2px solid #AEA8D3;
+	color: #FFF;
+}
+
+a.animated-button.sandy-four:after {
+	border: 3px solid #AEA8D3;
+	opacity: 0;
+	-moz-transform: translateY(-50%) translateX(-50%) rotate(25deg);
+	-ms-transform: translateY(-50%) translateX(-50%) rotate(25deg);
+	-webkit-transform: translateY(-50%) translateX(-50%) rotate(25deg);
+	transform: translateY(-50%) translateX(-50%) rotate(25deg);
+}
+
+a.animated-button.sandy-four:hover:after {
+	height: 400% !important;
+	opacity: 1;
+	color: #FFF;
+}
+/* Gibson Buttons */
+a.animated-button.gibson-one {
+	border: 2px solid #65b37a;
+	color: #FFF;
+}
+
+a.animated-button.gibson-one:after {
+	opacity: 0;
+	background-image: -webkit-linear-gradient(transparent 50%, rgba(101, 179, 122, 0.2)
+		50%);
+	background-image: -moz-linear-gradient(transparent 50%, rgba(101, 179, 122, 0.2)
+		50%);
+	background-size: 10px 10px;
+	-moz-transform: translateX(-50%) translateY(-50%) rotate(25deg);
+	-ms-transform: translateX(-50%) translateY(-50%) rotate(25deg);
+	-webkit-transform: translateX(-50%) translateY(-50%) rotate(25deg);
+	transform: translateX(-50%) translateY(-50%) rotate(25deg);
+}
+
+a.animated-button.gibson-one:hover:after {
+	height: 600% !important;
+	opacity: 1;
+	color: #FFF;
+}
+
+a.animated-button.gibson-two {
+	border: 2px solid #65b37a;
+	color: #FFF;
+}
+
+a.animated-button.gibson-two:after {
+	opacity: 0;
+	background-image: -webkit-linear-gradient(transparent 50%, rgba(101, 179, 122, 0.2)
+		50%);
+	background-image: -moz-linear-gradient(transparent 50%, rgba(101, 179, 122, 0.2)
+		50%);
+	background-size: 10px 10px;
+	-moz-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+	-ms-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+	-webkit-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+	transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+}
+
+a.animated-button.gibson-two:hover:after {
+	height: 600% !important;
+	opacity: 1;
+	color: #FFF;
+}
+
+a.animated-button.gibson-three {
+	border: 2px solid #65b37a;
+	color: #FFF;
+}
+
+a.animated-button.gibson-three:after {
+	opacity: 0;
+	background-image: -webkit-linear-gradient(transparent 50%, rgba(101, 179, 122, 0.2)
+		50%);
+	background-image: -moz-linear-gradient(transparent 50%, rgba(101, 179, 122, 0.2)
+		50%);
+	background-size: 10px 10px;
+	-moz-transform: translateX(-50%) translateY(-50%) rotate(90deg);
+	-ms-transform: translateX(-50%) translateY(-50%) rotate(90deg);
+	-webkit-transform: translateX(-50%) translateY(-50%) rotate(90deg);
+	transform: translateX(-50%) translateY(-50%) rotate(90deg);
+}
+
+a.animated-button.gibson-three:hover:after {
+	height: 600% !important;
+	opacity: 1;
+	color: #FFF;
+}
+
+a.animated-button.gibson-four {
+	border: 2px solid #65b37a;
+	color: #FFF;
+}
+
+a.animated-button.gibson-four:after {
+	opacity: 0;
+	background-image: -webkit-linear-gradient(transparent 50%, rgba(101, 179, 122, 0.2)
+		50%);
+	background-image: -moz-linear-gradient(transparent 50%, rgba(101, 179, 122, 0.2)
+		50%);
+	background-size: 10px 10px;
+	-moz-transform: translateX(-50%) translateY(-50%);
+	-ms-transform: translateX(-50%) translateY(-50%));
+	-webkit-transform: translateX(-50%) translateY(-50%);
+	transform: translateX(-50%) translateY(-50%);
+}
+
+a.animated-button.gibson-four:hover:after {
+	height: 600% !important;
+	opacity: 1;
+	color: #FFF;
+}
+/* Thar Buttons */
+a.animated-button.thar-one {
+	color: #fff;
+	cursor: pointer;
+	display: block;
+	position: relative;
+	border: 2px solid #F7CA18;
+	transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+}
+
+a.animated-button.thar-one:hover {
+	color: #000 !important;
+	background-color: transparent;
+	text-shadow: none;
+}
+
+a.animated-button.thar-one:hover:before {
+	bottom: 0%;
+	top: auto;
+	height: 100%;
+}
+
+a.animated-button.thar-one:before {
+	display: block;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	height: 0px;
+	width: 100%;
+	z-index: -1;
+	content: '';
+	color: #000 !important;
+	background: #F7CA18;
+	transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+}
+
+a.animated-button.thar-two {
+	color: #fff;
+	cursor: pointer;
+	display: block;
+	position: relative;
+	border: 2px solid #F7CA18;
+	transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+}
+
+a.animated-button.thar-two:hover {
+	color: #000 !important;
+	background-color: transparent;
+	text-shadow: ntwo;
+}
+
+a.animated-button.thar-two:hover:before {
+	top: 0%;
+	bottom: auto;
+	height: 100%;
+}
+
+a.animated-button.thar-two:before {
+	display: block;
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	height: 0px;
+	width: 100%;
+	z-index: -1;
+	content: '';
+	color: #000 !important;
+	background: #F7CA18;
+	transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+}
+
+a.animated-button.thar-three {
+	color: #fff;
+	cursor: pointer;
+	display: block;
+	position: relative;
+	border: 2px solid #F7CA18;
+	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+	0
+	s;
+}
+
+a.animated-button.thar-three:hover {
+	color: #000 !important;
+	background-color: transparent;
+	text-shadow: nthree;
+}
+
+a.animated-button.thar-three:hover:before {
+	left: 0%;
+	right: auto;
+	width: 100%;
+}
+
+a.animated-button.thar-three:before {
+	display: block;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	height: 100%;
+	width: 0px;
+	z-index: -1;
+	content: '';
+	color: #000 !important;
+	background: #F7CA18;
+	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+	0
+	s;
+}
+
+a.animated-button.thar-four {
+	color: #fff;
+	cursor: pointer;
+	display: block;
+	position: relative;
+	border: 2px solid #F7CA18;
+	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+	0
+	s;
+}
+
+a.animated-button.thar-four:hover {
+	color: #000 !important;
+	background-color: transparent;
+	text-shadow: nfour;
+}
+
+a.animated-button.thar-four:hover:before {
+	right: 0%;
+	left: auto;
+	width: 100%;
+}
+
+a.animated-button.thar-four:before {
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 0px;
+	z-index: -1;
+	content: '';
+	color: #000 !important;
+	background: #F7CA18;
+	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+	0
+	s;
+}
+
 </style>
+
+<link rel="stylesheet" id="common-css"  href="./resources/common/css/common.css" type="text/css" media="all" />
+
 </head>
 <body>
 
@@ -24,7 +526,7 @@ var $interfaceTester = {
 		// $interfaceTester.color.metro_palette
 		metro_palette : {
 			1:"black",
-			2:"lime",
+			2:"violet",/* "lime", */
 			3:"green",
 			4:"teal",
 			5:"blue",
@@ -35,7 +537,7 @@ var $interfaceTester = {
 			10:"crimson",
 			11:"red",
 			12:"orange",
-			13:"yellow",
+			13:"orange",/* "yellow", */
 			14:"brown",
 			15:"olive",
 			16:"red",
@@ -153,8 +655,7 @@ var $interfaceTester = {
 					"readTimeout": 100000	/* {setClientUserData} */
 				},
 				roomReadInSDO : {
-					"grpFaclCd": "",
-					"pdtNo": "KRSEL402",	/* {setClientUserData} */
+					"pdtNo": "KRSEL340",	/* {setClientUserData} */
 					"checkInDate": "20190101",	/* {setClientUserData} */
 					"checkOutDate": "20190102",	/* {setClientUserData} */
 					"roomCnt": 1,	/* {setClientUserData} */
@@ -163,6 +664,27 @@ var $interfaceTester = {
 				}
 			}
 		},
+		"OUT-시설 별 최저가목록조회 인터페이스" : {
+			 url : "/service/callRoomRead"
+			,input : {
+				userAgentSDO : {
+					"httpAgentType": "{setClientUserData}",
+					"httpChannelCd": "{setClientUserData}",
+					"httpClientId": "{setClientUserData}",
+					"httpRequestId": "{setClientUserData}",
+					"connTimeout": 1000,	/* {setClientUserData} */
+					"readTimeout": 100000	/* {setClientUserData} */
+				},
+				roomReadInSDO : {
+					"grpFaclCd": "64512",
+					"checkInDate": "20190101",	/* {setClientUserData} */
+					"checkOutDate": "20190102",	/* {setClientUserData} */
+					"roomCnt": 1,	/* {setClientUserData} */
+					"adultCnt": 2,	/* {setClientUserData} */
+					"childCnt": 0	/* {setClientUserData} */
+				}
+			}
+		},		
 		"OUT-취소수수료규정 인터페이스" : {
 			 url : "/service/callCancelFeePsrc"
 			,input : {
@@ -399,6 +921,9 @@ var $interfaceTester = {
 				
 				inputJson.userAgentSDO.httpAgentId = httpAgentId;
 			}
+			else {
+				$("#httpAgentId").val("");
+			}
 			
 			headerJson = $("#inputHeader").val();
 			if(!headerJson || $.trim(headerJson) === "") {
@@ -555,37 +1080,53 @@ $(document).ready(function() {
 });
 </script>
 
-<h2>Interface Test Site</h2>
+
 <div style="padding-bottom:4px;">
-	<span>Input Data Setup</span>
-	<span>
-		<select id="restURL"></select>
-	</span>
-	<span style="padding-left:2px; width:10%;">
-		<select id="httpAgentId" name="httpAgentId">
-			<option value="">:: 선택 ::</option>
-			<option value="10055550">호텔패스글로벌 10055550</option>
-			<option value="10000495">호텔엔조이 메이트아이 10000495</option>
-			<option value="10000496">펜션라이프 플레이스엠 10000496</option>
-			<option value="10002654">인터파크투어 10002654</option>
-			<option value="10008365">펀앤비즈 샬레코리아 10008365</option>
-			<option value="10030653">우리펜션(옐로트래블랩스) 10030653</option>
-			<option value="10053461">인터치투어 10053461</option>
-			<option value="10054233">웹투어 10054233</option>
-			<option value="10056562">(주)위드이노베이션_여기어때 10056562</option>
-			<option value="99999999">직영/숙박 99999999</option>
-		</select>
-	</span>
-	<span style="padding-left:2px;"><button id="sendBtn">SEND</button></span>
-	<span style="padding-left:2px;"><button id="getXmlConfigBtn">IF설정파일조회</button></span>
+
 </div>
 <div>
-<textarea placeholder="API 입력 파라메터(JSON)" id="inputJson" name="inputJson" style="float:left;width:69%;height:200px;"></textarea>
-<textarea placeholder="API 요청 헤더(JSON)" id="inputHeader" name="inputHeader" style="float:right;width:30%;height:200px;"></textarea>
-</div>
-<span>Output Data</span>
-<div>  
-	<textarea placeholder="API 응답 결과(JSON)" id="outputJson" name="outputJson" style="width:99.5%;height:580px;" readonly></textarea>
+	<ul>
+		<li style="width:100%;"><h2>Interface Test Site</h2></li>
+	</ul>
+	<ul class="row">
+		<li><span>Input Data Setup</span></li>
+		<li><select id="restURL"></select></li>
+		<li>
+			<select id="httpAgentId" name="httpAgentId">
+				<option value="">:: 선택 ::</option>
+				<option value="10055550">호텔패스글로벌 10055550</option>
+				<option value="10000495">호텔엔조이 메이트아이 10000495</option>
+				<option value="10000496">펜션라이프 플레이스엠 10000496</option>
+				<option value="10002654">인터파크투어 10002654</option>
+				<option value="10008365">펀앤비즈 샬레코리아 10008365</option>
+				<option value="10030653">우리펜션(옐로트래블랩스) 10030653</option>
+				<option value="10053461">인터치투어 10053461</option>
+				<option value="10054233">웹투어 10054233</option>  
+				<option value="10056562">(주)위드이노베이션_여기어때 10056562</option>
+				<option value="99999999">직영/숙박 99999999</option>
+			</select>
+		</li>
+		<!-- 
+		<div class="row">
+			<div class="col-md-3 col-sm-3 col-xs-6"> <a href="#" class="btn btn-sm animated-button victoria-one">Sign up</a> </div>
+			<div class="col-md-3 col-sm-3 col-xs-6"> <a href="#" class="btn btn-sm animated-button victoria-two">Login</a> </div>
+			<div class="col-md-3 col-sm-3 col-xs-6"> <a href="#" class="btn btn-sm animated-button victoria-three">Register</a> </div>
+			<div class="col-md-3 col-sm-3 col-xs-6"> <a href="#" class="btn btn-sm animated-button victoria-four">Learn more</a> </div>
+		</div>
+  		 -->
+		<li class="col-md-3 col-sm-3 col-xs-6"><button id="sendBtn" class="btn btn-sm animated-button victoria-one">SEND</button></li>
+		<li><button id="getXmlConfigBtn">IF설정파일조회</button></li>
+	</ul>
+	<ul>
+		<li style="width:65%;"><textarea placeholder="API 입력 파라메터(JSON)" id="inputJson" name="inputJson" style="width:99%;height:200px;"></textarea></li>
+		<li style="width:35%"><textarea placeholder="API 요청 헤더(JSON)" id="inputHeader" name="inputHeader" style="width:99%;height:200px;"></textarea></li>
+	</ul>
+	<ul>
+		<li style="width:100%;"><span>Output Data</span></li>
+	</ul>
+	<ul>
+		<li style="width:100%;"><textarea placeholder="API 응답 결과(JSON)" id="outputJson" name="outputJson" style="width:99.5%;height:580px;" readonly></textarea></li>
+	</ul>
 </div>
 </body>
 </html>

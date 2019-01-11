@@ -15,6 +15,7 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.server.commons.interfaces.RequestNamespace;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.sdo.FaclSDO;
@@ -51,6 +52,7 @@ import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
  * @date 2018. 11. 15.
  */
 @Controller
+@RequestMapping(value = RequestNamespace.NAME_SPACE)
 @APIType(description = "Outside Caller Interface Controller")
 public class OutsideController {
 
@@ -81,7 +83,7 @@ public class OutsideController {
 	 * @since 2018. 11. 21.
 	 */
 	@APIOperation(description = "전체시설일괄등록 인터페이스", isOutputJsonMarshall = true, returnType = AllRegOutSDO.class)
-	@RequestMapping(value = "/service/allReg")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/allReg")
 	public Object callAllReg(UserAgentSDO userAgentSDO) {
 
 		if (OutsideService.isCallAllRegRunning()) {
@@ -94,7 +96,7 @@ public class OutsideController {
 	}
 
 	@APIOperation(description = "전체시설 이미지 다운로드 인터페이스", isOutputJsonMarshall = true, returnType = AllRegFaclImgOutSDO.class)
-	@RequestMapping(value = "/service/allReg/imageDownload")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/allReg/imageDownload")
 	public Object callAllRegImageDownload() {
 
 		/** 데이터 저장이 모두 끝난후 제휴사 별 별도 멀티쓰레드 이미지 다운로드 실행 */
@@ -104,7 +106,7 @@ public class OutsideController {
 	}
 
 	@APIOperation(description = "시설 매핑", isOutputJsonMarshall = true, returnType = FaclSDO.class)
-	@RequestMapping(value = "/service/execFaclMapping")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/execFaclMapping")
 	public Object execFaclMapping(FaclSDO faclSDO) {
 
 		if (OutsideService.isFaclMappingRunning()) {
@@ -117,7 +119,7 @@ public class OutsideController {
 	}
 
 	@APIOperation(description = "시설검색(최저가 정보) 인터페이스", isOutputJsonMarshall = true, returnType = FaclSearchOutSDO.class)
-	@RequestMapping(value = "/service/callFaclSearch")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/callFaclSearch")
 	public Object callFaclSearch(UserAgentSDO userAgentSDO, FaclSearchInSDO faclSearchSDO) {
 
 		FaclSearchOutSDO out = outsideService.callFaclSearch(userAgentSDO, faclSearchSDO);
@@ -126,7 +128,7 @@ public class OutsideController {
 	}
 
 	@APIOperation(description = "당일특가검색 인터페이스", isOutputJsonMarshall = true, returnType = SddSearchOutSDO.class)
-	@RequestMapping(value = "/service/callSddSearch")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/callSddSearch")
 	public Object callSddSearch(UserAgentSDO userAgentSDO) {
 
 		SddSearchOutSDO out = outsideService.callSddSearch(userAgentSDO);
@@ -138,8 +140,16 @@ public class OutsideController {
 	 * [START] ezwel_if API
 	 **************************************/
 
-	@RequestMapping(value = "/service/callRoomRead")
-	@APIOperation(description = "객실정보조회 인터페이스", isOutputJsonMarshall = true, returnType = RoomReadOutSDO.class)
+	/**
+	 * 객실정보단건 및 시설 별 최저가목록조회 인터페이스
+	 * roomReadSDO 입력 시그니처에 grpFaclCd가 있으면  시설 별 최저가을 조회 하고
+	 * 없으면 상품코드에 대한 객실 정보를 조회한다.
+	 * @param userAgentSDO
+	 * @param roomReadSDO
+	 * @return
+	 */
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/callRoomRead")
+	@APIOperation(description = "객실정보단건 및 시설 별 최저가조회 인터페이스", isOutputJsonMarshall = true, returnType = RoomReadOutSDO.class)
 	public Object callRoomRead(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
 		logger.debug("[START] callRoomRead {} {}", userAgentSDO, roomReadSDO);
 		
@@ -170,6 +180,9 @@ public class OutsideController {
 				for(EzcFacl faclitem : faclList) {
 					//제휴사 상품 코드
 					roomReadSDO.setPdtNo(faclitem.getPartnerGoodsCd());
+					//제휴사 코드 (에이젼트ID)
+					userAgentSDO.setHttpAgentId(faclitem.getPartnerCd());
+					
 					//1개 상품에 대한 객실 목록
 					minAmtRoomOut = (RoomReadOutSDO) callRoomReadInterface(userAgentSDO, roomReadSDO);
 					minAmtRoomOut.setPartnerCd(faclitem.getPartnerCd());
@@ -230,7 +243,7 @@ public class OutsideController {
 
 	
 	
-	@RequestMapping(value = "/service/callCancelFeePsrc")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/callCancelFeePsrc")
 	@APIOperation(description = "취소수수규정 인터페이스", isOutputJsonMarshall = true, returnType = CancelFeePsrcOutSDO.class)
 	public Object callCancelFeePsrc(UserAgentSDO userAgentSDO, CancelFeePsrcInSDO cancelFeePsrcSDO) {
 
@@ -239,7 +252,7 @@ public class OutsideController {
 		return out;
 	}
 
-	@RequestMapping(value = "/service/callRsvHistSend")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/callRsvHistSend")
 	@APIOperation(description = "결재완료내역전송 인터페이스", isOutputJsonMarshall = true, returnType = RsvHistSendOutSDO.class)
 	public Object callRsvHistSend(UserAgentSDO userAgentSDO, RsvHistSendInSDO rsvHistSendSDO) {
 
@@ -248,7 +261,7 @@ public class OutsideController {
 		return out;
 	}
 
-	@RequestMapping(value = "/service/callCancelFeeAmt")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/callCancelFeeAmt")
 	@APIOperation(description = "취소수수료계산 인터페이스", isOutputJsonMarshall = true, returnType = CancelFeeAmtOutSDO.class)
 	public Object callCancelFeeAmt(UserAgentSDO userAgentSDO, CancelFeeAmtInSDO cancelFeeAmtSDO) {
 
@@ -257,7 +270,7 @@ public class OutsideController {
 		return out;
 	}
 
-	@RequestMapping(value = "/service/callOrderCancelReq")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/callOrderCancelReq")
 	@APIOperation(description = "주문취소요청 인터페이스", isOutputJsonMarshall = true, returnType = OrderCancelReqOutSDO.class)
 	public Object callOrderCancelReq(UserAgentSDO userAgentSDO, OrderCancelReqInSDO orderCancelReqSDO) {
 
@@ -266,7 +279,7 @@ public class OutsideController {
 		return out;
 	}
 
-	@RequestMapping(value = "/service/callOmiNumIdn")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/callOmiNumIdn")
 	@APIOperation(description = "누락건확인 인터페이스", isOutputJsonMarshall = true, returnType = OmiNumIdnOutSDO.class)
 	public Object callOmiNumIdn(UserAgentSDO userAgentSDO, OmiNumIdnInSDO omiNumIdnSDO) {
 
@@ -275,7 +288,7 @@ public class OutsideController {
 		return out;
 	}
 
-	@RequestMapping(value = "/service/callEzwelJob")
+	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/callEzwelJob")
 	@APIOperation(description = "주문대사(이지웰) 인터페이스", isOutputJsonMarshall = true, returnType = EzwelJobOutSDO.class)
 	public Object callEzwelJob(UserAgentSDO userAgentSDO, EzwelJobInSDO ezwelJobSDO) {
 		
