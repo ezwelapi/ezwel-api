@@ -39,7 +39,6 @@ import com.ezwel.htl.interfaces.server.commons.utils.ResponseUtil;
 import com.ezwel.htl.interfaces.server.sdo.AgentApiKeySDO;
 import com.ezwel.htl.interfaces.server.sdo.MorphemeSDO;
 import com.ezwel.htl.interfaces.service.SendIFService;
-import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 
 @Controller
 @APIType(description = "부가기능 컨트롤러")
@@ -191,7 +190,7 @@ public class UtilityController {
 	}
 	
 	@RequestMapping(value = "/service/callSmsSender")
-	@APIOperation(description = "문자발송 인터페이스", isOutputJsonMarshall = true, returnType = RoomReadOutSDO.class)
+	@APIOperation(description = "문자발송 인터페이스", returnType = SmsSenderOutSDO.class)
 	public Object callSmsSender(SmsSenderInSDO smsSenderSDO) {
 		logger.debug("[START] callSmsSender {} {}", smsSenderSDO);
 		
