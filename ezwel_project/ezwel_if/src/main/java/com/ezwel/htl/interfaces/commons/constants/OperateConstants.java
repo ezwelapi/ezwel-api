@@ -17,7 +17,7 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
  * @date 2018. 11. 5.
  * @serviceType API
  */
-@APIType
+@APIType(description="시스템 운영 상수")
 public class OperateConstants {
 
 	//SYSTEM EXECUTABLE CODE
@@ -143,8 +143,13 @@ public class OperateConstants {
 	
 	public static final String STR_Y;
 	public static final String STR_N;
+
+	public static final String IMAGE_FILE_NAME_SPACE;
 	
 	static {
+		// OperateConstants.IMAGE_FILE_NAME_SPACE
+		IMAGE_FILE_NAME_SPACE = "ezc-api";
+		
 		STR_Y = "Y";
 		STR_N = "N";
 		

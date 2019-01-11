@@ -797,8 +797,12 @@ public class OutsideService extends AbstractServiceObject {
 				for(EzcFaclImg imageParam : ezcFaclImgList) {
 					
 					inImageSDO = new ImageSDO();
+					//이미지 URL
 					inImageSDO.setImageURL(imageParam.getPartnerImgUrl());
-					inImageSDO.setChildPath(new StringBuffer().append(imageParam.getPartnerCd()).append(File.separator)
+					//파일 저장 경로 ( 환경설정의 이미지 저장 루트디렉토리로 부터 하위 )
+					inImageSDO.setChildPath(new StringBuffer()
+							.append(OperateConstants.IMAGE_FILE_NAME_SPACE).append(File.separator)
+							.append(imageParam.getPartnerCd()).append(File.separator)
 							.append(imageParam.getCityCd()).append(File.separator)
 							.append(imageParam.getAreaCd()).toString());
 					
