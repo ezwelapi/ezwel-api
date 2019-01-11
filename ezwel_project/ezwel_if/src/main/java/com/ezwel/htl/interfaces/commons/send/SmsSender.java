@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.server.commons.send;
+package com.ezwel.htl.interfaces.commons.send;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +15,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
@@ -24,9 +25,8 @@ import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
-import com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor;
-import com.ezwel.htl.interfaces.server.commons.send.data.SmsSenderInSDO;
-import com.ezwel.htl.interfaces.server.commons.send.data.SmsSenderOutSDO;
+import com.ezwel.htl.interfaces.commons.send.data.SmsSenderInSDO;
+import com.ezwel.htl.interfaces.commons.send.data.SmsSenderOutSDO;
 
 @Component
 @APIType(description="문자발송 인터페이스")

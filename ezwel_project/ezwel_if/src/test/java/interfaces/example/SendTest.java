@@ -1,4 +1,4 @@
-package ezwel_if_server.test;
+package interfaces.example;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.send.data.SmsSenderInSDO;
 import com.ezwel.htl.interfaces.commons.send.data.SmsSenderOutSDO;
-import com.ezwel.htl.interfaces.server.commons.send.MailSender;
 import com.ezwel.htl.interfaces.service.SendIFService;
 
 public class SendTest {
@@ -16,15 +15,11 @@ public class SendTest {
 	
 	private SendIFService sendIFService;
 	
-	private MailSender mailSender;
-	
 	public SendTest() {
 		
 		InterfaceFactory.initLocalTestInterfaceFactory();
 		
 		sendIFService = new SendIFService();
-		
-		mailSender = new MailSender();
 	}
 	
 	//문자
@@ -62,21 +57,4 @@ public class SendTest {
 		logger.debug("[END] smsSenderTest");
 	}
 	
-	//메일
-	public void MailSenderDevTest() {
-		
-		//mailSender.naverSend();
-		
-		logger.debug("[START] MailSenderDevTest");
-		
-		String from = "java124@naver.com";
-		String fromName = "전용필";
-		String recipient = "jyp0698@gmail.com"; 
-		String subject = "메일 제목 테스트";
-		String body = "메일 내용 테스트";
-		
-		mailSender.asyncSimpleSend(from, fromName, recipient, subject, body);
-		
-		logger.debug("[END] MailSenderDevTest");
-	}
 }

@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.server.commons.send.data;
+package com.ezwel.htl.interfaces.commons.send.data;
 
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
