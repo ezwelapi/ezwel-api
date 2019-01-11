@@ -1,5 +1,6 @@
 package com.ezwel.htl.interfaces.server.commons.intercepter;
 
+import java.lang.reflect.Field;
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,12 +14,14 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.entity.CommonHeader;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -86,24 +89,42 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 			if(request.getHeaderNames() != null) {
 				String headerName = null;
 				String headerValue = null;
+				APIFields apiFieldAnno = null;
+				HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
+				Field[] httpConfigFields = httpConfigSDO.getClass().getDeclaredFields();
 				Enumeration<String> headerNames = request.getHeaderNames();
 		        while(headerNames.hasMoreElements()){
 		            headerName = (String) headerNames.nextElement();
 		            headerValue = request.getHeader(headerName);
 		            logger.debug("- Intercepter RequestHeader ■ {} : {}", headerName, headerValue);
 		            header.addProperties(headerName, headerValue);
+		            
+		            for(Field configFeild : httpConfigFields) {
+		            	apiFieldAnno = configFeild.getAnnotation(APIFields.class);
+		            	if(apiFieldAnno != null) {
+		            		
+		            		if(apiFieldAnno.headerName().equals(headerName)) {
+		            			configFeild.setAccessible(true);
+		            			configFeild.set(httpConfigSDO, headerValue);
+		            			break;
+		            		}
+		            	}
+		            }
 		        }
+		        //logger.debug("[HttpConfigSDO] {}", httpConfigSDO);
+		        header.setHttpConfigSDO(httpConfigSDO);
 			}
-			
+		
 			HandlerMethod handlerMethod = commonUtil.getHandlerMethod(handler);
-			if(handlerMethod == null) {
-				throw new APIException("■■ 잘못된 URI 요청 입니다. URI에 해당하는 APIOperation존재하지 않습니다. '{}'", typeMethodName);
-			}
+			logger.debug("■■ HandlerMethod => {}, TypeMethodName => {}", handlerMethod, typeMethodName);
 			
-			APIOperation operationAnno = handlerMethod.getMethodAnnotation(APIOperation.class);
-	
-			if(operationAnno == null) {
-				throw new APIException("■■ 유효하지 않은 API 오퍼레이션 APIOperation어노테이션이 존재하지 않습니다. '{}'", typeMethodName);
+			if(handlerMethod != null) {
+				
+				APIOperation operationAnno = handlerMethod.getMethodAnnotation(APIOperation.class);
+		
+				if(operationAnno == null) {
+					throw new APIException("■■ 유효하지 않은 API 오퍼레이션 APIOperation어노테이션이 존재하지 않습니다. '{}'", typeMethodName);
+				}
 			}
 			
 			out = true;	

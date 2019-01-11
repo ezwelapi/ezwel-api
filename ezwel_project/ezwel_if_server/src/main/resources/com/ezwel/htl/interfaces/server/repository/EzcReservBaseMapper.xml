@@ -269,21 +269,44 @@ SELECT * FROM (
 			,EZC_RESERV_BASE.MODI_ID AS modiId	/* 수정자 ID, VARCHAR2(20) */
 			,EZC_RESERV_BASE.MODI_DT AS modiDt	/* 수정 일시, VARCHAR2(14) */
 			,EZC_RESERV_BASE.USER_ID AS userId	/* 회원 ID, VARCHAR2(20) */
+			,EZC_RESERV_ROOM.RESERV_ROOM_NUM AS reservRoomNum	/* 예약 객실 번호, NUMBER(0,22) */
+			,EZC_RESERV_ROOM.PARTNER_ROOM_ORDER_NUM AS partnerRoomOrderNum	/* 제휴사 객실 주문 번호, VARCHAR2(100) */
+			,EZC_RESERV_ROOM.PARTNER_ROOM_GOODS_CD AS partnerRoomGoodsCd	/* 제휴사 객실 상품 코드, VARCHAR2(100) */
+			,EZC_RESERV_ROOM.ROOM_NM AS roomNm	/* 객실 명, VARCHAR2(100) */
+			,EZC_RESERV_ROOM.ADT_CNT AS adtCnt	/* 성인 수, NUMBER(0,22) */
+			,EZC_RESERV_ROOM.CHILD_CNT AS childCnt	/* 소아 수, NUMBER(0,22) */
+			,EZC_RESERV_ROOM.ROOM_CNT AS roomCnt	/* 객실 수, NUMBER(0,22) */
+			,EZC_RESERV_ROOM.NORMAL_AMT AS normalAmt	/* 정상 금액, NUMBER(0,22) */
+			,EZC_RESERV_ROOM.OPT_AMT AS optAmt	/* 옵션 금액, NUMBER(0,22) */
+			,EZC_RESERV_ROOM.SALE_AMT AS saleAmt	/* 판매 금액, NUMBER(0,22) */
+			,EZC_RESERV_ROOM.STD_USER AS stdUser	/* 기준 인원, NUMBER(0,22) */
+			,EZC_RESERV_ROOM.MAX_USER AS maxUser	/* 최대 인원, NUMBER(0,22) */
+			,EZC_RESERV_ROOM.BED_TYPE AS bedType	/* 침대 유형, VARCHAR2(8) */
+			,EZC_RESERV_ROOM.BREAKFAST_INCLUDE_YN AS breakfastIncludeYn	/* 조식 포함 여부, CHAR(1) */
+			,EZC_RESERV_ROOM.CANCEL_FEE_RULE AS cancelFeeRule	/* 취소 수수료 규정, VARCHAR2(4000) */
+			,EZC_RESERV_ROOM.ROOM_STATUS AS roomStatus	/* 객실 상태, VARCHAR2(8) */
+			,EZC_RESERV_ROOM.DIST_ROOM_CD AS distRoomCd	/* 직영/숙박 객실 코드, NUMBER(0,22) */
 		FROM
-			 EZC_RESERV_BASE	/* 예약 기본 정보 */
-			,EZC_CHANNEL_MNG	/* 채널 */
-			,EZC_FACL	/* 시설 정보 */
-			,EZC_AREA_CD	/* 지역 코드 */
-			,EZC_CITY_CD	/* 도시 코드 */
-			,EZC_PARTNER	/* 제휴사 정보 */
+			 EZC_FACL	/* 시설 정보 */
+			,EZC_RESERV_BASE	/* 예약 기본 정보 */
+			,EZC_RESERV_ROOM	/* 예약 객실 정보 */
 		WHERE 1=1
-			AND EZC_RESERV_BASE.CHANNEL_CD = EZC_CHANNEL_MNG.CHANNEL_CD
-			AND EZC_RESERV_BASE.FACL_CD = EZC_FACL.FACL_CD
-			AND EZC_FACL.AREA_CD = EZC_AREA_CD.AREA_CD
-			AND EZC_AREA_CD.CITY_CD = EZC_CITY_CD.CITY_CD
-			AND EZC_FACL.CITY_CD = EZC_CITY_CD.CITY_CD
-			AND EZC_FACL.PARTNER_CD = EZC_PARTNER.PARTNER_CD
-			AND EZC_RESERV_BASE.PARTNER_CD = EZC_PARTNER.PARTNER_CD
+			AND EZC_FACL.FACL_CD = EZC_RESERV_BASE.FACL_CD 
+			AND EZC_FACL.PARTNER_CD = EZC_RESERV_BASE.PARTNER_CD
+			AND EZC_RESERV_BASE.RESERV_NUM = EZC_RESERV_ROOM.RESERV_NUM
+			<if test="dateType != null and dateType != ''">
+				<choose>
+					<when test="dateType == 'R'">
+						AND TO_DATE(EZC_RESERV_BASE.RESERV_DT, 'yyyyMMdd') BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'yyyyMMdd') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'yyyyMMdd')
+					</when>
+					<when test="dateType == 'C'">
+						AND TO_DATE(EZC_RESERV_BASE.CHECK_IN_DD, 'yyyyMMdd') BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'yyyyMMdd') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'yyyyMMdd')
+					</when>
+					<when test="dateType == 'J'">
+						AND TO_DATE(EZC_RESERV_BASE.RESERV_DT, 'yyyyMMdd') BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'yyyyMMdd') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'yyyyMMdd')
+					</when>
+				</choose>
+			</if>
 			<if test="offYn != null and offYn != ''">
 			AND EZC_RESERV_BASE.OFF_YN = #{offYn, jdbcType=CHAR}	/* 오프라인 여부, CHAR(1) */
 			</if>
@@ -372,6 +395,14 @@ SELECT * FROM (
 			AND EZC_RESERV_BASE.USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */
 			</if>
 		ORDER BY
+			<choose>
+				<when test="dateType == 'R'">
+					EZC_RESERV_BASE.RESERV_DT, 
+				</when>
+				<when test="dateType == 'C'">
+					EZC_RESERV_BASE.CHECK_IN_DD, 
+				</when>
+			</choose>		
 			EZC_RESERV_BASE.RESERV_NUM DESC
 		/*  SQL Body End  */
 	) RECORDS
@@ -379,6 +410,17 @@ SELECT * FROM (
 )
 WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMERIC}
 </select>
+
+
+<update id="updateEzcReservBaseVoucherNo" parameterType="ezcReservBase">
+UPDATE EZC_RESERV_BASE SET	/* 예약 기본 정보 */
+	 FACL_RESERV_NUM = #{faclReservNum, jdbcType=VARCHAR}	/* 시설 예약 번호, VARCHAR2(100) */
+	,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+WHERE 1=1
+	AND RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
+	AND PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}	/* 제휴사 코드, VARCHAR2(20) */
+</update>
 
 <update id="updateEzcReservBase" parameterType="ezcReservBase">
 UPDATE EZC_RESERV_BASE SET	/* 예약 기본 정보 */

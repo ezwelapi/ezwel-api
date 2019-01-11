@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -21,20 +22,24 @@ import org.apache.commons.io.Charsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
+import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.http.data.VerificationSDO;
+import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
-import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
+import com.ezwel.htl.interfaces.commons.utils.CryptUtil;
 import com.ezwel.htl.interfaces.commons.utils.RegexUtil;
-import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
+import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
+import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.morpheme.cm.MorphemeUtil;
 import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzers;
@@ -62,6 +67,8 @@ public class CommonUtil {
 	private RegexUtil regexUtil;
 	
 	private APIUtil apiUtil;
+	
+	private ParamValidate paramValidate;
 	
 	public final static int DEFAULT_FLAGS; 
 	
@@ -608,4 +615,66 @@ public class CommonUtil {
         return result;
     }
 	
+    @APIOperation(description="헤더 조회 및 시그니처 검증")
+    public void isConfirmHeaderSignature(String chanId) throws APIException, Exception {
+    	logger.debug("[START] getConfirmHeaderSignature => chanId : {}", chanId);
+    	
+    	paramValidate = (ParamValidate) LApplicationContext.getBean(paramValidate, ParamValidate.class);
+    	
+    	HttpConfigSDO httpConfigSDO = Local.commonHeader().getHttpConfigSDO();
+    	//헤더 파라메터 검증
+    	paramValidate.addParam(new ParamValidateSDO(httpConfigSDO));
+    	//execute validator
+		paramValidate.execute();
+		
+    	//인터페이스 설정 파일 체널 정보
+    	HttpConfigSDO httpConfigXML = InterfaceFactory.getChannel(chanId, httpConfigSDO.getHttpAgentId());
+    	//제휴사 에이전트 정보
+    	AgentInfoSDO agentInfoXML = InterfaceFactory.getInterfaceAgents(httpConfigSDO.getHttpAgentId());
+		if(agentInfoXML == null) {
+			throw new APIException("제휴사 에이전트 정보가 존재하지 않습니다. 에이전트아이디 : {}", httpConfigSDO.getHttpAgentId());
+		}
+		
+    	logger.debug("[PROC] ConfirmHeaderSignature httpConfigDTO : {}", httpConfigXML);
+    	
+    	String signature = httpConfigSDO.getHttpApiSignature();
+    	logger.debug("[PROC] Signature : {}", signature);
+    	
+    	String decodeSignature = CryptUtil.getEncodeBase64(signature);
+    	if(decodeSignature.indexOf(OperateConstants.STR_HYPHEN) == -1) {
+    		throw new APIException(MessageConstants.RESPONSE_CODE_4000, "시그니처 유형이 잘못되었습니다.");
+    	}
+    	logger.debug("[PROC] DecodeSignature : {}", decodeSignature);
+
+    	String signatureItem = null;
+    	List<String> signatureSplit = Arrays.asList(decodeSignature.split(OperateConstants.STR_HYPHEN));
+    	for(int i = 0; i < signatureSplit.size(); i++) {
+    		signatureItem = signatureSplit.get(i);
+    		
+    		if(i == 0) {
+    			logger.debug("* UUID data[{}] : {}", i, signatureItem);
+    		}
+    		else if(i == 1) {
+    			logger.debug("* httpAgentId data[{}] : {}", i, signatureItem);
+    			if(!signatureItem.equals(httpConfigSDO.getHttpAgentId())) {
+    				throw new APIException(MessageConstants.RESPONSE_CODE_4000, "시그니처 검증실패! http-agent-id가 존재하지 않거나 잘못되었습니다.");
+    			}
+    		}
+    		else if(i == 2) {
+    			logger.debug("* httpApiKey data[{}] : {}", i, signatureItem);
+    			if(!signatureItem.equals(agentInfoXML.getInsideApiKey())) {
+    				throw new APIException(MessageConstants.RESPONSE_CODE_4000, "시그니처 검증실패! http-api-key가 존재하지 않거나 잘못되었습니다.");
+    			}
+    		}
+    		else if(i == 3) {
+    			logger.debug("* timestamp data[{}] : {}", i, signatureItem);
+    			if(!signatureItem.equals(httpConfigSDO.getHttpApiTimestamp())) {
+    				throw new APIException(MessageConstants.RESPONSE_CODE_4000, "시그니처 검증실패! http-api-timestamp가 존재하지 않거나 잘못되었습니다.");
+    			}
+    		}
+    	}
+    	
+    	logger.debug("[END] getConfirmHeaderSignature ");
+    }
+    
 }

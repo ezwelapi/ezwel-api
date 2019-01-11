@@ -32,6 +32,9 @@ public class SaleStopOutSDO extends AbstractSDO {
 	@APIFields(description = "RestAPI URI")
 	private String restURI;
 
+	@APIFields(description = "트랜젝션 실행 개수")	
+	private Integer txCount;
+	
 	public String getRestURI() {
 		return restURI;
 	}
@@ -39,7 +42,6 @@ public class SaleStopOutSDO extends AbstractSDO {
 	public void setRestURI(String restURI) {
 		this.restURI = restURI;
 	}
-
 
 	public String getCode() {
 		return code;
@@ -55,6 +57,14 @@ public class SaleStopOutSDO extends AbstractSDO {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public Integer getTxCount() {
+		return txCount;
+	}
+
+	public void setTxCount(Integer txCount) {
+		this.txCount = txCount;
 	}
 
 }

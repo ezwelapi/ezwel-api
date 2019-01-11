@@ -58,9 +58,9 @@ public class OutsideController {
 
 	private static final Logger logger = LoggerFactory.getLogger(OutsideController.class);
 
-	private OutsideService outsideService = (OutsideService) LApplicationContext.getBean(OutsideService.class);
+	private OutsideService outsideService;
 
-	private OutsideIFService outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
+	private OutsideIFService outsideIFService;
 	
 	/**************************************
 	 * [START] ezwel_if_server API
@@ -89,7 +89,8 @@ public class OutsideController {
 		if (OutsideService.isCallAllRegRunning()) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9700, "전체시설일괄등록 인터페이스가 이미 실행중입니다.");
 		}
-
+		
+		outsideService = (OutsideService) LApplicationContext.getBean(OutsideService.class);
 		AllRegOutSDO out = outsideService.callAllReg(userAgentSDO);
 
 		return out;
@@ -99,6 +100,7 @@ public class OutsideController {
 	@RequestMapping(value = "/allReg/imageDownload")
 	public Object callAllRegImageDownload() {
 
+		outsideService = (OutsideService) LApplicationContext.getBean(OutsideService.class);
 		/** 데이터 저장이 모두 끝난후 제휴사 별 별도 멀티쓰레드 이미지 다운로드 실행 */
 		AllRegFaclImgOutSDO out = outsideService.downloadMultiImage();
 
@@ -113,6 +115,7 @@ public class OutsideController {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9700, "시설 매핑 프로세스가 이미 실행중입니다.");
 		}
 
+		outsideService = (OutsideService) LApplicationContext.getBean(OutsideService.class);
 		TransactionOutSDO out = outsideService.execFaclMapping(faclSDO);
 
 		return out;
@@ -122,6 +125,7 @@ public class OutsideController {
 	@RequestMapping(value = "/callFaclSearch")
 	public Object callFaclSearch(UserAgentSDO userAgentSDO, FaclSearchInSDO faclSearchSDO) {
 
+		outsideService = (OutsideService) LApplicationContext.getBean(OutsideService.class);
 		FaclSearchOutSDO out = outsideService.callFaclSearch(userAgentSDO, faclSearchSDO);
 
 		return out;
@@ -131,6 +135,7 @@ public class OutsideController {
 	@RequestMapping(value = "/callSddSearch")
 	public Object callSddSearch(UserAgentSDO userAgentSDO) {
 
+		outsideService = (OutsideService) LApplicationContext.getBean(OutsideService.class);
 		SddSearchOutSDO out = outsideService.callSddSearch(userAgentSDO);
 
 		return out;
@@ -237,6 +242,7 @@ public class OutsideController {
 	private Object callRoomReadInterface(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
 		logger.debug("[START] callRoomRead {} {}", userAgentSDO, roomReadSDO);
 		
+		outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
 		RoomReadOutSDO out = outsideIFService.callRoomRead(userAgentSDO, roomReadSDO);
 		
 		return out;
@@ -247,6 +253,7 @@ public class OutsideController {
 	@APIOperation(description = "취소수수규정 인터페이스", isOutputJsonMarshall = true, returnType = CancelFeePsrcOutSDO.class)
 	public Object callCancelFeePsrc(UserAgentSDO userAgentSDO, CancelFeePsrcInSDO cancelFeePsrcSDO) {
 
+		outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
 		CancelFeePsrcOutSDO out = outsideIFService.callCancelFeePsrc(userAgentSDO, cancelFeePsrcSDO);
 		
 		return out;
@@ -256,6 +263,7 @@ public class OutsideController {
 	@APIOperation(description = "결재완료내역전송 인터페이스", isOutputJsonMarshall = true, returnType = RsvHistSendOutSDO.class)
 	public Object callRsvHistSend(UserAgentSDO userAgentSDO, RsvHistSendInSDO rsvHistSendSDO) {
 
+		outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
 		RsvHistSendOutSDO out = outsideIFService.callRsvHistSend(userAgentSDO, rsvHistSendSDO);
 
 		return out;
@@ -265,6 +273,7 @@ public class OutsideController {
 	@APIOperation(description = "취소수수료계산 인터페이스", isOutputJsonMarshall = true, returnType = CancelFeeAmtOutSDO.class)
 	public Object callCancelFeeAmt(UserAgentSDO userAgentSDO, CancelFeeAmtInSDO cancelFeeAmtSDO) {
 
+		outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
 		CancelFeeAmtOutSDO out = outsideIFService.callCancelFeeAmt(userAgentSDO, cancelFeeAmtSDO);
 
 		return out;
@@ -274,6 +283,7 @@ public class OutsideController {
 	@APIOperation(description = "주문취소요청 인터페이스", isOutputJsonMarshall = true, returnType = OrderCancelReqOutSDO.class)
 	public Object callOrderCancelReq(UserAgentSDO userAgentSDO, OrderCancelReqInSDO orderCancelReqSDO) {
 
+		outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
 		OrderCancelReqOutSDO out = outsideIFService.callOrderCancelReq(userAgentSDO, orderCancelReqSDO);
 
 		return out;
@@ -283,6 +293,7 @@ public class OutsideController {
 	@APIOperation(description = "누락건확인 인터페이스", isOutputJsonMarshall = true, returnType = OmiNumIdnOutSDO.class)
 	public Object callOmiNumIdn(UserAgentSDO userAgentSDO, OmiNumIdnInSDO omiNumIdnSDO) {
 
+		outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
 		OmiNumIdnOutSDO out = outsideIFService.callOmiNumIdn(userAgentSDO, omiNumIdnSDO);
 		
 		return out;
@@ -292,6 +303,7 @@ public class OutsideController {
 	@APIOperation(description = "주문대사(이지웰) 인터페이스", isOutputJsonMarshall = true, returnType = EzwelJobOutSDO.class)
 	public Object callEzwelJob(UserAgentSDO userAgentSDO, EzwelJobInSDO ezwelJobSDO) {
 		
+		outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
 		EzwelJobOutSDO out = outsideIFService.callEzwelJob(userAgentSDO, ezwelJobSDO);
 		
 		return out;

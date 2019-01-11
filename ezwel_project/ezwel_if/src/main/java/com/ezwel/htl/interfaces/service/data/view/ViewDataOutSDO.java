@@ -1,16 +1,14 @@
 package com.ezwel.htl.interfaces.service.data.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
-
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-
-
-import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -310,4 +308,11 @@ public class ViewDataOutSDO extends AbstractSDO {
 	public void setOptions(List<ViewOptionsOutSDO> options) {
 		this.options = options;
 	}
+	
+	public void addOptions(ViewOptionsOutSDO options) {
+		if(this.options == null) {
+			this.options = new ArrayList<ViewOptionsOutSDO>();
+		}
+		this.options.add(options);
+	}	
 }

@@ -55,7 +55,6 @@ import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegSubImagesOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
-import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 
 /**
@@ -156,6 +155,7 @@ public class OutsideService extends AbstractServiceObject {
 		MultiHttpConfigSDO multi = null;
 		List<MultiHttpConfigSDO> multiHttpConfigList = null;
 		List<HttpConfigSDO> channelList = null;
+		List<AllRegOutSDO> assets = null;
 		
 		try {
 			
@@ -186,30 +186,9 @@ public class OutsideService extends AbstractServiceObject {
 			}
 			
 			/** execute multi thread interface */
-			List<AllRegOutSDO> assets = inteface.sendMultiJSON(multiHttpConfigList);
+			assets = inteface.sendMultiJSON(multiHttpConfigList);
 			
-			if(assets != null && assets.size() > 0) {
-				/** execute code select transaction */ 
-				EzcDetailCd inEzcDetailCd = new EzcDetailCd();
-				inEzcDetailCd.addClassCdList(CodeDataConstants.CD_CLASS_CD_G002, CodeDataConstants.CD_CLASS_CD_G003, CodeDataConstants.CD_CLASS_CD_C007, CodeDataConstants.CD_CLASS_CD_G005);
-				/** execute save transaction */
-				out = insertAllFacl(assets, new AllRegOutSDO(), commonRepository.selectListCommonCode(inEzcDetailCd), 0);
-			
-				//등록/갱신이 실행된 yyyyMMddHHmmss이 ThradLocal의 StartTimeMillis보다 이전 데이터는 전문에서 제외된 시설로서 사용안함 처리
-				// 조건 : 시설 구분 컬럼 데이터가 API 인것만
-				EzcFacl removeEzcFacl = new EzcFacl();
-				removeEzcFacl.setFaclDiv(CodeDataConstants.CD_API_G0010001); // API
-				removeEzcFacl.setUseYn(CodeDataConstants.CD_N);
-				out.setTxCount(out.getTxCount() + outsideRepository.updateRemoveFacl(removeEzcFacl, true));
-			}
-			
-			if(out != null) {
-				logger.info("[SERVICE-FINAL] createDownloadFileUrlList size : {}", (out.getCreateDownloadFileUrlList() != null ? out.getCreateDownloadFileUrlList().size() : 0));
-				logger.info("[SERVICE-FINAL] deleteDownloadFilePathList size : {}", (out.getDeleteDownloadFilePathList() != null ? out.getDeleteDownloadFilePathList().size() : 0));
-				
-				/** 데이터 저장이 모두 끝난후 변경사항이 존재하는 제휴사 별 멀티쓰레드 이미지 다운로드/삭제 실행 */
-				downloadMultiImage(out);	
-			}
+			out = saveAllReg(assets);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "전체시설일괄등록 인터페이스 장애발생.", e);
@@ -217,11 +196,44 @@ public class OutsideService extends AbstractServiceObject {
 		finally {
 			//실행중 해지
 			isCallAllRegRunning = false;
+			
+			if(assets != null) {
+				assets.clear();
+			}
 		}
 		
 		return out;
 	}	
 
+	public AllRegOutSDO saveAllReg(List<AllRegOutSDO> assets) {
+		
+		AllRegOutSDO out = null;
+		if(assets != null && assets.size() > 0) {
+			/** execute code select transaction */ 
+			EzcDetailCd inEzcDetailCd = new EzcDetailCd();
+			inEzcDetailCd.addClassCdList(CodeDataConstants.CD_CLASS_CD_G002, CodeDataConstants.CD_CLASS_CD_G003, CodeDataConstants.CD_CLASS_CD_C007, CodeDataConstants.CD_CLASS_CD_G005);
+			/** execute save transaction */
+			out = insertAllFacl(assets, new AllRegOutSDO(), commonRepository.selectListCommonCode(inEzcDetailCd), 0);
+		
+			//등록/갱신이 실행된 yyyyMMddHHmmss이 ThradLocal의 StartTimeMillis보다 이전 데이터는 전문에서 제외된 시설로서 사용안함 처리
+			// 조건 : 시설 구분 컬럼 데이터가 API 인것만
+			EzcFacl removeEzcFacl = new EzcFacl();
+			removeEzcFacl.setFaclDiv(CodeDataConstants.CD_API_G0010001); // API
+			removeEzcFacl.setUseYn(CodeDataConstants.CD_N);
+			out.setTxCount(out.getTxCount() + outsideRepository.updateRemoveFacl(removeEzcFacl, true));
+		}
+		
+		if(out != null) {
+			logger.info("[SERVICE-FINAL] createDownloadFileUrlList size : {}", (out.getCreateDownloadFileUrlList() != null ? out.getCreateDownloadFileUrlList().size() : 0));
+			logger.info("[SERVICE-FINAL] deleteDownloadFilePathList size : {}", (out.getDeleteDownloadFilePathList() != null ? out.getDeleteDownloadFilePathList().size() : 0));
+			
+			/** 데이터 저장이 모두 끝난후 변경사항이 존재하는 제휴사 별 멀티쓰레드 이미지 다운로드/삭제 실행 */
+			downloadMultiImage(out);	
+		}
+		
+		return out;
+	}
+	
 	
 	@APIOperation(description="시설 매핑")
 	public synchronized TransactionOutSDO execFaclMapping(FaclSDO faclSDO) {

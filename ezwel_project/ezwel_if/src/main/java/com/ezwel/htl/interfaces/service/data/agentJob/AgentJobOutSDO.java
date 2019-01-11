@@ -1,16 +1,14 @@
 package com.ezwel.htl.interfaces.service.data.agentJob;
 
+import java.util.ArrayList;
 import java.util.List;
 
-
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-
-
-import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -33,6 +31,12 @@ public class AgentJobOutSDO extends AbstractSDO {
 	@APIFields(description = "RestAPI URI")
 	private String restURI;
 
+	@APIFields(description = "트랜젝션 실행 개수")	
+	private Integer txCount;
+	
+	@APIFields(description = "주문대사(제휴사) output reserves")
+	private List<AgentJobReservesOutSDO> reserves = null;
+
 	public String getRestURI() {
 		return restURI;
 	}
@@ -40,10 +44,6 @@ public class AgentJobOutSDO extends AbstractSDO {
 	public void setRestURI(String restURI) {
 		this.restURI = restURI;
 	}
-
-	
-	@APIFields(description = "주문대사(제휴사) output reserves")
-	private List<AgentJobReservesOutSDO> reserves = null;
 
 	public String getCode() {
 		return code;
@@ -67,6 +67,21 @@ public class AgentJobOutSDO extends AbstractSDO {
 
 	public void setReserves(List<AgentJobReservesOutSDO> reserves) {
 		this.reserves = reserves;
+	}
+	
+	public void addReserves(AgentJobReservesOutSDO reserves) {
+		if(this.reserves == null) {
+			this.reserves = new ArrayList<AgentJobReservesOutSDO>();
+		}
+		this.reserves.add(reserves);
+	}	
+
+	public Integer getTxCount() {
+		return txCount;
+	}
+
+	public void setTxCount(Integer txCount) {
+		this.txCount = txCount;
 	}
 
 }

@@ -16,6 +16,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
+import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 
 /**
@@ -68,6 +69,9 @@ public class CommonHeader extends APIObject implements Serializable {
 	@APIFields(description = "실행시간", groupName = OperateConstants.META_COMM_HEADER, isMarshalField = true)
 	private long	lapTimeMillis;
 
+	@APIFields(description = "HTTP 헤더정보를 담을 인터페이스 설정 DTO")
+	private HttpConfigSDO httpConfigSDO;
+	
 	private String[]	arrayMessages;
 
 	private List<String>	traceMessages;
@@ -138,6 +142,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		errorItems = null;
 		isHandlerInterceptorComplete = false;
 		isControlMarshalling = false;
+		httpConfigSDO = null;
 	}
 	
 	
@@ -464,6 +469,14 @@ public class CommonHeader extends APIObject implements Serializable {
 
 	public void setControlMarshalling(boolean isControlMarshalling) {
 		this.isControlMarshalling = isControlMarshalling;
+	}
+
+	public HttpConfigSDO getHttpConfigSDO() {
+		return httpConfigSDO;
+	}
+
+	public void setHttpConfigSDO(HttpConfigSDO httpConfigSDO) {
+		this.httpConfigSDO = httpConfigSDO;
 	}
 	
 	
