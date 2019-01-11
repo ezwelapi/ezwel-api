@@ -48,7 +48,7 @@ public class EzcCacheDayPrice extends AbstractEntity {
 	@APIFields(description = "당일특가 최저가", maxLength=8, required=true, constraints="SYS_C0011139(C)")
 	private BigDecimal dayPriceMinPrice;
 
-	@APIFields(description = "판매 종료 시분", maxLength=4, required=true, constraints="SYS_C0011140(C)")
+	@APIFields(description = "판매 종료 시분", maxLength=12, constraints="SYS_C0011140(C)")
 	private String saleEndTm;
 
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011141(C)")
@@ -63,7 +63,14 @@ public class EzcCacheDayPrice extends AbstractEntity {
 	@APIFields(description = "수정 일시", maxLength=14, isDate=true, dateFormat="yyyyMMddHHmmss")
 	private String modiDt = APIUtil.getTimeMillisToDate(Local.commonHeader().getStartTimeMillis());
 
-
+	@APIFields(description = "제휴사 코드", maxLength=20)
+	private BigDecimal partnerCd;
+	
+	@APIFields(description = "제휴사 상품 코드", maxLength=100)
+	private String partnerGoodsCd;
+	
+	@APIFields(description = "당일특가 정상가", maxLength=8)
+	private Integer dayPriceNetPrice;
 	
 	public String getDayPriceDd() {
 		return dayPriceDd;
@@ -143,6 +150,30 @@ public class EzcCacheDayPrice extends AbstractEntity {
 
 	public void setModiDt(String modiDt) {
 		this.modiDt = modiDt;
+	}
+
+	public BigDecimal getPartnerCd() {
+		return partnerCd;
+	}
+
+	public void setPartnerCd(BigDecimal partnerCd) {
+		this.partnerCd = partnerCd;
+	}
+
+	public String getPartnerGoodsCd() {
+		return partnerGoodsCd;
+	}
+
+	public void setPartnerGoodsCd(String partnerGoodsCd) {
+		this.partnerGoodsCd = partnerGoodsCd;
+	}
+
+	public Integer getDayPriceNetPrice() {
+		return dayPriceNetPrice;
+	}
+
+	public void setDayPriceNetPrice(Integer dayPriceNetPrice) {
+		this.dayPriceNetPrice = dayPriceNetPrice;
 	}
 
 
