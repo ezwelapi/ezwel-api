@@ -1,6 +1,39 @@
 //<![CDATA[
 var requestNamespace = "/service";   // requestNamespace		
 
+var $util = {
+	// $util.replaceAll(sValue, sOrg, sRep, sDef)
+	replaceAll: function(sValue, sOrg, sRep, sDef) {
+		var jsRes = sValue;
+		try { 
+			jsRes = new String((jsRes ? jsRes : ""));
+			
+			if (jsRes.valueOf() == "undefined" || jsRes == "") {
+				jsRes = (sDef ? sDef : "");
+			}
+			else{
+				if(typeof jsRes != 'string'){
+					jsRes = String(jsRes);
+				}
+				if(typeof jsRes != 'string'){
+					console.warn( jsRes + " 는 문자가 아닙니다.");
+				}
+				else {
+					sOrg = (sOrg ? sOrg : "");
+					sRep = (sRep ? sRep : "");						
+					jsRes = jsRes.split(sOrg).join(sRep);
+				}
+			}
+		}catch(e){
+			console.error( "[COMMONS CORE REPLACE ALL] error : " + e );
+		}
+		
+		//$.logger.debug("[COMMONS CORE REPLACE ALL] : " + jsRes);
+		
+		return jsRes;
+	}		
+};
+
 var $interface = {
 	 contextPath : "/API1.0" // $interface.contextPath
 	,requestNamespace : "/service"   // requestNamespace		
@@ -442,6 +475,22 @@ var $interface = {
 		console.info("Input Parameter");
 		console.info(inputJson);
 		
+		var escapeHTML = function( response ) {
+			var out = response;
+			out = $util.replaceAll(out, "<", "&lt;", "");
+			out = $util.replaceAll(out, ">", "&gt;", "");
+			out = $util.replaceAll(out, "\\r\\n", "<br>", "");
+			out = $util.replaceAll(out, "\\n", "<br>", "");
+			out = $util.replaceAll(out, "\r\n", "<br>", "");
+			out = $util.replaceAll(out, "\n", "<br>", "");
+			out = $util.replaceAll(out, " ", "&nbsp;", "");
+			out = $util.replaceAll(out, "	", "&nbsp;&nbsp;&nbsp;&nbsp;", "");
+			
+			console.log(out);
+			
+			return out;
+		}
+		
 		$.ajax({ 
 			type: "POST", 
 			url : URL, 
@@ -463,13 +512,22 @@ var $interface = {
 				console.info(data);
 				
 				if(dataType === "json") {
-					$('#outputJson').text(JSON.stringify(data, undefined, 4));
+					
+					var response = escapeHTML(JSON.stringify(data, undefined, 4));
+					
+					$('#outputJson').html(response);
 				}
 				else if(dataType === "xml") {
-					$('#outputJson').text(new XMLSerializer().serializeToString(data));
+					
+					var response = escapeHTML(new XMLSerializer().serializeToString(data));
+					
+					$('#outputJson').html(response);
 				}
 				else {
-					$('#outputJson').text(data);
+					
+					var response = escapeHTML(data);
+					
+					$('#outputJson').html(response);
 				}
 			}, 
 			error: function(jqXHR, textStatus, errorThrown) {
@@ -481,11 +539,13 @@ var $interface = {
 				output += JSON.stringify(textStatus, undefined, 4);
 				output += "\n";
 				output += JSON.stringify(errorThrown, undefined, 4);
+				
 				console.error(jqXHR);
 				console.error(textStatus);
 				console.error(errorThrown);
-
-				$('#outputJson').text($interface.util.removeTag(output.split("<br>").join("\n")));
+				
+				//$('#outputJson').html($interface.util.removeTag(output.split("<br>").join("\n")));
+				$('#outputJson').html(escapeHTML(output));
 			},
 			statusCode : {
 				404 : function() {

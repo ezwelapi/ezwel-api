@@ -43,7 +43,9 @@
 		<li style="width:100%;"><span class="title">Output Data</span></li>
 	</ul>
 	<ul>
-		<li style="width:100%;"><textarea placeholder="API 응답 결과(JSON)" id="outputJson" name="outputJson" style="width:99.5%;height:580px;" readonly></textarea></li>
+		<li style="width:100%;">
+			<div placeholder="API 응답 결과(JSON)" id="outputJson" name="outputJson" style="width:99.5%;height:580px;background:#ffffff;overflow:auto;"></div>
+		</li>
 	</ul>
 </div>
 </body>
