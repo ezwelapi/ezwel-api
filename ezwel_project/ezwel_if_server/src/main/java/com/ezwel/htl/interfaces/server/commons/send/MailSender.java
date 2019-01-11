@@ -5,7 +5,6 @@ import java.util.Properties;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -13,6 +12,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
@@ -24,44 +24,20 @@ public class MailSender {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
 	
-	public static void naverSend() {
-	
-		String host = "smtp.naver.com";
-		final String user = "java124";
-		final String password = "ypjeon1058032";
-
-		String to = "jyp0698@gmail.com";
-
-  
-		// Get the session object
-		Properties props = new Properties();
-		props.put("mail.smtp.host", host);
-		props.put("mail.smtp.auth", "true");
-
-		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(user, password);
-			}
-		});
-
-		// Compose the message
-		try {
-			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(user));
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-			// Subject
-			message.setSubject("[Subject] Java Mail Test");
-   
-			// Text
-			message.setText("Simple mail test..");
-
-			// send the message
-			Transport.send(message);
-			System.out.println("message sent successfully...");
-
-		} catch (MessagingException e) {
-			e.printStackTrace();
+	/**
+	 * 메일전송
+	 * @param from 발신자메일
+	 * @param fromName 발신자명
+	 * @param recipient 수신자
+	 * @param subject 제목
+	 * @param body 내용
+	 */
+	@Async
+	public void asyncSimpleSend(final String from, final String fromName, final String recipient, final String subject, final String body) {
+		try {			
+			callMailSender(from, fromName, recipient, subject, body);
+		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
 		}
 	}
 	
@@ -76,7 +52,7 @@ public class MailSender {
 	 * @throws UnsupportedEncodingException
 	 */
 	@APIOperation(description="메일발송 인터페이스")
-	protected void callMailSender(String from, String fromName, String recipient, String subject, String body) throws MessagingException, UnsupportedEncodingException {
+	public void callMailSender(String from, String fromName, String recipient, String subject, String body) throws MessagingException, UnsupportedEncodingException {
 		
 		String host = InterfaceFactory.getOptionalApps().getEmailConfig().getHost();
 		String port = InterfaceFactory.getOptionalApps().getEmailConfig().getPort();
@@ -120,5 +96,56 @@ public class MailSender {
         // 발송 처리
         Transport.send(msg);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	public static void naverSend() {
+//		
+//		String host = "smtp.naver.com";
+//		final String user = "java124";
+//		final String password = "ypjeon1058032";
+//
+//		String to = "jyp0698@gmail.com";
+//
+//  
+//		// Get the session object
+//		Properties props = new Properties();
+//		props.put("mail.smtp.host", host);
+//		props.put("mail.smtp.auth", "true");
+//
+//		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+//			protected PasswordAuthentication getPasswordAuthentication() {
+//				return new PasswordAuthentication(user, password);
+//			}
+//		});
+//
+//		// Compose the message
+//		try {
+//			MimeMessage message = new MimeMessage(session);
+//			message.setFrom(new InternetAddress(user));
+//			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+//
+//			// Subject
+//			message.setSubject("[Subject] Java Mail Test");
+//   
+//			// Text
+//			message.setText("Simple mail test..");
+//
+//			// send the message
+//			Transport.send(message);
+//			System.out.println("message sent successfully...");
+//
+//		} catch (MessagingException e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 }

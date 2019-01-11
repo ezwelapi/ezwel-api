@@ -45,7 +45,7 @@
 		<faxConfig></faxConfig>
 		 -->
 		<emailConfig>
-			<host>211.180.161.86</host>
+			<host>211.180.161.84</host>
 		 	<port>25</port>
 		 	<auth>true</auth>
 		 	<username>yanagi10</username>
