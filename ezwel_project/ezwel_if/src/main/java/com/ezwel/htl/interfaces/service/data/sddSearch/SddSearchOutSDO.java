@@ -34,6 +34,12 @@ public class SddSearchOutSDO extends AbstractSDO {
 	@APIFields(description = "RestAPI URI")
 	private String restURI;
 
+	@APIFields(description = "트랜젝션 개수")
+	private Integer txCount;
+	
+	@APIFields(description = "당일특가검색 output data")
+	private List<SddSearchDataOutSDO> data = null;
+	
 	public String getRestURI() {
 		return restURI;
 	}
@@ -41,10 +47,6 @@ public class SddSearchOutSDO extends AbstractSDO {
 	public void setRestURI(String restURI) {
 		this.restURI = restURI;
 	}
-
-	
-	@APIFields(description = "당일특가검색 output data")
-	private List<SddSearchDataOutSDO> data = null;
 
 	public String getCode() {
 		return code;
@@ -68,6 +70,14 @@ public class SddSearchOutSDO extends AbstractSDO {
 
 	public void setData(List<SddSearchDataOutSDO> data) {
 		this.data = data;
+	}
+
+	public Integer getTxCount() {
+		return txCount;
+	}
+
+	public void setTxCount(Integer txCount) {
+		this.txCount = txCount;
 	}
 
 }
