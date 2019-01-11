@@ -13,14 +13,14 @@ import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
+import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcReservBase;
 import com.ezwel.htl.interfaces.server.entities.EzcReservRoomOpt;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobReservesOutSDO;
-import com.ezwel.htl.interfaces.service.data.record.RecordInSDO;
-import com.ezwel.htl.interfaces.service.data.record.RecordOutSDO;
 import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopInSDO;
 import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopOutSDO;
 import com.ezwel.htl.interfaces.service.data.view.ViewDataOutSDO;
@@ -43,6 +43,7 @@ public class InsideRepository extends AbstractDataAccessObject {
 
 	private static final Logger logger = LoggerFactory.getLogger(InsideRepository.class);
 
+	private CommonUtil commonUtil;
 	
 	@APIOperation(description="시설판매중지설정 인터페이스")
 	public SaleStopOutSDO callSaleStop(SaleStopInSDO saleStopSDO) {
@@ -119,6 +120,8 @@ public class InsideRepository extends AbstractDataAccessObject {
 		
 		try {
 
+			commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+			
 			EzcReservBase inEzcReservBase = new EzcReservBase();
 			inEzcReservBase.setReservNum(new BigDecimal(viewSDO.getRsvNo()));
 			inEzcReservBase.setStartDate(viewSDO.getStartDate());
@@ -143,6 +146,34 @@ public class InsideRepository extends AbstractDataAccessObject {
 					//전차장님 스타트!ㅋ
 					//readData.setXXX(reservBase.getXXX());
 					
+					readData.setRsvNo(commonUtil.getBigDecimalToString(reservBase.getEzwelOrderNum()));
+					readData.setRsvDatetime(reservBase.getReservDt());
+					readData.setRsvPrice(reservBase.getTotSaleAmt());
+					readData.setRsvStat(reservBase.getReservStatus());
+					readData.setRsvPdtName(reservBase.getFaclNm());
+					readData.setRsvPdtNo(commonUtil.getBigDecimalToString(reservBase.getEzwelOrderNum()));
+					readData.setPdtNo(commonUtil.getBigDecimalToString(reservBase.getFaclCd()));
+					readData.setPdtName(reservBase.getFaclNm());
+					readData.setRoomNo(reservBase.getPartnerRoomGoodsCd());
+					readData.setRoomName(reservBase.getRoomNm());
+					readData.setRoomCnt(commonUtil.getBigDecimalToInteger(reservBase.getRoomCnt()));
+					readData.setCheckInDate(reservBase.getCheckInDd());
+					readData.setCheckOutDate(reservBase.getCheckOutDd());
+					readData.setOtaRsvNo(reservBase.getPartnerOrderNum());
+					readData.setVoucherNo(reservBase.getFaclReservNum());
+					readData.setMemKey(commonUtil.getBigDecimalToString(reservBase.getUserKey()));
+					/************************* START 추가 작업 필요 ****************************/
+					//readData.setMemName(reservBase.getOrderNm());
+					//readData.setMemPhone(reservBase.getOrderMobile());
+					//readData.setMemEmail(reservBase.getOrderEmail());
+					readData.setUserName(reservBase.getGuestNm());
+					readData.setUserMobile(reservBase.getGuestMobile());
+					readData.setUserEmail(reservBase.getGuestEmail());
+					/************************* START 추가 작업 필요 ****************************/
+					//readData.setUserCmt(reservBase.getReservRequest());
+					readData.setAdultCnt(commonUtil.getBigDecimalToInteger(reservBase.getTotAdtCnt()));
+					readData.setChildCnt(commonUtil.getBigDecimalToInteger(reservBase.getTotChildCnt()));
+					
 					// 옵션 조회
 					inEzcReservRoomOpt = new EzcReservRoomOpt();
 					inEzcReservRoomOpt.setReservRoomNum(reservBase.getReservRoomNum());
@@ -152,8 +183,14 @@ public class InsideRepository extends AbstractDataAccessObject {
 						
 						options = new ViewOptionsOutSDO();
 						//setter/getter
-						//전차장님 스타트!ㅋ								
-						//options.setXXXX(reservRoomOpt.getXXXX());
+						//전차장님 스타트!ㅋ
+						//reserves.setXXX(reservBase.getXXX());
+						
+						options.setRsvOptNo(commonUtil.getBigDecimalToString(reservRoomOpt.getReservOptNum()));
+						options.setOptNo(reservRoomOpt.getPartnerOptCd());
+						options.setOptName(reservRoomOpt.getOptNm());
+						options.setOptPrice(commonUtil.getBigDecimalToInteger(reservRoomOpt.getOptAmt()));
+						options.setOptCountMax(commonUtil.getBigDecimalToInteger(reservRoomOpt.getOptQty()));
 						
 						readData.addOptions(options);
 					}
@@ -185,6 +222,8 @@ public class InsideRepository extends AbstractDataAccessObject {
 		
 		try {
 			
+			commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+			
 			EzcReservBase inEzcReservBase = new EzcReservBase();
 			inEzcReservBase.setReservNum(new BigDecimal(agentJobSDO.getRsvNo()));
 			inEzcReservBase.setStartDate(agentJobSDO.getRsvDateStart());
@@ -204,6 +243,15 @@ public class InsideRepository extends AbstractDataAccessObject {
 					//setter/getter
 					//전차장님 스타트!ㅋ
 					//reserves.setXXX(reservBase.getXXX());
+					
+					reserves.setRsvNo(commonUtil.getBigDecimalToString(reservBase.getEzwelOrderNum()));
+					/************************* START 추가 작업 필요 ****************************/
+					reserves.setRsvPdtNo(""); // 주문상품번호(이지웰) 존재하지 않음
+					reserves.setRsvPrice(commonUtil.getBigDecimalToInteger(reservBase.getTotSaleAmt()));
+					/************************* START 추가 작업 필요 ****************************/
+					reserves.setPdtNo(""); // 주문상품번호(이지웰) 존재하지 않음
+					reserves.setOtaRsvNo(reservBase.getPartnerOrderNum());
+					reserves.setRsvStat(reservBase.getReservStatus());
 					
 					out.addReserves(reserves);
 				}

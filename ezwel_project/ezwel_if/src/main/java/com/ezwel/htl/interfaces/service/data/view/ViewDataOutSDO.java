@@ -1,5 +1,6 @@
 package com.ezwel.htl.interfaces.service.data.view;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,82 +24,82 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper=true)
 public class ViewDataOutSDO extends AbstractSDO {
 
-	@APIFields(description = "예약내역조회 Input 주문번호", required=true, maxLength=100)
+	@APIFields(description = "예약내역조회 주문번호(이지웰)", required=true, maxLength=100)
 	private String rsvNo;
 	
-	@APIFields(description = "예약내역조회 Input 주문일시", required=true, maxLength=16)
+	@APIFields(description = "예약내역조회 주문일시", required=true, maxLength=16)
 	private String rsvDatetime;
 	
-	@APIFields(description = "예약내역조회 Input 결제금액", required=true)
-	private Integer rsvPrice;
+	@APIFields(description = "예약내역조회 결제금액", required=true)
+	private BigDecimal rsvPrice;
 	
-	@APIFields(description = "예약내역조회 Input 주문상태코드", required=true, maxLength=5)
+	@APIFields(description = "예약내역조회 주문상태코드", required=true, maxLength=5)
 	private String rsvStat;
 	
-	@APIFields(description = "예약내역조회 Input 주문상품명", required=true, maxLength=100)
+	@APIFields(description = "예약내역조회 주문상품명", required=true, maxLength=100)
 	private String rsvPdtName;
 	
-	@APIFields(description = "예약내역조회 Input 주문상품번호", required=true, maxLength=100)
+	@APIFields(description = "예약내역조회 주문상품번호(이지웰주문번호)", required=true, maxLength=100)
 	private String rsvPdtNo;
 	
-	@APIFields(description = "예약내역조회 Input 상품코드(제휴사)", required=true, maxLength=100)
+	@APIFields(description = "예약내역조회 제휴사 상품코드", required=true, maxLength=100)
 	private String pdtNo;
 	
-	@APIFields(description = "예약내역조회 Input 상품명", required=true, maxLength=200)
+	@APIFields(description = "예약내역조회 상품명(시설명)", required=true, maxLength=200)
 	private String pdtName;
 	
-	@APIFields(description = "예약내역조회 Input 객실상품코드", required=true, maxLength=500)
+	@APIFields(description = "예약내역조회 객실상품코드", required=true, maxLength=500)
 	private String roomNo;
 	
-	@APIFields(description = "예약내역조회 Input 객실상품명", required=true, maxLength=200)
+	@APIFields(description = "예약내역조회 객실상품명", required=true, maxLength=200)
 	private String roomName;
 	
-	@APIFields(description = "예약내역조회 Input 객실수", required=true)
+	@APIFields(description = "예약내역조회 객실수", required=true)
 	private Integer roomCnt;
 	
-	@APIFields(description = "예약내역조회 Input 체크인", required=true, maxLength=8)
+	@APIFields(description = "예약내역조회 체크인", required=true, maxLength=8)
 	private String checkInDate;
 	
-	@APIFields(description = "예약내역조회 Input 체크아웃", required=true, maxLength=8)
+	@APIFields(description = "예약내역조회 체크아웃", required=true, maxLength=8)
 	private String checkOutDate;
 	
-	@APIFields(description = "예약내역조회 Input 주문번호(제휴사)", required=true, maxLength=100)
+	@APIFields(description = "예약내역조회 주문번호(제휴사)", required=true, maxLength=100)
 	private String otaRsvNo;
 	
-	@APIFields(description = "예약내역조회 Input 바우처번호", maxLength=100)
+	@APIFields(description = "예약내역조회 시설예약번호(바우처번호)", maxLength=100)
 	private String voucherNo;
 	
-	@APIFields(description = "예약내역조회 Input 회원유저키", required=true, maxLength=20)
+	@APIFields(description = "예약내역조회 회원유저키", required=true, maxLength=20)
 	private String memKey;
 	
-	@APIFields(description = "예약내역조회 Input 회원명", required=true, maxLength=20)
+	@APIFields(description = "예약내역조회 회원명", required=true, maxLength=20)
 	private String memName;
 	
-	@APIFields(description = "예약내역조회 Input 회원전화번호", required=true, maxLength=20)
+	@APIFields(description = "예약내역조회 회원전화번호", required=true, maxLength=20)
 	private String memPhone;
 	
-	@APIFields(description = "예약내역조회 Input 회원이메일주소", required=true, maxLength=100)
+	@APIFields(description = "예약내역조회 회원이메일주소", required=true, maxLength=100)
 	private String memEmail;
 	
-	@APIFields(description = "예약내역조회 Input 투숙자명", required=true, maxLength=20)
+	@APIFields(description = "예약내역조회 투숙자명", required=true, maxLength=20)
 	private String userName;
 	
-	@APIFields(description = "예약내역조회 Input 투숙자전화번호", required=true, maxLength=20)
+	@APIFields(description = "예약내역조회 투숙자전화번호", required=true, maxLength=20)
 	private String userMobile;
 	
-	@APIFields(description = "예약내역조회 Input 투숙자이메일주소", required=true, maxLength=100)
+	@APIFields(description = "예약내역조회 투숙자이메일주소", required=true, maxLength=100)
 	private String userEmail;
 	
-	@APIFields(description = "예약내역조회 Input 요청내용", maxLength=1000)
+	@APIFields(description = "예약내역조회 요청내용", maxLength=1000)
 	private String userCmt;
 	
-	@APIFields(description = "예약내역조회 Input 성인투숙자수", required=true)
+	@APIFields(description = "예약내역조회 성인투숙자수", required=true)
 	private Integer adultCnt;
 	
-	@APIFields(description = "예약내역조회 Input 소아투숙자수", required=true)
+	@APIFields(description = "예약내역조회 소아투숙자수", required=true)
 	private Integer childCnt;
 	
-	@APIFields(description = "예약내역조회 Input options")
+	@APIFields(description = "예약내역조회 options")
 	private List<ViewOptionsOutSDO> options = null;
 
 	public String getRsvNo() {
@@ -117,11 +118,11 @@ public class ViewDataOutSDO extends AbstractSDO {
 		this.rsvDatetime = rsvDatetime;
 	}
 
-	public Integer getRsvPrice() {
+	public BigDecimal getRsvPrice() {
 		return rsvPrice;
 	}
 
-	public void setRsvPrice(Integer rsvPrice) {
+	public void setRsvPrice(BigDecimal rsvPrice) {
 		this.rsvPrice = rsvPrice;
 	}
 
