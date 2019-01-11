@@ -45,7 +45,7 @@
 		<faxConfig></faxConfig>
 		 -->
 		<emailConfig>
-			<host>211.180.161.86</host>
+			<host>211.180.161.84</host>
 		 	<port>25</port>
 		 	<auth>true</auth>
 		 	<username>yanagi10</username>
@@ -171,7 +171,7 @@
 			<httpAgentId>10000495</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>호텔엔조이_메이트아이 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/allReg</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -182,7 +182,7 @@
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>펜션라이프_플레이스엠 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
 			<!-- <restURI>http://devapi.pensionlife.co.kr/rest/ezwelservice/product/spotinfo.php</restURI> -->
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/allReg</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -192,7 +192,7 @@
 			<httpAgentId>10002654</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>인터파크투어_인터파크INT (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/allReg</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -202,7 +202,7 @@
 			<httpAgentId>10008365</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>펀앤비즈_샬레코리아 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/allReg</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -212,7 +212,7 @@
 			<httpAgentId>10030653</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>우리펜션(옐로트래블랩스) (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allRegWoori</restURI>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/allRegWoori</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -222,7 +222,7 @@
 			<httpAgentId>10053461</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>인터치투어 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/allReg</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -232,7 +232,7 @@
 			<httpAgentId>10054233</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>웹투어 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
-			<!-- <restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI> -->
+			<!-- <restURI>http://ezc-api.dev.ezwel.com/API1.0/service/allReg</restURI> -->
 			<restURI>http://dev.webtour.com/Partner/ezwel/ws_ezwelMeta.asp?cmd=DayBatch</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -253,7 +253,7 @@
 			<httpAgentId>10056562</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>(주)위드이노베이션_여기어때 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/allReg</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -263,7 +263,7 @@
 			<httpAgentId>99999999</httpAgentId>
 			<!-- <httpAgentGroupId>multiAllReg</httpAgentGroupId> -->
 			<description>제휴사협의중 (RestURI가 제휴사 별로 다른 전체시설 검색 멀티쓰레드용)</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/allReg</restURI>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/allReg</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -299,7 +299,7 @@
 			<chanId>sddSearch</chanId>
 			<httpAgentId>10000495</httpAgentId>
 			<httpAgentGroupId>multiSddSearch</httpAgentGroupId>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/sddSearch</restURI>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/sddSearch</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -309,7 +309,7 @@
 			<chanId>sddSearch</chanId>
 			<httpAgentId>10000496</httpAgentId>
 			<httpAgentGroupId>multiSddSearch</httpAgentGroupId>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/test/sddSearch</restURI>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/sddSearch</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
