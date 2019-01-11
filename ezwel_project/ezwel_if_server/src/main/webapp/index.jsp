@@ -521,6 +521,7 @@ a.animated-button.thar-four:before {
 <script src="//code.jquery.com/jquery.js"></script>
 
 <script type="text/javascript">
+
 var $interfaceTester = {
 	color : {
 		// $interfaceTester.color.metro_palette
@@ -559,22 +560,23 @@ var $interfaceTester = {
 		}		
 	}
 	,contextPath : "/API1.0" // $interfaceTester.contextPath
+	,requestNamespance : "/service"   // $interfaceTester.requestNamespance
 	,datas : {  // $interfaceTester.datas
 		"IN-신규시설등록수정" : {
-			 url : "/{httpAgentId}/facl/record"
+			 url : $interfaceTester.requestNamespance + "/facl/record"
 			,input : {
 				"dataUrl" : "http://ezc-api.dev.ezwel.com/API1.0/10000496/facl/record"
 			}
 		},
 		"IN-시설판매중지설정" : {
-			  url : "/{httpAgentId}/facl/saleStop"
+			  url : $interfaceTester.requestNamespance + "/facl/saleStop"
 			 ,input : {
 				"pdtNo": "1",
 				"sellFlag": "N"
 			 }
 		},
 		"IN-예약내역조회" : {
-			 url : "/{httpAgentId}/facl/view"
+			 url : $interfaceTester.requestNamespance + "/facl/view"
 			,input : {
 				"rsvNo": "123456789",
 				"startDate": "",
@@ -583,14 +585,14 @@ var $interfaceTester = {
 			}
 		},
 		"IN-시설바우처번호등록" : {
-			 url : "/{httpAgentId}/facl/voucherReg"
+			 url : $interfaceTester.requestNamespance + "/facl/voucherReg"
 			,input : {
 				"rsvNo": "123456789",
 				"voucherNo": "1234"
 			}
 		},
 		"IN-주문대사(제휴사)" : {
-			 url : "/{httpAgentId}/facl/agentJob"
+			 url : $interfaceTester.requestNamespance + "/facl/agentJob"
 			,input : {
 				"rsvNo": "123456789",
 				"rsvDateStart": "20181201",
@@ -599,7 +601,7 @@ var $interfaceTester = {
 		},
 		
 		"OUT-전체시설일괄등록 인터페이스" : {
-			 url : "/service/allReg"
+			 url : $interfaceTester.requestNamespance + "/allReg"
 			,input : {
 				"httpAgentGroupId": "multiAllReg",	/* PIX DATA */
 				"httpAgentType": "{setClientUserData}",
@@ -611,7 +613,7 @@ var $interfaceTester = {
 			}
 		},
 		"OUT-시설검색 인터페이스" : {
-			 url : "/service/callFaclSearch"
+			 url : $interfaceTester.requestNamespance + "/callFaclSearch"
 			,input : {
 				userAgentSDO : {
 					"httpAgentGroupId": "multiFaclSearch",	/* PIX DATA */
@@ -631,7 +633,7 @@ var $interfaceTester = {
 			}
 		},
 		"OUT-당일특가검색 인터페이스" : {
-			 url : "/service/callSddSearch"
+			 url : $interfaceTester.requestNamespance + "/callSddSearch"
 			,input : {
 				"httpAgentGroupId": "multiSddSearch",
 				"httpAgentType": "{setClientUserData}",
@@ -643,7 +645,7 @@ var $interfaceTester = {
 			}
 		},
 		"OUT-객실정보조회 인터페이스" : {
-			 url : "/service/callRoomRead"
+			 url : $interfaceTester.requestNamespance + "/callRoomRead"
 			,input : {
 				userAgentSDO : {
 					"httpAgentId": ":: 우측상단 콤보박스 선택값 자동 대입 ::",
@@ -665,7 +667,7 @@ var $interfaceTester = {
 			}
 		},
 		"OUT-시설 별 최저가목록조회 인터페이스" : {
-			 url : "/service/callRoomRead"
+			 url : $interfaceTester.requestNamespance + "/callRoomRead"
 			,input : {
 				userAgentSDO : {
 					"httpAgentType": "{setClientUserData}",
@@ -686,7 +688,7 @@ var $interfaceTester = {
 			}
 		},		
 		"OUT-취소수수료규정 인터페이스" : {
-			 url : "/service/callCancelFeePsrc"
+			 url : $interfaceTester.requestNamespance + "/callCancelFeePsrc"
 			,input : {
 				userAgentSDO : {
 					"httpAgentId": ":: 우측상단 콤보박스 선택값 자동 대입 ::",
@@ -707,7 +709,7 @@ var $interfaceTester = {
 			}
 		},
 		"OUT-결재완료내역전송 인터페이스" : {
-			 url : "/service/callRsvHistSend"
+			 url : $interfaceTester.requestNamespance + "/callRsvHistSend"
 			,input : {
 				userAgentSDO : {
 					"httpAgentId": ":: 우측상단 콤보박스 선택값 자동 대입 ::",
@@ -748,7 +750,7 @@ var $interfaceTester = {
 			}
 		},
 		"OUT-취소수수료계산 인터페이스" : {
-			 url : "/service/callCancelFeeAmt"
+			 url : $interfaceTester.requestNamespance + "/callCancelFeeAmt"
 			,input : {
 				userAgentSDO : {
 					"httpAgentId": ":: 우측상단 콤보박스 선택값 자동 대입 ::",
@@ -765,7 +767,7 @@ var $interfaceTester = {
 			}
 		},
 		"OUT-주문취소요청 인터페이스" : {
-			 url : "/service/callOrderCancelReq"
+			 url : $interfaceTester.requestNamespance + "/callOrderCancelReq"
 			,input : {
 				userAgentSDO : {
 					"httpAgentId": ":: 우측상단 콤보박스 선택값 자동 대입 ::",
@@ -785,7 +787,7 @@ var $interfaceTester = {
 			}
 		},
 		"OUT-누락건확인 인터페이스" : {
-			 url : "/service/callOmiNumIdn"
+			 url : $interfaceTester.requestNamespance + "/callOmiNumIdn"
 			,input : {
 				userAgentSDO : {
 					"httpAgentId": ":: 우측상단 콤보박스 선택값 자동 대입 ::",
@@ -803,7 +805,7 @@ var $interfaceTester = {
 			}
 		},
 		"OUT-주문대사(이지웰) 인터페이스" : {
-			 url : "/service/callEzwelJob"
+			 url : $interfaceTester.requestNamespance + "/callEzwelJob"
 			,input : {
 				userAgentSDO : {
 					"httpAgentId": ":: 우측상단 콤보박스 선택값 자동 대입 ::",	/* {setClientUserData} */
@@ -822,17 +824,17 @@ var $interfaceTester = {
 			}
 		},
 		"시설이미지 전체다운로드 인터페이스" : {
-			 url : "/service/allReg/imageDownload"
+			 url : $interfaceTester.requestNamespance + "/allReg/imageDownload"
 		},
 		"인터페이스 API KEY 발급" : {
-			 url : "/agent/apiKey"
+			 url : $interfaceTester.requestNamespance + "/agent/apiKey"
 			,input : {
 				 "agentName" : ""
 				,"httpAgentId" : ""
 			}
 		},
 		"한글형태소분석" : {
-			url : "/morp/korean"
+			url : $interfaceTester.requestNamespance + "/morp/korean"
 			,input : {
 				sentenceList : [
 					 "(주)신라호텔"
@@ -862,7 +864,7 @@ var $interfaceTester = {
 			}
 		},
 		"시설 매핑 실행" : {
-			 url : "/service/execFaclMapping"
+			 url : $interfaceTester.requestNamespance + "/execFaclMapping"
 			,input : {
 				 "cityCd" : ""
 				,"areaCd" : ""
@@ -872,7 +874,7 @@ var $interfaceTester = {
 			}
 		}, 
 		"InterfaceConfigXml" : {
-			url : "/server/configXML"
+			url : $interfaceTester.requestNamespance + "/configXML"
 		}
 	},
 	requestHeader : {
@@ -894,12 +896,12 @@ var $interfaceTester = {
 		var inputJson = null;
 		var headerJson = null;
 		var passAgentIdURI = new Array();
-		passAgentIdURI.push("/agent/apiKey");
-		passAgentIdURI.push("/morp/korean");
-		passAgentIdURI.push("/service/allReg/imageDownload");
-		passAgentIdURI.push("/service/allReg");
-		passAgentIdURI.push("/service/execFaclMapping");
-		passAgentIdURI.push("/server/configXML");
+		passAgentIdURI.push($interfaceTester.requestNamespance + "/agent/apiKey");
+		passAgentIdURI.push($interfaceTester.requestNamespance + "/morp/korean");
+		passAgentIdURI.push($interfaceTester.requestNamespance + "/allReg/imageDownload");
+		passAgentIdURI.push($interfaceTester.requestNamespance + "/allReg");
+		passAgentIdURI.push($interfaceTester.requestNamespance + "/execFaclMapping");
+		passAgentIdURI.push($interfaceTester.requestNamespance + "/configXML");
 		
 		if(!dataType) {
 			dataType = "json";	
@@ -1047,7 +1049,7 @@ var $interfaceTester = {
 				if(restURL.indexOf("{httpAgentId}") > -1 && (!httpAgentId || httpAgentId == "")) {
 					alert("에이전트 아이디를 선택하세요");
 					return false;
-				}			
+				}
 			}
 			restURL = restURL.replace("{httpAgentId}", httpAgentId);
 			$interfaceTester.send( httpAgentId, restURL, inputJson );
