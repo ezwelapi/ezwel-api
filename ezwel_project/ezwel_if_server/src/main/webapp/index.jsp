@@ -908,6 +908,7 @@ var $interfaceTester = {
 		}
 		
 		try {
+			
 			if(!jsonString || $.trim(jsonString) === "") {
 				inputJson = JSON.parse("{}");
 			}
@@ -1045,13 +1046,6 @@ var $interfaceTester = {
 			var httpAgentId = $.trim($("#httpAgentId").val());
 			var inputJson = $("#inputJson").val();
 
-			if(restURL.indexOf("/{httpAgentId}/") > -1 || restURL.indexOf("/service/") > -1) {
-				if(restURL.indexOf("{httpAgentId}") > -1 && (!httpAgentId || httpAgentId == "")) {
-					alert("에이전트 아이디를 선택하세요");
-					return false;
-				}
-			}
-			restURL = restURL.replace("{httpAgentId}", httpAgentId);
 			$interfaceTester.send( httpAgentId, restURL, inputJson );
 		});
 		
