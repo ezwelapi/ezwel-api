@@ -9,7 +9,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
 import java.rmi.dgc.VMID;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -35,8 +34,6 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.utils.crypt.Base64Codec;
-import com.ezwel.htl.interfaces.commons.utils.crypt.MD5;
 
 /**
  * <pre>
@@ -601,8 +598,8 @@ public class APIUtil {
 		//운영서버인지 IP대역 확인
 		if(APIUtil.isNotEmpty(prodServerIpRange)) {
 			
-			if(prodServerIpRange.endsWith(".*")) {
-				prodServerIpRange = prodServerIpRange.substring(0, prodServerIpRange.indexOf(".*"));
+			if(prodServerIpRange.endsWith(OperateConstants.STR_ASTERISK)) {
+				prodServerIpRange = prodServerIpRange.substring(0, prodServerIpRange.indexOf(OperateConstants.STR_ASTERISK));
 				
 				if(InterfaceFactory.LOCAL_HOST_ADDRESS.startsWith(prodServerIpRange)) {
 					out = OperateConstants.CURRENT_PROD_SERVER;
@@ -616,8 +613,8 @@ public class APIUtil {
 		//운영서버가 아니면 개발서버 IP대역에서 확인
 		if(out == null && APIUtil.isNotEmpty(devServerIpRange)) {
 			
-			if(devServerIpRange.endsWith(".*")) {
-				devServerIpRange = devServerIpRange.substring(0, devServerIpRange.indexOf(".*"));
+			if(devServerIpRange.endsWith(OperateConstants.STR_ASTERISK)) {
+				devServerIpRange = devServerIpRange.substring(0, devServerIpRange.indexOf(OperateConstants.STR_ASTERISK));
 				
 				if(InterfaceFactory.LOCAL_HOST_ADDRESS.startsWith(devServerIpRange)) {
 					out = OperateConstants.CURRENT_DEV_SERVER;

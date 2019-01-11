@@ -371,7 +371,14 @@ public class InterfaceFactory {
 						resourceURL = getClass().getResource(getConfigXmlPath());
 						logger.debug("# 3. config xml -> current jar scan -> resourceURL : {}", resourceURL);
 						if(resourceURL == null) {
-							throw new APIException("인터페이스 설정파일 이 존재하지 않거나 경로가 잘못되었습니다. 인터페이스 설정파일 경로를 확인하세요.");
+							
+							if(isMasterServer) {
+								throw new APIException("인터페이스 설정파일 이 존재하지 않거나 경로가 잘못되었습니다. 인터페이스 설정파일 경로를 확인하세요.");
+							}
+							else {
+								logger.error("인터페이스 설정파일 이 존재하지 않거나 경로가 잘못되었습니다. 인터페이스 설정파일 경로를 확인하세요.");
+								return;
+							}
 						}
 						else {
 							logger.debug("# find application jar");
@@ -388,11 +395,24 @@ public class InterfaceFactory {
 				if(resourceURL == null) {
 					
 					if(!configureXml.exists()) {
-						throw new APIException("인터페이스 설정파일 이 존재하지 않거나 경로가 잘못되었습니다. 인터페이스 설정파일 경로를 확인하세요.");
+						
+						if(isMasterServer) {
+							throw new APIException("인터페이스 설정파일 이 존재하지 않거나 경로가 잘못되었습니다. 인터페이스 설정파일 경로를 확인하세요.");
+						}
+						else {
+							logger.error("인터페이스 설정파일 이 존재하지 않거나 경로가 잘못되었습니다. 인터페이스 설정파일 경로를 확인하세요.");
+							return;
+						}
 					}
 					
 					if(!configureXml.canRead()) {
-						throw new APIException("인터페이스 설정파일을 읽을 권한이 없습니다. 설정파일 권한을 확인하세요.");
+						if(isMasterServer) {
+							throw new APIException("인터페이스 설정파일을 읽을 권한이 없습니다. 설정파일 권한을 확인하세요.");
+						}
+						else {
+							logger.error("인터페이스 설정파일을 읽을 권한이 없습니다. 설정파일 권한을 확인하세요.");
+							return;
+						}
 					}
 					
 					resourceURL = Paths.get(configureXml.getCanonicalPath()).toUri().toURL();
@@ -406,7 +426,13 @@ public class InterfaceFactory {
 				
 				// 인터페이스 마스터 서버에게 설정 정보를 가저온다.
 				if(APIUtil.getServerAddress() == null) {
-					throw new APIException("인터페이스 환경파일에 설정된 개발 또는 운영서버의 IP또는 IP대역과 현제 서버의 IP가 일치하지 않습니다.");
+					if(isMasterServer) {
+						throw new APIException("인터페이스 환경파일에 설정된 개발 또는 운영서버의 IP또는 IP대역과 현제 서버의 IP가 일치하지 않습니다.");
+					}
+					else {
+						logger.error("인터페이스 환경파일에 설정된 개발 또는 운영서버의 IP또는 IP대역과 현제 서버의 IP가 일치하지 않습니다.");
+						return;
+					}
 				}
 				else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_PROD_SERVER)) {
 					// prod server  InterfaceFactory.serverManaged
@@ -445,7 +471,13 @@ public class InterfaceFactory {
 					String interfaceBatchErrorLogPath = null;
 					
 					if(APIUtil.getServerAddress() == null) {
-						throw new APIException("인터페이스 환경파일에 설정된 개발 또는 운영서버의 IP또는 IP대역과 현제 서버의 IP가 일치하지 않습니다.");
+						if(isMasterServer) {
+							throw new APIException("인터페이스 환경파일에 설정된 개발 또는 운영서버의 IP또는 IP대역과 현제 서버의 IP가 일치하지 않습니다.");
+						}
+						else {
+							logger.error("인터페이스 환경파일에 설정된 개발 또는 운영서버의 IP또는 IP대역과 현제 서버의 IP가 일치하지 않습니다.");
+							return;
+						}
 					}
 					else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_PROD_SERVER)) {
 						// prod server
@@ -500,11 +532,29 @@ public class InterfaceFactory {
 				
 			}
 		} catch (JAXBException e) {
-			throw new APIException(INIT_ERROR_MESSAGE, e);
+			
+			if(isMasterServer) {
+				throw new APIException(INIT_ERROR_MESSAGE, e);
+			}
+			else {
+				logger.error(INIT_ERROR_MESSAGE, e);
+			}
 		} catch (IOException e) {
-			throw new APIException(INIT_ERROR_MESSAGE, e);
+			
+			if(isMasterServer) {
+				throw new APIException(INIT_ERROR_MESSAGE, e);
+			}
+			else {
+				logger.error(INIT_ERROR_MESSAGE, e);
+			}
 		} catch (Exception e) {
-			throw new APIException(INIT_ERROR_MESSAGE, e);
+			
+			if(isMasterServer) {
+				throw new APIException(INIT_ERROR_MESSAGE, e);
+			}
+			else {
+				logger.error(INIT_ERROR_MESSAGE, e);
+			}
 		}
 		finally {
 			
