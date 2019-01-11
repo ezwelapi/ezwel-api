@@ -41,7 +41,7 @@ public class FaclSearchOutSDO extends AbstractSDO {
 	@APIFields(description = "시설검색 output data")
 	private List<FaclSearchDataOutSDO> data = null;
 
-	@APIFields(description = "시설검색 output message", maxLength=100)
+	@APIFields(description = "트랜젝션 개수")
 	private Integer txCount;
 	
 	public String getRestURI() {
