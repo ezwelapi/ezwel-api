@@ -874,7 +874,7 @@ var $interfaceTester = {
 			}
 		}, 
 		"InterfaceConfigXml" : {
-			url : $interfaceTester.requestNamespance + "/configXML"
+			url : $interfaceTester.requestNamespance + "/server/configXML"
 		}
 	},
 	requestHeader : {
@@ -895,13 +895,14 @@ var $interfaceTester = {
 		
 		var inputJson = null;
 		var headerJson = null;
+		
 		var passAgentIdURI = new Array();
 		passAgentIdURI.push($interfaceTester.requestNamespance + "/agent/apiKey");
 		passAgentIdURI.push($interfaceTester.requestNamespance + "/morp/korean");
 		passAgentIdURI.push($interfaceTester.requestNamespance + "/allReg/imageDownload");
 		passAgentIdURI.push($interfaceTester.requestNamespance + "/allReg");
 		passAgentIdURI.push($interfaceTester.requestNamespance + "/execFaclMapping");
-		passAgentIdURI.push($interfaceTester.requestNamespance + "/configXML");
+		passAgentIdURI.push($interfaceTester.requestNamespance + "/server/configXML");
 		
 		if(!dataType) {
 			dataType = "json";	

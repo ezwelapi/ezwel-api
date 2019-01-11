@@ -66,7 +66,7 @@ public class InsideController {
 	 * @since  2018. 11. 21.
 	 */
 	@APIOperation(description="신규시설등록수정 인터페이스", isOutputJsonMarshall=true, returnType=RecordOutSDO.class)
-	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/facl/record")
+	@RequestMapping(value = "/facl/record")
 	public Object callRecord(@PathVariable("httpAgentId") String httpAgentId, RecordInSDO recordInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callRecord {}", recordInSDO);
 		
@@ -93,6 +93,7 @@ public class InsideController {
 		return serviceOut;
 	}
 	
+	
 	@APIOperation(description="신규시설등록수정 인터페이스 결과")
 	private RecordOutSDO getOutCallRecord(String httpAgentId, HttpServletResponse response) {
 		
@@ -108,8 +109,9 @@ public class InsideController {
 		return out;
 	}	
 	
+	
 	@APIOperation(description="시설판매중지설정 인터페이스", isOutputJsonMarshall=true, returnType=SaleStopOutSDO.class)
-	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/facl/saleStop")
+	@RequestMapping(value = "/facl/saleStop")
 	public Object callSaleStop(@PathVariable("httpAgentId") String httpAgentId, SaleStopInSDO saleStopInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callSaleStop {}", saleStopInSDO);
 		
@@ -151,7 +153,7 @@ public class InsideController {
 	
 	
 	@APIOperation(description="예약내역조회 인터페이스", isOutputJsonMarshall=true, returnType=ViewOutSDO.class)
-	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/facl/view")
+	@RequestMapping(value = "/facl/view")
 	public Object callView(@PathVariable("httpAgentId") String httpAgentId, ViewInSDO viewInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callView {}", viewInSDO);
 		
@@ -176,6 +178,7 @@ public class InsideController {
 		return serviceOut;
 	}
 	
+	
 	@APIOperation(description="예약내역조회 인터페이스 결과")
 	private ViewOutSDO getOutCallView(String httpAgentId, HttpServletResponse response) {
 		
@@ -191,38 +194,9 @@ public class InsideController {
 		return out;
 	}
 	
-	/*@ResponseBody
-	@APIOperation(description="시설바우처번호등록 인터페이스")
-	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/facl/voucherReg")
-	public ResponseEntity<VoucherRegOutSDO> callVoucherReg(@PathVariable("httpAgentId") String httpAgentId, VoucherRegInSDO voucherRegInSDO, HttpServletRequest request, HttpServletResponse response) {
-		logger.debug("[START] callVoucherReg {}", voucherRegInSDO);
-		
-		ResponseEntity<VoucherRegOutSDO> out = null;
-		VoucherRegOutSDO serviceOut = null;
 
-		try {
-			if(voucherRegInSDO == null) {
-				throw new APIException("입력값이 존재하지 않습니다.");
-			}
-			
-			//Advice & Interceptor 최적화후 작업 추가 진행
-			serviceOut = intefaceService.callVoucherReg(voucherRegInSDO);
-
-			out = new ResponseEntity<VoucherRegOutSDO>(serviceOut, HttpStatus.CREATED);
-		}
-		catch(Exception e) {
-			serviceOut = new VoucherRegOutSDO(); 
-		
-			out = new ResponseEntity<VoucherRegOutSDO>(serviceOut, HttpStatus.CREATED);
-			e.printStackTrace();
-		}
-		
-		logger.debug("[END] callVoucherReg {}", out);
-		return out;
-	}*/
-	
 	@APIOperation(description="시설바우처번호등록 인터페이스", isOutputJsonMarshall=true, returnType=VoucherRegOutSDO.class)
-	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/facl/voucherReg")
+	@RequestMapping(value = "/facl/voucherReg")
 	public Object callVoucherReg(@PathVariable("httpAgentId") String httpAgentId, VoucherRegInSDO voucherRegInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callVoucherReg {}", voucherRegInSDO);
 		
@@ -247,6 +221,7 @@ public class InsideController {
 		return serviceOut;
 	}
 	
+	
 	@APIOperation(description="시설바우처번호등록 인터페이스 결과")
 	private VoucherRegOutSDO getOutCallVoucherReg(String httpAgentId, HttpServletResponse response) {
 		
@@ -261,40 +236,10 @@ public class InsideController {
 
 		return out;
 	}
-	
-	
-	/*@ResponseBody
-	@APIOperation(description="주문대사(제휴사) 인터페이스")
-	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/order/agentJob")
-	public ResponseEntity<AgentJobOutSDO> callAgentJob(@PathVariable("httpAgentId") String httpAgentId, AgentJobInSDO agentJobInSDO, HttpServletRequest request, HttpServletResponse response) {
-		logger.debug("[START] callAgentJob {}", agentJobInSDO);
-		
-		ResponseEntity<AgentJobOutSDO> out = null;
-		AgentJobOutSDO serviceOut = null;
 
-		try {
-			if(agentJobInSDO == null) {
-				throw new APIException("입력값이 존재하지 않습니다.");
-			}
-			
-			//Advice & Interceptor 최적화후 작업 추가 진행
-			serviceOut = intefaceService.callAgentJob(agentJobInSDO);
-
-			out = new ResponseEntity<AgentJobOutSDO>(serviceOut, HttpStatus.CREATED);
-		}
-		catch(Exception e) {
-			serviceOut = new AgentJobOutSDO(); 
-		
-			out = new ResponseEntity<AgentJobOutSDO>(serviceOut, HttpStatus.CREATED);
-			e.printStackTrace();
-		}
-		
-		logger.debug("[END] callAgentJob {}", out);
-		return out;
-	}*/
 	
 	@APIOperation(description="주문대사(제휴사) 인터페이스", isOutputJsonMarshall=true, returnType=AgentJobOutSDO.class)
-	@RequestMapping(value = RequestNamespace.NAME_SPACE + "/facl/agentJob")
+	@RequestMapping(value = "/facl/agentJob")
 	public Object callAgentJob(@PathVariable("httpAgentId") String httpAgentId, AgentJobInSDO agentJobInSDO, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[START] callAgentJob {}", agentJobInSDO);
 		
@@ -318,6 +263,7 @@ public class InsideController {
 		logger.debug("[END] callAgentJob {}", serviceOut);
 		return serviceOut;
 	}
+	
 	
 	@APIOperation(description="주문대사(제휴사) 인터페이스 결과")
 	private AgentJobOutSDO getOutCallAgentJob(String httpAgentId, HttpServletResponse response) {

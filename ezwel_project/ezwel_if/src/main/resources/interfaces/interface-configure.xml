@@ -6,8 +6,8 @@
 		<!-- 시설이미지 저장 ROOT PATH -->
 		<buildImage>
 			<localRootPath>D:/ezwel-repository/tempFileRepository/image/</localRootPath>
-			<devRootPath>/Volume/data/nas_image/ezcheckin/api_facl_image/</devRootPath>
-			<prodRootPath>/Volume/data/nas_image/ezcheckin/api_facl_image/</prodRootPath>
+			<devRootPath>/Volume/data/nas_image/ezwel-image/ezcheckin/</devRootPath>
+			<prodRootPath>/Volume/data/nas_image/ezwel-image/ezcheckin/</prodRootPath>
 		</buildImage>  
 		<!-- 배치 에러로그 저장 ROOT PATH -->
 		<errorLog>
@@ -134,31 +134,31 @@
 		<httpChan>
 			<chanId>record</chanId>
 			<description>신규시설등록수정</description>
-			<restURI>/API1.0/{httpAgentId}/facl/record</restURI>
+			<restURI>/API1.0/service/facl/record</restURI>
 			<encoding>UTF-8</encoding>
 		</httpChan>
 		<httpChan>
 			<chanId>saleStop</chanId>
 			<description>시설판매중지설정</description>
-			<restURI>/API1.0/{httpAgentId}/facl/saleStop</restURI>
+			<restURI>/API1.0/service/facl/saleStop</restURI>
 			<encoding>UTF-8</encoding>
 		</httpChan>	
 		<httpChan>
 			<chanId>view</chanId>
 			<description>시설바우처번호등록</description>
-			<restURI>/API1.0/{httpAgentId}/rsv/view</restURI>
+			<restURI>/API1.0/service/rsv/view</restURI>
 			<encoding>UTF-8</encoding>
 		</httpChan>
 		<httpChan>
 			<chanId>voucherReg</chanId>
 			<description>예약내역조회</description>
-			<restURI>/API1.0/{httpAgentId}/facl/voucherReg</restURI>
+			<restURI>/API1.0/service/facl/voucherReg</restURI>
 			<encoding>UTF-8</encoding>
 		</httpChan>	
 		<httpChan>
 			<chanId>agentJob</chanId>
 			<description>주문대사(제휴사)</description>
-			<restURI>/API1.0/{httpAgentId}/order/agentJob</restURI>
+			<restURI>/API1.0/service/order/agentJob</restURI>
 			<encoding>UTF-8</encoding>
 		</httpChan>
 	</insideChans>
