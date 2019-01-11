@@ -423,7 +423,7 @@ var $interface = {
 			out = $util.replaceAll(out, " ", "&nbsp;", "");
 			out = $util.replaceAll(out, "	", "&nbsp;&nbsp;&nbsp;&nbsp;", "");
 			
-			console.log(out);
+			//console.log(out);
 			
 			return out;
 		}

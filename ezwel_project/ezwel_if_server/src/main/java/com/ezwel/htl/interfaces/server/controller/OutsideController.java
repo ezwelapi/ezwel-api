@@ -231,6 +231,10 @@ public class OutsideController {
 			}
 		}
 		else {
+			
+			if(APIUtil.isEmpty(roomReadSDO.getPdtNo())) {
+				throw new APIException(MessageConstants.RESPONSE_CODE_2000, "상품코드는 필수 입력사항입니다.");
+			}
 			out = (RoomReadOutSDO) callRoomReadInterface(userAgentSDO, roomReadSDO);
 		}
 		

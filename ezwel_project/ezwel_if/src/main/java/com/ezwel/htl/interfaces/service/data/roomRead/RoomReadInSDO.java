@@ -24,7 +24,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper=true)
 public class RoomReadInSDO extends AbstractSDO {
 	
-	@APIFields(description = "객실정보조회 Input 상품코드", required=true, maxLength=100)
+	@APIFields(description = "객실정보조회 Input 상품코드", maxLength=100)
 	private String pdtNo;
 	
 	@APIFields(description = "객실정보조회 Input 체크인", required=true, maxLength=8)
