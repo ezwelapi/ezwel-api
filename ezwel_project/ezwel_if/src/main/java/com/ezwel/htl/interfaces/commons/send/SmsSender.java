@@ -19,11 +19,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.HttpHeaderConstants;
-import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
-import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.send.data.SmsSenderInSDO;
 import com.ezwel.htl.interfaces.commons.send.data.SmsSenderOutSDO;
@@ -33,32 +30,6 @@ import com.ezwel.htl.interfaces.commons.send.data.SmsSenderOutSDO;
 public class SmsSender {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
-	
-	@APIOperation(description="문자발송 인터페이스")
-	public SmsSenderOutSDO callSmsSender(SmsSenderInSDO smsSenderSDO) {		
-		return callSmsSender(smsSenderSDO, false);
-	}
-	
-	@APIOperation(description="문자발송 인터페이스")
-	public SmsSenderOutSDO callSmsSender(SmsSenderInSDO smsSenderSDO, boolean isEzwelInsideInterface) {
-		
-		SmsSenderOutSDO out = null;
-		
-		try {
-			
-			HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
-			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getSmsConfig().getRestURI());
-			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
-			
-			out = (SmsSenderOutSDO) requestUrl(httpConfigSDO, smsSenderSDO);
-			
-		}
-		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "문자발송 인터페이스 장애발생.", e);
-		}
-		
-		return out;		
-	}
 	
 	@APIOperation(description="문자발송 인터페이스 HttpURLConnection")
 	public static SmsSenderOutSDO requestUrl(HttpConfigSDO httpConfigSDO, SmsSenderInSDO smsSenderSDO) throws Exception {
@@ -101,9 +72,11 @@ public class SmsSender {
 		
 		SmsSenderOutSDO smsSenderOutSDO = new SmsSenderOutSDO();
 		
-		smsSenderOutSDO.setErrorCode(urlConnection.getResponseCode());
-		smsSenderOutSDO.setErrorMessage(urlConnection.getResponseMessage());
-		smsSenderOutSDO.setData(streamToString(urlConnection.getInputStream()));
+		if(urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {					
+			smsSenderOutSDO.setData(streamToString(urlConnection.getInputStream()));
+		} else {
+			smsSenderOutSDO.setData(streamToString(urlConnection.getInputStream()));	
+		}
 		
 		return smsSenderOutSDO;
 	}

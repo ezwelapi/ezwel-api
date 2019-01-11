@@ -55,7 +55,7 @@ public class SendIFService {
 			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getSmsConfig().getRestURI());
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			
-			out = (SmsSenderOutSDO) smsSender.callSmsSender(smsSenderSDO);
+			out = (SmsSenderOutSDO) smsSender.requestUrl(httpConfigSDO, smsSenderSDO);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "문자발송 인터페이스 장애발생.", e);

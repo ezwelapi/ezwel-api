@@ -50,8 +50,6 @@ public class SendTest {
 		//interface api call
 		SmsSenderOutSDO out = sendIFService.callSmsSender(smsSenderSDO);
 		
-		logger.debug("errorCode : {}", out.getErrorCode());
-		logger.debug("errorMessage : {}", out.getErrorMessage());
 		logger.debug("data : {}", out.getData());
 		
 		logger.debug("[END] smsSenderTest");
