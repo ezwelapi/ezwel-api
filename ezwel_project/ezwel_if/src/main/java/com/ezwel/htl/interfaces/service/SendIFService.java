@@ -36,8 +36,7 @@ public class SendIFService {
 		if(smsSender == null) {
 			smsSender = new SmsSender();
 		}
-	}
-	
+	}	
 	
 	@APIOperation(description="문자발송 인터페이스")
 	public SmsSenderOutSDO callSmsSender(SmsSenderInSDO smsSenderSDO) {

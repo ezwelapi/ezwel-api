@@ -1,5 +1,6 @@
 package interfaces.example;
 
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +23,7 @@ public class SendTest {
 	}
 	
 	//문자
+	@Test
 	public void smsSenderTest()  throws Exception {
 		
 		logger.debug("[START] smsSenderTest");

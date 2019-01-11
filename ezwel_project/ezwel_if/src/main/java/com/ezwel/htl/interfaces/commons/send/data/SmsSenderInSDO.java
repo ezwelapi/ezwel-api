@@ -148,5 +148,4 @@ public class SmsSenderInSDO extends AbstractSDO {
 	public void setTemplateCode(String templateCode) {
 		this.templateCode = templateCode;
 	}
-
 }
