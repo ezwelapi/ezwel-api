@@ -972,7 +972,7 @@ public class OutsideService extends AbstractServiceObject {
 	
 	
 	/**
-	 * EZC_CACHE_DAY_PRICE, EZC_CACHE_DAY_PRICE_LOG 데이터 적제  ( 맵핑시설 테이블에 존재하는 시설의 당일특가만 적제 가능 )
+	 * EZC_CACHE_DAY_PRICE 데이터 적제  ( 맵핑시설 테이블에 존재하는 시설의 당일특가만 적제 가능 )
 	 * @param userAgentDTO
 	 * @return 
 	 */

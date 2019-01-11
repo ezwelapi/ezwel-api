@@ -27,6 +27,7 @@ import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
 import com.ezwel.htl.interfaces.server.commons.sdo.EzcFaclMappingSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.ExceptionUtil;
+import com.ezwel.htl.interfaces.server.entities.EzcCacheDayPrice;
 import com.ezwel.htl.interfaces.server.entities.EzcCacheMinAmt;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclAment;
@@ -39,6 +40,7 @@ import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
+import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 
 /**
@@ -867,12 +869,30 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	 * @return 
 	 */
 	@APIOperation(description="당일특가검색 인터페이스")
+	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
 	public Integer callSddSearch(SddSearchOutSDO assets) {
 		
 		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
+		EzcCacheDayPrice inCacheDayPrice = null;
+		EzcCacheDayPrice outCacheDayPrice = null;
 		
 		try {
-		
+			
+			for(SddSearchDataOutSDO data : assets.getData()) {
+				
+				// EzcCacheDayPrice
+				inCacheDayPrice = new EzcCacheDayPrice();
+				inCacheDayPrice.setPartnerCd(new BigDecimal(data.getHttpAgentId())); //제휴사 코드
+				inCacheDayPrice.setPartnerGoodsCd(data.getPdtNo()); //제휴사 상품코드
+				inCacheDayPrice.setDayPriceDd(data.getApplyDate()); //당일특가 일자
+				inCacheDayPrice.setDayPriceNetPrice(data.getSpcTodayNorPrice()); //당일특가 정상가
+				inCacheDayPrice.setDayPriceMinPrice(new BigDecimal(data.getSpcTodayPrice())); //당일특가 최저가
+				inCacheDayPrice.setSaleEndTm(data.getSpcTypeTime()); // 판매 종료 시분 (12)
+				
+				outCacheDayPrice = sqlSession.selectOne(getNamespace("CACHE_DAY_PRICE_MAPPER", "selectEzcPartnerGoodsDayPrice"), inCacheDayPrice);
+				
+				txCount += sqlSession.update(getNamespace("CACHE_DAY_PRICE_MAPPER", "mergeEzcCacheDayPrice"), outCacheDayPrice);
+			}
 		}
 		catch(APIException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "당일특가검색 인터페이스 장애발생.", e);

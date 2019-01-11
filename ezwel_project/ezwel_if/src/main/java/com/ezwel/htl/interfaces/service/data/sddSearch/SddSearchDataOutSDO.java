@@ -22,6 +22,12 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @EqualsAndHashCode(callSuper=true)
 public class SddSearchDataOutSDO extends AbstractSDO {
 
+	@APIFields(description = "에이전트 아이디(제휴사 코드)")
+	private String httpAgentId;
+
+	@APIFields(description = "에이전트(제휴사 명)")
+	private String httpAgentDesc;
+	
 	@APIFields(description = "당일특가검색 output 상품코드", required=true, maxLength=100)
 	private String  pdtNo;
 	
@@ -34,9 +40,29 @@ public class SddSearchDataOutSDO extends AbstractSDO {
 	@APIFields(description = "당일특가검색 output 최저가(판매가)", required=true)
 	private Integer spcTodayPrice;
 	
-	@APIFields(description = "당일특가검색 output 상품종료일시", maxLength=12)
+	@APIFields(description = "당일특가검색 output 상품종료일시", isDate=true, dateFormat="yyyyMMddHHmm")
 	private String  spcTypeTime;
 
+	
+	public String getHttpAgentId() {
+		return httpAgentId;
+	}
+
+	public void setHttpAgentId(String httpAgentId) {
+		this.httpAgentId = httpAgentId;
+	}
+
+	public String getHttpAgentDesc() {
+		return httpAgentDesc;
+	}
+
+	public void setHttpAgentDesc(String httpAgentDesc) {
+		this.httpAgentDesc = httpAgentDesc;
+	}
+
+	public Integer getSpcTodayNorPrice() {
+		return spcTodayNorPrice;
+	}
 
 	public String getPdtNo() {
 		return pdtNo;

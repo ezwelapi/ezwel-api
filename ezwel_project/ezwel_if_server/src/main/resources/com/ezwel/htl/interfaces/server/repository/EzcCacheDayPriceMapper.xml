@@ -35,6 +35,28 @@ INSERT INTO EZC_CACHE_DAY_PRICE(	/* CACHE 당일특가 */
 )
 </insert>
 
+
+<select id="selectEzcPartnerGoodsDayPrice" parameterType="ezcCacheDayPrice" resultType="ezcCacheDayPrice">
+SELECT
+     NVL(EZC_CACHE_DAY_PRICE.DAY_PRICE_DD, #{dayPriceDd, jdbcType=VARCHAR}) AS dayPriceDd    /* 당일특가 일자, VARCHAR2(8) */
+    ,NVL(EZC_CACHE_DAY_PRICE.SALE_END_TM, #{saleEndTm, jdbcType=VARCHAR}) AS saleEndTm    /* 판매 종료 시분, VARCHAR2(12) */
+    ,EZC_MAPPING_FACL.GRP_FACL_CD AS grpFaclCd    /* 그룹 시설 코드, NUMBER(0,22) */
+    ,EZC_MAPPING_FACL.FACL_CD AS faclCd    /* 시설 코드, NUMBER(0,22) */
+    ,NVL(EZC_CACHE_DAY_PRICE.DAY_PRICE_MIN_PRICE, #{dayPriceMinPrice, jdbcType=NUMERIC}) AS dayPriceMinPrice    /* 당일특가 최저가, NUMBER(8,22) */
+    ,NVL(EZC_CACHE_DAY_PRICE.DAY_PRICE_NET_PRICE, #{dayPriceNetPrice, jdbcType=NUMERIC}) AS dayPriceNetPrice    /* 당일특가 정상가, NUMBER(8,22) */
+FROM
+     EZC_FACL
+    ,EZC_MAPPING_FACL
+    ,EZC_CACHE_DAY_PRICE
+WHERE 1=1 
+    AND EZC_FACL.FACL_CD = EZC_MAPPING_FACL.FACL_CD 
+    AND EZC_MAPPING_FACL.GRP_FACL_CD = EZC_CACHE_DAY_PRICE.GRP_FACL_CD(+)
+    AND EZC_MAPPING_FACL.FACL_CD = EZC_CACHE_DAY_PRICE.FACL_CD(+)
+    AND EZC_FACL.PARTNER_GOODS_CD = #{partnerGoodsCd, jdbcType=VARCHAR}
+    AND EZC_FACL.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}  
+</select>
+
+
 <select id="selectEzcCacheDayPrice" parameterType="ezcCacheDayPrice" resultType="ezcCacheDayPrice">
 SELECT
 	 EZC_CACHE_DAY_PRICE.DAY_PRICE_DD AS dayPriceDd	/* 당일특가 일자, VARCHAR2(8) */
@@ -215,36 +237,30 @@ WHERE 1=1
 <update id="mergeEzcCacheDayPrice" parameterType="ezcCacheDayPrice">
 MERGE INTO EZC_CACHE_DAY_PRICE /* CACHE 당일특가 */
 	USING DUAL ON (
-		DAY_PRICE_DD = #{dayPriceDd, jdbcType=VARCHAR}	/* 당일특가 일자, VARCHAR2(8) */
-		AND FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
+		FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
 		AND GRP_FACL_CD = #{grpFaclCd, jdbcType=DECIMAL}	/* 그룹 시설 코드, NUMBER(0,22) */
-		AND DAY_PRICE_LOG_SEQ = #{dayPriceLogSeq, jdbcType=DECIMAL}	/* 당일특가 로그 일련번호, NUMBER(0,22) */
+		AND DAY_PRICE_DD = #{dayPriceDd, jdbcType=VARCHAR}	/* 당일특가 일자, VARCHAR2(8) */
 	)
 	WHEN MATCHED THEN
 		UPDATE SET
 			 DAY_PRICE_MIN_PRICE = #{dayPriceMinPrice, jdbcType=NUMERIC}	/* 당일특가 최저가, NUMBER(0,22) */
-			,SALE_END_TM = #{saleEndTm, jdbcType=VARCHAR}	/* 판매 종료 시분, VARCHAR2(4) */
-			,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
-			,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+			,DAY_PRICE_NET_PRICE = #{dayPriceNetPrice, jdbcType=NUMERIC}	/* 당일특가 정상가, NUMBER(0,22) */
+			,SALE_END_TM = #{saleEndTm, jdbcType=VARCHAR}	/* 판매 종료 시분, VARCHAR2(12) */
 	WHEN NOT MATCHED THEN
 		INSERT (
 			 DAY_PRICE_DD	/* 당일특가 일자, VARCHAR2(8) */
 			,FACL_CD	/* 시설 코드, NUMBER(0,22) */
 			,GRP_FACL_CD	/* 그룹 시설 코드, NUMBER(0,22) */
-			,DAY_PRICE_LOG_SEQ	/* 당일특가 로그 일련번호, NUMBER(0,22) */
 			,DAY_PRICE_MIN_PRICE	/* 당일특가 최저가, NUMBER(0,22) */
-			,SALE_END_TM	/* 판매 종료 시분, VARCHAR2(4) */
-			,REG_ID	/* 등록자 ID, VARCHAR2(20) */
-			,REG_DT	/* 등록 일시, VARCHAR2(14) */
+			,DAY_PRICE_NET_PRICE	/* 당일특가 정상가, NUMBER(0,22) */
+			,SALE_END_TM	/* 판매 종료 시분, VARCHAR2(12) */
 		) VALUES (
 			 #{dayPriceDd, jdbcType=VARCHAR}
 			,#{faclCd, jdbcType=DECIMAL}
 			,#{grpFaclCd, jdbcType=DECIMAL}
-			,#{dayPriceLogSeq, jdbcType=DECIMAL}
 			,#{dayPriceMinPrice, jdbcType=NUMERIC}
+			,#{dayPriceNetPrice, jdbcType=NUMERIC}
 			,#{saleEndTm, jdbcType=VARCHAR}
-			,#{regId, jdbcType=VARCHAR}
-			,#{regDt, jdbcType=VARCHAR}
 		)
 </update>
 

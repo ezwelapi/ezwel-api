@@ -58,7 +58,7 @@ public class EzcCacheMinAmt extends AbstractEntity {
 	private BigDecimal spRoomMinPrice;
 
 	//20181227 추가
-	@APIFields(description = "제휴사 코드", maxLength=20, required=true)
+	@APIFields(description = "제휴사 코드", maxLength=20)
 	private BigDecimal partnerCd;
 	
 	@APIFields(description = "객실 정상가", maxLength=22)
