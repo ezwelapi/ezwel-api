@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,6 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.RegexUtil;
-import com.ezwel.htl.interfaces.server.commons.interfaces.RequestNamespace;
 import com.ezwel.htl.interfaces.server.commons.morpheme.cm.MorphemeUtil;
 import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzers;
@@ -39,7 +39,6 @@ import com.ezwel.htl.interfaces.server.sdo.AgentApiKeySDO;
 import com.ezwel.htl.interfaces.server.sdo.MorphemeSDO;
 
 @Controller
-@RequestMapping(value = RequestNamespace.NAME_SPACE)
 @APIType(description = "부가기능 컨트롤러")
 public class UtilityController {
 	
@@ -54,7 +53,7 @@ public class UtilityController {
 	private ResponseUtil responseUtil;
 	
 	@APIOperation(description="테스트 JSP Forward Operation")
-	@RequestMapping(value="/{fileName}")
+	@RequestMapping(value="/test/{fileName}")
 	public String forward(@PathVariable("fileName") String fileName, Model model, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[FORWARD] {}", fileName);
 		return "/test/".concat(fileName);
@@ -186,6 +185,4 @@ public class UtilityController {
 		logger.debug("[END] getInterfaceConfigXML");
 		return out;
 	}
-	
-	
 }
