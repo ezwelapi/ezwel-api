@@ -616,16 +616,14 @@ public class CommonUtil {
     }
 	
     @APIOperation(description="헤더 조회 및 시그니처 검증")
-    public VerificationSDO getConfirmHeaderSignature(String chanId) throws APIException, Exception {
+    public void isConfirmHeaderSignature(String chanId) throws APIException, Exception {
     	logger.debug("[START] getConfirmHeaderSignature => chanId : {}", chanId);
-    	
-    	VerificationSDO out = null;
     	
     	paramValidate = (ParamValidate) LApplicationContext.getBean(paramValidate, ParamValidate.class);
     	
     	HttpConfigSDO httpConfigSDO = Local.commonHeader().getHttpConfigSDO();
     	//헤더 파라메터 검증
-    	paramValidate.addParam(new ParamValidateSDO(out));
+    	paramValidate.addParam(new ParamValidateSDO(httpConfigSDO));
     	//execute validator
 		paramValidate.execute();
 		
@@ -675,14 +673,8 @@ public class CommonUtil {
     			}
     		}
     	}
-    		
-    	//output
-    	out = new VerificationSDO();
-    	out.setHttpConfigSDO(httpConfigXML);
-    	out.setAgentInfoSDO(agentInfoXML);
     	
     	logger.debug("[END] getConfirmHeaderSignature ");
-    	return out;
     }
     
 }

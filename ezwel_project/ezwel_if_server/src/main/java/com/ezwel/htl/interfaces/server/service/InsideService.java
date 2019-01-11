@@ -62,7 +62,7 @@ public class InsideService {
 		inteface = (HttpInterfaceExecutor) LApplicationContext.getBean(inteface, HttpInterfaceExecutor.class);
 		
 		//시그니처 및 에이전트 체널 검증
-		commonUtil.getConfirmHeaderSignature("record");
+		commonUtil.isConfirmHeaderSignature("record");
 		
 		HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
 		httpConfigSDO.setRestURI(recordSDO.getDataUrl());
@@ -89,7 +89,7 @@ public class InsideService {
 		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
 		//시그니처 및 에이전트 체널 검증
-		commonUtil.getConfirmHeaderSignature("saleStop");
+		commonUtil.isConfirmHeaderSignature("saleStop");
 		
 		SaleStopOutSDO out = insideRepository.callSaleStop(saleStopSDO);
 		
@@ -106,7 +106,7 @@ public class InsideService {
 		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 
 		//시그니처 및 에이전트 체널 검증
-		commonUtil.getConfirmHeaderSignature("view");
+		commonUtil.isConfirmHeaderSignature("view");
 		
 		ViewOutSDO out = insideRepository.callView(viewSDO);
 		
@@ -123,7 +123,7 @@ public class InsideService {
 		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
 		//시그니처 및 에이전트 체널 검증
-		commonUtil.getConfirmHeaderSignature("voucherReg");
+		commonUtil.isConfirmHeaderSignature("voucherReg");
 		
 		VoucherRegOutSDO out = insideRepository.callVoucherReg(voucherRegSDO);
 		
@@ -140,7 +140,7 @@ public class InsideService {
 		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
 		//시그니처 및 에이전트 체널 검증
-		commonUtil.getConfirmHeaderSignature("agentJob");
+		commonUtil.isConfirmHeaderSignature("agentJob");
 		
 		AgentJobOutSDO out = insideRepository.callAgentJob(agentJobSDO);
 		

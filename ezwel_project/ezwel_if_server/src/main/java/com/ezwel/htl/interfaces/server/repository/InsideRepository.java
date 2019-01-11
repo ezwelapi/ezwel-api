@@ -43,28 +43,7 @@ public class InsideRepository extends AbstractDataAccessObject {
 
 	private static final Logger logger = LoggerFactory.getLogger(InsideRepository.class);
 
-	@APIOperation(description="신규시설등록수정 인터페이스")
-	public RecordOutSDO callRecord(RecordInSDO recordSDO) {
-		logger.debug("[START] callRecord {}", recordSDO);
-		
-		RecordOutSDO out = null;
-		try {
-			
-			
-			//output
-			out = new RecordOutSDO();
-			
-		}
-		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "신규시설등록수정 장애발생", e);
-		}
 	
-		logger.debug("[END] callRecord {}", out);
-		return out;
-	}
-	
-	
-	//완료
 	@APIOperation(description="시설판매중지설정 인터페이스")
 	public SaleStopOutSDO callSaleStop(SaleStopInSDO saleStopSDO) {
 		logger.debug("[START] callSaleStop {}", saleStopSDO);
@@ -98,7 +77,6 @@ public class InsideRepository extends AbstractDataAccessObject {
 	}
 	
 	
-	//완료
 	@APIOperation(description="시설바우처번호등록 인터페이스")
 	public VoucherRegOutSDO callVoucherReg(VoucherRegInSDO voucherRegSDO) {
 		logger.debug("[START] callVoucherReg {}", voucherRegSDO);
