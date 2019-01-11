@@ -22,9 +22,6 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @Data
 @EqualsAndHashCode(callSuper=true)
 public class RecordInSDO extends AbstractSDO {
-
-
-
 	
 	@APIFields(description = "시설신규등록수정 Input 시설정보연동URL", required=true, maxLength=300)
 	private String dataUrl;

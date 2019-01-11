@@ -1,14 +1,15 @@
 package com.ezwel.htl.interfaces.service.data.view;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-
-
-import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -32,6 +33,12 @@ public class ViewOutSDO extends AbstractSDO {
 	@APIFields(description = "RestAPI URI")
 	private String restURI;
 
+	@APIFields(description = "트랜젝션 실행 개수")	
+	private Integer txCount;
+	
+	@APIFields(description = "예약내역조회 output data")
+	private List<ViewDataOutSDO> data;
+	
 	public String getRestURI() {
 		return restURI;
 	}
@@ -39,10 +46,6 @@ public class ViewOutSDO extends AbstractSDO {
 	public void setRestURI(String restURI) {
 		this.restURI = restURI;
 	}
-
-	
-	@APIFields(description = "예약내역조회 output data")
-	private ViewDataOutSDO data;
 
 	public String getCode() {
 		return code;
@@ -60,12 +63,27 @@ public class ViewOutSDO extends AbstractSDO {
 		this.message = message;
 	}
 
-	public ViewDataOutSDO getData() {
+	public Integer getTxCount() {
+		return txCount;
+	}
+
+	public void setTxCount(Integer txCount) {
+		this.txCount = txCount;
+	}
+
+	public List<ViewDataOutSDO> getData() {
 		return data;
 	}
 
-	public void setData(ViewDataOutSDO data) {
+	public void setData(List<ViewDataOutSDO> data) {
 		this.data = data;
+	}
+
+	public void addData(ViewDataOutSDO data) {
+		if(this.data == null) {
+			this.data = new ArrayList<ViewDataOutSDO>();
+		}
+		this.data.add(data);
 	}
 
 }

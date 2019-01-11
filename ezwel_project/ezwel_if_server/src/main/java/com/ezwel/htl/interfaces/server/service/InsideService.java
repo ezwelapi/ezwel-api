@@ -6,7 +6,10 @@ import org.springframework.stereotype.Service;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.http.data.VerificationSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.repository.InsideRepository;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
@@ -32,58 +35,98 @@ public class InsideService {
 
 	private static final Logger logger = LoggerFactory.getLogger(InsideService.class);
 	
-	private InsideRepository intefaceDAO = (InsideRepository) LApplicationContext.getBean(InsideRepository.class);
+	private InsideRepository intefaceDAO;
+	
+	private OutsideService outsideService;
+	
+	private CommonUtil commonUtil;
 	
 	@APIOperation(description="신규시설등록수정 인터페이스")
-	public RecordOutSDO callRecord(RecordInSDO recordSDO) {
+	public RecordOutSDO callRecord(RecordInSDO recordSDO) throws APIException, Exception {
 		logger.debug("[START] callRecord {}", recordSDO);
 		
-		//Advice & Interceptor 최적화후 작업 진행
-		RecordOutSDO out = intefaceDAO.callRecord(recordSDO);
+		RecordOutSDO out = null;
+		
+		intefaceDAO = (InsideRepository) LApplicationContext.getBean(intefaceDAO, InsideRepository.class);
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+		outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
+		
+		//시그니처 및 에이전트 체널 검증
+		commonUtil.getConfirmHeaderSignature("record");
+		
+		// dataUrl 로 인터페이스 실행 하면 결과로 1개의 시설정보(부대/이미지 포함) 가 조회됨 해당 정보를 DB에 저장 
+		// - 끄~~~~~읏
+		
+		// 이것을 써야 것는디..
+		// outsideService.callAllReg(userAgentDTO);
 		
 		logger.debug("[END] callRecord {}", out);
 		return out;
 	}
 	
+	
 	@APIOperation(description="시설판매중지설정 인터페이스")
-	public SaleStopOutSDO callSaleStop(SaleStopInSDO saleStopSDO) {
+	public SaleStopOutSDO callSaleStop(SaleStopInSDO saleStopSDO) throws APIException, Exception {
 		logger.debug("[START] callSaleStop {}", saleStopSDO);
 		
-		//Advice & Interceptor 최적화후 작업 진행
+		intefaceDAO = (InsideRepository) LApplicationContext.getBean(intefaceDAO, InsideRepository.class);
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+		
+		//시그니처 및 에이전트 체널 검증
+		commonUtil.getConfirmHeaderSignature("saleStop");
+		
 		SaleStopOutSDO out = intefaceDAO.callSaleStop(saleStopSDO);
 		
 		logger.debug("[END] callSaleStop {}", out);
 		return out;
 	}
 	
-	@APIOperation(description="시설바우처번호등록 인터페이스")
-	public VoucherRegOutSDO callVoucherReg(VoucherRegInSDO voucherRegSDO) {
-		logger.debug("[START] callVoucherReg {}", voucherRegSDO);
-		
-		//Advice & Interceptor 최적화후 작업 진행
-		VoucherRegOutSDO out = intefaceDAO.callVoucherReg(voucherRegSDO);
-		
-		logger.debug("[END] callVoucherReg {}", out);
-		return out;
-	}
-	
+
 	@APIOperation(description="예약내역조회 인터페이스")
-	public ViewOutSDO callView(ViewInSDO viewSDO) {
+	public ViewOutSDO callView(ViewInSDO viewSDO) throws APIException, Exception {
 		logger.debug("[START] callView {}", viewSDO);
 		
-		//Advice & Interceptor 최적화후 작업 진행
+		intefaceDAO = (InsideRepository) LApplicationContext.getBean(intefaceDAO, InsideRepository.class);
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+
+		//시그니처 및 에이전트 체널 검증
+		commonUtil.getConfirmHeaderSignature("view");
+		
 		ViewOutSDO out = intefaceDAO.callView(viewSDO);
 		
 		logger.debug("[END] callView {}", out);
 		return out;
 	}
 	
+	
+	@APIOperation(description="시설바우처번호등록 인터페이스")
+	public VoucherRegOutSDO callVoucherReg(VoucherRegInSDO voucherRegSDO) throws APIException, Exception {
+		logger.debug("[START] callVoucherReg {}", voucherRegSDO);
+		
+		intefaceDAO = (InsideRepository) LApplicationContext.getBean(intefaceDAO, InsideRepository.class);
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+		
+		//시그니처 및 에이전트 체널 검증
+		commonUtil.getConfirmHeaderSignature("voucherReg");
+		
+		VoucherRegOutSDO out = intefaceDAO.callVoucherReg(voucherRegSDO);
+		
+		logger.debug("[END] callVoucherReg {}", out);
+		return out;
+	}
+	
+	
 
 	@APIOperation(description="주문대사(제휴사) 인터페이스")
-	public AgentJobOutSDO callAgentJob(AgentJobInSDO agentJobSDO) {
+	public AgentJobOutSDO callAgentJob(AgentJobInSDO agentJobSDO) throws APIException, Exception {
 		logger.debug("[START] callAgentJob {}", agentJobSDO);
 		
-		//Advice & Interceptor 최적화후 작업 진행
+		intefaceDAO = (InsideRepository) LApplicationContext.getBean(intefaceDAO, InsideRepository.class);
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+		
+		//시그니처 및 에이전트 체널 검증
+		commonUtil.getConfirmHeaderSignature("agentJob");
+		
 		AgentJobOutSDO out = intefaceDAO.callAgentJob(agentJobSDO);
 		
 		logger.debug("[END] callAgentJob {}", out);

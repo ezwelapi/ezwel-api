@@ -27,6 +27,7 @@ public class MessageConstants {
 	public static final int RESPONSE_CODE_9400;
 	public static final int RESPONSE_CODE_9401;
 	public static final int RESPONSE_CODE_9500;
+	public static final int RESPONSE_CODE_9501;
 	public static final int RESPONSE_CODE_9600;
 	public static final int RESPONSE_CODE_9700;
 	
@@ -58,6 +59,7 @@ public class MessageConstants {
 		RESPONSE_CODE_9400 = 9400;	// MessageConstants.RESPONSE_CODE_9400
 		RESPONSE_CODE_9401 = 9401;	// MessageConstants.RESPONSE_CODE_9401
 		RESPONSE_CODE_9500 = 9500;	// MessageConstants.RESPONSE_CODE_9500
+		RESPONSE_CODE_9501 = 9501;	// MessageConstants.RESPONSE_CODE_9501
 		RESPONSE_CODE_9600 = 9600;	// MessageConstants.RESPONSE_CODE_9600
 		RESPONSE_CODE_9700 = 9700;	// MessageConstants.RESPONSE_CODE_9700
 		
@@ -76,6 +78,7 @@ public class MessageConstants {
 		MESSAGE_MAP.put(RESPONSE_CODE_9400, "URL Image Not Found");
 		MESSAGE_MAP.put(RESPONSE_CODE_9401, "시설 이미지 다운로드 실패!!");
 		MESSAGE_MAP.put(RESPONSE_CODE_9500, "DB 핸들링 장애발생");
+		MESSAGE_MAP.put(RESPONSE_CODE_9501, "DB 데이터 검증 실패!!");
 		MESSAGE_MAP.put(RESPONSE_CODE_9600, "숙박 시설 매핑 장애발생");
 		MESSAGE_MAP.put(RESPONSE_CODE_9700, "프로세스 실행중");
 		

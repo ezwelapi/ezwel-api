@@ -26,10 +26,10 @@ public class ViewInSDO extends AbstractSDO {
 	@APIFields(description = "예약내역조회 Input 주문번호", maxLength=100)
 	private String rsvNo;
 	
-	@APIFields(description = "예약내역조회 Input 검색시작일", maxLength=8)
+	@APIFields(description = "예약내역조회 Input 검색시작일", maxLength=8, isDate=true, dateFormat="yyyyMMdd")
 	private String startDate;
 	
-	@APIFields(description = "예약내역조회 Input 검색종료일", maxLength=8)
+	@APIFields(description = "예약내역조회 Input 검색종료일", maxLength=8, isDate=true, dateFormat="yyyyMMdd")
 	private String endDate;
 	
 	@APIFields(description = "예약내역조회 Input 검색일구분", maxLength=1)

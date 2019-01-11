@@ -32,6 +32,9 @@ public class VoucherRegOutSDO extends AbstractSDO {
 	@APIFields(description = "RestAPI URI")
 	private String restURI;
 
+	@APIFields(description = "트랜젝션 실행 개수")	
+	private Integer txCount;
+	
 	public String getRestURI() {
 		return restURI;
 	}
@@ -55,6 +58,14 @@ public class VoucherRegOutSDO extends AbstractSDO {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public Integer getTxCount() {
+		return txCount;
+	}
+
+	public void setTxCount(Integer txCount) {
+		this.txCount = txCount;
 	}
 
 }

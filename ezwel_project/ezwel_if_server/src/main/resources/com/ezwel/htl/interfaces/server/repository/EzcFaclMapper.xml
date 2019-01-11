@@ -719,6 +719,16 @@ WHERE 1=1
 	AND FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
 </update>
 
+<update id="updateEzcFaclUseYn" parameterType="ezcFacl">
+UPDATE EZC_FACL SET	/* 시설 정보 */
+	 USE_YN = #{useYn, jdbcType=CHAR}	/* 사용 여부, CHAR(1) */
+	,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
+	,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
+WHERE 1=1
+	AND PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}
+	AND PARTNER_GOODS_CD = #{partnerGoodsCd, jdbcType=VARCHAR}	/* 제휴사 상품 코드, VARCHAR2(100) */
+</update>
+
 <update id="updateRemoveFacl" parameterType="ezcFacl">
 UPDATE EZC_FACL SET 
     USE_YN = #{useYn, jdbcType=VARCHAR}

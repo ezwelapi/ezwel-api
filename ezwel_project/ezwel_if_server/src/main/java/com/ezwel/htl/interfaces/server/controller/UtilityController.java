@@ -128,7 +128,7 @@ public class UtilityController {
 	}	 
 	
 	@APIOperation(description="인터페이스 환경설정파일 XML")
-	@RequestMapping(value="/server/configXML")
+	@RequestMapping(value="/configXML")
 	public ResponseEntity<String> getInterfaceConfigXML(HttpServletRequest request) {
 		logger.debug("[START] getInterfaceConfigXML");
 		
