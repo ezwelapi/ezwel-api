@@ -39,7 +39,6 @@ import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
-import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 
 /**
@@ -868,18 +867,18 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	 * @return 
 	 */
 	@APIOperation(description="당일특가검색 인터페이스")
-	public SddSearchOutSDO callSddSearch(List<SddSearchOutSDO> assets) {
+	public Integer callSddSearch(SddSearchOutSDO assets) {
 		
-		SddSearchOutSDO out = null;
+		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
 		
 		try {
 		
 		}
 		catch(APIException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "당일특가검색 인터페이스 장애발생.", e);
 		}
 		
-		return out;
+		return txCount;
 	}
 	
 	

@@ -48,7 +48,6 @@ public class UtilityController {
 	
 	private APIUtil apiUtil;
 	private FileUtil fileUtil;
-	private CommonUtil commonUtil;
 	private KoreanAnalyzers koreanAnalyzer;
 	private EnglishAnalyzers englishAnalayzer;
 	private RegexUtil regexUtil;
@@ -59,7 +58,7 @@ public class UtilityController {
 	@RequestMapping(value="/test/{fileName}")
 	public String forward(@PathVariable("fileName") String fileName, Model model, HttpServletRequest request, HttpServletResponse response) {
 		logger.debug("[FORWARD] {}", fileName);
-		return "/test/".concat(fileName);
+		return RequestNamespace.NAME_SPACE.concat("/").concat(fileName);
 	}
 
 	
