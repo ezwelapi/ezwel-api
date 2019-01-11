@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +25,8 @@ import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.send.data.SmsSenderInSDO;
+import com.ezwel.htl.interfaces.commons.send.data.SmsSenderOutSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.RegexUtil;
 import com.ezwel.htl.interfaces.server.commons.morpheme.cm.MorphemeUtil;
@@ -37,6 +38,8 @@ import com.ezwel.htl.interfaces.server.commons.utils.FileUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.ResponseUtil;
 import com.ezwel.htl.interfaces.server.sdo.AgentApiKeySDO;
 import com.ezwel.htl.interfaces.server.sdo.MorphemeSDO;
+import com.ezwel.htl.interfaces.service.SendIFService;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 
 @Controller
 @APIType(description = "부가기능 컨트롤러")
@@ -51,6 +54,7 @@ public class UtilityController {
 	private EnglishAnalyzers englishAnalayzer;
 	private RegexUtil regexUtil;
 	private ResponseUtil responseUtil;
+	private SendIFService sendIFService;
 	
 	@APIOperation(description="테스트 JSP Forward Operation")
 	@RequestMapping(value="/test/{fileName}")
@@ -185,4 +189,17 @@ public class UtilityController {
 		logger.debug("[END] getInterfaceConfigXML");
 		return out;
 	}
+	
+	@RequestMapping(value = "/service/callSmsSender")
+	@APIOperation(description = "문자발송 인터페이스", isOutputJsonMarshall = true, returnType = RoomReadOutSDO.class)
+	public Object callSmsSender(SmsSenderInSDO smsSenderSDO) {
+		logger.debug("[START] callSmsSender {} {}", smsSenderSDO);
+		
+		sendIFService = (SendIFService) LApplicationContext.getBean(sendIFService, SendIFService.class);
+		
+		SmsSenderOutSDO out = sendIFService.callSmsSender(smsSenderSDO);
+		
+		return out;
+	}
+	
 }
