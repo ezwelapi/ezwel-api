@@ -63,6 +63,7 @@ public class InsideRepository extends AbstractDataAccessObject {
 		return out;
 	}
 	
+	
 	//완료
 	@APIOperation(description="시설판매중지설정 인터페이스")
 	public SaleStopOutSDO callSaleStop(SaleStopInSDO saleStopSDO) {
@@ -96,6 +97,7 @@ public class InsideRepository extends AbstractDataAccessObject {
 		return out;
 	}
 	
+	
 	//완료
 	@APIOperation(description="시설바우처번호등록 인터페이스")
 	public VoucherRegOutSDO callVoucherReg(VoucherRegInSDO voucherRegSDO) {
@@ -128,6 +130,7 @@ public class InsideRepository extends AbstractDataAccessObject {
 		logger.debug("[END] callVoucherReg {}", out);
 		return out;
 	}
+	
 	
 	//반완료
 	@APIOperation(description="예약내역조회 인터페이스")
@@ -181,7 +184,7 @@ public class InsideRepository extends AbstractDataAccessObject {
 				}
 			}
 			else {
-				out.setMessage("예약 번호에 해당하는 예약정보가 존재하지 않습니다.");
+				out.setMessage("예약정보가 존재하지 않습니다.");
 			}
 			
 		}
@@ -193,13 +196,13 @@ public class InsideRepository extends AbstractDataAccessObject {
 		return out;
 	}
 	
+	
 	//반완료
 	@APIOperation(description="주문대사(제휴사) 인터페이스")
 	public AgentJobOutSDO callAgentJob(AgentJobInSDO agentJobSDO) {
 		logger.debug("[START] callAgentJob {}", agentJobSDO);
 		
 		AgentJobOutSDO out = null;
-		List<AgentJobReservesOutSDO> reservesList = null;
 		AgentJobReservesOutSDO reserves = null;
 		
 		try {
@@ -211,7 +214,6 @@ public class InsideRepository extends AbstractDataAccessObject {
 			inEzcReservBase.setDateType("J");
 			
 			List<EzcReservBase> ezcReservBaseList = sqlSession.selectList(getNamespace("RESERV_BASE_MAPPER", "selectListEzcReservBase"), inEzcReservBase);		
-
 			
 			//output
 			out = new AgentJobOutSDO();
@@ -229,7 +231,7 @@ public class InsideRepository extends AbstractDataAccessObject {
 				}
 			}
 			else {
-				out.setMessage("예약 번호에 해당하는 예약정보가 존재하지 않습니다.");
+				out.setMessage("예약정보가 존재하지 않습니다.");
 			}
 		}
 		catch(Exception e) {

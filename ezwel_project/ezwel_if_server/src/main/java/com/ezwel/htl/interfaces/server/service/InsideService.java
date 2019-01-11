@@ -1,20 +1,27 @@
 package com.ezwel.htl.interfaces.server.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.http.data.VerificationSDO;
+import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
+import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.repository.InsideRepository;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
+import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.record.RecordInSDO;
 import com.ezwel.htl.interfaces.service.data.record.RecordOutSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopInSDO;
 import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopOutSDO;
 import com.ezwel.htl.interfaces.service.data.view.ViewInSDO;
@@ -35,11 +42,13 @@ public class InsideService {
 
 	private static final Logger logger = LoggerFactory.getLogger(InsideService.class);
 	
-	private InsideRepository intefaceDAO;
+	private InsideRepository insideRepository;
 	
 	private OutsideService outsideService;
 	
 	private CommonUtil commonUtil;
+	
+	private HttpInterfaceExecutor inteface;
 	
 	@APIOperation(description="신규시설등록수정 인터페이스")
 	public RecordOutSDO callRecord(RecordInSDO recordSDO) throws APIException, Exception {
@@ -47,18 +56,25 @@ public class InsideService {
 		
 		RecordOutSDO out = null;
 		
-		intefaceDAO = (InsideRepository) LApplicationContext.getBean(intefaceDAO, InsideRepository.class);
+		insideRepository = (InsideRepository) LApplicationContext.getBean(insideRepository, InsideRepository.class);
 		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
+		inteface = (HttpInterfaceExecutor) LApplicationContext.getBean(inteface, HttpInterfaceExecutor.class);
 		
 		//시그니처 및 에이전트 체널 검증
 		commonUtil.getConfirmHeaderSignature("record");
 		
-		// dataUrl 로 인터페이스 실행 하면 결과로 1개의 시설정보(부대/이미지 포함) 가 조회됨 해당 정보를 DB에 저장 
-		// - 끄~~~~~읏
+		HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
+		httpConfigSDO.setRestURI(recordSDO.getDataUrl());
+		httpConfigSDO.setEncoding(OperateConstants.DEFAULT_ENCODING);
+		httpConfigSDO.setDoInput(true);
 		
-		// 이것을 써야 것는디..
-		// outsideService.callAllReg(userAgentDTO);
+		
+		// 인터페이스 결과 1개 시설에 대한 데이터 저장/삭제 실행
+		List<AllRegOutSDO> assets = new ArrayList<AllRegOutSDO>();
+		AllRegOutSDO recordData = (AllRegOutSDO) inteface.sendJSON(httpConfigSDO, AllRegOutSDO.class);
+		assets.add(recordData);
+		outsideService.saveAllReg(assets);
 		
 		logger.debug("[END] callRecord {}", out);
 		return out;
@@ -69,13 +85,13 @@ public class InsideService {
 	public SaleStopOutSDO callSaleStop(SaleStopInSDO saleStopSDO) throws APIException, Exception {
 		logger.debug("[START] callSaleStop {}", saleStopSDO);
 		
-		intefaceDAO = (InsideRepository) LApplicationContext.getBean(intefaceDAO, InsideRepository.class);
+		insideRepository = (InsideRepository) LApplicationContext.getBean(insideRepository, InsideRepository.class);
 		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
 		//시그니처 및 에이전트 체널 검증
 		commonUtil.getConfirmHeaderSignature("saleStop");
 		
-		SaleStopOutSDO out = intefaceDAO.callSaleStop(saleStopSDO);
+		SaleStopOutSDO out = insideRepository.callSaleStop(saleStopSDO);
 		
 		logger.debug("[END] callSaleStop {}", out);
 		return out;
@@ -86,13 +102,13 @@ public class InsideService {
 	public ViewOutSDO callView(ViewInSDO viewSDO) throws APIException, Exception {
 		logger.debug("[START] callView {}", viewSDO);
 		
-		intefaceDAO = (InsideRepository) LApplicationContext.getBean(intefaceDAO, InsideRepository.class);
+		insideRepository = (InsideRepository) LApplicationContext.getBean(insideRepository, InsideRepository.class);
 		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 
 		//시그니처 및 에이전트 체널 검증
 		commonUtil.getConfirmHeaderSignature("view");
 		
-		ViewOutSDO out = intefaceDAO.callView(viewSDO);
+		ViewOutSDO out = insideRepository.callView(viewSDO);
 		
 		logger.debug("[END] callView {}", out);
 		return out;
@@ -103,31 +119,30 @@ public class InsideService {
 	public VoucherRegOutSDO callVoucherReg(VoucherRegInSDO voucherRegSDO) throws APIException, Exception {
 		logger.debug("[START] callVoucherReg {}", voucherRegSDO);
 		
-		intefaceDAO = (InsideRepository) LApplicationContext.getBean(intefaceDAO, InsideRepository.class);
+		insideRepository = (InsideRepository) LApplicationContext.getBean(insideRepository, InsideRepository.class);
 		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
 		//시그니처 및 에이전트 체널 검증
 		commonUtil.getConfirmHeaderSignature("voucherReg");
 		
-		VoucherRegOutSDO out = intefaceDAO.callVoucherReg(voucherRegSDO);
+		VoucherRegOutSDO out = insideRepository.callVoucherReg(voucherRegSDO);
 		
 		logger.debug("[END] callVoucherReg {}", out);
 		return out;
 	}
-	
 	
 
 	@APIOperation(description="주문대사(제휴사) 인터페이스")
 	public AgentJobOutSDO callAgentJob(AgentJobInSDO agentJobSDO) throws APIException, Exception {
 		logger.debug("[START] callAgentJob {}", agentJobSDO);
 		
-		intefaceDAO = (InsideRepository) LApplicationContext.getBean(intefaceDAO, InsideRepository.class);
+		insideRepository = (InsideRepository) LApplicationContext.getBean(insideRepository, InsideRepository.class);
 		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
 		//시그니처 및 에이전트 체널 검증
 		commonUtil.getConfirmHeaderSignature("agentJob");
 		
-		AgentJobOutSDO out = intefaceDAO.callAgentJob(agentJobSDO);
+		AgentJobOutSDO out = insideRepository.callAgentJob(agentJobSDO);
 		
 		logger.debug("[END] callAgentJob {}", out);
 		return out;
