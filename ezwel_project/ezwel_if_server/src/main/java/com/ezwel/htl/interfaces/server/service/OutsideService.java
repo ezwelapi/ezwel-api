@@ -1016,13 +1016,13 @@ public class OutsideService extends AbstractServiceObject {
 			for(SddSearchOutSDO data : assets) {
 				//정상 처리되었을경우 데이터 저장
 				if(Integer.toString(MessageConstants.RESPONSE_CODE_1000).equals(data.getCode()) && data.getData() != null) {
-					/** execute dbio */
 					//제휴사 별 최저가 목록 데이터 저장
 					/** execute dbio */
 					txCount += outsideRepository.callSddSearch(data);
 				}
 			}
 			
+			out.setTxCount(txCount);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "당일특가검색 인터페이스 장애발생.", e);

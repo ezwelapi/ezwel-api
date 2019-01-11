@@ -764,7 +764,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectFaclCodeGroupList"), ezcFacl);
 		}
 		catch(APIException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설 타입 그룹 목록 조회 장애발생.", e);
 		}
 			
 		return out;
@@ -779,7 +779,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectFaclMappingMorpDataList"), ezcFacl);
 		}
 		catch(APIException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "타입 그룹 별 시설 형태소 행 목록(형태소 열을 행으로 변환한 목록)조회 장애발생.", e);
 		}
 			
 		return out;
@@ -795,7 +795,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectFaclMappingMorpRowData"), ezcFacl);
 		}
 		catch(APIException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "타입 그룹 별 시설 형태소 행 목록(형태소 열을 행으로 변환한 목록)조회 장애발생.", e);
 		}
 			
 		return out;
