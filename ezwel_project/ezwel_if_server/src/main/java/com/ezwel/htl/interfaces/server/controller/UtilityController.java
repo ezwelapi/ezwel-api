@@ -186,5 +186,16 @@ public class UtilityController {
 		return out;
 	}
 	
+	@RequestMapping(value = "/service/callSmsSender")
+	@APIOperation(description = "문자발송 인터페이스", returnType = SmsSenderOutSDO.class)
+	public Object callSmsSender(SmsSenderInSDO smsSenderSDO) {
+		logger.debug("[START] callSmsSender {} {}", smsSenderSDO);
+		
+		sendIFService = (SendIFService) LApplicationContext.getBean(sendIFService, SendIFService.class);
+		
+		SmsSenderOutSDO out = sendIFService.callSmsSender(smsSenderSDO);
+		
+		return out;
+	}
 	
 }
