@@ -133,7 +133,7 @@
 	
 	<task:annotation-driven scheduler="taskScheduler"/>
 
-<!-- 
+	<!-- 
 	<interceptors>
 		<interceptor>
 	   	   <mapping path="/ezwel_if_server/**"/>
@@ -145,7 +145,7 @@
 	       <bean class="com.universal.system.beans.interceptor.AdminInterCeptor"/>
 	    </interceptor>
 	</interceptors>
-		 -->
+	-->
 	<!-- ##################### MULTIPART RESOLVER SETUP ###################### -->
 	
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

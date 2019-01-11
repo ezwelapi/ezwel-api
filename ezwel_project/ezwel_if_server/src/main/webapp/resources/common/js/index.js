@@ -396,14 +396,14 @@ var $interface = {
 		}
 	},
 	requestHeader : {
-		"http-client-id" : "",
-		"http-request-id" : "",
-		"http-channel-cd" : "",
-		"http-agent-type" : "",
 		"http-agent-id" : "",
 		"http-api-key" : "",
 		"http-api-signature" : "",
-		"http-api-timestamp" : ""
+		"http-api-timestamp" : "",
+		"http-client-id" : "",
+		"http-request-id" : "",
+		"http-channel-cd" : "",
+		"http-agent-type" : ""		
 	}
 	,util : {
 		removeTag : function( html ) {
