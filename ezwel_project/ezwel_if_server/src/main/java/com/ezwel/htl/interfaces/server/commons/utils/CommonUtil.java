@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,7 +34,6 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
 import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
-import com.ezwel.htl.interfaces.commons.http.data.VerificationSDO;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.CryptUtil;
@@ -677,5 +677,29 @@ public class CommonUtil {
     	
     	logger.debug("[END] getConfirmHeaderSignature ");
     }
+
     
+    @APIOperation(description="BigDecimal To String")
+    public String getBigDecimalToString(BigDecimal value) {
+    	BigDecimal number = value;
+    	if(number != null) {
+    		return number.toPlainString();
+    	}
+    	else {
+    		return null;
+    	}
+    }
+    
+    
+    
+    @APIOperation(description="BigDecimal To String")
+    public Integer getBigDecimalToInteger(BigDecimal value) {
+    	BigDecimal number = value;
+    	if(number != null) {
+    		return number.intValue();
+    	}
+    	else {
+    		return null;
+    	}
+    }
 }
