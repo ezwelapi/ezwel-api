@@ -16,10 +16,12 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor;
 
 @Component
+@APIType(description="메일발송")
 public class MailSender {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
@@ -79,22 +81,25 @@ public class MailSender {
         props.put("mail.smtp.password", password);
 		props.put("mail.smtp.connectiontimeout", connTimeout);
 		props.put("mail.smtp.timeout", readTimeout);
-		props.put("mail.transport.protocol","smtp");
-		props.put("mail.smtp.ssl.enable", "true");
-		props.put("mail.smtp.ssl.trust", host);
 		
-        // 메일 세션
-        Session session = Session.getDefaultInstance(props);
-
-        // 메일 관련
-        MimeMessage msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress(from, fromName));
-        msg.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-        msg.setSubject(subject, "UTF-8");
-        msg.setContent(body,"text/html; charset=utf-8");
-        
-        // 발송 처리
-        Transport.send(msg);
+		try {
+			
+	        // 메일 세션
+	        Session session = Session.getDefaultInstance(props);
+	
+	        // 메일 관련
+	        MimeMessage msg = new MimeMessage(session);
+	        msg.setFrom(new InternetAddress(from, fromName));
+	        msg.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+	        msg.setSubject(subject, "UTF-8");
+	        msg.setContent(body,"text/html; charset=utf-8");
+	        
+	        // 발송 처리
+	        Transport.send(msg);
+	        
+		} catch (Exception e) {
+			logger.error(e.getMessage(),e);
+		}
 	}
 	
 	

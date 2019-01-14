@@ -23,7 +23,7 @@ import com.ezwel.htl.interfaces.commons.send.data.SmsSenderOutSDO;
  * @date   2018. 12. 26.
  */
 @Service
-@APIType
+@APIType(description="문자발송 인터페이스")
 public class SendIFService {
 
 	private static final Logger logger = LoggerFactory.getLogger(OutsideIFService.class);

@@ -34,11 +34,13 @@ import com.ezwel.htl.interfaces.server.commons.interfaces.RequestNamespace;
 import com.ezwel.htl.interfaces.server.commons.morpheme.cm.MorphemeUtil;
 import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzers;
+import com.ezwel.htl.interfaces.server.commons.sdo.MailSenderSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.FileUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.ResponseUtil;
 import com.ezwel.htl.interfaces.server.sdo.AgentApiKeySDO;
 import com.ezwel.htl.interfaces.server.sdo.MorphemeSDO;
+import com.ezwel.htl.interfaces.server.service.SendService;
 import com.ezwel.htl.interfaces.service.SendIFService;
 
 @Controller
@@ -55,6 +57,7 @@ public class UtilityController {
 	private RegexUtil regexUtil;
 	private ResponseUtil responseUtil;
 	private SendIFService sendIFService;
+	private SendService sendService;
 	
 	@APIOperation(description="테스트 JSP Forward Operation")
 	@RequestMapping(value="/{fileName}")
@@ -215,6 +218,16 @@ public class UtilityController {
 		return out;
 	}
 	
-	
+	@RequestMapping(value = "/service/callMailSender")
+	@APIOperation(description = "메일발송 인터페이스")
+	public Object callMailSender(MailSenderSDO mailSenderSDO) {
+		logger.debug("[START] callMailSender {} {} ", mailSenderSDO);
+		
+		sendService = (SendService) LApplicationContext.getBean(sendService, SendService.class);
+		
+		sendService.callMailSender(mailSenderSDO);
+		
+		return true;
+	}
 	
 }

@@ -20,6 +20,7 @@ public class SendTest {
 		InterfaceFactory.initLocalTestInterfaceFactory();
 		
 		sendIFService = new SendIFService();
+
 	}
 	
 	//문자

@@ -7,7 +7,8 @@ import org.slf4j.LoggerFactory;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.send.data.SmsSenderInSDO;
 import com.ezwel.htl.interfaces.commons.send.data.SmsSenderOutSDO;
-import com.ezwel.htl.interfaces.server.commons.send.MailSender;
+import com.ezwel.htl.interfaces.server.commons.sdo.MailSenderSDO;
+import com.ezwel.htl.interfaces.server.service.SendService;
 import com.ezwel.htl.interfaces.service.SendIFService;
 
 public class SendTest {
@@ -16,7 +17,7 @@ public class SendTest {
 	
 	private SendIFService sendIFService;
 	
-	private MailSender mailSender;
+	private SendService sendService;
 	
 	public SendTest() {
 		
@@ -24,11 +25,10 @@ public class SendTest {
 		
 		sendIFService = new SendIFService();
 		
-		mailSender = new MailSender();
+		sendService = new SendService();
 	}
 	
 	//문자
-	@Test
 	public void smsSenderTest()  throws Exception {
 		
 		logger.debug("[START] smsSenderTest");
@@ -61,11 +61,10 @@ public class SendTest {
 	}
 	
 	//메일
-	public void MailSenderDevTest() {
+	@Test
+	public void MailSenderTest() {
 		
-		//mailSender.naverSend();
-		
-		logger.debug("[START] MailSenderDevTest");
+		logger.debug("[START] MailSenderTest");
 		
 		String from = "java124@naver.com";
 		String fromName = "전용필";
@@ -73,8 +72,15 @@ public class SendTest {
 		String subject = "메일 제목 테스트";
 		String body = "메일 내용 테스트";
 		
-		mailSender.asyncSimpleSend(from, fromName, recipient, subject, body);
+		MailSenderSDO mailSenderSDO = new MailSenderSDO();
+		mailSenderSDO.setFrom(from);
+		mailSenderSDO.setFromName(fromName);
+		mailSenderSDO.setRecipient(recipient);
+		mailSenderSDO.setSubject(subject);
+		mailSenderSDO.setBody(body);
 		
-		logger.debug("[END] MailSenderDevTest");
+		sendService.callMailSender(mailSenderSDO);
+		
+		logger.debug("[END] MailSenderTest");
 	}
 }
