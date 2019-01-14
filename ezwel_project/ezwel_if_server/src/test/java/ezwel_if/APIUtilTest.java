@@ -1,5 +1,6 @@
 package ezwel_if;
 
+import java.io.UnsupportedEncodingException;
 import java.rmi.dgc.VMID;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -15,8 +16,6 @@ import org.slf4j.LoggerFactory;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.CryptUtil;
-import com.ezwel.htl.interfaces.commons.utils.crypt.Base64Codec;
-import com.ezwel.htl.interfaces.commons.utils.crypt.MD5;
 /**
  * <pre>
  * 
@@ -36,7 +35,7 @@ public class APIUtilTest {
 	}
 	
 	@Test
-	public void test() {
+	public void test() throws UnsupportedEncodingException {
 		logger.debug(
 				apiUtil.getTimeMillisToDate(System.currentTimeMillis(), "yyyyMMddkkmmss")
 				);
@@ -45,8 +44,28 @@ public class APIUtilTest {
 
 		logger.debug("{}", APIUtil.getTimeMillisToSecond(4036939));
 		logger.debug("{}", APIUtil.getTimeMillisToMinute(4036939));		
-	}
-	
+		
+		
+		String text = "문자열 입니다.";
+
+		long test = text.getBytes("UTF-8").length;
+		
+		logger.debug("=> {}", test);
+		
+		logger.debug("=> {}", APIUtil.getId());
+		logger.debug("=> {}", APIUtil.getId().length());
+		
+		
+		logger.debug("=> {}", APIUtil.getTimeStamp());
+		logger.debug("=> {}", APIUtil.getTimeStamp().length());
+		
+		//createApiSignature();
+		String newSign = APIUtil.getHttpSignature("10000495", "d099b5ed2d8d352d6bb539febb4b46aai", Long.toString(System.currentTimeMillis()));
+		logger.debug("new signature({}) : {}", newSign.length(), newSign);
+		
+		logger.debug("decode : {}", CryptUtil.getDecodeBase64(newSign));
+		
+	}	
 	
 	/**
 	 * <pre>
@@ -134,11 +153,7 @@ public class APIUtilTest {
 		logger.debug("vm : {}", APIUtil.getVMID());
 		
 		
-		//createApiSignature();
-		String newSign = apiUtil.getHttpSignature("10000495", "d099b5ed2d8d352d6bb539febb4b46aai", Long.toString(System.currentTimeMillis()));
-		logger.debug("new signature({}) : {}", newSign.length(), newSign);
-		
-		logger.debug("decode : {}", CryptUtil.getDecodeBase64(newSign));
+
 	}
 	
 	/**
@@ -167,7 +182,7 @@ public class APIUtilTest {
 	}
 	
 	
-	@Test
+	//@Test
 	public void getTimeStamp() {
 		Timestamp original = new Timestamp(System.currentTimeMillis());
 		logger.debug("1 : {}", original);
