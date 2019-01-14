@@ -40,7 +40,7 @@ public class ConfigureHelper {
 			httpConfigSDO.setHttpApiSignature(APIUtil.getHttpSignature(httpConfigSDO.getHttpAgentId(), httpConfigSDO.getHttpApiKey(), httpConfigSDO.getHttpApiTimestamp()));
 		}
 		else if(httpConfigSDO.isEzwelInsideInterface() && APIUtil.isNotEmpty(httpConfigSDO.getReceiverRestURI())){
-			// isEzwel InsideInterface Receiver URI
+			// isEzwel InsideInterface Receiver URI (개발서버 또는 운영서버 컨트롤러 URL세팅)
 			httpConfigSDO.setRestURI(InterfaceFactory.getServerHttpDomainURI().concat(httpConfigSDO.getReceiverRestURI()));
 			logger.debug("[httpConfigSDO.getRestURI()] : {}", httpConfigSDO.getRestURI());
 		}

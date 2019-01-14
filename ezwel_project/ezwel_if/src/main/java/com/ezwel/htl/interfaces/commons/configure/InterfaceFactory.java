@@ -609,6 +609,7 @@ public class InterfaceFactory {
         	propertyUtil.copySameProperty(agent, inside);
         	
 			inside.setHttpApiKey(agent.getInsideApiKey());
+			inside.setIfReqtDirt(OperateConstants.STR_I);
 			//logger.debug("inside channel : {}", item);
 			enter(agent, inside, false);
 		}
@@ -619,7 +620,8 @@ public class InterfaceFactory {
 	        HttpConfigSDO outside = (HttpConfigSDO) propertyUtil.copySameProperty(outsideIterator.next(), HttpConfigSDO.class);
 	        propertyUtil.copySameProperty(agent, outside, "httpAgentId");
 	        
-			outside.setHttpApiKey(agent.getOutsideApiKey());					
+			outside.setHttpApiKey(agent.getOutsideApiKey());
+			outside.setIfReqtDirt(OperateConstants.STR_O);
 			//logger.debug("outside channel : {}", item);
 			enter(agent, outside, true);
 		}

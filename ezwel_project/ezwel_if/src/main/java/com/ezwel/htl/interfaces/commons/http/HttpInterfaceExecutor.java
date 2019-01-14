@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -37,7 +38,9 @@ import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
+import com.ezwel.htl.interfaces.commons.sdo.InterfaceLogSDO;
 import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
+import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
@@ -59,17 +62,6 @@ public class HttpInterfaceExecutor {
 
 	private static final Logger logger = LoggerFactory.getLogger(HttpInterfaceExecutor.class);
 
-	/**
-	 * Default URL Connection TimeOut 3 Second
-	 */
-	private final int urlConnTimeout = 3000;
-
-	/**
-	 * Default Read Time Out 10 Second
-	 */
-	private final int urlReadTimeout = 10000;
-	
-	
 	@Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */
 	private APIUtil util;
 	
@@ -81,6 +73,38 @@ public class HttpInterfaceExecutor {
 	
 	@Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */
 	private StackTraceUtil stackTraceUtil;
+	
+	/**
+	 * Default URL Connection TimeOut 3 Second
+	 */
+	private final static int URL_CONN_TIMEOUT;
+	
+	/**
+	 * Default Read Time Out 10 Second
+	 */
+	private final static int URL_READ_TIMEOUT;
+	
+	/**
+	 * 인터페이스 실패시 재시도 횟수
+	 */
+	private final static int RETRY_COUNT;
+	
+	/**
+	 * 인터페이스 실패시 재시도 간격(텀) 밀리세컨
+	 */
+	private final static int RETRY_INTERVAL_MILLISECOND;
+	
+	static {
+		
+		//default 3 Second
+		URL_CONN_TIMEOUT = 3000;
+		//default 10 Second
+		URL_READ_TIMEOUT = 10000;
+		//retry count 2
+		RETRY_COUNT = 2;
+		//retry interval millisecond 5
+		RETRY_INTERVAL_MILLISECOND = 5000;
+	}
 	
 	public HttpInterfaceExecutor() {
 		this.reset();
@@ -107,8 +131,8 @@ public class HttpInterfaceExecutor {
 		HttpURLConnection conn = null;
 		URL url = null;
 		
-		int httpConnTimeout = (in.getConnTimeout() != null ? in.getConnTimeout() : urlConnTimeout);
-		int httpReadTimeout = (in.getReadTimeout() != null ? in.getReadTimeout() : urlReadTimeout);
+		int httpConnTimeout = (in.getConnTimeout() != null ? in.getConnTimeout() : URL_CONN_TIMEOUT);
+		int httpReadTimeout = (in.getReadTimeout() != null ? in.getReadTimeout() : URL_READ_TIMEOUT);
 		logger.debug("\n# httpConnTimeout : {}\n# httpReadTimeout : {}", httpConnTimeout, httpReadTimeout);
 		
 		try {
@@ -229,8 +253,9 @@ public class HttpInterfaceExecutor {
 		
 		String out = null;
 		try {
-
+			
 			if(config.isEzwelInsideInterface()) {
+				//★ Front or BackOffice 에서 인터페이스 서버를 경유할때의 전문 생성
 				UserAgentSDO userAgentSDO = new UserAgentSDO();
 				propertyUtil.copySameProperty(config, userAgentSDO, false);
 				
@@ -298,7 +323,6 @@ public class HttpInterfaceExecutor {
 		return sendJSON(in, inputObject, null);
 	}
 	
-	
 	/**
 	 * Http URL Communication API
 	 * @param in
@@ -309,6 +333,14 @@ public class HttpInterfaceExecutor {
 	public <T1 extends AbstractSDO, T2 extends AbstractSDO> T2 sendJSON(HttpConfigSDO in, T1 inputObject, Class<T2> outputType) {
 		logger.debug("[START] sendJSON {}\n[CHANNEL-INFO] {}\n[USER-INPUT] {}\n[USER-OUTPUT] {}", in.getRestURI(), in, inputObject, outputType);
 
+		/***************************
+		 * [START] LOG DATA SETTING 
+		 ***************************/
+		Local.commonHeader().setInterfaceReqeustLogData(in);
+		/***************************
+		 * [END]   LOG DATA SETTING 
+		 ***************************/
+		
 		if(in == null) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_2000, "■ 인터페이스 필수 입력 객체가 존재하지 않습니다.");
 		}
@@ -321,10 +353,12 @@ public class HttpInterfaceExecutor {
 		String inJsonParam = null;
 		//response original value 
 		String responseOrgin = null;
+		//data length
+		int contentLength = 0;
+		//error contents
+		String errContents = null;
 		
 		try {
-			// 에러 테스트 용
-			//in.setRestURI("https://translate.google.com/?hl=ko");
 			
 			if(in.isDoOutput()) {
 				if(inputObject == null) {
@@ -337,7 +371,15 @@ public class HttpInterfaceExecutor {
 				inJsonParam = OperateConstants.STR_BLANK;
 			}
 			
-			int contentLength = APIUtil.NVL(inJsonParam).getBytes(in.getEncoding()).length;
+			contentLength = APIUtil.NVL(inJsonParam).getBytes(in.getEncoding()).length;
+			
+			/***************************
+			 * [START] LOG DATA SETTING 
+			 ***************************/
+			Local.commonHeader().setInterfaceInputTelegram(in, inJsonParam);
+			/***************************
+			 * [END]   LOG DATA SETTING 
+			 ***************************/
 			
 			/** getOpenHttpURLConnection */
 			conn = getOpenHttpURLConnection(in, contentLength);
@@ -355,9 +397,12 @@ public class HttpInterfaceExecutor {
 			logger.debug("■ responseCode : {}, ResponseMessage : {}, URI : {}", conn.getResponseCode(), conn.getResponseMessage(), in.getRestURI());
 			//200 : ok, 201 : created
 			if(conn.getResponseCode() != 200 && conn.getResponseCode() != 201) {
+				
+				errContents = APIUtil.formatMessage("■ 원격 서버 통신 장애 발생({})\n{}", in.getRestURI(), (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
+				
 				/** 서버측 에러 발생시 에러메시지 세팅 */
 				//logger.error("■ HttpServer Exception '{}'\n{}", in.getRestURI(), (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
-				throw new APIException(MessageConstants.RESPONSE_CODE_9200, "■ 원격 서버 통신 장애 발생({})\n{}", in.getRestURI(), (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
+				throw new APIException(MessageConstants.RESPONSE_CODE_9200, errContents);
 	    	}
 			else {
 				/** 응답 수신 및 리턴타입 빈으로 변환 */
@@ -375,7 +420,7 @@ public class HttpInterfaceExecutor {
 					if(APIUtil.isNotEmpty(responseOrgin)) {
 						
 						if(outputType == null) {
-							throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 인터페이스 응답 결과를 담을 CLASS정보가 존재하지 않습니다. HttpSDO의 outputType class를 설정하세요.");
+							throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 인터페이스 응답 결과를 담을 CLASS정보가 존재하지 않습니다. HttpConfigSDO의 outputType class를 설정하세요.");
 						}
 
 						/** execute unmarshall */
@@ -401,53 +446,86 @@ public class HttpInterfaceExecutor {
 			// Connect | Read timed out 이후 5초후 1 회 다시 호출
 			logger.debug("* callCount : {}", in.getCallCount());
 			
-			if(in.getCallCount() > 0) {
+			if(in.getCallCount() > (RETRY_COUNT - 1)) {
 				out = setSendJSONException(e, in, outputType);
 			}
 			else {
-				logger.debug("* 고객 요청으로 인하여 Connection/Read Timeout 발생시 5초후 1회 재시도 ");
-				Thread.sleep(5000);
 				
-				in.setCallCount(1);
+				logger.debug("* 고객 요구사항 Connection/Read Timeout 발생시 5초후 재시도 2회");
+				Thread.sleep(RETRY_INTERVAL_MILLISECOND);
+				
+				in.setCallCount(in.getCallCount() + 1);   
 				sendJSON(in, inputObject, outputType);
 				
 				out = setSendJSONException(e, in, outputType);
 			}
+			
 		} catch (APIException e) {
 			out = setSendJSONException(e, in, outputType);
 		} catch (Exception e) {
 			out = setSendJSONException(e, in, outputType);
 		} finally {
+			
 			if(conn != null) {
 				conn.disconnect();
 			}
 
+			/***************************
+			 * [START] LOG DATA SETTING 
+			 ***************************/
+			Local.commonHeader().setInterfaceResultLogData(propertyUtil.getProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME), responseOrgin);
+			/***************************
+			 * [END]   LOG DATA SETTING 
+			 ***************************/
+			
 			logger.debug("[END] sendJSON {}", in.getRestURI());
 			return out;			
 		}
 	}
 	
+
+	
+	@APIOperation(description="통신 장에 내용 세팅", isExecTest=true)
 	private <T extends AbstractSDO> T setSendJSONException(Exception e, HttpConfigSDO in, Class<T> outputType) {
 		//logger.debug("# setSendJSONException e class : {}", e.getClass().getCanonicalName());
 		
 		T out = null;
 		if(outputType != null) {
+			
 			try {
+				
 				out = outputType.newInstance();
 				
 				Integer code = null;
 				String message = null;
+				
 				if(APIException.class.isAssignableFrom(e.getClass())) {
 					code = ((APIException) e).getResultCode();
 					message = ((APIException) e).getMessages();
+				}
+				else if(SocketTimeoutException.class.isAssignableFrom(e.getClass())) {
+					code = MessageConstants.RESPONSE_CODE_9102;
+					message = ((SocketTimeoutException) e).getMessage();							
 				}
 				else {
 					code = MessageConstants.RESPONSE_CODE_9100;
 					message = ((Exception) e).getMessage();				
 				}
 
+				message = message.concat(", ").concat(in.getRestURI());
 				propertyUtil.setProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME, Integer.toString(code));
-				propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, message.concat(", ").concat(in.getRestURI()));
+				propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, message);
+				
+				/***************************
+				 * [START] LOG DATA SETTING 
+				 ***************************/
+				if(Local.commonHeader().getInterfaceLogSDO() != null) {
+					Local.commonHeader().getInterfaceLogSDO().setErrType(MessageConstants.getMessage(code)); //MessageConstants의 에러 유형 메시지
+					Local.commonHeader().getInterfaceLogSDO().setErrCont(message);
+				}		
+				/***************************
+				 * [END]    LOG DATA SETTING 
+				 ***************************/
 				
 				logger.error("■ URL Exception {}", stackTraceUtil.getStackTrace(e));
 				e.printStackTrace();
@@ -576,7 +654,7 @@ public class HttpInterfaceExecutor {
 		HttpURLConnection conn = null;
 		URL url = null;
 		
-		int httpConnTimeout = (in.getConnTimeout() != null ? in.getConnTimeout() : urlConnTimeout);
+		int httpConnTimeout = (in.getConnTimeout() != null ? in.getConnTimeout() : URL_CONN_TIMEOUT);
 		logger.debug("# isHttpConnect : {}", httpConnTimeout);
 		
 		try {

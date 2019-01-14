@@ -234,7 +234,7 @@ public class APIUtil {
 	 */
 	@APIOperation(description="randomUUID + VMID를 합하여 MD5로 암호화된 값을 리턴합니다.", isExecTest=true)
 	public static String getId(){
-		return getId("");
+		return getId(Long.toString(currentTimeMillis()));
 	}
 	
 	/**

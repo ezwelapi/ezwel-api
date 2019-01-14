@@ -35,6 +35,9 @@ public class CancelFeePsrcOutSDO extends AbstractSDO {
 	@APIFields(description = "RestAPI URI")
 	private String restURI;
 
+	@APIFields(description = "취소수수료규정 output data")
+	private CancelFeePsrcDataOutSDO data;
+	
 	public String getRestURI() {
 		return restURI;
 	}
@@ -42,10 +45,6 @@ public class CancelFeePsrcOutSDO extends AbstractSDO {
 	public void setRestURI(String restURI) {
 		this.restURI = restURI;
 	}
-
-	
-	@APIFields(description = "취소수수료규정 output data")
-	private CancelFeePsrcDataOutSDO data;
 
 	public String getCode() {
 		return code;
