@@ -74,7 +74,7 @@ INSERT INTO EZC_RESERV_BASE(	/* 예약 기본 정보 */
 	,#{orderNm, jdbcType=VARCHAR}
 	,#{orderMobile, jdbcType=VARCHAR}
 	,#{orderEmail, jdbcType=VARCHAR}
-	,#{reservRequest, jdbcTpye=VARCHAR} 	
+	,#{reservRequest, jdbcType=VARCHAR} 	
 	,#{regId, jdbcType=VARCHAR}
 	,#{regDt, jdbcType=VARCHAR}
 	,#{userId, jdbcType=VARCHAR}
@@ -464,7 +464,7 @@ UPDATE EZC_RESERV_BASE SET	/* 예약 기본 정보 */
 	,ORDER_NM = #{orderNm, jdbcType=VARCHAR}	/* 회원명 new */
 	,ORDER_MOBILE = #{orderMobile, jdbcType=VARCHAR}	/* 회원전화번호 new */
 	,ORDER_EMAIL = #{orderEmail, jdbcType=VARCHAR}	/* 회원이메일주소 new */
-	,RESERV_REQUEST = #{reservRequest, jdbcTpye=VARCHAR} /* 요청내용 new */	
+	,RESERV_REQUEST = #{reservRequest, jdbcType=VARCHAR} /* 요청내용 new */	
 	,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
 	,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 	,USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */
@@ -508,7 +508,7 @@ MERGE INTO EZC_RESERV_BASE /* 예약 기본 정보 */
 			,ORDER_NM = #{orderNm, jdbcType=VARCHAR}	/* 회원명 new */
 			,ORDER_MOBILE = #{orderMobile, jdbcType=VARCHAR}	/* 회원전화번호 new */
 			,ORDER_EMAIL = #{orderEmail, jdbcType=VARCHAR}	/* 회원이메일주소 new */
-			,RESERV_REQUEST = #{reservRequest, jdbcTpye=VARCHAR} /* 요청내용 new */			
+			,RESERV_REQUEST = #{reservRequest, jdbcType=VARCHAR} /* 요청내용 new */			
 			,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
 			,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			,USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */
@@ -573,7 +573,7 @@ MERGE INTO EZC_RESERV_BASE /* 예약 기본 정보 */
 			,#{orderNm, jdbcType=VARCHAR}	/* 회원명 new */
 			,#{orderMobile, jdbcType=VARCHAR}	/* 회원전화번호 new */
 			,#{orderEmail, jdbcType=VARCHAR}	/* 회원이메일주소 new */
-			,#{reservRequest, jdbcTpye=VARCHAR} /* 요청내용 new */			
+			,#{reservRequest, jdbcType=VARCHAR} /* 요청내용 new */			
 			,#{regId, jdbcType=VARCHAR}
 			,#{regDt, jdbcType=VARCHAR}
 			,#{userId, jdbcType=VARCHAR}

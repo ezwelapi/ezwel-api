@@ -11,6 +11,7 @@ import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.server.commons.interfaces.RequestNamespace;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.service.InsideService;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
@@ -32,12 +33,13 @@ import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegOutSDO;
  */
 @Controller
 @RequestMapping(value = RequestNamespace.NAME_SPACE)
-@APIType(description = "Inside Callee Interface Controller")
+@APIType(description = "Inside Callee Interface Controller", isInterfaceLogging=true)
 public class InsideController {
 
 	private static final Logger logger = LoggerFactory.getLogger(InsideController.class);
 	
 	private InsideService insideService;
+	
 	
 	/**
 	 * <pre>
@@ -54,7 +56,7 @@ public class InsideController {
 	 * @author swkim@ebsolution.co.kr
 	 * @since  2018. 11. 21.
 	 */
-	@APIOperation(description="신규시설등록수정 인터페이스", isOutputJsonMarshall=true, returnType=RecordOutSDO.class)
+	@APIOperation(description="신규시설등록수정 인터페이스", isOutputJsonMarshall=true, isRequestHeaderValidate=true, isInsideInterfaceAPI=true, returnType=RecordOutSDO.class)
 	@RequestMapping(value = "/facl/record")
 	public Object callRecord(RecordInSDO recordInSDO) throws APIException, Exception {
 		logger.debug("[START] callRecord {}", recordInSDO);
@@ -82,7 +84,7 @@ public class InsideController {
 	 * @throws APIException
 	 * @throws Exception
 	 */
-	@APIOperation(description="시설판매중지설정 인터페이스", isOutputJsonMarshall=true, returnType=SaleStopOutSDO.class)
+	@APIOperation(description="시설판매중지설정 인터페이스", isOutputJsonMarshall=true, isRequestHeaderValidate=true, isInsideInterfaceAPI=true, returnType=SaleStopOutSDO.class)
 	@RequestMapping(value = "/facl/saleStop")
 	public Object callSaleStop(SaleStopInSDO saleStopInSDO) throws APIException, Exception {
 		logger.debug("[START] callSaleStop {}", saleStopInSDO);
@@ -103,7 +105,7 @@ public class InsideController {
 	
 
 	
-	@APIOperation(description="예약내역조회 인터페이스", isOutputJsonMarshall=true, returnType=ViewOutSDO.class)
+	@APIOperation(description="예약내역조회 인터페이스", isOutputJsonMarshall=true, isRequestHeaderValidate=true, isInsideInterfaceAPI=true, returnType=ViewOutSDO.class)
 	@RequestMapping(value = "/facl/view")
 	public Object callView(ViewInSDO viewInSDO) throws APIException, Exception {
 		logger.debug("[START] callView {}", viewInSDO);
@@ -124,7 +126,7 @@ public class InsideController {
 	
 	
 
-	@APIOperation(description="시설바우처번호등록 인터페이스", isOutputJsonMarshall=true, returnType=VoucherRegOutSDO.class)
+	@APIOperation(description="시설바우처번호등록 인터페이스", isOutputJsonMarshall=true, isRequestHeaderValidate=true, isInsideInterfaceAPI=true, returnType=VoucherRegOutSDO.class)
 	@RequestMapping(value = "/facl/voucherReg")
 	public Object callVoucherReg(VoucherRegInSDO voucherRegInSDO) throws APIException, Exception {
 		logger.debug("[START] callVoucherReg {}", voucherRegInSDO);
@@ -134,7 +136,6 @@ public class InsideController {
 		if(voucherRegInSDO == null) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_2000, "입력값이 존재하지 않습니다.");
 		}
-		
 		
 		insideService = (InsideService) LApplicationContext.getBean(insideService, InsideService.class);
 		//체널 정보 조회
@@ -146,7 +147,7 @@ public class InsideController {
 	
 
 	
-	@APIOperation(description="주문대사(제휴사) 인터페이스", isOutputJsonMarshall=true, returnType=AgentJobOutSDO.class)
+	@APIOperation(description="주문대사(제휴사) 인터페이스", isOutputJsonMarshall=true, isRequestHeaderValidate=true, isInsideInterfaceAPI=true, returnType=AgentJobOutSDO.class)
 	@RequestMapping(value = "/facl/agentJob")
 	public Object callAgentJob(AgentJobInSDO agentJobInSDO) throws APIException, Exception {
 		logger.debug("[START] callAgentJob {}", agentJobInSDO);

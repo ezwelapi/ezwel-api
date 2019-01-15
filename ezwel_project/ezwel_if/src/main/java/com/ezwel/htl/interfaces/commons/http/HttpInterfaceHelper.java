@@ -5,11 +5,13 @@ import java.util.concurrent.Callable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 
 
@@ -22,7 +24,8 @@ import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
  * @date 2018. 11. 5.
  * @serviceType API
  */
-@APIType
+@Component
+@APIType(description="HTTP 인터페이스 멀티쓰레드 Callable")
 public class HttpInterfaceHelper implements Callable<AbstractSDO> {
 
 	private static final Logger logger = LoggerFactory.getLogger(HttpInterfaceHelper.class);
@@ -62,6 +65,10 @@ public class HttpInterfaceHelper implements Callable<AbstractSDO> {
 			propertyUtil.setProperty(output, OperateConstants.FIELD_HTTP_AGENT_DESC, multiHttpConfigDTO.getHttpConfigDTO().getDescription());
 			//setup patnCdType
 			propertyUtil.setProperty(output, OperateConstants.FIELD_PATN_CD_TYPE, multiHttpConfigDTO.getHttpConfigDTO().getPatnCdType());
+			//setup interfaceLog
+			if(Local.commonHeader().getInterfaceLogSDO() != null) {
+				propertyUtil.setProperty(output, OperateConstants.FIELD_INTERFACE_LOG, Local.commonHeader().getInterfaceLogSDO());
+			}
 		}
 		//setup output 
 		AbstractSDO out = (AbstractSDO) output;

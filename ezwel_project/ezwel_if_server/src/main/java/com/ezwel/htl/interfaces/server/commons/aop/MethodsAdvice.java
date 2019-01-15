@@ -12,6 +12,7 @@ import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.MethodProxy;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
@@ -33,7 +34,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodsAdvice.class);
 
-	private final static boolean IS_LOGGING = false;
+	private final static boolean IS_LOGGING = true;
 
 	private BeanMarshaller beanMarshaller;
 	
@@ -84,7 +85,9 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		if (IS_LOGGING) {
 			logger.debug("■■ [AOP] MethodsAdvice.afterThrowingTargetMethod executed.\n■ thisJoinPoint : {}\n■ exception : ", thisJoinPoint, exception);
 		}
+		
 		// throw new ApplicationException("어플리케이션 장애발생", exception);
+		interfaceLogger("afterThrowingTargetMethod", thisJoinPoint);
 	}
 	
 	//methodend > order:2
@@ -92,8 +95,28 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		if (IS_LOGGING) {
 			logger.debug("■■ [AOP] MethodsAdvice.afterReturningTargetMethod executed.\n■ thisJoinPoint : {}\n■ retVal : {}", thisJoinPoint, retVal);
 		}
+		
+		interfaceLogger("afterReturningTargetMethod", thisJoinPoint);
 	}
 
+	private void interfaceLogger(String pointcutTpye, JoinPoint thisJoinPoint) {
+		logger.debug("[START] interfaceLogger => pointcutTpye : {}", pointcutTpye);
+		
+		Class<?> typeClass = thisJoinPoint.getTarget().getClass();
+		APIType apiTypeAnno = typeClass.getAnnotation(APIType.class);
+		Method proccesMethod = null;
+		APIOperation apiOperAnno = null;
+
+		if(apiTypeAnno != null && apiTypeAnno.isInterfaceLogging()) {
+			proccesMethod = ((MethodSignature) thisJoinPoint.getSignature()).getMethod();
+			apiOperAnno = proccesMethod.getAnnotation(APIOperation.class);
+			logger.debug("■■ [◆◆APIOperAnno◆◆] description : {}, isInsideInterfaceAPI : {}, isOutsideInterfaceAPI : {}", apiOperAnno.description(), apiOperAnno.isInsideInterfaceAPI(), apiOperAnno.isOutsideInterfaceAPI());
+
+		
+		
+		}
+	}
+	
 	//method execute
 	public Object aroundTargetMethod(ProceedingJoinPoint thisJoinPoint) throws Throwable {
 		if (IS_LOGGING) {
@@ -113,6 +136,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		APIOperation apiOperAnno = proccesMethod.getAnnotation(APIOperation.class);
 		Controller controlAnno = typeClass.getAnnotation(Controller.class);
 		APIType apiTypeAnno = typeClass.getAnnotation(APIType.class);
+		RequestMapping requestAnno = null;
 		
 		if (apiTypeAnno == null) {
 			throw new APIException("■■ 유효하지 않은 API타입(클래스) APIType어노테이션이 존재하지 않습니다. '{}'", className);
@@ -132,29 +156,44 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 
 		if(controlAnno != null) {
 			logger.debug("■■ [START APIOperation] {}, methodGuid : {} ", typeMethodName, methodGuid);
+			requestAnno = (RequestMapping) proccesMethod.getAnnotation(RequestMapping.class);
 		}
 
 		Object retVal = null;
 		ExceptionSDO output = null;
 		long executeLapTimeMillis = 0L;
 		double operationLapTime = 0D;
-		
+		String channelId = null;
 		try {
 				
 			if(controlAnno != null && !Local.commonHeader().isControlMarshalling()) {
-
+				
 				if (IS_LOGGING) {
-					logger.debug("■■ [INPUTSTREAM]");
+					logger.debug("■■ [PARAMETER-UNMARSHALL]");
 				}
 				methodsAdviceHelper.doMethodInputUnmarshall(proccesMethod.getParameterTypes(), inputParamObjects);
 				Local.commonHeader().setControlMarshalling(true);
 			}
 			
-			if(controlAnno != null || apiOperAnno.isInputBeanValidation()) {
+			if( controlAnno != null && requestAnno != null && apiOperAnno.isRequestHeaderValidate() && requestAnno.value().length > 0) {
+				
+				channelId = requestAnno.value()[0];
+				if(channelId.contains(OperateConstants.STR_SLASH)) {
+					channelId = channelId.substring(channelId.lastIndexOf(OperateConstants.STR_SLASH) + OperateConstants.STR_SLASH.length());
+				}
+				
+				//시그니처 및 에이전트 체널 검증
+				methodsAdviceHelper.isConfirmHeaderSignature(channelId);
+			}
+			
+			if(( controlAnno != null && requestAnno != null ) || apiOperAnno.isInputBeanValidation()) {
 				
 				if (IS_LOGGING) {
-					logger.debug("■■ [VALIDATE] {} {}", controlAnno, apiOperAnno.isInputBeanValidation());
+					logger.debug("■■ [INPUTBEAN-VALIDATE] {} {}", controlAnno, apiOperAnno.isInputBeanValidation());
 				}
+				
+				logger.debug("# requestAnno : {}", requestAnno);
+				
 				methodsAdviceHelper.doMethodInputValidation(proccesMethod.getParameterTypes(), inputParamObjects);
 			}
 			

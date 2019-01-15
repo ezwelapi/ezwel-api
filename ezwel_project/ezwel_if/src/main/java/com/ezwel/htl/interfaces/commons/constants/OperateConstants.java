@@ -116,6 +116,7 @@ public class OperateConstants {
 	
 	public static final String FIELD_HTTP_AGENT_ID;
 	public static final String FIELD_PATN_CD_TYPE;
+	public static final String FIELD_INTERFACE_LOG;
 	
 	public static final String FIELD_HTTP_AGENT_DESC;
 	
@@ -150,7 +151,13 @@ public class OperateConstants {
 	public static final String STR_I;
 	public static final String STR_O;
 	
+	public static final List<String> EZWEL_INSIDE_EXCLUDE_FIELDS;
+	
 	static {
+		
+		EZWEL_INSIDE_EXCLUDE_FIELDS = new ArrayList<String>(); 
+		EZWEL_INSIDE_EXCLUDE_FIELDS.add("httpApiSignature");
+		
 		// OperateConstants.IMAGE_FILE_NAME_SPACE
 		IMAGE_FILE_NAME_SPACE = "ezc-api";
 		
@@ -177,6 +184,7 @@ public class OperateConstants {
 		FIELD_HTTP_AGENT_ID = "httpAgentId";
 		FIELD_HTTP_AGENT_DESC = "httpAgentDesc";
 		FIELD_PATN_CD_TYPE = "patnCdType";
+		FIELD_INTERFACE_LOG = "interfaceLog";
 		
 		DATA_IMAGE_PREFIX = "data:image/";
 		STR_BASE64 = "base64";

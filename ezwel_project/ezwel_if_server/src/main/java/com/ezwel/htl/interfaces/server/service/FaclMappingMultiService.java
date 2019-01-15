@@ -6,6 +6,7 @@ import java.util.concurrent.Callable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
@@ -18,6 +19,7 @@ import com.ezwel.htl.interfaces.server.component.FaclMappingComponent;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
 
+@Component
 @APIType(description="시설 매핑 멀티쓰레드 서비스")
 public class FaclMappingMultiService extends AbstractComponent implements Callable<List<EzcFacl>> {
 
@@ -62,6 +64,7 @@ public class FaclMappingMultiService extends AbstractComponent implements Callab
 		List<EzcFacl> faclMorpSearchList = null;
 		
 		try {
+			
 			faclMappingComponent = (FaclMappingComponent) LApplicationContext.getBean(faclMappingComponent, FaclMappingComponent.class);
 			outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
 			

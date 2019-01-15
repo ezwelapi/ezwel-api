@@ -40,13 +40,15 @@ public @interface APIOperation {
      */
     public abstract boolean isExecTest() default false;
     
-    
     public abstract boolean isOutputJsonMarshall() default false;
-    
     
     public abstract boolean isInputBeanValidation() default false;
     
-    
-    
     public abstract Class<?> returnType() default Object.class;
+    
+    public abstract boolean isRequestHeaderValidate() default false;
+    
+    public abstract boolean isOutsideInterfaceAPI() default false;
+    
+    public abstract boolean isInsideInterfaceAPI() default false;
 }

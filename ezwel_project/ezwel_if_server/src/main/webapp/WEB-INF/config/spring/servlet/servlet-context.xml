@@ -162,7 +162,7 @@
 	<beans:bean id="methodsAdvice" class="com.ezwel.htl.interfaces.server.commons.aop.MethodsAdvice">
 		<beans:property name="order" value="2"/>
 	</beans:bean> 
-	
+
 	<aop:config>
 		<!-- execution expression -->  <!-- and @annotation(remoteMethod) --> 
 		<aop:pointcut id="targetMethod" expression="execution(* com.ezwel.htl.interfaces..*.*(..))"/>
@@ -192,7 +192,6 @@
 			<aop:around pointcut-ref="targetMethod" method="aroundTargetMethod"/>
 		</aop:aspect>
 	</aop:config>
-
 
 	
 </beans:beans>

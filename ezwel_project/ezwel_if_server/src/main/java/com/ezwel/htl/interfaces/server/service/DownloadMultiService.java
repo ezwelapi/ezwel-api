@@ -4,6 +4,7 @@ import java.util.concurrent.Callable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
@@ -13,6 +14,7 @@ import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractComponent;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.FileUtil;
 
+@Component
 @APIType(description="시설 이미지 멀티쓰레드 다운로드 서비스")
 public class DownloadMultiService extends AbstractComponent implements Callable<ImageSDO> {
 

@@ -21,6 +21,7 @@ import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.sdo.InterfaceLogSDO;
+import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
 
@@ -157,6 +158,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		isControlMarshalling = false;
 		httpConfigSDO = null;
 		stackTraceUtil = new StackTraceUtil();
+		interfaceLogSDO = null;
 	}
 	
 	
@@ -519,70 +521,70 @@ public class CommonHeader extends APIObject implements Serializable {
 	}
 	
 
-	@APIOperation(description="인터페이스 요청(입력) 로그 데이터 세팅")
-	public void setInterfaceReqeustLogData(HttpConfigSDO httpConfig) {
+	@APIOperation(description="인터페이스 요청헤더 로그 데이터 세팅")
+	public void initInterfaceReqeustLogData(HttpConfigSDO httpConfig) {
 
 		try {
 			
-			if(getInterfaceLogSDO() == null) {
-				setInterfaceLogSDO(new InterfaceLogSDO());
-			}
-
-			getInterfaceLogSDO().setPartAgentId(httpConfig.getHttpAgentId());
-			getInterfaceLogSDO().setIfChanId(httpConfig.getChanId());
-			getInterfaceLogSDO().setIfChanGrpId(httpConfig.getHttpAgentGroupId());
-			getInterfaceLogSDO().setIfDesc(httpConfig.getDescription());
-			getInterfaceLogSDO().setIfApiUri(httpConfig.getRestURI());
-			getInterfaceLogSDO().setIfApiKey(httpConfig.getHttpApiKey());
-			getInterfaceLogSDO().setIfTimeStmp(httpConfig.getHttpApiTimestamp());
-			getInterfaceLogSDO().setIfSign(httpConfig.getHttpApiSignature()); 
-			getInterfaceLogSDO().setIfReqtId(httpConfig.getHttpRequestId()); 
-			getInterfaceLogSDO().setIfReqtDirt(httpConfig.getIfReqtDirt()); 
-			getInterfaceLogSDO().setExecStrtMlisSecd(APIUtil.currentTimeMillis());
-			getInterfaceLogSDO().setEncoding(httpConfig.getEncoding());
+			interfaceLogSDO = new InterfaceLogSDO();
+			
+			interfaceLogSDO.setIfExecCd(this.guid);
+			interfaceLogSDO.setPartAgentId(httpConfig.getHttpAgentId());
+			interfaceLogSDO.setIfChanId(httpConfig.getChanId());
+			interfaceLogSDO.setIfChanGrpId(httpConfig.getHttpAgentGroupId());
+			interfaceLogSDO.setIfDesc(httpConfig.getDescription());
+			interfaceLogSDO.setIfApiUri(httpConfig.getRestURI());
+			interfaceLogSDO.setIfApiKey(httpConfig.getHttpApiKey());
+			interfaceLogSDO.setIfTimeStmp(httpConfig.getHttpApiTimestamp());
+			interfaceLogSDO.setIfSign(httpConfig.getHttpApiSignature()); 
+			interfaceLogSDO.setIfReqtId(httpConfig.getHttpRequestId()); 
+			interfaceLogSDO.setIfReqtDirt(httpConfig.getIfReqtDirt()); 
+			interfaceLogSDO.setExecStrtMlisSecd(APIUtil.currentTimeMillis());
+			interfaceLogSDO.setEncoding(httpConfig.getEncoding());
 		} catch (Exception e) {
 			logger.error("[InterfaceReqeustLogData] 요청(입력) 로그 데이터 세팅 장애발생", e);
 		}	
 	}
 	
+	@APIOperation(description="인터페이스 입력파라메터 로그 데이터 세팅")
 	public void setInterfaceInputTelegram(HttpConfigSDO httpConfig, String inJsonParam) {
 		
 		try {
-			getInterfaceLogSDO().setInptTelg(inJsonParam);			
+			interfaceLogSDO.setInptTelg(inJsonParam);			
 			if(inJsonParam != null) {
-				getInterfaceLogSDO().setInptTelgSize(new BigDecimal(inJsonParam.getBytes(httpConfig.getEncoding()).length));
+				interfaceLogSDO.setInptTelgSize(new BigDecimal(inJsonParam.getBytes(httpConfig.getEncoding()).length));
 			}
 			else {
-				getInterfaceLogSDO().setInptTelgSize(OperateConstants.BIGDECIMAL_ZERO_VALUE);
+				interfaceLogSDO.setInptTelgSize(OperateConstants.BIGDECIMAL_ZERO_VALUE);
 			}
 		} catch (Exception e) {
 			logger.error("[InterfaceReqeustLogData] 요청(입력) 로그 데이터 세팅 장애발생", e);
 		}			
 	}
 	
-	@APIOperation(description="인터페이스 응답(결과) 로그 데이터 세팅")
+	@APIOperation(description="인터페이스 출력(결과) 로그 데이터 세팅")
 	public <T1 extends AbstractSDO> void setInterfaceResultLogData(Object code, String responseOrgin) {
 		
 		try {
 			
-			if(getInterfaceLogSDO() != null) {
+			if(interfaceLogSDO != null) {
 				
 				//TotlLapMlisSecd은 세팅하지 않는다. Strt와 End만 세팅하고 TotlLapMlisSecd은 getter에서 계산한다.
-				getInterfaceLogSDO().setExecEndMlisSecd(APIUtil.currentTimeMillis());
-				getInterfaceLogSDO().setOutpTelg(responseOrgin);
+				interfaceLogSDO.setExecEndMlisSecd(APIUtil.currentTimeMillis());
+				interfaceLogSDO.setOutpTelg(responseOrgin);
 				
 				if(responseOrgin != null) {
-					getInterfaceLogSDO().setOutpTelgSize(new BigDecimal(responseOrgin.getBytes(getInterfaceLogSDO().getEncoding()).length));
+					interfaceLogSDO.setOutpTelgSize(new BigDecimal(responseOrgin.getBytes(interfaceLogSDO.getEncoding()).length));
 				}
 				else {
-					getInterfaceLogSDO().setOutpTelgSize(OperateConstants.BIGDECIMAL_ZERO_VALUE);
+					interfaceLogSDO.setOutpTelgSize(OperateConstants.BIGDECIMAL_ZERO_VALUE);
 				}
 				
 				if(code != null && String.class.isAssignableFrom(code.getClass()) && ((String) code).equals(Integer.toString(MessageConstants.RESPONSE_CODE_1000))) {
-					getInterfaceLogSDO().setSuccYn(OperateConstants.STR_Y);
+					interfaceLogSDO.setSuccYn(OperateConstants.STR_Y);
 				}
 				else {
-					getInterfaceLogSDO().setSuccYn(OperateConstants.STR_N);
+					interfaceLogSDO.setSuccYn(OperateConstants.STR_N);
 				}
 			}
 		} catch (Exception e) {
@@ -590,19 +592,19 @@ public class CommonHeader extends APIObject implements Serializable {
 		}
 	}
 	
-	@APIOperation(description="인터페이스 응답(결과) 에러유형 세팅")
+	@APIOperation(description="인터페이스 에러유형 세팅")
 	public void setInterfaceErrorType(String errType) {
     	
-		if(getInterfaceLogSDO() != null && errType != null) {
-			getInterfaceLogSDO().setErrType(errType); 
+		if(interfaceLogSDO != null && errType != null) {
+			interfaceLogSDO.setErrType(errType); 
 		}	
     }
     
-	@APIOperation(description="인터페이스 응답(결과) 에러내용 세팅")
+	@APIOperation(description="인터페이스 에러내용 세팅")
 	public void setInterfaceErrorCont(String errCont) {
     	
-		if(getInterfaceLogSDO() != null && errCont != null) {
-			getInterfaceLogSDO().setErrCont(errCont);
+		if(interfaceLogSDO != null && errCont != null) {
+			interfaceLogSDO.setErrCont(errCont);
 		}	
     }
 	

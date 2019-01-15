@@ -141,12 +141,16 @@ public class APIHeaderUtil extends TestCase /* TEST API extends (실사용 코�
 		String shardSecret = new StringBuffer().append(UUID.randomUUID().toString().replace(STR_HYPHEN, STR_BLANK))
 				.append(STR_HYPHEN).append(httpAgentId).toString();
 		
+		logger.debug("shardSecret : {}", shardSecret);
+		
 		//타임 스탬프 : timestamp
 		
 		//API 싸인
 		String httpApiSignature = (new StringBuffer().append(shardSecret)
 				.append(STR_HYPHEN).append(httpApiKey)
 				.append(STR_HYPHEN).append(timestamp).toString());
+		
+		logger.debug("httpApiSignature : {}", httpApiSignature);
 		
 		out = base64Encode(httpApiSignature);
 		return out;
