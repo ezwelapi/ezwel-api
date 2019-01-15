@@ -1105,35 +1105,28 @@ public class OutsideService extends AbstractServiceObject {
 			
 			if(assets != null) {
 				
-				//읽기 전용
-				if(userAgentDTO.isReadOnly()) {
+				//읽기 전용이 아닐경우 배치실행
+				for(FaclSearchOutSDO data : assets) {
 					
-					//특정 제휴사 지정일경우 인터페이스 데이터 세팅
-					for(FaclSearchOutSDO data : assets) {
-						
-						if(Integer.toString(MessageConstants.RESPONSE_CODE_1000).equals(data.getCode()) && data.getData() != null) {
+					if(Integer.toString(MessageConstants.RESPONSE_CODE_1000).equals(data.getCode()) && data.getData() != null) {
+					
+						if(userAgentDTO.isReadOnly()) /* 읽기 전용 */ {
 							out.addAllData(data.getData());
 						}
-
-						out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(data.getCode()).toString().trim());
-						out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(data.getMessage()).toString().trim());
-						out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(data.getRestURI()).toString().trim());
-					}
-				}
-				else {
-					
-					//읽기 전용이 아닐경우 배치실행
-					for(FaclSearchOutSDO data : assets) {
-						//정상 처리되었을경우 데이터 저장
-						if(Integer.toString(MessageConstants.RESPONSE_CODE_1000).equals(data.getCode()) && data.getData() != null) {
+						else /* 읽기 전용이 아닐경우 배치실행 */ {
+							//정상 처리되었을경우 데이터 저장
 							/** execute dbio */
 							//제휴사 별 최저가 목록 데이터 저장
 							txCount += outsideRepository.callFaclSearch(faclSearchDTO, data);
 						}
 					}
 					
-					out.setTxCount(txCount);
+					out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(data.getCode()).toString().trim());
+					out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(data.getMessage()).toString().trim());
+					out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(data.getRestURI()).toString().trim());						
 				}
+				
+				out.setTxCount(txCount);
 			}
 		}
 		catch(Exception e) {
@@ -1367,6 +1360,9 @@ public class OutsideService extends AbstractServiceObject {
 			
 			if(grpFaclList != null) {
 				grpFaclList.clear();
+			}
+			if(executor != null) {
+				executor.clear();
 			}
 		}
 		

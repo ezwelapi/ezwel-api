@@ -519,7 +519,11 @@ public class CommonHeader extends APIObject implements Serializable {
 		}
 		this.interfaceLogSDOList.add(interfaceLogSDO);
 	}
-	
+
+	@APIOperation(description="인터페이스 요청헤더 로그 데이터 세팅")
+	public void initInterfaceReqeustLogData() {
+		initInterfaceReqeustLogData(httpConfigSDO);
+	}
 
 	@APIOperation(description="인터페이스 요청헤더 로그 데이터 세팅")
 	public void initInterfaceReqeustLogData(HttpConfigSDO httpConfig) {
@@ -527,23 +531,32 @@ public class CommonHeader extends APIObject implements Serializable {
 		try {
 			
 			interfaceLogSDO = new InterfaceLogSDO();
-			
 			interfaceLogSDO.setIfExecCd(this.guid);
-			interfaceLogSDO.setPartAgentId(httpConfig.getHttpAgentId());
-			interfaceLogSDO.setIfChanId(httpConfig.getChanId());
-			interfaceLogSDO.setIfChanGrpId(httpConfig.getHttpAgentGroupId());
-			interfaceLogSDO.setIfDesc(httpConfig.getDescription());
-			interfaceLogSDO.setIfApiUri(httpConfig.getRestURI());
-			interfaceLogSDO.setIfApiKey(httpConfig.getHttpApiKey());
-			interfaceLogSDO.setIfTimeStmp(httpConfig.getHttpApiTimestamp());
-			interfaceLogSDO.setIfSign(httpConfig.getHttpApiSignature()); 
-			interfaceLogSDO.setIfReqtId(httpConfig.getHttpRequestId()); 
-			interfaceLogSDO.setIfReqtDirt(httpConfig.getIfReqtDirt()); 
-			interfaceLogSDO.setExecStrtMlisSecd(APIUtil.currentTimeMillis());
-			interfaceLogSDO.setEncoding(httpConfig.getEncoding());
+			
+			if(httpConfig != null) {
+				
+				interfaceLogSDO.setPartAgentId(httpConfig.getHttpAgentId());
+				interfaceLogSDO.setIfChanId(httpConfig.getChanId());
+				interfaceLogSDO.setIfChanGrpId(httpConfig.getHttpAgentGroupId());
+				interfaceLogSDO.setIfDesc(httpConfig.getDescription());
+				interfaceLogSDO.setIfApiUri(httpConfig.getRestURI());
+				interfaceLogSDO.setIfApiKey(httpConfig.getHttpApiKey());
+				interfaceLogSDO.setIfTimeStmp(httpConfig.getHttpApiTimestamp());
+				interfaceLogSDO.setIfSign(httpConfig.getHttpApiSignature()); 
+				interfaceLogSDO.setIfReqtId(httpConfig.getHttpRequestId()); 
+				interfaceLogSDO.setIfReqtDirt(httpConfig.getIfReqtDirt()); 
+				interfaceLogSDO.setExecStrtMlisSecd(APIUtil.currentTimeMillis());
+				interfaceLogSDO.setEncoding(httpConfig.getEncoding());
+			}
 		} catch (Exception e) {
 			logger.error("[InterfaceReqeustLogData] 요청(입력) 로그 데이터 세팅 장애발생", e);
 		}	
+	}
+	
+	
+	@APIOperation(description="인터페이스 입력파라메터 로그 데이터 세팅")
+	public void setInterfaceInputTelegram(String inJsonParam) {
+		setInterfaceInputTelegram(httpConfigSDO, inJsonParam);
 	}
 	
 	@APIOperation(description="인터페이스 입력파라메터 로그 데이터 세팅")
@@ -552,7 +565,9 @@ public class CommonHeader extends APIObject implements Serializable {
 		try {
 			interfaceLogSDO.setInptTelg(inJsonParam);			
 			if(inJsonParam != null) {
-				interfaceLogSDO.setInptTelgSize(new BigDecimal(inJsonParam.getBytes(httpConfig.getEncoding()).length));
+				if(httpConfig != null ) {
+					interfaceLogSDO.setInptTelgSize(new BigDecimal(inJsonParam.getBytes(httpConfig.getEncoding()).length));
+				}
 			}
 			else {
 				interfaceLogSDO.setInptTelgSize(OperateConstants.BIGDECIMAL_ZERO_VALUE);
@@ -587,7 +602,6 @@ public class CommonHeader extends APIObject implements Serializable {
 					interfaceLogSDO.setSuccYn(OperateConstants.STR_N);
 				}
 				
-				logger.debug("[FINAL-LOG-DATA] {}", interfaceLogSDO);
 			}
 		} catch (Exception e) {
 			logger.error("[InterfaceReqeustLogData] 응답(결과) 로그 데이터 세팅 장애발생", e);
@@ -599,6 +613,7 @@ public class CommonHeader extends APIObject implements Serializable {
     	
 		if(interfaceLogSDO != null && errType != null) {
 			interfaceLogSDO.setErrType(errType); 
+			Local.commonHeader().getInterfaceLogSDO().setSuccYn(OperateConstants.STR_N);
 		}	
     }
     
@@ -607,6 +622,7 @@ public class CommonHeader extends APIObject implements Serializable {
     	
 		if(interfaceLogSDO != null && errCont != null) {
 			interfaceLogSDO.setErrCont(errCont);
+			Local.commonHeader().getInterfaceLogSDO().setSuccYn(OperateConstants.STR_N);
 		}	
     }
 	

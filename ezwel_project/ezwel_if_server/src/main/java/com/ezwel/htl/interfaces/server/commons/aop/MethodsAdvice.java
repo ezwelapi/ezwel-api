@@ -28,6 +28,7 @@ import com.ezwel.htl.interfaces.server.commons.sdo.ExceptionSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.ResponseUtil;
 import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
+import com.ezwel.htl.interfaces.server.service.LoggingRunnableService;
 
 @Aspect
 public class MethodsAdvice implements MethodInterceptor, Ordered {
@@ -45,6 +46,10 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 	private MethodsAdviceHelper methodsAdviceHelper;
 	
 	private StackTraceUtil stackTraceUtil;
+	
+	private Runnable loggingService;
+	
+	private Thread loggingThread;
 	
 	private int order = 1;
 
@@ -100,18 +105,19 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 	}
 
 	private void interfaceLogger(String pointcutTpye, JoinPoint thisJoinPoint) {
-		logger.debug("[START] interfaceLogger => pointcutTpye : {}", pointcutTpye);
+		logger.debug("[START] interfaceLogger => pointcutTpye : {} =>> thisJoinPoint : {}", pointcutTpye, thisJoinPoint);
 		
 		Class<?> typeClass = thisJoinPoint.getTarget().getClass();
-		APIType apiTypeAnno = typeClass.getAnnotation(APIType.class);
 		Method proccesMethod = ((MethodSignature) thisJoinPoint.getSignature()).getMethod();
 		APIOperation apiOperAnno = proccesMethod.getAnnotation(APIOperation.class);
-
-		if(apiTypeAnno != null && apiOperAnno != null && (apiOperAnno.isOutsideInterfaceAPI() || apiOperAnno.isInsideInterfaceAPI())) {
+		
+		//if(apiTypeAnno != null && apiOperAnno != null && (apiOperAnno.isOutsideInterfaceAPI() || apiOperAnno.isInsideInterfaceAPI())) {
+		if(apiOperAnno != null && Local.commonHeader().getInterfaceLogSDO() != null && APIUtil.isNotEmpty(Local.commonHeader().getInterfaceLogSDO().getSuccYn())) {
+		
 			logger.debug("■■ [◆◆APIOperAnno◆◆] description : {}, isInsideInterfaceAPI : {}, isOutsideInterfaceAPI : {}", apiOperAnno.description(), apiOperAnno.isInsideInterfaceAPI(), apiOperAnno.isOutsideInterfaceAPI());
-			
-			
-			
+			loggingService = new LoggingRunnableService(Local.commonHeader().getInterfaceLogSDO());
+			loggingThread = new Thread(loggingService);
+			loggingThread.start();
 		}
 	}
 	
@@ -169,7 +175,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				if (IS_LOGGING) {
 					logger.debug("■■ [PARAMETER-UNMARSHALL]");
 				}
-				methodsAdviceHelper.doMethodInputUnmarshall(proccesMethod.getParameterTypes(), inputParamObjects);
+				methodsAdviceHelper.doMethodInputUnmarshall(proccesMethod.getParameterTypes(), inputParamObjects, apiOperAnno);
 				Local.commonHeader().setControlMarshalling(true);
 			}
 			

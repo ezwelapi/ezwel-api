@@ -518,6 +518,13 @@ public class HttpInterfaceExecutor {
 				 * [START] LOG DATA SETTING 
 				 ***************************/
 				if(Local.commonHeader().getInterfaceLogSDO() != null) {
+					
+					logger.debug("{}", new StringBuffer().append(OperateConstants.LINE_SEPARATOR)
+														 .append("■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
+														 .append("■■ 에러 정보 세팅 ■■").append(OperateConstants.LINE_SEPARATOR)
+														 .append("■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
+														 .toString());
+					
 					Local.commonHeader().getInterfaceLogSDO().setErrType(MessageConstants.getMessage(code)); //MessageConstants의 에러 유형 메시지
 					Local.commonHeader().getInterfaceLogSDO().setErrCont(message);
 				}		

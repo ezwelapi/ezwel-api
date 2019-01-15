@@ -281,6 +281,7 @@
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</httpChan>	
+		
 		<httpChan>
 			<description>시설검색-팬션라이프 (최저가 정보 시설 검색 멀티쓰레드 인터페이스체널)</description>
 			<chanId>faclSearch</chanId>

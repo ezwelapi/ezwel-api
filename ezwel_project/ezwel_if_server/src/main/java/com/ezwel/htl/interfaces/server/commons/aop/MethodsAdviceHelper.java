@@ -122,7 +122,7 @@ public class MethodsAdviceHelper {
 	
 	@SuppressWarnings("unchecked")
 	@APIOperation(description="APIOperation InputJSON Marshalling")
-	void doMethodInputUnmarshall(Class<?>[] inputParamTypes, Object[] inputParamObjects) {
+	void doMethodInputUnmarshall(Class<?>[] inputParamTypes, Object[] inputParamObjects, APIOperation apiOperAnno) {
 		if(IS_LOGGING) {
 			logger.debug("■■ [AOP] doMethodInputStream");
 		}
@@ -141,6 +141,10 @@ public class MethodsAdviceHelper {
 			Map<String, Object> jsonMap = null;
 			if(requestBody != null && APIUtil.isNotEmpty(requestBody)) {
 				logger.debug("■ inputStreamData : \n{}", requestBody);
+				
+				Local.commonHeader().initInterfaceReqeustLogData();
+				Local.commonHeader().setInterfaceInputTelegram(requestBody);
+				
 				jsonMap = (Map<String, Object>) beanMarshaller.fromJSONStringToMap(requestBody);
 				
 				Class<?> inputType = null;
