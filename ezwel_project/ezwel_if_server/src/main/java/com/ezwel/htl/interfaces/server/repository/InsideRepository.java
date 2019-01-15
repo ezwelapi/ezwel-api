@@ -133,7 +133,7 @@ public class InsideRepository extends AbstractDataAccessObject {
 			//output
 			out = new ViewOutSDO();
 			
-			ViewDataOutSDO readData = null;
+			ViewDataOutSDO telegramData = null;
 			EzcReservRoomOpt inEzcReservRoomOpt = null;
 			ViewOptionsOutSDO options = null;
 			
@@ -141,38 +141,38 @@ public class InsideRepository extends AbstractDataAccessObject {
 				
 				for(EzcReservBase reservBase : ezcReservBaseList) {
 
-					readData = new ViewDataOutSDO();
+					telegramData = new ViewDataOutSDO();
 					//setter/getter
 					//전차장님 스타트!ㅋ
-					//readData.setXXX(reservBase.getXXX());
+					//telegramData.setXXX(reservBase.getXXX());
 					
-					readData.setRsvNo(commonUtil.getBigDecimalToString(reservBase.getEzwelOrderNum()));
-					readData.setRsvDatetime(reservBase.getReservDt());
-					readData.setRsvPrice(reservBase.getTotSaleAmt());
-					readData.setRsvStat(reservBase.getReservStatus());
-					readData.setRsvPdtName(reservBase.getFaclNm());
-					readData.setRsvPdtNo(commonUtil.getBigDecimalToString(reservBase.getEzwelOrderNum()));
-					readData.setPdtNo(commonUtil.getBigDecimalToString(reservBase.getFaclCd()));
-					readData.setPdtName(reservBase.getFaclNm());
-					readData.setRoomNo(reservBase.getPartnerRoomGoodsCd());
-					readData.setRoomName(reservBase.getRoomNm());
-					readData.setRoomCnt(commonUtil.getBigDecimalToInteger(reservBase.getRoomCnt()));
-					readData.setCheckInDate(reservBase.getCheckInDd());
-					readData.setCheckOutDate(reservBase.getCheckOutDd());
-					readData.setOtaRsvNo(reservBase.getPartnerOrderNum());
-					readData.setVoucherNo(reservBase.getFaclReservNum());
-					readData.setMemKey(commonUtil.getBigDecimalToString(reservBase.getUserKey()));
+					telegramData.setRsvNo(commonUtil.getBigDecimalToString(reservBase.getEzwelOrderNum()));
+					telegramData.setRsvDatetime(reservBase.getReservDt());
+					telegramData.setRsvPrice(reservBase.getTotSaleAmt());
+					telegramData.setRsvStat(reservBase.getReservStatus());
+					telegramData.setRsvPdtName(reservBase.getFaclNm());
+					telegramData.setRsvPdtNo(commonUtil.getBigDecimalToString(reservBase.getEzwelOrderNum()));
+					telegramData.setPdtNo(commonUtil.getBigDecimalToString(reservBase.getFaclCd()));
+					telegramData.setPdtName(reservBase.getFaclNm());
+					telegramData.setRoomNo(reservBase.getPartnerRoomGoodsCd());
+					telegramData.setRoomName(reservBase.getRoomNm());
+					telegramData.setRoomCnt(commonUtil.getBigDecimalToInteger(reservBase.getRoomCnt()));
+					telegramData.setCheckInDate(reservBase.getCheckInDd());
+					telegramData.setCheckOutDate(reservBase.getCheckOutDd());
+					telegramData.setOtaRsvNo(reservBase.getPartnerOrderNum());
+					telegramData.setVoucherNo(reservBase.getFaclReservNum());
+					telegramData.setMemKey(commonUtil.getBigDecimalToString(reservBase.getUserKey()));
 					/************************* START 추가 작업 필요 ****************************/
-					//readData.setMemName(reservBase.getOrderNm());
-					//readData.setMemPhone(reservBase.getOrderMobile());
-					//readData.setMemEmail(reservBase.getOrderEmail());
-					readData.setUserName(reservBase.getGuestNm());
-					readData.setUserMobile(reservBase.getGuestMobile());
-					readData.setUserEmail(reservBase.getGuestEmail());
+					telegramData.setMemName(reservBase.getOrderNm()); //new
+					telegramData.setMemPhone(reservBase.getOrderMobile()); //new
+					telegramData.setMemEmail(reservBase.getOrderEmail()); //new
+					telegramData.setUserName(reservBase.getGuestNm());
+					telegramData.setUserMobile(reservBase.getGuestMobile());
+					telegramData.setUserEmail(reservBase.getGuestEmail());
 					/************************* START 추가 작업 필요 ****************************/
-					//readData.setUserCmt(reservBase.getReservRequest());
-					readData.setAdultCnt(commonUtil.getBigDecimalToInteger(reservBase.getTotAdtCnt()));
-					readData.setChildCnt(commonUtil.getBigDecimalToInteger(reservBase.getTotChildCnt()));
+					telegramData.setUserCmt(reservBase.getReservRequest()); //컬럼 없음
+					telegramData.setAdultCnt(commonUtil.getBigDecimalToInteger(reservBase.getTotAdtCnt()));
+					telegramData.setChildCnt(commonUtil.getBigDecimalToInteger(reservBase.getTotChildCnt()));
 					
 					// 옵션 조회
 					inEzcReservRoomOpt = new EzcReservRoomOpt();
@@ -192,10 +192,10 @@ public class InsideRepository extends AbstractDataAccessObject {
 						options.setOptPrice(commonUtil.getBigDecimalToInteger(reservRoomOpt.getOptAmt()));
 						options.setOptCountMax(commonUtil.getBigDecimalToInteger(reservRoomOpt.getOptQty()));
 						
-						readData.addOptions(options);
+						telegramData.addOptions(options);
 					}
 					
-					out.addData(readData);
+					out.addData(telegramData);
 				}
 			}
 			else {
@@ -218,7 +218,7 @@ public class InsideRepository extends AbstractDataAccessObject {
 		logger.debug("[START] callAgentJob {}", agentJobSDO);
 		
 		AgentJobOutSDO out = null;
-		AgentJobReservesOutSDO reserves = null;
+		AgentJobReservesOutSDO telegramReserves = null;
 		
 		try {
 			
@@ -239,21 +239,21 @@ public class InsideRepository extends AbstractDataAccessObject {
 				
 				for(EzcReservBase reservBase : ezcReservBaseList) {
 
-					reserves = new AgentJobReservesOutSDO();
+					telegramReserves = new AgentJobReservesOutSDO();
 					//setter/getter
 					//전차장님 스타트!ㅋ
 					//reserves.setXXX(reservBase.getXXX());
 					
-					reserves.setRsvNo(commonUtil.getBigDecimalToString(reservBase.getEzwelOrderNum()));
+					telegramReserves.setRsvNo(commonUtil.getBigDecimalToString(reservBase.getEzwelOrderNum()));
 					/************************* START 추가 작업 필요 ****************************/
-					reserves.setRsvPdtNo(""); // 주문상품번호(이지웰) 존재하지 않음
-					reserves.setRsvPrice(commonUtil.getBigDecimalToInteger(reservBase.getTotSaleAmt()));
+					telegramReserves.setRsvPdtNo(""); // 주문상품번호(이지웰) 존재하지 않음
+					telegramReserves.setRsvPrice(commonUtil.getBigDecimalToInteger(reservBase.getTotSaleAmt()));
 					/************************* START 추가 작업 필요 ****************************/
-					reserves.setPdtNo(""); // 주문상품번호(이지웰) 존재하지 않음
-					reserves.setOtaRsvNo(reservBase.getPartnerOrderNum());
-					reserves.setRsvStat(reservBase.getReservStatus());
+					telegramReserves.setPdtNo(""); // 주문상품번호(이지웰) 존재하지 않음
+					telegramReserves.setOtaRsvNo(reservBase.getPartnerOrderNum());
+					telegramReserves.setRsvStat(reservBase.getReservStatus());
 					
-					out.addReserves(reserves);
+					out.addReserves(telegramReserves);
 				}
 			}
 			else {
