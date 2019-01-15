@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.commons.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -12,12 +13,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.abstracts.APIObject;
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.sdo.InterfaceLogSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
 
 /**
  * <pre>
@@ -38,7 +43,9 @@ public class CommonHeader extends APIObject implements Serializable {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private Map<String, RuntimeHeader> runtimeHeader;
-	
+
+    private StackTraceUtil stackTraceUtil;
+    
 	@APIFields(description = "헤더 어노테이션 맵")
 	private Map<String, Object> annotationMap;
 	
@@ -71,6 +78,12 @@ public class CommonHeader extends APIObject implements Serializable {
 
 	@APIFields(description = "HTTP 헤더정보를 담을 인터페이스 설정 DTO")
 	private HttpConfigSDO httpConfigSDO;
+
+	@APIFields(description = "인터페이스 로그")
+	private InterfaceLogSDO interfaceLogSDO;
+	
+	@APIFields(description = "인터페이스 로그 목록")
+	private List<InterfaceLogSDO> interfaceLogSDOList;
 	
 	private String[]	arrayMessages;
 
@@ -143,6 +156,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		isHandlerInterceptorComplete = false;
 		isControlMarshalling = false;
 		httpConfigSDO = null;
+		stackTraceUtil = new StackTraceUtil();
 	}
 	
 	
@@ -210,6 +224,7 @@ public class CommonHeader extends APIObject implements Serializable {
 
 	public void setThrowable(Throwable throwable) {
 		this.throwable = throwable;
+		this.setInterfaceErrorCont(stackTraceUtil.getStackTrace(throwable));
 	}
 
 	public void setObject(String key, Object clazz) {
@@ -296,6 +311,7 @@ public class CommonHeader extends APIObject implements Serializable {
 			//logger.debug(" [SET COMMON HEADER MESSAGE] : {}", message);
 		}
 		this.message = message;
+		this.setInterfaceErrorType(message);
 	}
 
 	public Properties getProperties() {
@@ -479,5 +495,115 @@ public class CommonHeader extends APIObject implements Serializable {
 		this.httpConfigSDO = httpConfigSDO;
 	}
 	
+	public InterfaceLogSDO getInterfaceLogSDO() {
+		return interfaceLogSDO;
+	}
+
+	public void setInterfaceLogSDO(InterfaceLogSDO interfaceLogSDO) {
+		this.interfaceLogSDO = interfaceLogSDO;
+	}
+
+	public List<InterfaceLogSDO> getInterfaceLogSDOList() {
+		return interfaceLogSDOList;
+	}
+
+	public void setInterfaceLogSDOList(List<InterfaceLogSDO> interfaceLogSDOList) {
+		this.interfaceLogSDOList = interfaceLogSDOList;
+	}
+	
+	public void addInterfaceLogSDOList(InterfaceLogSDO interfaceLogSDO) {
+		if(this.interfaceLogSDOList == null) {
+			this.interfaceLogSDOList = new ArrayList<InterfaceLogSDO>();
+		}
+		this.interfaceLogSDOList.add(interfaceLogSDO);
+	}
+	
+
+	@APIOperation(description="인터페이스 요청(입력) 로그 데이터 세팅")
+	public void setInterfaceReqeustLogData(HttpConfigSDO httpConfig) {
+
+		try {
+			
+			if(getInterfaceLogSDO() == null) {
+				setInterfaceLogSDO(new InterfaceLogSDO());
+			}
+
+			getInterfaceLogSDO().setPartAgentId(httpConfig.getHttpAgentId());
+			getInterfaceLogSDO().setIfChanId(httpConfig.getChanId());
+			getInterfaceLogSDO().setIfChanGrpId(httpConfig.getHttpAgentGroupId());
+			getInterfaceLogSDO().setIfDesc(httpConfig.getDescription());
+			getInterfaceLogSDO().setIfApiUri(httpConfig.getRestURI());
+			getInterfaceLogSDO().setIfApiKey(httpConfig.getHttpApiKey());
+			getInterfaceLogSDO().setIfTimeStmp(httpConfig.getHttpApiTimestamp());
+			getInterfaceLogSDO().setIfSign(httpConfig.getHttpApiSignature()); 
+			getInterfaceLogSDO().setIfReqtId(httpConfig.getHttpRequestId()); 
+			getInterfaceLogSDO().setIfReqtDirt(httpConfig.getIfReqtDirt()); 
+			getInterfaceLogSDO().setExecStrtMlisSecd(APIUtil.currentTimeMillis());
+			getInterfaceLogSDO().setEncoding(httpConfig.getEncoding());
+		} catch (Exception e) {
+			logger.error("[InterfaceReqeustLogData] 요청(입력) 로그 데이터 세팅 장애발생", e);
+		}	
+	}
+	
+	public void setInterfaceInputTelegram(HttpConfigSDO httpConfig, String inJsonParam) {
+		
+		try {
+			getInterfaceLogSDO().setInptTelg(inJsonParam);			
+			if(inJsonParam != null) {
+				getInterfaceLogSDO().setInptTelgSize(new BigDecimal(inJsonParam.getBytes(httpConfig.getEncoding()).length));
+			}
+			else {
+				getInterfaceLogSDO().setInptTelgSize(OperateConstants.BIGDECIMAL_ZERO_VALUE);
+			}
+		} catch (Exception e) {
+			logger.error("[InterfaceReqeustLogData] 요청(입력) 로그 데이터 세팅 장애발생", e);
+		}			
+	}
+	
+	@APIOperation(description="인터페이스 응답(결과) 로그 데이터 세팅")
+	public <T1 extends AbstractSDO> void setInterfaceResultLogData(Object code, String responseOrgin) {
+		
+		try {
+			
+			if(getInterfaceLogSDO() != null) {
+				
+				//TotlLapMlisSecd은 세팅하지 않는다. Strt와 End만 세팅하고 TotlLapMlisSecd은 getter에서 계산한다.
+				getInterfaceLogSDO().setExecEndMlisSecd(APIUtil.currentTimeMillis());
+				getInterfaceLogSDO().setOutpTelg(responseOrgin);
+				
+				if(responseOrgin != null) {
+					getInterfaceLogSDO().setOutpTelgSize(new BigDecimal(responseOrgin.getBytes(getInterfaceLogSDO().getEncoding()).length));
+				}
+				else {
+					getInterfaceLogSDO().setOutpTelgSize(OperateConstants.BIGDECIMAL_ZERO_VALUE);
+				}
+				
+				if(code != null && String.class.isAssignableFrom(code.getClass()) && ((String) code).equals(Integer.toString(MessageConstants.RESPONSE_CODE_1000))) {
+					getInterfaceLogSDO().setSuccYn(OperateConstants.STR_Y);
+				}
+				else {
+					getInterfaceLogSDO().setSuccYn(OperateConstants.STR_N);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("[InterfaceReqeustLogData] 응답(결과) 로그 데이터 세팅 장애발생", e);
+		}
+	}
+	
+	@APIOperation(description="인터페이스 응답(결과) 에러유형 세팅")
+	public void setInterfaceErrorType(String errType) {
+    	
+		if(getInterfaceLogSDO() != null && errType != null) {
+			getInterfaceLogSDO().setErrType(errType); 
+		}	
+    }
+    
+	@APIOperation(description="인터페이스 응답(결과) 에러내용 세팅")
+	public void setInterfaceErrorCont(String errCont) {
+    	
+		if(getInterfaceLogSDO() != null && errCont != null) {
+			getInterfaceLogSDO().setErrCont(errCont);
+		}	
+    }
 	
 }

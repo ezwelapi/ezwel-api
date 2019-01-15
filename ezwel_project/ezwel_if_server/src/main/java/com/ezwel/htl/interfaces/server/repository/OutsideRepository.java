@@ -887,7 +887,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 				inCacheDayPrice.setDayPriceDd(data.getApplyDate()); //당일특가 일자
 				inCacheDayPrice.setDayPriceNetPrice(data.getSpcTodayNorPrice()); //당일특가 정상가
 				inCacheDayPrice.setDayPriceMinPrice(new BigDecimal(data.getSpcTodayPrice())); //당일특가 최저가
-				inCacheDayPrice.setSaleEndTm(data.getSpcTypeTime()); // 판매 종료 시분 (12)
+				inCacheDayPrice.setSaleEndDt(data.getSpcTypeTime()); // 판매 종료 시분 (12)
 				
 				outCacheDayPrice = sqlSession.selectOne(getNamespace("CACHE_DAY_PRICE_MAPPER", "selectEzcPartnerGoodsDayPrice"), inCacheDayPrice);
 				

@@ -24,9 +24,6 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 @EqualsAndHashCode(callSuper=true)
 public class CancelFeeAmtOutSDO extends AbstractSDO {
 
-
-
-	
 	@APIFields(description = "취소수수료계산 output code", required=true, maxLength=4)
 	private String code;
 	

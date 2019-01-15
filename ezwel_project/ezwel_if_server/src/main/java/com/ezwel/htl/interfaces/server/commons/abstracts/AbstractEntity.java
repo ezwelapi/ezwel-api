@@ -18,9 +18,20 @@ public abstract class AbstractEntity extends APIObject {
 	/** serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	private long totalCount = OperateConstants.LONG_ZERO_VALUE;
+	
 	private long pageNum = OperateConstants.LONG_ZERO_VALUE;
 	
 	private long pageCount = OperateConstants.LONG_MAX_VALUE;
+
+	
+	public long getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(long totalCount) {
+		this.totalCount = totalCount;
+	}
 
 	public long getPageNum() {
 		return pageNum;

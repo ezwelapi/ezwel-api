@@ -27,16 +27,22 @@ public class RunTimeException extends RuntimeException {
 
     public RunTimeException(String message, Throwable cause) {
         super(message, cause);
+        
         if(APIUtil.isEmpty(Local.commonHeader().getMessage())) {
         	Local.commonHeader().setMessage(message);
         }
+        
         if(Local.commonHeader().getThrowable() == null) {
         	Local.commonHeader().setThrowable(cause);
         }
     }
-
+    
     public RunTimeException(Throwable cause) {
         super(cause);
+        
+        if(Local.commonHeader().getThrowable() == null) {
+        	Local.commonHeader().setThrowable(cause);
+        }        
     }
 
 	public Object[] getArguments() {
@@ -54,7 +60,6 @@ public class RunTimeException extends RuntimeException {
 	public void setResultCode(Integer resultCode) {
 		Local.commonHeader().setResultCode(resultCode);
 		this.resultCode = resultCode;
-		
 	}
 	
 	public String getResultCodeString() {
@@ -64,4 +69,6 @@ public class RunTimeException extends RuntimeException {
 	public String getMessages() {
 		return APIUtil.NVL(Local.commonHeader().getMessage(), super.getMessage());
 	}
+	
+    
 }

@@ -113,6 +113,26 @@ public class HttpConfigSDO extends AbstractSDO {
 	@APIFields(description = "접속 확인 여부")
 	private boolean isConfirmConnect;
 	
+	//이하 로그기록에 의하여 추가된 필드
+	@APIFields(description = "인터페이스 방향")
+	private String ifReqtDirt;
+	
+	@APIFields(description = "입력(요청) 전문")
+	private String inptTelg;
+	
+	@APIFields(description = "출력(결과) 전문")
+	private String outpTelg;	
+
+	@APIFields(description = "인터페이스 성공 여부")
+	private String succYn;
+	
+	@APIFields(description = "인터페이스 에러 유형")
+	private String errType;
+	
+	@APIFields(description = "인터페이스 에러 내용")
+	private String errCont;
+	
+	
 	public HttpConfigSDO() {
 		this.reset();
 	}
@@ -148,6 +168,13 @@ public class HttpConfigSDO extends AbstractSDO {
 		callCount = OperateConstants.INTEGER_ZERO_VALUE;
 		isEzwelInsideInterface = false;
 		isConfirmConnect = true;
+		//이하 로그기록에 의하여 추가된 필드
+		ifReqtDirt = null;
+		inptTelg = null;
+		outpTelg = null;
+		succYn = null;
+		errType = null;
+		errCont = null;		
 	}
 	
 	public String getPatnCdType() {
@@ -409,6 +436,54 @@ public class HttpConfigSDO extends AbstractSDO {
 
 	public void setConfirmConnect(boolean isConfirmConnect) {
 		this.isConfirmConnect = isConfirmConnect;
+	}
+
+	public String getIfReqtDirt() {
+		return ifReqtDirt;
+	}
+
+	public void setIfReqtDirt(String ifReqtDirt) {
+		this.ifReqtDirt = ifReqtDirt;
+	}
+
+	public String getInptTelg() {
+		return inptTelg;
+	}
+
+	public void setInptTelg(String inptTelg) {
+		this.inptTelg = inptTelg;
+	}
+
+	public String getOutpTelg() {
+		return outpTelg;
+	}
+
+	public void setOutpTelg(String outpTelg) {
+		this.outpTelg = outpTelg;
+	}
+
+	public String getSuccYn() {
+		return succYn;
+	}
+
+	public void setSuccYn(String succYn) {
+		this.succYn = succYn;
+	}
+
+	public String getErrType() {
+		return errType;
+	}
+
+	public void setErrType(String errType) {
+		this.errType = errType;
+	}
+
+	public String getErrCont() {
+		return errCont;
+	}
+
+	public void setErrCont(String errCont) {
+		this.errCont = errCont;
 	}
 
 	

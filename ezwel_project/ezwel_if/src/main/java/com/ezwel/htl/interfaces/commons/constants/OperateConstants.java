@@ -146,10 +146,15 @@ public class OperateConstants {
 
 	public static final String IMAGE_FILE_NAME_SPACE;
 	
+	public static final String STR_I;
+	public static final String STR_O;
+	
 	static {
 		// OperateConstants.IMAGE_FILE_NAME_SPACE
 		IMAGE_FILE_NAME_SPACE = "ezc-api";
 		
+		STR_I = "I";
+		STR_O = "O";
 		STR_Y = "Y";
 		STR_N = "N";
 		

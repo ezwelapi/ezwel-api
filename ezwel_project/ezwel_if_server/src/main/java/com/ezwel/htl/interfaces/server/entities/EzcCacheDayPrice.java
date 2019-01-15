@@ -49,7 +49,7 @@ public class EzcCacheDayPrice extends AbstractEntity {
 	private BigDecimal dayPriceMinPrice;
 
 	@APIFields(description = "판매 종료 시분", maxLength=12, constraints="SYS_C0011140(C)")
-	private String saleEndTm;
+	private String saleEndDt;
 
 	@APIFields(description = "등록자 ID", maxLength=20, required=true, constraints="SYS_C0011141(C)")
 	private String regId = Local.commonHeader().getSystemUserId();
@@ -112,12 +112,12 @@ public class EzcCacheDayPrice extends AbstractEntity {
 		this.dayPriceMinPrice = dayPriceMinPrice;
 	}
 
-	public String getSaleEndTm() {
-		return saleEndTm;
+	public String getSaleEndDt() {
+		return saleEndDt;
 	}
 
-	public void setSaleEndTm(String saleEndTm) {
-		this.saleEndTm = saleEndTm;
+	public void setSaleEndDt(String saleEndDt) {
+		this.saleEndDt = saleEndDt;
 	}
 
 	public String getRegId() {
