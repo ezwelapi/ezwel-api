@@ -261,9 +261,9 @@ public class FrontInterfaceDemoService extends TestCase {
 		//Input parameter
 		EzwelJobInSDO ezwelJobSDO = new EzwelJobInSDO();
 		
-		ezwelJobSDO.setRsvNo("E181226001");
-		ezwelJobSDO.setRsvDateStart("20181201");
-		ezwelJobSDO.setRsvDateEnd("20181226");
+		ezwelJobSDO.setRsvNo("");
+		ezwelJobSDO.setRsvDateStart("20190101");
+		ezwelJobSDO.setRsvDateEnd("20190115");
 		
 		//interface api call
 		EzwelJobOutSDO out = outIfService.callEzwelJob(userAgentDTO, ezwelJobSDO);

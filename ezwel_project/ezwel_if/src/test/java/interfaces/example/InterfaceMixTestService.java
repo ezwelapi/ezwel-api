@@ -8,8 +8,8 @@ import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.SendIFService;
-import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
-import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
+import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobInSDO;
+import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobOutSDO;
 
 import junit.framework.TestCase;
 
@@ -42,8 +42,8 @@ public class InterfaceMixTestService extends TestCase {
 		sendIFService = new SendIFService();
 	}
 	
-	public void testRoomRead()  throws Exception {
-		logger.debug("[START] callRoomRead");
+	public void testEzwelJob()  throws Exception {		
+		logger.debug("[START] callEzwelJob");
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
@@ -54,23 +54,20 @@ public class InterfaceMixTestService extends TestCase {
 		userAgentDTO.setHttpRequestId("test");
 		
 		//Input parameter
-		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
+		EzwelJobInSDO ezwelJobSDO = new EzwelJobInSDO();
 		
-		roomReadSDO.setPdtNo("KRSEL217");
-		roomReadSDO.setCheckInDate("20190114");
-		roomReadSDO.setCheckOutDate("20190115");
-		roomReadSDO.setRoomCnt(1);
-		roomReadSDO.setAdultCnt(2);
-		roomReadSDO.setChildCnt(0);
+		ezwelJobSDO.setRsvNo("");
+		ezwelJobSDO.setRsvDateStart("20190101");
+		ezwelJobSDO.setRsvDateEnd("20190115");
 		
 		//interface api call
-		RoomReadOutSDO out = outIfService.callRoomRead(userAgentDTO, roomReadSDO);
+		EzwelJobOutSDO out = outIfAdapter.callEzwelJob(userAgentDTO, ezwelJobSDO);
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
-		logger.debug("Data : {}", out.getData());
+		logger.debug("Reserves : {}", out.getReserves());
 		
-		logger.debug("[END] callRoomRead");
+		logger.debug("[END] callEzwelJob");
 	}
 	
 }

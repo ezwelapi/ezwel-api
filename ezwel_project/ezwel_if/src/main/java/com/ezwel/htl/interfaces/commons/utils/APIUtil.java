@@ -192,14 +192,14 @@ public class APIUtil {
 	 * [메서드 설명]
 	 * 	RandomUUID를 리턴합니다.
 	 * [사용방법 설명]
-	 *  getRandomUUID()
+	 * 
 	 * </pre>
 	 * @return
 	 * @author swkim@ebsolution.co.kr
 	 * @since  2018. 11. 14.
 	 */
 	@APIOperation(description="RandomUUID를 리턴합니다.", isExecTest=true)
-	public static String getRandomUUID() {
+	public static String getRandomUUID(){
 		/** randomUUID 36 byte */
 		return UUID.randomUUID().toString();
 	}
@@ -385,7 +385,7 @@ public class APIUtil {
 	 * [메서드 설명]
 	 * 	SECRET ID를 생성하여 리턴합니다.
 	 * [사용방법 설명]
-	 * getHttpSignature(정의된에이전트아이디, 발급(공유)된API-KEY, 헤더에세팅된 timestamp)
+	 * 
 	 * </pre>
 	 * @param apiKey
 	 * @return
@@ -402,7 +402,7 @@ public class APIUtil {
 		//API 키 : httpApiKey
 		
 		//공유 비밀 키 : UUID + OperateCode.STR_HYPEN + 에이전트 아이디
-		String shardSecret = new StringBuffer().append(getRandomUUID().replace(OperateConstants.STR_HYPHEN, OperateConstants.STR_BLANK))
+		String shardSecret = new StringBuffer().append(UUID.randomUUID().toString().replace(OperateConstants.STR_HYPHEN, OperateConstants.STR_BLANK))
 				.append(OperateConstants.STR_HYPHEN).append(httpAgentId).toString();
 		
 		//타임 스탬프 : timestamp
@@ -492,20 +492,10 @@ public class APIUtil {
 		return out;
 	}
 	
-	/**
-	 * <pre>
-	 * [메서드 설명]
-	 *  현제 타임스템프를 리턴합니다.
-	 * [사용방법 설명]
-	 * </pre>
-	 *  getTimeStamp()
-	 * @return
-	 * @author swkim@ebsolution.co.kr
-	 * @since  2018. 11. 15.
-	 */
 	@APIOperation(description="현제 타임스템프를 리턴합니다.")
 	public static String getTimeStamp() {
-		return getTimeMillisToDate(System.currentTimeMillis(), OperateConstants.DEF_DATE_MILLISECOND_FORMAT);
+		Timestamp out = new Timestamp(System.currentTimeMillis());
+		return out.toString();
 	}
 	
 	@APIOperation(description="문자형식의 날자값이 유효한 날자인지 체크합니다.")

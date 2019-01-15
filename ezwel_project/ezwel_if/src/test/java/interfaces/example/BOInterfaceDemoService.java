@@ -261,9 +261,9 @@ public class BOInterfaceDemoService extends TestCase {
 		//Input parameter
 		EzwelJobInSDO ezwelJobSDO = new EzwelJobInSDO();
 		
-		ezwelJobSDO.setRsvNo("E181226002");
-		ezwelJobSDO.setRsvDateStart("20181201");
-		ezwelJobSDO.setRsvDateEnd("20181226");
+		ezwelJobSDO.setRsvNo("");
+		ezwelJobSDO.setRsvDateStart("20190101");
+		ezwelJobSDO.setRsvDateEnd("20190115");
 		
 		//interface api call
 		EzwelJobOutSDO out = outIfAdapter.callEzwelJob(userAgentDTO, ezwelJobSDO);
