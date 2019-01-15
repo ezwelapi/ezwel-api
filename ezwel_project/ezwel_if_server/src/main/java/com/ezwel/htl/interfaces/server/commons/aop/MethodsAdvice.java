@@ -113,11 +113,11 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		
 		//if(apiTypeAnno != null && apiOperAnno != null && (apiOperAnno.isOutsideInterfaceAPI() || apiOperAnno.isInsideInterfaceAPI())) {
 		if(apiOperAnno != null && Local.commonHeader().getInterfaceLogSDO() != null && APIUtil.isNotEmpty(Local.commonHeader().getInterfaceLogSDO().getSuccYn())) {
-		
+		/*
 			logger.debug("■■ [◆◆APIOperAnno◆◆] description : {}, isInsideInterfaceAPI : {}, isOutsideInterfaceAPI : {}", apiOperAnno.description(), apiOperAnno.isInsideInterfaceAPI(), apiOperAnno.isOutsideInterfaceAPI());
 			loggingService = new LoggingRunnableService(Local.commonHeader().getInterfaceLogSDO());
 			loggingThread = new Thread(loggingService);
-			loggingThread.start();
+			loggingThread.start();*/
 		}
 	}
 	
