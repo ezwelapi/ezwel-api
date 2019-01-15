@@ -354,7 +354,8 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		return txCount;
 	}
 	
-
+	
+	@Transactional(readOnly=true)
 	@APIOperation(description="시설 이미지 조회")
 	public List<EzcFaclImg> selectListBuildImage(EzcFaclImg ezcFaclImg) {
 		logger.debug("[START] selectListBuildImage");
@@ -757,6 +758,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		return txCount;
 	}
 	
+	@Transactional(readOnly=true)
 	@APIOperation(description="시설 타입 그룹 목록 조회")
 	public List<EzcFacl> selectFaclCodeGroupList(EzcFacl ezcFacl) {
 			
@@ -772,6 +774,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		return out;
 	}
 	
+	@Transactional(readOnly=true)
 	@APIOperation(description="타입 그룹 별 시설 형태소 행 목록(형태소 열을 행으로 변환한 목록)")
 	public List<EzcFacl> selectFaclMappingMorpDataList(EzcFacl ezcFacl) {
 			
@@ -787,7 +790,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		return out;
 	}
 	
-	
+	@Transactional(readOnly=true)
 	@APIOperation(description="타입 그룹 별 시설 형태소 행 목록(형태소 열을 행으로 변환한 목록)")
 	public List<EzcFacl> selectFaclMappingMorpRowData(EzcFacl ezcFacl) {
 			
@@ -804,6 +807,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	}
 	
 	
+	@Transactional(readOnly=true)
 	@APIOperation(description="시도/지역 그룹 목록 조회")
 	public List<EzcFacl> selectCityAreaGroupList(EzcFacl ezcFacl) {
 			
@@ -901,7 +905,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		return txCount;
 	}
 	
-	
+	@Transactional(readOnly=true)
 	@APIOperation(description="그룹시설코드 기준 시설목록검색")
 	public List<EzcFacl> selectRoomReadFaclList(EzcFacl inEzcFacl) {
 		

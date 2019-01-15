@@ -19,7 +19,7 @@ import com.ezwel.htl.interfaces.server.component.FaclMappingComponent;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
 
-@Component
+
 @APIType(description="시설 매핑 멀티쓰레드 서비스")
 public class FaclMappingMultiService extends AbstractComponent implements Callable<List<EzcFacl>> {
 
@@ -33,7 +33,7 @@ public class FaclMappingMultiService extends AbstractComponent implements Callab
 	
 	private OutsideService outsideService;
 	
-	private  Integer count;
+	private Integer count;
 	
 	private TransactionOutSDO transactionOutSDO;
 	
@@ -57,7 +57,6 @@ public class FaclMappingMultiService extends AbstractComponent implements Callab
 	 * 멀티쓰레드에서 수행할 작업 (call)
 	 */
 	@Override
-	@Transactional(readOnly=true)
 	public List<EzcFacl> call() {
 		
 		List<EzcFacl> out = null;

@@ -14,7 +14,7 @@ import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractComponent;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.FileUtil;
 
-@Component
+
 @APIType(description="시설 이미지 멀티쓰레드 다운로드 서비스")
 public class DownloadMultiService extends AbstractComponent implements Callable<ImageSDO> {
 

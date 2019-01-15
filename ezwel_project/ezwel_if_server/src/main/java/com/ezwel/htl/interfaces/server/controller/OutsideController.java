@@ -64,14 +64,7 @@ public class OutsideController {
 	private OutsideService outsideService;
 
 	private OutsideIFService outsideIFService;
-	
-	/** 시설정보 조회 및 매핑 멀티쓰레드 개수 */
-	private static final Integer ROOM_READ_MULTI_COUNT;
-	
-	static { 
-		ROOM_READ_MULTI_COUNT = 20;
-	}
-	
+
 	/**************************************
 	 * [START] ezwel_if_server API
 	 **************************************/
@@ -168,117 +161,29 @@ public class OutsideController {
 	public Object callRoomRead(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
 		logger.debug("[START] callRoomRead {} {}", userAgentSDO, roomReadSDO);
 		
-		outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
-		
-		List<EzcFacl> faclList = null;
-		List<RoomReadOutSDO> roomReadList = null;
 		RoomReadOutSDO out = null;
-		//최저가 객실 정보
-		RoomReadDataOutSDO minAmtRoom = null;
-		RoomReadOutSDO minAmtRoomOut = null;
-		
-		//멀티쓰레드 객체
-		List<Future<?>> futures = null;
-		CallableExecutor executor = null;
-		Callable<RoomReadOutSDO> callable = null;
-		
 		
 		//그룹시설코드가 존재할경우
 		if(roomReadSDO.getGrpFaclCd() != null) {
-			/** 그릅코드 이용 */ 
-
-			out = new RoomReadOutSDO();
-			EzcFacl inEzcFacl = new EzcFacl();
-			inEzcFacl.setGrpFaclCd(roomReadSDO.getGrpFaclCd());
-			faclList = outsideService.selectRoomReadFaclList(inEzcFacl);
 			
-			
-			//그룹시설코드에 대한 목록이 있으면...
-			if(faclList != null && faclList.size() > 0) {
-				
-				// 지지고 복고 
-				roomReadList = new ArrayList<RoomReadOutSDO>();
-				
-				/******************* CHANGE START *******************/
-				
-				executor = new CallableExecutor();
-				executor.initThreadPool(ROOM_READ_MULTI_COUNT);
-				
-				for(EzcFacl faclitem : faclList) {
-					//제휴사 상품 코드
-					roomReadSDO.setPdtNo(faclitem.getPartnerGoodsCd());
-					//제휴사 코드 (에이젼트ID)
-					userAgentSDO.setHttpAgentId(faclitem.getPartnerCd());
-					
-					//1개 상품에 대한 객실 목록
-					minAmtRoomOut = (RoomReadOutSDO) callRoomReadInterface(userAgentSDO, roomReadSDO);
-					minAmtRoomOut.setPartnerCd(faclitem.getPartnerCd());
-					roomReadList.add(minAmtRoomOut);
-				}
-				
-				
-				
-				/******************* CHANGE END *******************/ 
-				
-				
-				logger.debug("# roomReadList size : {}", roomReadList.size());
-				
-				//각 제휴사 상품 객실 목록에서 최저가를 뽑는다.
-				for(RoomReadOutSDO item : roomReadList) {
-					
-					logger.debug("- RoomReadOutSDO : {}", item);
-					
-					//최저가 정보를 담을 객체
-					minAmtRoom = null;
-					//인터페이스 정상 성공인경우
-					if(item.getCode().equals(Integer.toString(MessageConstants.RESPONSE_CODE_1000)) && item.getData() != null) {
-						
-						for(RoomReadDataOutSDO roomItem : item.getData()) {
-							//최저가 정보를 담는다.
-							//minAmtRoom.set ...
-							if(minAmtRoom == null) {
-								minAmtRoom = roomItem;
-								minAmtRoom.setPartnerCd(item.getPartnerCd());
-							}
-							else if(roomItem.getPriceForSale() < minAmtRoom.getPriceForSale()) {
-								minAmtRoom = roomItem;
-								minAmtRoom.setPartnerCd(item.getPartnerCd());
-							}
-						}
-					}
-					
-					out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(item.getCode()).toString().trim());
-					out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(item.getMessage()).toString().trim());
-					out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(item.getRestURI()).toString().trim());
-
-					if(minAmtRoom != null) {
-						out.addData(minAmtRoom);
-					}
-				}
-			}
+			/** 그릅코드 이용 */
+			outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
+			out = outsideService.callRoomRead(userAgentSDO, roomReadSDO);
 		}
 		else {
 			
 			if(APIUtil.isEmpty(roomReadSDO.getPdtNo())) {
 				throw new APIException(MessageConstants.RESPONSE_CODE_2000, "상품코드는 필수 입력사항입니다.");
 			}
-			out = (RoomReadOutSDO) callRoomReadInterface(userAgentSDO, roomReadSDO);
+			
+			//single thread
+			outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
+			out = outsideIFService.callRoomRead(userAgentSDO, roomReadSDO);
 		}
 		
 		return out;
 	}
-
 	
-	@APIOperation(description = "객실정보조회 인터페이스", isOutputJsonMarshall = true, returnType = RoomReadOutSDO.class)
-	private Object callRoomReadInterface(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
-		logger.debug("[START] callRoomRead {} {}", userAgentSDO, roomReadSDO);
-		
-		outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
-		RoomReadOutSDO out = outsideIFService.callRoomRead(userAgentSDO, roomReadSDO);
-		
-		return out;
-	}
-
 
 	@RequestMapping(value = "/callCancelFeePsrc")
 	@APIOperation(description = "취소수수규정 인터페이스", isOutputJsonMarshall = true, returnType = CancelFeePsrcOutSDO.class)

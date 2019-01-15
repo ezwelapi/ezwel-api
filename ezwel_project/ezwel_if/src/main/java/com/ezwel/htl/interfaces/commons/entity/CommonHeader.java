@@ -586,6 +586,8 @@ public class CommonHeader extends APIObject implements Serializable {
 				else {
 					interfaceLogSDO.setSuccYn(OperateConstants.STR_N);
 				}
+				
+				logger.debug("[FINAL-LOG-DATA] {}", interfaceLogSDO);
 			}
 		} catch (Exception e) {
 			logger.error("[InterfaceReqeustLogData] 응답(결과) 로그 데이터 세팅 장애발생", e);
