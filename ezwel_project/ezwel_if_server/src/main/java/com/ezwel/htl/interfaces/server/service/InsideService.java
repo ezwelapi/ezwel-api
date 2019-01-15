@@ -46,8 +46,6 @@ public class InsideService {
 	
 	private OutsideService outsideService;
 	
-	private CommonUtil commonUtil;
-	
 	private HttpInterfaceExecutor inteface;
 	
 	@APIOperation(description="신규시설등록수정 인터페이스")
@@ -57,12 +55,8 @@ public class InsideService {
 		RecordOutSDO out = null;
 		
 		insideRepository = (InsideRepository) LApplicationContext.getBean(insideRepository, InsideRepository.class);
-		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
 		inteface = (HttpInterfaceExecutor) LApplicationContext.getBean(inteface, HttpInterfaceExecutor.class);
-		
-		//시그니처 및 에이전트 체널 검증
-		commonUtil.isConfirmHeaderSignature("record");
 		
 		HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
 		httpConfigSDO.setRestURI(recordSDO.getDataUrl());
@@ -86,10 +80,6 @@ public class InsideService {
 		logger.debug("[START] callSaleStop {}", saleStopSDO);
 		
 		insideRepository = (InsideRepository) LApplicationContext.getBean(insideRepository, InsideRepository.class);
-		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
-		
-		//시그니처 및 에이전트 체널 검증
-		commonUtil.isConfirmHeaderSignature("saleStop");
 		
 		SaleStopOutSDO out = insideRepository.callSaleStop(saleStopSDO);
 		
@@ -103,10 +93,6 @@ public class InsideService {
 		logger.debug("[START] callView {}", viewSDO);
 		
 		insideRepository = (InsideRepository) LApplicationContext.getBean(insideRepository, InsideRepository.class);
-		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
-
-		//시그니처 및 에이전트 체널 검증
-		commonUtil.isConfirmHeaderSignature("view");
 		
 		ViewOutSDO out = insideRepository.callView(viewSDO);
 		
@@ -120,10 +106,6 @@ public class InsideService {
 		logger.debug("[START] callVoucherReg {}", voucherRegSDO);
 		
 		insideRepository = (InsideRepository) LApplicationContext.getBean(insideRepository, InsideRepository.class);
-		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
-		
-		//시그니처 및 에이전트 체널 검증
-		commonUtil.isConfirmHeaderSignature("voucherReg");
 		
 		VoucherRegOutSDO out = insideRepository.callVoucherReg(voucherRegSDO);
 		
@@ -137,10 +119,6 @@ public class InsideService {
 		logger.debug("[START] callAgentJob {}", agentJobSDO);
 		
 		insideRepository = (InsideRepository) LApplicationContext.getBean(insideRepository, InsideRepository.class);
-		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
-		
-		//시그니처 및 에이전트 체널 검증
-		commonUtil.isConfirmHeaderSignature("agentJob");
 		
 		AgentJobOutSDO out = insideRepository.callAgentJob(agentJobSDO);
 		

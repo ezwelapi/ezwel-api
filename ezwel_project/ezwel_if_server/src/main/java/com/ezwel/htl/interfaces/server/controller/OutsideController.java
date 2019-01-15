@@ -2,6 +2,8 @@ package com.ezwel.htl.interfaces.server.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
+import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.interfaces.RequestNamespace;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
@@ -61,6 +64,13 @@ public class OutsideController {
 	private OutsideService outsideService;
 
 	private OutsideIFService outsideIFService;
+	
+	/** 시설정보 조회 및 매핑 멀티쓰레드 개수 */
+	private static final Integer ROOM_READ_MULTI_COUNT;
+	
+	static { 
+		ROOM_READ_MULTI_COUNT = 20;
+	}
 	
 	/**************************************
 	 * [START] ezwel_if_server API
@@ -167,6 +177,12 @@ public class OutsideController {
 		RoomReadDataOutSDO minAmtRoom = null;
 		RoomReadOutSDO minAmtRoomOut = null;
 		
+		//멀티쓰레드 객체
+		List<Future<?>> futures = null;
+		CallableExecutor executor = null;
+		Callable<RoomReadOutSDO> callable = null;
+		
+		
 		//그룹시설코드가 존재할경우
 		if(roomReadSDO.getGrpFaclCd() != null) {
 			/** 그릅코드 이용 */ 
@@ -182,6 +198,12 @@ public class OutsideController {
 				
 				// 지지고 복고 
 				roomReadList = new ArrayList<RoomReadOutSDO>();
+				
+				/******************* CHANGE START *******************/
+				
+				executor = new CallableExecutor();
+				executor.initThreadPool(ROOM_READ_MULTI_COUNT);
+				
 				for(EzcFacl faclitem : faclList) {
 					//제휴사 상품 코드
 					roomReadSDO.setPdtNo(faclitem.getPartnerGoodsCd());
@@ -193,6 +215,11 @@ public class OutsideController {
 					minAmtRoomOut.setPartnerCd(faclitem.getPartnerCd());
 					roomReadList.add(minAmtRoomOut);
 				}
+				
+				
+				
+				/******************* CHANGE END *******************/ 
+				
 				
 				logger.debug("# roomReadList size : {}", roomReadList.size());
 				

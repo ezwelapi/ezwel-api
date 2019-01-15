@@ -56,7 +56,7 @@ public class InterfaceLogRepository extends AbstractDataAccessObject {
 				for(InterfaceLogSDO logItem : logList) {
 					
 					ezcIfLog = (EzcIfLog) propertyUtil.copySameProperty(logItem, EzcIfLog.class);
-					ezcIfLog.setIfExecCd(APIUtil.getId());
+					//ezcIfLog.setIfExecCd(APIUtil.getId());  ( Local.getId() => commonHeader의 guid 대입 initInterfaceReqeustLogData 오퍼레이션에서 세팅함 )
 					
 					out += sqlSession.insert(getNamespace("IF_LOG_MAPPER", "insertEzcIfLog"), ezcIfLog);
 				}

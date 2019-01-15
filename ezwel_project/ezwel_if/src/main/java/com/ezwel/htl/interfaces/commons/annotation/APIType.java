@@ -29,4 +29,6 @@ public @interface APIType {
      */
     public abstract String description() default "";
     
+    
+    public abstract boolean isInterfaceLogging() default false;
 }

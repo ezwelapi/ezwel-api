@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -38,7 +37,6 @@ import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
-import com.ezwel.htl.interfaces.commons.sdo.InterfaceLogSDO;
 import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -57,7 +55,7 @@ import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
  * @serviceType API
  */
 @Component
-@APIType(description="http url connection executor")
+@APIType(description="HTTP 인터페이스 실행기", isInterfaceLogging=true)
 public class HttpInterfaceExecutor {
 
 	private static final Logger logger = LoggerFactory.getLogger(HttpInterfaceExecutor.class);
@@ -329,14 +327,14 @@ public class HttpInterfaceExecutor {
 	 * @return
 	 */
 	@SuppressWarnings({ "unchecked", "finally", "unused" })
-	@APIOperation(description="Http URL Communication API", isExecTest=true)
+	@APIOperation(description="Http URL Communication API", isOutsideInterfaceAPI=true)
 	public <T1 extends AbstractSDO, T2 extends AbstractSDO> T2 sendJSON(HttpConfigSDO in, T1 inputObject, Class<T2> outputType) {
 		logger.debug("[START] sendJSON {}\n[CHANNEL-INFO] {}\n[USER-INPUT] {}\n[USER-OUTPUT] {}", in.getRestURI(), in, inputObject, outputType);
 
 		/***************************
 		 * [START] LOG DATA SETTING 
 		 ***************************/
-		Local.commonHeader().setInterfaceReqeustLogData(in);
+		Local.commonHeader().initInterfaceReqeustLogData(in);
 		/***************************
 		 * [END]   LOG DATA SETTING 
 		 ***************************/
@@ -562,21 +560,30 @@ public class HttpInterfaceExecutor {
 			
 			for(Field item : field) {
 				
+				//필드의 Modifier에 따른 패스 여부 판단 또는 영구 패스 필드일경우 continue
 				if(util.isPassField(item) || ParamValidate.PASS_FIELDS.contains(item.getName())) {
 					continue;
 				}
 				
+				//내부인터페이스일 때 유효성검사 패스필드로 등록된필드이면 continue
+				if(request.isEzwelInsideInterface() && OperateConstants.EZWEL_INSIDE_EXCLUDE_FIELDS.contains(item.getName())) {
+					continue;
+				}
+				
 				item.setAccessible(true);
+				//APIFields annotation
 				fieldAnno = item.getAnnotation(APIFields.class);
-			
+				//fieldValue
 				fieldValue = item.get(request);
 				
 				if( fieldAnno == null ) {
 					throw new APIException(APIUtil.addString("'", item.getName(), "'APIFields Annotation is not found!"));
 				}
+				
 				if(fieldAnno.required() && fieldValue == null) {
 					throw new APIException(APIUtil.addString("필수 입력 필드 '", fieldAnno.description(), "'가(이) 입력되지 않았습니다."));
 				}
+				
 				if(fieldAnno.httpHeader() && fieldValue != null) {
 					out.setProperty(fieldAnno.headerName(), (String) fieldValue);
 				}
