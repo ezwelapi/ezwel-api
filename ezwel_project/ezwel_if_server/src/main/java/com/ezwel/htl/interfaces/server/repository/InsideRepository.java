@@ -143,8 +143,6 @@ public class InsideRepository extends AbstractDataAccessObject {
 
 					telegramData = new ViewDataOutSDO();
 					//setter/getter
-					//전차장님 스타트!ㅋ
-					//telegramData.setXXX(reservBase.getXXX());
 					
 					telegramData.setRsvNo(commonUtil.getBigDecimalToString(reservBase.getEzwelOrderNum()));
 					telegramData.setRsvDatetime(reservBase.getReservDt());
@@ -162,15 +160,13 @@ public class InsideRepository extends AbstractDataAccessObject {
 					telegramData.setOtaRsvNo(reservBase.getPartnerOrderNum());
 					telegramData.setVoucherNo(reservBase.getFaclReservNum());
 					telegramData.setMemKey(commonUtil.getBigDecimalToString(reservBase.getUserKey()));
-					/************************* START 추가 작업 필요 ****************************/
 					telegramData.setMemName(reservBase.getOrderNm()); //new
 					telegramData.setMemPhone(reservBase.getOrderMobile()); //new
 					telegramData.setMemEmail(reservBase.getOrderEmail()); //new
 					telegramData.setUserName(reservBase.getGuestNm());
 					telegramData.setUserMobile(reservBase.getGuestMobile());
 					telegramData.setUserEmail(reservBase.getGuestEmail());
-					/************************* START 추가 작업 필요 ****************************/
-					telegramData.setUserCmt(reservBase.getReservRequest()); //컬럼 없음
+					telegramData.setUserCmt(reservBase.getReservRequest()); //new
 					telegramData.setAdultCnt(commonUtil.getBigDecimalToInteger(reservBase.getTotAdtCnt()));
 					telegramData.setChildCnt(commonUtil.getBigDecimalToInteger(reservBase.getTotChildCnt()));
 					
@@ -183,8 +179,6 @@ public class InsideRepository extends AbstractDataAccessObject {
 						
 						options = new ViewOptionsOutSDO();
 						//setter/getter
-						//전차장님 스타트!ㅋ
-						//reserves.setXXX(reservBase.getXXX());
 						
 						options.setRsvOptNo(commonUtil.getBigDecimalToString(reservRoomOpt.getReservOptNum()));
 						options.setOptNo(reservRoomOpt.getPartnerOptCd());
@@ -212,7 +206,6 @@ public class InsideRepository extends AbstractDataAccessObject {
 	}
 	
 	
-	//반완료
 	@APIOperation(description="주문대사(제휴사) 인터페이스")
 	public AgentJobOutSDO callAgentJob(AgentJobInSDO agentJobSDO) {
 		logger.debug("[START] callAgentJob {}", agentJobSDO);
@@ -241,15 +234,11 @@ public class InsideRepository extends AbstractDataAccessObject {
 
 					telegramReserves = new AgentJobReservesOutSDO();
 					//setter/getter
-					//전차장님 스타트!ㅋ
-					//reserves.setXXX(reservBase.getXXX());
 					
 					telegramReserves.setRsvNo(commonUtil.getBigDecimalToString(reservBase.getEzwelOrderNum()));
-					/************************* START 추가 작업 필요 ****************************/
 					telegramReserves.setRsvPdtNo(commonUtil.getBigDecimalToString(reservBase.getFaclCd())); // 주문상품번호(이지웰) 존재하지 않음
 					telegramReserves.setRsvPrice(commonUtil.getBigDecimalToInteger(reservBase.getTotSaleAmt()));
-					/************************* START 추가 작업 필요 ****************************/
-					telegramReserves.setPdtNo(reservBase.getPartnerGoodsCd()); // 주문상품번호(이지웰) 존재하지 않음
+					telegramReserves.setPdtNo(reservBase.getPartnerGoodsCd()); // 시설테이블
 					telegramReserves.setOtaRsvNo(reservBase.getPartnerOrderNum());
 					telegramReserves.setRsvStat(reservBase.getReservStatus());
 					
