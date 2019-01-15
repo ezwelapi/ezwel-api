@@ -246,10 +246,10 @@ public class InsideRepository extends AbstractDataAccessObject {
 					
 					telegramReserves.setRsvNo(commonUtil.getBigDecimalToString(reservBase.getEzwelOrderNum()));
 					/************************* START 추가 작업 필요 ****************************/
-					telegramReserves.setRsvPdtNo(""); // 주문상품번호(이지웰) 존재하지 않음
+					telegramReserves.setRsvPdtNo(commonUtil.getBigDecimalToString(reservBase.getFaclCd())); // 주문상품번호(이지웰) 존재하지 않음
 					telegramReserves.setRsvPrice(commonUtil.getBigDecimalToInteger(reservBase.getTotSaleAmt()));
 					/************************* START 추가 작업 필요 ****************************/
-					telegramReserves.setPdtNo(""); // 주문상품번호(이지웰) 존재하지 않음
+					telegramReserves.setPdtNo(reservBase.getPartnerGoodsCd()); // 주문상품번호(이지웰) 존재하지 않음
 					telegramReserves.setOtaRsvNo(reservBase.getPartnerOrderNum());
 					telegramReserves.setRsvStat(reservBase.getReservStatus());
 					

@@ -135,6 +135,9 @@ public class EzcReservBase extends AbstractEntity {
 	@APIFields(description = "제휴사 객실 상품 코드", maxLength=100)
 	private String partnerRoomGoodsCd;
 
+	@APIFields(description = "제휴사 상품 코드")
+	private String partnerGoodsCd;
+	
 	@APIFields(description = "객실 명", maxLength=100, required=true, constraints="SYS_C0011646(C)")
 	private String roomNm;
 
@@ -611,6 +614,14 @@ public class EzcReservBase extends AbstractEntity {
 
 	public void setReservRequest(String reservRequest) {
 		this.reservRequest = reservRequest;
+	}
+
+	public String getPartnerGoodsCd() {
+		return partnerGoodsCd;
+	}
+
+	public void setPartnerGoodsCd(String partnerGoodsCd) {
+		this.partnerGoodsCd = partnerGoodsCd;
 	}
 
 

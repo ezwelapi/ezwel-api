@@ -302,6 +302,7 @@ SELECT * FROM (
 			,EZC_RESERV_ROOM.CANCEL_FEE_RULE AS cancelFeeRule	/* 취소 수수료 규정, VARCHAR2(4000) */
 			,EZC_RESERV_ROOM.ROOM_STATUS AS roomStatus	/* 객실 상태, VARCHAR2(8) */
 			,EZC_RESERV_ROOM.DIST_ROOM_CD AS distRoomCd	/* 직영/숙박 객실 코드, NUMBER(0,22) */
+			,EZC_FACL.PARTNER_GOODS_CD AS partnerGoodsCd
 		FROM
 			 EZC_FACL	/* 시설 정보 */
 			,EZC_RESERV_BASE	/* 예약 기본 정보 */
