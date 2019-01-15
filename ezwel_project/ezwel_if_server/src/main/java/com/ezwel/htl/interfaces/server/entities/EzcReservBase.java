@@ -135,6 +135,9 @@ public class EzcReservBase extends AbstractEntity {
 	@APIFields(description = "제휴사 객실 상품 코드", maxLength=100)
 	private String partnerRoomGoodsCd;
 
+	@APIFields(description = "제휴사 상품 코드")
+	private String partnerGoodsCd;
+	
 	@APIFields(description = "객실 명", maxLength=100, required=true, constraints="SYS_C0011646(C)")
 	private String roomNm;
 
@@ -177,8 +180,17 @@ public class EzcReservBase extends AbstractEntity {
 	@APIFields(description = "직영/숙박 객실 코드", maxLength=10)
 	private BigDecimal distRoomCd;
 	
+	@APIFields(description = "예약내역조회 회원명")
+	private String orderNm;
 	
+	@APIFields(description = "예약내역조회 회원전화번호")
+	private String orderMobile;
 	
+	@APIFields(description = "예약내역조회 회원이메일주소")
+	private String orderEmail;
+	
+	@APIFields(description = "예약내역조회 요청내용")
+	private String reservRequest;
 	
 	public String getStartDate() {
 		return startDate;
@@ -570,6 +582,46 @@ public class EzcReservBase extends AbstractEntity {
 
 	public void setDistRoomCd(BigDecimal distRoomCd) {
 		this.distRoomCd = distRoomCd;
+	}
+
+	public String getOrderNm() {
+		return orderNm;
+	}
+
+	public void setOrderNm(String orderNm) {
+		this.orderNm = orderNm;
+	}
+
+	public String getOrderMobile() {
+		return orderMobile;
+	}
+
+	public void setOrderMobile(String orderMobile) {
+		this.orderMobile = orderMobile;
+	}
+
+	public String getOrderEmail() {
+		return orderEmail;
+	}
+
+	public void setOrderEmail(String orderEmail) {
+		this.orderEmail = orderEmail;
+	}
+
+	public String getReservRequest() {
+		return reservRequest;
+	}
+
+	public void setReservRequest(String reservRequest) {
+		this.reservRequest = reservRequest;
+	}
+
+	public String getPartnerGoodsCd() {
+		return partnerGoodsCd;
+	}
+
+	public void setPartnerGoodsCd(String partnerGoodsCd) {
+		this.partnerGoodsCd = partnerGoodsCd;
 	}
 
 

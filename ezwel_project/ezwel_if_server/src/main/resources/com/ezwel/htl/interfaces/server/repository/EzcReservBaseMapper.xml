@@ -39,6 +39,10 @@ INSERT INTO EZC_RESERV_BASE(	/* 예약 기본 정보 */
 	,RESERV_DT	/* 예약 일시, VARCHAR2(14) */
 	,RESERV_CANCEL_DT	/* 예약 취소 일시, VARCHAR2(14) */
 	,RESERV_STATUS	/* 예약 상태, VARCHAR2(8) */
+	,ORDER_NM	/* 회원명 new */
+	,ORDER_MOBILE	/* 회원전화번호 new */
+	,ORDER_EMAIL	/* 회원이메일주소 new */
+	,RESERV_REQUEST /* 요청내용 new */	
 	,REG_ID	/* 등록자 ID, VARCHAR2(20) */
 	,REG_DT	/* 등록 일시, VARCHAR2(14) */
 	,USER_ID	/* 회원 ID, VARCHAR2(20) */
@@ -67,6 +71,10 @@ INSERT INTO EZC_RESERV_BASE(	/* 예약 기본 정보 */
 	,#{reservDt, jdbcType=VARCHAR}
 	,#{reservCancelDt, jdbcType=VARCHAR}
 	,#{reservStatus, jdbcType=VARCHAR}
+	,#{orderNm, jdbcType=VARCHAR}
+	,#{orderMobile, jdbcType=VARCHAR}
+	,#{orderEmail, jdbcType=VARCHAR}
+	,#{reservRequest, jdbcTpye=VARCHAR} 	
 	,#{regId, jdbcType=VARCHAR}
 	,#{regDt, jdbcType=VARCHAR}
 	,#{userId, jdbcType=VARCHAR}
@@ -99,6 +107,10 @@ SELECT
 	,EZC_RESERV_BASE.RESERV_DT AS reservDt	/* 예약 일시, VARCHAR2(14) */
 	,EZC_RESERV_BASE.RESERV_CANCEL_DT AS reservCancelDt	/* 예약 취소 일시, VARCHAR2(14) */
 	,EZC_RESERV_BASE.RESERV_STATUS AS reservStatus	/* 예약 상태, VARCHAR2(8) */
+	,EZC_RESERV_BASE.ORDER_NM AS orderNm	/* 회원명 new */
+	,EZC_RESERV_BASE.ORDER_MOBILE AS orderMobile	/* 회원전화번호 new */
+	,EZC_RESERV_BASE.ORDER_EMAIL AS orderEmail	/* 회원이메일주소 new */
+	,EZC_RESERV_BASE.RESERV_REQUEST AS reservRequest /* 요청내용 new */
 	,EZC_RESERV_BASE.REG_ID AS regId	/* 등록자 ID, VARCHAR2(20) */
 	,EZC_RESERV_BASE.REG_DT AS regDt	/* 등록 일시, VARCHAR2(14) */
 	,EZC_RESERV_BASE.MODI_ID AS modiId	/* 수정자 ID, VARCHAR2(20) */
@@ -264,6 +276,10 @@ SELECT * FROM (
 			,EZC_RESERV_BASE.RESERV_DT AS reservDt	/* 예약 일시, VARCHAR2(14) */
 			,EZC_RESERV_BASE.RESERV_CANCEL_DT AS reservCancelDt	/* 예약 취소 일시, VARCHAR2(14) */
 			,EZC_RESERV_BASE.RESERV_STATUS AS reservStatus	/* 예약 상태, VARCHAR2(8) */
+			,EZC_RESERV_BASE.ORDER_NM AS orderNm	/* 회원명 new */
+			,EZC_RESERV_BASE.ORDER_MOBILE AS orderMobile	/* 회원전화번호 new */
+			,EZC_RESERV_BASE.ORDER_EMAIL AS orderEmail	/* 회원이메일주소 new */
+			,EZC_RESERV_BASE.RESERV_REQUEST AS reservRequest /* 요청내용 new */			
 			,EZC_RESERV_BASE.REG_ID AS regId	/* 등록자 ID, VARCHAR2(20) */
 			,EZC_RESERV_BASE.REG_DT AS regDt	/* 등록 일시, VARCHAR2(14) */
 			,EZC_RESERV_BASE.MODI_ID AS modiId	/* 수정자 ID, VARCHAR2(20) */
@@ -286,6 +302,7 @@ SELECT * FROM (
 			,EZC_RESERV_ROOM.CANCEL_FEE_RULE AS cancelFeeRule	/* 취소 수수료 규정, VARCHAR2(4000) */
 			,EZC_RESERV_ROOM.ROOM_STATUS AS roomStatus	/* 객실 상태, VARCHAR2(8) */
 			,EZC_RESERV_ROOM.DIST_ROOM_CD AS distRoomCd	/* 직영/숙박 객실 코드, NUMBER(0,22) */
+			,EZC_FACL.PARTNER_GOODS_CD AS partnerGoodsCd
 		FROM
 			 EZC_FACL	/* 시설 정보 */
 			,EZC_RESERV_BASE	/* 예약 기본 정보 */
@@ -444,6 +461,10 @@ UPDATE EZC_RESERV_BASE SET	/* 예약 기본 정보 */
 	,RESERV_DT = #{reservDt, jdbcType=VARCHAR}	/* 예약 일시, VARCHAR2(14) */
 	,RESERV_CANCEL_DT = #{reservCancelDt, jdbcType=VARCHAR}	/* 예약 취소 일시, VARCHAR2(14) */
 	,RESERV_STATUS = #{reservStatus, jdbcType=VARCHAR}	/* 예약 상태, VARCHAR2(8) */
+	,ORDER_NM = #{orderNm, jdbcType=VARCHAR}	/* 회원명 new */
+	,ORDER_MOBILE = #{orderMobile, jdbcType=VARCHAR}	/* 회원전화번호 new */
+	,ORDER_EMAIL = #{orderEmail, jdbcType=VARCHAR}	/* 회원이메일주소 new */
+	,RESERV_REQUEST = #{reservRequest, jdbcTpye=VARCHAR} /* 요청내용 new */	
 	,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
 	,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 	,USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */
@@ -484,6 +505,10 @@ MERGE INTO EZC_RESERV_BASE /* 예약 기본 정보 */
 			,RESERV_DT = #{reservDt, jdbcType=VARCHAR}	/* 예약 일시, VARCHAR2(14) */
 			,RESERV_CANCEL_DT = #{reservCancelDt, jdbcType=VARCHAR}	/* 예약 취소 일시, VARCHAR2(14) */
 			,RESERV_STATUS = #{reservStatus, jdbcType=VARCHAR}	/* 예약 상태, VARCHAR2(8) */
+			,ORDER_NM = #{orderNm, jdbcType=VARCHAR}	/* 회원명 new */
+			,ORDER_MOBILE = #{orderMobile, jdbcType=VARCHAR}	/* 회원전화번호 new */
+			,ORDER_EMAIL = #{orderEmail, jdbcType=VARCHAR}	/* 회원이메일주소 new */
+			,RESERV_REQUEST = #{reservRequest, jdbcTpye=VARCHAR} /* 요청내용 new */			
 			,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
 			,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			,USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */
@@ -513,6 +538,10 @@ MERGE INTO EZC_RESERV_BASE /* 예약 기본 정보 */
 			,RESERV_DT	/* 예약 일시, VARCHAR2(14) */
 			,RESERV_CANCEL_DT	/* 예약 취소 일시, VARCHAR2(14) */
 			,RESERV_STATUS	/* 예약 상태, VARCHAR2(8) */
+			,ORDER_NM	/* 회원명 new */
+			,ORDER_MOBILE	/* 회원전화번호 new */
+			,ORDER_EMAIL	/* 회원이메일주소 new */
+			,RESERV_REQUEST /* 요청내용 new */			
 			,REG_ID	/* 등록자 ID, VARCHAR2(20) */
 			,REG_DT	/* 등록 일시, VARCHAR2(14) */
 			,USER_ID	/* 회원 ID, VARCHAR2(20) */
@@ -541,6 +570,10 @@ MERGE INTO EZC_RESERV_BASE /* 예약 기본 정보 */
 			,#{reservDt, jdbcType=VARCHAR}
 			,#{reservCancelDt, jdbcType=VARCHAR}
 			,#{reservStatus, jdbcType=VARCHAR}
+			,#{orderNm, jdbcType=VARCHAR}	/* 회원명 new */
+			,#{orderMobile, jdbcType=VARCHAR}	/* 회원전화번호 new */
+			,#{orderEmail, jdbcType=VARCHAR}	/* 회원이메일주소 new */
+			,#{reservRequest, jdbcTpye=VARCHAR} /* 요청내용 new */			
 			,#{regId, jdbcType=VARCHAR}
 			,#{regDt, jdbcType=VARCHAR}
 			,#{userId, jdbcType=VARCHAR}

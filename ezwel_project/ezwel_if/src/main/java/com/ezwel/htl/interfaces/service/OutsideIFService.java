@@ -124,6 +124,7 @@ public class OutsideIFService {
 			
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("roomRead", userAgentSDO.getHttpAgentId());
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
+			logger.debug("httpConfigSDO {}", httpConfigSDO);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			
 			/** execute interface */
