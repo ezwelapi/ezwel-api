@@ -1,7 +1,6 @@
 package com.ezwel.htl.interfaces.commons.utils.crypt;
 
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
@@ -28,6 +27,17 @@ public class Base64Codec {
         return INSTANCE;
     }
 
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * 	바인드된 일반 문자열을 Base64로 인코딩합니다.
+	 * [사용방법 설명]
+	 *  encode(문자열)
+	 * </pre>
+	 * 
+	 * @param value
+	 * @return
+	 */
 	@APIOperation(description="바인드된 일반 문자열을 Base64로 인코딩합니다.")
 	public String encode(String value)
     {
