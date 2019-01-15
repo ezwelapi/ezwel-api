@@ -33,7 +33,7 @@ import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegOutSDO;
  */
 @Controller
 @RequestMapping(value = RequestNamespace.NAME_SPACE)
-@APIType(description = "Inside Callee Interface Controller", isInterfaceLogging=true)
+@APIType(description = "Inside Callee Interface Controller")
 public class InsideController {
 
 	private static final Logger logger = LoggerFactory.getLogger(InsideController.class);

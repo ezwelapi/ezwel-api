@@ -1,13 +1,10 @@
 package com.ezwel.htl.interfaces.server.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
@@ -16,14 +13,11 @@ import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractComponent;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
-import com.ezwel.htl.interfaces.server.component.FaclMappingComponent;
-import com.ezwel.htl.interfaces.server.entities.EzcFacl;
-import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
 import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 
-@Component
+
 @APIType(description="객실 정보 조회 멀티쓰레드 서비스")
 public class RoomReadMultiService extends AbstractComponent implements Callable<RoomReadOutSDO> {
 
@@ -48,7 +42,7 @@ public class RoomReadMultiService extends AbstractComponent implements Callable<
 		//ThreadLocal 초기화
 		Local.commonHeader();
 		
-		logger.debug("- FaclMappingMultiService Initialized : {}", count);
+		logger.debug("- RoomReadMultiService Initialized : {}", count);
 		/** 필요 한 지역변수 세팅 */
 		this.userAgentSDO = userAgentSDO;
 		this.roomReadSDO = roomReadSDO;
@@ -71,6 +65,8 @@ public class RoomReadMultiService extends AbstractComponent implements Callable<
 			outsideIFService = (OutsideIFService) LApplicationContext.getBean(outsideIFService, OutsideIFService.class);
 			
 			out = outsideIFService.callRoomRead(userAgentSDO, roomReadSDO);
+			//제휴사 코드 세팅
+			out.setPartnerCd(userAgentSDO.getHttpAgentId());
 			
 			if(IS_LOGGING) {
 				logger.debug("[END-RoomReadMultiService({})] 객실 정보 조회 멀티 => RoomReadOutSDO : {}", count, out);

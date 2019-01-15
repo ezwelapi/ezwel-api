@@ -55,7 +55,7 @@ import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
  * @serviceType API
  */
 @Component
-@APIType(description="HTTP 인터페이스 실행기", isInterfaceLogging=true)
+@APIType(description="HTTP 인터페이스 실행기")
 public class HttpInterfaceExecutor {
 
 	private static final Logger logger = LoggerFactory.getLogger(HttpInterfaceExecutor.class);

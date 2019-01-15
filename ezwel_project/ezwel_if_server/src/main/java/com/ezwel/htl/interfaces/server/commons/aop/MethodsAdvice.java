@@ -104,16 +104,14 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		
 		Class<?> typeClass = thisJoinPoint.getTarget().getClass();
 		APIType apiTypeAnno = typeClass.getAnnotation(APIType.class);
-		Method proccesMethod = null;
-		APIOperation apiOperAnno = null;
+		Method proccesMethod = ((MethodSignature) thisJoinPoint.getSignature()).getMethod();
+		APIOperation apiOperAnno = proccesMethod.getAnnotation(APIOperation.class);
 
-		if(apiTypeAnno != null && apiTypeAnno.isInterfaceLogging()) {
-			proccesMethod = ((MethodSignature) thisJoinPoint.getSignature()).getMethod();
-			apiOperAnno = proccesMethod.getAnnotation(APIOperation.class);
+		if(apiTypeAnno != null && apiOperAnno != null && (apiOperAnno.isOutsideInterfaceAPI() || apiOperAnno.isInsideInterfaceAPI())) {
 			logger.debug("■■ [◆◆APIOperAnno◆◆] description : {}, isInsideInterfaceAPI : {}, isOutsideInterfaceAPI : {}", apiOperAnno.description(), apiOperAnno.isInsideInterfaceAPI(), apiOperAnno.isOutsideInterfaceAPI());
-
-		
-		
+			
+			
+			
 		}
 	}
 	

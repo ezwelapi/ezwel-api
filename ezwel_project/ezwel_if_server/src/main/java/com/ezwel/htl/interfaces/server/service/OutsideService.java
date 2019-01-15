@@ -13,6 +13,7 @@ import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
@@ -55,6 +56,10 @@ import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegSubImagesOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
+import com.ezwel.htl.interfaces.service.data.mock.MocKUpOutSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadDataOutSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 
 /**
@@ -102,6 +107,9 @@ public class OutsideService extends AbstractServiceObject {
 	/** 시설 이미지 변경 정보 1 커넥션당 업데이트 개수  */
 	private static final Integer FACL_COMM_SAVE_COUNT;
 	
+	/** 시설정보 조회 및 매핑 멀티쓰레드 개수 */
+	private static final Integer ROOM_READ_MULTI_COUNT;
+	
 	/** 전체시설일괄등록 실행 중 플래그 */
 	private static boolean isCallAllRegRunning;
 
@@ -112,7 +120,7 @@ public class OutsideService extends AbstractServiceObject {
 	private static boolean isFaclImageDownloadRunning;
 	
 	static {
-		
+		ROOM_READ_MULTI_COUNT = 20;
 		FACL_REG_DATA_TX_COUNT = 50;
 		IMG_DOWNLOAD_MULTI_COUNT = 20;
 		FACL_MAPPING_MULTI_COUNT = 10;
@@ -465,6 +473,7 @@ public class OutsideService extends AbstractServiceObject {
 		logger.debug("[END] mergeFaclMappingData txCount : {}", out);
 		return out;
 	}
+	
 	
 	@APIOperation(description="조건 별 시설 전체 조회(페이징조회)")
 	List<EzcFacl> getFaclMappingMorpDataList(List<EzcFacl> ezcFaclList, EzcFacl ezcFacl, Integer pageNum, Integer pageSize) {
@@ -1238,7 +1247,7 @@ public class OutsideService extends AbstractServiceObject {
         return faclList;
 	}
 
-	@APIOperation(description="그룹시설코드 기준 시설목록검색")
+	@APIOperation(description="그룹시설코드 기준 시설목록 조회")
 	public List<EzcFacl> selectRoomReadFaclList(EzcFacl inEzcFacl) {
 		
 		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
@@ -1253,6 +1262,115 @@ public class OutsideService extends AbstractServiceObject {
 		}
 		
 		return out;
+	}
+	
+
+	@APIOperation(description="객실 최저가 정보 조회 인터페이스")
+	public RoomReadOutSDO callRoomRead(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
+		
+		RoomReadOutSDO out = null;
+		//멀티쓰레드 객체
+		List<Future<?>> futures = null;
+		CallableExecutor executor = null;
+		Callable<RoomReadOutSDO> callable = null;
+		List<EzcFacl> grpFaclList = null;
+		//최저가 객실 정보
+		RoomReadDataOutSDO minAmtRoom = null;
+		List<RoomReadOutSDO> roomReadList = null;
+		
+		try {
+			
+			out = new RoomReadOutSDO();
+			EzcFacl inEzcFacl = new EzcFacl();
+			inEzcFacl.setGrpFaclCd(roomReadSDO.getGrpFaclCd());
+			
+			//그룹시설코드 기준 시설목록 조회
+			grpFaclList = selectRoomReadFaclList(inEzcFacl);
+			
+			//그룹시설코드에 대한 목록이 있으면...
+			if(grpFaclList != null && grpFaclList.size() > 0) {
+				
+				//제휴사별 상품코드별 객실목록
+				roomReadList = new ArrayList<RoomReadOutSDO>();
+				//Callable 객체
+				executor = new CallableExecutor();
+				executor.initThreadPool(ROOM_READ_MULTI_COUNT);
+				
+				int count = 0;
+				for(EzcFacl faclitem : grpFaclList) {
+					//제휴사 상품 코드
+					roomReadSDO.setPdtNo(faclitem.getPartnerGoodsCd());
+					//제휴사 코드 (에이젼트ID)
+					userAgentSDO.setHttpAgentId(faclitem.getPartnerCd());
+					//멀티쓰레드 세팅
+					callable = new RoomReadMultiService(userAgentSDO, roomReadSDO, count);
+					//설정된 멀티쓰레드 개수만큼 반복 실행 
+					executor.addCall(callable);
+					count++;
+				}
+				
+				roomReadList = new ArrayList<RoomReadOutSDO>();
+				futures = executor.getResult();
+				if(futures != null) {
+				
+					logger.debug(" ■■ [PROC-START] 객실 정보 결과를 수집합니다. ");
+					for(Future<?> future : futures) {
+						//매핑 정보 취합
+						if(future.get() != null) {
+							//1개 상품에 대한 객실 목록
+							roomReadList.add((RoomReadOutSDO) future.get());
+						}
+					}
+					logger.debug(" ■■ [PROC-END] 객실 정보 결과 수집이 완료되었습니다.");
+				}
+				
+				logger.debug("# roomReadList size : {}", roomReadList.size());
+				
+				//각 제휴사 상품 객실 목록에서 최저가를 뽑는다.
+				for(RoomReadOutSDO item : roomReadList) {
+					
+					logger.debug("- RoomReadOutSDO : {}", item);
+					
+					//최저가 정보를 담을 객체
+					minAmtRoom = null;
+					//인터페이스 정상 성공인경우
+					if(item.getCode().equals(Integer.toString(MessageConstants.RESPONSE_CODE_1000)) && item.getData() != null) {
+						
+						for(RoomReadDataOutSDO roomItem : item.getData()) {
+							//최저가 정보를 담는다.
+							//minAmtRoom.set ...
+							if(minAmtRoom == null) {
+								minAmtRoom = roomItem;
+								minAmtRoom.setPartnerCd(item.getPartnerCd());
+							}
+							else if(roomItem.getPriceForSale() < minAmtRoom.getPriceForSale()) {
+								minAmtRoom = roomItem;
+								minAmtRoom.setPartnerCd(item.getPartnerCd());
+							}
+						}
+					}
+					
+					out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(item.getCode()).toString().trim());
+					out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(item.getMessage()).toString().trim());
+					out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(item.getRestURI()).toString().trim());
+
+					if(minAmtRoom != null) {
+						out.addData(minAmtRoom);
+					}
+				}
+			}
+		}
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "객실정보조회 인터페이스 장애발생.", e);
+		}
+		finally {
+			
+			if(grpFaclList != null) {
+				grpFaclList.clear();
+			}
+		}
+		
+		return out;		
 	}
 	
 }

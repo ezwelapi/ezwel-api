@@ -24,7 +24,7 @@ import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
  * @date 2018. 11. 5.
  * @serviceType API
  */
-@Component
+
 @APIType(description="HTTP 인터페이스 멀티쓰레드 Callable")
 public class HttpInterfaceHelper implements Callable<AbstractSDO> {
 
