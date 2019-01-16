@@ -107,6 +107,7 @@ public class OperateConstants {
 	
 	//Interface Batch System Info
 	public static final String SYSTEM_ID;
+	public static final String GUEST_ID;
 	
 	public static final Map<String, String> IMAGE_EXT;
 	public static final String DEF_IMAGE_EXTENSION;
@@ -198,6 +199,7 @@ public class OperateConstants {
 		DEF_IMAGE_EXTENSION = "png";
 		
 		SYSTEM_ID = "IF_SYS_USR";
+		GUEST_ID = "GUEST";
 		
 		STR_SENDING_ASC = "ASC";
 		STR_SENDING_DESC = "DESC";

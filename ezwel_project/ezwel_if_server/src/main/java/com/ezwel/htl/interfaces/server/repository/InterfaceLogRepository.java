@@ -51,7 +51,8 @@ public class InterfaceLogRepository extends AbstractDataAccessObject {
 			if(inInterfaceLogSDO != null) {
 				
 				ezcIfLog = (EzcIfLog) propertyUtil.copySameProperty(inInterfaceLogSDO, EzcIfLog.class);
-				//ezcIfLog.setIfExecCd(APIUtil.getId());  ( Local.getId() => commonHeader의 guid 대입 initInterfaceReqeustLogData 오퍼레이션에서 세팅함 )
+				ezcIfLog.setIfExecCd(APIUtil.getId());
+				logger.debug("# EzcIfLog : {}", ezcIfLog);
 				out = sqlSession.insert(getNamespace("IF_LOG_MAPPER", "insertEzcIfLog"), ezcIfLog);
 				logger.debug("[LOG-SAVED] txSuccess : {}", out);
 			}
@@ -59,7 +60,7 @@ public class InterfaceLogRepository extends AbstractDataAccessObject {
 		catch(Exception e) {
 			
 			//None API runtimeException
-			logger.error(APIUtil.formatMessage("인터페이스 요청로그 입력 장애발생 {}", ezcIfLog), e);
+			logger.error(APIUtil.formatMessage("- 인터페이스 로그 입력 장애발생 {}", ezcIfLog), e);
 		}
 		
 		logger.debug("[END] insertInterfaceLog");

@@ -52,8 +52,13 @@ public class PropertyUtil {
 	 */
 	@APIOperation(description="주어진 bean 에 propertyName 이 존재한다면 propertyName 의 value 를 반환합니다.")
     public Object getProperty(Object bean, String getPropertyName) {
-        if(bean == null || APIUtil.isEmpty(getPropertyName)) {
-        	throw new APIException(" The parameter was null or invalid. ");
+		if(bean == null) {
+			logger.warn("Bean Object is null.");
+			return false;
+		}
+		
+        if(APIUtil.isEmpty(getPropertyName)) {
+        	throw new APIException(" The propertyName was null or invalid. ");
         }
         
         try {
@@ -115,12 +120,14 @@ public class PropertyUtil {
      */
 	@APIOperation(description="주어진 bean에 propertyName이 존재한다면 propertyName 에 result 를 setting합니다.")
     public boolean setProperty(Object bean, String propertyName, Object setValue) {
-        if(bean == null) {
-        	throw new APIException(" bean Object is null ");
-        }
-        else if(APIUtil.isEmpty(propertyName)) {
-        	throw new APIException(" The parameter was null or invalid. ");
-        }
+		if(bean == null) {
+			logger.warn("bean Object is null.");
+			return false;
+		}
+		
+        if(APIUtil.isEmpty(propertyName)) {
+        	throw new APIException(" The propertyName was null or invalid. ");
+        }        
 
         try {
 			if( PropertyUtils.getPropertyDescriptor(bean, propertyName) != null ) {

@@ -31,6 +31,9 @@ public class EzcIfLog extends AbstractEntity {
 	@APIFields(description = "인터페이스 실행 코드", maxLength=32, required=true, constraints="EZC_IF_LOG_PK(P),SYS_C0013738(C) EZC_IF_LOG_PK(UNIQUE)")
 	private String ifExecCd; // Repository 에서 생성
 
+	@APIFields(description = "쓰레드 GUID", maxLength=32)
+	private String thedGuid;
+	
 	@APIFields(description = "제휴사 에이젼트 ID", maxLength=20, required=true, constraints="SYS_C0013739(C)")
 	private String partAgentId;
 
@@ -62,7 +65,7 @@ public class EzcIfLog extends AbstractEntity {
 	private String ifReqtDirt;
 
 	@APIFields(description = "실행 시작 밀리 초", maxLength=19, required=true, constraints="SYS_C0013744(C)")
-	private BigDecimal execStrtMlisSecd;
+	private Long execStrtMlisSecd;
 
 	@APIFields(description = "입력 전문", maxLength=4000)
 	private String inptTelg;
@@ -71,7 +74,7 @@ public class EzcIfLog extends AbstractEntity {
 	private BigDecimal inptTelgSize;
 
 	@APIFields(description = "실행 종료 밀리 초", maxLength=19)
-	private BigDecimal execEndMlisSecd;
+	private Long execEndMlisSecd;
 
 	@APIFields(description = "출력 전문", maxLength=4000)
 	private String outpTelg;
@@ -80,7 +83,7 @@ public class EzcIfLog extends AbstractEntity {
 	private BigDecimal outpTelgSize;
 
 	@APIFields(description = "전체 수행 밀리 초", maxLength=19)
-	private BigDecimal totlLapMlisSecd;
+	private Long totlLapMlisSecd;
 
 	@APIFields(description = "성공 여부", maxLength=1)
 	private String succYn;
@@ -91,7 +94,6 @@ public class EzcIfLog extends AbstractEntity {
 	@APIFields(description = "오류 내용", maxLength=4000)
 	private String errCont;
 
-	
 	public String getIfExecCd() {
 		return ifExecCd;
 	}
@@ -180,13 +182,6 @@ public class EzcIfLog extends AbstractEntity {
 		this.ifReqtDirt = ifReqtDirt;
 	}
 
-	public BigDecimal getExecStrtMlisSecd() {
-		return execStrtMlisSecd;
-	}
-
-	public void setExecStrtMlisSecd(BigDecimal execStrtMlisSecd) {
-		this.execStrtMlisSecd = execStrtMlisSecd;
-	}
 
 	public String getInptTelg() {
 		return inptTelg;
@@ -204,13 +199,6 @@ public class EzcIfLog extends AbstractEntity {
 		this.inptTelgSize = inptTelgSize;
 	}
 
-	public BigDecimal getExecEndMlisSecd() {
-		return execEndMlisSecd;
-	}
-
-	public void setExecEndMlisSecd(BigDecimal execEndMlisSecd) {
-		this.execEndMlisSecd = execEndMlisSecd;
-	}
 
 	public String getOutpTelg() {
 		return outpTelg;
@@ -228,13 +216,6 @@ public class EzcIfLog extends AbstractEntity {
 		this.outpTelgSize = outpTelgSize;
 	}
 
-	public BigDecimal getTotlLapMlisSecd() {
-		return totlLapMlisSecd;
-	}
-
-	public void setTotlLapMlisSecd(BigDecimal totlLapMlisSecd) {
-		this.totlLapMlisSecd = totlLapMlisSecd;
-	}
 
 	public String getSuccYn() {
 		return succYn;
@@ -258,6 +239,38 @@ public class EzcIfLog extends AbstractEntity {
 
 	public void setErrCont(String errCont) {
 		this.errCont = errCont;
+	}
+
+	public String getThedGuid() {
+		return thedGuid;
+	}
+
+	public void setThedGuid(String thedGuid) {
+		this.thedGuid = thedGuid;
+	}
+
+	public Long getExecStrtMlisSecd() {
+		return execStrtMlisSecd;
+	}
+
+	public void setExecStrtMlisSecd(Long execStrtMlisSecd) {
+		this.execStrtMlisSecd = execStrtMlisSecd;
+	}
+
+	public Long getExecEndMlisSecd() {
+		return execEndMlisSecd;
+	}
+
+	public void setExecEndMlisSecd(Long execEndMlisSecd) {
+		this.execEndMlisSecd = execEndMlisSecd;
+	}
+
+	public Long getTotlLapMlisSecd() {
+		return totlLapMlisSecd;
+	}
+
+	public void setTotlLapMlisSecd(Long totlLapMlisSecd) {
+		this.totlLapMlisSecd = totlLapMlisSecd;
 	}
 
 
