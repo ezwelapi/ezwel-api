@@ -26,8 +26,6 @@ import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
-import com.ezwel.htl.interfaces.commons.send.data.SmsSenderInSDO;
-import com.ezwel.htl.interfaces.commons.send.data.SmsSenderOutSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.RegexUtil;
 import com.ezwel.htl.interfaces.server.commons.interfaces.RequestNamespace;
@@ -202,19 +200,6 @@ public class UtilityController {
 		logger.debug("[END] getInterfaceConfigXML");
 		return out;
 	}
-	
-	@RequestMapping(value = "/service/callSmsSender")
-	@APIOperation(description = "문자발송 인터페이스", returnType = SmsSenderOutSDO.class)
-	public Object callSmsSender(SmsSenderInSDO smsSenderSDO) {
-		logger.debug("[START] callSmsSender {} {}", smsSenderSDO);
-		
-		sendIFService = (SendIFService) LApplicationContext.getBean(sendIFService, SendIFService.class);
-		
-		SmsSenderOutSDO out = sendIFService.callSmsSender(smsSenderSDO);
-		
-		return out;
-	}
-	
 	
 	
 }
