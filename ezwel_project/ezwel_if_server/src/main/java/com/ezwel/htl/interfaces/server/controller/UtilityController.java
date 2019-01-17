@@ -26,20 +26,19 @@ import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
-import com.ezwel.htl.interfaces.commons.send.data.SmsSenderSDO;
+import com.ezwel.htl.interfaces.commons.send.data.SmsSenderInSDO;
+import com.ezwel.htl.interfaces.commons.send.data.SmsSenderOutSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.RegexUtil;
 import com.ezwel.htl.interfaces.server.commons.interfaces.RequestNamespace;
 import com.ezwel.htl.interfaces.server.commons.morpheme.cm.MorphemeUtil;
 import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzers;
-import com.ezwel.htl.interfaces.server.commons.sdo.MailSenderSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.FileUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.ResponseUtil;
 import com.ezwel.htl.interfaces.server.sdo.AgentApiKeySDO;
 import com.ezwel.htl.interfaces.server.sdo.MorphemeSDO;
-import com.ezwel.htl.interfaces.server.service.SendService;
 import com.ezwel.htl.interfaces.service.SendIFService;
 
 @Controller
@@ -56,7 +55,6 @@ public class UtilityController {
 	private RegexUtil regexUtil;
 	private ResponseUtil responseUtil;
 	private SendIFService sendIFService;
-	private SendService sendService;
 	
 	@APIOperation(description="테스트 JSP Forward Operation")
 	@RequestMapping(value="/{fileName}")
@@ -206,29 +204,17 @@ public class UtilityController {
 	}
 	
 	@RequestMapping(value = "/service/callSmsSender")
-	@APIOperation(description = "문자발송 인터페이스")
-	public Object callSmsSender(SmsSenderSDO smsSenderSDO) {
+	@APIOperation(description = "문자발송 인터페이스", returnType = SmsSenderOutSDO.class)
+	public Object callSmsSender(SmsSenderInSDO smsSenderSDO) {
 		logger.debug("[START] callSmsSender {} {}", smsSenderSDO);
 		
 		sendIFService = (SendIFService) LApplicationContext.getBean(sendIFService, SendIFService.class);
 		
-		boolean out = true;
-		
-		out = sendIFService.callSmsSender(smsSenderSDO);
+		SmsSenderOutSDO out = sendIFService.callSmsSender(smsSenderSDO);
 		
 		return out;
 	}
 	
-	@RequestMapping(value = "/service/callMailSender")
-	@APIOperation(description = "메일발송 인터페이스")
-	public Object callMailSender(MailSenderSDO mailSenderSDO) {
-		logger.debug("[START] callMailSender {} {} ", mailSenderSDO);
-		
-		sendService = (SendService) LApplicationContext.getBean(sendService, SendService.class);
-		
-		sendService.callMailSender(mailSenderSDO);
-		
-		return true;
-	}
+	
 	
 }

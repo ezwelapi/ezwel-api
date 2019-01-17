@@ -10,11 +10,8 @@ import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.SendIFService;
 import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobInSDO;
 import com.ezwel.htl.interfaces.service.data.ezwelJob.EzwelJobOutSDO;
-<<<<<<< HEAD
-=======
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
->>>>>>> branch 'master' of https://github.com/ezwelapi/ezwel-api
 
 import junit.framework.TestCase;
 
@@ -48,14 +45,9 @@ public class InterfaceMixTestService extends TestCase {
 	}
 
 	
-<<<<<<< HEAD
-	public void testEzwelJob()  throws Exception {		
-		logger.debug("[START] callEzwelJob");
-=======
 	// 객실정보조회
 	public void testRoomRead()  throws Exception {
 		logger.debug("[START] callRoomRead");
->>>>>>> branch 'master' of https://github.com/ezwelapi/ezwel-api
 		
 		UserAgentSDO userAgentDTO = new UserAgentSDO();
 		
@@ -66,24 +58,23 @@ public class InterfaceMixTestService extends TestCase {
 		userAgentDTO.setHttpRequestId("test");
 		
 		//Input parameter
-		EzwelJobInSDO ezwelJobSDO = new EzwelJobInSDO();
+		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
 		
-		ezwelJobSDO.setRsvNo("");
-		ezwelJobSDO.setRsvDateStart("20190101");
-		ezwelJobSDO.setRsvDateEnd("20190115");
+		roomReadSDO.setPdtNo("KRSEL217");
+		roomReadSDO.setCheckInDate("20190114");
+		roomReadSDO.setCheckOutDate("20190115");
+		roomReadSDO.setRoomCnt(1);
+		roomReadSDO.setAdultCnt(2);
+		roomReadSDO.setChildCnt(0);
 		
 		//interface api call
-<<<<<<< HEAD
-		EzwelJobOutSDO out = outIfAdapter.callEzwelJob(userAgentDTO, ezwelJobSDO);
-=======
 		RoomReadOutSDO out = outIfAdapter.callRoomRead(userAgentDTO, roomReadSDO);
->>>>>>> branch 'master' of https://github.com/ezwelapi/ezwel-api
 		
 		logger.debug("Code : {}", out.getCode());
 		logger.debug("Message : {}", out.getMessage());
-		logger.debug("Reserves : {}", out.getReserves());
+		logger.debug("Data : {}", out.getData());
 		
-		logger.debug("[END] callEzwelJob");
+		logger.debug("[END] callRoomRead");
 	}
 	
 	

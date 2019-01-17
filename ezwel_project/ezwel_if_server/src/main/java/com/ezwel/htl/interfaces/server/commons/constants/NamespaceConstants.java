@@ -1,188 +1,13 @@
 package com.ezwel.htl.interfaces.server.commons.constants;
 
-public class NamespaceConstants {
+import java.util.HashMap;
+import java.util.Map;
 
-	public final static String OUTSIDE_MAPPER;
-	public final static String IF_COMM_MAPPER;
+public class NamespaceConstants {
 	
-	public final static String API_LOG_MAPPER;
-	public final static String API_REQ_MAPPER;
-	public final static String API_REQ_TEMPLATE_MAPPER;
-	public final static String AREA_CD_MAPPER;
-	public final static String AUTH_MAPPER;
-	public final static String AUTH_GRP_MAPPER;
-	public final static String AUTH_MAPPING_MAPPER;
-	public final static String CACHE_DAY_PRICE_MAPPER;
-	public final static String CACHE_DAY_PRICE_LOG_MAPPER;
-	public final static String CACHE_MIN_AMT_MAPPER;
-	public final static String CACHE_SEARCH_LOG_MAPPER;
-	public final static String CHANNEL_BLACK_FACL_MAPPER;
-	public final static String CHANNEL_CITYCD_MAPPER;
-	public final static String CHANNEL_CLIENT_MAPPER;
-	public final static String CHANNEL_CLIENT_PARTNER_MAPPER;
-	public final static String CHANNEL_MNG_MAPPER;
-	public final static String CHANNEL_PARTNER_MAPPER;
-	public final static String CHANNEL_ROOM_TYPE_MAPPER;
-	public final static String CITY_CD_MAPPER;
-	public final static String CLASS_CD_MAPPER;
-	public final static String CLIENT_INFO_MAPPER;
-	public final static String CNCLIENT_BLACK_FACL_MAPPER;
-	public final static String CNCLIENT_CITYCD_MAPPER;
-	public final static String CNCLIENT_FACL_MARK_MAPPER;
-	public final static String CNCLIENT_ROOM_TYPE_MAPPER;
-	public final static String CPN_MAPPER;
-	public final static String CPN_CHANNEL_MAPPER;
-	public final static String CPN_CITY_MAPPER;
-	public final static String CPN_CLIENT_MAPPER;
-	public final static String CPN_FACL_MAPPER;
-	public final static String CPN_PARTNER_MAPPER;
-	public final static String CPN_ROOM_TYPE_MAPPER;
-	public final static String CPN_USE_HIST_MAPPER;
-	public final static String DEPOSIT_MAPPER;
-	public final static String DEPOSIT_ISSUE_HIST_MAPPER;
-	public final static String DEPOSIT_USE_HIST_MAPPER;
-	public final static String DETAIL_CD_MAPPER;
-	public final static String DISP_MAPPER;
-	public final static String DIST_CANCEL_RULE_MAPPER;
-	public final static String DIST_EVID_MAPPER;
-	public final static String DIST_FACL_DETAIL_MAPPER;
-	public final static String DIST_ROOM_MAPPER;
-	public final static String DIST_ROOM_AMT_MAPPER;
-	public final static String DIST_ROOM_OPT_MAPPER;
-	public final static String FACL_MAPPER;
-	public final static String FACL_AMENT_MAPPER;
-	public final static String FACL_HIST_MAPPER;
-	public final static String FACL_IMG_MAPPER;
-	public final static String FACL_REVIEW_MAPPER;
-	public final static String FACL_REVIEW_GRADE_MAPPER;
-	public final static String FACL_REVIEW_IMG_MAPPER;
-	public final static String FREQ_TXT_MAPPER;
-	public final static String HOLIDAY_MAPPER;
-	public final static String MAPPING_FACL_MAPPER;
-	public final static String MAPPING_GRP_FACL_MAPPER;
-	public final static String MEM_MAPPER;
-	public final static String MENU_MAPPER;
-	public final static String MGR_MAPPER;
-	public final static String MGR_LOG_MAPPER;
-	public final static String MGR_NOTICE_MAPPER;
-	public final static String MGR_NOTICE_ATTACH_MAPPER;
-	public final static String MY_CPN_MAPPER;
-	public final static String PARTNER_MAPPER;
-	public final static String PARTNER_EZWEL_MGR_MAPPER;
-	public final static String POPUL_SEARCH_MAPPER;
-	public final static String PRM_CHANNEL_MAPPER;
-	public final static String PRM_CLIENT_MAPPER;
-	public final static String PRM_COMMENT_MAPPER;
-	public final static String PRM_CPN_MAPPER;
-	public final static String PRM_GOODS_MAPPER;
-	public final static String PRM_MNG_MAPPER;
-	public final static String PRM_SURVEY_MAPPER;
-	public final static String PRM_SURVEY_ANSWER_MAPPER;
-	public final static String PRM_SURVEY_USER_MAPPER;
-	public final static String PRM_TAB_MAPPER;
-	public final static String QNA_MAPPER;
-	public final static String RESERV_BASE_MAPPER;
-	public final static String RESERV_CANCEL_MAPPER;
-	public final static String RESERV_MNG_HIS_MAPPER;
-	public final static String RESERV_PAY_MAPPER;
-	public final static String RESERV_ROOM_MAPPER;
-	public final static String RESERV_ROOM_OPT_MAPPER;
-	public final static String RESERV_RULE_PENALTY_MAPPER;
-	public final static String SPOT_MAPPER;
-	public final static String SPOT_MAPPING_FACL_MAPPER;
+	private static Map<String, String> NAMESPACE_MAP;
 	
 	static {
-<<<<<<< HEAD
-		
-		OUTSIDE_MAPPER = "com.ezwel.htl.interfaces.server.repository.outsideMapper";
-		IF_COMM_MAPPER = "com.ezwel.htl.interfaces.server.repository.interfaceCommMapper";
-		
-		API_LOG_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcApiLogMapper";
-		API_REQ_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcApiReqMapper";
-		API_REQ_TEMPLATE_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcApiReqTemplateMapper";
-		AREA_CD_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcAreaCdMapper";
-		AUTH_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcAuthMapper";
-		AUTH_GRP_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcAuthGrpMapper";
-		AUTH_MAPPING_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcAuthMappingMapper";
-		CACHE_DAY_PRICE_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcCacheDayPriceMapper";
-		CACHE_DAY_PRICE_LOG_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcCacheDayPriceLogMapper";
-		CACHE_MIN_AMT_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcCacheMinAmtMapper";
-		CACHE_SEARCH_LOG_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcCacheSearchLogMapper";
-		CHANNEL_BLACK_FACL_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcChannelBlackFaclMapper";
-		CHANNEL_CITYCD_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcChannelCitycdMapper";
-		CHANNEL_CLIENT_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcChannelClientMapper";
-		CHANNEL_CLIENT_PARTNER_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcChannelClientPartnerMapper";
-		CHANNEL_MNG_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcChannelMngMapper";
-		CHANNEL_PARTNER_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcChannelPartnerMapper";
-		CHANNEL_ROOM_TYPE_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcChannelRoomTypeMapper";
-		CITY_CD_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcCityCdMapper";
-		CLASS_CD_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcClassCdMapper";
-		CLIENT_INFO_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcClientInfoMapper";
-		CNCLIENT_BLACK_FACL_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcCnclientBlackFaclMapper";
-		CNCLIENT_CITYCD_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcCnclientCitycdMapper";
-		CNCLIENT_FACL_MARK_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcCnclientFaclMarkMapper";
-		CNCLIENT_ROOM_TYPE_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcCnclientRoomTypeMapper";
-		CPN_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcCpnMapper";
-		CPN_CHANNEL_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcCpnChannelMapper";
-		CPN_CITY_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcCpnCityMapper";
-		CPN_CLIENT_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcCpnClientMapper";
-		CPN_FACL_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcCpnFaclMapper";
-		CPN_PARTNER_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcCpnPartnerMapper";
-		CPN_ROOM_TYPE_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcCpnRoomTypeMapper";
-		CPN_USE_HIST_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcCpnUseHistMapper";
-		DEPOSIT_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcDepositMapper";
-		DEPOSIT_ISSUE_HIST_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcDepositIssueHistMapper";
-		DEPOSIT_USE_HIST_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcDepositUseHistMapper";
-		DETAIL_CD_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcDetailCdMapper";
-		DISP_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcDispMapper";
-		DIST_CANCEL_RULE_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcDistCancelRuleMapper";
-		DIST_EVID_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcDistEvidMapper";
-		DIST_FACL_DETAIL_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcDistFaclDetailMapper";
-		DIST_ROOM_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcDistRoomMapper";
-		DIST_ROOM_AMT_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcDistRoomAmtMapper";
-		DIST_ROOM_OPT_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcDistRoomOptMapper";
-		FACL_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcFaclMapper";
-		FACL_AMENT_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcFaclAmentMapper";
-		FACL_HIST_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcFaclHistMapper";
-		FACL_IMG_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcFaclImgMapper";
-		FACL_REVIEW_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcFaclReviewMapper";
-		FACL_REVIEW_GRADE_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcFaclReviewGradeMapper";
-		FACL_REVIEW_IMG_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcFaclReviewImgMapper";
-		FREQ_TXT_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcFreqTxtMapper";
-		HOLIDAY_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcHolidayMapper";
-		MAPPING_FACL_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcMappingFaclMapper";
-		MAPPING_GRP_FACL_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcMappingGrpFaclMapper";
-		MEM_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcMemMapper";
-		MENU_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcMenuMapper";
-		MGR_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcMgrMapper";
-		MGR_LOG_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcMgrLogMapper";
-		MGR_NOTICE_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcMgrNoticeMapper";
-		MGR_NOTICE_ATTACH_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcMgrNoticeAttachMapper";
-		MY_CPN_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcMyCpnMapper";
-		PARTNER_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcPartnerMapper";
-		PARTNER_EZWEL_MGR_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcPartnerEzwelMgrMapper";
-		POPUL_SEARCH_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcPopulSearchMapper";
-		PRM_CHANNEL_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcPrmChannelMapper";
-		PRM_CLIENT_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcPrmClientMapper";
-		PRM_COMMENT_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcPrmCommentMapper";
-		PRM_CPN_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcPrmCpnMapper";
-		PRM_GOODS_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcPrmGoodsMapper";
-		PRM_MNG_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcPrmMngMapper";
-		PRM_SURVEY_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcPrmSurveyMapper";
-		PRM_SURVEY_ANSWER_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcPrmSurveyAnswerMapper";
-		PRM_SURVEY_USER_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcPrmSurveyUserMapper";
-		PRM_TAB_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcPrmTabMapper";
-		QNA_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcQnaMapper";
-		RESERV_BASE_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcReservBaseMapper";
-		RESERV_CANCEL_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcReservCancelMapper";
-		RESERV_MNG_HIS_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcReservMngHisMapper";
-		RESERV_PAY_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcReservPayMapper";
-		RESERV_ROOM_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcReservRoomMapper";
-		RESERV_ROOM_OPT_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcReservRoomOptMapper";
-		RESERV_RULE_PENALTY_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcReservRulePenaltyMapper";
-		SPOT_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcSpotMapper";
-		SPOT_MAPPING_FACL_MAPPER = "com.ezwel.htl.interfaces.server.repository.EzcSpotMappingFaclMapper";		
-=======
 		NAMESPACE_MAP = new HashMap<String, String>();
 
 		//NAMESPACE_MAP.put("OUTSIDE_MAPPER", "com.ezwel.htl.interfaces.server.repository.outsideMapper");
@@ -274,7 +99,13 @@ public class NamespaceConstants {
 		NAMESPACE_MAP.put("SPOT_MAPPER", "com.ezwel.htl.interfaces.server.repository.EzcSpotMapper");
 		NAMESPACE_MAP.put("SPOT_MAPPING_FACL_MAPPER", "com.ezwel.htl.interfaces.server.repository.EzcSpotMappingFaclMapper");
 		NAMESPACE_MAP.put("IF_LOG_MAPPER", "com.ezwel.htl.interfaces.server.repository.EzcIfLogMapper");
->>>>>>> branch 'master' of https://github.com/ezwelapi/ezwel-api
 	}
 	
+	public static Map<String, String> getNamespace() {
+		return NAMESPACE_MAP;
+	}
+	
+	public static String getNamespace(String key) {
+		return NAMESPACE_MAP.get(key);
+	}
 }
