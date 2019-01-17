@@ -205,9 +205,9 @@ public class UtilityController {
 		return out;
 	}
 	
-	@APIOperation(description = "문자발송 인터페이스")
+	@APIOperation(description="문자발송 인터페이스", isOutputJsonMarshall=true, returnType=SmsSenderSDO.class)
 	@RequestMapping(value="/callSmsSender")
-	public boolean callSmsSender(SmsSenderSDO smsSenderSDO) {
+	public Object callSmsSender(SmsSenderSDO smsSenderSDO) {
 		logger.debug("[START] callSmsSender {} {}", smsSenderSDO);
 		
 		sendIFService = (SendIFService) LApplicationContext.getBean(sendIFService, SendIFService.class);
@@ -219,14 +219,14 @@ public class UtilityController {
 		return out;
 	}
 	
-	@APIOperation(description = "메일발송 인터페이스")
+	@APIOperation(description="메일발송 인터페이스", isOutputJsonMarshall=true, returnType=MailSenderSDO.class)
 	@RequestMapping(value="/callMailSender")
-	public boolean callMailSender() {
+	public Object callMailSender() {
 		logger.debug("[START] callMailSender {} {}", "mail send");
 		
 		sendService = (SendService) LApplicationContext.getBean(sendService, SendService.class);
 		
-		boolean out = true;
+		MailSenderSDO out = new MailSenderSDO();
 		
 		String recipient = "java124@naver.com"; 
 		String subject = "메일 제목 테스트";
@@ -237,11 +237,9 @@ public class UtilityController {
 		mailSenderSDO.setSubject(subject);
 		mailSenderSDO.setBody(body);		
 		
-		out = sendService.callMailSender(mailSenderSDO);
+		out.setResult(sendService.callMailSender(mailSenderSDO));
 		
-		return out;
-		
+		return out;	
 	}
-	
 	
 }

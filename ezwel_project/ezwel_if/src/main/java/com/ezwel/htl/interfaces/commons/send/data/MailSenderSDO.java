@@ -32,6 +32,9 @@ public class MailSenderSDO extends AbstractSDO {
 	@APIFields(description = "메일내용", required=false)
 	private String body;
 
+	@APIFields(description = "send result", required=false)
+	private boolean result;
+	
 	public String getFrom() {
 		return from;
 	}
@@ -70,6 +73,14 @@ public class MailSenderSDO extends AbstractSDO {
 
 	public void setBody(String body) {
 		this.body = body;
+	}
+
+	public boolean isResult() {
+		return result;
+	}
+
+	public void setResult(boolean result) {
+		this.result = result;
 	}
 	
 }
