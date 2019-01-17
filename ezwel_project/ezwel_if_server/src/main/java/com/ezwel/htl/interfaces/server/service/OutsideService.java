@@ -573,7 +573,7 @@ public class OutsideService extends AbstractServiceObject {
 						ezcFacl.setTelNum(faclData.getTelephone());	//전화 번호
 						ezcFacl.setCoordY(faclData.getMapX());	//위도
 						ezcFacl.setCoordX(faclData.getMapY());	//경도
-						ezcFacl.setMinAmt((faclData.getSellPrice() != null ? new BigDecimal(faclData.getSellPrice()) : null)); // 최저 금액
+						ezcFacl.setMinAmt((APIUtil.isNotEmpty(faclData.getSellPrice()) ? new BigDecimal(faclData.getSellPrice()) : null)); // 최저 금액
 						ezcFacl.setDetailDescPc(faclData.getDescHTML());	//상세 설명 PC 		(제휴사 텍스트 OR HTML 설명 데이터)
 						ezcFacl.setDetailDescM(faclData.getDescMobile());	//상세 설명 모바일	(제휴사 텍스트 OR HTML 설명 데이터)
 						ezcFacl.setTripPropId(faclData.getTripadvisorId());	//트립어드바이저 프로퍼티 ID
