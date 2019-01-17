@@ -9,12 +9,13 @@ import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
 import com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor;
 import com.ezwel.htl.interfaces.server.commons.sdo.FaxSenderSDO;
 
 @Component
 @APIType(description="팩스발송 인터페이스")
-public class FaxSender {
+public class FaxSender extends AbstractDataAccessObject {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
 	
@@ -42,7 +43,10 @@ public class FaxSender {
 		faxSenderSDO.setTrSendStat("0"); 					// 발송상태값(0:발송대기,1:발송중,2:발송완료)
 
 		// 팩스발송내용등록	
+		//Integer txCount = sqlSession.update(getNamespace("RESERV_BASE_MAPPER", "updateEzcReservBaseVoucherNo"), inEzcReservBase);
+		
 		//this.sendManagerDAO.insertFaxSendMeta(faxSenderSDO);
+		
 		
 //		<!-- 팩스발송내용등록 -->
 //	    <insert id="insertFaxSendMeta" parameterType="com.ezwel.htl.interfaces.server.commons.sdo">

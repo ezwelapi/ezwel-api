@@ -15,7 +15,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
  */
 
 @APIModel
-public class SmsSenderInSDO extends AbstractSDO {
+public class SmsSenderSDO extends AbstractSDO {
 	
 	@APIFields(description = "문자발송 Input 수신번호", required=true, maxLength=12)
 	private String callTo;

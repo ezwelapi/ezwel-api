@@ -1,5 +1,6 @@
 package com.ezwel.htl.interfaces.service;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,8 @@ import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.send.SmsSender;
-import com.ezwel.htl.interfaces.commons.send.data.SmsSenderInSDO;
-import com.ezwel.htl.interfaces.commons.send.data.SmsSenderOutSDO;
+import com.ezwel.htl.interfaces.commons.send.data.MailSenderSDO;
+import com.ezwel.htl.interfaces.commons.send.data.SmsSenderSDO;
 
 /**
  * <pre>
@@ -39,14 +40,30 @@ public class SendIFService {
 	}	
 	
 	@APIOperation(description="문자발송 인터페이스")
-	public SmsSenderOutSDO callSmsSender(SmsSenderInSDO smsSenderSDO) {
+	public boolean callSmsSender(SmsSenderSDO smsSenderSDO) {
 		return callSmsSender(smsSenderSDO, false);
 	}
 	
 	@APIOperation(description="문자발송 인터페이스")
-	public SmsSenderOutSDO callSmsSender(SmsSenderInSDO smsSenderSDO, boolean isEzwelInsideInterface) {
-		
-		SmsSenderOutSDO out = null;
+	public boolean callSmsSender(SmsSenderSDO smsSenderSDO, boolean isEzwelInsideInterface) {
+				
+//		String callTo = "01037440698";
+//		String callFrom = "0232820579";
+//		String mmsSubject = "테스트";
+//		String smsTxt = "대기예약 확정이 가능합니다. 예약 확정은 2019-01-15 18:00 시간 내에 홈페이지에서 해주셔야 하며, 이후 자동 취소 됩니다.  - 시설 : 부산파라다이스호텔 - 일시 : 2019-01-17 이지웰 복지몰 서비스를 이용해 주셔서 감사합니다.";
+//		String svcType = "1008";
+//		String smsUseYn = "N";
+//		String templateCode = "10052";
+//		
+//		//Input parameter
+//		SmsSenderSDO smsSenderSDO = new SmsSenderSDO();
+//		smsSenderSDO.setCallTo(callTo); 			// 필수
+//		smsSenderSDO.setCallFrom(callFrom); 		// 선택
+//		smsSenderSDO.setMmsSubject(mmsSubject); 	// 선택
+//		smsSenderSDO.setSmsText(smsTxt); 			// 필수
+//		smsSenderSDO.setTemplateCode(templateCode); // 선택 ( 카카오톡메세지일경우 필수 )
+				
+		boolean result = true;
 		
 		try {
 			
@@ -54,13 +71,74 @@ public class SendIFService {
 			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getSmsConfig().getRestURI());
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			
-			out = (SmsSenderOutSDO) smsSender.requestUrl(httpConfigSDO, smsSenderSDO);
+			String out = null;
+			
+			out = smsSender.requestUrl(httpConfigSDO, smsSenderSDO);
+			
+			logger.debug("[SMS OUT SERVICE] : {}", out);
+			
+			if(!"0000".equals(out)) {
+				result = false;
+			}
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "문자발송 인터페이스 장애발생.", e);
 		}
 			
-		return out;		
+		return result;		
+	}
+	
+	@APIOperation(description="문자발송 인터페이스")
+	public boolean callMailSender(MailSenderSDO mailSenderSDO, boolean isEzwelInsideInterface) {
+		
+		boolean rResult = true;
+		
+		/*
+		String recipient = "jyp0698@gmail.com"; 
+		String subject = "메일 제목 테스트";
+		String body = "메일 내용 테스트";
+		
+		mailSenderSDO.setRecipient(recipient); 필수
+		mailSenderSDO.setSubject(subject); 필수
+		mailSenderSDO.setBody(body); 필수
+		
+		mailSenderSDO.setFrom(from); 옵션
+		mailSenderSDO.setFromName(fromName);옵션
+		
+		*/
+		if( StringUtils.isEmpty(mailSenderSDO.getFrom()) ) {
+			mailSenderSDO.setFrom("admin@ezwel.com");
+		}
+		
+		if( StringUtils.isEmpty(mailSenderSDO.getFrom()) ) {
+			mailSenderSDO.setFromName("이지웰관리자");
+		}
+		
+		if( StringUtils.isEmpty( mailSenderSDO.getRecipient()) || StringUtils.isEmpty( mailSenderSDO.getSubject() ) 
+			|| StringUtils.isEmpty( mailSenderSDO.getBody())
+		){
+			//필수항목 누락
+			return false;
+		}
+		
+		
+		/*
+		
+		try {
+			
+			HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
+			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getSmsConfig().getRestURI());
+			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
+			
+			SmsSenderOutSDO out = (SmsSenderOutSDO) smsSender.requestUrl(httpConfigSDO, mailSenderSDO);
+			
+			
+		}
+		catch(Exception e) {
+			return false;
+		}*/
+			
+		return rResult;		
 	}
 
 }

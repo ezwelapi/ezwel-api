@@ -5,8 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
-import com.ezwel.htl.interfaces.commons.send.data.SmsSenderInSDO;
-import com.ezwel.htl.interfaces.commons.send.data.SmsSenderOutSDO;
+import com.ezwel.htl.interfaces.commons.send.data.SmsSenderSDO;
 import com.ezwel.htl.interfaces.server.commons.sdo.MailSenderSDO;
 import com.ezwel.htl.interfaces.server.service.SendService;
 import com.ezwel.htl.interfaces.service.SendIFService;
@@ -33,6 +32,8 @@ public class SendTest {
 		
 		logger.debug("[START] smsSenderTest");
 		
+		boolean out = true;
+		
 		//request value
 		String callTo = "01037440698";
 		String callFrom = "0232820579";
@@ -43,7 +44,7 @@ public class SendTest {
 		String templateCode = "10052";
 		
 		//Input parameter
-		SmsSenderInSDO smsSenderSDO = new SmsSenderInSDO();
+		SmsSenderSDO smsSenderSDO = new SmsSenderSDO();
 		smsSenderSDO.setCallTo(callTo);
 		smsSenderSDO.setCallFrom(callFrom);
 		smsSenderSDO.setMmsSubject(mmsSubject);
@@ -53,9 +54,9 @@ public class SendTest {
 		smsSenderSDO.setTemplateCode(templateCode);
 		
 		//interface api call
-		SmsSenderOutSDO out = sendIFService.callSmsSender(smsSenderSDO);
+		out = sendIFService.callSmsSender(smsSenderSDO);
 		
-		logger.debug("data : {}", out.getData());
+		logger.debug("data : {}", out);
 		
 		logger.debug("[END] smsSenderTest");
 	}
