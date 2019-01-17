@@ -212,9 +212,9 @@ public class UtilityController {
 		
 		sendIFService = (SendIFService) LApplicationContext.getBean(sendIFService, SendIFService.class);
 		
-		boolean out = true;
+		SmsSenderSDO out = new SmsSenderSDO();
 		
-		out = sendIFService.callSmsSender(smsSenderSDO);
+		out.setResult(sendIFService.callSmsSender(smsSenderSDO));
 		
 		return out;
 	}

@@ -1,6 +1,5 @@
 package com.ezwel.htl.interfaces.service;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.send.SmsSender;
-import com.ezwel.htl.interfaces.commons.send.data.MailSenderSDO;
 import com.ezwel.htl.interfaces.commons.send.data.SmsSenderSDO;
 
 /**
@@ -88,57 +86,46 @@ public class SendIFService {
 		return result;		
 	}
 	
-	@APIOperation(description="문자발송 인터페이스")
-	public boolean callMailSender(MailSenderSDO mailSenderSDO, boolean isEzwelInsideInterface) {
-		
-		boolean rResult = true;
-		
-		/*
-		String recipient = "jyp0698@gmail.com"; 
-		String subject = "메일 제목 테스트";
-		String body = "메일 내용 테스트";
-		
-		mailSenderSDO.setRecipient(recipient); 필수
-		mailSenderSDO.setSubject(subject); 필수
-		mailSenderSDO.setBody(body); 필수
-		
-		mailSenderSDO.setFrom(from); 옵션
-		mailSenderSDO.setFromName(fromName);옵션
-		
-		*/
-		if( StringUtils.isEmpty(mailSenderSDO.getFrom()) ) {
-			mailSenderSDO.setFrom("admin@ezwel.com");
-		}
-		
-		if( StringUtils.isEmpty(mailSenderSDO.getFrom()) ) {
-			mailSenderSDO.setFromName("이지웰관리자");
-		}
-		
-		if( StringUtils.isEmpty( mailSenderSDO.getRecipient()) || StringUtils.isEmpty( mailSenderSDO.getSubject() ) 
-			|| StringUtils.isEmpty( mailSenderSDO.getBody())
-		){
-			//필수항목 누락
-			return false;
-		}
-		
-		
-		/*
-		
-		try {
-			
-			HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
-			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getSmsConfig().getRestURI());
-			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
-			
-			SmsSenderOutSDO out = (SmsSenderOutSDO) smsSender.requestUrl(httpConfigSDO, mailSenderSDO);
-			
-			
-		}
-		catch(Exception e) {
-			return false;
-		}*/
-			
-		return rResult;		
-	}
+//	@APIOperation(description="메일발송 인터페이스")
+//	public boolean callMailSender(MailSenderSDO mailSenderSDO) {
+//		return callMailSender(mailSenderSDO, false);
+//	}
+//	
+//	@APIOperation(description="메일발송 인터페이스")
+//	public boolean callMailSender(MailSenderSDO mailSenderSDO, boolean isEzwelInsideInterface) {
+//		
+//		boolean out = true;
+//		
+//		/*
+//		String recipient = "jyp0698@gmail.com"; 
+//		String subject = "메일 제목 테스트";
+//		String body = "메일 내용 테스트";
+//		
+//		mailSenderSDO.setRecipient(recipient); 필수
+//		mailSenderSDO.setSubject(subject); 필수
+//		mailSenderSDO.setBody(body); 필수
+//		
+//		mailSenderSDO.setFrom(from); 옵션
+//		mailSenderSDO.setFromName(fromName);옵션
+//		
+//		*/
+//		
+//		if(StringUtils.isEmpty(mailSenderSDO.getRecipient()) || StringUtils.isEmpty(mailSenderSDO.getSubject()) || StringUtils.isEmpty(mailSenderSDO.getBody())) {
+//			return false;
+//		}
+//		
+//		try {
+//			
+//			
+//			MailSenderSDO out = (MailSenderSDO) mailSender.callMailSender();
+//			
+//			
+//		}
+//		catch(Exception e) {
+//			return false;
+//		}
+//			
+//		return out;		
+//	}
 
 }
