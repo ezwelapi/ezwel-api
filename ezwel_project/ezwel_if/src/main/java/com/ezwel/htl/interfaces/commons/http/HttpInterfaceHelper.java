@@ -55,6 +55,7 @@ public class HttpInterfaceHelper implements Callable<AbstractSDO> {
 
 		//logger.debug("[START] Time : {}, Thread Name : {}, httpConfig : {}",  new Date(), Thread.currentThread().getName(), multiHttpConfigDTO);
 		//인터페이스 실행
+		multiHttpConfigDTO.getHttpConfigDTO().setMultiThread(true);
 		Object output = httpInterface.sendJSON(multiHttpConfigDTO.getHttpConfigDTO(), multiHttpConfigDTO.getInputDTO(), multiHttpConfigDTO.getOutputType());
 
 		if(output != null) {

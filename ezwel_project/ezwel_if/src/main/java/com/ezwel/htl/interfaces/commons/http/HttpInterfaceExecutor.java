@@ -200,6 +200,7 @@ public class HttpInterfaceExecutor {
 			
 			for(Entry<String, List<String>> header : conn.getRequestProperties().entrySet()) {
 				logger.debug("★ RequestHeader : {}", header);
+				in.addRequestProperties(header.getKey(), header.getValue().get(0));
 			}
 			
 			//conn.connect();
@@ -371,6 +372,12 @@ public class HttpInterfaceExecutor {
 			
 			contentLength = APIUtil.NVL(inJsonParam).getBytes(in.getEncoding()).length;
 			
+			/** getOpenHttpURLConnection */
+			conn = getOpenHttpURLConnection(in, contentLength);
+			
+			/** Set Request Header */
+			setRequestHeader(in, conn, contentLength);
+			
 			/***************************
 			 * [START] LOG DATA SETTING 
 			 ***************************/
@@ -378,12 +385,6 @@ public class HttpInterfaceExecutor {
 			/***************************
 			 * [END]   LOG DATA SETTING 
 			 ***************************/
-			
-			/** getOpenHttpURLConnection */
-			conn = getOpenHttpURLConnection(in, contentLength);
-			
-			/** Set Request Header */
-			setRequestHeader(in, conn, contentLength);
 			
 			logger.debug("■ request isDoOutput : {}", in.isDoOutput());
 			/** send request json parameter */
@@ -423,7 +424,7 @@ public class HttpInterfaceExecutor {
 
 						/** execute unmarshall */
 						logger.debug("■ outputType : {}", outputType);
-						out = (T2) beanConvert.fromJSONString/*fromJSON*/(responseOrgin, outputType);
+						out = (T2) beanConvert.fromJSONString(responseOrgin, outputType, in.getRestURI());
 						propertyUtil.setProperty(out, "restURI", in.getRestURI());
 						//logger.debug("■ outputType result before : {}", out);
 						
@@ -473,6 +474,11 @@ public class HttpInterfaceExecutor {
 			 ***************************/
 			//logger.debug("[InterfaceResultLogData] output : {}", out);
 			Local.commonHeader().setInterfaceResultLogData(propertyUtil.getProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME), responseOrgin, APIUtil.currentTimeMillis());
+			
+			if(in.isMultiThread()) {
+				//스프링 빈이 아닌 callable의 멀티쓰레드로 실행중인경우 로깅 직접 실행
+				
+			}
 			/***************************
 			 * [END]   LOG DATA SETTING 
 			 ***************************/
@@ -521,12 +527,12 @@ public class HttpInterfaceExecutor {
 				if(Local.commonHeader().getInterfaceLogSDO() != null) {
 					
 					logger.debug("{}", new StringBuffer().append(OperateConstants.LINE_SEPARATOR)
-														 .append("■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
-														 .append("■■ 에러 정보 세팅 ■■").append(OperateConstants.LINE_SEPARATOR)
-														 .append("■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
-														 .toString());
+											 	.append("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
+											 	.append("■■■■■■■■■■■ 에러 정보 세팅 ■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
+												.append("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
+												.toString());
 					
-					Local.commonHeader().getInterfaceLogSDO().setErrType(MessageConstants.getMessage(code)); //MessageConstants의 에러 유형 메시지
+					Local.commonHeader().getInterfaceLogSDO().setExecMsg(MessageConstants.getMessage(code)); //MessageConstants의 에러 유형 메시지
 					Local.commonHeader().getInterfaceLogSDO().setErrCont(message);
 				}		
 				/***************************

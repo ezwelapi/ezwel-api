@@ -63,7 +63,6 @@ public class InsideService {
 		httpConfigSDO.setEncoding(OperateConstants.DEFAULT_ENCODING);
 		httpConfigSDO.setDoInput(true);
 		
-		
 		// 인터페이스 결과 1개 시설에 대한 데이터 저장/삭제 실행
 		List<AllRegOutSDO> assets = new ArrayList<AllRegOutSDO>();
 		AllRegOutSDO recordData = (AllRegOutSDO) inteface.sendJSON(httpConfigSDO, AllRegOutSDO.class);

@@ -87,6 +87,7 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 			logger.debug("- Intercepter RequestMethod : {}", request.getMethod());
 			//7.Request Header 
 			if(request.getHeaderNames() != null) {
+				
 				String headerName = null;
 				String headerValue = null;
 				APIFields apiFieldAnno = null;

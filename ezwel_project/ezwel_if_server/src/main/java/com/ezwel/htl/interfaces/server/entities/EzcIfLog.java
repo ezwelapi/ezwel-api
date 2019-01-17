@@ -92,7 +92,7 @@ public class EzcIfLog extends AbstractEntity {
 	private String succYn;
 
 	@APIFields(description = "오류 유형", maxLength=8)
-	private String errType;
+	private String execMsg;
 
 	@APIFields(description = "오류 내용", maxLength=4000)
 	private String errCont;
@@ -236,12 +236,12 @@ public class EzcIfLog extends AbstractEntity {
 		this.succYn = succYn;
 	}
 
-	public String getErrType() {
-		return errType;
+	public String getExecMsg() {
+		return execMsg;
 	}
 
-	public void setErrType(String errType) {
-		this.errType = errType;
+	public void setExecMsg(String execMsg) {
+		this.execMsg = execMsg;
 	}
 
 	public String getErrCont() {

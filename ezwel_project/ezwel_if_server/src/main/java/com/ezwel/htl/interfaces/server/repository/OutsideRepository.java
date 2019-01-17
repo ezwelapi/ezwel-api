@@ -18,7 +18,9 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.sdo.ApiBatcLogSDO;
 import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
+import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
@@ -35,6 +37,7 @@ import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
 import com.ezwel.htl.interfaces.server.entities.EzcMappingFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcMappingGrpFacl;
 import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
+import com.ezwel.htl.interfaces.server.thread.MultiBuildImageUpdateRepository;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataRealtimeImageOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchDataOutSDO;
@@ -283,33 +286,38 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			
 			if(isErrorPassed) {
 				
-				stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
-				
-				logger.error(new StringBuffer()
-						.append( "전체시설일괄등록 인터페이스 데이터 저장 장애발생" )
+				/*****************************
+				 * [START] DB LOG DATA SETTING / 
+				 *****************************/
+				ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+				apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("insertAllReg"));
+				apiBatcLogSDO.setBatcDesc("전체시설일괄등록 인터페이스 데이터 저장");
+				apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_ER);
+				apiBatcLogSDO.setErrCont(new StringBuffer()
+						.append( "::전체시설일괄등록 인터페이스 데이터 저장 장애 발생시각 : " )
+						.append( APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT) )
 						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "Code : " )
-						.append( MessageConstants.RESPONSE_CODE_9500 )
+						.append( "- 에러 발생 구간(index) from : " )
+						.append( fromIndex )
+						.append( " ~ to : " )
+						.append( toIndex )
+						.append( "중 " )
+						.append( i )
+						.append( "번째 인덱스 데이터" )
 						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "Message : " )
-						.append( e.getMessage() )
-						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "StackTrace : " )
-						.append( stackTraceUtil.getStackTrace(e) )
-						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "Error Object : " )
-						.append( ezcFacl )						
+						.append( "- 에러발생 시설 : " )
+						.append( ezcFacl )
 						.toString());
 				
-				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
-				/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
-				exceptionUtil.writeBatchErrorLog("{}\n{}@{}\n에러 발생 구간(index) from : {} ~ to : {}\n에러 발생 시설 index : {}\n에이전트코드 : {}\n시설코드 : {}\n시설명(한글) : {}\n시설명(영문) : {}", 
-						new Object[] {"[전체시설일괄등록 인터페이스 데이터 저장 장애발생]", this.getClass().getCanonicalName(), "insertAllReg", fromIndex, toIndex, i, ezcFacl.getPartnerCd(), ezcFacl.getPartnerGoodsCd(), ezcFacl.getFaclNmKor(), ezcFacl.getFaclNmEng()},
-						new StringBuffer().append(this.getClass().getSimpleName()).append(OperateConstants.STR_AT).append("insertAllReg-").append(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).toString(), 
-						e);
+				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				/*****************************
+				 * [END]   DB LOG DATA SETTING 
+				 *****************************/
+				
+				logger.error(APIUtil.formatMessage("- 전체시설일괄등록 인터페이스 데이터 저장 장애발생 =>> 제휴사아이디 : {}, 제휴사에이전트설명 : {}, 에러발생 시설 : {}", out.getHttpAgentId(), out.getHttpAgentDesc(), ezcFacl), e);
 			}
 			else {
-				throw new APIException("시설정보 DB 저장 실패 {}", new Object[] {e.getMessage()}, e) ;
+				throw new APIException("전체시설일괄등록 인터페이스 데이터 저장 실패 {}", new Object[] {e.getMessage()}, e) ;
 			}
 		}
 		
@@ -334,17 +342,27 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			
 			if(isErrorPassed) {
 				
-				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
+				/*****************************
+				 * [START] DB LOG DATA SETTING 
+				 *****************************/
+				ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+				apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("updateRemoveFacl"));
+				apiBatcLogSDO.setBatcDesc("전문에서 삭제된 시설정보 사용안함 처리 저장");
+				apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_ER);
+				apiBatcLogSDO.setErrCont(new StringBuffer()
+						.append( "::전문에서 삭제된 시설정보 사용안함 처리 장애 발생시각 : " )
+						.append( APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT) )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "- 에러발생 시설 : " )
+						.append( ezcFacl )
+						.toString());
 				
-				/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
-				exceptionUtil.writeBatchErrorLog("{}\n{}@{}\n에러 발생 객체 : {}", 
-						new Object[] {"[전문에서 삭제된 시설정보 사용안함 처리 장애발생]", this.getClass().getCanonicalName(), "updateRemoveFacl", ezcFacl},
-						new StringBuffer().append(this.getClass().getSimpleName()).append(OperateConstants.STR_AT).append("updateRemoveFacl-").append(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).toString(), 
-						e);
+				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				/*****************************
+				 * [END]   DB LOG DATA SETTING 
+				 *****************************/
 				
-				logger.error("[전문에서 삭제된 시설정보 사용안함 처리 장애 발생]\nCode : {}\nMessage : {}", MessageConstants.RESPONSE_CODE_9500, e.getMessage());
-				e.getStackTrace();
-				
+				logger.error(APIUtil.formatMessage("- 전문에서 삭제된 시설정보 사용안함 처리 장애발생 =>> 에러발생 시설 : {}", ezcFacl), e);
 			}
 			else {
 				throw new APIException("전문에서 삭제된 시설정보 사용안함 처리 실패 {}", new Object[] {e.getMessage()}, e) ;
@@ -412,8 +430,30 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			}
 		}
 		catch(Exception e) {
+			
 			if(isErrorPassed) {
-				logger.error("전체시설 이미지 다운로드 경로 다건 저장 장애 : {}", e.getMessage());
+				
+				/*****************************
+				 * [START] DB LOG DATA SETTING 
+				 *****************************/
+				ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+				apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("updateMultiBuildImage"));
+				apiBatcLogSDO.setBatcDesc("전체시설 이미지 다운로드 경로 다건 저장");
+				apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_ER);
+				apiBatcLogSDO.setErrCont(new StringBuffer()
+						.append( "::전체시설 이미지 다운로드 경로 다건 저장 장애 발생시각 : " )
+						.append( APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT) )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "- 에러발생 시설이미지 : " )
+						.append( ezcFaclImg )
+						.toString());
+				
+				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				/*****************************
+				 * [END]   DB LOG DATA SETTING 
+				 *****************************/
+				
+				logger.error(APIUtil.formatMessage("- 전체시설 이미지 다운로드 경로 다건 저장 장애발생 =>> 에러발생 시설 : {}", ezcFaclImg), e);
 			}
 			else {
 				throw new APIException("이미지 다운르드 경로 DB 다건 저장 실패 {}", new Object[] {e.getMessage()}, e) ;
@@ -487,24 +527,6 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			//에러 발생 레코드 errorItems에 저장후 runtimeException 없이 로깅후 종료
 			if(isErrorPassed) {
 				
-				stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
-				
-				logger.error(new StringBuffer()
-						.append( "시설 매핑 데이터 저장 장애발생" )
-						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "Code : " )
-						.append( MessageConstants.RESPONSE_CODE_9600 )
-						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "Message : " )
-						.append( e.getMessage() )
-						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "StackTrace : " )
-						.append( stackTraceUtil.getStackTrace(e) )
-						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "Error Object : " )
-						.append( ezcMappingGrpFacl )						
-						.toString());
-				
 				if(e.getMessage().indexOf("EZ_CHECKIN.UK_EZC_MAPPING_FACL_01") > -1) {
 					
 					//EzcMappingFacl
@@ -517,12 +539,28 @@ public class OutsideRepository extends AbstractDataAccessObject {
 					txOut.addProfileMap("ezcMappingGrpFaclErrorData", ezcMappingGrpFaclErrorData);
 				}
 				
-				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
-				/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
-				exceptionUtil.writeBatchErrorLog("{}\n{}@{}\n에러 발생 객체 : {}", 
-						new Object[] {"[시설 매핑 데이터 저장 장애발생]", this.getClass().getCanonicalName(), "mergeFaclMappingGrpData", ezcMappingGrpFacl},
-						new StringBuffer().append(this.getClass().getSimpleName()).append(OperateConstants.STR_AT).append("mergeFaclMappingGrpData-").append(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).toString(), 
-						e);
+				/*****************************
+				 * [START] DB LOG DATA SETTING 
+				 *****************************/
+				ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+				apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("mergeFaclMappingGrpData"));
+				apiBatcLogSDO.setBatcDesc("시설 매핑 데이터 저장");
+				apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_ER);
+				apiBatcLogSDO.setErrCont(new StringBuffer()
+						.append( "::시설 매핑 데이터 저장 장애 발생시각 : " )
+						.append( APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT) )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "- 에러발생 맵핑 그룹 시설 : " )
+						.append( ezcMappingGrpFacl )
+						.toString());
+				
+				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				/*****************************
+				 * [END]   DB LOG DATA SETTING 
+				 *****************************/
+				
+				logger.error(APIUtil.formatMessage("- 시설 매핑 데이터 저장 장애발생 =>> 에러발생 맵핑 그룹 시설 : {}", ezcMappingGrpFacl), e);
+				
 			}
 			else {
 				throw new APIException("시설 매핑 데이터 저장 장애발생 : {}", new Object[] {e.getMessage()}, e) ; 
@@ -542,13 +580,14 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		EzcFaclMappingSDO ezcFaclMappingSDO = null;
 		EzcMappingFacl ezcMappingFacl = null;
 		EzcMappingFacl dbMappingFacl = null;
+		int i = 0;
 		
 		try {
 			
 			logger.debug("$finalFaclList size : {}" , finalFaclList.size());
 							
 			//2. EZC 매핑 시설 DB 저장
-			for(int i = 0; i < finalFaclList.size(); i++) {
+			for(i = 0; i < finalFaclList.size(); i++) {
 				ezcFaclMappingSDO = finalFaclList.get(i); 
 				
 				ezcMappingFacl = (EzcMappingFacl) propertyUtil.copySameProperty(ezcFaclMappingSDO, EzcMappingFacl.class);
@@ -585,24 +624,6 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			//에러 발생 레코드 errorItems에 저장후 runtimeException 없이 로깅후 종료
 			if(isErrorPassed) {
 				
-				stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
-				
-				logger.error(new StringBuffer()
-						.append( "시설 매핑 데이터 저장 장애발생" )
-						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "Code : " )
-						.append( MessageConstants.RESPONSE_CODE_9600 )
-						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "Message : " )
-						.append( e.getMessage() )
-						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "StackTrace : " )
-						.append( stackTraceUtil.getStackTrace(e) )
-						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "Error Object : " )
-						.append( ezcFaclMappingSDO )						
-						.toString());
-				
 				if(e.getMessage().indexOf("EZ_CHECKIN.UK_EZC_MAPPING_FACL_01") > -1) {
 					
 					//EzcMappingFacl
@@ -615,12 +636,36 @@ public class OutsideRepository extends AbstractDataAccessObject {
 					txOut.addProfileMap("ezcFaclMappingErrorData", ezcFaclMappingErrorData);
 				}
 				
-				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
-				/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
-				exceptionUtil.writeBatchErrorLog("{}\n{}@{}\n에러 발생 객체 : {}", 
-						new Object[] {"[시설 매핑 데이터 저장 장애발생]", this.getClass().getCanonicalName(), "mergeFaclMappingData", ezcFaclMappingSDO},
-						new StringBuffer().append(this.getClass().getSimpleName()).append(OperateConstants.STR_AT).append("mergeFaclMappingData-").append(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).toString(), 
-						e);
+				/*****************************
+				 * [START] DB LOG DATA SETTING 
+				 *****************************/
+				ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+				apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("mergeFaclMappingData"));
+				apiBatcLogSDO.setBatcDesc("시설 매핑 데이터 저장");
+				apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_ER);
+				apiBatcLogSDO.setErrCont(new StringBuffer()
+						.append( "::시설 매핑 데이터 저장 장애 발생시각 : " )
+						.append( APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT) )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "- 에러 발생 구간(index) from : " )
+						.append( fromIndex )
+						.append( " ~ to : " )
+						.append( toIndex )
+						.append( "중 " )
+						.append( i )
+						.append( "번째 인덱스 데이터" )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "- 에러발생 매핑 시설 : " )
+						.append( ezcMappingFacl )
+						.toString());
+				
+				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				/*****************************
+				 * [END]   DB LOG DATA SETTING 
+				 *****************************/
+				
+				logger.error(APIUtil.formatMessage("- 시설 매핑 데이터 저장 장애발생 =>> 에러발생 매핑 시설 : {}", ezcMappingFacl), e);
+				
 			}
 			else {
 				throw new APIException("시설 매핑 데이터 저장 장애발생 : {}", new Object[] {e.getMessage()}, e) ; 
@@ -675,30 +720,27 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			
 			if(isErrorPassed) {
 				
-				stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
-				
-				logger.error(new StringBuffer()
-						.append( "시설 그룹 코드(부모코드)검색 도중 장애발생" )
+				/*****************************
+				 * [START] DB LOG DATA SETTING 
+				 *****************************/
+				ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+				apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("findFaclGroupCd"));
+				apiBatcLogSDO.setBatcDesc("시설의 매핑 그룹 부모코드 스캔, 형태소 및 좌표 매칭 정보 세팅");
+				apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_ER);
+				apiBatcLogSDO.setErrCont(new StringBuffer()
+						.append( "::시설의 매핑 그룹 부모코드 스캔, 형태소 및 좌표 매칭 정보 세팅 장애 발생시각 : " )
+						.append( APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT) )
 						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "Code : " )
-						.append( MessageConstants.RESPONSE_CODE_9600 )
-						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "Message : " )
-						.append( e.getMessage() )
-						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "StackTrace : " )
-						.append( stackTraceUtil.getStackTrace(e) )
-						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "Error Object : " )
-						.append( ezcMappingFacl )						
+						.append( "- 에러발생 매핑 시설 : " )
+						.append( ezcMappingFacl )
 						.toString());
 				
-				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
-				/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
-				exceptionUtil.writeBatchErrorLog("{}\n{}@{}\n에러 발생 객체 : {}", 
-						new Object[] {"[시설 매핑 데이터 저장 장애발생]", this.getClass().getCanonicalName(), "mergeFaclMappingData", ezcMappingFacl},
-						new StringBuffer().append(this.getClass().getSimpleName()).append(OperateConstants.STR_AT).append("mergeFaclMappingData-").append(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).toString(), 
-						e);				
+				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				/*****************************
+				 * [END]   DB LOG DATA SETTING 
+				 *****************************/
+				
+				logger.error(APIUtil.formatMessage("- 시설의 매핑 그룹 부모코드 스캔, 형태소 및 좌표 매칭 정보 세팅 장애발생 =>> 에러발생 매핑 시설 : {}", ezcMappingFacl), e);				
 			}
 			else {
 				throw new APIException("시설 그룹 코드(부모코드)검색 도중 장애발생 : {}", new Object[] {e.getMessage()}, e) ;
@@ -725,30 +767,29 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			//에러 발생 레코드 errorItems에 저장후 runtimeException 없이 로깅후 종료
 			if(isErrorPassed) {
 				
-				stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
-				
-				logger.error(new StringBuffer()
-						.append( "전체시설 이미지 다운로드 경로 저장 장애발생" )
+				/*****************************
+				 * [START] DB LOG DATA SETTING 
+				 *****************************/
+				ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+				apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("updateBuildImage"));
+				apiBatcLogSDO.setBatcDesc("전체시설 이미지 다운로드 경로 저장");
+				apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_ER);
+				apiBatcLogSDO.setErrCont(new StringBuffer()
+						.append( "::전체시설 이미지 다운로드 경로 저장 장애 발생시각 : " )
+						.append( APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT) )
 						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "Code : " )
-						.append( MessageConstants.RESPONSE_CODE_9500 )
-						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "Message : " )
-						.append( e.getMessage() )
-						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "StackTrace : " )
-						.append( stackTraceUtil.getStackTrace(e) )
-						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "Error Object : " )
-						.append( ezcFaclImg )								
+						.append( "- 에러발생 시설 이미지 : " )
+						.append( ezcFaclImg )
 						.toString());
 				
-				exceptionUtil = (ExceptionUtil) LApplicationContext.getBean(exceptionUtil, ExceptionUtil.class);
-				/** 에러 발생 레코드 interface batch error log file에 저장후 RuntimeException 없이 로깅후 종료 */
-				exceptionUtil.writeBatchErrorLog("{}\n{}@{}\n에러 발생 객체 : {}", 
-						new Object[] {"[전체시설 이미지 다운로드 경로 저장 장애발생]", this.getClass().getCanonicalName(), "updateBuildImage", ezcFaclImg},
-						new StringBuffer().append(this.getClass().getSimpleName()).append(OperateConstants.STR_AT).append("updateBuildImage-").append(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).toString(), 
-						e);
+				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				/*****************************
+				 * [END]   DB LOG DATA SETTING 
+				 *****************************/
+				
+				logger.error(APIUtil.formatMessage("- 전체시설 이미지 다운로드 경로 저장 장애발생 =>> 에러발생 시설 이미지 : {}", ezcFaclImg), e);
+				
+				
 			}
 			else {
 				throw new APIException("이미지 다운르드 경로 DB 저장 실패 {}", new Object[] {e.getMessage()}, e) ; 
@@ -832,9 +873,9 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	 * @param faclSearchDTO
 	 * @return
 	 */
-	@APIOperation(description="시설검색 인터페이스(최저가 정보)")
+	@APIOperation(description="시설검색 인터페이스(최저가 정보)저장")
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
-	public Integer callFaclSearch(FaclSearchInSDO faclSearchDTO, FaclSearchOutSDO datas) {
+	public Integer callFaclSearch(FaclSearchInSDO faclSearchDTO, FaclSearchOutSDO datas, boolean isErrorPassed) {
 			
 		EzcCacheMinAmt inCacheMinAmt = null;
 		EzcCacheMinAmt outCacheMinAmt = null;
@@ -861,7 +902,34 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			}
 		}
 		catch(APIException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색(최저가 정보 저장) 장애발생.", e);
+			
+			if(isErrorPassed) {
+
+				/*****************************
+				 * [START] DB LOG DATA SETTING 
+				 *****************************/
+				ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+				apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("callFaclSearch"));
+				apiBatcLogSDO.setBatcDesc("시설검색 인터페이스(최저가 정보)저장");
+				apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_ER);
+				apiBatcLogSDO.setErrCont(new StringBuffer()
+						.append( "::시설검색 인터페이스(최저가 정보)저장 장애 발생시각 : " )
+						.append( APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT) )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "- 에러발생 최저가 정보 : " )
+						.append( outCacheMinAmt )
+						.toString());
+				
+				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				/*****************************
+				 * [END]   DB LOG DATA SETTING 
+				 *****************************/
+				
+				logger.error(APIUtil.formatMessage("- 시설검색 인터페이스(최저가 정보)저장 장애발생 =>> 에러발생 최저가 정보 : {}", outCacheMinAmt), e);
+			}
+			else {
+				throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색(최저가 정보 저장) 장애발생.", e);
+			}
 		}
 			
 		return txCount;
@@ -872,9 +940,9 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	 * @param userAgentDTO
 	 * @return 
 	 */
-	@APIOperation(description="당일특가검색 인터페이스")
+	@APIOperation(description="당일특가검색 저장")
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
-	public Integer callSddSearch(SddSearchOutSDO assets) {
+	public Integer callSddSearch(SddSearchOutSDO assets, boolean isErrorPassed) {
 		
 		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
 		EzcCacheDayPrice inCacheDayPrice = null;
@@ -899,7 +967,35 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			}
 		}
 		catch(APIException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "당일특가검색 인터페이스 장애발생.", e);
+			
+			if(isErrorPassed) {
+
+				/*****************************
+				 * [START] DB LOG DATA SETTING 
+				 *****************************/
+				ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+				apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("callSddSearch"));
+				apiBatcLogSDO.setBatcDesc("당일특가검색 저장");
+				apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_ER);
+				apiBatcLogSDO.setErrCont(new StringBuffer()
+						.append( "::당일특가검색 저장 장애 발생시각 : " )
+						.append( APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT) )
+						.append( OperateConstants.LINE_SEPARATOR )
+						.append( "- 에러발생 최저가 정보 : " )
+						.append( outCacheDayPrice )
+						.toString());
+				
+				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				/*****************************
+				 * [END]   DB LOG DATA SETTING 
+				 *****************************/
+				
+				logger.error(APIUtil.formatMessage("- 당일특가검색 저장 장애발생 =>> 에러발생 당일특가검색 저장 : {}", outCacheDayPrice), e);
+			}
+			else {
+				throw new APIException(MessageConstants.RESPONSE_CODE_9100, "당일특가검색 저장 인터페이스 장애발생.", e);
+			}
+			
 		}
 		
 		return txCount;

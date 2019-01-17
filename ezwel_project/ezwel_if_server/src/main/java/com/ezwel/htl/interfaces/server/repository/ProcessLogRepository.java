@@ -14,12 +14,13 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.sdo.ApiBatcLogSDO;
 import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
-import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.entities.EzcApiBatcLog;
 import com.ezwel.htl.interfaces.server.entities.EzcIfLog;
 
 /**
@@ -31,16 +32,16 @@ import com.ezwel.htl.interfaces.server.entities.EzcIfLog;
  */
 @Repository
 @APIType(description="인터페이스 로그 데이터 핸들링")
-public class InterfaceLogRepository extends AbstractDataAccessObject {
+public class ProcessLogRepository extends AbstractDataAccessObject {
 
-	private static final Logger logger = LoggerFactory.getLogger(InterfaceLogRepository.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProcessLogRepository.class);
 	
 	private PropertyUtil propertyUtil;
 	
 	@APIOperation(description="인터페이스 실행 로그 입력")
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
 	public void insertInterfaceLog(IfLogSDO inInterfaceLogSDO) {
-		logger.debug("[START] insertInterfaceLog [FINAL-LOG-DATA] ");
+		logger.debug("[START] insertInterfaceLog [FINAL-LOG-DATA] {}", inInterfaceLogSDO);
 		
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
 		Integer out = OperateConstants.INTEGER_ZERO_VALUE;
@@ -112,6 +113,96 @@ public class InterfaceLogRepository extends AbstractDataAccessObject {
 		}
 		catch(APIException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "인터페이스 실행 로그 목록 조회 장애발생.", e);
+		}
+			
+		return out;
+	}
+	
+	
+
+	@APIOperation(description="API 배치 로그 입력")
+	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
+	public void insertEzcApiBatcLog(List<ApiBatcLogSDO> inApiBatcLogList) {
+		logger.debug("[START] insertEzcApiBatcLog [FINAL-LOG-DATA] size : {}", (inApiBatcLogList != null ? inApiBatcLogList.size() : 0));
+		
+		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		Integer out = OperateConstants.INTEGER_ZERO_VALUE;
+		EzcApiBatcLog ezcApiBatcLog = null;
+		
+		try {
+			
+			if(inApiBatcLogList != null) {
+				
+				for(ApiBatcLogSDO inApiBatcLog : inApiBatcLogList) {
+					
+					ezcApiBatcLog = (EzcApiBatcLog) propertyUtil.copySameProperty(inApiBatcLog, EzcApiBatcLog.class);
+					ezcApiBatcLog.setBatcExecCd(APIUtil.getId());
+					//logger.debug("# EzcApiBatcLog : {}", ezcApiBatcLog);
+					out += sqlSession.insert(getNamespace("API_BATC_LOG_MAPPER", "insertEzcApiBatcLog"), ezcApiBatcLog);
+				}
+				logger.debug("[LOG-SAVED] txSuccess : {}", out);
+			}
+		}
+		catch(Exception e) {
+			
+			//None API runtimeException
+			logger.error(APIUtil.formatMessage("- API 배치 로그 입력 장애발생 {}", ezcApiBatcLog), e);
+		}
+		finally {
+			
+			if(inApiBatcLogList != null) {
+				inApiBatcLogList.clear();
+			}
+		}
+		logger.debug("[END] insertEzcApiBatcLog");
+	}
+
+	@APIOperation(description="API 배치 로그 건수 조회")
+	public Integer countListEzcApiBatcLog(EzcApiBatcLog ezcApiBatcLog) {
+			
+		Integer out = null;
+		
+		try {
+			out = sqlSession.selectOne(getNamespace("API_BATC_LOG_MAPPER", "selectCountEzcApiBatcLog"), ezcApiBatcLog);
+		}
+		catch(APIException e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "API 배치 로그 목록 조회 장애발생.", e);
+		}
+			
+		return out;
+	}
+	
+	
+	@APIOperation(description="API 배치 로그 목록 조회")
+	public List<EzcApiBatcLog> selectListEzcApiBatcLog(EzcApiBatcLog ezcApiBatcLog) {
+			
+		List<EzcApiBatcLog> out = null;
+		
+		try {
+			out = sqlSession.selectList(getNamespace("API_BATC_LOG_MAPPER", "selectListEzcApiBatcLog"), ezcApiBatcLog);
+		}
+		catch(APIException e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "API 배치 로그 목록 조회 장애발생.", e);
+		}
+			
+		return out;
+	}
+	
+	
+	
+	@APIOperation(description="API 배치 로그 단건 조회")
+	public EzcApiBatcLog selectEzcApiBatcLog(EzcApiBatcLog ezcApiBatcLog) {
+			
+		EzcApiBatcLog out = null;
+		
+		try {
+			out = sqlSession.selectOne(getNamespace("API_BATC_LOG_MAPPER", "selectListEzcApiBatcLog"), ezcApiBatcLog);
+			if(out == null) {
+				throw new APIException(MessageConstants.RESPONSE_CODE_9502, "배치 실행 코드에 해당하는 로그 정보가 존재하지 않습니다.");
+			}
+		}
+		catch(APIException e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "API 배치 로그 목록 조회 장애발생.", e);
 		}
 			
 		return out;

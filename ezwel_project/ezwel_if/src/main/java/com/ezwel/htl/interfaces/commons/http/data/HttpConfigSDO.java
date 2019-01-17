@@ -1,5 +1,7 @@
 package com.ezwel.htl.interfaces.commons.http.data;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -132,6 +134,11 @@ public class HttpConfigSDO extends AbstractSDO {
 	@APIFields(description = "인터페이스 에러 내용")
 	private String errCont;
 	
+	@APIFields(description = "Request Header Properties")
+	private Map<String, String> requestProperties;
+	
+	@APIFields(description = "isMultiThread")
+	private boolean isMultiThread;
 	
 	public HttpConfigSDO() {
 		this.reset();
@@ -175,6 +182,8 @@ public class HttpConfigSDO extends AbstractSDO {
 		succYn = null;
 		errType = null;
 		errCont = null;		
+		requestProperties = null;
+		isMultiThread = false;
 	}
 	
 	public String getPatnCdType() {
@@ -486,6 +495,30 @@ public class HttpConfigSDO extends AbstractSDO {
 		this.errCont = errCont;
 	}
 
+	public Map<String, String> getRequestProperties() {
+		return requestProperties;
+	}
+
+	public void setRequestProperties(Map<String, String> requestProperties) {
+		this.requestProperties = requestProperties;
+	}
+
+	public void addRequestProperties(String key, String value) {
+		if(this.requestProperties == null) {
+			this.requestProperties = new LinkedHashMap<String, String>();
+		}
+		
+		this.requestProperties.put(key, value);
+	}
+
+	public boolean isMultiThread() {
+		return isMultiThread;
+	}
+
+	public void setMultiThread(boolean isMultiThread) {
+		this.isMultiThread = isMultiThread;
+	}
 	
 	
 }
+

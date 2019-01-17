@@ -83,27 +83,34 @@ public class BeanMarshaller {
 		return out;
 	}
 	
-	
-	
+
 	@APIOperation(description="바인드된 JSON 문자열을 Class객체에 담아줍니다.", isExecTest=true)
 	public Object fromJSONString(String jsonString, Class<?> writeBean) {
+		return fromJSONString(jsonString, writeBean, null);
+	}
+	
+	@APIOperation(description="바인드된 JSON 문자열을 Class객체에 담아줍니다.", isExecTest=true)
+	public Object fromJSONString(String jsonString, Class<?> writeBean, String fromRestURI) {
 
 		ObjectMapper mapper = new ObjectMapper();
 		Object out = null;
+		if(fromRestURI == null) {
+			fromRestURI = "";
+		}
 		try {
 			// Convert JSON string to Object
 			out = mapper.readValue(jsonString, writeBean);
 			
 		} catch (JsonParseException e) {
-			throw new APIException("(JSON)전문 분석 장애 발생. 제휴사 서버의 응답(JSON)전문 데이터 표현이 잘못되었습니다.\n{}", new Object[] {jsonString}, e);
+			throw new APIException("(JSON)전문 분석 장애 발생. 제휴사 서버의 응답(JSON)전문 데이터 표현이 잘못되었습니다. {}\n{}", new Object[] {fromRestURI, jsonString}, e);
 		} catch (JsonGenerationException e) {
-			throw new APIException("제휴사 서버의 응답(JSON)전문 언마샬과정에 JsonGenerationException발생.\n{}", new Object[] {jsonString}, e);
+			throw new APIException("제휴사 서버의 응답(JSON)전문 언마샬과정에 JsonGenerationException발생. {}\n{}", new Object[] {fromRestURI, jsonString}, e);
 		} catch (JsonMappingException e) {
-			throw new APIException("(JSON)전문의 EZWEL(BEAN)에 언마샬과정에 장애 발생. 제휴사 서버의 응답(JSON)전문 데이터 표현이 잘못되었습니다.\n{}", new Object[] {jsonString}, e) ;
+			throw new APIException("(JSON)전문의 EZWEL(BEAN)에 언마샬과정에 장애 발생. 제휴사 서버의 응답(JSON)전문 데이터 표현이 잘못되었습니다. {}\n{}", new Object[] {fromRestURI, jsonString}, e) ;
 		} catch (IOException e) {
-			throw new APIException("제휴사 서버의 응답(JSON)전문 언마샬과정에 IOException발생.\n{}", new Object[] {jsonString}, e);
+			throw new APIException("제휴사 서버의 응답(JSON)전문 언마샬과정에 IOException발생. {}\n{}", new Object[] {fromRestURI, jsonString}, e);
 		} catch (Exception e) {
-			throw new APIException("제휴사 서버의 응답(JSON)전문 데이터 표현이 잘못되었습니다.\n{}", new Object[] {jsonString}, e);
+			throw new APIException("제휴사 서버의 응답(JSON)전문 데이터 표현이 잘못되었습니다. {}\n{}", new Object[] {fromRestURI, jsonString}, e);
 		}
 		
 		return out;

@@ -43,6 +43,10 @@ public class MessageConstants {
 	public static final String RESPONSE_OPERATION_NAME_FIELD_NAME;
 	public static final String RESPONSE_OPERATION_DESC_FIELD_NAME;
 	
+	public static final String API_BATCH_LOG_TYPE_TM;
+	public static final String API_BATCH_LOG_TYPE_ER;
+	public static final String API_BATCH_LOG_TYPE_IV;
+	
 	static {
 		MESSAGE_MAP = new HashMap<Integer, String>();
 		
@@ -94,6 +98,10 @@ public class MessageConstants {
 		RESPONSE_TYPE_DESC_FIELD_NAME = "typeDesc";
 		RESPONSE_OPERATION_NAME_FIELD_NAME = "operationName";
 		RESPONSE_OPERATION_DESC_FIELD_NAME = "operationDesc";
+	
+		API_BATCH_LOG_TYPE_TM = "TM";
+		API_BATCH_LOG_TYPE_ER = "ER";
+		API_BATCH_LOG_TYPE_IV = "IV";
 	}
 	
 	public static String getMessage(Integer resultCode) {

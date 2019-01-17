@@ -35,8 +35,8 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodsAdvice.class);
 
-	private final static boolean IS_LOGGING = true;
-
+	private final static boolean IS_LOGGING = false;
+	
 	private BeanMarshaller beanMarshaller;
 	
 	private PropertyUtil propertyUtil;
@@ -88,7 +88,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		}
 		
 		// throw new ApplicationException("어플리케이션 장애발생", exception);
-		methodsAdviceHelper.interfaceLogger("afterThrowingTargetMethod", thisJoinPoint);
+		methodsAdviceHelper.processLogger("afterThrowingTargetMethod", thisJoinPoint);
 	}
 	
 	//methodend > order:2
@@ -97,7 +97,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			logger.debug("■■ [AOP] MethodsAdvice.afterReturningTargetMethod executed.\n■ thisJoinPoint : {}\n■ retVal : {}", thisJoinPoint, retVal);
 		}
 		
-		methodsAdviceHelper.interfaceLogger("afterReturningTargetMethod", thisJoinPoint);
+		methodsAdviceHelper.processLogger("afterReturningTargetMethod", thisJoinPoint);
 	}
 
 	//method execute
@@ -225,11 +225,14 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				resultValue = retVal;
 				responseJSON = beanMarshaller.toJSONString(retVal);
 				retVal = responseUtil.getResponseEntity(responseJSON);
+				
 			}
 			
 			//logger.debug("■■ [OUTPUT] {} {}", typeMethodName, retVal);
 		}
 		catch(APIException e) {
+			
+			//logger.debug("[AOP-APIException-InterfaceLog] {}", Local.commonHeader().getInterfaceLogSDO());
 			
 			stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
 			
@@ -251,8 +254,6 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
             		.toString()
             	);
 			
-				//e.printStackTrace();
-				
 				output = new ExceptionSDO();
 				output.setCode(e.getResultCodeString());
 				output.setMessage(e.getMessages());
@@ -272,27 +273,6 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			executeLapTimeMillis = Local.endOperation(methodGuid).getLapTimeMillis();
 			operationLapTime = APIUtil.getTimeMillisToSecond(executeLapTimeMillis);
 			
-			/***************************
-			 * [START] LOG DATA SETTING 
-			 ***************************/
-			if(controlAnno != null && requestAnno != null && apiOperAnno != null && apiOperAnno.isInsideInterfaceAPI() && Local.commonHeader().isControlMarshalling()) {
-				RuntimeHeader runtime = methodsAdviceHelper.getRuntimeHeader(methodGuid);
-				logger.debug("■ EndOperation-RuntimeHeader[{}] {}", methodGuid, runtime);
-				Long endTimeMillis = OperateConstants.LONG_ZERO_VALUE;
-				if(runtime != null) {
-					endTimeMillis = runtime.getEndTimeMillis(); 
-				} 
-				else {
-					endTimeMillis = APIUtil.currentTimeMillis();
-				}
-				
-				logger.debug("[InterfaceResultLogData] output : {}", retVal);
-				Local.commonHeader().setInterfaceResultLogData(propertyUtil.getProperty(resultValue, MessageConstants.RESPONSE_CODE_FIELD_NAME), responseJSON, endTimeMillis);
-			}
-			/***************************
-			 * [END]   LOG DATA SETTING 
-			 ***************************/
-			
 			if(operationLapTime > 3D) {
 				logger.debug("■■ [This APIOperation runs longer than 3 seconds] {}, lapTime : {} sec, methodGuid : {}", typeMethodName, operationLapTime, methodGuid);
 			}
@@ -301,8 +281,16 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				logger.debug("■■ [END APIOperation({})] {}, lapTime : {} sec, methodGuid : {}", Local.commonHeader().isHandlerInterceptorComplete(), typeMethodName, operationLapTime, methodGuid);
 			}
 			
-			responseJSON = null;
-			resultValue = null;
+			//logger.debug("[InterfaceResultLogData] output : {}", retVal);
+			
+			setResultLogData(controlAnno, requestAnno, apiOperAnno, methodGuid, resultValue, responseJSON);
+			
+			if(responseJSON != null) {
+				responseJSON = null;
+			}
+			if(resultValue != null) {
+				resultValue = null;
+			}
 			
 			if(Local.commonHeader().isHandlerInterceptorComplete()) {
 				Local.remove();
@@ -312,4 +300,30 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		return retVal;
 	}
 
+	
+	private void setResultLogData(Controller controlAnno, RequestMapping requestAnno, APIOperation apiOperAnno, String methodGuid, Object resultValue, String responseJSON) {
+		
+		/***************************
+		 * [START] LOG DATA SETTING 
+		 ***************************/
+		if(controlAnno != null && requestAnno != null && apiOperAnno != null && apiOperAnno.isInsideInterfaceAPI() && Local.commonHeader().isControlMarshalling()) {
+			RuntimeHeader runtime = methodsAdviceHelper.getRuntimeHeader(methodGuid);
+			logger.debug("■ EndOperation-RuntimeHeader[{}] {}", methodGuid, runtime);
+			Long endTimeMillis = OperateConstants.LONG_ZERO_VALUE;
+			if(runtime != null) {
+				endTimeMillis = runtime.getEndTimeMillis(); 
+			} 
+			else {
+				endTimeMillis = APIUtil.currentTimeMillis();
+			}
+			
+			Local.commonHeader().setInterfaceResultLogData(propertyUtil.getProperty(resultValue, MessageConstants.RESPONSE_CODE_FIELD_NAME), responseJSON, endTimeMillis);
+		}
+		/***************************
+		 * [END]   LOG DATA SETTING 
+		 ***************************/
+		
+	}
+	
+	
 }

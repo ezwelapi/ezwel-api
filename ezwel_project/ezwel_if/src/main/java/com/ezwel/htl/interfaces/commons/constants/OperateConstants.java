@@ -147,6 +147,7 @@ public class OperateConstants {
 	
 	public static final String STR_Y;
 	public static final String STR_N;
+	public static final String STR_E;
 
 	public static final String IMAGE_FILE_NAME_SPACE;
 	
@@ -167,6 +168,7 @@ public class OperateConstants {
 		STR_O = "O";
 		STR_Y = "Y";
 		STR_N = "N";
+		STR_E = "E";
 		
 		STR_RESERVE_IS_SAVED = "isSaved";
 		STR_EMPTY = "EMPTY";

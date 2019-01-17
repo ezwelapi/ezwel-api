@@ -20,6 +20,8 @@ import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
+import com.ezwel.htl.interfaces.commons.sdo.ApiBatcLogSDO;
 import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -46,6 +48,8 @@ public class CommonHeader extends APIObject implements Serializable {
 	private Map<String, RuntimeHeader> runtimeHeader;
 
     private StackTraceUtil stackTraceUtil;
+    
+    private BeanMarshaller beanConvert;
     
 	@APIFields(description = "헤더 어노테이션 맵")
 	private Map<String, Object> annotationMap;
@@ -83,10 +87,14 @@ public class CommonHeader extends APIObject implements Serializable {
 	@APIFields(description = "인터페이스 로그")
 	private IfLogSDO interfaceLogSDO;
 	
+	@APIFields(description = "인터페이스 로그 초기화 실행 카운트")
 	private Integer interfaceLogInitCount;
 	
-	/*@APIFields(description = "인터페이스 로그 목록")
-	private List<InterfaceLogSDO> interfaceLogSDOList;*/
+	@APIFields(description = "API 배치 로그 목록")
+	private List<ApiBatcLogSDO> apiBatcLogList;
+	
+	@APIFields(description = "API 배치 로그 목록")
+	private boolean forcedApiBatcLogSave;
 	
 	private String controllerType;
 	
@@ -119,6 +127,10 @@ public class CommonHeader extends APIObject implements Serializable {
 	}
 	
 	private void reset(){
+		
+		stackTraceUtil = new StackTraceUtil();
+		beanConvert = new BeanMarshaller();
+		
 		annotationMap = null;
 		objectMap = null;
 		properties = null;
@@ -144,9 +156,9 @@ public class CommonHeader extends APIObject implements Serializable {
 		isHandlerInterceptorComplete = false;
 		isControlMarshalling = false;
 		httpConfigSDO = null;
-		stackTraceUtil = new StackTraceUtil();
 		interfaceLogSDO = null;
 		interfaceLogInitCount = OperateConstants.INTEGER_ZERO_VALUE;
+		forcedApiBatcLogSave = false;
 	}
 	
 	
@@ -301,7 +313,7 @@ public class CommonHeader extends APIObject implements Serializable {
 			//logger.debug(" [SET COMMON HEADER MESSAGE] : {}", message);
 		}
 		this.message = message;
-		this.setInterfaceErrorType(message);
+		this.setInterfaceExecErrorMsg(message);
 	}
 
 	public Properties getProperties() {
@@ -449,34 +461,50 @@ public class CommonHeader extends APIObject implements Serializable {
 		this.interfaceLogSDO = interfaceLogSDO;
 	}
 
-	/*public List<InterfaceLogSDO> getInterfaceLogSDOList() {
-		return interfaceLogSDOList;
+	public List<ApiBatcLogSDO> getApiBatcLogList() {
+		return apiBatcLogList;
 	}
 
-	public void setInterfaceLogSDOList(List<InterfaceLogSDO> interfaceLogSDOList) {
-		this.interfaceLogSDOList = interfaceLogSDOList;
+	public void setApiBatcLogList(List<ApiBatcLogSDO> apiBatcLogList) {
+		this.apiBatcLogList = apiBatcLogList;
+	}
+
+	public void addApiBatcLogList(ApiBatcLogSDO apiBatcLogSDO) {
+		if(this.apiBatcLogList == null) {
+			this.apiBatcLogList = new ArrayList<ApiBatcLogSDO>();
+		}
+		this.apiBatcLogList.add(apiBatcLogSDO);
 	}
 	
-	public void addInterfaceLogSDOList(InterfaceLogSDO interfaceLogSDO) {
-		if(this.interfaceLogSDOList == null) {
-			this.interfaceLogSDOList = new ArrayList<InterfaceLogSDO>();
-		}
-		this.interfaceLogSDOList.add(interfaceLogSDO);
-	}*/
+	public Integer getInterfaceLogInitCount() {
+		return interfaceLogInitCount;
+	}
 
-	@APIOperation(description="인터페이스 요청헤더 로그 데이터 세팅")
+	public void setInterfaceLogInitCount(Integer interfaceLogInitCount) {
+		this.interfaceLogInitCount = interfaceLogInitCount;
+	}
+
+	public boolean isForcedApiBatcLogSave() {
+		return forcedApiBatcLogSave;
+	}
+
+	public void setForcedApiBatcLogSave(boolean forcedApiBatcLogSave) {
+		this.forcedApiBatcLogSave = forcedApiBatcLogSave;
+	}
+
+	@APIOperation(description="인터페이스 요청헤더 로그 데이터 초기화")
 	public void initInterfaceReqeustLogData() {
 		initInterfaceReqeustLogData(httpConfigSDO, null);
 	}
 
-	@APIOperation(description="인터페이스 요청헤더 로그 데이터 세팅")
+	@APIOperation(description="인터페이스 요청헤더 로그 데이터 초기화")
 	public void initInterfaceReqeustLogData(Long execStrtMlisSecd) {
 		initInterfaceReqeustLogData(httpConfigSDO, execStrtMlisSecd);
 	}
 	
-	@APIOperation(description="인터페이스 요청헤더 로그 데이터 세팅")
+	@APIOperation(description="인터페이스 요청헤더 로그 데이터 초기화")
 	public void initInterfaceReqeustLogData(HttpConfigSDO httpConfig, Long execStrtMlisSecd) {
-		logger.debug("[INIT] initInterfaceReqeustLogData({}) {} : {}", interfaceLogInitCount, execStrtMlisSecd, interfaceLogSDO);
+		logger.debug("[INIT] 인터페이스 요청헤더 로그 데이터 초기화 initInterfaceReqeustLogData({}) {} : {}", interfaceLogInitCount, execStrtMlisSecd, interfaceLogSDO);
 		logger.debug("[INPUT] httpConfig : {}", httpConfig);
 		try {
 			
@@ -528,11 +556,11 @@ public class CommonHeader extends APIObject implements Serializable {
 	
 	@APIOperation(description="인터페이스 요청헤더 로그 데이터 세팅")
 	public void initInterfaceCertLogData(HttpConfigSDO httpConfig) {
-		logger.debug("[START] initInterfaceCertLogData({}) {}", interfaceLogInitCount, httpConfig);
+		logger.debug("[START] 인터페이스 요청헤더 로그 데이터 세팅 initInterfaceCertLogData({}) {}", interfaceLogInitCount, httpConfig);
 
 		try {
 			
-			if(interfaceLogSDO != null) {
+			if(interfaceLogSDO != null && interfaceLogInitCount > 0) {
 				
 				if(httpConfig != null) {
 					
@@ -565,31 +593,64 @@ public class CommonHeader extends APIObject implements Serializable {
 	
 	@APIOperation(description="인터페이스 입력파라메터 로그 데이터 세팅")
 	public void setInterfaceInputTelegram(HttpConfigSDO httpConfig, String inJsonParam) {
+		logger.debug("[START] 인터페이스 입력파라메터 로그 데이터 세팅 setInterfaceInputTelegram");
 		
 		try {
 			
-			interfaceLogSDO.setInptTelg(inJsonParam);			
-			if(inJsonParam != null) {
+			/**
+			 * Header 정보 Json변환
+			 */
+			String header = null;
+			
+			if(httpConfig.getRequestProperties() != null) {
+				header = beanConvert.toJSONString(httpConfig.getRequestProperties());
+			}
+			else if(getProperties() != null) {
+				header = beanConvert.toJSONString(getProperties());
+			}
+			
+			if(header != null && inJsonParam != null) {
+				inJsonParam = new StringBuffer()
+						.append("RequestHeader : ")
+						.append(header)
+						.append(OperateConstants.LINE_SEPARATOR)
+						.append("InputParameter : ")
+						.append(inJsonParam).toString();
+			}
+			
+			logger.debug("[PROC] InputTelegram : {}", inJsonParam);
+			
+			if(interfaceLogSDO != null && interfaceLogInitCount > 0) {
 				
-				if(httpConfig != null ) {
-					interfaceLogSDO.setInptTelgSize(new BigDecimal(inJsonParam.getBytes(httpConfig.getEncoding()).length));
+				interfaceLogSDO.setInptTelg(inJsonParam);			
+				if(inJsonParam != null) {
+					
+					if(httpConfig != null ) {
+						interfaceLogSDO.setInptTelgSize(new BigDecimal(inJsonParam.getBytes(httpConfig.getEncoding()).length));
+					}
+				}
+				else {
+					interfaceLogSDO.setInptTelgSize(OperateConstants.BIGDECIMAL_ZERO_VALUE);
 				}
 			}
 			else {
-				interfaceLogSDO.setInptTelgSize(OperateConstants.BIGDECIMAL_ZERO_VALUE);
+				logger.debug("# 인터페이스 로그 SDO가 초기화 되지 않았거나 이미 사용되었습니다.");
 			}
+			
 		} catch (Exception e) {
 			logger.error("[InterfaceReqeustLogData] 요청(입력) 로그 데이터 세팅 장애발생", e);
-		}			
+		}
+		
+		logger.debug("[END] setInterfaceInputTelegram");
 	}
 	
 	@APIOperation(description="인터페이스 출력(결과) 로그 데이터 세팅")
-	public <T1 extends AbstractSDO> void setInterfaceResultLogData(Object code, String responseOrgin, Long execEndMlisSecd) {
-		logger.debug("[START] setInterfaceResultLogData({}) {} : {}", code, execEndMlisSecd, responseOrgin);
+	public void setInterfaceResultLogData(Object code, String responseOrgin, Long execEndMlisSecd) {
+		logger.debug("[START] setInterfaceResultLogData({}) {} : {} {}", code, execEndMlisSecd, responseOrgin, interfaceLogSDO);
 		
 		try {
 			
-			if(interfaceLogSDO != null) {
+			if(interfaceLogSDO != null && interfaceLogInitCount > 0) {
 				
 				//종료시간 : TotlLapMlisSecd은 세팅하지 않는다. Strt와 End만 세팅하고 TotlLapMlisSecd은 getter에서 계산한다.
 				if(execEndMlisSecd != null && execEndMlisSecd > OperateConstants.LONG_ZERO_VALUE) {
@@ -614,15 +675,25 @@ public class CommonHeader extends APIObject implements Serializable {
 					interfaceLogSDO.setOutpTelgSize(OperateConstants.BIGDECIMAL_ZERO_VALUE);
 				}
 				
-				if(code != null && String.class.isAssignableFrom(code.getClass()) && ((String) code).equals(Integer.toString(MessageConstants.RESPONSE_CODE_1000))) {
-					interfaceLogSDO.setSuccYn(OperateConstants.STR_Y);
+				if(code != null && String.class.isAssignableFrom(code.getClass())) {
+					
+					if(((String) code).equals(Integer.toString(MessageConstants.RESPONSE_CODE_1000))) {
+						interfaceLogSDO.setSuccYn(OperateConstants.STR_Y);
+					}
+					else {
+						interfaceLogSDO.setSuccYn(OperateConstants.STR_N);
+					}
+					
+					if(APIUtil.isEmpty(interfaceLogSDO.getExecMsg())) {
+						interfaceLogSDO.setExecMsg(MessageConstants.getMessage(Integer.parseInt((String) code)));
+					}
 				}
 				else {
 					interfaceLogSDO.setSuccYn(OperateConstants.STR_N);
 				}
 			}
 			else {
-				logger.debug("# 인터페이스 로그 SDO가 초기화 되지 않았습니다. [code : {}, execEndMlisSecd : {}, responseOrgin : {}]", code, execEndMlisSecd, responseOrgin);
+				logger.debug("# 인터페이스 로그 SDO가 초기화 되지 않았거나 이미 사용되었습니다. [code : {}, execEndMlisSecd : {}, responseOrgin : {}]", code, execEndMlisSecd, responseOrgin);
 			}
 			
 		} catch (Exception e) {
@@ -632,13 +703,13 @@ public class CommonHeader extends APIObject implements Serializable {
 		logger.debug("[END] setInterfaceResultLogData({}) {}", code, interfaceLogSDO);
 	}
 	
-	@APIOperation(description="인터페이스 에러유형 세팅")
-	public void setInterfaceErrorType(String errType) {
+	@APIOperation(description="인터페이스 실행 에러 메시지 세팅")
+	public void setInterfaceExecErrorMsg(String execMsg) {
     	
-		if(interfaceLogSDO != null && errType != null) {
-			interfaceLogSDO.setErrType(errType); 
+		if(interfaceLogSDO != null && execMsg != null) {
+			interfaceLogSDO.setExecMsg(execMsg); 
 			Local.commonHeader().getInterfaceLogSDO().setSuccYn(OperateConstants.STR_N);
-		}	
+		}
     }
     
 	@APIOperation(description="인터페이스 에러내용 세팅")
@@ -647,7 +718,51 @@ public class CommonHeader extends APIObject implements Serializable {
 		if(interfaceLogSDO != null && errCont != null) {
 			interfaceLogSDO.setErrCont(errCont);
 			Local.commonHeader().getInterfaceLogSDO().setSuccYn(OperateConstants.STR_N);
-		}	
+		}
     }
+
+	@APIOperation(description="배치 실행 로그 세팅")
+	public void setBatchExecLog(ApiBatcLogSDO inApiBatcLog, boolean forcedApiBatcLogSave) {
+		setBatchExecLog(inApiBatcLog, null, forcedApiBatcLogSave);
+	}
 	
+	@APIOperation(description="배치 실행 로그 세팅")
+	public void setBatchExecLog(ApiBatcLogSDO inApiBatcLog) {
+		setBatchExecLog(inApiBatcLog, null, false);
+	}
+	
+	@APIOperation(description="배치 실행 로그 세팅")
+	public void setBatchExecLog(ApiBatcLogSDO inApiBatcLog, Exception e) {
+		setBatchExecLog(inApiBatcLog, e, false);
+	}
+	
+	@APIOperation(description="배치 실행 로그 세팅")
+	public void setBatchExecLog(ApiBatcLogSDO inApiBatcLog, Exception e, boolean forcedApiBatcLogSave) {
+		
+		ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+		apiBatcLogSDO.setThedGuid(Local.getId());
+		apiBatcLogSDO.setBatcProgType(inApiBatcLog.getBatcProgType());
+		apiBatcLogSDO.setBatcDesc(inApiBatcLog.getBatcDesc());
+		apiBatcLogSDO.setBatcLogType(inApiBatcLog.getBatcLogType());
+		apiBatcLogSDO.setExecStrtMlisSecd((Long) APIUtil.ONVL(inApiBatcLog.getExecStrtMlisSecd(), APIUtil.currentTimeMillis()));
+		apiBatcLogSDO.setExecEndMlisSecd((Long) APIUtil.ONVL(inApiBatcLog.getExecEndMlisSecd(), APIUtil.currentTimeMillis()));
+
+		if(e != null) {
+			apiBatcLogSDO.setErrMsg(e.getMessage());
+			apiBatcLogSDO.setErrCont(new StringBuffer()
+					.append(inApiBatcLog.getErrCont())
+					.append( OperateConstants.LINE_SEPARATOR )
+					.append( "Cause : " )
+					.append( stackTraceUtil.getStackTrace(e) )
+					.toString());
+		}
+		
+		apiBatcLogSDO.setBatcReqtIp(Local.commonHeader().getClientAddress());
+		//배치는 특정 관리자가 실행하지 않는한 스프링 스캐쥴러가 실행함으로 HttpReqeustId가 없으면 SYSTEM_ID이다.
+		apiBatcLogSDO.setBatcReqtId(APIUtil.NVL(Local.commonHeader().getHttpConfigSDO().getHttpRequestId(), OperateConstants.SYSTEM_ID));
+		//List ADD
+		addApiBatcLogList(apiBatcLogSDO);
+		//forcedApiBatcLogSave
+		this.forcedApiBatcLogSave = forcedApiBatcLogSave;
+	}
 }

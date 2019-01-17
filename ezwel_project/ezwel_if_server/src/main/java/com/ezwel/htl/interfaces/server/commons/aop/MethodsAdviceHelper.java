@@ -22,6 +22,7 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
+import com.ezwel.htl.interfaces.commons.sdo.ApiBatcLogSDO;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.CryptUtil;
@@ -29,7 +30,8 @@ import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
 import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
-import com.ezwel.htl.interfaces.server.thread.LoggingRunnable;
+import com.ezwel.htl.interfaces.server.thread.BatchLoggingRunnable;
+import com.ezwel.htl.interfaces.server.thread.IfLoggingRunnable;
 
 @Component
 public class MethodsAdviceHelper {
@@ -38,6 +40,8 @@ public class MethodsAdviceHelper {
 
 	private final static boolean IS_LOGGING = false;
 
+	private final static Integer BATCH_LOG_QUEUE_SIZE = 5;
+	
 	private BeanMarshaller beanMarshaller;
 	
 	private ParamValidate paramValidate;
@@ -328,19 +332,46 @@ public class MethodsAdviceHelper {
     }
     
     
-	void interfaceLogger(String pointcutTpye, JoinPoint thisJoinPoint) {
-		logger.debug("[START] interfaceLogger => pointcutTpye : {} =>> thisJoinPoint : {}", pointcutTpye, thisJoinPoint);
+	void processLogger(String pointcutType, JoinPoint thisJoinPoint) {
+		logger.debug("[PROC] processLogger => pointcutType : {}, thisJoinPoint : {}, InterfaceLogSDO : {}", pointcutType, thisJoinPoint, Local.commonHeader().getInterfaceLogSDO());
 		
 		APIOperation apiOperAnno = ((MethodSignature) thisJoinPoint.getSignature()).getMethod().getAnnotation(APIOperation.class);
 		if(apiOperAnno != null && Local.commonHeader().getInterfaceLogSDO() != null && APIUtil.isNotEmpty(Local.commonHeader().getInterfaceLogSDO().getSuccYn())) {
 			//인터페이스 로그 저장
-			logger.debug("■■ [◆◆APIOperAnno◆◆] description : {}, isInsideInterfaceAPI : {}, isOutsideInterfaceAPI : {}", apiOperAnno.description(), apiOperAnno.isInsideInterfaceAPI(), apiOperAnno.isOutsideInterfaceAPI());
+			logger.debug("■■ [Call] 인터페이스 로그 저장 IfLoggingRunnable => pointcutType : {} =>> thisJoinPoint : {}", pointcutType, thisJoinPoint);
 			
 			Local.commonHeader().getInterfaceLogSDO().setIfReqtIp(Local.commonHeader().getClientAddress());
-			Runnable loggingService = new LoggingRunnable(Local.commonHeader().getInterfaceLogSDO());
-			Thread loggingThread = new Thread(loggingService);
-			loggingThread.start();
+			if(Local.commonHeader().getInterfaceLogSDO().getExecEndMlisSecd() == null) {
+				Local.commonHeader().getInterfaceLogSDO().setExecEndMlisSecd(APIUtil.currentTimeMillis());
+			}
+			
+			logger.debug("[Call] InterfaceLogSDO : {}", Local.commonHeader().getInterfaceLogSDO());
+			
+			Runnable ifLoggingRunnable = new IfLoggingRunnable(Local.commonHeader().getInterfaceLogSDO());
+			Thread ifLoggingThread = new Thread(ifLoggingRunnable);
+			ifLoggingThread.start();
 			Local.commonHeader().setInterfaceLogSDO(null);
+			Local.commonHeader().setInterfaceLogInitCount(OperateConstants.INTEGER_ZERO_VALUE);
+		}
+		
+		if(Local.commonHeader().getApiBatcLogList() != null && (Local.commonHeader().getApiBatcLogList().size() >= BATCH_LOG_QUEUE_SIZE || Local.commonHeader().isForcedApiBatcLogSave())) {
+			//API 배치 로그 저장
+			logger.debug("■■ [Call] API 배치 로그 저장 BatchLoggingRunnable => pointcutType : {} =>> thisJoinPoint : {}", pointcutType, thisJoinPoint);
+			
+			List<ApiBatcLogSDO> apiBatcLogList = new ArrayList<ApiBatcLogSDO>();
+			for(ApiBatcLogSDO apiBatcLog : Local.commonHeader().getApiBatcLogList()) {
+				apiBatcLogList.add(apiBatcLog);
+			}
+			
+			Runnable batcLoggingRunnable = new BatchLoggingRunnable(apiBatcLogList);
+			logger.debug("[Call] ApiBatcLogList : {}", Local.commonHeader().getApiBatcLogList());
+			
+			Thread batcLoggingThread = new Thread(batcLoggingRunnable);
+			batcLoggingThread.start();
+			if(Local.commonHeader().isForcedApiBatcLogSave()) {
+				Local.commonHeader().setForcedApiBatcLogSave(false);
+			}
+			Local.commonHeader().getApiBatcLogList().clear();
 		}
 	}
 	

@@ -36,7 +36,7 @@ INSERT INTO EZC_IF_LOG(	/* EZC 인터페이스 로그 */
 	,OUTP_TELG_SIZE	/* 출력 전문 사이즈, NUMBER(0,22) */
 	,TOTL_LAP_MLIS_SECD	/* 전체 수행 밀리 초, NUMBER(0,22) */
 	,SUCC_YN	/* 성공 여부, CHAR(1) */
-	,ERR_TYPE	/* 오류 유형, VARCHAR2(8) */
+	,EXEC_MSG	/* 실행 메시지, VARCHAR2(8) */
 	,ERR_CONT	/* 오류 내용, CLOB(4000) */
 ) VALUES (
 	 #{ifExecCd, jdbcType=VARCHAR}
@@ -60,7 +60,7 @@ INSERT INTO EZC_IF_LOG(	/* EZC 인터페이스 로그 */
 	,#{outpTelgSize, jdbcType=DECIMAL}
 	,#{totlLapMlisSecd, jdbcType=DECIMAL}
 	,#{succYn, jdbcType=CHAR}
-	,#{errType, jdbcType=VARCHAR}
+	,#{execMsg, jdbcType=VARCHAR}
 	,#{errCont, jdbcType=CLOB}
 )
 </insert>
@@ -88,7 +88,7 @@ SELECT
 	,EZC_IF_LOG.OUTP_TELG_SIZE AS outpTelgSize	/* 출력 전문 사이즈, NUMBER(0,22) */
 	,EZC_IF_LOG.TOTL_LAP_MLIS_SECD AS totlLapMlisSecd	/* 전체 수행 밀리 초, NUMBER(0,22) */
 	,EZC_IF_LOG.SUCC_YN AS succYn	/* 성공 여부, CHAR(1) */
-	,EZC_IF_LOG.ERR_TYPE AS errType	/* 오류 유형, VARCHAR2(8) */
+	,EZC_IF_LOG.EXEC_MSG AS execMsg	/* 실행 메시지, VARCHAR2(8) */
 	,EZC_IF_LOG.ERR_CONT AS errCont	/* 오류 내용, CLOB(4000) */
 FROM
 	EZC_IF_LOG	/* EZC 인터페이스 로그 */
@@ -165,8 +165,8 @@ WHERE 1=1
 	<if test="totlLapMlisSecd != null and totlLapMlisSecd gt 0">
 	AND EZC_IF_LOG.TOTL_LAP_MLIS_SECD = #{totlLapMlisSecd, jdbcType=DECIMAL}	/* 전체 수행 밀리 초, NUMBER(0,22) */
 	</if>
-	<if test="errType != null and errType != ''">
-	AND EZC_IF_LOG.ERR_TYPE = #{errType, jdbcType=VARCHAR}	/* 오류 유형, VARCHAR2(8) */
+	<if test="execMsg != null and execMsg != ''">
+	AND EZC_IF_LOG.EXEC_MSG = #{execMsg, jdbcType=VARCHAR}	/* 실행 메시지, VARCHAR2(8) */
 	</if>
 	<if test="errCont != null and errCont != ''">
 	AND EZC_IF_LOG.ERR_CONT LIKE '%' || #{errCont, jdbcType=CLOB} || '%'	/* 오류 내용, CLOB(4000) */
@@ -199,7 +199,7 @@ SELECT * FROM (
 			,EZC_IF_LOG.OUTP_TELG_SIZE AS outpTelgSize	/* 출력 전문 사이즈, NUMBER(0,22) */
 			,EZC_IF_LOG.TOTL_LAP_MLIS_SECD AS totlLapMlisSecd	/* 전체 수행 밀리 초, NUMBER(0,22) */
 			,EZC_IF_LOG.SUCC_YN AS succYn	/* 성공 여부, CHAR(1) */
-			,EZC_IF_LOG.ERR_TYPE AS errType	/* 오류 유형, VARCHAR2(8) */
+			,EZC_IF_LOG.EXEC_MSG AS execMsg	/* 실행 메시지, VARCHAR2(8) */
 			,EZC_IF_LOG.ERR_CONT AS errCont	/* 오류 내용, CLOB(4000) */
 		FROM
 			EZC_IF_LOG	/* EZC 인터페이스 로그 */
@@ -264,8 +264,8 @@ SELECT * FROM (
 			<if test="totlLapMlisSecd != null and totlLapMlisSecd gt 0">
 			AND EZC_IF_LOG.TOTL_LAP_MLIS_SECD = #{totlLapMlisSecd, jdbcType=DECIMAL}	/* 전체 수행 밀리 초, NUMBER(0,22) */
 			</if>
-			<if test="errType != null and errType != ''">
-			AND EZC_IF_LOG.ERR_TYPE = #{errType, jdbcType=VARCHAR}	/* 오류 유형, VARCHAR2(8) */
+			<if test="execMsg != null and execMsg != ''">
+			AND EZC_IF_LOG.EXEC_MSG = #{execMsg, jdbcType=VARCHAR}	/* 실행 메시지, VARCHAR2(8) */
 			</if>
 			<if test="errCont != null and errCont != ''">
 			AND EZC_IF_LOG.ERR_CONT LIKE '%' || #{errCont, jdbcType=CLOB} || '%'	/* 오류 내용, CLOB(4000) */
@@ -301,7 +301,7 @@ UPDATE EZC_IF_LOG SET	/* EZC 인터페이스 로그 */
 	,OUTP_TELG_SIZE = #{outpTelgSize, jdbcType=DECIMAL}	/* 출력 전문 사이즈, NUMBER(0,22) */
 	,TOTL_LAP_MLIS_SECD = #{totlLapMlisSecd, jdbcType=DECIMAL}	/* 전체 수행 밀리 초, NUMBER(0,22) */
 	,SUCC_YN = #{succYn, jdbcType=CHAR}	/* 성공 여부, CHAR(1) */
-	,ERR_TYPE = #{errType, jdbcType=VARCHAR}	/* 오류 유형, VARCHAR2(8) */
+	,EXEC_MSG = #{execMsg, jdbcType=VARCHAR}	/* 실행 메시지, VARCHAR2(8) */
 	,ERR_CONT = #{errCont, jdbcType=CLOB}	/* 오류 내용, CLOB(4000) */
 WHERE 1=1
 	AND IF_EXEC_CD = #{ifExecCd, jdbcType=VARCHAR}	/* 인터페이스 실행 코드, VARCHAR2(32) */
@@ -334,7 +334,7 @@ MERGE INTO EZC_IF_LOG /* EZC 인터페이스 로그 */
 			,OUTP_TELG_SIZE = #{outpTelgSize, jdbcType=DECIMAL}	/* 출력 전문 사이즈, NUMBER(0,22) */
 			,TOTL_LAP_MLIS_SECD = #{totlLapMlisSecd, jdbcType=DECIMAL}	/* 전체 수행 밀리 초, NUMBER(0,22) */
 			,SUCC_YN = #{succYn, jdbcType=CHAR}	/* 성공 여부, CHAR(1) */
-			,ERR_TYPE = #{errType, jdbcType=VARCHAR}	/* 오류 유형, VARCHAR2(8) */
+			,EXEC_MSG = #{execMsg, jdbcType=VARCHAR}	/* 실행 메시지, VARCHAR2(8) */
 			,ERR_CONT = #{errCont, jdbcType=CLOB}	/* 오류 내용, CLOB(4000) */
 	WHEN NOT MATCHED THEN
 		INSERT (
@@ -359,7 +359,7 @@ MERGE INTO EZC_IF_LOG /* EZC 인터페이스 로그 */
 			,OUTP_TELG_SIZE	/* 출력 전문 사이즈, NUMBER(0,22) */
 			,TOTL_LAP_MLIS_SECD	/* 전체 수행 밀리 초, NUMBER(0,22) */
 			,SUCC_YN	/* 성공 여부, CHAR(1) */
-			,ERR_TYPE	/* 오류 유형, VARCHAR2(8) */
+			,EXEC_MSG	/* 실행 메시지, VARCHAR2(8) */
 			,ERR_CONT	/* 오류 내용, CLOB(4000) */
 		) VALUES (
 			 #{ifExecCd, jdbcType=VARCHAR}
@@ -383,7 +383,7 @@ MERGE INTO EZC_IF_LOG /* EZC 인터페이스 로그 */
 			,#{outpTelgSize, jdbcType=DECIMAL}
 			,#{totlLapMlisSecd, jdbcType=DECIMAL}
 			,#{succYn, jdbcType=CHAR}
-			,#{errType, jdbcType=VARCHAR}
+			,#{execMsg, jdbcType=VARCHAR}
 			,#{errCont, jdbcType=CLOB}
 		)
 </update>

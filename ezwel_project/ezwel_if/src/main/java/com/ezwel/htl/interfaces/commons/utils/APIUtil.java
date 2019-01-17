@@ -49,17 +49,13 @@ import com.ezwel.htl.interfaces.commons.exception.APIException;
 public class APIUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(APIUtil.class);
-	/*
-	public final static String DEF_DAY_FORMAT;
-	public final static String DEF_DATE_FORMAT;
-	public final static String DEF_DATE23_FORMAT;
 	
-	static {
-		DEF_DAY_FORMAT = "yyyyMMdd";
-		DEF_DATE_FORMAT = "yyyyMMddHHmmss";
-		DEF_DATE23_FORMAT = "yyyyMMddkkmmss";
+	
+	@APIOperation(description="오브젝트가 null이면 default 객체를 리턴합니다.", isExecTest=true)
+	public static Object ONVL(Object inObject, Object defObject){
+		return (inObject != null ? inObject : defObject);
 	}
-	*/
+	
 	/**
 	 * str의 isEmpty 여부를 체크하 고 false이면 ""을 반환합니다.
 	 * @param str

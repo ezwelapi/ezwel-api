@@ -25,8 +25,6 @@ public class Local {
 
 	private static final Logger logger = LoggerFactory.getLogger(Local.class);
 
-	private static boolean isAfterCompletion = false;
-	
 	/**
 	 * Thread local variable containing each thread's CommonHeader
 	 */
@@ -39,24 +37,22 @@ public class Local {
             	header.setGuid(APIUtil.getId());
             	header.setStartTimeMillis(APIUtil.currentTimeMillis());
 
-            	if(logger.isDebugEnabled()) {
-	            	logger.debug(new StringBuilder()
-	            		.append(OperateConstants.LINE_SEPARATOR)
-	            		.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
-	            		.append(OperateConstants.LINE_SEPARATOR)
-	            		.append(" ■■ [START]    ")
-	            		.append(OperateConstants.LINE_SEPARATOR)
-	            		.append(" ■■ initialValue    ")
-	            		.append(OperateConstants.LINE_SEPARATOR)
-	            		.append(" ■■ guid : " + header.getGuid() )
-	            		.append(OperateConstants.LINE_SEPARATOR)
-	            		.append(" ■■ startTimeMillis : " + header.getStartTimeMillis() )
-	            		.append(OperateConstants.LINE_SEPARATOR)
-	            		.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
-	            		.append(OperateConstants.LINE_SEPARATOR)
-	            		.toString()
-	            	);
-            	}
+            	logger.debug(new StringBuilder()
+            		.append(OperateConstants.LINE_SEPARATOR)
+            		.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
+            		.append(OperateConstants.LINE_SEPARATOR)
+            		.append(" ■■ [START]    ")
+            		.append(OperateConstants.LINE_SEPARATOR)
+            		.append(" ■■ initialValue    ")
+            		.append(OperateConstants.LINE_SEPARATOR)
+            		.append(" ■■ guid : " + header.getGuid() )
+            		.append(OperateConstants.LINE_SEPARATOR)
+            		.append(" ■■ startTimeMillis : " + header.getStartTimeMillis() )
+            		.append(OperateConstants.LINE_SEPARATOR)
+            		.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
+            		.append(OperateConstants.LINE_SEPARATOR)
+            		.toString()
+            	);
 
                 return header;
         }

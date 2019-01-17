@@ -45,7 +45,7 @@
 		<faxConfig></faxConfig>
 		 -->
 		<emailConfig>
-			<host>localhost</host>
+			<host>211.180.161.84</host>
 		 	<port>25</port>
 		 	<auth>true</auth>
 		 	<username>yanagi10</username>
@@ -256,17 +256,16 @@
 			<connTimeout>3000</connTimeout>
 			<readTimeout>10000</readTimeout>
 		</httpChan>
-		<!-- 
 		<httpChan>
 			<chanId>allReg</chanId>
 			<httpAgentId>10056562</httpAgentId>
 			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
 			<description>(주)위드이노베이션_여기어때-전체시설검색</description>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/allReg</restURI>
+			<restURI>http://channelapi.abouthere.kr/ezwel/properties/batch</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
-		</httpChan> -->
+		</httpChan>
 		<!--// END 시설일괄등록 -->
 		
 		<!--// START 시설검색 -->
@@ -320,8 +319,16 @@
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</httpChan>
-		
-		
+		<httpChan>
+			<description>(주)위드이노베이션_여기어때 (최저가 정보)</description>
+			<chanId>faclSearch</chanId>
+			<httpAgentId>10056562</httpAgentId>
+			<httpAgentGroupId>multiFaclSearch</httpAgentGroupId>
+			<restURI>http://channelapi.abouthere.kr/ezwel/search/properties</restURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
 		<!--// END 시설검색 -->
 		
 		<!--// START 당일특가검색 -->
@@ -346,6 +353,16 @@
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</httpChan> -->
+		<httpChan>
+			<description>당일특가검색-(주)위드이노베이션_여기어때 (시설 최저가 조회 멀티쓰레드 인터페이스체널)</description>
+			<chanId>sddSearch</chanId>
+			<httpAgentId>10056562</httpAgentId>
+			<httpAgentGroupId>multiSddSearch</httpAgentGroupId>
+			<restURI>http://channelapi.abouthere.kr/ezwel/properties/dailyPromotion</restURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
 		<!--// END 당일특가검색 -->
 		
 		<!--// START 객실정보조회 -->
@@ -387,6 +404,17 @@
 			<chanId>roomRead</chanId>
 			<httpAgentId>10000495</httpAgentId>
 			<restURI>http://tst.hotelnjoy.com/alliance/data/ezwel/roomSearch.php</restURI>
+			<receiverRestURI>/service/callRoomRead</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<!-- 20190117 -->
+			<description>객실정보조회-(주)위드이노베이션_여기어때</description>
+			<chanId>roomRead</chanId>
+			<httpAgentId>10056562</httpAgentId>
+			<restURI>http://channelapi.abouthere.kr/ezwel/product/rooms</restURI>
 			<receiverRestURI>/service/callRoomRead</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -437,6 +465,17 @@
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<!-- 20190117 -->
+			<description>취소수수료규정-(주)위드이노베이션_여기어때</description>
+			<chanId>cancelFeePsrc</chanId>
+			<httpAgentId>10056562</httpAgentId>
+			<restURI>http://channelapi.abouthere.kr/ezwel/policy/search</restURI>
+			<receiverRestURI>/service/callCancelFeePsrc</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
 		</httpChan>		
 		
 		
@@ -458,6 +497,16 @@
 			<chanId>rsvHistSend</chanId>
 			<httpAgentId>10000495</httpAgentId>
 			<restURI>http://tst.hotelnjoy.com/alliance/data/ezwel/reservation.php</restURI>
+			<receiverRestURI>/service/callRsvHistSend</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<description>결재완료내역전송-(주)위드이노베이션_여기어때</description>
+			<chanId>rsvHistSend</chanId>
+			<httpAgentId>10056562</httpAgentId>
+			<restURI>http://channelapi.abouthere.kr/ezwel/booking/request</restURI>
 			<receiverRestURI>/service/callRsvHistSend</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -498,6 +547,17 @@
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</httpChan>
+		<httpChan>
+			<!-- 20190117 -->
+			<chanId>cancelFeeAmt</chanId>
+			<description>취소수수료계산-(주)위드이노베이션_여기어때</description>
+			<httpAgentId>10056562</httpAgentId>
+			<restURI>http://channelapi.abouthere.kr/ezwel/booking/cancelFee</restURI>
+			<receiverRestURI>/service/callCancelFeeAmt</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
 		<!--//E 취소수수료계산 -->
 		
 		<!--//S 주문취소요청 -->
@@ -526,6 +586,16 @@
 			<description>주문취소요청-호텔엔조이메이트아이</description>
 			<httpAgentId>10000495</httpAgentId>
 			<restURI>http://tst.hotelnjoy.com/alliance/data/ezwel/cancelOrder.php</restURI>
+			<receiverRestURI>/service/callOrderCancelReq</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<chanId>orderCancelReq</chanId>
+			<description>주문취소요청-(주)위드이노베이션_여기어때</description>
+			<httpAgentId>10056562</httpAgentId>
+			<restURI>http://channelapi.abouthere.kr/ezwel/booking/cancel</restURI>
 			<receiverRestURI>/service/callOrderCancelReq</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -563,6 +633,16 @@
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<chanId>omiNumIdn</chanId>
+			<description>누락건확인-(주)위드이노베이션_여기어때</description>
+			<httpAgentId>10056562</httpAgentId>
+			<restURI>http://channelapi.abouthere.kr/ezwel/order/status</restURI>
+			<receiverRestURI>/service/callOmiNumIdn</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
 		</httpChan>	
 		
 		<!--//E 누락건확인 -->
@@ -593,6 +673,16 @@
 			<description>주문대사(이지웰)-호텔엔조이메이트아이</description>
 			<httpAgentId>10000495</httpAgentId>
 			<restURI>http://tst.hotelnjoy.com/alliance/data/ezwel/dailySync.php</restURI>
+			<receiverRestURI>/service/callEzwelJob</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<chanId>ezwelJob</chanId>
+			<description>주문대사(이지웰)-(주)위드이노베이션_여기어때</description>
+			<httpAgentId>10056562</httpAgentId>
+			<restURI>http://channelapi.abouthere.kr/ezwel/order/check</restURI>
 			<receiverRestURI>/service/callEzwelJob</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>

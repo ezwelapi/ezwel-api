@@ -14,7 +14,7 @@ import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.entities.EzcIfLog;
-import com.ezwel.htl.interfaces.server.repository.InterfaceLogRepository;
+import com.ezwel.htl.interfaces.server.repository.ProcessLogRepository;
 
 /**
  * <pre>
@@ -29,7 +29,7 @@ public class InterfaceLogService {
 
 	private static final Logger logger = LoggerFactory.getLogger(InterfaceLogService.class);
 	
-	private InterfaceLogRepository interfaceLogRepository;
+	private ProcessLogRepository interfaceLogRepository;
 	
 	private PropertyUtil propertyUtil;
 

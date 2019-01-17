@@ -25,11 +25,13 @@ import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
+import com.ezwel.htl.interfaces.commons.sdo.ApiBatcLogSDO;
 import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
+import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
 import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
 import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractServiceObject;
@@ -89,6 +91,8 @@ public class OutsideService extends AbstractServiceObject {
 	private FileUtil fileUtil;
 	
 	private FaclMappingComponent faclMappingComponent;
+	
+	private StackTraceUtil stackTraceUtil;
 	
 	/** 제휴사 별 시설 정보 transaction commit 건수 */
 	private static final Integer FACL_REG_DATA_TX_COUNT;
@@ -216,29 +220,52 @@ public class OutsideService extends AbstractServiceObject {
 
 	public AllRegOutSDO saveAllReg(List<AllRegOutSDO> assets) {
 		
+		/*****************************
+		 * [START] DB LOG DATA SETTING
+		 *****************************/
+		ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+		apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("saveAllReg"));
+		apiBatcLogSDO.setBatcDesc("전체시설일괄등록");
+		apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_TM);
+		apiBatcLogSDO.setExecStrtMlisSecd(APIUtil.currentTimeMillis());
+		
 		AllRegOutSDO out = null;
-		if(assets != null && assets.size() > 0) {
-			/** execute code select transaction */ 
-			EzcDetailCd inEzcDetailCd = new EzcDetailCd();
-			inEzcDetailCd.addClassCdList(CodeDataConstants.CD_CLASS_CD_G002, CodeDataConstants.CD_CLASS_CD_G003, CodeDataConstants.CD_CLASS_CD_C007, CodeDataConstants.CD_CLASS_CD_G005);
-			/** execute save transaction */
-			out = insertAllFacl(assets, new AllRegOutSDO(), commonRepository.selectListCommonCode(inEzcDetailCd), 0);
+		try {
 		
-			//등록/갱신이 실행된 yyyyMMddHHmmss이 ThradLocal의 StartTimeMillis보다 이전 데이터는 전문에서 제외된 시설로서 사용안함 처리
-			// 조건 : 시설 구분 컬럼 데이터가 API 인것만
-			EzcFacl removeEzcFacl = new EzcFacl();
-			removeEzcFacl.setFaclDiv(CodeDataConstants.CD_API_G0010001); // API
-			removeEzcFacl.setUseYn(CodeDataConstants.CD_N);
-			out.setTxCount(out.getTxCount() + outsideRepository.updateRemoveFacl(removeEzcFacl, true));
-		}
-		
-		if(out != null) {
-			logger.info("[SERVICE-FINAL] createDownloadFileUrlList size : {}", (out.getCreateDownloadFileUrlList() != null ? out.getCreateDownloadFileUrlList().size() : 0));
-			logger.info("[SERVICE-FINAL] deleteDownloadFilePathList size : {}", (out.getDeleteDownloadFilePathList() != null ? out.getDeleteDownloadFilePathList().size() : 0));
+			if(assets != null && assets.size() > 0) {
+				/** execute code select transaction */ 
+				EzcDetailCd inEzcDetailCd = new EzcDetailCd();
+				inEzcDetailCd.addClassCdList(CodeDataConstants.CD_CLASS_CD_G002, CodeDataConstants.CD_CLASS_CD_G003, CodeDataConstants.CD_CLASS_CD_C007, CodeDataConstants.CD_CLASS_CD_G005);
+				/** execute save transaction */
+				out = insertAllFacl(assets, new AllRegOutSDO(), commonRepository.selectListCommonCode(inEzcDetailCd), 0);
 			
-			/** 데이터 저장이 모두 끝난후 변경사항이 존재하는 제휴사 별 멀티쓰레드 이미지 다운로드/삭제 실행 */
-			downloadMultiImage(out);	
+				//등록/갱신이 실행된 yyyyMMddHHmmss이 ThradLocal의 StartTimeMillis보다 이전 데이터는 전문에서 제외된 시설로서 사용안함 처리
+				// 조건 : 시설 구분 컬럼 데이터가 API 인것만
+				EzcFacl removeEzcFacl = new EzcFacl();
+				removeEzcFacl.setFaclDiv(CodeDataConstants.CD_API_G0010001); // API
+				removeEzcFacl.setUseYn(CodeDataConstants.CD_N);
+				out.setTxCount(out.getTxCount() + outsideRepository.updateRemoveFacl(removeEzcFacl, true));
+			}
+			
+			if(out != null) {
+				logger.info("[SERVICE-FINAL] createDownloadFileUrlList size : {}", (out.getCreateDownloadFileUrlList() != null ? out.getCreateDownloadFileUrlList().size() : 0));
+				logger.info("[SERVICE-FINAL] deleteDownloadFilePathList size : {}", (out.getDeleteDownloadFilePathList() != null ? out.getDeleteDownloadFilePathList().size() : 0));
+				
+				/** 데이터 저장이 모두 끝난후 변경사항이 존재하는 제휴사 별 멀티쓰레드 이미지 다운로드/삭제 실행 */
+				downloadMultiImage(out);	
+			}
+		
 		}
+		finally {
+			
+			/*****************************
+			 * [END] DB LOG DATA SETTING
+			 *****************************/
+			apiBatcLogSDO.setExecEndMlisSecd(APIUtil.currentTimeMillis());
+			Local.commonHeader().setBatchExecLog(apiBatcLogSDO, true);
+		}
+	
+
 		
 		return out;
 	}
@@ -362,6 +389,16 @@ public class OutsideService extends AbstractServiceObject {
 	@APIOperation(description="시설 매핑 데이터 저장") 
 	private Integer mergeFaclMappingData(List<EzcFacl> morpCompareFinalList, TransactionOutSDO txOut) {
 		logger.debug("[START] 시설 매핑 데이터 저장 list size : {}", (morpCompareFinalList != null ? morpCompareFinalList.size() : 0));
+		
+		/*****************************
+		 * [START] DB LOG DATA SETTING
+		 *****************************/
+		ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+		apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("mergeFaclMappingData"));
+		apiBatcLogSDO.setBatcDesc("시설 매핑 데이터 저장");
+		apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_TM);
+		apiBatcLogSDO.setExecStrtMlisSecd(APIUtil.currentTimeMillis());
+		
 		Integer out = OperateConstants.INTEGER_ZERO_VALUE;
 		List<EzcFaclMappingSDO> mappingFaclFinalList = null;
 		try {
@@ -392,6 +429,12 @@ public class OutsideService extends AbstractServiceObject {
 			if(morpCompareFinalList != null) {
 				morpCompareFinalList.clear();
 			}
+			
+			/*****************************
+			 * [END] DB LOG DATA SETTING
+			 *****************************/
+			apiBatcLogSDO.setExecEndMlisSecd(APIUtil.currentTimeMillis());
+			Local.commonHeader().setBatchExecLog(apiBatcLogSDO, true);			
 		}
 		 
 		logger.debug("[END] 시설 매핑 데이터 저장 txCount : {}", out);
@@ -652,16 +695,34 @@ public class OutsideService extends AbstractServiceObject {
 							ezcFaclList.add(ezcFacl);
 						}
 						catch(Exception e) {
+							
 							/*****************************
-							 * [START] DB LOG DATA SETTING 
+							 * [START] DB LOG DATA SETTING
 							 *****************************/
-							logger.debug("제휴사아이디 : {}, 제휴사에이전트설명 : {}", allReg.getHttpAgentId(), allReg.getHttpAgentDesc());
+							ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+							apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("insertAllFacl"));
+							apiBatcLogSDO.setBatcDesc("전체시설일괄등록 데이터 유효성검사");
+							apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_IV);
+							apiBatcLogSDO.setErrCont(new StringBuffer()
+									.append( "::시설 정보 유효성 검사 실패 발생시각 : " )
+									.append( APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT) )
+									.append( OperateConstants.LINE_SEPARATOR )
+									.append( "- 제휴사아이디 : " )
+									.append( allReg.getHttpAgentId() )
+									.append( ", 제휴사에이전트설명 : " )
+									.append( allReg.getHttpAgentDesc() )
+									.append( OperateConstants.LINE_SEPARATOR )
+									.append( "- 유효성검사 실패 시설 : " )
+									.append( ezcFacl )
+									.append( OperateConstants.LINE_SEPARATOR )
+									.toString());
 							
-							
+							Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
 							/*****************************
 							 * [END]   DB LOG DATA SETTING 
 							 *****************************/
-							logger.error( APIUtil.formatMessage("'{}({})'유효성 검사 실패", ezcFacl.getFaclNmKor(), ezcFacl.getPartnerGoodsCd()), e);
+
+							logger.error( APIUtil.formatMessage("{} '{}({})'유효성 검사 실패", allReg.getHttpAgentDesc(), ezcFacl.getFaclNmKor(), ezcFacl.getPartnerGoodsCd()), e);
 						}
 					}
 					
@@ -940,6 +1001,15 @@ public class OutsideService extends AbstractServiceObject {
 
 		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
 		
+		/*****************************
+		 * [START] DB LOG DATA SETTING
+		 *****************************/
+		ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+		apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("updateBuildImage"));
+		apiBatcLogSDO.setBatcDesc("시설 이미지 변경정보 업데이트");
+		apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_TM);
+		apiBatcLogSDO.setExecStrtMlisSecd(APIUtil.currentTimeMillis());
+		
 		/**
 		 * EZC_FACL_IMG update를 3000개씩 commit 처리 
 		 */
@@ -968,7 +1038,14 @@ public class OutsideService extends AbstractServiceObject {
 		catch(Exception e) {
 			logger.error(APIUtil.formatMessage("전체 시설 이미지 다운로드 정보 업데이트 (갱신 목록 구간 from/to : {} ~ {})", new Object[]{fromIndex, toIndex}), e);
 		}
-		
+		finally {
+			
+			/*****************************
+			 * [END] DB LOG DATA SETTING
+			 *****************************/
+			apiBatcLogSDO.setExecEndMlisSecd(APIUtil.currentTimeMillis());
+			Local.commonHeader().setBatchExecLog(apiBatcLogSDO, true);
+		}
 		
 		return txCount;
 	}
@@ -1036,17 +1113,37 @@ public class OutsideService extends AbstractServiceObject {
 			//멀티 쓰레드 인터페이스 실행
 			List<SddSearchOutSDO> assets = inteface.sendMultiJSON(multiHttpConfigList);
 			
-			//읽기 전용이 아닐경우 배치실행
-			for(SddSearchOutSDO data : assets) {
-				//정상 처리되었을경우 데이터 저장
-				if(Integer.toString(MessageConstants.RESPONSE_CODE_1000).equals(data.getCode()) && data.getData() != null) {
-					//제휴사 별 최저가 목록 데이터 저장
-					/** execute dbio */
-					txCount += outsideRepository.callSddSearch(data);
-				}
-			}
+			/*****************************
+			 * [START] DB LOG DATA SETTING
+			 *****************************/
+			ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+			apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("callSddSearch"));
+			apiBatcLogSDO.setBatcDesc("당일특가검색 저장");
+			apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_TM);
+			apiBatcLogSDO.setExecStrtMlisSecd(APIUtil.currentTimeMillis());
 			
-			out.setTxCount(txCount);
+			try {
+				
+				//읽기 전용이 아닐경우 배치실행
+				for(SddSearchOutSDO data : assets) {
+					//정상 처리되었을경우 데이터 저장
+					if(Integer.toString(MessageConstants.RESPONSE_CODE_1000).equals(data.getCode()) && data.getData() != null) {
+						//제휴사 별 최저가 목록 데이터 저장
+						/** execute dbio */
+						txCount += outsideRepository.callSddSearch(data, true);
+					}
+				}
+				
+				out.setTxCount(txCount);
+			}
+			finally {
+				
+				/*****************************
+				 * [END] DB LOG DATA SETTING
+				 *****************************/
+				apiBatcLogSDO.setExecEndMlisSecd(APIUtil.currentTimeMillis());
+				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, true);
+			}
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "당일특가검색 인터페이스 장애발생.", e);
@@ -1120,28 +1217,48 @@ public class OutsideService extends AbstractServiceObject {
 			
 			if(assets != null) {
 				
-				//읽기 전용이 아닐경우 배치실행
-				for(FaclSearchOutSDO data : assets) {
-					
-					if(Integer.toString(MessageConstants.RESPONSE_CODE_1000).equals(data.getCode()) && data.getData() != null) {
-					
-						if(userAgentDTO.isReadOnly()) /* 읽기 전용 */ {
-							out.addAllData(data.getData());
+				/*****************************
+				 * [START] DB LOG DATA SETTING
+				 *****************************/
+				ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+				apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("callFaclSearch"));
+				apiBatcLogSDO.setBatcDesc("시설검색 인터페이스(최저가 정보)저장");
+				apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_TM);
+				apiBatcLogSDO.setExecStrtMlisSecd(APIUtil.currentTimeMillis());
+				
+				try {
+				
+					//읽기 전용이 아닐경우 배치실행
+					for(FaclSearchOutSDO data : assets) {
+						
+						if(Integer.toString(MessageConstants.RESPONSE_CODE_1000).equals(data.getCode()) && data.getData() != null) {
+						
+							if(userAgentDTO.isReadOnly()) /* 읽기 전용 */ {
+								out.addAllData(data.getData());
+							}
+							else /* 읽기 전용이 아닐경우 배치실행 */ {
+								//정상 처리되었을경우 데이터 저장
+								/** execute dbio */
+								//제휴사 별 최저가 목록 데이터 저장
+								txCount += outsideRepository.callFaclSearch(faclSearchDTO, data, true);
+							}
 						}
-						else /* 읽기 전용이 아닐경우 배치실행 */ {
-							//정상 처리되었을경우 데이터 저장
-							/** execute dbio */
-							//제휴사 별 최저가 목록 데이터 저장
-							txCount += outsideRepository.callFaclSearch(faclSearchDTO, data);
-						}
+						
+						out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(data.getCode()).toString().trim());
+						out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(data.getMessage()).toString().trim());
+						out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(data.getRestURI()).toString().trim());						
 					}
 					
-					out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(data.getCode()).toString().trim());
-					out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(data.getMessage()).toString().trim());
-					out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(data.getRestURI()).toString().trim());						
+					out.setTxCount(txCount);
 				}
-				
-				out.setTxCount(txCount);
+				finally {
+					
+					/*****************************
+					 * [END] DB LOG DATA SETTING
+					 *****************************/
+					apiBatcLogSDO.setExecEndMlisSecd(APIUtil.currentTimeMillis());
+					Local.commonHeader().setBatchExecLog(apiBatcLogSDO, true);
+				}
 			}
 		}
 		catch(Exception e) {
