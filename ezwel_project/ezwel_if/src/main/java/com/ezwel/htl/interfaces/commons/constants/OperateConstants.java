@@ -30,6 +30,7 @@ public class OperateConstants {
 	public static final String GENERAL_DATE_FORMAT;
 	public static final String DEFAULT_ENCODING;
 	public static final String STR_COLON;
+	public static final String STR_SEMI_COLON;
 	public static final String STR_WHITE_SPACE;
 	public static final String STR_TAB;
 	public static final String STR_SLASH;
@@ -229,6 +230,8 @@ public class OperateConstants {
 		GENERAL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 		DEFAULT_ENCODING = "UTF-8";
 		STR_COLON = ":";
+		STR_SEMI_COLON = ";";
+		
 		STR_WHITE_SPACE = " ";
 		STR_TAB = "	";
 		STR_SLASH = "/";

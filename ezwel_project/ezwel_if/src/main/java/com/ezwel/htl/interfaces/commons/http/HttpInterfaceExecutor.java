@@ -413,7 +413,7 @@ public class HttpInterfaceExecutor {
 						responseOrgin = responseOrgin.trim();
 					} 
 					
-					logger.debug("■ responseOrgin url : {}", in.getRestURI()/*, responseOrgin*/);
+					logger.debug("■ responseOrgin url : {}\n{}\n", in.getRestURI(), responseOrgin);
 					
 					if(APIUtil.isNotEmpty(responseOrgin)) {
 						
