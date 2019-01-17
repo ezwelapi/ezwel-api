@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.server.service;
+package com.ezwel.htl.interfaces.server.thread;
 
 import java.util.concurrent.Callable;
 
@@ -19,9 +19,9 @@ import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 
 
 @APIType(description="객실 정보 조회 멀티쓰레드 서비스")
-public class RoomReadMultiService extends AbstractComponent implements Callable<RoomReadOutSDO> {
+public class RoomReadMultiCallable extends AbstractComponent implements Callable<RoomReadOutSDO> {
 
-	private static final Logger logger = LoggerFactory.getLogger(RoomReadMultiService.class);
+	private static final Logger logger = LoggerFactory.getLogger(RoomReadMultiCallable.class);
 	
 	private static final boolean IS_LOGGING = false;
 	
@@ -38,7 +38,7 @@ public class RoomReadMultiService extends AbstractComponent implements Callable<
 	 * @param inImageParam
 	 * @param count
 	 */
-	public RoomReadMultiService(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO, Integer count) {
+	public RoomReadMultiCallable(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO, Integer count) {
 		//ThreadLocal 초기화
 		Local.commonHeader();
 		

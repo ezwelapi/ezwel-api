@@ -634,16 +634,17 @@ public class CommonUtil {
     	}
     }
     
+    
     // commonUtil.getNumberOnly(data, 4)
     @APIOperation(description="문자열에서 숫자만 추출하고 추출한 숫자를 처음부터 length만큼 잘라서 리턴합니다. 0이면 전부 리턴")
 	public String getNumberOnly(String data, int length) {
 		
 		String out = null;
 		if(APIUtil.isEmpty(data)) {
-			out = "";
+			out = OperateConstants.STR_BLANK;
 		}
 		
-		out = data.replaceAll(PatternConstants.PATTERN_NUMBER, OperateConstants.STR_BLANK);
+		out = data.replaceAll(PatternConstants.PATTERN_NOT_NUMBER, OperateConstants.STR_BLANK);
 		
 		if(length > 0 && out.length() > length) {
 			out = out.substring(0, length);

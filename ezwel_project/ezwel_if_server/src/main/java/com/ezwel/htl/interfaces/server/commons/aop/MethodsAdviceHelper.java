@@ -29,7 +29,7 @@ import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
 import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
-import com.ezwel.htl.interfaces.server.service.LoggingRunnableService;
+import com.ezwel.htl.interfaces.server.thread.LoggingRunnable;
 
 @Component
 public class MethodsAdviceHelper {
@@ -337,7 +337,7 @@ public class MethodsAdviceHelper {
 			logger.debug("■■ [◆◆APIOperAnno◆◆] description : {}, isInsideInterfaceAPI : {}, isOutsideInterfaceAPI : {}", apiOperAnno.description(), apiOperAnno.isInsideInterfaceAPI(), apiOperAnno.isOutsideInterfaceAPI());
 			
 			Local.commonHeader().getInterfaceLogSDO().setIfReqtIp(Local.commonHeader().getClientAddress());
-			Runnable loggingService = new LoggingRunnableService(Local.commonHeader().getInterfaceLogSDO());
+			Runnable loggingService = new LoggingRunnable(Local.commonHeader().getInterfaceLogSDO());
 			Thread loggingThread = new Thread(loggingService);
 			loggingThread.start();
 			Local.commonHeader().setInterfaceLogSDO(null);

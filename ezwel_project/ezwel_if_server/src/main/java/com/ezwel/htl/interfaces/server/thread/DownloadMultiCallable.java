@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.server.service;
+package com.ezwel.htl.interfaces.server.thread;
 
 import java.util.concurrent.Callable;
 
@@ -16,9 +16,9 @@ import com.ezwel.htl.interfaces.server.commons.utils.FileUtil;
 
 
 @APIType(description="시설 이미지 멀티쓰레드 다운로드 서비스")
-public class DownloadMultiService extends AbstractComponent implements Callable<ImageSDO> {
+public class DownloadMultiCallable extends AbstractComponent implements Callable<ImageSDO> {
 
-	private static final Logger logger = LoggerFactory.getLogger(DownloadMultiService.class);
+	private static final Logger logger = LoggerFactory.getLogger(DownloadMultiCallable.class);
 	
 	private static final boolean IS_LOGGING = false;
 	
@@ -31,7 +31,7 @@ public class DownloadMultiService extends AbstractComponent implements Callable<
 	 * @param inImageParam
 	 * @param count
 	 */
-	public DownloadMultiService(ImageSDO inImageParam, Integer count) {
+	public DownloadMultiCallable(ImageSDO inImageParam, Integer count) {
 		//ThreadLocal 초기화
 		Local.commonHeader();
 		

@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.server.service;
+package com.ezwel.htl.interfaces.server.thread;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +11,9 @@ import com.ezwel.htl.interfaces.server.repository.InterfaceLogRepository;
 
 
 @APIType(description="로그 저장 Runnable")
-public class LoggingRunnableService extends AbstractComponent implements Runnable {
+public class LoggingRunnable extends AbstractComponent implements Runnable {
 
-	private static final Logger logger = LoggerFactory.getLogger(LoggingRunnableService.class);
+	private static final Logger logger = LoggerFactory.getLogger(LoggingRunnable.class);
 	
 	private static final boolean IS_LOGGING = false;
 	
@@ -21,7 +21,7 @@ public class LoggingRunnableService extends AbstractComponent implements Runnabl
 	
 	private InterfaceLogRepository interfaceLogRepository;
 	
-	public LoggingRunnableService(InterfaceLogSDO inInterfaceLogSDO) {
+	public LoggingRunnable(InterfaceLogSDO inInterfaceLogSDO) {
 		this.inInterfaceLogSDO = inInterfaceLogSDO;
 	}
 	

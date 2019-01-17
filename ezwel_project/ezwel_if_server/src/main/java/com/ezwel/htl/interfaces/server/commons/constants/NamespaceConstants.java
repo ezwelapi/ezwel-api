@@ -99,6 +99,7 @@ public class NamespaceConstants {
 		NAMESPACE_MAP.put("SPOT_MAPPER", "com.ezwel.htl.interfaces.server.repository.EzcSpotMapper");
 		NAMESPACE_MAP.put("SPOT_MAPPING_FACL_MAPPER", "com.ezwel.htl.interfaces.server.repository.EzcSpotMappingFaclMapper");
 		NAMESPACE_MAP.put("IF_LOG_MAPPER", "com.ezwel.htl.interfaces.server.repository.EzcIfLogMapper");
+	
 	}
 	
 	public static Map<String, String> getNamespace() {

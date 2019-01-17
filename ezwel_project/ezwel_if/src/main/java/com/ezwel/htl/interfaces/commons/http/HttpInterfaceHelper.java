@@ -65,10 +65,6 @@ public class HttpInterfaceHelper implements Callable<AbstractSDO> {
 			propertyUtil.setProperty(output, OperateConstants.FIELD_HTTP_AGENT_DESC, multiHttpConfigDTO.getHttpConfigDTO().getDescription());
 			//setup patnCdType
 			propertyUtil.setProperty(output, OperateConstants.FIELD_PATN_CD_TYPE, multiHttpConfigDTO.getHttpConfigDTO().getPatnCdType());
-			//setup interfaceLog
-			if(Local.commonHeader().getInterfaceLogSDO() != null) {
-				propertyUtil.setProperty(output, OperateConstants.FIELD_INTERFACE_LOG, Local.commonHeader().getInterfaceLogSDO());
-			}
 		}
 		//setup output 
 		AbstractSDO out = (AbstractSDO) output;

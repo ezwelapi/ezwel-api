@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.server.service;
+package com.ezwel.htl.interfaces.server.thread;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +18,13 @@ import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.component.FaclMappingComponent;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
+import com.ezwel.htl.interfaces.server.service.OutsideService;
 
 
 @APIType(description="시설 매핑 멀티쓰레드 서비스")
-public class FaclMappingMultiService extends AbstractComponent implements Callable<List<EzcFacl>> {
+public class FaclMappingMultiCallable extends AbstractComponent implements Callable<List<EzcFacl>> {
 
-	private static final Logger logger = LoggerFactory.getLogger(FaclMappingMultiService.class);
+	private static final Logger logger = LoggerFactory.getLogger(FaclMappingMultiCallable.class);
 	
 	private static final boolean IS_LOGGING = false;
 	
@@ -42,7 +43,7 @@ public class FaclMappingMultiService extends AbstractComponent implements Callab
 	 * @param inImageParam
 	 * @param count
 	 */
-	public FaclMappingMultiService(EzcFacl faclCode, Integer count, TransactionOutSDO transactionOutSDO) {
+	public FaclMappingMultiCallable(EzcFacl faclCode, Integer count, TransactionOutSDO transactionOutSDO) {
 		//ThreadLocal 초기화
 		Local.commonHeader();
 		

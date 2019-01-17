@@ -45,6 +45,9 @@ public class AllRegOutSDO extends AbstractSDO {
 	@APIFields(description = "고객사ID (제휴사 코드)", maxLength=20)
 	private String httpAgentId;
 	
+	@APIFields(description = "HTTP 인터페이스 에이전트 설명", maxLength=4000)
+	private String httpAgentDesc;
+	
 	@APIFields(description = "고객사(파트너) 코드 유형", required=true)
 	private String patnCdType;
 	
@@ -114,6 +117,14 @@ public class AllRegOutSDO extends AbstractSDO {
 
 	public void setHttpAgentId(String httpAgentId) {
 		this.httpAgentId = httpAgentId;
+	}
+	
+	public String getHttpAgentDesc() {
+		return httpAgentDesc;
+	}
+
+	public void setHttpAgentDesc(String httpAgentDesc) {
+		this.httpAgentDesc = httpAgentDesc;
 	}
 
 	public List<String> getMultiExecCodeList() {

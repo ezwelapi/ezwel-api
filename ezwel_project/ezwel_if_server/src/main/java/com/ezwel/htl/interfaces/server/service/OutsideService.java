@@ -48,6 +48,9 @@ import com.ezwel.htl.interfaces.server.repository.CommonRepository;
 import com.ezwel.htl.interfaces.server.repository.OutsideRepository;
 import com.ezwel.htl.interfaces.server.sdo.FaclSDO;
 import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
+import com.ezwel.htl.interfaces.server.thread.DownloadMultiCallable;
+import com.ezwel.htl.interfaces.server.thread.FaclMappingMultiCallable;
+import com.ezwel.htl.interfaces.server.thread.RoomReadMultiCallable;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataRealtimeImageOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegFaclImgOutSDO;
@@ -292,7 +295,7 @@ public class OutsideService extends AbstractServiceObject {
 				
 				faclCode.setMorpDelt(OperateConstants.STR_COMA);
 				//쓰레드 세팅
-				callable = new FaclMappingMultiService(faclCode, count, out);
+				callable = new FaclMappingMultiCallable(faclCode, count, out);
 				//설정된 멀티쓰레드 개수만큼 반복 실행 
 				executor.addCall(callable);
 				count++;	
@@ -557,8 +560,8 @@ public class OutsideService extends AbstractServiceObject {
 						ezcFacl.setPartnerCd(allReg.getHttpAgentId()); // 에이전트 ID
 						ezcFacl.setFaclDiv(CodeDataConstants.CD_API_G0010001); //시설 구분 ( API )
 						ezcFacl.setPartnerGoodsCd( faclData.getPdtNo() ); //상품코드
-						ezcFacl.setFaclNmKor( APIUtil.NVL(faclData.getPdtName(), OperateConstants.STR_EMPTY) ); /* 시설 한글 명 => 호텔패스글로벌 전문에 데이터가 전달되어오지 않기때문에 임시로 EMPTY 처리함 */
-						ezcFacl.setFaclNmEng(faclData.getPdtNameEng());
+						ezcFacl.setFaclNmKor( faclData.getPdtName() ); /* 시설 한글 명 => 호텔패스글로벌 전문에 데이터가 전달되어오지 않기때문에 임시로 EMPTY 처리함 */
+						ezcFacl.setFaclNmEng( faclData.getPdtNameEng() );
 						ezcFacl.setRoomType( APIUtil.NVL(commonUtil.getMasterCdForCodeList(detailCdList, faclData.getTypeCode()), "NA-G002") ); // -> DB 공통코드 (테이블 : EZC_DETAIL_CD.DETAIL_CD  = '#{typeCode}' AND EZC_DETAIL_CD.CLASS_CD = 'G002' )
 						ezcFacl.setRoomClass( APIUtil.NVL(commonUtil.getMasterCdForCodeList(detailCdList, faclData.getGradeCode()), "NA-G003") ); // -> DB 공통코드 (테이블 : EZC_DETAIL_CD.DETAIL_CD  = '#{gradeCode}' AND EZC_DETAIL_CD.CLASS_CD = 'G003')
 						ezcFacl.setSaleStartDd(  commonUtil.getNumberOnly(faclData.getSellStartDate(), 8)  ); // 판매시작일 => 8바이트가 넘게 오는 데이터는 에러 뱃도록 함 (전용필차장 요구사항)
@@ -641,11 +644,25 @@ public class OutsideService extends AbstractServiceObject {
 							}
 						}
 						
-						//execute paramValidate
-						new ParamValidate(new ParamValidateSDO(ezcFacl, new String[]{"faclCd"})).execute();
-						
-						//DB 엔티티에 전문 데이터 세팅
-						ezcFaclList.add(ezcFacl);
+						try {
+							//execute paramValidate
+							new ParamValidate(new ParamValidateSDO(ezcFacl, new String[]{"faclCd"})).execute();
+							
+							//DB 엔티티에 전문 데이터 세팅
+							ezcFaclList.add(ezcFacl);
+						}
+						catch(Exception e) {
+							/*****************************
+							 * [START] DB LOG DATA SETTING 
+							 *****************************/
+							logger.debug("제휴사아이디 : {}, 제휴사에이전트설명 : {}", allReg.getHttpAgentId(), allReg.getHttpAgentDesc());
+							
+							
+							/*****************************
+							 * [END]   DB LOG DATA SETTING 
+							 *****************************/
+							logger.error( APIUtil.formatMessage("'{}({})'유효성 검사 실패", ezcFacl.getFaclNmKor(), ezcFacl.getPartnerGoodsCd()), e);
+						}
 					}
 					
 					/** 제휴사 별 시설 데이터 입력 실행 */
@@ -827,7 +844,7 @@ public class OutsideService extends AbstractServiceObject {
 					
 					inImageSDO.setDummy(imageParam);
 					//다운로드 쓰레드 세팅
-					callable = new DownloadMultiService(inImageSDO, count);
+					callable = new DownloadMultiCallable(inImageSDO, count);
 					//설정된 멀티쓰레드 개수만큼 반복 실행 
 					executor.addCall(callable);
 					count++;
@@ -1294,7 +1311,7 @@ public class OutsideService extends AbstractServiceObject {
 					//제휴사 코드 (에이젼트ID)
 					userAgentSDO.setHttpAgentId(faclitem.getPartnerCd());
 					//멀티쓰레드 세팅
-					callable = new RoomReadMultiService(userAgentSDO, roomReadSDO, count);
+					callable = new RoomReadMultiCallable(userAgentSDO, roomReadSDO, count);
 					//설정된 멀티쓰레드 개수만큼 반복 실행 
 					executor.addCall(callable);
 					count++;
