@@ -45,7 +45,7 @@
 		<faxConfig></faxConfig>
 		 -->
 		<emailConfig>
-			<host>http://ezc-api.dev.ezwel.com</host>
+			<host>localhost</host>
 		 	<port>25</port>
 		 	<auth>true</auth>
 		 	<username>yanagi10</username>

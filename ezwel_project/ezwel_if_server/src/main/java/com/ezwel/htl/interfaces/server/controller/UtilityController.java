@@ -26,6 +26,8 @@ import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.send.data.MailSenderSDO;
+import com.ezwel.htl.interfaces.commons.send.data.SmsSenderSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.RegexUtil;
 import com.ezwel.htl.interfaces.server.commons.interfaces.RequestNamespace;
@@ -37,6 +39,7 @@ import com.ezwel.htl.interfaces.server.commons.utils.FileUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.ResponseUtil;
 import com.ezwel.htl.interfaces.server.sdo.AgentApiKeySDO;
 import com.ezwel.htl.interfaces.server.sdo.MorphemeSDO;
+import com.ezwel.htl.interfaces.server.service.SendService;
 import com.ezwel.htl.interfaces.service.SendIFService;
 
 @Controller
@@ -53,6 +56,7 @@ public class UtilityController {
 	private RegexUtil regexUtil;
 	private ResponseUtil responseUtil;
 	private SendIFService sendIFService;
+	private SendService sendService;
 	
 	@APIOperation(description="테스트 JSP Forward Operation")
 	@RequestMapping(value="/{fileName}")
@@ -199,6 +203,44 @@ public class UtilityController {
 		
 		logger.debug("[END] getInterfaceConfigXML");
 		return out;
+	}
+	
+	@APIOperation(description = "문자발송 인터페이스")
+	@RequestMapping(value="/callSmsSender")
+	public boolean callSmsSender(SmsSenderSDO smsSenderSDO) {
+		logger.debug("[START] callSmsSender {} {}", smsSenderSDO);
+		
+		sendIFService = (SendIFService) LApplicationContext.getBean(sendIFService, SendIFService.class);
+		
+		boolean out = true;
+		
+		out = sendIFService.callSmsSender(smsSenderSDO);
+		
+		return out;
+	}
+	
+	@APIOperation(description = "메일발송 인터페이스")
+	@RequestMapping(value="/callMailSender")
+	public boolean callMailSender() {
+		logger.debug("[START] callMailSender {} {}", "mail send");
+		
+		sendService = (SendService) LApplicationContext.getBean(sendService, SendService.class);
+		
+		boolean out = true;
+		
+		String recipient = "java124@naver.com"; 
+		String subject = "메일 제목 테스트";
+		String body = "메일 내용 테스트";
+		
+		MailSenderSDO mailSenderSDO = new MailSenderSDO();
+		mailSenderSDO.setRecipient(recipient);
+		mailSenderSDO.setSubject(subject);
+		mailSenderSDO.setBody(body);		
+		
+		out = sendService.callMailSender(mailSenderSDO);
+		
+		return out;
+		
 	}
 	
 	

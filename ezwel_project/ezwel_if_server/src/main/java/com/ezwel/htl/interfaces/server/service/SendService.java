@@ -37,14 +37,14 @@ public class SendService {
 	}	
 	
 	@APIOperation(description="메일발송 인터페이스")
-	public MailSenderSDO callMailSender(MailSenderSDO mailSenderSDO) {
+	public boolean callMailSender(MailSenderSDO mailSenderSDO) {
 		return callMailSender(mailSenderSDO, false);
 	}
 	
 	@APIOperation(description="메일발송 인터페이스")
-	public MailSenderSDO callMailSender(MailSenderSDO mailSenderSDO, boolean isEzwelInsideInterface) {
+	public boolean callMailSender(MailSenderSDO mailSenderSDO, boolean isEzwelInsideInterface) {
 		
-		MailSenderSDO out = null;
+		boolean out = true;
 		
 		try {
 			

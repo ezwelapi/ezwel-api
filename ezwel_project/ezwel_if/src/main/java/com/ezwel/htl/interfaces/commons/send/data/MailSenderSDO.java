@@ -17,19 +17,19 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 @APIModel
 public class MailSenderSDO extends AbstractSDO {
 	
-	@APIFields(description = "발송자이메일주소", required=true, maxLength=50)
+	@APIFields(description = "발송자이메일주소", required=false, maxLength=50)
 	private String from;
 	
-	@APIFields(description = "발송자명", required=true, maxLength=50)
+	@APIFields(description = "발송자명", required=false, maxLength=50)
 	private String fromName;
 	
-	@APIFields(description = "수신이메일주소", required=true, maxLength=50)
+	@APIFields(description = "수신이메일주소", required=false, maxLength=50)
 	private String recipient;
 	
-	@APIFields(description = "메일제목", required=true)
+	@APIFields(description = "메일제목", required=false)
 	private String subject;
 	
-	@APIFields(description = "메일내용", required=true)
+	@APIFields(description = "메일내용", required=false)
 	private String body;
 
 	public String getFrom() {
