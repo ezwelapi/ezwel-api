@@ -477,7 +477,7 @@ public class OutsideService extends AbstractServiceObject {
 	
 	
 	@APIOperation(description="조건 별 시설 전체 조회(페이징조회)")
-	List<EzcFacl> getFaclMappingMorpDataList(List<EzcFacl> ezcFaclList, EzcFacl ezcFacl, Integer pageNum, Integer pageSize) {
+	public List<EzcFacl> getFaclMappingMorpDataList(List<EzcFacl> ezcFaclList, EzcFacl ezcFacl, Integer pageNum, Integer pageSize) {
 		logger.debug("[START] getFaclMappingDataAll pageNum : {}, pageSize : {}", pageNum, pageSize);
 		
 		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
