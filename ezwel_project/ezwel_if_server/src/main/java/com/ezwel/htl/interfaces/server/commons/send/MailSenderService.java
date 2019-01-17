@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor;
 
@@ -25,6 +26,7 @@ public class MailSenderService {
 		}
 	}
 	
+	@APIOperation(description="메일발송 인터페이스")
 	@Async
 	public void asyncSimpleSend(final String recipient, final String subject, final String body){
 		try {
