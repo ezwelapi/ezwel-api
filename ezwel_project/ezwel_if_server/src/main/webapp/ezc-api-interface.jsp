@@ -28,6 +28,7 @@
 				<option value="10053461" httpApiKey="173a7146e68477b8b3b3e3017646aa6ci">인터치투어 10053461</option>
 				<option value="10054233" httpApiKey="b6380f208fd90378ff70786a02d92aa5i">웹투어 10054233</option>  
 				<option value="10056562" httpApiKey="e54d735ff4ab6b93308c31d99cd683d4i">(주)위드이노베이션_여기어때 10056562</option>
+				<option value="-" httpApiKey="-">콘도24</option>
 				<option value="99999999" httpApiKey="e54d735ffzab6b93308c31d99cd683d4i">직영/숙박 99999999</option>
 			</select>
 		</li>
