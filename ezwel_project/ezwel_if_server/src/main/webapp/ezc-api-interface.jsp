@@ -32,7 +32,6 @@
 				<option value="99999999" httpApiKey="e54d735ffzab6b93308c31d99cd683d4i">직영/숙박 99999999</option>
 			</select>
 		</li>
-
 		<li><button id="sendBtn" >SEND</button></li>
 		<li><button id="getXmlConfigBtn" >IF설정파일조회</button></li>
 	</ul>
