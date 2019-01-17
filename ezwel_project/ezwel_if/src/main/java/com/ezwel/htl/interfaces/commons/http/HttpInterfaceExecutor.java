@@ -413,7 +413,7 @@ public class HttpInterfaceExecutor {
 						responseOrgin = responseOrgin.trim();
 					} 
 					
-					logger.debug("■ responseOrgin url : {}\n{}\n", in.getRestURI(), responseOrgin);
+					logger.debug("■ responseOrgin url : {}", in.getRestURI()/*, responseOrgin*/);
 					
 					if(APIUtil.isNotEmpty(responseOrgin)) {
 						
@@ -471,7 +471,7 @@ public class HttpInterfaceExecutor {
 			/***************************
 			 * [START] LOG DATA SETTING 
 			 ***************************/
-			logger.debug("[InterfaceResultLogData] output : {}", out);
+			//logger.debug("[InterfaceResultLogData] output : {}", out);
 			Local.commonHeader().setInterfaceResultLogData(propertyUtil.getProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME), responseOrgin, APIUtil.currentTimeMillis());
 			/***************************
 			 * [END]   LOG DATA SETTING 

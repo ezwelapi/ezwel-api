@@ -22,6 +22,7 @@ import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.server.commons.constants.PatternConstants;
 import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
@@ -39,6 +40,16 @@ public class UtilTest {
 	}
 	
 	@Test
+	public void generalTest() {
+		
+		String date = "2019-01/02\\123";
+		
+		logger.debug("{}", date.replaceAll(PatternConstants.PATTERN_NUMBER, OperateConstants.STR_BLANK));
+		
+	}
+	
+	
+	//@Test
 	public void resourceTest() {
 		
 		

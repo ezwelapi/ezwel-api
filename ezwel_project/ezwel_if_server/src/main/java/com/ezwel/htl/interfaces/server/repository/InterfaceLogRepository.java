@@ -40,7 +40,7 @@ public class InterfaceLogRepository extends AbstractDataAccessObject {
 	@APIOperation(description="인터페이스 실행 로그 입력")
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
 	public void insertInterfaceLog(InterfaceLogSDO inInterfaceLogSDO) {
-		logger.debug("[START] insertInterfaceLog [FINAL-LOG-DATA] {}", inInterfaceLogSDO);
+		logger.debug("[START] insertInterfaceLog [FINAL-LOG-DATA] ");
 		
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
 		Integer out = OperateConstants.INTEGER_ZERO_VALUE;
@@ -52,7 +52,7 @@ public class InterfaceLogRepository extends AbstractDataAccessObject {
 				
 				ezcIfLog = (EzcIfLog) propertyUtil.copySameProperty(inInterfaceLogSDO, EzcIfLog.class);
 				ezcIfLog.setIfExecCd(APIUtil.getId());
-				logger.debug("# EzcIfLog : {}", ezcIfLog);
+				//logger.debug("# EzcIfLog : {}", ezcIfLog);
 				out = sqlSession.insert(getNamespace("IF_LOG_MAPPER", "insertEzcIfLog"), ezcIfLog);
 				logger.debug("[LOG-SAVED] txSuccess : {}", out);
 			}

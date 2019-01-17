@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <title>EZC-API INTERFACE COLLECTION</title>
 <link rel="stylesheet" id="common-css"  href="./resources/common/css/common.css" type="text/css" media="all" />
-<script type="text/javascript" src="//code.jquery.com/jquery.js" charset="UTF-8"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery.js" charset="UTF-8"></script>
 <script type="text/javascript" src="./resources/common/js/index.js" charset="UTF-8"></script>
 </head>
 <body>

@@ -7,7 +7,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -27,19 +26,15 @@ import org.springframework.web.method.HandlerMethod;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
-import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
-import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
-import com.ezwel.htl.interfaces.commons.utils.CryptUtil;
 import com.ezwel.htl.interfaces.commons.utils.RegexUtil;
 import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
-import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
+import com.ezwel.htl.interfaces.server.commons.constants.PatternConstants;
 import com.ezwel.htl.interfaces.server.commons.morpheme.cm.MorphemeUtil;
 import com.ezwel.htl.interfaces.server.commons.morpheme.en.EnglishAnalyzers;
 import com.ezwel.htl.interfaces.server.commons.morpheme.ko.KoreanAnalyzers;
@@ -638,4 +633,23 @@ public class CommonUtil {
     		return null;
     	}
     }
+    
+    // commonUtil.getNumberOnly(data, 4)
+    @APIOperation(description="문자열에서 숫자만 추출하고 추출한 숫자를 처음부터 length만큼 잘라서 리턴합니다. 0이면 전부 리턴")
+	public String getNumberOnly(String data, int length) {
+		
+		String out = null;
+		if(APIUtil.isEmpty(data)) {
+			out = "";
+		}
+		
+		out = data.replaceAll(PatternConstants.PATTERN_NUMBER, OperateConstants.STR_BLANK);
+		
+		if(length > 0 && out.length() > length) {
+			out = out.substring(0, length);
+		}
+		
+		return out;
+	}
+	
 }

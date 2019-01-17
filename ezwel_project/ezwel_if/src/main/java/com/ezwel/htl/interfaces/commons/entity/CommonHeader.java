@@ -603,7 +603,7 @@ public class CommonHeader extends APIObject implements Serializable {
 				else {
 					logger.debug("# 종료시간 세팅 : 신규 currentTimeMillis");
 					interfaceLogSDO.setExecEndMlisSecd(APIUtil.currentTimeMillis());
-				}				
+				}
 				
 				interfaceLogSDO.setOutpTelg(responseOrgin);
 				
