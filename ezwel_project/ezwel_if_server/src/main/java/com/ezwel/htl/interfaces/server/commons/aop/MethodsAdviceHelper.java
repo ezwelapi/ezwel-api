@@ -331,7 +331,7 @@ public class MethodsAdviceHelper {
     	logger.debug("[END] isConfirmHeaderSignature Confirm Complete!");
     }
     
-    
+    @APIOperation
 	void processLogger(String pointcutType, JoinPoint thisJoinPoint) {
 		logger.debug("[PROC] processLogger => pointcutType : {}, thisJoinPoint : {}, InterfaceLogSDO : {}", pointcutType, thisJoinPoint, Local.commonHeader().getInterfaceLogSDO());
 		

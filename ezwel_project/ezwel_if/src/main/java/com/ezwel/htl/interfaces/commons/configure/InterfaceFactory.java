@@ -327,13 +327,14 @@ public class InterfaceFactory {
  			// 서버 IP대역 및 URI => 자바 상수 파일에서 관리하도록 변경 20190102 (XML환경파일에서 제거)
 			InterfaceFactory.serverManaged = (ServerManagedConfig) beanMarshaller.mapToBean((Map) managedConfig, ServerManagedConfig.class);
 			
-			logger.debug("# INTERFACE MANAGED PROPERTIES : {}", InterfaceFactory.serverManaged);
-			
 			webContext = ContextLoader.getCurrentWebApplicationContext();
 			if(webContext != null) {   
 				webRootKey = webContext.getEnvironment().getProperty(InterfaceFactory.serverManaged.getWebRootKeyName());
 				isMasterServer = (InterfaceFactory.serverManaged.getIfServerWebRootKey().equals(webRootKey));
-				logger.debug("- Environment : {}", webContext.getEnvironment().toString());
+				logger.debug("# WebRootKey : {}, Environment : {}", webRootKey, webContext.getEnvironment().toString());
+				if(isMasterServer) {
+					logger.debug("# INTERFACE MANAGED PROPERTIES : {}", InterfaceFactory.serverManaged);
+				}
 			}
 			else {
 				if(!isLocalTestInit) {
