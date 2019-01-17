@@ -9,7 +9,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.server.commons.sdo.MailSenderSDO;
+import com.ezwel.htl.interfaces.commons.send.data.MailSenderSDO;
 import com.ezwel.htl.interfaces.server.commons.send.MailSenderService;
 import com.ezwel.htl.interfaces.service.OutsideIFService;
 
@@ -48,13 +48,11 @@ public class SendService {
 		
 		try {
 			
-			String from = mailSenderSDO.getFrom();
-			String fromName = mailSenderSDO.getFromName();
 			String recipient = mailSenderSDO.getRecipient();
 			String subject = mailSenderSDO.getSubject();
 			String body = mailSenderSDO.getBody();
 			
-			mailSenderService.asyncSimpleSend(from, fromName, recipient, subject, body);
+			mailSenderService.asyncSimpleSend(recipient, subject, body);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "메일발송 인터페이스 장애발생.", e);

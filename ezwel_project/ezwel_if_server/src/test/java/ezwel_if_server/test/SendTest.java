@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
+import com.ezwel.htl.interfaces.commons.send.data.MailSenderSDO;
 import com.ezwel.htl.interfaces.commons.send.data.SmsSenderSDO;
-import com.ezwel.htl.interfaces.server.commons.sdo.MailSenderSDO;
 import com.ezwel.htl.interfaces.server.service.SendService;
 import com.ezwel.htl.interfaces.service.SendIFService;
 
@@ -25,6 +25,7 @@ public class SendTest {
 		sendIFService = new SendIFService();
 		
 		sendService = new SendService();
+		
 	}
 	
 	//문자
@@ -67,15 +68,11 @@ public class SendTest {
 		
 		logger.debug("[START] MailSenderTest");
 		
-		String from = "java124@naver.com";
-		String fromName = "전용필";
-		String recipient = "jyp0698@gmail.com"; 
+		String recipient = "java124@naver.com"; 
 		String subject = "메일 제목 테스트";
 		String body = "메일 내용 테스트";
 		
 		MailSenderSDO mailSenderSDO = new MailSenderSDO();
-		mailSenderSDO.setFrom(from);
-		mailSenderSDO.setFromName(fromName);
 		mailSenderSDO.setRecipient(recipient);
 		mailSenderSDO.setSubject(subject);
 		mailSenderSDO.setBody(body);

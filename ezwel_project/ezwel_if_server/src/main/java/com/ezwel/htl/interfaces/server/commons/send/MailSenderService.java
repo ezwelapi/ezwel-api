@@ -15,13 +15,20 @@ public class MailSenderService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
 	
-	@Autowired
-	MailSender mailSender;
+	@Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */
+	private MailSender mailSender;
+	
+	public MailSenderService() {
+		
+		if(mailSender == null) {
+			mailSender = new MailSender();
+		}
+	}
 	
 	@Async
-	public void asyncSimpleSend(final String from, final String fromName, final String recipient, final String subject, final String body){
+	public void asyncSimpleSend(final String recipient, final String subject, final String body){
 		try {
-			mailSender.callMailSender(from, fromName, recipient, subject, body);
+			mailSender.callMailSender(recipient, subject, body);
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 		}

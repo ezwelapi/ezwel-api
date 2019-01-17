@@ -25,6 +25,9 @@ public class MailSender {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
 	
+	static final String from = "admin@ezwel.com";
+    static final String fromName = "이지웰";
+    
 	/**
 	 * 메일전송
 	 * @param from 발신자메일
@@ -36,7 +39,7 @@ public class MailSender {
 	 * @throws UnsupportedEncodingException
 	 */
 	@APIOperation(description="메일발송 인터페이스")
-	protected void callMailSender(String from, String fromName, String recipient, String subject, String body) throws MessagingException, UnsupportedEncodingException {
+	protected void callMailSender(String recipient, String subject, String body) throws MessagingException, UnsupportedEncodingException {
 		
 		String host = InterfaceFactory.getOptionalApps().getEmailConfig().getHost();
 		String port = InterfaceFactory.getOptionalApps().getEmailConfig().getPort();
