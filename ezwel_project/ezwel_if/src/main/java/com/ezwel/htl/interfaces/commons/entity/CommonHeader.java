@@ -83,10 +83,12 @@ public class CommonHeader extends APIObject implements Serializable {
 	@APIFields(description = "인터페이스 로그")
 	private InterfaceLogSDO interfaceLogSDO;
 	
-	private Integer interfaceLogInitCount = 0;
+	private Integer interfaceLogInitCount;
 	
 	/*@APIFields(description = "인터페이스 로그 목록")
 	private List<InterfaceLogSDO> interfaceLogSDOList;*/
+	
+	private String controllerType;
 	
 	private String[]	arrayMessages;
 
@@ -96,23 +98,11 @@ public class CommonHeader extends APIObject implements Serializable {
 	
 	private long	endTimeMillis;
 	
-	private String	receiveFormat;
-	
 	private String	encoding;
-	
-	private boolean	ruleValidate;
-	
-	private String elementRoot;
-	
-	private String controllerType;
-	
+
 	private String contentType;
 	
-	private String pagination;
-	
 	private String clientAddress;
-	
-	private boolean exec;
 	
 	private String systemUserId;
 	
@@ -133,26 +123,21 @@ public class CommonHeader extends APIObject implements Serializable {
 		objectMap = null;
 		properties = null;
 		systemUserId = OperateConstants.SYSTEM_ID;
-		guid = "";
+		guid = OperateConstants.STR_BLANK;
 		startTimeMillis = OperateConstants.LONG_ZERO_VALUE;
 		endTimeMillis = OperateConstants.LONG_MINUS_ONE;
 		lapTimeMillis = OperateConstants.LONG_MINUS_ONE;
 		resultCode = MessageConstants.RESPONSE_CODE_1000;
-		message = "";
+		message = OperateConstants.STR_BLANK;
 		throwable = null;
-		cause = "";
-		stackTrace = "";
+		cause = OperateConstants.STR_BLANK;
+		stackTrace = OperateConstants.STR_BLANK;
+		controllerType = null;
 		arrayMessages = null;
 		traceMessages = null;
-		receiveFormat = null;
 		encoding = OperateConstants.DEFAULT_ENCODING;
-		ruleValidate = true;
-		elementRoot = null;
-		controllerType = null;
 		contentType = null;
-		pagination = null;
 		clientAddress = null;
-		exec = false;
 		requestMap = new LinkedHashMap<String, String[]>();
 		runtimeHeader = null;
 		errorItems = null;
@@ -161,6 +146,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		httpConfigSDO = null;
 		stackTraceUtil = new StackTraceUtil();
 		interfaceLogSDO = null;
+		interfaceLogInitCount = OperateConstants.INTEGER_ZERO_VALUE;
 	}
 	
 	
@@ -343,6 +329,14 @@ public class CommonHeader extends APIObject implements Serializable {
 		return lapTimeMillis;
 	}
 
+	public String getControllerType() {
+		return controllerType;
+	}
+
+	public void setControllerType(String controllerType) {
+		this.controllerType = controllerType;
+	}
+
 	public String[] getArrayMessages() {
 		return arrayMessages;
 	}
@@ -397,25 +391,6 @@ public class CommonHeader extends APIObject implements Serializable {
 		this.stackTrace = stackTrace;
 	}
 
-	public String getReceiveFormat() {
-		return receiveFormat;
-	}
-
-	public void setReceiveFormat(String receiveFormat) {
-		this.receiveFormat = receiveFormat;
-	}
-
-
-	public boolean isRuleValidate() {
-		return ruleValidate;
-	}
-
-
-	public void setRuleValidate(boolean ruleValidate) {
-		this.ruleValidate = ruleValidate;
-	}
-
-
 	public String getEncoding() {
 		return encoding;
 	}
@@ -424,23 +399,6 @@ public class CommonHeader extends APIObject implements Serializable {
 		if(encoding != null && !encoding.isEmpty()) {
 			this.encoding = encoding;
 		}
-	}
-
-	public String getElementRoot() {
-		return elementRoot;
-	}
-
-
-	public void setElementRoot(String elementRoot) {
-		this.elementRoot = elementRoot;
-	}
-
-	public String getControllerType() {
-		return controllerType;
-	}
-	
-	public void setControllerType(String controllerType) {
-		this.controllerType = controllerType;
 	}
 
 	public String getClientAddress() {
@@ -457,22 +415,6 @@ public class CommonHeader extends APIObject implements Serializable {
 
 	public void setRequestMap(Map<String, String[]> requestMap) {
 		this.requestMap = requestMap;
-	}
-
-	public String getPagination() {
-		return pagination;
-	}
-
-	public void setPagination(String pagination) {
-		this.pagination = pagination;
-	}
-
-	public boolean isExec() {
-		return exec;
-	}
-
-	public void setExec(boolean exec) {
-		this.exec = exec;
 	}
 
 	public boolean isHandlerInterceptorComplete() {

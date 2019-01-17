@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
@@ -335,6 +337,8 @@ public class MethodsAdviceHelper {
 		if(apiOperAnno != null && Local.commonHeader().getInterfaceLogSDO() != null && APIUtil.isNotEmpty(Local.commonHeader().getInterfaceLogSDO().getSuccYn())) {
 			//인터페이스 로그 저장
 			logger.debug("■■ [◆◆APIOperAnno◆◆] description : {}, isInsideInterfaceAPI : {}, isOutsideInterfaceAPI : {}", apiOperAnno.description(), apiOperAnno.isInsideInterfaceAPI(), apiOperAnno.isOutsideInterfaceAPI());
+			
+			Local.commonHeader().getInterfaceLogSDO().setIfReqtIp(Local.commonHeader().getClientAddress());
 			Runnable loggingService = new LoggingRunnableService(Local.commonHeader().getInterfaceLogSDO());
 			Thread loggingThread = new Thread(loggingService);
 			loggingThread.start();
