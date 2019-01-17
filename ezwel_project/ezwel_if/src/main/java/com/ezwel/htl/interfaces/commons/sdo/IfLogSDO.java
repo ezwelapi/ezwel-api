@@ -25,7 +25,7 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 //@Alias("ezcIfLog")
 //@EqualsAndHashCode(callSuper=true)
 @APIModel(modelNames="EZC 인터페이스 로그", description="EZC 인터페이스 로그 ( EZC_IF_LOG )", modelTypes="TABLE")
-public class InterfaceLogSDO extends AbstractSDO {
+public class IfLogSDO extends AbstractSDO {
 	
 	@APIFields(description = "인코딩")
 	private String encoding;

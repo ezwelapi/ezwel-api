@@ -14,7 +14,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.sdo.InterfaceLogSDO;
+import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
@@ -39,7 +39,7 @@ public class InterfaceLogRepository extends AbstractDataAccessObject {
 	
 	@APIOperation(description="인터페이스 실행 로그 입력")
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
-	public void insertInterfaceLog(InterfaceLogSDO inInterfaceLogSDO) {
+	public void insertInterfaceLog(IfLogSDO inInterfaceLogSDO) {
 		logger.debug("[START] insertInterfaceLog [FINAL-LOG-DATA] ");
 		
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);

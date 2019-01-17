@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.sdo.InterfaceLogSDO;
+import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
 import com.ezwel.htl.interfaces.server.commons.interfaces.RequestNamespace;
 import com.ezwel.htl.interfaces.server.service.InterfaceLogService;
 
@@ -32,33 +32,33 @@ public class InterfaceLogController {
 
 
 	@RequestMapping(value = "/countListInterfaceLogSDO")
-	@APIOperation(description="인터페이스 실행 로그 건수 조회", isOutputJsonMarshall=true, returnType=InterfaceLogSDO.class)
-	public Object countListInterfaceLogSDO(InterfaceLogSDO interfaceLogSDO) throws APIException {
+	@APIOperation(description="인터페이스 실행 로그 건수 조회", isOutputJsonMarshall=true, returnType=IfLogSDO.class)
+	public Object countListInterfaceLogSDO(IfLogSDO interfaceLogSDO) throws APIException {
 		logger.debug("[START] countListInterfaceLogSDO");
 		
-		InterfaceLogSDO out = interfaceLogService.countListEzcIfLog(interfaceLogSDO);
+		IfLogSDO out = interfaceLogService.countListEzcIfLog(interfaceLogSDO);
 		
 		logger.debug("[END] countListInterfaceLogSDO");
 		return out;
 	}
 	
 	@RequestMapping(value = "/selectListInterfaceLogSDO")
-	@APIOperation(description="인터페이스 실행 로그 목록 조회", isOutputJsonMarshall=true, returnType=InterfaceLogSDO.class)
-	public Object selectListInterfaceLogSDO(InterfaceLogSDO interfaceLogSDO) throws APIException {
+	@APIOperation(description="인터페이스 실행 로그 목록 조회", isOutputJsonMarshall=true, returnType=IfLogSDO.class)
+	public Object selectListInterfaceLogSDO(IfLogSDO interfaceLogSDO) throws APIException {
 		logger.debug("[START] selectListInterfaceLogSDO");
 		
-		List<InterfaceLogSDO> out = interfaceLogService.selectListEzcIfLog(interfaceLogSDO);
+		List<IfLogSDO> out = interfaceLogService.selectListEzcIfLog(interfaceLogSDO);
 
 		logger.debug("[END] selectListInterfaceLogSDO");	
 		return out;
 	}
 	
 	@RequestMapping(value = "/selectInterfaceLogSDO")
-	@APIOperation(description="인터페이스 실행 로그 단건 조회", isOutputJsonMarshall=true, returnType=InterfaceLogSDO.class)
-	public Object selectInterfaceLogSDO(InterfaceLogSDO interfaceLogSDO) throws APIException {
+	@APIOperation(description="인터페이스 실행 로그 단건 조회", isOutputJsonMarshall=true, returnType=IfLogSDO.class)
+	public Object selectInterfaceLogSDO(IfLogSDO interfaceLogSDO) throws APIException {
 		logger.debug("[START] selectInterfaceLogSDO");
 
-		InterfaceLogSDO out = interfaceLogService.selectEzcIfLog(interfaceLogSDO);
+		IfLogSDO out = interfaceLogService.selectEzcIfLog(interfaceLogSDO);
 			
 		logger.debug("[END] selectInterfaceLogSDO");
 		return out;

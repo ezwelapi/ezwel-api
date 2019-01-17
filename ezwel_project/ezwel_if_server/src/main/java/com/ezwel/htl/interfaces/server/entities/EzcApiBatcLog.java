@@ -27,9 +27,6 @@ import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractEntity;
 //@EqualsAndHashCode(callSuper=true)
 @APIModel(modelNames="EZC API 배치 로그", description="EZC API 배치 로그 ( EZC_API_BATC_LOG )", modelTypes="TABLE")
 public class EzcApiBatcLog extends AbstractEntity {
-
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
 	
 	@APIFields(description = "배치 실행 코드", maxLength=32, required=true, constraints="EZC_API_BATC_LOG_PK(P) EZC_API_BATC_LOG_PK(UNIQUE)")
 	private String batcExecCd;

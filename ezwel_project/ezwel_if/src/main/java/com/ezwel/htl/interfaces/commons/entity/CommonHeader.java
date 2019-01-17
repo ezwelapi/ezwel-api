@@ -20,7 +20,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
-import com.ezwel.htl.interfaces.commons.sdo.InterfaceLogSDO;
+import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
@@ -81,7 +81,7 @@ public class CommonHeader extends APIObject implements Serializable {
 	private HttpConfigSDO httpConfigSDO;
 
 	@APIFields(description = "인터페이스 로그")
-	private InterfaceLogSDO interfaceLogSDO;
+	private IfLogSDO interfaceLogSDO;
 	
 	private Integer interfaceLogInitCount;
 	
@@ -441,11 +441,11 @@ public class CommonHeader extends APIObject implements Serializable {
 		this.httpConfigSDO = httpConfigSDO;
 	}
 	
-	public InterfaceLogSDO getInterfaceLogSDO() {
+	public IfLogSDO getInterfaceLogSDO() {
 		return interfaceLogSDO;
 	}
 
-	public void setInterfaceLogSDO(InterfaceLogSDO interfaceLogSDO) {
+	public void setInterfaceLogSDO(IfLogSDO interfaceLogSDO) {
 		this.interfaceLogSDO = interfaceLogSDO;
 	}
 
@@ -482,7 +482,7 @@ public class CommonHeader extends APIObject implements Serializable {
 			
 			if(interfaceLogInitCount == 0 || interfaceLogSDO == null) {
 				
-				interfaceLogSDO = new InterfaceLogSDO();
+				interfaceLogSDO = new IfLogSDO();
 				interfaceLogSDO.setThedGuid(this.guid);
 				
 				if(httpConfig != null) {

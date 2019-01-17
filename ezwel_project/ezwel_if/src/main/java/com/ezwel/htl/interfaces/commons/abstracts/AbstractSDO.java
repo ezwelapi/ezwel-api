@@ -3,7 +3,7 @@ package com.ezwel.htl.interfaces.commons.abstracts;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
-import com.ezwel.htl.interfaces.commons.sdo.InterfaceLogSDO;
+import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,7 +34,7 @@ public abstract class AbstractSDO extends APIObject {
 	private long pageCount = OperateConstants.LONG_MAX_VALUE;
 
 	@APIFields(description = "인터페이스 로그")
-	private InterfaceLogSDO interfaceLog;
+	private IfLogSDO interfaceLog;
 	
 	public long getTotalCount() {
 		return totalCount;
@@ -60,11 +60,11 @@ public abstract class AbstractSDO extends APIObject {
 		this.pageCount = pageCount;
 	}
 
-	public InterfaceLogSDO getInterfaceLog() {
+	public IfLogSDO getInterfaceLog() {
 		return interfaceLog;
 	}
 
-	public void setInterfaceLog(InterfaceLogSDO interfaceLog) {
+	public void setInterfaceLog(IfLogSDO interfaceLog) {
 		this.interfaceLog = interfaceLog;
 	}
 
