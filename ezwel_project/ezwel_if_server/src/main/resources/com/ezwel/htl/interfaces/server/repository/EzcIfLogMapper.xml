@@ -26,6 +26,7 @@ INSERT INTO EZC_IF_LOG(	/* EZC 인터페이스 로그 */
 	,IF_TIME_STMP	/* 인터페이스 타임 스탬프, VARCHAR2(30) */
 	,IF_SIGN	/* 인터페이스 시그니처, VARCHAR2(120) */
 	,IF_REQT_ID	/* 인터페이스 요청자 ID, VARCHAR2(20) */
+	,IF_REQT_IP /* 인터페이스 요청자 IP, VARCHAR2(20) */
 	,IF_REQT_DIRT	/* 인터페이스 요청 방향, CHAR(1) */
 	,EXEC_STRT_MLIS_SECD	/* 실행 시작 밀리 초, NUMBER(0,22) */
 	,INPT_TELG	/* 입력 전문, CLOB(4000) */
@@ -49,6 +50,7 @@ INSERT INTO EZC_IF_LOG(	/* EZC 인터페이스 로그 */
 	,#{ifTimeStmp, jdbcType=VARCHAR}
 	,#{ifSign, jdbcType=VARCHAR}
 	,#{ifReqtId, jdbcType=VARCHAR}
+	,#{ifReqtIp, jdbcType=VARCHAR}
 	,#{ifReqtDirt, jdbcType=CHAR}
 	,#{execStrtMlisSecd, jdbcType=DECIMAL}
 	,#{inptTelg, jdbcType=CLOB}
@@ -76,6 +78,7 @@ SELECT
 	,EZC_IF_LOG.IF_TIME_STMP AS ifTimeStmp	/* 인터페이스 타임 스탬프, VARCHAR2(30) */
 	,EZC_IF_LOG.IF_SIGN AS ifSign	/* 인터페이스 시그니처, VARCHAR2(120) */
 	,EZC_IF_LOG.IF_REQT_ID AS ifReqtId	/* 인터페이스 요청자 ID, VARCHAR2(20) */
+	,EZC_IF_LOG.IF_REQT_IP AS ifReqtIp	/* 인터페이스 요청자 IP, VARCHAR2(20) */
 	,EZC_IF_LOG.IF_REQT_DIRT AS ifReqtDirt	/* 인터페이스 요청 방향, CHAR(1) */
 	,EZC_IF_LOG.EXEC_STRT_MLIS_SECD AS execStrtMlisSecd	/* 실행 시작 밀리 초, NUMBER(0,22) */
 	,EZC_IF_LOG.INPT_TELG AS inptTelg	/* 입력 전문, CLOB(4000) */
@@ -186,6 +189,7 @@ SELECT * FROM (
 			,EZC_IF_LOG.IF_TIME_STMP AS ifTimeStmp	/* 인터페이스 타임 스탬프, VARCHAR2(30) */
 			,EZC_IF_LOG.IF_SIGN AS ifSign	/* 인터페이스 시그니처, VARCHAR2(120) */
 			,EZC_IF_LOG.IF_REQT_ID AS ifReqtId	/* 인터페이스 요청자 ID, VARCHAR2(20) */
+			,EZC_IF_LOG.IF_REQT_IP AS ifReqtIp	/* 인터페이스 요청자 IP, VARCHAR2(20) */
 			,EZC_IF_LOG.IF_REQT_DIRT AS ifReqtDirt	/* 인터페이스 요청 방향, CHAR(1) */
 			,EZC_IF_LOG.EXEC_STRT_MLIS_SECD AS execStrtMlisSecd	/* 실행 시작 밀리 초, NUMBER(0,22) */
 			,EZC_IF_LOG.INPT_TELG AS inptTelg	/* 입력 전문, CLOB(4000) */
@@ -287,6 +291,7 @@ UPDATE EZC_IF_LOG SET	/* EZC 인터페이스 로그 */
 	,IF_TIME_STMP = #{ifTimeStmp, jdbcType=VARCHAR}	/* 인터페이스 타임 스탬프, VARCHAR2(30) */
 	,IF_SIGN = #{ifSign, jdbcType=VARCHAR}	/* 인터페이스 시그니처, VARCHAR2(120) */
 	,IF_REQT_ID = #{ifReqtId, jdbcType=VARCHAR}	/* 인터페이스 요청자 ID, VARCHAR2(20) */
+	,IF_REQT_IP = #{ifReqtIp, jdbcType=VARCHAR}	/* 인터페이스 요청자 IP, VARCHAR2(20) */
 	,IF_REQT_DIRT = #{ifReqtDirt, jdbcType=CHAR}	/* 인터페이스 요청 방향, CHAR(1) */
 	,EXEC_STRT_MLIS_SECD = #{execStrtMlisSecd, jdbcType=DECIMAL}	/* 실행 시작 밀리 초, NUMBER(0,22) */
 	,INPT_TELG = #{inptTelg, jdbcType=CLOB}	/* 입력 전문, CLOB(4000) */
@@ -319,6 +324,7 @@ MERGE INTO EZC_IF_LOG /* EZC 인터페이스 로그 */
 			,IF_TIME_STMP = #{ifTimeStmp, jdbcType=VARCHAR}	/* 인터페이스 타임 스탬프, VARCHAR2(30) */
 			,IF_SIGN = #{ifSign, jdbcType=VARCHAR}	/* 인터페이스 시그니처, VARCHAR2(120) */
 			,IF_REQT_ID = #{ifReqtId, jdbcType=VARCHAR}	/* 인터페이스 요청자 ID, VARCHAR2(20) */
+			,IF_REQT_IP = #{ifReqtIp, jdbcType=VARCHAR}	/* 인터페이스 요청자 IP, VARCHAR2(20) */
 			,IF_REQT_DIRT = #{ifReqtDirt, jdbcType=CHAR}	/* 인터페이스 요청 방향, CHAR(1) */
 			,EXEC_STRT_MLIS_SECD = #{execStrtMlisSecd, jdbcType=DECIMAL}	/* 실행 시작 밀리 초, NUMBER(0,22) */
 			,INPT_TELG = #{inptTelg, jdbcType=CLOB}	/* 입력 전문, CLOB(4000) */
@@ -343,6 +349,7 @@ MERGE INTO EZC_IF_LOG /* EZC 인터페이스 로그 */
 			,IF_TIME_STMP	/* 인터페이스 타임 스탬프, VARCHAR2(30) */
 			,IF_SIGN	/* 인터페이스 시그니처, VARCHAR2(120) */
 			,IF_REQT_ID	/* 인터페이스 요청자 ID, VARCHAR2(20) */
+			,IF_REQT_IP /* 인터페이스 요청자 IP, VARCHAR2(20) */
 			,IF_REQT_DIRT	/* 인터페이스 요청 방향, CHAR(1) */
 			,EXEC_STRT_MLIS_SECD	/* 실행 시작 밀리 초, NUMBER(0,22) */
 			,INPT_TELG	/* 입력 전문, CLOB(4000) */
@@ -366,6 +373,7 @@ MERGE INTO EZC_IF_LOG /* EZC 인터페이스 로그 */
 			,#{ifTimeStmp, jdbcType=VARCHAR}
 			,#{ifSign, jdbcType=VARCHAR}
 			,#{ifReqtId, jdbcType=VARCHAR}
+			,#{ifReqtIp, jdbcType=VARCHAR}
 			,#{ifReqtDirt, jdbcType=CHAR}
 			,#{execStrtMlisSecd, jdbcType=DECIMAL}
 			,#{inptTelg, jdbcType=CLOB}

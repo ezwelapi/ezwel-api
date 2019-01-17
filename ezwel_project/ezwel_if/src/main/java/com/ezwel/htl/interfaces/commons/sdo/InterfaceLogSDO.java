@@ -66,6 +66,9 @@ public class InterfaceLogSDO extends AbstractSDO {
 	@APIFields(description = "인터페이스 요청 방향", maxLength=1, required=true, constraints="SYS_C0013743(C)")
 	private String ifReqtDirt;
 
+	@APIFields(description = "인터페이스 요청자 IP", maxLength=20)
+	private String ifReqtIp;
+	
 	@APIFields(description = "실행 시작 밀리 초", maxLength=19, required=true, constraints="SYS_C0013744(C)")
 	private Long execStrtMlisSecd;
 
@@ -198,6 +201,14 @@ public class InterfaceLogSDO extends AbstractSDO {
 
 	public void setIfReqtDirt(String ifReqtDirt) {
 		this.ifReqtDirt = ifReqtDirt;
+	}
+
+	public String getIfReqtIp() {
+		return ifReqtIp;
+	}
+
+	public void setIfReqtIp(String ifReqtIp) {
+		this.ifReqtIp = ifReqtIp;
 	}
 
 	public Long getExecStrtMlisSecd() {
