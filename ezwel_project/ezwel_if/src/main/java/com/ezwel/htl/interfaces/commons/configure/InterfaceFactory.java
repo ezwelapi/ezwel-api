@@ -309,7 +309,7 @@ public class InterfaceFactory {
 		URL resourceURL = null;
 		WebApplicationContext webContext = null;
 		
-		logger.debug("# 인터페이스 팩토리 초기화 방식 : {}", (isLocalTestInit ? "로컬개발도구" : "스프링"));
+		//logger.debug("# 인터페이스 팩토리 초기화 방식 : {}", (isLocalTestInit ? "로컬개발도구" : "스프링"));
 		
 		try {
 			
@@ -341,8 +341,8 @@ public class InterfaceFactory {
 				}
 			}
 			
-			logger.debug("- Direct Parse Xml Config : {}", InterfaceFactory.serverManaged.getDirectParseXmlYn());
-			logger.debug("- This server is interface master server ? {}, webAppRootKey : {}", isMasterServer, webRootKey);
+			//logger.debug("- Direct Parse Xml Config : {}", InterfaceFactory.serverManaged.getDirectParseXmlYn());
+			//logger.debug("- This server is interface master server ? {}, webAppRootKey : {}", isMasterServer, webRootKey);
 			
 			jaxbc = JAXBContext.newInstance(InterfaceRootConfig.class);
 			unmarshaller = jaxbc.createUnmarshaller();
@@ -509,27 +509,26 @@ public class InterfaceFactory {
 					InterfaceFactory.optionalApps = ifc.getOptionalApps();
 				}
 				
-				logger.debug("# LOCAL_HOST_ADDRESS : {}", LOCAL_HOST_ADDRESS);
-				logger.debug("# LOCAL_HOST_NAME : {}", LOCAL_HOST_NAME);
-				logger.debug("# LOCAL_CANONICAL_HOST_NAME : {}", LOCAL_CANONICAL_HOST_NAME);
-								
-				logger.debug("# imageRootPath : {}", InterfaceFactory.imageRootPath);
-				logger.debug("# serverHttpDomainURI : {}", InterfaceFactory.serverHttpDomainURI);
-				logger.debug("# interfaceBatchErrorLogPath : {}", InterfaceFactory.interfaceBatchErrorLogPath);	
-
-				logger.debug("# Agent Size : {}", ifc.getAgentList().size());
-				logger.debug("# InsideChans Channel Size : {}", ifc.getInsideChans().size());
-				logger.debug("# OutsideChans Channel Size : {}", ifc.getOutsideChans().size());
-				
-				logger.debug("# Real Cached Size : {}", interfaceChannels.size());
 				if(IS_LOGGING)  {
-					logger.debug("# interfaceChannels : {}", interfaceChannels);
+					logger.debug("# LOCAL_HOST_ADDRESS : {}", LOCAL_HOST_ADDRESS);
+					logger.debug("# LOCAL_HOST_NAME : {}", LOCAL_HOST_NAME);
+					logger.debug("# LOCAL_CANONICAL_HOST_NAME : {}", LOCAL_CANONICAL_HOST_NAME);
+									
+					logger.debug("# imageRootPath : {}", InterfaceFactory.imageRootPath);
+					logger.debug("# serverHttpDomainURI : {}", InterfaceFactory.serverHttpDomainURI);
+					logger.debug("# interfaceBatchErrorLogPath : {}", InterfaceFactory.interfaceBatchErrorLogPath);	
+	
+					logger.debug("# Agent Size : {}", ifc.getAgentList().size());
+					logger.debug("# InsideChans Channel Size : {}", ifc.getInsideChans().size());
+					logger.debug("# OutsideChans Channel Size : {}", ifc.getOutsideChans().size());
+					
+					logger.debug("# Real Cached Size : {}", interfaceChannels.size());
+					//logger.debug("# interfaceChannels : {}", interfaceChannels);
+					
+					logger.debug("# fileRepository : {}", InterfaceFactory.fileRepository);
+					logger.debug("# faclMapping : {}", InterfaceFactory.faclMapping);	
+					logger.debug("# optionalApps : {}", InterfaceFactory.optionalApps);	
 				}
-				
-				logger.debug("# fileRepository : {}", InterfaceFactory.fileRepository);
-				logger.debug("# faclMapping : {}", InterfaceFactory.faclMapping);	
-				logger.debug("# optionalApps : {}", InterfaceFactory.optionalApps);	
-				
 			}
 		} catch (JAXBException e) {
 			

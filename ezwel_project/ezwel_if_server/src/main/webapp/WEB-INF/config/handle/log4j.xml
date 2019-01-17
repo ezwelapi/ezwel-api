@@ -33,7 +33,7 @@
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<!-- <param name="ConversionPattern" value="[%5p] [%d{HH:mm:ss}] [%t] (%c{1}.%M) %m [%c][%F:%L]%n" /> -->
-			<param name="ConversionPattern" value="[%5p] %m (%c{1}.%M)[%c][%F:%L] [%d{HH:mm:ss}]%n" />
+			<param name="ConversionPattern" value="[%t][%5p] %m (%c{1}.%M)[%c][%F:%L] [%d{HH:mm:ss}]%n" />
 		</layout>
 	</appender>
 			

@@ -32,7 +32,7 @@ public class UserAgentSDO extends AbstractSDO {
 	@APIFields(description = "클라이언트ID", required=false, httpHeader=true)
 	private String httpClientId;	
 	
-	@APIFields(description = "요청자ID", required=false, httpHeader=true)
+	@APIFields(description = "요청자ID", required=true, httpHeader=true)
 	private String httpRequestId;	
 	
 	@APIFields(description = "http connection timeout")

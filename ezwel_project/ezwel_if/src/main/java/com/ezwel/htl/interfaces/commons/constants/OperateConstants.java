@@ -30,6 +30,7 @@ public class OperateConstants {
 	public static final String GENERAL_DATE_FORMAT;
 	public static final String DEFAULT_ENCODING;
 	public static final String STR_COLON;
+	public static final String STR_SEMI_COLON;
 	public static final String STR_WHITE_SPACE;
 	public static final String STR_TAB;
 	public static final String STR_SLASH;
@@ -107,6 +108,7 @@ public class OperateConstants {
 	
 	//Interface Batch System Info
 	public static final String SYSTEM_ID;
+	public static final String GUEST_ID;
 	
 	public static final Map<String, String> IMAGE_EXT;
 	public static final String DEF_IMAGE_EXTENSION;
@@ -198,6 +200,7 @@ public class OperateConstants {
 		DEF_IMAGE_EXTENSION = "png";
 		
 		SYSTEM_ID = "IF_SYS_USR";
+		GUEST_ID = "GUEST";
 		
 		STR_SENDING_ASC = "ASC";
 		STR_SENDING_DESC = "DESC";
@@ -227,6 +230,8 @@ public class OperateConstants {
 		GENERAL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 		DEFAULT_ENCODING = "UTF-8";
 		STR_COLON = ":";
+		STR_SEMI_COLON = ";";
+		
 		STR_WHITE_SPACE = " ";
 		STR_TAB = "	";
 		STR_SLASH = "/";

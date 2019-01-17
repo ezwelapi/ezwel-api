@@ -39,46 +39,31 @@ public class InterfaceLogRepository extends AbstractDataAccessObject {
 	
 	@APIOperation(description="인터페이스 실행 로그 입력")
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
-	public Integer insertInterfaceLog() {
-		logger.debug("[START] insertInterfaceLog");
+	public void insertInterfaceLog(InterfaceLogSDO inInterfaceLogSDO) {
+		logger.debug("[START] insertInterfaceLog [FINAL-LOG-DATA] {}", inInterfaceLogSDO);
 		
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
 		Integer out = OperateConstants.INTEGER_ZERO_VALUE;
-		List<InterfaceLogSDO> logList = null;
 		EzcIfLog ezcIfLog = null;
 		
 		try {
 			
-			logList = Local.commonHeader().getInterfaceLogSDOList();
-			
-			if(logList != null) {
-
-				for(InterfaceLogSDO logItem : logList) {
-					
-					ezcIfLog = (EzcIfLog) propertyUtil.copySameProperty(logItem, EzcIfLog.class);
-					//ezcIfLog.setIfExecCd(APIUtil.getId());  ( Local.getId() => commonHeader의 guid 대입 initInterfaceReqeustLogData 오퍼레이션에서 세팅함 )
-					
-					out += sqlSession.insert(getNamespace("IF_LOG_MAPPER", "insertEzcIfLog"), ezcIfLog);
-				}
+			if(inInterfaceLogSDO != null) {
+				
+				ezcIfLog = (EzcIfLog) propertyUtil.copySameProperty(inInterfaceLogSDO, EzcIfLog.class);
+				ezcIfLog.setIfExecCd(APIUtil.getId());
+				logger.debug("# EzcIfLog : {}", ezcIfLog);
+				out = sqlSession.insert(getNamespace("IF_LOG_MAPPER", "insertEzcIfLog"), ezcIfLog);
+				logger.debug("[LOG-SAVED] txSuccess : {}", out);
 			}
 		}
 		catch(Exception e) {
 			
 			//None API runtimeException
-			logger.error(APIUtil.formatMessage("인터페이스 요청로그 입력 장애발생 {}", ezcIfLog), e);
-		}
-		finally {
-			//clear list 
-			if(logList != null) {
-				logList.clear();
-			}
-			if(Local.commonHeader().getInterfaceLogSDOList() != null) {
-				Local.commonHeader().getInterfaceLogSDOList().clear();
-			}
+			logger.error(APIUtil.formatMessage("- 인터페이스 로그 입력 장애발생 {}", ezcIfLog), e);
 		}
 		
 		logger.debug("[END] insertInterfaceLog");
-		return out;
 	}
 
 	@APIOperation(description="인터페이스 실행 로그 건수 조회")

@@ -28,16 +28,16 @@
 				<option value="10053461" httpApiKey="173a7146e68477b8b3b3e3017646aa6ci">인터치투어 10053461</option>
 				<option value="10054233" httpApiKey="b6380f208fd90378ff70786a02d92aa5i">웹투어 10054233</option>  
 				<option value="10056562" httpApiKey="e54d735ff4ab6b93308c31d99cd683d4i">(주)위드이노베이션_여기어때 10056562</option>
+				<option value="-" httpApiKey="-">콘도24</option>
 				<option value="99999999" httpApiKey="e54d735ffzab6b93308c31d99cd683d4i">직영/숙박 99999999</option>
 			</select>
 		</li>
-
-		<li><button id="sendBtn" >SEND</button></li>
+		<li><button id="sendBtn" >실행</button></li>
 		<li><button id="getXmlConfigBtn" >IF설정파일조회</button></li>
 	</ul>
 	<ul>
-		<li style="width:65%;"><textarea placeholder="API 입력 파라메터(JSON)" id="inputJson" name="inputJson" style="width:99%;height:200px;"></textarea></li>
-		<li style="width:35%"><textarea placeholder="API 요청 헤더(JSON)" id="inputHeader" name="inputHeader" style="width:99%;height:200px;"></textarea></li>
+		<li style="width:55%;"><textarea placeholder="API 입력 파라메터(JSON)" id="inputJson" name="inputJson" style="width:99%;height:200px;"></textarea></li>
+		<li style="width:45%"><textarea placeholder="API 요청 헤더(JSON)" id="inputHeader" name="inputHeader" style="width:99%;height:200px;"></textarea></li>
 	</ul>
 	<ul class="titleContainer">
 		<li style="width:100%;"><span class="title">Output Data</span></li>

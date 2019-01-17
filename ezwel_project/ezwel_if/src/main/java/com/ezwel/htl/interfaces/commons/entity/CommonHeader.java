@@ -83,8 +83,10 @@ public class CommonHeader extends APIObject implements Serializable {
 	@APIFields(description = "인터페이스 로그")
 	private InterfaceLogSDO interfaceLogSDO;
 	
-	@APIFields(description = "인터페이스 로그 목록")
-	private List<InterfaceLogSDO> interfaceLogSDOList;
+	private Integer interfaceLogInitCount = 0;
+	
+	/*@APIFields(description = "인터페이스 로그 목록")
+	private List<InterfaceLogSDO> interfaceLogSDOList;*/
 	
 	private String[]	arrayMessages;
 
@@ -505,7 +507,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		this.interfaceLogSDO = interfaceLogSDO;
 	}
 
-	public List<InterfaceLogSDO> getInterfaceLogSDOList() {
+	/*public List<InterfaceLogSDO> getInterfaceLogSDOList() {
 		return interfaceLogSDOList;
 	}
 
@@ -518,41 +520,118 @@ public class CommonHeader extends APIObject implements Serializable {
 			this.interfaceLogSDOList = new ArrayList<InterfaceLogSDO>();
 		}
 		this.interfaceLogSDOList.add(interfaceLogSDO);
-	}
-	
+	}*/
 
 	@APIOperation(description="인터페이스 요청헤더 로그 데이터 세팅")
-	public void initInterfaceReqeustLogData(HttpConfigSDO httpConfig) {
+	public void initInterfaceReqeustLogData() {
+		initInterfaceReqeustLogData(httpConfigSDO, null);
+	}
+
+	@APIOperation(description="인터페이스 요청헤더 로그 데이터 세팅")
+	public void initInterfaceReqeustLogData(Long execStrtMlisSecd) {
+		initInterfaceReqeustLogData(httpConfigSDO, execStrtMlisSecd);
+	}
+	
+	@APIOperation(description="인터페이스 요청헤더 로그 데이터 세팅")
+	public void initInterfaceReqeustLogData(HttpConfigSDO httpConfig, Long execStrtMlisSecd) {
+		logger.debug("[INIT] initInterfaceReqeustLogData({}) {} : {}", interfaceLogInitCount, execStrtMlisSecd, interfaceLogSDO);
+		logger.debug("[INPUT] httpConfig : {}", httpConfig);
+		try {
+			
+			if(interfaceLogInitCount == 0 || interfaceLogSDO == null) {
+				
+				interfaceLogSDO = new InterfaceLogSDO();
+				interfaceLogSDO.setThedGuid(this.guid);
+				
+				if(httpConfig != null) {
+					
+					interfaceLogSDO.setPartAgentId(httpConfig.getHttpAgentId());
+					interfaceLogSDO.setIfChanId(httpConfig.getChanId());
+					interfaceLogSDO.setIfChanGrpId(httpConfig.getHttpAgentGroupId());
+					interfaceLogSDO.setIfDesc(httpConfig.getDescription());
+					interfaceLogSDO.setIfApiUri(httpConfig.getRestURI());
+					interfaceLogSDO.setIfApiKey(httpConfig.getHttpApiKey());
+					interfaceLogSDO.setIfTimeStmp(httpConfig.getHttpApiTimestamp());
+					interfaceLogSDO.setIfSign(httpConfig.getHttpApiSignature()); 
+					interfaceLogSDO.setIfReqtId(httpConfig.getHttpRequestId()); 
+					interfaceLogSDO.setEncoding(httpConfig.getEncoding());
+					interfaceLogSDO.setIfReqtDirt(OperateConstants.STR_O);
+					//시작시간
+					if(execStrtMlisSecd != null && execStrtMlisSecd > OperateConstants.LONG_ZERO_VALUE) {
+						logger.debug("# 시작시간 세팅 : InputSignature > execStrtMlisSecd");
+						interfaceLogSDO.setExecStrtMlisSecd(execStrtMlisSecd);
+					}
+					else if(startTimeMillis > OperateConstants.LONG_ZERO_VALUE){
+						logger.debug("# 시작시간 세팅 : Local > startTimeMillis");
+						interfaceLogSDO.setExecStrtMlisSecd(startTimeMillis);
+					}
+					else {
+						logger.debug("# 시작시간 세팅 : 신규 currentTimeMillis");
+						interfaceLogSDO.setExecStrtMlisSecd(APIUtil.currentTimeMillis());
+					}
+				}
+				
+				interfaceLogInitCount++;
+			}
+			else {
+				logger.debug("# 인터페이스 로그 SDO가 이미 초기화 되었습니다. input-httpConfig : {}", httpConfig);
+			}
+			
+		} catch (Exception e) {
+			logger.error("[InterfaceReqeustLogData] 요청(입력) 로그 데이터 세팅 장애발생", e);
+		}
+
+		logger.debug("[END] initInterfaceReqeustLogData({}) {}", interfaceLogInitCount, interfaceLogSDO);		
+	}
+	
+	@APIOperation(description="인터페이스 요청헤더 로그 데이터 세팅")
+	public void initInterfaceCertLogData(HttpConfigSDO httpConfig) {
+		logger.debug("[START] initInterfaceCertLogData({}) {}", interfaceLogInitCount, httpConfig);
 
 		try {
 			
-			interfaceLogSDO = new InterfaceLogSDO();
+			if(interfaceLogSDO != null) {
+				
+				if(httpConfig != null) {
+					
+					interfaceLogSDO.setPartAgentId(httpConfig.getHttpAgentId());
+					interfaceLogSDO.setIfChanId(httpConfig.getChanId());
+					interfaceLogSDO.setIfChanGrpId(httpConfig.getHttpAgentGroupId());
+					interfaceLogSDO.setIfDesc(httpConfig.getDescription());
+					interfaceLogSDO.setIfApiUri(httpConfig.getRestURI());
+					interfaceLogSDO.setIfApiKey(httpConfig.getHttpApiKey());
+					interfaceLogSDO.setIfReqtDirt(OperateConstants.STR_I);
+				}
+				
+				interfaceLogInitCount++;
+			}
+			else {
+				logger.debug("# CertLogData::인터페이스 로그 SDO가 이미 초기화 되지 않았습니다. input-httpConfig : {}", httpConfig);
+			}
 			
-			interfaceLogSDO.setIfExecCd(this.guid);
-			interfaceLogSDO.setPartAgentId(httpConfig.getHttpAgentId());
-			interfaceLogSDO.setIfChanId(httpConfig.getChanId());
-			interfaceLogSDO.setIfChanGrpId(httpConfig.getHttpAgentGroupId());
-			interfaceLogSDO.setIfDesc(httpConfig.getDescription());
-			interfaceLogSDO.setIfApiUri(httpConfig.getRestURI());
-			interfaceLogSDO.setIfApiKey(httpConfig.getHttpApiKey());
-			interfaceLogSDO.setIfTimeStmp(httpConfig.getHttpApiTimestamp());
-			interfaceLogSDO.setIfSign(httpConfig.getHttpApiSignature()); 
-			interfaceLogSDO.setIfReqtId(httpConfig.getHttpRequestId()); 
-			interfaceLogSDO.setIfReqtDirt(httpConfig.getIfReqtDirt()); 
-			interfaceLogSDO.setExecStrtMlisSecd(APIUtil.currentTimeMillis());
-			interfaceLogSDO.setEncoding(httpConfig.getEncoding());
 		} catch (Exception e) {
 			logger.error("[InterfaceReqeustLogData] 요청(입력) 로그 데이터 세팅 장애발생", e);
-		}	
+		}
+
+		logger.debug("[END] initInterfaceCertLogData({}) {}", interfaceLogInitCount, interfaceLogSDO);		
+	}
+	
+	@APIOperation(description="인터페이스 입력파라메터 로그 데이터 세팅")
+	public void setInterfaceInputTelegram(String inJsonParam) {
+		setInterfaceInputTelegram(httpConfigSDO, inJsonParam);
 	}
 	
 	@APIOperation(description="인터페이스 입력파라메터 로그 데이터 세팅")
 	public void setInterfaceInputTelegram(HttpConfigSDO httpConfig, String inJsonParam) {
 		
 		try {
+			
 			interfaceLogSDO.setInptTelg(inJsonParam);			
 			if(inJsonParam != null) {
-				interfaceLogSDO.setInptTelgSize(new BigDecimal(inJsonParam.getBytes(httpConfig.getEncoding()).length));
+				
+				if(httpConfig != null ) {
+					interfaceLogSDO.setInptTelgSize(new BigDecimal(inJsonParam.getBytes(httpConfig.getEncoding()).length));
+				}
 			}
 			else {
 				interfaceLogSDO.setInptTelgSize(OperateConstants.BIGDECIMAL_ZERO_VALUE);
@@ -563,14 +642,27 @@ public class CommonHeader extends APIObject implements Serializable {
 	}
 	
 	@APIOperation(description="인터페이스 출력(결과) 로그 데이터 세팅")
-	public <T1 extends AbstractSDO> void setInterfaceResultLogData(Object code, String responseOrgin) {
+	public <T1 extends AbstractSDO> void setInterfaceResultLogData(Object code, String responseOrgin, Long execEndMlisSecd) {
+		logger.debug("[START] setInterfaceResultLogData({}) {} : {}", code, execEndMlisSecd, responseOrgin);
 		
 		try {
 			
 			if(interfaceLogSDO != null) {
 				
-				//TotlLapMlisSecd은 세팅하지 않는다. Strt와 End만 세팅하고 TotlLapMlisSecd은 getter에서 계산한다.
-				interfaceLogSDO.setExecEndMlisSecd(APIUtil.currentTimeMillis());
+				//종료시간 : TotlLapMlisSecd은 세팅하지 않는다. Strt와 End만 세팅하고 TotlLapMlisSecd은 getter에서 계산한다.
+				if(execEndMlisSecd != null && execEndMlisSecd > OperateConstants.LONG_ZERO_VALUE) {
+					logger.debug("# 종료시간 세팅 : InputSignature > execEndMlisSecd");
+					interfaceLogSDO.setExecEndMlisSecd(execEndMlisSecd);
+				}
+				else if(endTimeMillis > OperateConstants.LONG_ZERO_VALUE) {
+					logger.debug("# 종료시간 세팅 : Local > endTimeMillis");
+					interfaceLogSDO.setExecEndMlisSecd(endTimeMillis);
+				}
+				else {
+					logger.debug("# 종료시간 세팅 : 신규 currentTimeMillis");
+					interfaceLogSDO.setExecEndMlisSecd(APIUtil.currentTimeMillis());
+				}				
+				
 				interfaceLogSDO.setOutpTelg(responseOrgin);
 				
 				if(responseOrgin != null) {
@@ -586,12 +678,16 @@ public class CommonHeader extends APIObject implements Serializable {
 				else {
 					interfaceLogSDO.setSuccYn(OperateConstants.STR_N);
 				}
-				
-				logger.debug("[FINAL-LOG-DATA] {}", interfaceLogSDO);
 			}
+			else {
+				logger.debug("# 인터페이스 로그 SDO가 초기화 되지 않았습니다. [code : {}, execEndMlisSecd : {}, responseOrgin : {}]", code, execEndMlisSecd, responseOrgin);
+			}
+			
 		} catch (Exception e) {
-			logger.error("[InterfaceReqeustLogData] 응답(결과) 로그 데이터 세팅 장애발생", e);
+			logger.error("[setInterfaceResultLogData] 응답(결과) 로그 데이터 세팅 장애발생", e);
 		}
+		
+		logger.debug("[END] setInterfaceResultLogData({}) {}", code, interfaceLogSDO);
 	}
 	
 	@APIOperation(description="인터페이스 에러유형 세팅")
@@ -599,6 +695,7 @@ public class CommonHeader extends APIObject implements Serializable {
     	
 		if(interfaceLogSDO != null && errType != null) {
 			interfaceLogSDO.setErrType(errType); 
+			Local.commonHeader().getInterfaceLogSDO().setSuccYn(OperateConstants.STR_N);
 		}	
     }
     
@@ -607,6 +704,7 @@ public class CommonHeader extends APIObject implements Serializable {
     	
 		if(interfaceLogSDO != null && errCont != null) {
 			interfaceLogSDO.setErrCont(errCont);
+			Local.commonHeader().getInterfaceLogSDO().setSuccYn(OperateConstants.STR_N);
 		}	
     }
 	

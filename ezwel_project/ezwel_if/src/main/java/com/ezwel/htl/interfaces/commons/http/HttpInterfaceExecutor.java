@@ -331,17 +331,17 @@ public class HttpInterfaceExecutor {
 	public <T1 extends AbstractSDO, T2 extends AbstractSDO> T2 sendJSON(HttpConfigSDO in, T1 inputObject, Class<T2> outputType) {
 		logger.debug("[START] sendJSON {}\n[CHANNEL-INFO] {}\n[USER-INPUT] {}\n[USER-OUTPUT] {}", in.getRestURI(), in, inputObject, outputType);
 
-		/***************************
-		 * [START] LOG DATA SETTING 
-		 ***************************/
-		Local.commonHeader().initInterfaceReqeustLogData(in);
-		/***************************
-		 * [END]   LOG DATA SETTING 
-		 ***************************/
-		
 		if(in == null) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_2000, "■ 인터페이스 필수 입력 객체가 존재하지 않습니다.");
 		}
+		
+		/***************************
+		 * [START] LOG DATA SETTING 
+		 ***************************/
+		Local.commonHeader().initInterfaceReqeustLogData(in, APIUtil.currentTimeMillis());
+		/***************************
+		 * [END]   LOG DATA SETTING 
+		 ***************************/
 		
 		//return value
 		T2 out = null;
@@ -413,7 +413,7 @@ public class HttpInterfaceExecutor {
 						responseOrgin = responseOrgin.trim();
 					} 
 					
-					logger.debug("■ responseOrgin url : {}", in.getRestURI()/*, responseOrgin*/);
+					logger.debug("■ responseOrgin url : {}\n{}\n", in.getRestURI(), responseOrgin);
 					
 					if(APIUtil.isNotEmpty(responseOrgin)) {
 						
@@ -471,7 +471,8 @@ public class HttpInterfaceExecutor {
 			/***************************
 			 * [START] LOG DATA SETTING 
 			 ***************************/
-			Local.commonHeader().setInterfaceResultLogData(propertyUtil.getProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME), responseOrgin);
+			logger.debug("[InterfaceResultLogData] output : {}", out);
+			Local.commonHeader().setInterfaceResultLogData(propertyUtil.getProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME), responseOrgin, APIUtil.currentTimeMillis());
 			/***************************
 			 * [END]   LOG DATA SETTING 
 			 ***************************/
@@ -518,6 +519,13 @@ public class HttpInterfaceExecutor {
 				 * [START] LOG DATA SETTING 
 				 ***************************/
 				if(Local.commonHeader().getInterfaceLogSDO() != null) {
+					
+					logger.debug("{}", new StringBuffer().append(OperateConstants.LINE_SEPARATOR)
+														 .append("■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
+														 .append("■■ 에러 정보 세팅 ■■").append(OperateConstants.LINE_SEPARATOR)
+														 .append("■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
+														 .toString());
+					
 					Local.commonHeader().getInterfaceLogSDO().setErrType(MessageConstants.getMessage(code)); //MessageConstants의 에러 유형 메시지
 					Local.commonHeader().getInterfaceLogSDO().setErrCont(message);
 				}		

@@ -33,6 +33,9 @@ public class InterfaceLogSDO extends AbstractSDO {
 	@APIFields(description = "인터페이스 실행 코드", maxLength=32, required=true, constraints="EZC_IF_LOG_PK(P),SYS_C0013738(C) EZC_IF_LOG_PK(UNIQUE)")
 	private String ifExecCd;
 
+	@APIFields(description = "쓰레드 GUID", maxLength=32)
+	private String thedGuid;
+	
 	@APIFields(description = "제휴사 에이젼트 ID", maxLength=20, required=true, constraints="SYS_C0013739(C)")
 	private String partAgentId;
 
@@ -107,6 +110,14 @@ public class InterfaceLogSDO extends AbstractSDO {
 
 	public void setIfExecCd(String ifExecCd) {
 		this.ifExecCd = ifExecCd;
+	}
+
+	public String getThedGuid() {
+		return thedGuid;
+	}
+
+	public void setThedGuid(String thedGuid) {
+		this.thedGuid = thedGuid;
 	}
 
 	public String getPartAgentId() {

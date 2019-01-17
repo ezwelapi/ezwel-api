@@ -16,6 +16,7 @@
 <insert id="insertEzcIfLog" parameterType="ezcIfLog">
 INSERT INTO EZC_IF_LOG(	/* EZC 인터페이스 로그 */
 	 IF_EXEC_CD	/* 인터페이스 실행 코드, VARCHAR2(32) */
+	,THED_GUID
 	,PART_AGENT_ID	/* 제휴사 에이젼트 ID, VARCHAR2(20) */
 	,IF_CHAN_ID	/* 인터페이스 체널 ID, VARCHAR2(100) */
 	,IF_CHAN_GRP_ID	/* 인터페이스 체널 그룹 ID, VARCHAR2(100) */
@@ -38,6 +39,7 @@ INSERT INTO EZC_IF_LOG(	/* EZC 인터페이스 로그 */
 	,ERR_CONT	/* 오류 내용, CLOB(4000) */
 ) VALUES (
 	 #{ifExecCd, jdbcType=VARCHAR}
+	,#{thedGuid, jdbcType=VARCHAR}
 	,#{partAgentId, jdbcType=VARCHAR}
 	,#{ifChanId, jdbcType=VARCHAR}
 	,#{ifChanGrpId, jdbcType=VARCHAR}
@@ -46,7 +48,7 @@ INSERT INTO EZC_IF_LOG(	/* EZC 인터페이스 로그 */
 	,#{ifApiKey, jdbcType=VARCHAR}
 	,#{ifTimeStmp, jdbcType=VARCHAR}
 	,#{ifSign, jdbcType=VARCHAR}
-	,#{ifReqId, jdbcType=VARCHAR}
+	,#{ifReqtId, jdbcType=VARCHAR}
 	,#{ifReqtDirt, jdbcType=CHAR}
 	,#{execStrtMlisSecd, jdbcType=DECIMAL}
 	,#{inptTelg, jdbcType=CLOB}
@@ -64,6 +66,7 @@ INSERT INTO EZC_IF_LOG(	/* EZC 인터페이스 로그 */
 <select id="selectEzcIfLog" parameterType="ezcIfLog" resultType="ezcIfLog">
 SELECT
 	 EZC_IF_LOG.IF_EXEC_CD AS ifExecCd	/* 인터페이스 실행 코드, VARCHAR2(32) */
+	,EZC_IF_LOG.THED_GUID AS thedGuid
 	,EZC_IF_LOG.PART_AGENT_ID AS partAgentId	/* 제휴사 에이젼트 ID, VARCHAR2(20) */
 	,EZC_IF_LOG.IF_CHAN_ID AS ifChanId	/* 인터페이스 체널 ID, VARCHAR2(100) */
 	,EZC_IF_LOG.IF_CHAN_GRP_ID AS ifChanGrpId	/* 인터페이스 체널 그룹 ID, VARCHAR2(100) */
@@ -72,7 +75,7 @@ SELECT
 	,EZC_IF_LOG.IF_API_KEY AS ifApiKey	/* 인터페이스 API KEY, VARCHAR2(40) */
 	,EZC_IF_LOG.IF_TIME_STMP AS ifTimeStmp	/* 인터페이스 타임 스탬프, VARCHAR2(30) */
 	,EZC_IF_LOG.IF_SIGN AS ifSign	/* 인터페이스 시그니처, VARCHAR2(120) */
-	,EZC_IF_LOG.IF_REQT_ID AS ifReqId	/* 인터페이스 요청자 ID, VARCHAR2(20) */
+	,EZC_IF_LOG.IF_REQT_ID AS ifReqtId	/* 인터페이스 요청자 ID, VARCHAR2(20) */
 	,EZC_IF_LOG.IF_REQT_DIRT AS ifReqtDirt	/* 인터페이스 요청 방향, CHAR(1) */
 	,EZC_IF_LOG.EXEC_STRT_MLIS_SECD AS execStrtMlisSecd	/* 실행 시작 밀리 초, NUMBER(0,22) */
 	,EZC_IF_LOG.INPT_TELG AS inptTelg	/* 입력 전문, CLOB(4000) */
@@ -102,6 +105,9 @@ WHERE 1=1
 	<if test="succYn != null and succYn != ''">
 	AND EZC_IF_LOG.SUCC_YN = #{succYn, jdbcType=CHAR}	/* 성공 여부, CHAR(1) */
 	</if>
+	<if test="thedGuid != null and thedGuid != ''">
+	AND EZC_IF_LOG.THED_GUID = #{thedGuid, jdbcType=VARCHAR}
+	</if>	
 	<if test="ifExecCd != null and ifExecCd != ''">
 	AND EZC_IF_LOG.IF_EXEC_CD = #{ifExecCd, jdbcType=VARCHAR}	/* 인터페이스 실행 코드, VARCHAR2(32) */
 	</if>
@@ -129,8 +135,8 @@ WHERE 1=1
 	<if test="ifSign != null and ifSign != ''">
 	AND EZC_IF_LOG.IF_SIGN = #{ifSign, jdbcType=VARCHAR}	/* 인터페이스 시그니처, VARCHAR2(120) */
 	</if>
-	<if test="ifReqId != null and ifReqId != ''">
-	AND EZC_IF_LOG.IF_REQT_ID = #{ifReqId, jdbcType=VARCHAR}	/* 인터페이스 요청자 ID, VARCHAR2(20) */
+	<if test="ifReqtId != null and ifReqtId != ''">
+	AND EZC_IF_LOG.IF_REQT_ID = #{ifReqtId, jdbcType=VARCHAR}	/* 인터페이스 요청자 ID, VARCHAR2(20) */
 	</if>
 	<if test="ifReqtDirt != null and ifReqtDirt != ''">
 	AND EZC_IF_LOG.IF_REQT_DIRT = #{ifReqtDirt, jdbcType=CHAR}	/* 인터페이스 요청 방향, CHAR(1) */
@@ -170,6 +176,7 @@ SELECT * FROM (
 		/* #### SQL Body [[ ################# */
 		SELECT
 			 EZC_IF_LOG.IF_EXEC_CD AS ifExecCd	/* 인터페이스 실행 코드, VARCHAR2(32) */
+			,EZC_IF_LOG.THED_GUID AS thedGuid
 			,EZC_IF_LOG.PART_AGENT_ID AS partAgentId	/* 제휴사 에이젼트 ID, VARCHAR2(20) */
 			,EZC_IF_LOG.IF_CHAN_ID AS ifChanId	/* 인터페이스 체널 ID, VARCHAR2(100) */
 			,EZC_IF_LOG.IF_CHAN_GRP_ID AS ifChanGrpId	/* 인터페이스 체널 그룹 ID, VARCHAR2(100) */
@@ -178,7 +185,7 @@ SELECT * FROM (
 			,EZC_IF_LOG.IF_API_KEY AS ifApiKey	/* 인터페이스 API KEY, VARCHAR2(40) */
 			,EZC_IF_LOG.IF_TIME_STMP AS ifTimeStmp	/* 인터페이스 타임 스탬프, VARCHAR2(30) */
 			,EZC_IF_LOG.IF_SIGN AS ifSign	/* 인터페이스 시그니처, VARCHAR2(120) */
-			,EZC_IF_LOG.IF_REQT_ID AS ifReqId	/* 인터페이스 요청자 ID, VARCHAR2(20) */
+			,EZC_IF_LOG.IF_REQT_ID AS ifReqtId	/* 인터페이스 요청자 ID, VARCHAR2(20) */
 			,EZC_IF_LOG.IF_REQT_DIRT AS ifReqtDirt	/* 인터페이스 요청 방향, CHAR(1) */
 			,EZC_IF_LOG.EXEC_STRT_MLIS_SECD AS execStrtMlisSecd	/* 실행 시작 밀리 초, NUMBER(0,22) */
 			,EZC_IF_LOG.INPT_TELG AS inptTelg	/* 입력 전문, CLOB(4000) */
@@ -196,6 +203,9 @@ SELECT * FROM (
 			<if test="succYn != null and succYn != ''">
 			AND EZC_IF_LOG.SUCC_YN = #{succYn, jdbcType=CHAR}	/* 성공 여부, CHAR(1) */
 			</if>
+			<if test="thedGuid != null and thedGuid != ''">
+			AND EZC_IF_LOG.THED_GUID = #{thedGuid, jdbcType=VARCHAR}
+			</if>				
 			<if test="ifExecCd != null and ifExecCd != ''">
 			AND EZC_IF_LOG.IF_EXEC_CD = #{ifExecCd, jdbcType=VARCHAR}	/* 인터페이스 실행 코드, VARCHAR2(32) */
 			</if>
@@ -223,8 +233,8 @@ SELECT * FROM (
 			<if test="ifSign != null and ifSign != ''">
 			AND EZC_IF_LOG.IF_SIGN = #{ifSign, jdbcType=VARCHAR}	/* 인터페이스 시그니처, VARCHAR2(120) */
 			</if>
-			<if test="ifReqId != null and ifReqId != ''">
-			AND EZC_IF_LOG.IF_REQT_ID = #{ifReqId, jdbcType=VARCHAR}	/* 인터페이스 요청자 ID, VARCHAR2(20) */
+			<if test="ifReqtId != null and ifReqtId != ''">
+			AND EZC_IF_LOG.IF_REQT_ID = #{ifReqtId, jdbcType=VARCHAR}	/* 인터페이스 요청자 ID, VARCHAR2(20) */
 			</if>
 			<if test="ifReqtDirt != null and ifReqtDirt != ''">
 			AND EZC_IF_LOG.IF_REQT_DIRT = #{ifReqtDirt, jdbcType=CHAR}	/* 인터페이스 요청 방향, CHAR(1) */
@@ -267,7 +277,8 @@ WHERE ROW__NUM &gt; (#{pageNum, jdbcType=NUMERIC}-1)*#{pageCount, jdbcType=NUMER
 
 <update id="updateEzcIfLog" parameterType="ezcIfLog">
 UPDATE EZC_IF_LOG SET	/* EZC 인터페이스 로그 */
-	 PART_AGENT_ID = #{partAgentId, jdbcType=VARCHAR}	/* 제휴사 에이젼트 ID, VARCHAR2(20) */
+	 THED_GUID = #{thedGuid, jdbcType=VARCHAR}
+	,PART_AGENT_ID = #{partAgentId, jdbcType=VARCHAR}	/* 제휴사 에이젼트 ID, VARCHAR2(20) */
 	,IF_CHAN_ID = #{ifChanId, jdbcType=VARCHAR}	/* 인터페이스 체널 ID, VARCHAR2(100) */
 	,IF_CHAN_GRP_ID = #{ifChanGrpId, jdbcType=VARCHAR}	/* 인터페이스 체널 그룹 ID, VARCHAR2(100) */
 	,IF_DESC = #{ifDesc, jdbcType=VARCHAR}	/* 인터페이스 설명, VARCHAR2(4000) */
@@ -275,7 +286,7 @@ UPDATE EZC_IF_LOG SET	/* EZC 인터페이스 로그 */
 	,IF_API_KEY = #{ifApiKey, jdbcType=VARCHAR}	/* 인터페이스 API KEY, VARCHAR2(40) */
 	,IF_TIME_STMP = #{ifTimeStmp, jdbcType=VARCHAR}	/* 인터페이스 타임 스탬프, VARCHAR2(30) */
 	,IF_SIGN = #{ifSign, jdbcType=VARCHAR}	/* 인터페이스 시그니처, VARCHAR2(120) */
-	,IF_REQT_ID = #{ifReqId, jdbcType=VARCHAR}	/* 인터페이스 요청자 ID, VARCHAR2(20) */
+	,IF_REQT_ID = #{ifReqtId, jdbcType=VARCHAR}	/* 인터페이스 요청자 ID, VARCHAR2(20) */
 	,IF_REQT_DIRT = #{ifReqtDirt, jdbcType=CHAR}	/* 인터페이스 요청 방향, CHAR(1) */
 	,EXEC_STRT_MLIS_SECD = #{execStrtMlisSecd, jdbcType=DECIMAL}	/* 실행 시작 밀리 초, NUMBER(0,22) */
 	,INPT_TELG = #{inptTelg, jdbcType=CLOB}	/* 입력 전문, CLOB(4000) */
@@ -298,7 +309,8 @@ MERGE INTO EZC_IF_LOG /* EZC 인터페이스 로그 */
 	)
 	WHEN MATCHED THEN
 		UPDATE SET
-			 PART_AGENT_ID = #{partAgentId, jdbcType=VARCHAR}	/* 제휴사 에이젼트 ID, VARCHAR2(20) */
+			 THED_GUID = #{thedGuid, jdbcType=VARCHAR}
+			,PART_AGENT_ID = #{partAgentId, jdbcType=VARCHAR}	/* 제휴사 에이젼트 ID, VARCHAR2(20) */
 			,IF_CHAN_ID = #{ifChanId, jdbcType=VARCHAR}	/* 인터페이스 체널 ID, VARCHAR2(100) */
 			,IF_CHAN_GRP_ID = #{ifChanGrpId, jdbcType=VARCHAR}	/* 인터페이스 체널 그룹 ID, VARCHAR2(100) */
 			,IF_DESC = #{ifDesc, jdbcType=VARCHAR}	/* 인터페이스 설명, VARCHAR2(4000) */
@@ -306,7 +318,7 @@ MERGE INTO EZC_IF_LOG /* EZC 인터페이스 로그 */
 			,IF_API_KEY = #{ifApiKey, jdbcType=VARCHAR}	/* 인터페이스 API KEY, VARCHAR2(40) */
 			,IF_TIME_STMP = #{ifTimeStmp, jdbcType=VARCHAR}	/* 인터페이스 타임 스탬프, VARCHAR2(30) */
 			,IF_SIGN = #{ifSign, jdbcType=VARCHAR}	/* 인터페이스 시그니처, VARCHAR2(120) */
-			,IF_REQT_ID = #{ifReqId, jdbcType=VARCHAR}	/* 인터페이스 요청자 ID, VARCHAR2(20) */
+			,IF_REQT_ID = #{ifReqtId, jdbcType=VARCHAR}	/* 인터페이스 요청자 ID, VARCHAR2(20) */
 			,IF_REQT_DIRT = #{ifReqtDirt, jdbcType=CHAR}	/* 인터페이스 요청 방향, CHAR(1) */
 			,EXEC_STRT_MLIS_SECD = #{execStrtMlisSecd, jdbcType=DECIMAL}	/* 실행 시작 밀리 초, NUMBER(0,22) */
 			,INPT_TELG = #{inptTelg, jdbcType=CLOB}	/* 입력 전문, CLOB(4000) */
@@ -321,6 +333,7 @@ MERGE INTO EZC_IF_LOG /* EZC 인터페이스 로그 */
 	WHEN NOT MATCHED THEN
 		INSERT (
 			 IF_EXEC_CD	/* 인터페이스 실행 코드, VARCHAR2(32) */
+			,THED_GUID
 			,PART_AGENT_ID	/* 제휴사 에이젼트 ID, VARCHAR2(20) */
 			,IF_CHAN_ID	/* 인터페이스 체널 ID, VARCHAR2(100) */
 			,IF_CHAN_GRP_ID	/* 인터페이스 체널 그룹 ID, VARCHAR2(100) */
@@ -343,6 +356,7 @@ MERGE INTO EZC_IF_LOG /* EZC 인터페이스 로그 */
 			,ERR_CONT	/* 오류 내용, CLOB(4000) */
 		) VALUES (
 			 #{ifExecCd, jdbcType=VARCHAR}
+			,#{thedGuid, jdbcType=VARCHAR}
 			,#{partAgentId, jdbcType=VARCHAR}
 			,#{ifChanId, jdbcType=VARCHAR}
 			,#{ifChanGrpId, jdbcType=VARCHAR}
@@ -351,7 +365,7 @@ MERGE INTO EZC_IF_LOG /* EZC 인터페이스 로그 */
 			,#{ifApiKey, jdbcType=VARCHAR}
 			,#{ifTimeStmp, jdbcType=VARCHAR}
 			,#{ifSign, jdbcType=VARCHAR}
-			,#{ifReqId, jdbcType=VARCHAR}
+			,#{ifReqtId, jdbcType=VARCHAR}
 			,#{ifReqtDirt, jdbcType=CHAR}
 			,#{execStrtMlisSecd, jdbcType=DECIMAL}
 			,#{inptTelg, jdbcType=CLOB}

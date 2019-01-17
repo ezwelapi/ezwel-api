@@ -155,7 +155,7 @@ public class HttpConfigSDO extends AbstractSDO {
 		httpAgentType = null;	
 		httpChannelCd = null;	
 		httpClientId = null;	
-		httpRequestId = null;			
+		httpRequestId = OperateConstants.GUEST_ID;			
 		httpAgentId = null;
 		patnCdType = null;
 		encoding = OperateConstants.DEFAULT_ENCODING;

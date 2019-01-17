@@ -338,12 +338,15 @@ public class OutsideIFService {
 			
 			//전문코드를 이지웰코드로 변환 예제.(목록)
 			String rsvStat = null;
-			for(EzwelJobReservesOutSDO data : out.getReserves()) {
-				rsvStat = data.getRsvStat();
-				logger.debug("##rsvStat : {}", rsvStat);
-				//코드 데이터 만큼 아래의 set/getEzcCode(전문코드) 를 실행한다.
-				data.setRsvStat(getEzcOutputCode(rsvStat));	//cd
-				data.setRsvStatName(getEzcOutputName(rsvStat)); //nm
+			if(out.getReserves() != null) {
+				
+				for(EzwelJobReservesOutSDO data : out.getReserves()) {
+					rsvStat = data.getRsvStat();
+					logger.debug("##rsvStat : {}", rsvStat);
+					//코드 데이터 만큼 아래의 set/getEzcCode(전문코드) 를 실행한다.
+					data.setRsvStat(getEzcOutputCode(rsvStat));	//cd
+					data.setRsvStatName(getEzcOutputName(rsvStat)); //nm
+				}
 			}
 		}
 		catch(Exception e) {

@@ -563,10 +563,10 @@ public class OutsideService extends AbstractServiceObject {
 						ezcFacl.setFaclNmEng(faclData.getPdtNameEng());
 						ezcFacl.setRoomType( APIUtil.NVL(commonUtil.getMasterCdForCodeList(detailCdList, faclData.getTypeCode()), "NA-G002") ); // -> DB 공통코드 (테이블 : EZC_DETAIL_CD.DETAIL_CD  = '#{typeCode}' AND EZC_DETAIL_CD.CLASS_CD = 'G002' )
 						ezcFacl.setRoomClass( APIUtil.NVL(commonUtil.getMasterCdForCodeList(detailCdList, faclData.getGradeCode()), "NA-G003") ); // -> DB 공통코드 (테이블 : EZC_DETAIL_CD.DETAIL_CD  = '#{gradeCode}' AND EZC_DETAIL_CD.CLASS_CD = 'G003')
-						ezcFacl.setSaleStartDd(faclData.getSellStartDate()); // 판매시작일
-						ezcFacl.setSaleEndDd(faclData.getSellEndDate());	// 판매종료일
-						ezcFacl.setCheckInTm( APIUtil.isNotEmpty(faclData.getCheckInTime()) ? faclData.getCheckInTime().replace(OperateConstants.STR_COLON, OperateConstants.STR_BLANK) : null );	//채크인시간 ( 임시 필터 )
-						ezcFacl.setCheckOutTm( APIUtil.isNotEmpty(faclData.getCheckOutTime()) ? faclData.getCheckOutTime().replace(OperateConstants.STR_COLON, OperateConstants.STR_BLANK) : null );	//채크아웃시간 ( 임시 필터 )
+						ezcFacl.setSaleStartDd(faclData.getSellStartDate()); // 판매시작일 => 8바이트가 넘게 오는 데이터는 에러 뱃도록 함 (전용필차장 요구사항)
+						ezcFacl.setSaleEndDd(faclData.getSellEndDate());	// 판매종료일 => 8바이트가 넘게 오는 데이터는 에러 뱃도록 함 (전용필차장 요구사항)
+						ezcFacl.setCheckInTm( faclData.getCheckInTime() );	//채크인시간 => 10바이트로 변경
+						ezcFacl.setCheckOutTm( faclData.getCheckOutTime() );	//채크아웃시간 => 10바이트로 변경 
 						ezcFacl.setAreaCd( APIUtil.NVL(faclData.getGunguCode(), OperateConstants.STR_EMPTY) );	//지역코드(군구코드) => 호텔패스글로벌 전문에 데이터가  전달되어오지 않기때문에 임시로 EMPTY 처리함 */
 						ezcFacl.setCityCd( APIUtil.NVL(faclData.getSidoCode(), OperateConstants.STR_EMPTY) );	//도시코드(시도코드)
 						ezcFacl.setAddrType( APIUtil.NVL(commonUtil.getMasterCdForCodeList(detailCdList, faclData.getAddressType()), "NA-C007") );  //주소 유형 -> DB 공통코드 (테이블 : EZC_DETAIL_CD)
@@ -1105,35 +1105,28 @@ public class OutsideService extends AbstractServiceObject {
 			
 			if(assets != null) {
 				
-				//읽기 전용
-				if(userAgentDTO.isReadOnly()) {
+				//읽기 전용이 아닐경우 배치실행
+				for(FaclSearchOutSDO data : assets) {
 					
-					//특정 제휴사 지정일경우 인터페이스 데이터 세팅
-					for(FaclSearchOutSDO data : assets) {
-						
-						if(Integer.toString(MessageConstants.RESPONSE_CODE_1000).equals(data.getCode()) && data.getData() != null) {
+					if(Integer.toString(MessageConstants.RESPONSE_CODE_1000).equals(data.getCode()) && data.getData() != null) {
+					
+						if(userAgentDTO.isReadOnly()) /* 읽기 전용 */ {
 							out.addAllData(data.getData());
 						}
-
-						out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(data.getCode()).toString().trim());
-						out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(data.getMessage()).toString().trim());
-						out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(data.getRestURI()).toString().trim());
-					}
-				}
-				else {
-					
-					//읽기 전용이 아닐경우 배치실행
-					for(FaclSearchOutSDO data : assets) {
-						//정상 처리되었을경우 데이터 저장
-						if(Integer.toString(MessageConstants.RESPONSE_CODE_1000).equals(data.getCode()) && data.getData() != null) {
+						else /* 읽기 전용이 아닐경우 배치실행 */ {
+							//정상 처리되었을경우 데이터 저장
 							/** execute dbio */
 							//제휴사 별 최저가 목록 데이터 저장
 							txCount += outsideRepository.callFaclSearch(faclSearchDTO, data);
 						}
 					}
 					
-					out.setTxCount(txCount);
+					out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(data.getCode()).toString().trim());
+					out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(data.getMessage()).toString().trim());
+					out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(data.getRestURI()).toString().trim());						
 				}
+				
+				out.setTxCount(txCount);
 			}
 		}
 		catch(Exception e) {
@@ -1367,6 +1360,9 @@ public class OutsideService extends AbstractServiceObject {
 			
 			if(grpFaclList != null) {
 				grpFaclList.clear();
+			}
+			if(executor != null) {
+				executor.clear();
 			}
 		}
 		

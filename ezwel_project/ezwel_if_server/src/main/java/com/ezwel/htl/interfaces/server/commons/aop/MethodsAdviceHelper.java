@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
+import com.ezwel.htl.interfaces.commons.entity.RuntimeHeader;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
@@ -26,6 +29,7 @@ import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
 import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
+import com.ezwel.htl.interfaces.server.service.LoggingRunnableService;
 
 @Component
 public class MethodsAdviceHelper {
@@ -122,7 +126,7 @@ public class MethodsAdviceHelper {
 	
 	@SuppressWarnings("unchecked")
 	@APIOperation(description="APIOperation InputJSON Marshalling")
-	void doMethodInputUnmarshall(Class<?>[] inputParamTypes, Object[] inputParamObjects) {
+	void doMethodInputUnmarshall(Class<?>[] inputParamTypes, Object[] inputParamObjects, APIOperation apiOperAnno, String methodGuid) {
 		if(IS_LOGGING) {
 			logger.debug("■■ [AOP] doMethodInputStream");
 		}
@@ -136,11 +140,42 @@ public class MethodsAdviceHelper {
 			if(inputParamTypes.length != inputParamObjects.length) {
 				throw new APIException("컨트롤러 오퍼레이션의 입력 파라메터 타입 개수와 입력 오브젝트 개수가 다를 수 없습니다.");
 			}
+			
+			/***************************
+			 * [START] LOG DATA SETTING 
+			 ***************************/
+			if(apiOperAnno != null && apiOperAnno.isInsideInterfaceAPI()) {
+				//인터페이스 로그정보 초기화
+				RuntimeHeader runtime = getRuntimeHeader(methodGuid);
+				logger.debug("■ StartOperation-RuntimeHeader[{}] {}", methodGuid, runtime);
+				Long startTimeMillis = OperateConstants.LONG_ZERO_VALUE;
+				if(runtime != null) {
+					startTimeMillis = runtime.getStartTimeMillis(); 
+				} 
+				else {
+					startTimeMillis = APIUtil.currentTimeMillis();
+				}
+				
+				Local.commonHeader().initInterfaceReqeustLogData(startTimeMillis);
+			}
+			/***************************
+			 * [END]   LOG DATA SETTING 
+			 ***************************/
+			
 			requestBody = commonUtil.readReqeustBodyWithBufferedReader();
 			
 			Map<String, Object> jsonMap = null;
 			if(requestBody != null && APIUtil.isNotEmpty(requestBody)) {
 				logger.debug("■ inputStreamData : \n{}", requestBody);
+				
+				/*********************************************
+				 * [START] LOG DATA SETTING THE INPUT TELEGRAM 
+				 *********************************************/
+				Local.commonHeader().setInterfaceInputTelegram(requestBody);
+				/*********************************************
+				 * [END]   LOG DATA SETTING THE INPUT TELEGRAM 
+				 *********************************************/
+				
 				jsonMap = (Map<String, Object>) beanMarshaller.fromJSONStringToMap(requestBody);
 				
 				Class<?> inputType = null;
@@ -175,7 +210,9 @@ public class MethodsAdviceHelper {
 		}
 	}
 	
-	
+	RuntimeHeader getRuntimeHeader(String methodGuid) {
+		return Local.commonHeader().getRuntimeHeader(methodGuid);
+	}
 	
 	@APIOperation(description="Getting Runtime APIOperation Infomation")
 	String getTargetMethodInfomation(String typeMethodName, Object[] inputParam, String description, String methodGuid) {
@@ -226,12 +263,20 @@ public class MethodsAdviceHelper {
     	//인터페이스 설정 파일 체널 정보
     	HttpConfigSDO httpConfigXML = InterfaceFactory.getChannel(chanId, httpConfigSDO.getHttpAgentId());
     	logger.debug("[PROC] ConfirmHeaderSignature httpConfigDTO : {}", httpConfigXML);
-    	
     	//제휴사 에이전트 정보
     	AgentInfoSDO agentInfoXML = InterfaceFactory.getInterfaceAgents(httpConfigSDO.getHttpAgentId());
 		if(agentInfoXML == null) {
 			throw new APIException("제휴사 에이전트 정보가 존재하지 않습니다. 에이전트아이디 : {}", httpConfigSDO.getHttpAgentId());
 		}
+    	
+		/***************************************
+		 * [START] CERTIFICATION LOG DATA SETTING 
+		 ***************************************/
+		//httpConfigXML.setHttpApiKey(agentInfoXML.getInsideApiKey());
+    	Local.commonHeader().initInterfaceCertLogData(httpConfigXML);
+		/***************************************
+		 * [END]   CERTIFICATION LOG DATA SETTING 
+		 ****************************************/
     	
     	String signature = httpConfigSDO.getHttpApiSignature();
     	logger.debug("[PROC] Signature : {}", signature);
@@ -277,33 +322,24 @@ public class MethodsAdviceHelper {
     	    	default: logger.debug("* Ignore Index Data[{}] : {}", i, signatureItem);
     	    		break;
     		}
-    		
-    		/*
-    		if(i == 0) {
-    			logger.debug("* UUID data[{}] : {}", i, signatureItem);
-    		}
-    		else if(i == 1) {
-    			logger.debug("* httpAgentId data[{}] : {}", i, signatureItem);
-    			if(!signatureItem.equals(httpConfigSDO.getHttpAgentId())) {
-    				throw new APIException(MessageConstants.RESPONSE_CODE_4000, "시그니처 검증실패! http-agent-id가 존재하지 않거나 잘못되었습니다.");
-    			}
-    		}
-    		else if(i == 2) {
-    			logger.debug("* httpApiKey data[{}] : {}", i, signatureItem);
-    			if(!signatureItem.equals(agentInfoXML.getInsideApiKey())) {
-    				throw new APIException(MessageConstants.RESPONSE_CODE_4000, "시그니처 검증실패! http-api-key가 존재하지 않거나 잘못되었습니다.");
-    			}
-    		}
-    		else if(i == 3) {
-    			logger.debug("* httpApiTimestamp data[{}] : {}", i, signatureItem);
-    			if(!signatureItem.equals(httpConfigSDO.getHttpApiTimestamp())) {
-    				throw new APIException(MessageConstants.RESPONSE_CODE_4000, "시그니처 검증실패! http-api-timestamp가 존재하지 않거나 잘못되었습니다.");
-    			}
-    		}
-    		*/
     	}
     	
     	logger.debug("[END] isConfirmHeaderSignature Confirm Complete!");
     }
     
+    
+	void interfaceLogger(String pointcutTpye, JoinPoint thisJoinPoint) {
+		logger.debug("[START] interfaceLogger => pointcutTpye : {} =>> thisJoinPoint : {}", pointcutTpye, thisJoinPoint);
+		
+		APIOperation apiOperAnno = ((MethodSignature) thisJoinPoint.getSignature()).getMethod().getAnnotation(APIOperation.class);
+		if(apiOperAnno != null && Local.commonHeader().getInterfaceLogSDO() != null && APIUtil.isNotEmpty(Local.commonHeader().getInterfaceLogSDO().getSuccYn())) {
+			//인터페이스 로그 저장
+			logger.debug("■■ [◆◆APIOperAnno◆◆] description : {}, isInsideInterfaceAPI : {}, isOutsideInterfaceAPI : {}", apiOperAnno.description(), apiOperAnno.isInsideInterfaceAPI(), apiOperAnno.isOutsideInterfaceAPI());
+			Runnable loggingService = new LoggingRunnableService(Local.commonHeader().getInterfaceLogSDO());
+			Thread loggingThread = new Thread(loggingService);
+			loggingThread.start();
+			Local.commonHeader().setInterfaceLogSDO(null);
+		}
+	}
+	
 }
