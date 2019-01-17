@@ -36,8 +36,8 @@
 		<li><button id="getXmlConfigBtn" >IF설정파일조회</button></li>
 	</ul>
 	<ul>
-		<li style="width:65%;"><textarea placeholder="API 입력 파라메터(JSON)" id="inputJson" name="inputJson" style="width:99%;height:200px;"></textarea></li>
-		<li style="width:35%"><textarea placeholder="API 요청 헤더(JSON)" id="inputHeader" name="inputHeader" style="width:99%;height:200px;"></textarea></li>
+		<li style="width:55%;"><textarea placeholder="API 입력 파라메터(JSON)" id="inputJson" name="inputJson" style="width:99%;height:200px;"></textarea></li>
+		<li style="width:45%"><textarea placeholder="API 요청 헤더(JSON)" id="inputHeader" name="inputHeader" style="width:99%;height:200px;"></textarea></li>
 	</ul>
 	<ul class="titleContainer">
 		<li style="width:100%;"><span class="title">Output Data</span></li>
