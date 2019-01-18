@@ -490,8 +490,19 @@ public class APIUtil {
 	
 	@APIOperation(description="현제 타임스템프를 리턴합니다.")
 	public static String getTimeStamp() {
-		Timestamp out = new Timestamp(System.currentTimeMillis());
-		return out.toString();
+		
+		Timestamp timestamp = null;
+		Date resultDate = null;
+		
+		try {
+			
+			timestamp = new Timestamp(System.currentTimeMillis());
+			resultDate = new Date( timestamp.getTime( ) );
+			return FastDateFormat.getInstance(OperateConstants.DEF_DATE_MILLISECOND_FORMAT, TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA).format(resultDate);			
+		}
+		catch(Exception e) {
+			throw new RuntimeException("타임스탬프발급 장애 발생");
+		}
 	}
 	
 	@APIOperation(description="문자형식의 날자값이 유효한 날자인지 체크합니다.")
