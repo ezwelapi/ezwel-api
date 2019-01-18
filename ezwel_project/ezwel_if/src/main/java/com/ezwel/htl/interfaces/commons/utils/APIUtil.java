@@ -491,13 +491,9 @@ public class APIUtil {
 	@APIOperation(description="현제 타임스템프를 리턴합니다.")
 	public static String getTimeStamp() {
 		
-		Timestamp timestamp = null;
-		Date resultDate = null;
-		
 		try {
-			
-			timestamp = new Timestamp(System.currentTimeMillis());
-			resultDate = new Date( timestamp.getTime( ) );
+
+			Date resultDate = new Date( new Timestamp(System.currentTimeMillis()).getTime( ) );
 			return FastDateFormat.getInstance(OperateConstants.DEF_DATE_MILLISECOND_FORMAT, TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA).format(resultDate);			
 		}
 		catch(Exception e) {

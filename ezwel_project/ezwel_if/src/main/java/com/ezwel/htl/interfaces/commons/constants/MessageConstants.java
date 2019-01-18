@@ -76,7 +76,7 @@ public class MessageConstants {
 		MESSAGE_MAP.put(RESPONSE_CODE_2001, "파라메터 검증 실패(길이/포맷 등)");
 		MESSAGE_MAP.put(RESPONSE_CODE_3000, "기타 오류");
 		MESSAGE_MAP.put(RESPONSE_CODE_4000, "사용자 인증 실패");
-		MESSAGE_MAP.put(RESPONSE_CODE_5000, "시스템 에러");
+		MESSAGE_MAP.put(RESPONSE_CODE_5000, "제휴사 시스템 에러");
 		MESSAGE_MAP.put(RESPONSE_CODE_9000, "어플리케이션 장애 발생");
 		MESSAGE_MAP.put(RESPONSE_CODE_9100, "인터페이스 장애 발생");
 		MESSAGE_MAP.put(RESPONSE_CODE_9101, "일부 인터페이스 장애 발생");
