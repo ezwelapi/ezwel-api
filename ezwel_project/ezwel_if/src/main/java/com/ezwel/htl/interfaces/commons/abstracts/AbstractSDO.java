@@ -34,7 +34,7 @@ public abstract class AbstractSDO extends APIObject {
 	private long pageCount = OperateConstants.LONG_MAX_VALUE;
 
 	@APIFields(description = "인터페이스 로그")
-	private IfLogSDO interfaceLog;
+	private IfLogSDO ifLog;
 	
 	public long getTotalCount() {
 		return totalCount;
@@ -60,15 +60,14 @@ public abstract class AbstractSDO extends APIObject {
 		this.pageCount = pageCount;
 	}
 
-	public IfLogSDO getInterfaceLog() {
-		return interfaceLog;
+	public IfLogSDO getIfLog() {
+		return ifLog;
 	}
 
-	public void setInterfaceLog(IfLogSDO interfaceLog) {
-		this.interfaceLog = interfaceLog;
+	public void setIfLog(IfLogSDO ifLog) {
+		this.ifLog = ifLog;
 	}
 
-	
 
 	
 }

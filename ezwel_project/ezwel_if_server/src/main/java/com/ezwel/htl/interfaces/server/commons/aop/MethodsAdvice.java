@@ -265,6 +265,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				
 			}
 			else {
+				e.printStackTrace();
 				throw new APIException("■■ [AOP-APIException] {} 장애발생" , new Object[]{ typeMethodName }, e);
 			}
 		}

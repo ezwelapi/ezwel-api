@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.server.thread;
+package com.ezwel.htl.interfaces.server.repository;
 
 import java.util.concurrent.Callable;
 

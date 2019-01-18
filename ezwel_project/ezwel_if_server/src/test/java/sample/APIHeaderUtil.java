@@ -11,6 +11,8 @@ import org.apache.commons.lang.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+
 //TEST API (실사용 코드에서는 삭제하세요)
 import junit.framework.TestCase;
 
@@ -47,10 +49,13 @@ public class APIHeaderUtil extends TestCase /* TEST API extends (실사용 코�
 		//제휴사와 공유된 http-api-key
 		httpHeaderDTO.setHttpApiKey("f5831137b0aa322fc2af1a37d6ecf8cei");
 		//current http-api-timestamp
-		httpHeaderDTO.setHttpApiTimestamp(getTimeStamp());
+		httpHeaderDTO.setHttpApiTimestamp(APIUtil.getTimeStamp());
 		//make http-api-signature
 		httpHeaderDTO.setHttpApiSignature(getHttpSignature(httpHeaderDTO.getHttpAgentId(), httpHeaderDTO.getHttpApiKey(), httpHeaderDTO.getHttpApiTimestamp()));
 		
+		// 20190118153140438
+		// 20190118153235386
+		// 201901181446102
 		//생성된 해더 정보 확인
 		logger.debug("[생성된 해더 정보 확인]");
 		logger.debug("HttpAgentId : {}", httpHeaderDTO.getHttpAgentId());
@@ -61,6 +66,11 @@ public class APIHeaderUtil extends TestCase /* TEST API extends (실사용 코�
 		//생성한 시그니처 원본 데이터 확인
 		logger.debug("[생성한 시그니처 원본 데이터 확인]");
 		logger.debug("Original HttpApiSignature : {}", base64Decode(httpHeaderDTO.getHttpApiSignature()));
+		
+		
+		String testCode = "NjNlMDkwODFmODljNGNmMjgzMmQzNWY0YzE3NzgyOTYtMTAwNTU1NTAtMDUxYWQ2NTk5MjExODM3YWU1NTdlZmJhZWNjNjViM2FvLTIwMTkwMTE4MTQ0NjEwMg";
+		
+		logger.debug("Decode HttpApiSignature : {}", base64Decode(testCode));
 	}
 	
 	

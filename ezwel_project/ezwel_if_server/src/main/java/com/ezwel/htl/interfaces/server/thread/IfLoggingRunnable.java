@@ -1,5 +1,7 @@
 package com.ezwel.htl.interfaces.server.thread;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,17 +21,28 @@ public class IfLoggingRunnable extends AbstractComponent implements Runnable {
 	
 	private IfLogSDO inInterfaceLogSDO;
 	
+	private List<IfLogSDO> inInterfaceLogList;
+	
 	private ProcessLogRepository loggerRepository;
 	
 	public IfLoggingRunnable(IfLogSDO inInterfaceLogSDO) {
 		this.inInterfaceLogSDO = inInterfaceLogSDO;
 	}
 	
+	public IfLoggingRunnable(List<IfLogSDO> inInterfaceLogList) {
+		this.inInterfaceLogList = inInterfaceLogList;
+	}
+	
 	@Override
 	public void run() {
 		
 		loggerRepository = (ProcessLogRepository) LApplicationContext.getBean(loggerRepository, ProcessLogRepository.class);
-		loggerRepository.insertInterfaceLog(inInterfaceLogSDO);
+		if(inInterfaceLogSDO != null) {
+			loggerRepository.insertInterfaceLog(inInterfaceLogSDO);
+		}
+		else if(inInterfaceLogList != null) {
+			loggerRepository.insertInterfaceLog(inInterfaceLogList);
+		}
 	}
 
 }

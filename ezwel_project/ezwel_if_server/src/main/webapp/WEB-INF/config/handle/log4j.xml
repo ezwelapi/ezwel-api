@@ -119,19 +119,21 @@
 		<level value="WARN" />
 	</logger>
 	
-  	<!-- ######################################################### -->
+  	<!-- ################## 3rdparty Loggers [ org.springframework ] ################### -->
 
-	<!-- 3rdparty Loggers [ org.springframework ] -->
 	<logger name="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource">
 		<level value="WARN" />
 	</logger>	
 	
-	<!-- 3rdparty Loggers [ org.springframework ] -->
 	<logger name="org.springframework.aop.framework.autoproxy.InfrastructureAdvisorAutoProxyCreator">
 		<level value="WARN" />
 	</logger>	
 
-  	<!-- ######################################################### -->
+	<logger name="org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor">
+		<level value="WARN" />
+	</logger>	
+
+	<!-- ################## 3rdparty Loggers [ org.springframework ] ################### -->
   	
 	<!-- root Loggers -->  
 	<root>

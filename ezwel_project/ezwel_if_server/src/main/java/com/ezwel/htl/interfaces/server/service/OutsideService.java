@@ -26,6 +26,7 @@ import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.sdo.ApiBatcLogSDO;
+import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
 import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.thread.Local;
@@ -261,8 +262,8 @@ public class OutsideService extends AbstractServiceObject {
 			/*****************************
 			 * [END] DB LOG DATA SETTING
 			 *****************************/
-			apiBatcLogSDO.setExecEndMlisSecd(APIUtil.currentTimeMillis());
-			Local.commonHeader().setBatchExecLog(apiBatcLogSDO, true);
+			
+			Local.commonHeader().addBatchExecLog(apiBatcLogSDO, true);
 		}
 	
 
@@ -433,8 +434,8 @@ public class OutsideService extends AbstractServiceObject {
 			/*****************************
 			 * [END] DB LOG DATA SETTING
 			 *****************************/
-			apiBatcLogSDO.setExecEndMlisSecd(APIUtil.currentTimeMillis());
-			Local.commonHeader().setBatchExecLog(apiBatcLogSDO, true);			
+			
+			Local.commonHeader().addBatchExecLog(apiBatcLogSDO, true);			
 		}
 		 
 		logger.debug("[END] 시설 매핑 데이터 저장 txCount : {}", out);
@@ -717,7 +718,7 @@ public class OutsideService extends AbstractServiceObject {
 									.append( OperateConstants.LINE_SEPARATOR )
 									.toString());
 							
-							Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+							Local.commonHeader().addBatchExecLog(apiBatcLogSDO, e);
 							/*****************************
 							 * [END]   DB LOG DATA SETTING 
 							 *****************************/
@@ -1043,8 +1044,8 @@ public class OutsideService extends AbstractServiceObject {
 			/*****************************
 			 * [END] DB LOG DATA SETTING
 			 *****************************/
-			apiBatcLogSDO.setExecEndMlisSecd(APIUtil.currentTimeMillis());
-			Local.commonHeader().setBatchExecLog(apiBatcLogSDO, true);
+			
+			Local.commonHeader().addBatchExecLog(apiBatcLogSDO, true);
 		}
 		
 		return txCount;
@@ -1141,8 +1142,8 @@ public class OutsideService extends AbstractServiceObject {
 				/*****************************
 				 * [END] DB LOG DATA SETTING
 				 *****************************/
-				apiBatcLogSDO.setExecEndMlisSecd(APIUtil.currentTimeMillis());
-				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, true);
+				
+				Local.commonHeader().addBatchExecLog(apiBatcLogSDO, true);
 			}
 		}
 		catch(Exception e) {
@@ -1256,8 +1257,8 @@ public class OutsideService extends AbstractServiceObject {
 					/*****************************
 					 * [END] DB LOG DATA SETTING
 					 *****************************/
-					apiBatcLogSDO.setExecEndMlisSecd(APIUtil.currentTimeMillis());
-					Local.commonHeader().setBatchExecLog(apiBatcLogSDO, true);
+					
+					Local.commonHeader().addBatchExecLog(apiBatcLogSDO, true);
 				}
 			}
 		}
@@ -1393,6 +1394,8 @@ public class OutsideService extends AbstractServiceObject {
 	@APIOperation(description="객실 최저가 정보 조회 인터페이스")
 	public RoomReadOutSDO callRoomRead(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
 		
+		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		
 		RoomReadOutSDO out = null;
 		//멀티쓰레드 객체
 		List<Future<?>> futures = null;
@@ -1402,6 +1405,8 @@ public class OutsideService extends AbstractServiceObject {
 		//최저가 객실 정보
 		RoomReadDataOutSDO minAmtRoom = null;
 		List<RoomReadOutSDO> roomReadList = null;
+		RoomReadOutSDO roomReadFuture = null;
+		IfLogSDO ifLogSDO = null;
 		
 		try {
 			
@@ -1438,12 +1443,17 @@ public class OutsideService extends AbstractServiceObject {
 				futures = executor.getResult();
 				if(futures != null) {
 				
-					logger.debug(" ■■ [PROC-START] 객실 정보 결과를 수집합니다. ");
+					logger.debug(" ■■ [PROC-START] 객실 정보 결과를 수집합니다. ({})", futures.size());
 					for(Future<?> future : futures) {
 						//매핑 정보 취합
 						if(future.get() != null) {
+							roomReadFuture = (RoomReadOutSDO) future.get();
+							ifLogSDO = roomReadFuture.getIfLog();
+							if(ifLogSDO != null) {
+								Local.commonHeader().addMultiIfLogList(ifLogSDO);
+							}
 							//1개 상품에 대한 객실 목록
-							roomReadList.add((RoomReadOutSDO) future.get());
+							roomReadList.add(roomReadFuture);
 						}
 					}
 					logger.debug(" ■■ [PROC-END] 객실 정보 결과 수집이 완료되었습니다.");
@@ -1454,7 +1464,7 @@ public class OutsideService extends AbstractServiceObject {
 				//각 제휴사 상품 객실 목록에서 최저가를 뽑는다.
 				for(RoomReadOutSDO item : roomReadList) {
 					
-					logger.debug("- RoomReadOutSDO : {}", item);
+					//logger.debug("- RoomReadOutSDO : {}", item);
 					
 					//최저가 정보를 담을 객체
 					minAmtRoom = null;

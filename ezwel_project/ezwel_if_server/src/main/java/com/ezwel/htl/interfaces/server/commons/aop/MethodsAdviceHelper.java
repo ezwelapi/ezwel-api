@@ -3,6 +3,7 @@ package com.ezwel.htl.interfaces.server.commons.aop;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -23,9 +24,11 @@ import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
 import com.ezwel.htl.interfaces.commons.sdo.ApiBatcLogSDO;
+import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.CryptUtil;
+import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
 import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
@@ -45,6 +48,8 @@ public class MethodsAdviceHelper {
 	private BeanMarshaller beanMarshaller;
 	
 	private ParamValidate paramValidate;
+	
+	private PropertyUtil propertyUtil;
 	
 	private CommonUtil commonUtil;
 
@@ -266,7 +271,9 @@ public class MethodsAdviceHelper {
 		
     	//인터페이스 설정 파일 체널 정보
     	HttpConfigSDO httpConfigXML = InterfaceFactory.getChannel(chanId, httpConfigSDO.getHttpAgentId());
-    	logger.debug("[PROC] ConfirmHeaderSignature httpConfigDTO : {}", httpConfigXML);
+    	if(IS_LOGGING) {
+    		logger.debug("[PROC] ConfirmHeaderSignature httpConfigDTO : {}", httpConfigXML);
+    	}
     	//제휴사 에이전트 정보
     	AgentInfoSDO agentInfoXML = InterfaceFactory.getInterfaceAgents(httpConfigSDO.getHttpAgentId());
 		if(agentInfoXML == null) {
@@ -333,39 +340,54 @@ public class MethodsAdviceHelper {
     
     @APIOperation
 	void processLogger(String pointcutType, JoinPoint thisJoinPoint) {
-		logger.debug("[PROC] processLogger => pointcutType : {}, thisJoinPoint : {}, InterfaceLogSDO : {}", pointcutType, thisJoinPoint, Local.commonHeader().getInterfaceLogSDO());
-		
-		APIOperation apiOperAnno = ((MethodSignature) thisJoinPoint.getSignature()).getMethod().getAnnotation(APIOperation.class);
-		if(apiOperAnno != null && Local.commonHeader().getInterfaceLogSDO() != null && APIUtil.isNotEmpty(Local.commonHeader().getInterfaceLogSDO().getSuccYn())) {
-			//인터페이스 로그 저장
-			logger.debug("■■ [Call] 인터페이스 로그 저장 IfLoggingRunnable => pointcutType : {} =>> thisJoinPoint : {}", pointcutType, thisJoinPoint);
-			
-			Local.commonHeader().getInterfaceLogSDO().setIfReqtIp(Local.commonHeader().getClientAddress());
-			if(Local.commonHeader().getInterfaceLogSDO().getExecEndMlisSecd() == null) {
-				Local.commonHeader().getInterfaceLogSDO().setExecEndMlisSecd(APIUtil.currentTimeMillis());
-			}
-			
-			logger.debug("[Call] InterfaceLogSDO : {}", Local.commonHeader().getInterfaceLogSDO());
-			
-			Runnable ifLoggingRunnable = new IfLoggingRunnable(Local.commonHeader().getInterfaceLogSDO());
-			Thread ifLoggingThread = new Thread(ifLoggingRunnable);
-			ifLoggingThread.start();
-			Local.commonHeader().setInterfaceLogSDO(null);
-			Local.commonHeader().setInterfaceLogInitCount(OperateConstants.INTEGER_ZERO_VALUE);
+		if(IS_LOGGING) {
+			logger.debug("[PROC] processLogger => pointcutType : {}, thisJoinPoint : {}, InterfaceLogSDO : {}", pointcutType, thisJoinPoint, Local.commonHeader().getInterfaceLogSDO());
 		}
 		
+		APIOperation apiOperAnno = ((MethodSignature) thisJoinPoint.getSignature()).getMethod().getAnnotation(APIOperation.class);
+		
+		if(apiOperAnno != null) {
+			
+			if(Local.commonHeader().getInterfaceLogSDO() != null && APIUtil.isNotEmpty(Local.commonHeader().getInterfaceLogSDO().getSuccYn())) {
+				
+				//인터페이스 로그 저장
+				logger.debug("■■ [Call] 인터페이스 로그 저장 IfLoggingRunnable => pointcutType : {} =>> thisJoinPoint : {}", pointcutType, thisJoinPoint);
+				insertIfLogProcess();
+			}
+			
+			if(Local.commonHeader().getMultiIfLogList() != null && Local.commonHeader().getMultiIfLogList().size() > 0) {
+				
+				List<IfLogSDO> ifLogList = new ArrayList<IfLogSDO>();
+				for(IfLogSDO inLogData : Local.commonHeader().getMultiIfLogList()) {
+					if(APIUtil.isNotEmpty(inLogData.getSuccYn())) {
+						
+						inLogData.setIfReqtIp(Local.commonHeader().getClientAddress());
+						if(inLogData.getExecEndMlisSecd() == null) {
+							inLogData.setExecEndMlisSecd(APIUtil.currentTimeMillis());
+						}
+						ifLogList.add(inLogData);
+					}
+				}
+				
+				insertLogListThreadRunner(ifLogList);
+				Local.commonHeader().getMultiIfLogList().clear();
+			}
+		}
+		
+		
 		if(Local.commonHeader().getApiBatcLogList() != null && (Local.commonHeader().getApiBatcLogList().size() >= BATCH_LOG_QUEUE_SIZE || Local.commonHeader().isForcedApiBatcLogSave())) {
+			
 			//API 배치 로그 저장
 			logger.debug("■■ [Call] API 배치 로그 저장 BatchLoggingRunnable => pointcutType : {} =>> thisJoinPoint : {}", pointcutType, thisJoinPoint);
 			
 			List<ApiBatcLogSDO> apiBatcLogList = new ArrayList<ApiBatcLogSDO>();
-			for(ApiBatcLogSDO apiBatcLog : Local.commonHeader().getApiBatcLogList()) {
-				apiBatcLogList.add(apiBatcLog);
+			apiBatcLogList.addAll(Local.commonHeader().getApiBatcLogList());
+			
+			if(IS_LOGGING) {
+				logger.debug("[Call] ApiBatcLogList : {}", Local.commonHeader().getApiBatcLogList());
 			}
 			
 			Runnable batcLoggingRunnable = new BatchLoggingRunnable(apiBatcLogList);
-			logger.debug("[Call] ApiBatcLogList : {}", Local.commonHeader().getApiBatcLogList());
-			
 			Thread batcLoggingThread = new Thread(batcLoggingRunnable);
 			batcLoggingThread.start();
 			if(Local.commonHeader().isForcedApiBatcLogSave()) {
@@ -375,4 +397,41 @@ public class MethodsAdviceHelper {
 		}
 	}
 	
+    void insertIfLogProcess() {
+    	insertIfLogProcess(null);
+    }
+    
+    void insertIfLogProcess(IfLogSDO inMultiIfLogSDO) {
+    	
+    	IfLogSDO inLogData = null;
+    	
+    	if(inMultiIfLogSDO != null) {
+    		inLogData = inMultiIfLogSDO; 
+    	}
+    	else {
+    		inLogData = Local.commonHeader().getInterfaceLogSDO();
+    	}
+    	
+		inLogData.setIfReqtIp(Local.commonHeader().getClientAddress());
+		if(inLogData.getExecEndMlisSecd() == null) {
+			inLogData.setExecEndMlisSecd(APIUtil.currentTimeMillis());
+		}
+		
+		if(IS_LOGGING) {
+			logger.debug("[Call] InterfaceLogSDO : {}", inLogData);
+		}
+		
+		IfLogSDO ifLogSDO = (IfLogSDO) new PropertyUtil().copySameProperty(inLogData, IfLogSDO.class);
+		Runnable ifLoggingRunnable = new IfLoggingRunnable(ifLogSDO);
+		Thread ifLoggingThread = new Thread(ifLoggingRunnable);
+		ifLoggingThread.start();
+		Local.commonHeader().setInterfaceLogSDO(null);
+		Local.commonHeader().setInterfaceLogInitCount(OperateConstants.INTEGER_ZERO_VALUE);
+    }
+    
+    void insertLogListThreadRunner(List<IfLogSDO> ifLogList) {
+		Runnable ifLoggingRunnable = new IfLoggingRunnable(ifLogList);
+		Thread ifLoggingThread = new Thread(ifLoggingRunnable);
+		ifLoggingThread.start();
+    }
 }

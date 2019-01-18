@@ -64,6 +64,7 @@ public class RoomReadMultiCallable extends AbstractComponent implements Callable
 			
 			outsideIFService = (OutsideIFService) LApplicationContext.getBean(outsideIFService, OutsideIFService.class);
 			
+			userAgentSDO.setMultiThread(true);
 			out = outsideIFService.callRoomRead(userAgentSDO, roomReadSDO);
 			//제휴사 코드 세팅
 			out.setPartnerCd(userAgentSDO.getHttpAgentId());

@@ -518,6 +518,7 @@ var $interface = {
 		passAgentIdURI.push(requestNamespace + "/allReg");
 		passAgentIdURI.push(requestNamespace + "/execFaclMapping");
 		passAgentIdURI.push(requestNamespace + "/configXML");
+		passAgentIdURI.push(requestNamespace + "/callFaclSearch");
 		
 		if(!dataType) {
 			dataType = "json";	

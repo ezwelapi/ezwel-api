@@ -84,11 +84,14 @@ public class CommonHeader extends APIObject implements Serializable {
 	@APIFields(description = "HTTP 헤더정보를 담을 인터페이스 설정 DTO")
 	private HttpConfigSDO httpConfigSDO;
 
-	@APIFields(description = "인터페이스 로그")
-	private IfLogSDO interfaceLogSDO;
-	
 	@APIFields(description = "인터페이스 로그 초기화 실행 카운트")
 	private Integer interfaceLogInitCount;
+
+	@APIFields(description = "인터페이스 로그")
+	private IfLogSDO interfaceLogSDO;
+
+	@APIFields(description = "인터페이스 로그")
+	private List<IfLogSDO> multiIfLogList;
 	
 	@APIFields(description = "API 배치 로그 목록")
 	private List<ApiBatcLogSDO> apiBatcLogList;
@@ -157,6 +160,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		isControlMarshalling = false;
 		httpConfigSDO = null;
 		interfaceLogSDO = null;
+		multiIfLogList = null;
 		interfaceLogInitCount = OperateConstants.INTEGER_ZERO_VALUE;
 		forcedApiBatcLogSave = false;
 	}
@@ -461,6 +465,21 @@ public class CommonHeader extends APIObject implements Serializable {
 		this.interfaceLogSDO = interfaceLogSDO;
 	}
 
+	public List<IfLogSDO> getMultiIfLogList() {
+		return multiIfLogList;
+	}
+
+	public void setMultiIfLogList(List<IfLogSDO> multiIfLogList) {
+		this.multiIfLogList = multiIfLogList;
+	}
+
+	public void addMultiIfLogList(IfLogSDO multiIfLog) {
+		if(this.multiIfLogList == null) {
+			this.multiIfLogList = new ArrayList<IfLogSDO>();
+		}
+		this.multiIfLogList.add(multiIfLog);
+	}
+	
 	public List<ApiBatcLogSDO> getApiBatcLogList() {
 		return apiBatcLogList;
 	}
@@ -504,8 +523,11 @@ public class CommonHeader extends APIObject implements Serializable {
 	
 	@APIOperation(description="인터페이스 요청헤더 로그 데이터 초기화")
 	public void initInterfaceReqeustLogData(HttpConfigSDO httpConfig, Long execStrtMlisSecd) {
-		logger.debug("[INIT] 인터페이스 요청헤더 로그 데이터 초기화 initInterfaceReqeustLogData({}) {} : {}", interfaceLogInitCount, execStrtMlisSecd, interfaceLogSDO);
-		logger.debug("[INPUT] httpConfig : {}", httpConfig);
+		if(interfaceLogInitCount == 0) {
+			logger.debug("[INIT] 인터페이스 요청헤더 로그 데이터 초기화 initInterfaceReqeustLogData({}) {} : {}", interfaceLogInitCount, execStrtMlisSecd, interfaceLogSDO);
+			logger.debug("[INPUT] httpConfig : {}", httpConfig);
+		}
+		
 		try {
 			
 			if(interfaceLogInitCount == 0 || interfaceLogSDO == null) {
@@ -551,7 +573,9 @@ public class CommonHeader extends APIObject implements Serializable {
 			logger.error("[InterfaceReqeustLogData] 요청(입력) 로그 데이터 세팅 장애발생", e);
 		}
 
-		logger.debug("[END] initInterfaceReqeustLogData({}) {}", interfaceLogInitCount, interfaceLogSDO);		
+		if(interfaceLogInitCount == 0) {
+			logger.debug("[END] initInterfaceReqeustLogData({}) {}", interfaceLogInitCount, interfaceLogSDO);		
+		}
 	}
 	
 	@APIOperation(description="인터페이스 요청헤더 로그 데이터 세팅")
@@ -722,22 +746,22 @@ public class CommonHeader extends APIObject implements Serializable {
     }
 
 	@APIOperation(description="배치 실행 로그 세팅")
-	public void setBatchExecLog(ApiBatcLogSDO inApiBatcLog, boolean forcedApiBatcLogSave) {
-		setBatchExecLog(inApiBatcLog, null, forcedApiBatcLogSave);
+	public void addBatchExecLog(ApiBatcLogSDO inApiBatcLog, boolean forcedApiBatcLogSave) {
+		addBatchExecLog(inApiBatcLog, null, forcedApiBatcLogSave);
 	}
 	
 	@APIOperation(description="배치 실행 로그 세팅")
-	public void setBatchExecLog(ApiBatcLogSDO inApiBatcLog) {
-		setBatchExecLog(inApiBatcLog, null, false);
+	public void addBatchExecLog(ApiBatcLogSDO inApiBatcLog) {
+		addBatchExecLog(inApiBatcLog, null, false);
 	}
 	
 	@APIOperation(description="배치 실행 로그 세팅")
-	public void setBatchExecLog(ApiBatcLogSDO inApiBatcLog, Exception e) {
-		setBatchExecLog(inApiBatcLog, e, false);
+	public void addBatchExecLog(ApiBatcLogSDO inApiBatcLog, Exception e) {
+		addBatchExecLog(inApiBatcLog, e, false);
 	}
 	
 	@APIOperation(description="배치 실행 로그 세팅")
-	public void setBatchExecLog(ApiBatcLogSDO inApiBatcLog, Exception e, boolean forcedApiBatcLogSave) {
+	public void addBatchExecLog(ApiBatcLogSDO inApiBatcLog, Exception e, boolean forcedApiBatcLogSave) {
 		
 		ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
 		apiBatcLogSDO.setThedGuid(Local.getId());

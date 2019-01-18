@@ -118,7 +118,7 @@ public class OperateConstants {
 	
 	public static final String FIELD_HTTP_AGENT_ID;
 	public static final String FIELD_PATN_CD_TYPE;
-	public static final String FIELD_INTERFACE_LOG;
+	public static final String FIELD_IF_LOG;
 	
 	public static final String FIELD_HTTP_AGENT_DESC;
 	
@@ -188,7 +188,7 @@ public class OperateConstants {
 		FIELD_HTTP_AGENT_ID = "httpAgentId";
 		FIELD_HTTP_AGENT_DESC = "httpAgentDesc";
 		FIELD_PATN_CD_TYPE = "patnCdType";
-		FIELD_INTERFACE_LOG = "interfaceLog";
+		FIELD_IF_LOG = "ifLog";
 		
 		DATA_IMAGE_PREFIX = "data:image/";
 		STR_BASE64 = "base64";

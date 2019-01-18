@@ -137,9 +137,6 @@ public class HttpConfigSDO extends AbstractSDO {
 	@APIFields(description = "Request Header Properties")
 	private Map<String, String> requestProperties;
 	
-	@APIFields(description = "isMultiThread")
-	private boolean isMultiThread;
-	
 	public HttpConfigSDO() {
 		this.reset();
 	}
@@ -183,7 +180,6 @@ public class HttpConfigSDO extends AbstractSDO {
 		errType = null;
 		errCont = null;		
 		requestProperties = null;
-		isMultiThread = false;
 	}
 	
 	public String getPatnCdType() {
@@ -511,14 +507,5 @@ public class HttpConfigSDO extends AbstractSDO {
 		this.requestProperties.put(key, value);
 	}
 
-	public boolean isMultiThread() {
-		return isMultiThread;
-	}
-
-	public void setMultiThread(boolean isMultiThread) {
-		this.isMultiThread = isMultiThread;
-	}
-	
-	
 }
 

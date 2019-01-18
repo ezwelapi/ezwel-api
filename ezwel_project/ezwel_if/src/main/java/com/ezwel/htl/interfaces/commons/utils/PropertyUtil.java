@@ -54,7 +54,7 @@ public class PropertyUtil {
     public Object getProperty(Object bean, String getPropertyName) {
 		if(bean == null) {
 			logger.warn("Bean Object is null.");
-			return false;
+			return null;
 		}
 		
         if(APIUtil.isEmpty(getPropertyName)) {

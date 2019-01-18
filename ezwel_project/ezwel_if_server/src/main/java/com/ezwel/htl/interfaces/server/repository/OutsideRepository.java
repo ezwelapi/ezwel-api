@@ -37,7 +37,6 @@ import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
 import com.ezwel.htl.interfaces.server.entities.EzcMappingFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcMappingGrpFacl;
 import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
-import com.ezwel.htl.interfaces.server.thread.MultiBuildImageUpdateRepository;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataRealtimeImageOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchDataOutSDO;
@@ -309,7 +308,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						.append( ezcFacl )
 						.toString());
 				
-				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				Local.commonHeader().addBatchExecLog(apiBatcLogSDO, e);
 				/*****************************
 				 * [END]   DB LOG DATA SETTING 
 				 *****************************/
@@ -357,7 +356,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						.append( ezcFacl )
 						.toString());
 				
-				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				Local.commonHeader().addBatchExecLog(apiBatcLogSDO, e);
 				/*****************************
 				 * [END]   DB LOG DATA SETTING 
 				 *****************************/
@@ -448,7 +447,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						.append( ezcFaclImg )
 						.toString());
 				
-				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				Local.commonHeader().addBatchExecLog(apiBatcLogSDO, e);
 				/*****************************
 				 * [END]   DB LOG DATA SETTING 
 				 *****************************/
@@ -554,7 +553,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						.append( ezcMappingGrpFacl )
 						.toString());
 				
-				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				Local.commonHeader().addBatchExecLog(apiBatcLogSDO, e);
 				/*****************************
 				 * [END]   DB LOG DATA SETTING 
 				 *****************************/
@@ -659,7 +658,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						.append( ezcMappingFacl )
 						.toString());
 				
-				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				Local.commonHeader().addBatchExecLog(apiBatcLogSDO, e);
 				/*****************************
 				 * [END]   DB LOG DATA SETTING 
 				 *****************************/
@@ -735,7 +734,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						.append( ezcMappingFacl )
 						.toString());
 				
-				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				Local.commonHeader().addBatchExecLog(apiBatcLogSDO, e);
 				/*****************************
 				 * [END]   DB LOG DATA SETTING 
 				 *****************************/
@@ -782,7 +781,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						.append( ezcFaclImg )
 						.toString());
 				
-				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				Local.commonHeader().addBatchExecLog(apiBatcLogSDO, e);
 				/*****************************
 				 * [END]   DB LOG DATA SETTING 
 				 *****************************/
@@ -920,7 +919,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						.append( outCacheMinAmt )
 						.toString());
 				
-				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				Local.commonHeader().addBatchExecLog(apiBatcLogSDO, e);
 				/*****************************
 				 * [END]   DB LOG DATA SETTING 
 				 *****************************/
@@ -985,7 +984,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						.append( outCacheDayPrice )
 						.toString());
 				
-				Local.commonHeader().setBatchExecLog(apiBatcLogSDO, e);
+				Local.commonHeader().addBatchExecLog(apiBatcLogSDO, e);
 				/*****************************
 				 * [END]   DB LOG DATA SETTING 
 				 *****************************/

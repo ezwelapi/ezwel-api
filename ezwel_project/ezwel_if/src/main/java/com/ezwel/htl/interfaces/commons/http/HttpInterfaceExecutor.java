@@ -37,6 +37,7 @@ import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.marshaller.BeanMarshaller;
+import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
 import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -476,8 +477,8 @@ public class HttpInterfaceExecutor {
 			Local.commonHeader().setInterfaceResultLogData(propertyUtil.getProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME), responseOrgin, APIUtil.currentTimeMillis());
 			
 			if(in.isMultiThread()) {
-				//스프링 빈이 아닌 callable의 멀티쓰레드로 실행중인경우 로깅 직접 실행
-				
+				//스프링 빈이 아닌 callable의 멀티쓰레드로 실행중인경우 로그 세팅
+				propertyUtil.setProperty(out, MessageConstants.IF_LOG_FIELD_NAME, Local.commonHeader().getInterfaceLogSDO());
 			}
 			/***************************
 			 * [END]   LOG DATA SETTING 
@@ -616,9 +617,10 @@ public class HttpInterfaceExecutor {
 	public <T extends AbstractSDO> List<T> sendMultiJSON(List<MultiHttpConfigSDO> in) {
 		logger.debug("[START] sendMultiJSON\nInput Signature : {}", in);
 		
+		T value = null;
 		List<T> out = null;
 		CallableExecutor executor = null;
-		
+		IfLogSDO ifLogSDO = null;
 		try {
 			if(in == null || in.size() == 0) {
 				throw new APIException(MessageConstants.RESPONSE_CODE_2000, "■ 멀티쓰레드 URL통신에 필요한 설정 목록이 존재하지 않습니다.");
@@ -643,7 +645,13 @@ public class HttpInterfaceExecutor {
 				
 				for(Future<?> future : futures) {
 					if(future.get() != null) {
-						out.add((T) future.get());
+						value = (T) future.get();
+						ifLogSDO = (IfLogSDO) propertyUtil.getProperty(value, OperateConstants.FIELD_IF_LOG);
+						if(ifLogSDO != null) {
+							logger.debug("[addMultiIfLogList]");
+							Local.commonHeader().addMultiIfLogList(ifLogSDO);
+						}
+						out.add(value);
 					}
 				}
 			}

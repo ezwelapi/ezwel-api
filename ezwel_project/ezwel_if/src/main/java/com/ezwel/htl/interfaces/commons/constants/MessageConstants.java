@@ -36,6 +36,7 @@ public class MessageConstants {
 	public static final Map<Integer, String> MESSAGE_MAP;
 
 	public static final String RESPONSE_CODE_FIELD_NAME;
+	public static final String IF_LOG_FIELD_NAME;
 	public static final String RESPONSE_MESSAGE_FIELD_NAME;
 	
 	public static final String RESPONSE_TYPE_NAME_FIELD_NAME;
@@ -93,6 +94,7 @@ public class MessageConstants {
 		MESSAGE_MAP.put(RESPONSE_CODE_9700, "프로세스 실행중");
 		
 		RESPONSE_CODE_FIELD_NAME = "code";
+		IF_LOG_FIELD_NAME = "ifLog";
 		RESPONSE_MESSAGE_FIELD_NAME = "message";
 		RESPONSE_TYPE_NAME_FIELD_NAME = "typeName";
 		RESPONSE_TYPE_DESC_FIELD_NAME = "typeDesc";

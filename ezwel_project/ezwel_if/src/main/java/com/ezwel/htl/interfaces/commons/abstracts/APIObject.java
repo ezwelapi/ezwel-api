@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
@@ -27,6 +28,9 @@ public abstract class APIObject implements Serializable {
 	
 	/** serialVersionUID. */
 	private static final long serialVersionUID = -5668980456639902223L;
+	
+	@APIFields(description = "isMultiThread")
+	private boolean isMultiThread = false;
 	
 	@Override
 	public String toString() {
@@ -92,5 +96,13 @@ public abstract class APIObject implements Serializable {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean isMultiThread() {
+		return isMultiThread;
+	}
+
+	public void setMultiThread(boolean isMultiThread) {
+		this.isMultiThread = isMultiThread;
 	}	
 }

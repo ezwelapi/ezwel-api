@@ -38,6 +38,17 @@ public class ProcessLogRepository extends AbstractDataAccessObject {
 	
 	private PropertyUtil propertyUtil;
 	
+	@APIOperation(description="인터페이스 실행 로그 목록 입력")
+	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
+	public void insertInterfaceLog(List<IfLogSDO> inInterfaceLogSDO) {
+		if(inInterfaceLogSDO != null) {
+			for(IfLogSDO item : inInterfaceLogSDO) {
+				insertInterfaceLog(item);
+			}
+		}
+	}
+	
+	
 	@APIOperation(description="인터페이스 실행 로그 입력")
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
 	public void insertInterfaceLog(IfLogSDO inInterfaceLogSDO) {
@@ -63,7 +74,15 @@ public class ProcessLogRepository extends AbstractDataAccessObject {
 			//None API runtimeException
 			logger.error(APIUtil.formatMessage("- 인터페이스 로그 입력 장애발생 {}", ezcIfLog), e);
 		}
-		
+		finally {
+			
+			if(inInterfaceLogSDO != null) {
+				inInterfaceLogSDO = null;
+			}
+			if(ezcIfLog != null) {
+				ezcIfLog = null;
+			}
+		}
 		logger.debug("[END] insertInterfaceLog");
 	}
 
@@ -152,6 +171,9 @@ public class ProcessLogRepository extends AbstractDataAccessObject {
 			
 			if(inApiBatcLogList != null) {
 				inApiBatcLogList.clear();
+			}
+			if(ezcApiBatcLog != null) {
+				ezcApiBatcLog = null;
 			}
 		}
 		logger.debug("[END] insertEzcApiBatcLog");

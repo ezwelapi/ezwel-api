@@ -37,7 +37,7 @@ public class ResponseUtil {
 	
 	@APIOperation(description="ResponseEntity JSON String")
 	public ResponseEntity<String> getResponseEntity(String jsonString, String userCharset, String dataType) {
-		logger.debug("[START] responseEntity\n{}", jsonString);
+		logger.debug("[START] responseEntity"/*, jsonString*/);
 		
 		String charset = null;
 		if(APIUtil.isEmpty(userCharset)) {
