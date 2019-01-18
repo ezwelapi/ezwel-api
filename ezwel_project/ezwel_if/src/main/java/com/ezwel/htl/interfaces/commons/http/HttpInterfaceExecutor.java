@@ -621,7 +621,9 @@ public class HttpInterfaceExecutor {
 		List<T> out = null;
 		CallableExecutor executor = null;
 		IfLogSDO ifLogSDO = null;
+		
 		try {
+		
 			if(in == null || in.size() == 0) {
 				throw new APIException(MessageConstants.RESPONSE_CODE_2000, "■ 멀티쓰레드 URL통신에 필요한 설정 목록이 존재하지 않습니다.");
 			}
@@ -646,17 +648,17 @@ public class HttpInterfaceExecutor {
 				for(Future<?> future : futures) {
 					if(future.get() != null) {
 						value = (T) future.get();
-						ifLogSDO = (IfLogSDO) propertyUtil.getProperty(value, OperateConstants.FIELD_IF_LOG);
+						ifLogSDO = value.getIfLog();
 						if(ifLogSDO != null) {
-							logger.debug("[addMultiIfLogList]");
 							Local.commonHeader().addMultiIfLogList(ifLogSDO);
 						}
+						
 						out.add(value);
 					}
 				}
 			}
 			
-		} catch (APIException e) {
+		} catch (Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ 다중 인터페이스 장애 발생", e);
 		}
 		finally {

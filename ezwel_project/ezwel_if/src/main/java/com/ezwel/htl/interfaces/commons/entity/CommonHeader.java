@@ -670,7 +670,7 @@ public class CommonHeader extends APIObject implements Serializable {
 	
 	@APIOperation(description="인터페이스 출력(결과) 로그 데이터 세팅")
 	public void setInterfaceResultLogData(Object code, String responseOrgin, Long execEndMlisSecd) {
-		logger.debug("[START] setInterfaceResultLogData({}) {} : {} {}", code, execEndMlisSecd, responseOrgin, interfaceLogSDO);
+		logger.debug("[START] setInterfaceResultLogData({}) {}", code, execEndMlisSecd/*, responseOrgin, interfaceLogSDO*/);
 		
 		try {
 			

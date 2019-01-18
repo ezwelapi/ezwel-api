@@ -52,7 +52,7 @@ public class HttpInterfaceHelper implements Callable<AbstractSDO> {
 	
 	@Override
 	public AbstractSDO call() throws Exception {
-
+		logger.debug("[START] HttpInterfaceHelper ThreadName : {}", Thread.currentThread().getName());
 		//logger.debug("[START] Time : {}, Thread Name : {}, httpConfig : {}",  new Date(), Thread.currentThread().getName(), multiHttpConfigDTO);
 		//인터페이스 실행
 		multiHttpConfigDTO.getHttpConfigDTO().setMultiThread(true);
@@ -70,6 +70,7 @@ public class HttpInterfaceHelper implements Callable<AbstractSDO> {
 		//setup output 
 		AbstractSDO out = (AbstractSDO) output;
 		//결과 리턴
+		logger.debug("[END] HttpInterfaceHelper ThreadName : {}", Thread.currentThread().getName());
 		return out;
 	}
 

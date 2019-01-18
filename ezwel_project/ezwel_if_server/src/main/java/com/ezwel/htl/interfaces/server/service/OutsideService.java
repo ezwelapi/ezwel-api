@@ -59,11 +59,13 @@ import com.ezwel.htl.interfaces.service.data.allReg.AllRegDataRealtimeImageOutSD
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegFaclImgOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegSubImagesOutSDO;
+import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
+import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 
 /**
@@ -1114,36 +1116,89 @@ public class OutsideService extends AbstractServiceObject {
 			//멀티 쓰레드 인터페이스 실행
 			List<SddSearchOutSDO> assets = inteface.sendMultiJSON(multiHttpConfigList);
 			
-			/*****************************
-			 * [START] DB LOG DATA SETTING
-			 *****************************/
-			ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
-			apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("callSddSearch"));
-			apiBatcLogSDO.setBatcDesc("당일특가검색 저장");
-			apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_TM);
-			apiBatcLogSDO.setExecStrtMlisSecd(APIUtil.currentTimeMillis());
-			
-			try {
+			if(assets != null) {
 				
-				//읽기 전용이 아닐경우 배치실행
-				for(SddSearchOutSDO data : assets) {
-					//정상 처리되었을경우 데이터 저장
-					if(Integer.toString(MessageConstants.RESPONSE_CODE_1000).equals(data.getCode()) && data.getData() != null) {
-						//제휴사 별 최저가 목록 데이터 저장
-						/** execute dbio */
-						txCount += outsideRepository.callSddSearch(data, true);
-					}
-				}
-				
-				out.setTxCount(txCount);
-			}
-			finally {
+				List<SddSearchDataOutSDO> validateDataList = null;
 				
 				/*****************************
-				 * [END] DB LOG DATA SETTING
+				 * [START] DB LOG DATA SETTING
 				 *****************************/
+				ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+				apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("callSddSearch"));
+				apiBatcLogSDO.setBatcDesc("당일특가검색 저장");
+				apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_TM);
+				apiBatcLogSDO.setExecStrtMlisSecd(APIUtil.currentTimeMillis());
 				
-				Local.commonHeader().addBatchExecLog(apiBatcLogSDO, true);
+				try {
+					
+					for(SddSearchOutSDO data : assets) {
+						//정상 처리되었을경우 데이터 저장
+						if(Integer.toString(MessageConstants.RESPONSE_CODE_1000).equals(data.getCode()) && data.getData() != null) {
+							
+							validateDataList = new ArrayList<SddSearchDataOutSDO>();
+							
+							for(SddSearchDataOutSDO subData : data.getData()) {
+								
+								try {
+									//execute paramValidate
+									new ParamValidate(new ParamValidateSDO(subData, new String[]{"faclCd"})).execute();
+									
+									validateDataList.add(subData);
+								}
+								catch(Exception e) {
+									
+									/*****************************
+									 * [START] DB LOG DATA SETTING
+									 *****************************/
+									ApiBatcLogSDO apiBatcValidationLogSDO = new ApiBatcLogSDO();
+									apiBatcValidationLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("callFaclSearch"));
+									apiBatcValidationLogSDO.setBatcDesc("당일특가검색 저장 데이터 유효성검사");
+									apiBatcValidationLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_IV);
+									apiBatcValidationLogSDO.setErrCont(new StringBuffer()
+											.append( "::당일특가검색 정보 유효성 검사 실패 발생시각 : " )
+											.append( APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT) )
+											.append( OperateConstants.LINE_SEPARATOR )
+											.append( "- 제휴사아이디 : " )
+											.append( data.getHttpAgentId() )
+											.append( ", 제휴사에이전트설명 : " )
+											.append( data.getHttpAgentDesc() )
+											.append( OperateConstants.LINE_SEPARATOR )
+											.append( "- 유효성검사 실패 상품 : " )
+											.append( subData )
+											.append( OperateConstants.LINE_SEPARATOR )
+											.toString());
+									
+									Local.commonHeader().addBatchExecLog(apiBatcValidationLogSDO, e);
+									/*****************************
+									 * [END]   DB LOG DATA SETTING 
+									 *****************************/
+
+									logger.error( APIUtil.formatMessage("'{}({})'유효성 검사 실패({})", data.getHttpAgentDesc(), data.getHttpAgentId(), e.getMessage()), e);
+								}
+							}
+							
+							//유효성 검증된 목록 세팅
+							data.setData(validateDataList);
+							//제휴사 별 최저가 목록 데이터 저장
+							/** execute dbio */
+							txCount += outsideRepository.callSddSearch(data, true);
+						}
+						
+						out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(data.getCode()).toString().trim());
+						out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(data.getMessage()).toString().trim());
+						out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(data.getRestURI()).toString().trim());
+					}
+					
+					out.setTxCount(txCount);
+				}
+				finally {
+					
+					/*****************************
+					 * [END] DB LOG DATA SETTING
+					 *****************************/
+					
+					Local.commonHeader().addBatchExecLog(apiBatcLogSDO, true);
+				}
 			}
 		}
 		catch(Exception e) {
@@ -1215,8 +1270,11 @@ public class OutsideService extends AbstractServiceObject {
 			/** execute interface */
 			//멀티 쓰레드 인터페이스 실행
 			List<FaclSearchOutSDO> assets = inteface.sendMultiJSON(multiHttpConfigList);
+			logger.debug("- FaclSearchOutSDO size : {}", (assets != null ? assets.size() : 0));
 			
 			if(assets != null) {
+				
+				List<FaclSearchDataOutSDO> validateDataList = null;
 				
 				/*****************************
 				 * [START] DB LOG DATA SETTING
@@ -1238,6 +1296,51 @@ public class OutsideService extends AbstractServiceObject {
 								out.addAllData(data.getData());
 							}
 							else /* 읽기 전용이 아닐경우 배치실행 */ {
+								
+								validateDataList = new ArrayList<FaclSearchDataOutSDO>();
+								
+								for(FaclSearchDataOutSDO subData : data.getData()) {
+									
+									try {
+										//execute paramValidate
+										new ParamValidate(new ParamValidateSDO(subData, new String[]{"faclCd"})).execute();
+										
+										validateDataList.add(subData);
+									}
+									catch(Exception e) {
+										
+										/*****************************
+										 * [START] DB LOG DATA SETTING
+										 *****************************/
+										ApiBatcLogSDO apiBatcValidationLogSDO = new ApiBatcLogSDO();
+										apiBatcValidationLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("callFaclSearch"));
+										apiBatcValidationLogSDO.setBatcDesc("시설검색 인터페이스(최저가 정보)저장 데이터 유효성검사");
+										apiBatcValidationLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_IV);
+										apiBatcValidationLogSDO.setErrCont(new StringBuffer()
+												.append( "::시설검색 인터페이스(최저가 정보) 유효성 검사 실패 발생시각 : " )
+												.append( APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT) )
+												.append( OperateConstants.LINE_SEPARATOR )
+												.append( "- 제휴사아이디 : " )
+												.append( data.getHttpAgentId() )
+												.append( ", 제휴사에이전트설명 : " )
+												.append( data.getHttpAgentDesc() )
+												.append( OperateConstants.LINE_SEPARATOR )
+												.append( "- 유효성검사 실패 상품 : " )
+												.append( subData )
+												.append( OperateConstants.LINE_SEPARATOR )
+												.toString());
+										
+										Local.commonHeader().addBatchExecLog(apiBatcValidationLogSDO, e);
+										/*****************************
+										 * [END]   DB LOG DATA SETTING 
+										 *****************************/
+
+										logger.error( APIUtil.formatMessage("'{}({})'유효성 검사 실패({})", data.getHttpAgentDesc(), data.getHttpAgentId(), e.getMessage()), e);
+									}
+								}
+								
+								//유효성 검증된 목록 세팅
+								data.setData(validateDataList);
 								//정상 처리되었을경우 데이터 저장
 								/** execute dbio */
 								//제휴사 별 최저가 목록 데이터 저장

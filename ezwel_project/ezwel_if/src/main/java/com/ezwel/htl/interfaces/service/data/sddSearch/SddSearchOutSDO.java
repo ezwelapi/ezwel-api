@@ -34,6 +34,12 @@ public class SddSearchOutSDO extends AbstractSDO {
 	@APIFields(description = "RestAPI URI")
 	private String restURI;
 
+	@APIFields(description = "에이전트 아이디(제휴사 코드)")
+	private String httpAgentId;
+
+	@APIFields(description = "에이전트(제휴사 명)")
+	private String httpAgentDesc;
+	
 	@APIFields(description = "트랜젝션 개수")
 	private Integer txCount;
 	
@@ -78,6 +84,22 @@ public class SddSearchOutSDO extends AbstractSDO {
 
 	public void setTxCount(Integer txCount) {
 		this.txCount = txCount;
+	}
+
+	public String getHttpAgentId() {
+		return httpAgentId;
+	}
+
+	public void setHttpAgentId(String httpAgentId) {
+		this.httpAgentId = httpAgentId;
+	}
+
+	public String getHttpAgentDesc() {
+		return httpAgentDesc;
+	}
+
+	public void setHttpAgentDesc(String httpAgentDesc) {
+		this.httpAgentDesc = httpAgentDesc;
 	}
 
 }
