@@ -188,7 +188,8 @@ public class OutsideIFService {
 		try {
 			
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("rsvHistSend", userAgentSDO.getHttpAgentId());
-			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
+			/* 결재완료내역전송 인터페이스는 개인정보 암호화 이유로 if_server를 경유하도록 강재화함 */
+			httpConfigSDO.setEzwelInsideInterface(true);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
 			if(inteface.isHttpConnect(httpConfigSDO)) {

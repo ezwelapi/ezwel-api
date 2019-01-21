@@ -1,82 +1,50 @@
-package ezwel_if_server.test;
+package com.ezwel.htl.interfaces.server.commons.utils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.util.List;
 
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
+import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
-import com.ezwel.htl.interfaces.commons.utils.CryptUtil;
-import com.ezwel.htl.interfaces.server.commons.utils.CryptoUtil;
+import com.ezwel.htl.interfaces.commons.utils.crypt.Crypto;
 
-import ezwelcrypto.EzwelCrypto;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
-public class EzwelCryptTest {
+@Component
+@APIType(description = "crypto en/de")
+public class CryptoUtil {
 
-	private static final Logger logger = LoggerFactory.getLogger(EzwelCryptTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(CryptoUtil.class);
 	
-	private static int GetB0(int A) {
-		return A & 0x7FFFFFFF;
-	}
-	
-	@Test
-	public void test() {
-		
-		CryptoUtil cryptoUtil = new CryptoUtil();
-		
-		logger.debug("GetB0 : {}", GetB0(-999999));
-		
-		// 1. 콘도 24
-		String key = "EzwelCrytpoTest1";
-		String testVal =  "암호화 Test=====";
-		
-		logger.debug("# key : {}, testVal : {}", key, testVal);
-
-		String enTestVal = encode(key, testVal);
-		logger.debug("# enTestVal : {}", enTestVal);
-		
-		String deTestVal = decode(key, enTestVal);
-		logger.debug("# deTestVal : {}", deTestVal);
-		
-		//decompile
-		enTestVal = cryptoUtil.encode(key, testVal);
-		logger.debug("# encode enTestVal : {}", enTestVal);
-		
-		deTestVal = cryptoUtil.decode(key, enTestVal);
-		logger.debug("# decode deTestVal : {}", deTestVal);
-		
-		
-	
-	}
-
-	
-
-	/**********************************************************
-	 * 					   EZWEL Encode/Decode
-	 **********************************************************/
-	
+	@APIOperation
 	public String encode(String cryptoKey, String strEncode) {
 		return encode(cryptoKey, strEncode, OperateConstants.DEFAULT_ENCODING);
 	}
 	
+	@APIOperation
 	@SuppressWarnings("restriction")
 	public String encode(String cryptoKey, String strEncode, String encoding) {
 		logger.debug("[START] encode => cryptoKey : {}, strEncode : {}, encoding : {}", cryptoKey, strEncode, encoding);
 		
-		EzwelCrypto ezwelCrypto = null;
+		Crypto ezwelCrypto = null;
 		BASE64Encoder encoder = null;
 		String encryptText = null;
 		
 		try {
 			
-			ezwelCrypto = new EzwelCrypto();
+			ezwelCrypto = new Crypto();
 			encoder = new BASE64Encoder();
 			if(APIUtil.isNotEmpty(cryptoKey) && APIUtil.isNotEmpty(strEncode) && APIUtil.isNotEmpty(encoding)) {
 				encryptText = encoder.encode(ezwelCrypto.encrypt(strEncode, cryptoKey.getBytes(), encoding));
@@ -92,23 +60,24 @@ public class EzwelCryptTest {
 		return encryptText;
 	}
 	
-	
+	@APIOperation
 	public String decode(String cryptoKey, String strDecode) {
 		return decode(cryptoKey, strDecode, OperateConstants.DEFAULT_ENCODING);
 	}
 	
-	
+	@APIOperation
 	@SuppressWarnings("restriction")
 	public String decode(String cryptoKey, String strDecode, String encoding) {
 		logger.debug("[START] decode => cryptoKey : {}, strEncode : {}, encoding : {}", cryptoKey, strDecode, encoding);
 		
-		EzwelCrypto ezwelCrypto = null;
+		Crypto ezwelCrypto = null;
 		BASE64Decoder decoder = null;
 		String decryptText = null;
 		byte[] encryptbytes = null;
 		
 		try {
-			ezwelCrypto = new EzwelCrypto();
+			
+			ezwelCrypto = new Crypto();
 			decoder = new BASE64Decoder();
 			
 			if(APIUtil.isNotEmpty(cryptoKey) && APIUtil.isNotEmpty(strDecode) && APIUtil.isNotEmpty(encoding)) {
@@ -126,4 +95,44 @@ public class EzwelCryptTest {
 		logger.debug("[END] decode : {}", decryptText);
 		return decryptText;
 	}
+	
+	@APIOperation
+	public <T extends AbstractSDO> void encodeAPIModel(String cryptKey, List<T> inSDO) {
+		if(inSDO != null && inSDO.size() > 0) {
+			for(T apiModel : inSDO) {
+				encodeAPIModel(cryptKey, apiModel);
+			}
+		}
+	}
+	
+	@APIOperation
+	public <T extends AbstractSDO> void encodeAPIModel(String cryptKey, T inSDO) {
+		
+		Object value = null;
+		Field[] apiFields = null;
+		APIFields fieldAnno = null;
+		
+		try {
+		
+			apiFields = inSDO.getClass().getDeclaredFields();
+			if(apiFields != null) {
+				
+				for(Field apiField : apiFields) {
+					fieldAnno = apiField.getAnnotation(APIFields.class);
+					if(fieldAnno != null && fieldAnno.isEzwelcrypto()) {
+						apiField.setAccessible(true);
+						value = apiField.get(inSDO);
+						if(value != null && String.class.isAssignableFrom(value.getClass())) {
+							apiField.set(inSDO, encode(cryptKey, (String) value));  
+						}
+					}
+				}
+			}
+		}
+		catch(Exception e) {
+			throw new APIException();
+		}
+		
+	}
+	
 }

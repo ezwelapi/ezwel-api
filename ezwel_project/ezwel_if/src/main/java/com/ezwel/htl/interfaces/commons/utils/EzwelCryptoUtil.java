@@ -9,7 +9,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.utils.ezwelCrypt.EzwelCrypto;
+import com.ezwel.htl.interfaces.commons.utils.crypt.Crypto;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -29,13 +29,13 @@ public class EzwelCryptoUtil {
 	@SuppressWarnings("restriction")
 	public String encode(String cryptoKey, String strEncode, String encoding) throws UnsupportedEncodingException {
 		
-		EzwelCrypto ezwelCrypto = null;
+		Crypto ezwelCrypto = null;
 		BASE64Encoder encoder = null;
 		String encryptText = null;
 		
 		try {
 			
-			ezwelCrypto = new EzwelCrypto();
+			ezwelCrypto = new Crypto();
 			encoder = new BASE64Encoder();
 			if(APIUtil.isNotEmpty(strEncode)) {
 				encryptText = encoder.encode(ezwelCrypto.encrypt(strEncode, cryptoKey.getBytes(encoding), encoding));
@@ -60,13 +60,13 @@ public class EzwelCryptoUtil {
 	@SuppressWarnings("restriction")
 	public String decode(String cryptoKey, String strDecode, String encoding) throws IOException {
 		
-		EzwelCrypto ezwelCrypto = null;
+		Crypto ezwelCrypto = null;
 		BASE64Decoder decoder = null;
 		String decryptText = null;
 		byte[] encryptbytes = null;
 		
 		try {
-			ezwelCrypto = new EzwelCrypto();
+			ezwelCrypto = new Crypto();
 			decoder = new BASE64Decoder();
 			
 			if(APIUtil.isNotEmpty(strDecode)) {

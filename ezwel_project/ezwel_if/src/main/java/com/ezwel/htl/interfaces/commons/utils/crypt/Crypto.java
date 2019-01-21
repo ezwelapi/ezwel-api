@@ -1,13 +1,13 @@
-package com.ezwel.htl.interfaces.commons.utils.ezwelCrypt;
+package com.ezwel.htl.interfaces.commons.utils.crypt;
 
 import java.io.UnsupportedEncodingException;
 
-public class EzwelCrypto {
+public class Crypto {
 	
-	private EzwelCryptoPadding padding = null;
+	private CryptoPadding padding = null;
 
-	public EzwelCrypto() {
-		padding = new EzwelCryptoPadding();
+	public Crypto() {
+		padding = new CryptoPadding();
 	}
 	
 	private static int SS0[] = { 0x2989a1a8, 0x05858184, 0x16c6d2d4, 0x13c3d3d0, 0x14445054, 0x1d0d111c, 0x2c8ca0ac,

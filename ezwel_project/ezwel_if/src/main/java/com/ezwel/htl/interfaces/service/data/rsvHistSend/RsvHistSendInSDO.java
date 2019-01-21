@@ -26,6 +26,10 @@ public class RsvHistSendInSDO extends AbstractSDO {
 	@APIFields(description = "결제완료내역전송 Input data")
 	private RsvHistSendDataInSDO data;
 
+	public RsvHistSendInSDO() {
+		setEncPrvtInfo(true);
+	}
+
 	public RsvHistSendDataInSDO getData() {
 		return data;
 	}

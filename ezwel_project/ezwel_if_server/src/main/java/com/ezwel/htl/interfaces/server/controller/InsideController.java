@@ -104,7 +104,7 @@ public class InsideController {
 	
 
 	
-	@APIOperation(description="예약내역조회 인터페이스", isOutputJsonMarshall=true, isRequestHeaderValidate=true, isInsideInterfaceAPI=true, returnType=ViewOutSDO.class)
+	@APIOperation(description="예약완료내역조회 인터페이스", isOutputJsonMarshall=true, isRequestHeaderValidate=true, isInsideInterfaceAPI=true, returnType=ViewOutSDO.class)
 	@RequestMapping(value = "/facl/view")
 	public Object callView(ViewInSDO viewInSDO) throws APIException, Exception {
 		logger.debug("[START] callView {}", viewInSDO);

@@ -36,6 +36,9 @@ public abstract class AbstractSDO extends APIObject {
 	@APIFields(description = "인터페이스 로그")
 	private IfLogSDO ifLog;
 	
+	@APIFields(description = "개인정보 암호화 여부")
+	private boolean isEncPrvtInfo;
+	
 	public long getTotalCount() {
 		return totalCount;
 	}
@@ -66,6 +69,14 @@ public abstract class AbstractSDO extends APIObject {
 
 	public void setIfLog(IfLogSDO ifLog) {
 		this.ifLog = ifLog;
+	}
+
+	public boolean isEncPrvtInfo() {
+		return isEncPrvtInfo;
+	}
+
+	public void setEncPrvtInfo(boolean isEncPrvtInfo) {
+		this.isEncPrvtInfo = isEncPrvtInfo;
 	}
 
 
