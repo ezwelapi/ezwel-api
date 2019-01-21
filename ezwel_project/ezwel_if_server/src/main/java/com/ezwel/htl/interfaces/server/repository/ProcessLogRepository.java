@@ -52,7 +52,7 @@ public class ProcessLogRepository extends AbstractDataAccessObject {
 	@APIOperation(description="인터페이스 실행 로그 입력")
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
 	public void insertInterfaceLog(IfLogSDO inInterfaceLogSDO) {
-		logger.debug("[START] insertInterfaceLog [FINAL-LOG-DATA] {}", inInterfaceLogSDO);
+		logger.debug("[START] insertInterfaceLog [FINAL-LOG-DATA] "/*, inInterfaceLogSDO*/);
 		
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
 		Integer out = OperateConstants.INTEGER_ZERO_VALUE;

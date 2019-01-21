@@ -88,7 +88,7 @@ public class OutsideController {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9700, "전체시설일괄등록 인터페이스가 이미 실행중입니다.");
 		}
 		
-		outsideService = (OutsideService) LApplicationContext.getBean(outsideIFService, OutsideService.class);
+		outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
 		AllRegOutSDO out = outsideService.callAllReg(userAgentSDO);
 
 		return out;
@@ -98,7 +98,7 @@ public class OutsideController {
 	@RequestMapping(value = "/allReg/imageDownload")
 	public Object callAllRegImageDownload() {
 
-		outsideService = (OutsideService) LApplicationContext.getBean(outsideIFService, OutsideService.class);
+		outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
 		/** 데이터 저장이 모두 끝난후 제휴사 별 별도 멀티쓰레드 이미지 다운로드 실행 */
 		AllRegFaclImgOutSDO out = outsideService.downloadMultiImage();
 
@@ -113,7 +113,7 @@ public class OutsideController {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9700, "시설 매핑 프로세스가 이미 실행중입니다.");
 		}
 
-		outsideService = (OutsideService) LApplicationContext.getBean(outsideIFService, OutsideService.class);
+		outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
 		TransactionOutSDO out = outsideService.execFaclMapping(faclSDO);
 
 		return out;
@@ -123,7 +123,7 @@ public class OutsideController {
 	@RequestMapping(value = "/callFaclSearch")
 	public Object callFaclSearch(UserAgentSDO userAgentSDO, FaclSearchInSDO faclSearchSDO) {
 
-		outsideService = (OutsideService) LApplicationContext.getBean(outsideIFService, OutsideService.class);
+		outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
 		FaclSearchOutSDO out = outsideService.callFaclSearch(userAgentSDO, faclSearchSDO);
 
 		return out;
@@ -133,7 +133,7 @@ public class OutsideController {
 	@RequestMapping(value = "/callSddSearch")
 	public Object callSddSearch(UserAgentSDO userAgentSDO) {
 
-		outsideService = (OutsideService) LApplicationContext.getBean(outsideIFService, OutsideService.class);
+		outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
 		SddSearchOutSDO out = outsideService.callSddSearch(userAgentSDO);
 
 		return out;

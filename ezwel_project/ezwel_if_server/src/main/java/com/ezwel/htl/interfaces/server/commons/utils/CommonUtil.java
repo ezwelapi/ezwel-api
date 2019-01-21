@@ -641,7 +641,7 @@ public class CommonUtil {
 		
 		String out = null;
 		if(APIUtil.isEmpty(data)) {
-			out = OperateConstants.STR_BLANK;
+			data = OperateConstants.STR_BLANK;
 		}
 		
 		out = data.replaceAll(PatternConstants.PATTERN_NOT_NUMBER, OperateConstants.STR_BLANK);

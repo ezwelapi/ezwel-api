@@ -171,6 +171,14 @@
 			<insideApiKey>e54d735ffzab6b93308c31d99cd683d4i</insideApiKey>
 			<outsideApiKey>8747fe3bz4ded32f80136b1661b0afc4o</outsideApiKey>
 		</agentInfo>
+		<agentInfo>
+			<agentNo>100</agentNo>
+			<agentName>이지웰클라이언트 -> 인터페이스서버 (최저가 조회등 httpAgentId없이 서버로 요청하는 인터페이스"dummy"용도)</agentName>
+			<httpAgentId>00000000</httpAgentId>
+			<patnCdType>00000000</patnCdType>
+			<insideApiKey>00000000</insideApiKey>
+			<outsideApiKey>00000000</outsideApiKey>
+		</agentInfo>		
 	</agentList>
 
 	<!-- inside interface channel list -->
@@ -526,7 +534,18 @@
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
-		</httpChan>		
+		</httpChan>
+		<httpChan>
+			<agentNo>100</agentNo>
+			<description>인터페이스서버</description>
+			<chanId>roomRead</chanId>
+			<httpAgentId>00000000</httpAgentId>
+			<receiverRestURI>/service/callRoomRead</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
+
 		<!-- 객실정보조회 END -->
 		
 		<!-- 취소수수료규정 START -->
