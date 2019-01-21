@@ -527,9 +527,9 @@ public class InterfaceFactory {
 					logger.debug("# optionalApps : {}", InterfaceFactory.optionalApps);
 					
 					logger.debug("# Agent Size : {}", ifc.getAgentList().size());
-					//logger.debug("# Agents : {}", ifc.getAgentList());
+					logger.debug("# Agents : {}", ifc.getAgentList());
 					logger.debug("# Real Cached Size : {}", interfaceChannels.size());
-					//logger.debug("# interfaceChannels : {}", interfaceChannels);
+					logger.debug("# interfaceChannels : {}", interfaceChannels);
 				}
 			}
 		} catch (JAXBException e) {

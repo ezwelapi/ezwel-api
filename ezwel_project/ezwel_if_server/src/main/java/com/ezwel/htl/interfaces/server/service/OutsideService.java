@@ -222,6 +222,7 @@ public class OutsideService extends AbstractServiceObject {
 	}	
 
 	public AllRegOutSDO saveAllReg(List<AllRegOutSDO> assets) {
+		logger.debug("[START] saveAllReg");
 		
 		/*****************************
 		 * [START] DB LOG DATA SETTING
@@ -267,9 +268,8 @@ public class OutsideService extends AbstractServiceObject {
 			
 			Local.commonHeader().addBatchExecLog(apiBatcLogSDO, true);
 		}
-	
 
-		
+		logger.debug("[END] saveAllReg");
 		return out;
 	}
 	
@@ -749,6 +749,35 @@ public class OutsideService extends AbstractServiceObject {
 			}
 		}
 		catch(Exception e) {
+			
+			/*****************************
+			 * [START] DB LOG DATA SETTING
+			 *****************************/
+			ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+			apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("insertAllFacl"));
+			apiBatcLogSDO.setBatcDesc("전체시설일괄등록 장애발생");
+			apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_IV);
+			apiBatcLogSDO.setErrCont(new StringBuffer()
+					.append( "::전체시설일괄등록 장애발생 발생시각 : " )
+					.append( APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT) )
+					.append( OperateConstants.LINE_SEPARATOR )
+					.append( "- 제휴사아이디 : " )
+					.append( allReg.getHttpAgentId() )
+					.append( ", 제휴사에이전트설명 : " )
+					.append( allReg.getHttpAgentDesc() )
+					.append( OperateConstants.LINE_SEPARATOR )
+					.append( "- 전체시설일괄등록 실패 제휴사 : " )
+					.append( allReg )
+					.append( OperateConstants.LINE_SEPARATOR )
+					.toString());
+			
+			Local.commonHeader().addBatchExecLog(apiBatcLogSDO, e);
+			/*****************************
+			 * [END]   DB LOG DATA SETTING 
+			 *****************************/
+			
+			//logger.error( APIUtil.formatMessage("{} '{}({})'전체시설일괄등록 장애발생.", allReg.getHttpAgentDesc(), allReg.getHttpAgentId()), e);
+			//채크 필요
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "전체시설일괄등록 인터페이스 장애발생.", e);
 		}
 		finally { 
@@ -838,6 +867,15 @@ public class OutsideService extends AbstractServiceObject {
 		File deleteFile = null;
 		boolean isDelete = false;
 
+		/*****************************
+		 * [START] DB LOG DATA SETTING
+		 *****************************/
+		ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
+		apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("downloadMultiImage"));
+		apiBatcLogSDO.setBatcDesc("시설 이미지 변경정보 업데이트");
+		apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_TM);
+		apiBatcLogSDO.setExecStrtMlisSecd(APIUtil.currentTimeMillis());
+		
 		try {
 			
 			propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
@@ -991,6 +1029,11 @@ public class OutsideService extends AbstractServiceObject {
 				}
  			}
 			
+			/*****************************
+			 * [END] DB LOG DATA SETTING
+			 *****************************/
+			Local.commonHeader().addBatchExecLog(apiBatcLogSDO, true);
+			
 			//실행중 해제
 			isFaclImageDownloadRunning = false;
 		}
@@ -1003,15 +1046,6 @@ public class OutsideService extends AbstractServiceObject {
 	private Integer updateBuildImage(List<EzcFaclImg> finalFaclImgList, Integer fromIndex, Integer txCount) {
 
 		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
-		
-		/*****************************
-		 * [START] DB LOG DATA SETTING
-		 *****************************/
-		ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
-		apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("updateBuildImage"));
-		apiBatcLogSDO.setBatcDesc("시설 이미지 변경정보 업데이트");
-		apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_TM);
-		apiBatcLogSDO.setExecStrtMlisSecd(APIUtil.currentTimeMillis());
 		
 		/**
 		 * EZC_FACL_IMG update를 3000개씩 commit 처리 
@@ -1040,14 +1074,6 @@ public class OutsideService extends AbstractServiceObject {
 		}
 		catch(Exception e) {
 			logger.error(APIUtil.formatMessage("전체 시설 이미지 다운로드 정보 업데이트 (갱신 목록 구간 from/to : {} ~ {})", new Object[]{fromIndex, toIndex}), e);
-		}
-		finally {
-			
-			/*****************************
-			 * [END] DB LOG DATA SETTING
-			 *****************************/
-			
-			Local.commonHeader().addBatchExecLog(apiBatcLogSDO, true);
 		}
 		
 		return txCount;

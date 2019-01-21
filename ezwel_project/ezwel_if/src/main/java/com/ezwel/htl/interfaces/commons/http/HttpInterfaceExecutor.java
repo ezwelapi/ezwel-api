@@ -504,6 +504,7 @@ public class HttpInterfaceExecutor {
 				
 				Integer code = null;
 				String message = null;
+				String errCont = null;
 				
 				if(APIException.class.isAssignableFrom(e.getClass())) {
 					code = ((APIException) e).getResultCode();
@@ -533,15 +534,15 @@ public class HttpInterfaceExecutor {
 												.append("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
 												.toString());
 					
+					errCont = message.concat(OperateConstants.LINE_SEPARATOR).concat(APIUtil.formatMessage("■ SendJSONException : {}", new Object[]{stackTraceUtil.getStackTrace(e)}));
+					
 					Local.commonHeader().getInterfaceLogSDO().setExecMsg(MessageConstants.getMessage(code)); //MessageConstants의 에러 유형 메시지
-					Local.commonHeader().getInterfaceLogSDO().setErrCont(message);
-				}		
+					Local.commonHeader().getInterfaceLogSDO().setErrCont(errCont);
+				}
 				/***************************
 				 * [END]    LOG DATA SETTING 
 				 ***************************/
-				
-				logger.error("■ URL Exception {}", stackTraceUtil.getStackTrace(e));
-				e.printStackTrace();
+				logger.error(APIUtil.formatMessage("■ SendJSONException : {}", new Object[]{e.getMessage()}));
 				
 			} catch (InstantiationException e1) {
 				throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ 통신 장애 발생.", e);
