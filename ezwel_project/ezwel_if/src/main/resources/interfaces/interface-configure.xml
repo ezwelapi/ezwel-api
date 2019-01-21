@@ -62,6 +62,7 @@
 			<patnCdType>C0130002</patnCdType>
 			<insideApiKey>d099b5ed2d8d352d6bb539febb4b46aai</insideApiKey>
 			<outsideApiKey>cd214a129f259c7cf9af7eb5a5b4c184o</outsideApiKey>
+			<cryptKey>iofjoaiefjaio34f</cryptKey>
 		</agentInfo>
 		<agentInfo>
 			<agentNo>02</agentNo>
@@ -70,6 +71,7 @@
 			<patnCdType>C0130003</patnCdType>
 			<insideApiKey>dcf82e9fc9dafb753075c6c244f6699fi</insideApiKey>
 			<outsideApiKey>05025f8f3722f1a807071e609977dba1o</outsideApiKey>
+			<cryptKey>3fq34fhqo3fi34jf</cryptKey>
 		</agentInfo>
 		<agentInfo>
 			<agentNo>03</agentNo>
@@ -78,6 +80,7 @@
 			<patnCdType>C0130004</patnCdType>
 			<insideApiKey>2abcbc439f7d84747b370776de4aa3d1i</insideApiKey>
 			<outsideApiKey>b6fe756656118f6e4cfaa724e728df2bo</outsideApiKey>
+			<cryptKey>3jifoiq34jfoijas</cryptKey>
 		</agentInfo>
 		<agentInfo>
 			<agentNo>04</agentNo>
@@ -86,6 +89,7 @@
 			<patnCdType>C0130005</patnCdType>
 			<insideApiKey>aadde1e6ac23fdbb04c7b9a067ee7c1ai</insideApiKey>
 			<outsideApiKey>bab3f9ec7d892f991c217ececd2cb7bdo</outsideApiKey>
+			<cryptKey>fj3o2ijfoaw8fhas</cryptKey>
 		</agentInfo>	
 		<agentInfo>
 			<agentNo>05</agentNo>
@@ -94,6 +98,7 @@
 			<patnCdType>C0130006</patnCdType>
 			<insideApiKey>4a2022d9a3b0da0231b701de6778eb15i</insideApiKey>
 			<outsideApiKey>ff57df561ffb0c89306a33c7416de6c0o</outsideApiKey>
+			<cryptKey>skdfjl34jfksdjfw</cryptKey>
 		</agentInfo>					
 		<agentInfo>
 			<agentNo>06</agentNo>
@@ -102,6 +107,7 @@
 			<patnCdType>C0130007</patnCdType>
 			<insideApiKey>173a7146e68477b8b3b3e3017646aa6ci</insideApiKey>
 			<outsideApiKey>71a0ade8d5267d139e0db6ccbde9e0c2o</outsideApiKey>
+			<cryptKey>jflawj9fjaw4oifj</cryptKey>
 		</agentInfo>	
 		<agentInfo>
 			<agentNo>07</agentNo>
@@ -110,6 +116,7 @@
 			<patnCdType>C0130008</patnCdType>
 			<insideApiKey>b6380f208fd90378ff70786a02d92aa5i</insideApiKey>
 			<outsideApiKey>4bf397c250c744e96ca89545a4a97fc9o</outsideApiKey>
+			<cryptKey>kw3f9834lgjhfk43</cryptKey>
 		</agentInfo>
 		<agentInfo>
 			<agentNo>08</agentNo>
@@ -118,6 +125,7 @@
 			<patnCdType>C0130009</patnCdType>
 			<insideApiKey>f5831137b0aa322fc2af1a37d6ecf8cei</insideApiKey>
 			<outsideApiKey>051ad6599211837ae557efbaecc65b3ao</outsideApiKey>
+			<cryptKey>f3kfjawioaw4fjil</cryptKey>
 		</agentInfo>	
 		<agentInfo>
 			<agentNo>09</agentNo>
@@ -126,6 +134,7 @@
 			<patnCdType>C0130010</patnCdType>
 			<insideApiKey>e54d735ff4ab6b93308c31d99cd683d4i</insideApiKey>
 			<outsideApiKey>8747fe3bc4ded32f80136b1661b0afc4o</outsideApiKey>
+			<cryptKey>fj23kfj23lfjlkas</cryptKey>
 		</agentInfo>
 		<agentInfo>
 			<agentNo>10</agentNo>
@@ -134,6 +143,25 @@
 			<patnCdType>-</patnCdType>
 			<insideApiKey>-</insideApiKey>
 			<outsideApiKey>-</outsideApiKey>
+			<cryptKey>jfo3jqfoahsofias</cryptKey>
+		</agentInfo>
+		<agentInfo>
+			<agentNo>11</agentNo>
+			<agentName>야놀자</agentName>
+			<httpAgentId>-</httpAgentId>
+			<patnCdType>-</patnCdType>
+			<insideApiKey>-</insideApiKey>
+			<outsideApiKey>-</outsideApiKey>
+			<cryptKey>jio4i5gijhzhfhda</cryptKey>
+		</agentInfo>
+		<agentInfo>
+			<agentNo>12</agentNo>
+			<agentName>온다</agentName>
+			<httpAgentId>-</httpAgentId>
+			<patnCdType>-</patnCdType>
+			<insideApiKey>-</insideApiKey>
+			<outsideApiKey>-</outsideApiKey>
+			<cryptKey>uxo4e5gijhghfkd9</cryptKey>
 		</agentInfo>		
 		<agentInfo>
 			<agentNo>99</agentNo>
