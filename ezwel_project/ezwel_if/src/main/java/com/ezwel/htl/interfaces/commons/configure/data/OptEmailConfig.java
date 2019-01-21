@@ -7,25 +7,28 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 @APIModel(description="EMAIL")
 public class OptEmailConfig extends APIObject {
 		
-	@APIFields(description = "EMAIL host")
+	@APIFields(description = "메일호스트")
 	private String host;
 	
-	@APIFields(description = "EMAIL port")
+	@APIFields(description = "메일포트")
 	private String port;
 	
-	@APIFields(description = "EMAIL auth")
-	private String auth;
+	@APIFields(description = "발신자메일주소")
+	private String from;
 	
-	@APIFields(description = "EMAIL username")
-	private String username;
+	@APIFields(description = "발신자명")
+	private String fromName;
 	
-	@APIFields(description = "EMAIL password")
-	private String password;
+	@APIFields(description = "메일인증사용자명")
+	private String userName;
 	
-	@APIFields(description = "EMAIL connTimeout")
+	@APIFields(description = "메일인증패스워드")
+	private String passWord;
+	
+	@APIFields(description = "connTimeout")
 	private String connTimeout;
 	
-	@APIFields(description = "EMAIL readTimeout")
+	@APIFields(description = "readTimeout")
 	private String readTimeout;
 	
 	public OptEmailConfig() {
@@ -35,9 +38,10 @@ public class OptEmailConfig extends APIObject {
 	private void reset() {
 		host = null;
 		port = null;
-		auth = null;
-		username = null;
-		password = null;
+		from = null;
+		fromName = null;
+		userName = null;
+		passWord = null;
 		connTimeout = null;
 		readTimeout = null;
 	}
@@ -58,28 +62,36 @@ public class OptEmailConfig extends APIObject {
 		this.port = port;
 	}
 
-	public String getAuth() {
-		return auth;
+	public String getFrom() {
+		return from;
 	}
 
-	public void setAuth(String auth) {
-		this.auth = auth;
+	public void setFrom(String from) {
+		this.from = from;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getFromName() {
+		return fromName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setFromName(String fromName) {
+		this.fromName = fromName;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassWord() {
+		return passWord;
+	}
+
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
 	}
 
 	public String getConnTimeout() {

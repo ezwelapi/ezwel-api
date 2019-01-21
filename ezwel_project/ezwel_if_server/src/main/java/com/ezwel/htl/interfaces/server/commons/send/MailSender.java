@@ -1,10 +1,8 @@
 package com.ezwel.htl.interfaces.server.commons.send;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -25,53 +23,63 @@ public class MailSender {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
 	
-	static final String from = "admin@ezwel.com";
-    static final String fromName = "이지웰";
+	static final String CONFIGSET = "Configset";
     
 	/**
 	 * 메일전송
-	 * @param from 발신자메일
-	 * @param fromName 발신자명
 	 * @param recipient 수신자
 	 * @param subject 제목
 	 * @param body 내용
-	 * @throws MessagingException
-	 * @throws UnsupportedEncodingException
+	 * @throws Exception
 	 */
 	@APIOperation(description="메일발송 인터페이스")
-	protected void callMailSender(String recipient, String subject, String body) throws MessagingException, UnsupportedEncodingException {
+	protected void callMailSender(String recipient, String subject, String body) throws Exception {
 		
 		String host = InterfaceFactory.getOptionalApps().getEmailConfig().getHost();
 		String port = InterfaceFactory.getOptionalApps().getEmailConfig().getPort();
-		String auth = InterfaceFactory.getOptionalApps().getEmailConfig().getAuth();
-		String username = InterfaceFactory.getOptionalApps().getEmailConfig().getUsername();
-		String password = InterfaceFactory.getOptionalApps().getEmailConfig().getPassword();
+		String from = InterfaceFactory.getOptionalApps().getEmailConfig().getFrom();
+		String fromName = InterfaceFactory.getOptionalApps().getEmailConfig().getFromName();
+		String userName = InterfaceFactory.getOptionalApps().getEmailConfig().getUserName();
+		String passWord = InterfaceFactory.getOptionalApps().getEmailConfig().getPassWord();
 		String connTimeout = InterfaceFactory.getOptionalApps().getEmailConfig().getConnTimeout();
 		String readTimeout = InterfaceFactory.getOptionalApps().getEmailConfig().getReadTimeout();
 		
 		//properties 설정
-        Properties props = System.getProperties();
-        props.put("mail.smtp.host", host);
-        props.put("mail.smtp.port", port);
-        props.put("mail.smtp.auth", auth);
-        props.put("mail.smtp.username", username);
-        props.put("mail.smtp.password", password);
-		props.put("mail.smtp.connectiontimeout", connTimeout);
-		props.put("mail.smtp.timeout", readTimeout);
+		Properties props = System.getProperties();
+    	props.put("mail.transport.protocol", "smtp");
+	    props.put("mail.smtp.port", port); 
+	    props.put("mail.smtp.starttls.enable", "true");
+	    props.put("mail.smtp.auth", "true");
+	    props.put("mail.smtp.connectiontimeout", connTimeout);
+	    props.put("mail.smtp.timeout", readTimeout);
 		
-        // 메일 세션
-        Session session = Session.getDefaultInstance(props);
-        
-        javax.mail.internet.MimeMessage msg = new MimeMessage(session);
+	    Session session = Session.getDefaultInstance(props);
+	    
+	    //MimeMessage 설정
+        MimeMessage msg = new MimeMessage(session);
         msg.setFrom(new InternetAddress(from, fromName));
-        msg.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-        msg.setSubject(subject, "UTF-8");
-        msg.setContent(body,"text/html; charset=utf-8");
+        msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+        msg.setSubject(subject);
+        msg.setContent(body,"text/html");
+        msg.setHeader("X-SES-CONFIGURATION-SET", CONFIGSET);
         
-        logger.info(recipient + " - send : " + subject);
+        Transport transport = session.getTransport();
         
-        // 발송 처리
-        Transport.send(msg);
+        try
+        {
+        	logger.info("Send Mail Sending...");
+            transport.connect(host, userName, passWord);
+            transport.sendMessage(msg, msg.getAllRecipients());
+            logger.info("Send Mail Sent");
+        }
+        catch (Exception ex) {
+        	logger.info("Send Mail Error message" + ex.getMessage());
+        }
+        finally
+        {
+            transport.close();
+        }
+
 	}
 	
 }

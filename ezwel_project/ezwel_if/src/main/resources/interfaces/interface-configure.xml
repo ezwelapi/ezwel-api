@@ -46,8 +46,10 @@
 		<emailConfig>
 			<host>127.0.0.1</host>
 		 	<port>25</port>
-		 	<username>yanagi10</username>
-		 	<password>20312@jong</password>
+		 	<from>webmaster@ezwel.com</from>
+		 	<fromName>이지웰</fromName>
+		 	<userName>yanagi10</userName>
+		 	<passWord>20312@jong</passWord>
 		 	<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</emailConfig>
