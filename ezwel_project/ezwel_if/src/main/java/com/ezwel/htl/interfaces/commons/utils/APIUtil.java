@@ -165,13 +165,13 @@ public class APIUtil {
     	return FastDateFormat.getInstance(dateformat, TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA).format(datetime);
     }
 	
-	@APIOperation(description="현제 TimeMillis를 리턴합니다.", isExecTest=true)
+	@APIOperation(description="현제 TimeMillis를 second로 변환하여 리턴합니다.", isExecTest=true)
 	public static double getTimeMillisToSecond(long timeMillis){
 		double out = timeMillis / 1000.;
 		return out;
 	}
 	
-	@APIOperation(description="현제 TimeMillis를 리턴합니다.", isExecTest=true)
+	@APIOperation(description="바인드된 TimeMillis를 minute으로 변환하여 리턴합니다.", isExecTest=true)
 	public static double getTimeMillisToMinute(long timeMillis){
 		double out = timeMillis / (1000. * 60);
 		return out;

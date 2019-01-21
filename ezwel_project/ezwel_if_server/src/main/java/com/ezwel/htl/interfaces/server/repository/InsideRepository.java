@@ -159,6 +159,10 @@ public class InsideRepository extends AbstractDataAccessObject {
 					telegramData.setCheckOutDate(reservBase.getCheckOutDd());
 					telegramData.setOtaRsvNo(reservBase.getPartnerOrderNum());
 					telegramData.setVoucherNo(reservBase.getFaclReservNum());
+					telegramData.setUserCmt(reservBase.getReservRequest()); //new
+					telegramData.setAdultCnt(commonUtil.getBigDecimalToInteger(reservBase.getTotAdtCnt()));
+					telegramData.setChildCnt(commonUtil.getBigDecimalToInteger(reservBase.getTotChildCnt()));
+
 					telegramData.setMemKey(commonUtil.getBigDecimalToString(reservBase.getUserKey()));
 					telegramData.setMemName(reservBase.getOrderNm()); //new
 					telegramData.setMemPhone(reservBase.getOrderMobile()); //new
@@ -166,9 +170,11 @@ public class InsideRepository extends AbstractDataAccessObject {
 					telegramData.setUserName(reservBase.getGuestNm());
 					telegramData.setUserMobile(reservBase.getGuestMobile());
 					telegramData.setUserEmail(reservBase.getGuestEmail());
-					telegramData.setUserCmt(reservBase.getReservRequest()); //new
-					telegramData.setAdultCnt(commonUtil.getBigDecimalToInteger(reservBase.getTotAdtCnt()));
-					telegramData.setChildCnt(commonUtil.getBigDecimalToInteger(reservBase.getTotChildCnt()));
+					
+					/**********************************************************************
+					 * 사용자 정보 인코딩 (인터페이스 서버 타는 경우에만 적용되는 부분)
+					 * memKey, memName, memPhone, memEmail, userName, userMobile, userEmail
+					 **********************************************************************/
 					
 					// 옵션 조회
 					inEzcReservRoomOpt = new EzcReservRoomOpt();

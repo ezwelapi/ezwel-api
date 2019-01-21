@@ -69,25 +69,25 @@ public class ViewDataOutSDO extends AbstractSDO {
 	@APIFields(description = "예약내역조회 시설예약번호(바우처번호)", maxLength=100)
 	private String voucherNo;
 	
-	@APIFields(description = "예약내역조회 회원유저키", required=true, maxLength=20)
+	@APIFields(description = "예약내역조회 회원유저키", required=true, maxLength=20, isEzwelcrypto=true)
 	private String memKey;
 	
-	@APIFields(description = "예약내역조회 회원명", required=true, maxLength=20)
+	@APIFields(description = "예약내역조회 회원명", required=true, maxLength=20, isEzwelcrypto=true)
 	private String memName;
 	
-	@APIFields(description = "예약내역조회 회원전화번호", required=true, maxLength=20)
+	@APIFields(description = "예약내역조회 회원전화번호", required=true, maxLength=20, isEzwelcrypto=true)
 	private String memPhone;
 	
-	@APIFields(description = "예약내역조회 회원이메일주소", required=true, maxLength=100)
+	@APIFields(description = "예약내역조회 회원이메일주소", required=true, maxLength=100, isEzwelcrypto=true)
 	private String memEmail;
 	
-	@APIFields(description = "예약내역조회 투숙자명", required=true, maxLength=20)
+	@APIFields(description = "예약내역조회 투숙자명", required=true, maxLength=20, isEzwelcrypto=true)
 	private String userName;
 	
-	@APIFields(description = "예약내역조회 투숙자전화번호", required=true, maxLength=20)
+	@APIFields(description = "예약내역조회 투숙자전화번호", required=true, maxLength=20, isEzwelcrypto=true)
 	private String userMobile;
 	
-	@APIFields(description = "예약내역조회 투숙자이메일주소", required=true, maxLength=100)
+	@APIFields(description = "예약내역조회 투숙자이메일주소", required=true, maxLength=100, isEzwelcrypto=true)
 	private String userEmail;
 	
 	@APIFields(description = "예약내역조회 요청내용", maxLength=1000)

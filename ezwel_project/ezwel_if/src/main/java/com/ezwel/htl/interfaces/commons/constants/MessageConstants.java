@@ -32,6 +32,7 @@ public class MessageConstants {
 	public static final int RESPONSE_CODE_9502;
 	public static final int RESPONSE_CODE_9600;
 	public static final int RESPONSE_CODE_9700;
+	public static final int RESPONSE_CODE_9800;
 	
 	public static final Map<Integer, String> MESSAGE_MAP;
 
@@ -71,6 +72,7 @@ public class MessageConstants {
 		RESPONSE_CODE_9502 = 9502;	// MessageConstants.RESPONSE_CODE_9502
 		RESPONSE_CODE_9600 = 9600;	// MessageConstants.RESPONSE_CODE_9600
 		RESPONSE_CODE_9700 = 9700;	// MessageConstants.RESPONSE_CODE_9700
+		RESPONSE_CODE_9800 = 9800;
 		
 		MESSAGE_MAP.put(RESPONSE_CODE_1000, "정상적으로 처리되었습니다.");
 		MESSAGE_MAP.put(RESPONSE_CODE_2000, "필수 파라메터 누락");
@@ -92,6 +94,8 @@ public class MessageConstants {
 		MESSAGE_MAP.put(RESPONSE_CODE_9502, "데이터가 존재하지 않음");
 		MESSAGE_MAP.put(RESPONSE_CODE_9600, "숙박 시설 매핑 장애발생");
 		MESSAGE_MAP.put(RESPONSE_CODE_9700, "프로세스 실행중");
+		MESSAGE_MAP.put(RESPONSE_CODE_9800, "파라메터 인코딩 장애발생");
+		
 		
 		RESPONSE_CODE_FIELD_NAME = "code";
 		IF_LOG_FIELD_NAME = "ifLog";
