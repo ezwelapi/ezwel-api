@@ -75,20 +75,9 @@ public class SmsSender {
 			for (int i = 0; i < values.size(); i++) {
 				sb.append(";" + values.get(i));
 			}
-		}     
+		}
 		
-//		SmsSenderOutSDO smsSenderOutSDO = new SmsSenderOutSDO();
-//		
-//		if(urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {					
-//			smsSenderOutSDO.setData(streamToString(urlConnection.getInputStream()));
-//		} else {
-//			smsSenderOutSDO.setData(streamToString(urlConnection.getInputStream()));	
-//		}
-		
-		String streamOut = null;
-		streamOut = streamToString(urlConnection.getInputStream());
-		
-		return streamOut;
+		return streamToString(urlConnection.getInputStream());
 	}
 	
 	@APIOperation(description="inputStream To String return")

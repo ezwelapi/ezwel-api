@@ -207,14 +207,22 @@ public class UtilityController {
 	
 	@APIOperation(description="문자발송 인터페이스", isOutputJsonMarshall=true, returnType=SmsSenderSDO.class)
 	@RequestMapping(value="/callSmsSender")
-	public Object callSmsSender(SmsSenderSDO smsSenderSDO) {
-		logger.debug("[START] callSmsSender {} {}", smsSenderSDO);
+	public Object callSmsSender() {
+		logger.debug("[START] callSmsSender {} {}", "sms send");
 		
 		sendIFService = (SendIFService) LApplicationContext.getBean(sendIFService, SendIFService.class);
 		
-		SmsSenderSDO out = new SmsSenderSDO();
+		String callTo = "01037440698";
+		String smsTxt = "대기예약 확정이 가능합니다. 예약 확정은 2019-01-15 18:00 시간 내에 홈페이지에서 해주셔야 하며, 이후 자동 취소 됩니다.  - 시설 : 부산파라다이스호텔 - 일시 : 2019-01-17 이지웰 복지몰 서비스를 이용해 주셔서 감사합니다.";
+		String templateCode = "10052";
 		
-		out.setResult(sendIFService.callSmsSender(smsSenderSDO));
+		SmsSenderSDO smsSenderSDO = new SmsSenderSDO();
+		smsSenderSDO.setCallTo(callTo);
+		smsSenderSDO.setSmsTxt(smsTxt);
+		smsSenderSDO.setTemplateCode(templateCode);
+		
+		SmsSenderSDO out = new SmsSenderSDO();
+		out.setSuccess(sendIFService.callSmsSender(smsSenderSDO));
 		
 		return out;
 	}
@@ -226,8 +234,6 @@ public class UtilityController {
 		
 		sendService = (SendService) LApplicationContext.getBean(sendService, SendService.class);
 		
-		MailSenderSDO out = new MailSenderSDO();
-		
 		String recipient = "java124@naver.com"; 
 		String subject = "메일 제목 테스트";
 		String body = "메일 내용 테스트";
@@ -237,7 +243,8 @@ public class UtilityController {
 		mailSenderSDO.setSubject(subject);
 		mailSenderSDO.setBody(body);		
 		
-		out.setResult(sendService.callMailSender(mailSenderSDO));
+		MailSenderSDO out = new MailSenderSDO();
+		out.setSuccess(sendService.callMailSender(mailSenderSDO));
 		
 		return out;	
 	}

@@ -32,8 +32,8 @@ public class MailSenderSDO extends AbstractSDO {
 	@APIFields(description = "메일내용", required=false)
 	private String body;
 
-	@APIFields(description = "send result", required=false)
-	private boolean result;
+	@APIFields(description = "메일발송 성공여부", required=false)
+	private boolean success;
 	
 	public String getFrom() {
 		return from;
@@ -75,12 +75,12 @@ public class MailSenderSDO extends AbstractSDO {
 		this.body = body;
 	}
 
-	public boolean isResult() {
-		return result;
+	public boolean isSuccess() {
+		return success;
 	}
 
-	public void setResult(boolean result) {
-		this.result = result;
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 	
 }

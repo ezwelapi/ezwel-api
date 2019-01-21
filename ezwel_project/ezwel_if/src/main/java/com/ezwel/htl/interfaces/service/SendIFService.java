@@ -37,12 +37,12 @@ public class SendIFService {
 		}
 	}	
 	
-	@APIOperation(description="문자발송 인터페이스")
+	@APIOperation(description="문자발송 인터페이스", isOutputJsonMarshall=true, returnType=SmsSenderSDO.class)
 	public boolean callSmsSender(SmsSenderSDO smsSenderSDO) {
 		return callSmsSender(smsSenderSDO, false);
 	}
 	
-	@APIOperation(description="문자발송 인터페이스")
+	@APIOperation(description="문자발송 인터페이스", isOutputJsonMarshall=true, returnType=SmsSenderSDO.class)
 	public boolean callSmsSender(SmsSenderSDO smsSenderSDO, boolean isEzwelInsideInterface) {
 				
 //		String callTo = "01037440698";
@@ -60,30 +60,24 @@ public class SendIFService {
 //		smsSenderSDO.setMmsSubject(mmsSubject); 	// 선택
 //		smsSenderSDO.setSmsText(smsTxt); 			// 필수
 //		smsSenderSDO.setTemplateCode(templateCode); // 선택 ( 카카오톡메세지일경우 필수 )
-				
-		boolean result = true;
+		
+		boolean out = true;
 		
 		try {
 			
 			HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
 			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getSmsConfig().getRestURI());
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
+					
+			smsSender.requestUrl(httpConfigSDO, smsSenderSDO);
 			
-			String out = null;
-			
-			out = smsSender.requestUrl(httpConfigSDO, smsSenderSDO);
-			
-			logger.debug("[SMS OUT SERVICE] : {}", out);
-			
-			if(!"0000".equals(out)) {
-				result = false;
-			}
+			logger.debug("[SMS START] : {}", out);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "문자발송 인터페이스 장애발생.", e);
 		}
 			
-		return result;		
+		return out;
 	}
 	
 //	@APIOperation(description="메일발송 인터페이스")
