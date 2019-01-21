@@ -9,15 +9,15 @@ import com.ezwel.htl.interfaces.commons.send.data.MailSenderSDO;
 import com.ezwel.htl.interfaces.server.service.SendService;
 import com.ezwel.htl.interfaces.service.SendIFService;
 
-public class SendTest {
+public class MailTest {
 
-	private static final Logger logger = LoggerFactory.getLogger(SendTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(MailTest.class);
 	
 	private SendIFService sendIFService;
 	
 	private SendService sendService;
 	
-	public SendTest() {
+	public MailTest() {
 		
 		InterfaceFactory.initLocalTestInterfaceFactory();
 		

@@ -26,6 +26,7 @@ import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.send.data.FaxSenderSDO;
 import com.ezwel.htl.interfaces.commons.send.data.MailSenderSDO;
 import com.ezwel.htl.interfaces.commons.send.data.SmsSenderSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -245,6 +246,38 @@ public class UtilityController {
 		
 		MailSenderSDO out = new MailSenderSDO();
 		out.setSuccess(sendService.callMailSender(mailSenderSDO));
+		
+		return out;	
+	}
+	
+	@APIOperation(description="팩스발송 인터페이스", isOutputJsonMarshall=true, returnType=FaxSenderSDO.class)
+	@RequestMapping(value="/callFaxSender")
+	public Object callFaxSender() {
+		logger.debug("[START] callFaxSender {} {}", "fax send");
+		
+		sendService = (SendService) LApplicationContext.getBean(sendService, SendService.class);
+		
+//		webfax 파일 경로
+//		수신fax : /Volume/data/nas_image/webfax/receive/
+//		송신fax : /Volume/data/nas_image/webfax/send/
+		  
+		String trTitle = "팩스발신 테스트"; 	//발송제목
+		String trSendName = "이지웰"; 		//발신자이름
+		String trSendFaxNum = "0269191002"; //발신자팩스번호
+		String trDocName = ""; 				//발송파일정보
+		String trName = "이지웰"; 			//수신자명
+		String trPhone = "0269191002"; 		//수신자팩스번호
+		
+		FaxSenderSDO faxSenderSDO = new FaxSenderSDO();
+		faxSenderSDO.setTrTitle(trTitle);
+		faxSenderSDO.setTrSendName(trSendName);
+		faxSenderSDO.setTrSendFaxNum(trSendFaxNum);
+		faxSenderSDO.setTrDocName(trDocName);
+		faxSenderSDO.setTrName(trName);
+		faxSenderSDO.setTrPhone(trPhone);
+		
+		FaxSenderSDO out = new FaxSenderSDO();
+		out.setSuccess(sendService.callFaxSender(faxSenderSDO));
 		
 		return out;	
 	}

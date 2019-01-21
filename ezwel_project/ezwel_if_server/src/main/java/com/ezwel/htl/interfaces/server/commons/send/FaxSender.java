@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.send.data.FaxSenderSDO;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
 import com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor;
-import com.ezwel.htl.interfaces.server.commons.sdo.FaxSenderSDO;
 
 @Component
 @APIType(description="팩스발송 인터페이스")
@@ -30,7 +30,7 @@ public class FaxSender extends AbstractDataAccessObject {
 	 * @throws NoSuchAlgorithmException
 	 */
 	@APIOperation(description="팩스발송 인터페이스 DB Insert")
-	public void FaxSender(String trTitle, String trSendName, String trSendFaxNum, String trDocName, String toName, String toPhone) throws NoSuchAlgorithmException {
+	public void callFaxSender(String trTitle, String trSendName, String trSendFaxNum, String trDocName, String toName, String toPhone) throws NoSuchAlgorithmException {
 		
 		// 팩스발송등록 파라미터
 		FaxSenderSDO faxSenderSDO = new FaxSenderSDO();		

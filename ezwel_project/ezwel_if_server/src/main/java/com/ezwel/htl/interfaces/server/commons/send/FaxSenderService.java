@@ -11,26 +11,26 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor;
 
 @Component
-@APIType(description="메일발송")
-public class MailSenderService {
+@APIType(description="팩스발송")
+public class FaxSenderService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
 	
 	@Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */
-	private MailSender mailSender;
+	private FaxSender faxSender;
 	
-	public MailSenderService() {
+	public FaxSenderService() {
 		
-		if(mailSender == null) {
-			mailSender = new MailSender();
+		if(faxSender == null) {
+			faxSender = new FaxSender();
 		}
 	}
 	
-	@APIOperation(description="메일발송 인터페이스")
+	@APIOperation(description="팩스발송 인터페이스")
 	@Async
-	public void asyncMailSender(final String recipient, final String subject, final String body){
+	public void asyncFaxSender(final String trTitle, final String trSendName, final String trSendFaxNum, final String trDocName, final String toName, final String toPhone){
 		try {
-			mailSender.callMailSender(recipient, subject, body);
+			faxSender.callFaxSender(trTitle, trSendName, trSendFaxNum, trDocName, toName, toPhone);
 		} catch (Exception e) {
 			logger.error(e.getMessage(),e);
 		}

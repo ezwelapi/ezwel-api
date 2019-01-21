@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.server.commons.sdo;
+package com.ezwel.htl.interfaces.commons.send.data;
 
 import java.util.Date;
 
@@ -49,6 +49,9 @@ public class FaxSenderSDO extends AbstractSDO {
 	
 	@APIFields(description = "수신팩스번호", required=true, maxLength=20)
 	private String trPhone;
+	
+	@APIFields(description = "팩스발송 성공여부", required=false)
+	private boolean success;
 
 	public Long getTrBatchId() {
 		return trBatchId;
@@ -136,6 +139,14 @@ public class FaxSenderSDO extends AbstractSDO {
 
 	public void setTrPhone(String trPhone) {
 		this.trPhone = trPhone;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 	
 }
