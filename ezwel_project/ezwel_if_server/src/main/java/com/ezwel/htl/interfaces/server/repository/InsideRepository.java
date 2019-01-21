@@ -9,12 +9,15 @@ import org.springframework.stereotype.Repository;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
+import com.ezwel.htl.interfaces.server.commons.utils.CryptoUtil;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcReservBase;
 import com.ezwel.htl.interfaces.server.entities.EzcReservRoomOpt;
@@ -44,6 +47,8 @@ public class InsideRepository extends AbstractDataAccessObject {
 	private static final Logger logger = LoggerFactory.getLogger(InsideRepository.class);
 
 	private CommonUtil commonUtil;
+	
+	private CryptoUtil cryptoUtil;
 	
 	@APIOperation(description="시설판매중지설정 인터페이스")
 	public SaleStopOutSDO callSaleStop(SaleStopInSDO saleStopSDO) {
@@ -112,15 +117,18 @@ public class InsideRepository extends AbstractDataAccessObject {
 	
 	
 	//반완료
-	@APIOperation(description="예약내역조회 인터페이스")
+	@APIOperation(description="예약완료내역조회 인터페이스")
 	public ViewOutSDO callView(ViewInSDO viewSDO) {
 		logger.debug("[START] callView {}", viewSDO);
 		
 		ViewOutSDO out = null;
-		
+		AgentInfoSDO agentInfo = null;
 		try {
 
 			commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+			cryptoUtil = (CryptoUtil) LApplicationContext.getBean(cryptoUtil, CryptoUtil.class);
+			
+			agentInfo = InterfaceFactory.getInterfaceAgents(Local.commonHeader().getHttpConfigSDO().getHttpAgentId());
 			
 			EzcReservBase inEzcReservBase = new EzcReservBase();
 			inEzcReservBase.setReservNum(new BigDecimal(viewSDO.getRsvNo()));
@@ -175,6 +183,10 @@ public class InsideRepository extends AbstractDataAccessObject {
 					 * 사용자 정보 인코딩 (인터페이스 서버 타는 경우에만 적용되는 부분)
 					 * memKey, memName, memPhone, memEmail, userName, userMobile, userEmail
 					 **********************************************************************/
+					if(agentInfo != null) {
+						cryptoUtil.encodeAPIModel(agentInfo.getCryptKey(), telegramData);
+						logger.debug("#Loop telegramData : {}", telegramData);
+					}
 					
 					// 옵션 조회
 					inEzcReservRoomOpt = new EzcReservRoomOpt();

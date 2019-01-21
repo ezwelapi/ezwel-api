@@ -32,6 +32,9 @@ public class AgentInfoSDO extends AbstractSDO {
 	@APIFields(description = "outsideApiKey")
 	private String outsideApiKey;
 	
+	@APIFields(description = "제휴사 암복호화 16자리 대칭키")
+	private String cryptKey;
+	
 	public AgentInfoSDO() {
 		this.reset();
 	}
@@ -42,6 +45,7 @@ public class AgentInfoSDO extends AbstractSDO {
 		patnCdType = null;
 		insideApiKey = null;
 		outsideApiKey = null;
+		cryptKey = null;
 	}
 
 	public String getAgentName() {
@@ -87,6 +91,15 @@ public class AgentInfoSDO extends AbstractSDO {
 	@XmlElement
 	public void setPatnCdType(String patnCdType) {
 		this.patnCdType = patnCdType;
+	}
+
+	public String getCryptKey() {
+		return cryptKey;
+	}
+
+	@XmlElement
+	public void setCryptKey(String cryptKey) {
+		this.cryptKey = cryptKey;
 	}
 
 	

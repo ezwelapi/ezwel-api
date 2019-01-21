@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
-import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
-import com.ezwel.htl.interfaces.commons.sdo.ApiBatcLogSDO;
-import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.interfaces.RequestNamespace;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.commons.utils.CryptoUtil;
 import com.ezwel.htl.interfaces.server.sdo.FaclSDO;
 import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
 import com.ezwel.htl.interfaces.server.service.OutsideService;
@@ -59,6 +59,7 @@ public class OutsideController {
 
 	private OutsideIFService outsideIFService;
 
+	private CryptoUtil cryptoUtil;
 	/**************************************
 	 * [START] ezwel_if_server API
 	 **************************************/
@@ -87,7 +88,7 @@ public class OutsideController {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9700, "전체시설일괄등록 인터페이스가 이미 실행중입니다.");
 		}
 		
-		outsideService = (OutsideService) LApplicationContext.getBean(OutsideService.class);
+		outsideService = (OutsideService) LApplicationContext.getBean(outsideIFService, OutsideService.class);
 		AllRegOutSDO out = outsideService.callAllReg(userAgentSDO);
 
 		return out;
@@ -97,7 +98,7 @@ public class OutsideController {
 	@RequestMapping(value = "/allReg/imageDownload")
 	public Object callAllRegImageDownload() {
 
-		outsideService = (OutsideService) LApplicationContext.getBean(OutsideService.class);
+		outsideService = (OutsideService) LApplicationContext.getBean(outsideIFService, OutsideService.class);
 		/** 데이터 저장이 모두 끝난후 제휴사 별 별도 멀티쓰레드 이미지 다운로드 실행 */
 		AllRegFaclImgOutSDO out = outsideService.downloadMultiImage();
 
@@ -112,7 +113,7 @@ public class OutsideController {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9700, "시설 매핑 프로세스가 이미 실행중입니다.");
 		}
 
-		outsideService = (OutsideService) LApplicationContext.getBean(OutsideService.class);
+		outsideService = (OutsideService) LApplicationContext.getBean(outsideIFService, OutsideService.class);
 		TransactionOutSDO out = outsideService.execFaclMapping(faclSDO);
 
 		return out;
@@ -122,7 +123,7 @@ public class OutsideController {
 	@RequestMapping(value = "/callFaclSearch")
 	public Object callFaclSearch(UserAgentSDO userAgentSDO, FaclSearchInSDO faclSearchSDO) {
 
-		outsideService = (OutsideService) LApplicationContext.getBean(OutsideService.class);
+		outsideService = (OutsideService) LApplicationContext.getBean(outsideIFService, OutsideService.class);
 		FaclSearchOutSDO out = outsideService.callFaclSearch(userAgentSDO, faclSearchSDO);
 
 		return out;
@@ -132,7 +133,7 @@ public class OutsideController {
 	@RequestMapping(value = "/callSddSearch")
 	public Object callSddSearch(UserAgentSDO userAgentSDO) {
 
-		outsideService = (OutsideService) LApplicationContext.getBean(OutsideService.class);
+		outsideService = (OutsideService) LApplicationContext.getBean(outsideIFService, OutsideService.class);
 		SddSearchOutSDO out = outsideService.callSddSearch(userAgentSDO);
 
 		return out;
@@ -171,7 +172,7 @@ public class OutsideController {
 			}
 			
 			//single thread
-			outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
+			outsideIFService = (OutsideIFService) LApplicationContext.getBean(outsideIFService, OutsideIFService.class);
 			out = outsideIFService.callRoomRead(userAgentSDO, roomReadSDO);
 		}
 		
@@ -183,7 +184,7 @@ public class OutsideController {
 	@APIOperation(description = "취소수수규정 인터페이스", isOutputJsonMarshall = true, returnType = CancelFeePsrcOutSDO.class)
 	public Object callCancelFeePsrc(UserAgentSDO userAgentSDO, CancelFeePsrcInSDO cancelFeePsrcSDO) {
 
-		outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
+		outsideIFService = (OutsideIFService) LApplicationContext.getBean(outsideIFService, OutsideIFService.class);
 		CancelFeePsrcOutSDO out = outsideIFService.callCancelFeePsrc(userAgentSDO, cancelFeePsrcSDO);
 		
 		return out;
@@ -193,12 +194,21 @@ public class OutsideController {
 	@APIOperation(description = "예약결재완료내역전송 인터페이스", isOutputJsonMarshall = true, returnType = RsvHistSendOutSDO.class)
 	public Object callRsvHistSend(UserAgentSDO userAgentSDO, RsvHistSendInSDO rsvHistSendSDO) {
 
-		outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
+		outsideIFService = (OutsideIFService) LApplicationContext.getBean(outsideIFService, OutsideIFService.class);
+		cryptoUtil = (CryptoUtil) LApplicationContext.getBean(cryptoUtil, CryptoUtil.class);
 		
 		/**********************************************************************
 		 * 사용자 정보 인코딩 (인터페이스 서버 타는 경우에만 적용되는 부분)
 		 * memKey, memName, memPhone, memEmail, userName, userMobile, userEmail
 		 **********************************************************************/
+		AgentInfoSDO agentInfo = InterfaceFactory.getInterfaceAgents(userAgentSDO.getHttpAgentId());
+		
+		if(rsvHistSendSDO.isEncPrvtInfo()) {
+			cryptoUtil.encodeAPIModel(agentInfo.getCryptKey(), rsvHistSendSDO.getData());
+			logger.debug("# rsvHistSendSDO.getData() : {}", rsvHistSendSDO.getData());
+			//암호화 완료후 false
+			rsvHistSendSDO.setEncPrvtInfo(false);
+		}
 		
 		RsvHistSendOutSDO out = outsideIFService.callRsvHistSend(userAgentSDO, rsvHistSendSDO);
 
@@ -209,7 +219,7 @@ public class OutsideController {
 	@APIOperation(description = "취소수수료계산 인터페이스", isOutputJsonMarshall = true, returnType = CancelFeeAmtOutSDO.class)
 	public Object callCancelFeeAmt(UserAgentSDO userAgentSDO, CancelFeeAmtInSDO cancelFeeAmtSDO) {
 
-		outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
+		outsideIFService = (OutsideIFService) LApplicationContext.getBean(outsideIFService, OutsideIFService.class);
 		CancelFeeAmtOutSDO out = outsideIFService.callCancelFeeAmt(userAgentSDO, cancelFeeAmtSDO);
 
 		return out;
@@ -219,7 +229,7 @@ public class OutsideController {
 	@APIOperation(description = "주문취소요청 인터페이스", isOutputJsonMarshall = true, returnType = OrderCancelReqOutSDO.class)
 	public Object callOrderCancelReq(UserAgentSDO userAgentSDO, OrderCancelReqInSDO orderCancelReqSDO) {
 
-		outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
+		outsideIFService = (OutsideIFService) LApplicationContext.getBean(outsideIFService, OutsideIFService.class);
 		OrderCancelReqOutSDO out = outsideIFService.callOrderCancelReq(userAgentSDO, orderCancelReqSDO);
 
 		return out;
@@ -229,7 +239,7 @@ public class OutsideController {
 	@APIOperation(description = "누락건확인 인터페이스", isOutputJsonMarshall = true, returnType = OmiNumIdnOutSDO.class)
 	public Object callOmiNumIdn(UserAgentSDO userAgentSDO, OmiNumIdnInSDO omiNumIdnSDO) {
 
-		outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
+		outsideIFService = (OutsideIFService) LApplicationContext.getBean(outsideIFService, OutsideIFService.class);
 		OmiNumIdnOutSDO out = outsideIFService.callOmiNumIdn(userAgentSDO, omiNumIdnSDO);
 		
 		return out;
@@ -239,7 +249,7 @@ public class OutsideController {
 	@APIOperation(description = "주문대사(이지웰) 인터페이스", isOutputJsonMarshall = true, returnType = EzwelJobOutSDO.class)
 	public Object callEzwelJob(UserAgentSDO userAgentSDO, EzwelJobInSDO ezwelJobSDO) {
 		
-		outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
+		outsideIFService = (OutsideIFService) LApplicationContext.getBean(outsideIFService, OutsideIFService.class);
 		EzwelJobOutSDO out = outsideIFService.callEzwelJob(userAgentSDO, ezwelJobSDO);
 		
 		return out;
