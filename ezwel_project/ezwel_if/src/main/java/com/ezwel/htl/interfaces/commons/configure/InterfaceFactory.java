@@ -519,16 +519,17 @@ public class InterfaceFactory {
 					logger.debug("# serverHttpDomainURI : {}", InterfaceFactory.serverHttpDomainURI);
 					logger.debug("# interfaceBatchErrorLogPath : {}", InterfaceFactory.interfaceBatchErrorLogPath);	
 	
-					logger.debug("# Agent Size : {}", ifc.getAgentList().size());
 					logger.debug("# InsideChans Channel Size : {}", ifc.getInsideChans().size());
 					logger.debug("# OutsideChans Channel Size : {}", ifc.getOutsideChans().size());
 					
-					logger.debug("# Real Cached Size : {}", interfaceChannels.size());
-					//logger.debug("# interfaceChannels : {}", interfaceChannels);
-					
 					logger.debug("# fileRepository : {}", InterfaceFactory.fileRepository);
 					logger.debug("# faclMapping : {}", InterfaceFactory.faclMapping);	
-					logger.debug("# optionalApps : {}", InterfaceFactory.optionalApps);	
+					logger.debug("# optionalApps : {}", InterfaceFactory.optionalApps);
+					
+					logger.debug("# Agent Size : {}", ifc.getAgentList().size());
+					//logger.debug("# Agents : {}", ifc.getAgentList());
+					logger.debug("# Real Cached Size : {}", interfaceChannels.size());
+					//logger.debug("# interfaceChannels : {}", interfaceChannels);
 				}
 			}
 		} catch (JAXBException e) {

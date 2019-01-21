@@ -17,5 +17,4 @@ public abstract class AbstractComponent {
 		
 		return stackTraceUtil.getStackTrace(e);
 	}
-	
 }

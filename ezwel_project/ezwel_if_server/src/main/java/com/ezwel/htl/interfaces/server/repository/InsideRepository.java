@@ -14,6 +14,7 @@ import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.thread.Local;
+import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
@@ -49,6 +50,8 @@ public class InsideRepository extends AbstractDataAccessObject {
 	private CommonUtil commonUtil;
 	
 	private CryptoUtil cryptoUtil;
+	
+	private PropertyUtil propertyUtil;
 	
 	@APIOperation(description="시설판매중지설정 인터페이스")
 	public SaleStopOutSDO callSaleStop(SaleStopInSDO saleStopSDO) {
@@ -127,7 +130,7 @@ public class InsideRepository extends AbstractDataAccessObject {
 
 			commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 			cryptoUtil = (CryptoUtil) LApplicationContext.getBean(cryptoUtil, CryptoUtil.class);
-			
+			propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
 			agentInfo = InterfaceFactory.getInterfaceAgents(Local.commonHeader().getHttpConfigSDO().getHttpAgentId());
 			
 			EzcReservBase inEzcReservBase = new EzcReservBase();
@@ -135,6 +138,7 @@ public class InsideRepository extends AbstractDataAccessObject {
 			inEzcReservBase.setStartDate(viewSDO.getStartDate());
 			inEzcReservBase.setEndDate(viewSDO.getEndDate());
 			inEzcReservBase.setDateType(viewSDO.getDateType());
+			propertyUtil.removeDefaulFieldData(inEzcReservBase);
 			
 			List<EzcReservBase> ezcReservBaseList = sqlSession.selectList(getNamespace("RESERV_BASE_MAPPER", "selectListEzcReservBase"), inEzcReservBase);
 			List<EzcReservRoomOpt> ezcReservRoomOptList = null; 

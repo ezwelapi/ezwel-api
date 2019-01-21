@@ -164,6 +164,7 @@ public class OutsideController {
 			/** 그릅코드 이용 */
 			outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
 			out = outsideService.callRoomRead(userAgentSDO, roomReadSDO);
+			out.setGrpFaclCd(roomReadSDO.getGrpFaclCd());
 		}
 		else {
 			

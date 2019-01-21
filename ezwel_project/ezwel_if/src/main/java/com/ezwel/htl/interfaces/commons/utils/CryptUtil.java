@@ -1,23 +1,13 @@
 package com.ezwel.htl.interfaces.commons.utils;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
-import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
-import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.utils.crypt.Base64Codec;
-import com.ezwel.htl.interfaces.commons.utils.crypt.Crypto;
 import com.ezwel.htl.interfaces.commons.utils.crypt.MD5;
-
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 @APIType(description="암호화/인코딩/디코딩 유틸")
 public class CryptUtil {

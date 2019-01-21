@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.commons.utils.crypt;
+package com.ezwel.htl.interfaces.server.commons.utils.crypto;
 
 public class CryptoPadding {
 	private String name = "ANSI-X.923-Padding";

@@ -39,6 +39,7 @@ public class OperateConstants {
 	public static final String STR_MAX_BRACKET_R;
 	public static final String STR_MAX_BRACKET_L;
 	public static final long   LONG_ZERO_VALUE;
+	public static final long   LONG_ONE_VALUE;
 	public static final long   LONG_MINUS_ONE;
 	public static final long   LONG_MAX_VALUE;
 	public static final int	   INTEGER_ZERO_VALUE;
@@ -242,6 +243,7 @@ public class OperateConstants {
 		STR_MAX_BRACKET_R = "[";
 		STR_MAX_BRACKET_L = "]";
 	 	LONG_ZERO_VALUE = 0L;
+	 	LONG_ONE_VALUE = 1L;
 	 	LONG_MINUS_ONE = -1L;
 	 	LONG_MAX_VALUE = 9223372036854775807L;
 		INTEGER_ZERO_VALUE = 0;

@@ -189,20 +189,20 @@
 		</httpChan>	
 		<httpChan>
 			<chanId>view</chanId>
-			<description>시설바우처번호등록</description>
-			<restURI>/API1.0/service/rsv/view</restURI>
+			<description>예약완료내역조회</description>
+			<restURI>/API1.0/service/facl/view</restURI>
 			<encoding>UTF-8</encoding>
 		</httpChan>
 		<httpChan>
 			<chanId>voucherReg</chanId>
-			<description>예약내역조회</description>
+			<description>시설바우처번호등록</description>
 			<restURI>/API1.0/service/facl/voucherReg</restURI>
 			<encoding>UTF-8</encoding>
 		</httpChan>	
 		<httpChan>
 			<chanId>agentJob</chanId>
 			<description>주문대사(제휴사)</description>
-			<restURI>/API1.0/service/order/agentJob</restURI>
+			<restURI>/API1.0/service/facl/agentJob</restURI>
 			<encoding>UTF-8</encoding>
 		</httpChan>
 	</insideChans>

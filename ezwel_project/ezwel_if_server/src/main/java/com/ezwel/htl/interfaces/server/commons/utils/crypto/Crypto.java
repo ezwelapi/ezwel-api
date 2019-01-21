@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.commons.utils.crypt;
+package com.ezwel.htl.interfaces.server.commons.utils.crypto;
 
 import java.io.UnsupportedEncodingException;
 

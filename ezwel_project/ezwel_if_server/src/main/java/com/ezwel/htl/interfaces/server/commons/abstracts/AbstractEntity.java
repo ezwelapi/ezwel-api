@@ -20,7 +20,7 @@ public abstract class AbstractEntity extends APIObject {
 
 	private long totalCount = OperateConstants.LONG_ZERO_VALUE;
 	
-	private long pageNum = OperateConstants.LONG_ZERO_VALUE;
+	private long pageNum = OperateConstants.LONG_ONE_VALUE;
 	
 	private long pageCount = OperateConstants.LONG_MAX_VALUE;
 

@@ -97,8 +97,8 @@ var $interface = {
 			 url : requestNamespace + "/facl/view"
 			,input : {
 				"rsvNo": "123456789",
-				"startDate": "",
-				"endDate": "",
+				"startDate": null,
+				"endDate": null,
 				"dateType": ""
 			}
 		},

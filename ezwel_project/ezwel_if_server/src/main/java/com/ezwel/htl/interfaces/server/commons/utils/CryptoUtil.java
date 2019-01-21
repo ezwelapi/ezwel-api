@@ -17,7 +17,7 @@ import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
-import com.ezwel.htl.interfaces.commons.utils.crypt.Crypto;
+import com.ezwel.htl.interfaces.server.commons.utils.crypto.Crypto;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;

@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.service.data.roomRead;
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,9 @@ public class RoomReadOutSDO extends AbstractSDO {
 
 	@APIFields(description = "제휴사 코드")
 	private String partnerCd;
+	
+	@APIFields(description = "그룹 시설 코드")
+	private BigDecimal grpFaclCd;
 	
 	@APIFields(description = "객실정보조회 output data")
 	private List<RoomReadDataOutSDO> data;
@@ -86,4 +90,14 @@ public class RoomReadOutSDO extends AbstractSDO {
 		}
 		this.data.add(data);
 	}
+
+	public BigDecimal getGrpFaclCd() {
+		return grpFaclCd;
+	}
+
+	public void setGrpFaclCd(BigDecimal grpFaclCd) {
+		this.grpFaclCd = grpFaclCd;
+	}
+	
+	
 }
