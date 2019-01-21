@@ -7,13 +7,10 @@ import org.slf4j.LoggerFactory;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.send.data.MailSenderSDO;
 import com.ezwel.htl.interfaces.server.service.SendService;
-import com.ezwel.htl.interfaces.service.SendIFService;
 
 public class MailTest {
 
-	private static final Logger logger = LoggerFactory.getLogger(MailTest.class);
-	
-	private SendIFService sendIFService;
+	private static final Logger logger = LoggerFactory.getLogger(MailTest.class);;
 	
 	private SendService sendService;
 	
@@ -21,13 +18,10 @@ public class MailTest {
 		
 		InterfaceFactory.initLocalTestInterfaceFactory();
 		
-		sendIFService = new SendIFService();
-		
 		sendService = new SendService();
 		
 	}
 	
-	//메일
 	@Test
 	public void MailSenderTest() {
 		
