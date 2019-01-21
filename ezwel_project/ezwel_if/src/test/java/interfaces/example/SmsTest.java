@@ -8,13 +8,13 @@ import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.send.data.SmsSenderSDO;
 import com.ezwel.htl.interfaces.service.SendIFService;
 
-public class SendTest {
+public class SmsTest {
 
-	private static final Logger logger = LoggerFactory.getLogger(SendTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(SmsTest.class);
 	
 	private SendIFService sendIFService;
 	
-	public SendTest() {
+	public SmsTest() {
 		
 		InterfaceFactory.initLocalTestInterfaceFactory();
 		
@@ -22,7 +22,6 @@ public class SendTest {
 
 	}
 	
-	//문자
 	@Test
 	public void smsSenderTest()  throws Exception {
 		
