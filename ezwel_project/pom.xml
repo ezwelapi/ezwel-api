@@ -12,7 +12,6 @@
 		<module>ezwel_if</module>
 		<module>ezwel_if_server</module>
 		<module>ezwel_framework</module>
-		<module>ezwel_if_demo</module>
 	</modules>
 
 	<properties>

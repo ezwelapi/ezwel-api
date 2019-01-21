@@ -67,7 +67,7 @@ public class InterfaceMixTestService extends TestCase {
 			roomReadSDO.setChildCnt(0);
 			
 			//interface api call
-			RoomReadOutSDO out = outIfService.callRoomRead(userAgentDTO, roomReadSDO);
+			RoomReadOutSDO out = outIfAdapter.callRoomRead(userAgentDTO, roomReadSDO);
 			
 			logger.debug("Code : {}", out.getCode());
 			logger.debug("Message : {}", out.getMessage());

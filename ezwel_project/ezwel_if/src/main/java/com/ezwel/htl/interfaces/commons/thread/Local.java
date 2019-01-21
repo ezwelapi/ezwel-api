@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.entity.CommonHeader;
 import com.ezwel.htl.interfaces.commons.entity.RuntimeHeader;
@@ -37,22 +38,25 @@ public class Local {
             	header.setGuid(APIUtil.getId());
             	header.setStartTimeMillis(APIUtil.currentTimeMillis());
 
-            	logger.debug(new StringBuilder()
-            		.append(OperateConstants.LINE_SEPARATOR)
-            		.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
-            		.append(OperateConstants.LINE_SEPARATOR)
-            		.append(" ■■ [START]    ")
-            		.append(OperateConstants.LINE_SEPARATOR)
-            		.append(" ■■ initialValue    ")
-            		.append(OperateConstants.LINE_SEPARATOR)
-            		.append(" ■■ guid : " + header.getGuid() )
-            		.append(OperateConstants.LINE_SEPARATOR)
-            		.append(" ■■ startTimeMillis : " + header.getStartTimeMillis() )
-            		.append(OperateConstants.LINE_SEPARATOR)
-            		.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
-            		.append(OperateConstants.LINE_SEPARATOR)
-            		.toString()
-            	);
+            	if(InterfaceFactory.isMasterServer()) {
+            		
+            		logger.debug(new StringBuilder()
+        				.append(OperateConstants.LINE_SEPARATOR)
+        				.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
+        				.append(OperateConstants.LINE_SEPARATOR)
+        				.append(" ■■ [START]    ")
+        				.append(OperateConstants.LINE_SEPARATOR)
+        				.append(" ■■ initialValue    ")
+        				.append(OperateConstants.LINE_SEPARATOR)
+        				.append(" ■■ guid : " + header.getGuid() )
+        				.append(OperateConstants.LINE_SEPARATOR)
+        				.append(" ■■ startTimeMillis : " + header.getStartTimeMillis() )
+        				.append(OperateConstants.LINE_SEPARATOR)
+        				.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
+        				.append(OperateConstants.LINE_SEPARATOR)
+        				.toString()
+    				);
+            	}
 
                 return header;
         }
@@ -144,38 +148,41 @@ public class Local {
 	@APIOperation(description="Thread 소멸시점에 최종 AP 실행시간을 로깅하고 ThreadLocal의 내용을 삭제합니다.", isExecTest=true)
     public static void remove() {
 
-    	logger.debug(new StringBuilder()
-    		.append(OperateConstants.LINE_SEPARATOR)
-    		.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
-    		.append(OperateConstants.LINE_SEPARATOR)
-            .append(" ■■ [END]    ")
-    		.append(OperateConstants.LINE_SEPARATOR)
-    		.append(" ■■ guid : " + commonHeader().getGuid() )
-    		.append(OperateConstants.LINE_SEPARATOR)
-    		.append(" ■■ RunTime lapTimeMillis : ")
-			.append(commonHeader().getLapTimeMillis())
-			.append("(ms)")
-    		.append(OperateConstants.LINE_SEPARATOR)
-    		.append(" ■■ RunTime lapTimeSecond : ")
-			.append(APIUtil.getTimeMillisToSecond(commonHeader().getLapTimeMillis()))
-			.append("(s)")
-    		.append(OperateConstants.LINE_SEPARATOR)
-    		.append(" ■■ RunTime lapTimeMinute : ")
-			.append(APIUtil.getTimeMillisToMinute(commonHeader().getLapTimeMillis()))
-			.append("(m)")
-    		.append(OperateConstants.LINE_SEPARATOR)	    		
-    		.append(" ■■ StartTimeMillis : ")
-			.append(commonHeader().getStartTimeMillis())
-    		.append(OperateConstants.LINE_SEPARATOR)
-			.append(" ■■ EndTimeMillis : ")
-			.append(commonHeader().getEndTimeMillis())
-    		.append(OperateConstants.LINE_SEPARATOR)
-    		.append(" ■■ ThreadLocal END ")
-    		.append(OperateConstants.LINE_SEPARATOR)
-    		.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
-    		.append(OperateConstants.LINE_SEPARATOR)
-    		.toString()
-		);
+		if(InterfaceFactory.isMasterServer()) {
+			
+			logger.debug(new StringBuilder()
+				.append(OperateConstants.LINE_SEPARATOR)
+				.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
+				.append(OperateConstants.LINE_SEPARATOR)
+				.append(" ■■ [END]    ")
+				.append(OperateConstants.LINE_SEPARATOR)
+				.append(" ■■ guid : " + commonHeader().getGuid() )
+				.append(OperateConstants.LINE_SEPARATOR)
+				.append(" ■■ RunTime lapTimeMillis : ")
+				.append(commonHeader().getLapTimeMillis())
+				.append("(ms)")
+				.append(OperateConstants.LINE_SEPARATOR)
+				.append(" ■■ RunTime lapTimeSecond : ")
+				.append(APIUtil.getTimeMillisToSecond(commonHeader().getLapTimeMillis()))
+				.append("(s)")
+				.append(OperateConstants.LINE_SEPARATOR)
+				.append(" ■■ RunTime lapTimeMinute : ")
+				.append(APIUtil.getTimeMillisToMinute(commonHeader().getLapTimeMillis()))
+				.append("(m)")
+				.append(OperateConstants.LINE_SEPARATOR)	    		
+				.append(" ■■ StartTimeMillis : ")
+				.append(commonHeader().getStartTimeMillis())
+				.append(OperateConstants.LINE_SEPARATOR)
+				.append(" ■■ EndTimeMillis : ")
+				.append(commonHeader().getEndTimeMillis())
+				.append(OperateConstants.LINE_SEPARATOR)
+				.append(" ■■ ThreadLocal END ")
+				.append(OperateConstants.LINE_SEPARATOR)
+				.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
+				.append(OperateConstants.LINE_SEPARATOR)
+				.toString()
+			);
+		}
     	
     	threadLocalHeader.remove();
     }

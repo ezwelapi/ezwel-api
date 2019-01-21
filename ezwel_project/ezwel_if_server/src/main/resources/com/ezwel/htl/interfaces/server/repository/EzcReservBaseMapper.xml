@@ -42,10 +42,8 @@ INSERT INTO EZC_RESERV_BASE(	/* 예약 기본 정보 */
 	,ORDER_NM	/* 회원명 new */
 	,ORDER_MOBILE	/* 회원전화번호 new */
 	,ORDER_EMAIL	/* 회원이메일주소 new */
-	,RESERV_REQUEST /* 요청내용 new */	
 	,REG_ID	/* 등록자 ID, VARCHAR2(20) */
 	,REG_DT	/* 등록 일시, VARCHAR2(14) */
-	,USER_ID	/* 회원 ID, VARCHAR2(20) */
 ) VALUES (
 	 #{reservNum, jdbcType=DECIMAL}
 	,#{faclCd, jdbcType=DECIMAL}
@@ -74,10 +72,8 @@ INSERT INTO EZC_RESERV_BASE(	/* 예약 기본 정보 */
 	,#{orderNm, jdbcType=VARCHAR}
 	,#{orderMobile, jdbcType=VARCHAR}
 	,#{orderEmail, jdbcType=VARCHAR}
-	,#{reservRequest, jdbcType=VARCHAR} 	
 	,#{regId, jdbcType=VARCHAR}
 	,#{regDt, jdbcType=VARCHAR}
-	,#{userId, jdbcType=VARCHAR}
 )
 </insert>
 
@@ -110,12 +106,10 @@ SELECT
 	,EZC_RESERV_BASE.ORDER_NM AS orderNm	/* 회원명 new */
 	,EZC_RESERV_BASE.ORDER_MOBILE AS orderMobile	/* 회원전화번호 new */
 	,EZC_RESERV_BASE.ORDER_EMAIL AS orderEmail	/* 회원이메일주소 new */
-	,EZC_RESERV_BASE.RESERV_REQUEST AS reservRequest /* 요청내용 new */
 	,EZC_RESERV_BASE.REG_ID AS regId	/* 등록자 ID, VARCHAR2(20) */
 	,EZC_RESERV_BASE.REG_DT AS regDt	/* 등록 일시, VARCHAR2(14) */
 	,EZC_RESERV_BASE.MODI_ID AS modiId	/* 수정자 ID, VARCHAR2(20) */
 	,EZC_RESERV_BASE.MODI_DT AS modiDt	/* 수정 일시, VARCHAR2(14) */
-	,EZC_RESERV_BASE.USER_ID AS userId	/* 회원 ID, VARCHAR2(20) */
 FROM
 	 EZC_RESERV_BASE	/* 예약 기본 정보 */
 	,EZC_CHANNEL_MNG	/* 채널 */
@@ -242,9 +236,6 @@ WHERE 1=1
 	<if test="modiDt != null and modiDt != ''">
 	AND EZC_RESERV_BASE.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 	</if>
-	<if test="userId != null and userId != ''">
-	AND EZC_RESERV_BASE.USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */
-	</if>
 </select>
 
 <select id="selectListEzcReservBase" parameterType="ezcReservBase" resultType="ezcReservBase">
@@ -279,12 +270,10 @@ SELECT * FROM (
 			,EZC_RESERV_BASE.ORDER_NM AS orderNm	/* 회원명 new */
 			,EZC_RESERV_BASE.ORDER_MOBILE AS orderMobile	/* 회원전화번호 new */
 			,EZC_RESERV_BASE.ORDER_EMAIL AS orderEmail	/* 회원이메일주소 new */
-			,EZC_RESERV_BASE.RESERV_REQUEST AS reservRequest /* 요청내용 new */			
 			,EZC_RESERV_BASE.REG_ID AS regId	/* 등록자 ID, VARCHAR2(20) */
 			,EZC_RESERV_BASE.REG_DT AS regDt	/* 등록 일시, VARCHAR2(14) */
 			,EZC_RESERV_BASE.MODI_ID AS modiId	/* 수정자 ID, VARCHAR2(20) */
 			,EZC_RESERV_BASE.MODI_DT AS modiDt	/* 수정 일시, VARCHAR2(14) */
-			,EZC_RESERV_BASE.USER_ID AS userId	/* 회원 ID, VARCHAR2(20) */
 			,EZC_RESERV_ROOM.RESERV_ROOM_NUM AS reservRoomNum	/* 예약 객실 번호, NUMBER(0,22) */
 			,EZC_RESERV_ROOM.PARTNER_ROOM_ORDER_NUM AS partnerRoomOrderNum	/* 제휴사 객실 주문 번호, VARCHAR2(100) */
 			,EZC_RESERV_ROOM.PARTNER_ROOM_GOODS_CD AS partnerRoomGoodsCd	/* 제휴사 객실 상품 코드, VARCHAR2(100) */
@@ -313,13 +302,13 @@ SELECT * FROM (
 			AND EZC_RESERV_BASE.RESERV_NUM = EZC_RESERV_ROOM.RESERV_NUM
 			<if test="dateType != null and dateType != ''">
 				<choose>
-					<when test="dateType == 'R'">
+					<when test='dateType == "R"'>
 						AND TO_DATE(EZC_RESERV_BASE.RESERV_DT, 'yyyyMMdd') BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'yyyyMMdd') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'yyyyMMdd')
 					</when>
-					<when test="dateType == 'C'">
+					<when test='dateType == "C"'>
 						AND TO_DATE(EZC_RESERV_BASE.CHECK_IN_DD, 'yyyyMMdd') BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'yyyyMMdd') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'yyyyMMdd')
 					</when>
-					<when test="dateType == 'J'">
+					<when test='dateType == "J"'>
 						AND TO_DATE(EZC_RESERV_BASE.RESERV_DT, 'yyyyMMdd') BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'yyyyMMdd') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'yyyyMMdd')
 					</when>
 				</choose>
@@ -408,15 +397,12 @@ SELECT * FROM (
 			<if test="modiDt != null and modiDt != ''">
 			AND EZC_RESERV_BASE.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
-			<if test="userId != null and userId != ''">
-			AND EZC_RESERV_BASE.USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */
-			</if>
 		ORDER BY
 			<choose>
-				<when test="dateType == 'R'">
+				<when test='dateType == "R"'>
 					EZC_RESERV_BASE.RESERV_DT, 
 				</when>
-				<when test="dateType == 'C'">
+				<when test='dateType == "C"'>
 					EZC_RESERV_BASE.CHECK_IN_DD, 
 				</when>
 			</choose>		
@@ -464,10 +450,8 @@ UPDATE EZC_RESERV_BASE SET	/* 예약 기본 정보 */
 	,ORDER_NM = #{orderNm, jdbcType=VARCHAR}	/* 회원명 new */
 	,ORDER_MOBILE = #{orderMobile, jdbcType=VARCHAR}	/* 회원전화번호 new */
 	,ORDER_EMAIL = #{orderEmail, jdbcType=VARCHAR}	/* 회원이메일주소 new */
-	,RESERV_REQUEST = #{reservRequest, jdbcType=VARCHAR} /* 요청내용 new */	
 	,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
 	,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
-	,USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */
 WHERE 1=1
 	AND RESERV_NUM = #{reservNum, jdbcType=DECIMAL}	/* 예약 번호, NUMBER(0,22) */
 	AND FACL_CD = #{faclCd, jdbcType=DECIMAL}	/* 시설 코드, NUMBER(0,22) */
@@ -508,10 +492,8 @@ MERGE INTO EZC_RESERV_BASE /* 예약 기본 정보 */
 			,ORDER_NM = #{orderNm, jdbcType=VARCHAR}	/* 회원명 new */
 			,ORDER_MOBILE = #{orderMobile, jdbcType=VARCHAR}	/* 회원전화번호 new */
 			,ORDER_EMAIL = #{orderEmail, jdbcType=VARCHAR}	/* 회원이메일주소 new */
-			,RESERV_REQUEST = #{reservRequest, jdbcType=VARCHAR} /* 요청내용 new */			
 			,MODI_ID = #{modiId, jdbcType=VARCHAR}	/* 수정자 ID, VARCHAR2(20) */
 			,MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
-			,USER_ID = #{userId, jdbcType=VARCHAR}	/* 회원 ID, VARCHAR2(20) */
 	WHEN NOT MATCHED THEN
 		INSERT (
 			 RESERV_NUM	/* 예약 번호, NUMBER(0,22) */
@@ -541,10 +523,8 @@ MERGE INTO EZC_RESERV_BASE /* 예약 기본 정보 */
 			,ORDER_NM	/* 회원명 new */
 			,ORDER_MOBILE	/* 회원전화번호 new */
 			,ORDER_EMAIL	/* 회원이메일주소 new */
-			,RESERV_REQUEST /* 요청내용 new */			
 			,REG_ID	/* 등록자 ID, VARCHAR2(20) */
 			,REG_DT	/* 등록 일시, VARCHAR2(14) */
-			,USER_ID	/* 회원 ID, VARCHAR2(20) */
 		) VALUES (
 			 #{reservNum, jdbcType=DECIMAL}
 			,#{faclCd, jdbcType=DECIMAL}
@@ -573,10 +553,8 @@ MERGE INTO EZC_RESERV_BASE /* 예약 기본 정보 */
 			,#{orderNm, jdbcType=VARCHAR}	/* 회원명 new */
 			,#{orderMobile, jdbcType=VARCHAR}	/* 회원전화번호 new */
 			,#{orderEmail, jdbcType=VARCHAR}	/* 회원이메일주소 new */
-			,#{reservRequest, jdbcType=VARCHAR} /* 요청내용 new */			
 			,#{regId, jdbcType=VARCHAR}
 			,#{regDt, jdbcType=VARCHAR}
-			,#{userId, jdbcType=VARCHAR}
 		)
 </update>
 

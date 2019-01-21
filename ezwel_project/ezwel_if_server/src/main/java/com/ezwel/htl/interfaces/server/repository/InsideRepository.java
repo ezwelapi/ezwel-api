@@ -250,7 +250,7 @@ public class InsideRepository extends AbstractDataAccessObject {
 			}
 		}
 		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "주문대사(제휴사) 저장 장애발생", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "주문대사(제휴사) 조회 장애발생", e);
 		}
 		
 		logger.debug("[END] callAgentJob {}", out);
