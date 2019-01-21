@@ -510,7 +510,7 @@ public class InterfaceFactory {
 					InterfaceFactory.optionalApps = ifc.getOptionalApps();
 				}
 				
-				if(IS_LOGGING)  {
+				if(isMasterServer)  {
 					logger.debug("# LOCAL_HOST_ADDRESS : {}", LOCAL_HOST_ADDRESS);
 					logger.debug("# LOCAL_HOST_NAME : {}", LOCAL_HOST_NAME);
 					logger.debug("# LOCAL_CANONICAL_HOST_NAME : {}", LOCAL_CANONICAL_HOST_NAME);
