@@ -96,10 +96,10 @@ public class AllRegDataOutSDO extends AbstractSDO {
 	@APIFields(description = "시설등급코드", required=true, maxLength=5)
 	private String gradeCode;
 	
-	@APIFields(description = "위도", maxLength=20)
+	@APIFields(description = "위도", maxLength=20, required=true)
 	private String mapX;
 	
-	@APIFields(description = "경도", maxLength=20)
+	@APIFields(description = "경도", maxLength=20, required=true)
 	private String mapY;
 	
 	@APIFields(description = "부대시설 유형", maxLength=500)

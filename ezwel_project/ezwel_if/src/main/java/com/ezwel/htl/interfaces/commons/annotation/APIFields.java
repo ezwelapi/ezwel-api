@@ -38,6 +38,8 @@ public @interface APIFields {
     
     public abstract String groupName() default "";
     
+    public abstract boolean isEzwelcrypto() default false;
+    
     public abstract String[] marshalType() default "";
     
     public abstract int ioType() default -1;

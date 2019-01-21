@@ -64,25 +64,25 @@ public class RsvHistSendDataInSDO extends AbstractSDO {
 	@APIFields(description = "결제완료내역전송 Input 체크아웃", required=true, maxLength=8)
 	private String checkOutDate;
 	
-	@APIFields(description = "결제완료내역전송 Input 회원유저키", required=true, maxLength=20)
+	@APIFields(description = "결제완료내역전송 Input 회원유저키", required=true, maxLength=20, isEzwelcrypto=true)
 	private String memKey;
 	
-	@APIFields(description = "결제완료내역전송 Input 회원명", required=true, maxLength=20)
+	@APIFields(description = "결제완료내역전송 Input 회원명", required=true, maxLength=20, isEzwelcrypto=true)
 	private String memName;
 	
-	@APIFields(description = "결제완료내역전송 Input 회원전화번호", required=true, maxLength=20)
+	@APIFields(description = "결제완료내역전송 Input 회원전화번호", required=true, maxLength=20, isEzwelcrypto=true)
 	private String memPhone;
 	
-	@APIFields(description = "결제완료내역전송 Input 회원이메일주소", required=true, maxLength=100)
+	@APIFields(description = "결제완료내역전송 Input 회원이메일주소", required=true, maxLength=100, isEzwelcrypto=true)
 	private String memEmail;
 	
-	@APIFields(description = "결제완료내역전송 Input 투숙자명", required=true, maxLength=20)
+	@APIFields(description = "결제완료내역전송 Input 투숙자명", required=true, maxLength=20, isEzwelcrypto=true)
 	private String userName;
 	
-	@APIFields(description = "결제완료내역전송 Input 투숙자전화번호", required=true, maxLength=20)
+	@APIFields(description = "결제완료내역전송 Input 투숙자전화번호", required=true, maxLength=20, isEzwelcrypto=true)
 	private String userMobile;
 	
-	@APIFields(description = "결제완료내역전송 Input 투숙자이메일주소", required=true, maxLength=100)
+	@APIFields(description = "결제완료내역전송 Input 투숙자이메일주소", required=true, maxLength=100, isEzwelcrypto=true)
 	private String userEmail;
 	
 	@APIFields(description = "결제완료내역전송 Input 요청내용", maxLength=1000)

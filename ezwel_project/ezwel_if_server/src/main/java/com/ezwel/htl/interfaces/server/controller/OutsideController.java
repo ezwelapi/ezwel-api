@@ -190,10 +190,16 @@ public class OutsideController {
 	}
 
 	@RequestMapping(value = "/callRsvHistSend")
-	@APIOperation(description = "결재완료내역전송 인터페이스", isOutputJsonMarshall = true, returnType = RsvHistSendOutSDO.class)
+	@APIOperation(description = "예약결재완료내역전송 인터페이스", isOutputJsonMarshall = true, returnType = RsvHistSendOutSDO.class)
 	public Object callRsvHistSend(UserAgentSDO userAgentSDO, RsvHistSendInSDO rsvHistSendSDO) {
 
 		outsideIFService = (OutsideIFService) LApplicationContext.getBean(OutsideIFService.class);
+		
+		/**********************************************************************
+		 * 사용자 정보 인코딩 (인터페이스 서버 타는 경우에만 적용되는 부분)
+		 * memKey, memName, memPhone, memEmail, userName, userMobile, userEmail
+		 **********************************************************************/
+		
 		RsvHistSendOutSDO out = outsideIFService.callRsvHistSend(userAgentSDO, rsvHistSendSDO);
 
 		return out;
