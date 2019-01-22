@@ -100,6 +100,9 @@ public class IfLogSDO extends AbstractSDO {
 	@APIFields(description = "오류 내용", maxLength=4000)
 	private String errCont;
 
+	@APIFields(description = "입력 일시")
+	private String inptDt;
+	
 	public String getEncoding() {
 		return encoding;
 	}
@@ -291,6 +294,14 @@ public class IfLogSDO extends AbstractSDO {
 
 	public void setErrCont(String errCont) {
 		this.errCont = errCont;
+	}
+
+	public String getInptDt() {
+		return inptDt;
+	}
+
+	public void setInptDt(String inptDt) {
+		this.inptDt = inptDt;
 	}
 
 

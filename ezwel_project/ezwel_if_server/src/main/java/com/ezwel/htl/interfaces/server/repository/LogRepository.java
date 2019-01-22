@@ -32,9 +32,9 @@ import com.ezwel.htl.interfaces.server.entities.EzcIfLog;
  */
 @Repository
 @APIType(description="인터페이스 로그 데이터 핸들링")
-public class ProcessLogRepository extends AbstractDataAccessObject {
+public class LogRepository extends AbstractDataAccessObject {
 
-	private static final Logger logger = LoggerFactory.getLogger(ProcessLogRepository.class);
+	private static final Logger logger = LoggerFactory.getLogger(LogRepository.class);
 	
 	private PropertyUtil propertyUtil;
 	
@@ -42,7 +42,10 @@ public class ProcessLogRepository extends AbstractDataAccessObject {
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
 	public void insertInterfaceLog(List<IfLogSDO> inInterfaceLogSDO) {
 		if(inInterfaceLogSDO != null) {
+			
+			String inptDt = APIUtil.getFastDate();
 			for(IfLogSDO item : inInterfaceLogSDO) {
+				item.setInptDt(inptDt);
 				insertInterfaceLog(item);
 			}
 		}
@@ -64,6 +67,9 @@ public class ProcessLogRepository extends AbstractDataAccessObject {
 				
 				ezcIfLog = (EzcIfLog) propertyUtil.copySameProperty(inInterfaceLogSDO, EzcIfLog.class);
 				ezcIfLog.setIfExecCd(APIUtil.getId());
+				if(APIUtil.isEmpty(ezcIfLog.getInptDt())) {
+					ezcIfLog.setInptDt(APIUtil.getFastDate());
+				}
 				//logger.debug("# EzcIfLog : {}", ezcIfLog);
 				out = sqlSession.insert(getNamespace("IF_LOG_MAPPER", "insertEzcIfLog"), ezcIfLog);
 				logger.debug("[LOG-SAVED] txSuccess : {}", out);
@@ -152,10 +158,12 @@ public class ProcessLogRepository extends AbstractDataAccessObject {
 			
 			if(inApiBatcLogList != null) {
 				
+				String inptDt = APIUtil.getFastDate();
 				for(ApiBatcLogSDO inApiBatcLog : inApiBatcLogList) {
 					
 					ezcApiBatcLog = (EzcApiBatcLog) propertyUtil.copySameProperty(inApiBatcLog, EzcApiBatcLog.class);
 					ezcApiBatcLog.setBatcExecCd(APIUtil.getId());
+					ezcApiBatcLog.setInptDt(inptDt);
 					//logger.debug("# EzcApiBatcLog : {}", ezcApiBatcLog);
 					out += sqlSession.insert(getNamespace("API_BATC_LOG_MAPPER", "insertEzcApiBatcLog"), ezcApiBatcLog);
 				}

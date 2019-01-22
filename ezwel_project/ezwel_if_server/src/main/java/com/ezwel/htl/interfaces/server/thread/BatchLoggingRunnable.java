@@ -9,7 +9,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.sdo.ApiBatcLogSDO;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractComponent;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
-import com.ezwel.htl.interfaces.server.repository.ProcessLogRepository;
+import com.ezwel.htl.interfaces.server.repository.LogRepository;
 
 
 @APIType(description="배치 로그 저장 Runnable")
@@ -21,7 +21,7 @@ public class BatchLoggingRunnable extends AbstractComponent implements Runnable 
 	
 	private List<ApiBatcLogSDO> apiBatcLogList;
 	
-	private ProcessLogRepository logginRepository;
+	private LogRepository logginRepository;
 	
 	public BatchLoggingRunnable(List<ApiBatcLogSDO> apiBatcLogList) {
 		this.apiBatcLogList = apiBatcLogList;
@@ -30,7 +30,7 @@ public class BatchLoggingRunnable extends AbstractComponent implements Runnable 
 	@Override
 	public void run() {
 		
-		logginRepository = (ProcessLogRepository) LApplicationContext.getBean(logginRepository, ProcessLogRepository.class);
+		logginRepository = (LogRepository) LApplicationContext.getBean(logginRepository, LogRepository.class);
 		logginRepository.insertEzcApiBatcLog(apiBatcLogList);
 	}
 

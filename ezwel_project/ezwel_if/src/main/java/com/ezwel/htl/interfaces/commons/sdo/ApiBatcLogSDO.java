@@ -63,7 +63,8 @@ public class ApiBatcLogSDO extends AbstractSDO {
 	@APIFields(description = "배치 요청자 IP", maxLength=20, required=true, constraints="SYS_C0013889(C)")
 	private String batcReqtIp;
 
-
+	@APIFields(description = "입력 일시")
+	private String inptDt;
 	
 	public String getBatcExecCd() {
 		return batcExecCd;
@@ -160,6 +161,14 @@ public class ApiBatcLogSDO extends AbstractSDO {
 
 	public void setBatcReqtIp(String batcReqtIp) {
 		this.batcReqtIp = batcReqtIp;
+	}
+
+	public String getInptDt() {
+		return inptDt;
+	}
+
+	public void setInptDt(String inptDt) {
+		this.inptDt = inptDt;
 	}
 
 
