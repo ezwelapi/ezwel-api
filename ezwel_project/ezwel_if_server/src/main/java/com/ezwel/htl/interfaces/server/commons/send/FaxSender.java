@@ -5,17 +5,18 @@ import java.sql.Timestamp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
 import com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor;
 import com.ezwel.htl.interfaces.service.data.send.FaxSenderInSDO;
+import com.ezwel.htl.interfaces.service.data.send.FaxSenderOutSDO;
 
 @Component
 @APIType(description="팩스발송 인터페이스")
-public class FaxSender extends AbstractDataAccessObject {
+public class FaxSender {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
 	
@@ -30,7 +31,8 @@ public class FaxSender extends AbstractDataAccessObject {
 	 * @throws NoSuchAlgorithmException
 	 */
 	@APIOperation(description="팩스발송 인터페이스 DB Insert")
-	public void callFaxSender(String trTitle, String trSendName, String trSendFaxNum, String trDocName, String toName, String toPhone) throws NoSuchAlgorithmException {
+	@Async
+	public Object callFaxSender(String trTitle, String trSendName, String trSendFaxNum, String trDocName, String toName, String toPhone) throws NoSuchAlgorithmException {
 		
 		// 팩스발송등록 파라미터
 		FaxSenderInSDO faxSenderInSDO = new FaxSenderInSDO();		
@@ -108,6 +110,11 @@ public class FaxSender extends AbstractDataAccessObject {
 //	             , #{trSendStat}                   /* 발송상태값(0:발송대기,1:발송중,2:발송완료) */
 //	        )
 //	    </insert>
+		
+		FaxSenderOutSDO faxSenderOutSDO = new FaxSenderOutSDO();
+		faxSenderOutSDO.setSuccess(true);
+			
+		return faxSenderOutSDO;
 		
 	}
 	

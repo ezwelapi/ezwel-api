@@ -43,7 +43,7 @@
 		<!-- <faxConfig></faxConfig> -->
 		<!-- MAIL 설정 정보 -->
 		<emailConfig>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/callMailSender</restURI>
+			<restURI>http://ezc-api.jyp.ezwel.com:8282/API1.0/service/callMailSender</restURI>
 			<encoding>UTF-8</encoding>
 			<host>127.0.0.1</host>
 		 	<port>25</port>

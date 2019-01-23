@@ -24,9 +24,9 @@ public class SendMailTest {
 	}
 	
 	@Test
-	public void callMailSender()  throws Exception {
+	public void callMailSenderTest()  throws Exception {
 		
-		logger.debug("[START] callMailSender");
+		logger.debug("[START] callMailSenderTest");
 		
 		//Input value
 		String recipient = "java124@naver.com"; 
@@ -40,10 +40,11 @@ public class SendMailTest {
 		mailSenderInSDO.setBody(body);
 		
 		//interface api call
-		MailSenderOutSDO out = new MailSenderOutSDO();
-		out = (MailSenderOutSDO) sendService.callMailSender(mailSenderInSDO);
+		MailSenderOutSDO out = (MailSenderOutSDO) sendService.callMailSender(mailSenderInSDO, true);
 		
-		logger.debug("[END] callMailSender");
+		logger.debug("[MSG] callMailSenderTest {} {}", out);
+		
+		logger.debug("[END] callMailSenderTest");
 	}
 	
 }

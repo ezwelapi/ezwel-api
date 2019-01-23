@@ -12,6 +12,8 @@ import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.service.data.send.FaxSenderInSDO;
+import com.ezwel.htl.interfaces.service.data.send.FaxSenderOutSDO;
 import com.ezwel.htl.interfaces.service.data.send.MailSenderInSDO;
 import com.ezwel.htl.interfaces.service.data.send.MailSenderOutSDO;
 import com.ezwel.htl.interfaces.service.data.send.SmsSenderInSDO;
@@ -86,7 +88,7 @@ public class SendIFService {
 			httpConfigSDO.setHttpAgentId(null);
 			httpConfigSDO.setHttpApiKey(null);
 			httpConfigSDO.setHttpApiSignature(null);
-			//httpConfigSDO.getHttpApiTimestamp();
+			httpConfigSDO.getHttpApiTimestamp();
 			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getMailConfig().getRestURI());
 			
 			/** execute interface */
@@ -95,6 +97,36 @@ public class SendIFService {
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "메일발송 인터페이스 장애발생.", e);
+		}
+			
+		return out;		
+	}
+	
+	@APIOperation(description="팩스발송 인터페이스 (외부로직접나감)")
+	public FaxSenderOutSDO callFaxSender(FaxSenderInSDO faxSenderInSDO) {
+		return callFaxSender(faxSenderInSDO, false);
+	}
+	
+	@APIOperation(description="팩스발송 인터페이스")
+	public FaxSenderOutSDO callFaxSender(FaxSenderInSDO faxSenderInSDO, boolean isEzwelInsideInterface) {
+		
+		FaxSenderOutSDO out = new FaxSenderOutSDO();
+		
+		try {
+			
+			HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
+			httpConfigSDO.setHttpAgentId(null);
+			httpConfigSDO.setHttpApiKey(null);
+			httpConfigSDO.setHttpApiSignature(null);
+			httpConfigSDO.getHttpApiTimestamp();
+			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getMailConfig().getRestURI());
+			
+			/** execute interface */
+			out = (FaxSenderOutSDO) inteface.sendJSON(httpConfigSDO, faxSenderInSDO, FaxSenderOutSDO.class);
+			
+		}
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "팩스발송 인터페이스 장애발생.", e);
 		}
 			
 		return out;		
