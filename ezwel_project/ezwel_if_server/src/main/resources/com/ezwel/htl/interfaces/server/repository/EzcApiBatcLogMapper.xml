@@ -27,6 +27,7 @@ INSERT INTO EZC_API_BATC_LOG(	/* EZC API 배치 로그 */
 	,ERR_CONT	/* 오류 내용, CLOB(4000) */
 	,BATC_REQT_ID	/* 배치 요청자 ID, VARCHAR2(20) */
 	,BATC_REQT_IP	/* 배치 요청자 IP, VARCHAR2(20) */
+	,INPT_DT
 ) VALUES (
 	 #{batcExecCd, jdbcType=VARCHAR}
 	,#{thedGuid, jdbcType=VARCHAR}
@@ -40,6 +41,7 @@ INSERT INTO EZC_API_BATC_LOG(	/* EZC API 배치 로그 */
 	,#{errCont, jdbcType=CLOB}
 	,#{batcReqtId, jdbcType=VARCHAR}
 	,#{batcReqtIp, jdbcType=VARCHAR}
+	,TO_DATE(#{inptDt, jdbcType=VARCHAR}, 'yyyyMMddHH24miss')
 )
 </insert>
 
@@ -57,6 +59,7 @@ SELECT
 	,EZC_API_BATC_LOG.ERR_CONT AS errCont	/* 오류 내용, CLOB(4000) */
 	,EZC_API_BATC_LOG.BATC_REQT_ID AS batcReqtId	/* 배치 요청자 ID, VARCHAR2(20) */
 	,EZC_API_BATC_LOG.BATC_REQT_IP AS batcReqtIp	/* 배치 요청자 IP, VARCHAR2(20) */
+	,TO_CHAR(EZC_API_BATC_LOG.INPT_DT, 'yyyyMMdd') AS inptDt
 FROM
 	EZC_API_BATC_LOG	/* EZC API 배치 로그 */
 WHERE 1=1
@@ -106,6 +109,9 @@ WHERE 1=1
 	<if test="batcReqtIp != null and batcReqtIp != ''">
 	AND EZC_API_BATC_LOG.BATC_REQT_IP = #{batcReqtIp, jdbcType=VARCHAR}	/* 배치 요청자 IP, VARCHAR2(20) */
 	</if>
+	<if test="inptDt != null and inptDt != ''">
+	AND TO_CHAR(EZC_API_BATC_LOG.INPT_DT, 'yyyyMMdd') = #{inptDt, jdbcType=VARCHAR}	/* 입력 일자, DATE */
+	</if>		
 </select>
 
 <select id="selectListEzcApiBatcLog" resultType="ezcApiBatcLog">
@@ -125,6 +131,7 @@ SELECT * FROM (
 			,EZC_API_BATC_LOG.ERR_CONT AS errCont	/* 오류 내용, CLOB(4000) */
 			,EZC_API_BATC_LOG.BATC_REQT_ID AS batcReqtId	/* 배치 요청자 ID, VARCHAR2(20) */
 			,EZC_API_BATC_LOG.BATC_REQT_IP AS batcReqtIp	/* 배치 요청자 IP, VARCHAR2(20) */
+			,TO_CHAR(EZC_API_BATC_LOG.INPT_DT, 'yyyyMMdd') AS inptDt
 		FROM
 			EZC_API_BATC_LOG	/* EZC API 배치 로그 */
 		WHERE 1=1
@@ -164,6 +171,9 @@ SELECT * FROM (
 			<if test="batcReqtIp != null and batcReqtIp != ''">
 			AND EZC_API_BATC_LOG.BATC_REQT_IP = #{batcReqtIp, jdbcType=VARCHAR}	/* 배치 요청자 IP, VARCHAR2(20) */
 			</if>
+			<if test="inptDt != null and inptDt != ''">
+			AND TO_CHAR(EZC_API_BATC_LOG.INPT_DT, 'yyyyMMdd') = #{inptDt, jdbcType=VARCHAR}	/* 입력 일자, DATE */
+			</if>				
 		ORDER BY
 			EZC_API_BATC_LOG.BATC_EXEC_CD DESC
 		/* #### SQL Body ]] ################# */
@@ -185,6 +195,7 @@ UPDATE EZC_API_BATC_LOG SET	/* EZC API 배치 로그 */
 	,ERR_CONT = #{errCont, jdbcType=CLOB}	/* 오류 내용, CLOB(4000) */
 	,BATC_REQT_ID = #{batcReqtId, jdbcType=VARCHAR}	/* 배치 요청자 ID, VARCHAR2(20) */
 	,BATC_REQT_IP = #{batcReqtIp, jdbcType=VARCHAR}	/* 배치 요청자 IP, VARCHAR2(20) */
+	,INPT_DT = TO_DATE(#{inptDt, jdbcType=VARCHAR}, 'yyyyMMddHH24miss')
 WHERE 1=1
 	AND BATC_EXEC_CD = #{batcExecCd, jdbcType=VARCHAR}	/* 배치 실행 코드, VARCHAR2(32) */
 	AND THED_GUID = #{thedGuid, jdbcType=VARCHAR}	/* 쓰레드 GUID, VARCHAR2(32) */
@@ -208,6 +219,7 @@ MERGE INTO EZC_API_BATC_LOG /* EZC API 배치 로그 */
 			,ERR_CONT = #{errCont, jdbcType=CLOB}	/* 오류 내용, CLOB(4000) */
 			,BATC_REQT_ID = #{batcReqtId, jdbcType=VARCHAR}	/* 배치 요청자 ID, VARCHAR2(20) */
 			,BATC_REQT_IP = #{batcReqtIp, jdbcType=VARCHAR}	/* 배치 요청자 IP, VARCHAR2(20) */
+			,INPT_DT = TO_DATE(#{inptDt, jdbcType=VARCHAR}, 'yyyyMMddHH24miss')
 	WHEN NOT MATCHED THEN
 		INSERT (
 			 BATC_EXEC_CD	/* 배치 실행 코드, VARCHAR2(32) */
@@ -222,6 +234,7 @@ MERGE INTO EZC_API_BATC_LOG /* EZC API 배치 로그 */
 			,ERR_CONT	/* 오류 내용, CLOB(4000) */
 			,BATC_REQT_ID	/* 배치 요청자 ID, VARCHAR2(20) */
 			,BATC_REQT_IP	/* 배치 요청자 IP, VARCHAR2(20) */
+			,INPT_DT
 		) VALUES (
 			 #{batcExecCd, jdbcType=VARCHAR}
 			,#{thedGuid, jdbcType=VARCHAR}
@@ -235,6 +248,7 @@ MERGE INTO EZC_API_BATC_LOG /* EZC API 배치 로그 */
 			,#{errCont, jdbcType=CLOB}
 			,#{batcReqtId, jdbcType=VARCHAR}
 			,#{batcReqtIp, jdbcType=VARCHAR}
+			,TO_DATE(#{inptDt, jdbcType=VARCHAR}, 'yyyyMMddHH24miss')
 		)
 </update>
 

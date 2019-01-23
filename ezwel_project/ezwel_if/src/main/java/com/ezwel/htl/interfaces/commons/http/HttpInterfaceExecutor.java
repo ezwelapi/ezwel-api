@@ -455,14 +455,12 @@ public class HttpInterfaceExecutor {
 				Thread.sleep(RETRY_INTERVAL_MILLISECOND);
 				
 				in.setCallCount(in.getCallCount() + 1);   
-				sendJSON(in, inputObject, outputType);
-				
-				out = setSendJSONException(e, in, outputType);
+				out = sendJSON(in, inputObject, outputType);
 			}
 			
-		} catch (APIException e) {
+		} catch (APIException e) { 
 			out = setSendJSONException(e, in, outputType);
-		} catch (Exception e) {
+		} catch (Exception e) { 
 			out = setSendJSONException(e, in, outputType);
 		} finally {
 			

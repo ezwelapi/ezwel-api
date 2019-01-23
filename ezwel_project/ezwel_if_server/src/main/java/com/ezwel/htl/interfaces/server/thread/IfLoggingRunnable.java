@@ -9,7 +9,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractComponent;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
-import com.ezwel.htl.interfaces.server.repository.ProcessLogRepository;
+import com.ezwel.htl.interfaces.server.repository.LogRepository;
 
 
 @APIType(description="인터페이스 로그 저장 Runnable")
@@ -23,7 +23,7 @@ public class IfLoggingRunnable extends AbstractComponent implements Runnable {
 	
 	private List<IfLogSDO> inInterfaceLogList;
 	
-	private ProcessLogRepository loggerRepository;
+	private LogRepository loggerRepository;
 	
 	public IfLoggingRunnable(IfLogSDO inInterfaceLogSDO) {
 		this.inInterfaceLogSDO = inInterfaceLogSDO;
@@ -35,11 +35,12 @@ public class IfLoggingRunnable extends AbstractComponent implements Runnable {
 	
 	@Override
 	public void run() {
+		logger.debug("[IfLoggingRunnable-START] {}", Thread.currentThread().getName());
 		
-		loggerRepository = (ProcessLogRepository) LApplicationContext.getBean(loggerRepository, ProcessLogRepository.class);
+		loggerRepository = (LogRepository) LApplicationContext.getBean(loggerRepository, LogRepository.class);
 		if(inInterfaceLogSDO != null) {
 			loggerRepository.insertInterfaceLog(inInterfaceLogSDO);
-		}
+		} 
 		else if(inInterfaceLogList != null) {
 			loggerRepository.insertInterfaceLog(inInterfaceLogList);
 		}

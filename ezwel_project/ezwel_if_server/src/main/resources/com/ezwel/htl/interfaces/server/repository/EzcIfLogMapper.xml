@@ -38,6 +38,7 @@ INSERT INTO EZC_IF_LOG(	/* EZC 인터페이스 로그 */
 	,SUCC_YN	/* 성공 여부, CHAR(1) */
 	,EXEC_MSG	/* 실행 메시지, VARCHAR2(8) */
 	,ERR_CONT	/* 오류 내용, CLOB(4000) */
+	,INPT_DT
 ) VALUES (
 	 #{ifExecCd, jdbcType=VARCHAR}
 	,#{thedGuid, jdbcType=VARCHAR}
@@ -62,6 +63,7 @@ INSERT INTO EZC_IF_LOG(	/* EZC 인터페이스 로그 */
 	,#{succYn, jdbcType=CHAR}
 	,#{execMsg, jdbcType=VARCHAR}
 	,#{errCont, jdbcType=CLOB}
+	,TO_DATE(#{inptDt, jdbcType=VARCHAR}, 'yyyyMMddHH24miss')
 )
 </insert>
 
@@ -90,6 +92,7 @@ SELECT
 	,EZC_IF_LOG.SUCC_YN AS succYn	/* 성공 여부, CHAR(1) */
 	,EZC_IF_LOG.EXEC_MSG AS execMsg	/* 실행 메시지, VARCHAR2(8) */
 	,EZC_IF_LOG.ERR_CONT AS errCont	/* 오류 내용, CLOB(4000) */
+	,TO_CHAR(EZC_IF_LOG.INPT_DT, 'yyyyMMdd') AS inptDt
 FROM
 	EZC_IF_LOG	/* EZC 인터페이스 로그 */
 WHERE 1=1
@@ -97,6 +100,7 @@ WHERE 1=1
 	AND EZC_IF_LOG.SUCC_YN = #{succYn, jdbcType=CHAR}	/* 성공 여부, CHAR(1) */
 	</if>
 	AND EZC_IF_LOG.IF_EXEC_CD = #{ifExecCd, jdbcType=VARCHAR}	/* 인터페이스 실행 코드, VARCHAR2(32), EZC_IF_LOG_PK(P),SYS_C0013738(C) */
+	AND EZC_IF_LOG.THED_GUID = #{thedGuid, jdbcType=VARCHAR}	/* 쓰레드 GUID, VARCHAR2(32) */
 </select>
 
 <select id="selectCountEzcIfLog" parameterType="ezcIfLog" resultType="java.lang.Integer">
@@ -171,6 +175,9 @@ WHERE 1=1
 	<if test="errCont != null and errCont != ''">
 	AND EZC_IF_LOG.ERR_CONT LIKE '%' || #{errCont, jdbcType=CLOB} || '%'	/* 오류 내용, CLOB(4000) */
 	</if>
+	<if test="inptDt != null and inptDt != ''">
+	AND TO_CHAR(EZC_IF_LOG.INPT_DT, 'yyyyMMdd') = #{inptDt, jdbcType=VARCHAR}	/* 입력 일자, DATE */
+	</if>			
 </select>
 
 <select id="selectListEzcIfLog" resultType="ezcIfLog">
@@ -201,6 +208,7 @@ SELECT * FROM (
 			,EZC_IF_LOG.SUCC_YN AS succYn	/* 성공 여부, CHAR(1) */
 			,EZC_IF_LOG.EXEC_MSG AS execMsg	/* 실행 메시지, VARCHAR2(8) */
 			,EZC_IF_LOG.ERR_CONT AS errCont	/* 오류 내용, CLOB(4000) */
+			,TO_CHAR(EZC_API_BATC_LOG.INPT_DT, 'yyyyMMdd') AS inptDt
 		FROM
 			EZC_IF_LOG	/* EZC 인터페이스 로그 */
 		WHERE 1=1
@@ -270,6 +278,9 @@ SELECT * FROM (
 			<if test="errCont != null and errCont != ''">
 			AND EZC_IF_LOG.ERR_CONT LIKE '%' || #{errCont, jdbcType=CLOB} || '%'	/* 오류 내용, CLOB(4000) */
 			</if>
+			<if test="inptDt != null and inptDt != ''">
+			AND TO_CHAR(EZC_IF_LOG.INPT_DT, 'yyyyMMdd') = #{inptDt, jdbcType=VARCHAR}	/* 입력 일자, DATE */
+			</if>			
 		ORDER BY
 			EZC_IF_LOG.IF_EXEC_CD DESC
 		/* #### SQL Body ]] ################# */
@@ -303,14 +314,17 @@ UPDATE EZC_IF_LOG SET	/* EZC 인터페이스 로그 */
 	,SUCC_YN = #{succYn, jdbcType=CHAR}	/* 성공 여부, CHAR(1) */
 	,EXEC_MSG = #{execMsg, jdbcType=VARCHAR}	/* 실행 메시지, VARCHAR2(8) */
 	,ERR_CONT = #{errCont, jdbcType=CLOB}	/* 오류 내용, CLOB(4000) */
+	,INPT_DT = TO_DATE(#{inptDt, jdbcType=VARCHAR}, 'yyyyMMddHH24miss')
 WHERE 1=1
 	AND IF_EXEC_CD = #{ifExecCd, jdbcType=VARCHAR}	/* 인터페이스 실행 코드, VARCHAR2(32) */
+	AND THED_GUID = #{thedGuid, jdbcType=VARCHAR}	/* 쓰레드 GUID, VARCHAR2(32) */
 </update>
 
 <update id="mergeEzcIfLog" parameterType="ezcIfLog">
 MERGE INTO EZC_IF_LOG /* EZC 인터페이스 로그 */
 	USING DUAL ON (
 		IF_EXEC_CD = #{ifExecCd, jdbcType=VARCHAR}	/* 인터페이스 실행 코드, VARCHAR2(32) */
+		AND THED_GUID = #{thedGuid, jdbcType=VARCHAR}	/* 쓰레드 GUID, VARCHAR2(32) */
 	)
 	WHEN MATCHED THEN
 		UPDATE SET
@@ -336,6 +350,7 @@ MERGE INTO EZC_IF_LOG /* EZC 인터페이스 로그 */
 			,SUCC_YN = #{succYn, jdbcType=CHAR}	/* 성공 여부, CHAR(1) */
 			,EXEC_MSG = #{execMsg, jdbcType=VARCHAR}	/* 실행 메시지, VARCHAR2(8) */
 			,ERR_CONT = #{errCont, jdbcType=CLOB}	/* 오류 내용, CLOB(4000) */
+			,INPT_DT = TO_DATE(#{inptDt, jdbcType=VARCHAR}, 'yyyyMMddHH24miss')
 	WHEN NOT MATCHED THEN
 		INSERT (
 			 IF_EXEC_CD	/* 인터페이스 실행 코드, VARCHAR2(32) */
@@ -361,6 +376,7 @@ MERGE INTO EZC_IF_LOG /* EZC 인터페이스 로그 */
 			,SUCC_YN	/* 성공 여부, CHAR(1) */
 			,EXEC_MSG	/* 실행 메시지, VARCHAR2(8) */
 			,ERR_CONT	/* 오류 내용, CLOB(4000) */
+			,INPT_DT
 		) VALUES (
 			 #{ifExecCd, jdbcType=VARCHAR}
 			,#{thedGuid, jdbcType=VARCHAR}
@@ -385,6 +401,7 @@ MERGE INTO EZC_IF_LOG /* EZC 인터페이스 로그 */
 			,#{succYn, jdbcType=CHAR}
 			,#{execMsg, jdbcType=VARCHAR}
 			,#{errCont, jdbcType=CLOB}
+			,TO_DATE(#{inptDt, jdbcType=VARCHAR}, 'yyyyMMddHH24miss')
 		)
 </update>
 
@@ -392,6 +409,7 @@ MERGE INTO EZC_IF_LOG /* EZC 인터페이스 로그 */
 DELETE FROM EZC_IF_LOG /* EZC 인터페이스 로그 */
 WHERE 1=1
 	AND IF_EXEC_CD = #{ifExecCd, jdbcType=VARCHAR}	/* 인터페이스 실행 코드, VARCHAR2(32) */
+	AND THED_GUID = #{thedGuid, jdbcType=VARCHAR}	/* 쓰레드 GUID, VARCHAR2(32) */
 </delete>
 
 

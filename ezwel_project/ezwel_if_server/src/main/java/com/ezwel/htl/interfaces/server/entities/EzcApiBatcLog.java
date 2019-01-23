@@ -1,7 +1,5 @@
 package com.ezwel.htl.interfaces.server.entities;
 
-import java.math.BigDecimal;
-
 import org.apache.ibatis.type.Alias;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
@@ -64,7 +62,9 @@ public class EzcApiBatcLog extends AbstractEntity {
 	@APIFields(description = "배치 요청자 IP", maxLength=20, required=true, constraints="SYS_C0013889(C)")
 	private String batcReqtIp;
 
-
+	@APIFields(description = "입력 일시")
+	private String inptDt;
+	
 	
 	public String getBatcExecCd() {
 		return batcExecCd;
@@ -160,6 +160,14 @@ public class EzcApiBatcLog extends AbstractEntity {
 
 	public void setBatcReqtIp(String batcReqtIp) {
 		this.batcReqtIp = batcReqtIp;
+	}
+
+	public String getInptDt() {
+		return inptDt;
+	}
+
+	public void setInptDt(String inptDt) {
+		this.inptDt = inptDt;
 	}
 
 

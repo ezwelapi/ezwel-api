@@ -1,6 +1,7 @@
 package com.ezwel.htl.interfaces.server.commons.utils;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,14 +10,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.UnknownHostException; 
 import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 
-import org.slf4j.Logger;
+import org.slf4j.Logger; 
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
@@ -47,6 +53,12 @@ import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 public class FileUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
+	
+	private final static int URL_CONNECT_TIMEOUT = 5000;
+	
+	private final static int RETRY_INTERVAL_MILLISECOND = 5000;
+	
+	private final static int RETRY_COUNT = 2;
 	
 	private WebApplicationContext context;
 	
@@ -88,7 +100,6 @@ public class FileUtil {
 		
 		File outputFile = null;
 		URL url = null;
-		BufferedImage bufferedImage = null;
 		String fileExt = null;
 		String chngFileName = null;
 		String orgFileName = null;
@@ -167,10 +178,13 @@ public class FileUtil {
 						}
 
 						namedSDO = (ImageSDO) propertyUtil.copySameProperty(imageSDO, ImageSDO.class);
-						// URL 이미지 읽음
-						bufferedImage = ImageIO.read(url);
-						// URL 이미지 작성
-						namedSDO.setSave(ImageIO.write(bufferedImage, fileExt, outputFile));
+						
+						// URL 이미지 다운로드 version.1
+						//namedSDO.setSave(isDownloadImageIO(url, fileExt, outputFile));
+						
+						// URL 이미지 다운로드 version.2
+						namedSDO.setSave(isDownloadURLStream(url, outputFile, 0));
+						
 						// 저장소 루트를 제외한 경로
 						namedSDO.setFileExt(fileExt);
 						namedSDO.setFileSize(outputFile.length());
@@ -197,6 +211,106 @@ public class FileUtil {
 		logger.debug("[END] getSaveImagePath {} : {}", imageRootPath, namedSDO.getRelativePath());
 		return namedSDO;
 	}
+	
+	
+	/**
+	 * ImageIO 사용
+	 * URL 이미지 다운로드 version.1
+	 * @param url
+	 * @param fileExt
+	 * @param outputFile
+	 * @return
+	 */
+	public boolean isDownloadImageIO(URL url, String fileExt, File outputFile) {
+		boolean out = false;
+		BufferedImage bufferedImage = null;
+
+		try {
+			// URL 이미지 읽음
+			bufferedImage = ImageIO.read(url);
+			// 이미지 write
+			out = ImageIO.write(bufferedImage, fileExt, outputFile);
+		}
+		catch(Exception e) {
+			logger.error("[isDownloadImageIO] Exception : {}\n{}", url, stackTraceUtil.getStackTrace(e));
+		}
+		
+		return out;
+	}
+	
+	
+	public boolean isDownloadURLStream(URL url, File outputFile, int callCount) {
+		
+		boolean out = false;
+
+		URLConnection conn = null;
+		OutputStream os = null;
+		InputStream in = null;
+		byte[] buffer = null;
+		int numRead = OperateConstants.INTEGER_ZERO_VALUE;
+		long numWritten = OperateConstants.LONG_ZERO_VALUE;
+		
+		try {
+			
+			os = new BufferedOutputStream(new FileOutputStream(outputFile));
+			conn = url.openConnection();
+			conn.setConnectTimeout(URL_CONNECT_TIMEOUT);
+			in = conn.getInputStream();
+			
+			buffer = new byte[8192];
+			while ((numRead = in.read(buffer)) != -1) {
+				os.write(buffer, 0, numRead);
+				numWritten += numRead;
+			}
+			
+			if(numWritten > OperateConstants.LONG_ZERO_VALUE && outputFile.exists()) {
+				logger.debug("[SUCCESS] isDownloadURLStream Written : {}\nURL : {}\nFilePath : {}", numWritten, url, outputFile.getPath());
+				out = true;	
+			}
+			else {
+				logger.debug("[FAIL] isDownloadURLStream Failed to download URL file. {}", url);
+			}
+		} catch (SocketTimeoutException e) {
+			// Connect | Read timed out 이후 5초후 1 회 다시 호출
+			if(callCount > (RETRY_COUNT - 1)) {
+				logger.error(APIUtil.formatMessage("[SocketTimeoutException] 호스트에 접속할 수 없습니다. 재호출({})회", (callCount + 1)), e);	
+			}
+			else {
+				try {
+					logger.debug("* 고객 요구사항 Connection/Read Timeout 발생시 5초후 재시도 2회 {}", url);
+					Thread.sleep(RETRY_INTERVAL_MILLISECOND);
+				} catch (InterruptedException ie) {
+					logger.debug("[InterruptedException] 타임아웃으로 다시 호출 시도 인터벌중 장애발생", ie);
+				}
+ 
+				out = isDownloadURLStream(url, outputFile, (callCount + 1));
+			}
+		} catch (UnknownHostException e) {
+			logger.error("[UnknownHostException] 호스트를 찾을수 없습니다.", e);
+		} catch (Exception e) {
+			logger.error(APIUtil.formatMessage("[Exception] isDownloadURLStream URL : {}", url), e);
+		} finally {
+			
+			try {
+				
+				if (in != null) {
+					in.close();
+				}
+				if (os != null) {
+					os.close();
+				}
+			} catch (IOException ioe) {
+				logger.error(APIUtil.formatMessage("[isDownloadURLStream] stream not closed URL : {}", url), ioe);
+			}
+			
+			if(conn != null) {
+				((HttpURLConnection) conn).disconnect();
+			}
+		}
+		
+		return out;
+	}
+	
 	
     /**
      * FS의 디렉토리 존재여부를 판단하고 존재하지 않는다면 생성합니다.

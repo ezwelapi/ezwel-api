@@ -380,6 +380,9 @@ public class OutsideService extends AbstractServiceObject {
 				//try 절에서 clear전 Exception 발생시 finally에서 clear
 				faclMorpSearchList.clear();
 			}
+			if(executor != null) {
+				executor.clear();
+			}
 			
 			//시설 매핑 실행 종료 전환
 			isFaclMappingRunning = false;
