@@ -43,8 +43,7 @@ public class CryptUtil {
 			return word;
 		}
 		
-		String out = MD5.getInstance().getHashString(word);
-		return out;
+		return MD5.getInstance().getHashString(word);
 	}
 	
 	@APIOperation
