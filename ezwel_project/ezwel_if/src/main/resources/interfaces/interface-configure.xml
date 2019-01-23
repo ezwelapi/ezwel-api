@@ -9,7 +9,7 @@
 			<devRootPath>/Volume/data/nas_image/ezwel-image/ezcheckin/</devRootPath>
 			<prodRootPath>/Volume/data/nas_image/ezwel-image/ezcheckin/</prodRootPath>
 		</buildImage>  
-		<!-- 배치 에러로그 저장 ROOT PATH -->
+		<!-- 배치 에러로그 저장 ROOT PATH (배치 에러로그 DB에 저장하는것으로 변경) -->
 		<errorLog>
 			<localRootPath>D:/ezwel-repository/tempFileRepository/batchLog/</localRootPath>
 			<devRootPath>/Volume/data/webroot/ezwel-welfare-checkin/services/ezc-api/logs/batch/</devRootPath>
