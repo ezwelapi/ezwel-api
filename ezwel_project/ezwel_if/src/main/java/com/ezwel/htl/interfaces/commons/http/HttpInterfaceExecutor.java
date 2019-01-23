@@ -458,9 +458,9 @@ public class HttpInterfaceExecutor {
 				out = sendJSON(in, inputObject, outputType);
 			}
 			
-		} catch (APIException e) {
+		} catch (APIException e) { 
 			out = setSendJSONException(e, in, outputType);
-		} catch (Exception e) {
+		} catch (Exception e) { 
 			out = setSendJSONException(e, in, outputType);
 		} finally {
 			

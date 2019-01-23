@@ -28,7 +28,7 @@ public class BatchLoggingRunnable extends AbstractComponent implements Runnable 
 	}
 	
 	@Override
-	public void run() {
+	public void run() { 
 		logger.debug("[BatchLoggingRunnable-START] {}", Thread.currentThread().getName());
 		
 		logginRepository = (LogRepository) LApplicationContext.getBean(logginRepository, LogRepository.class);

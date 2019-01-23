@@ -58,11 +58,11 @@ public class RoomReadMultiCallable extends AbstractComponent implements Callable
 		
 		RoomReadOutSDO out = null;
 		
-		try {
+		try { 
 			if(IS_LOGGING) {
 				logger.debug("[START-RoomReadMultiService({})] 객실 정보 조회 멀티 => userAgentSDO : {}, roomReadSDO : {}", count, userAgentSDO, roomReadSDO);
 			}
-			
+			 
 			outsideIFService = (OutsideIFService) LApplicationContext.getBean(outsideIFService, OutsideIFService.class);
 			
 			userAgentSDO.setMultiThread(true);

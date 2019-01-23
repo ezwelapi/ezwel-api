@@ -55,7 +55,7 @@ public class DownloadMultiCallable extends AbstractComponent implements Callable
 			}
 			out = fileUtil.getImageDownload(imageParam, true);
 			out.setDummy(imageParam.getDummy());
-			if(IS_LOGGING) {
+			if(IS_LOGGING) { 
 				logger.debug("[DOWNLOAD-END] BUILD IMAGE DOWNLOAD : {}", out.isSave());
 			}
 		}

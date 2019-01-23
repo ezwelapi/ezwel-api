@@ -40,7 +40,7 @@ public class IfLoggingRunnable extends AbstractComponent implements Runnable {
 		loggerRepository = (LogRepository) LApplicationContext.getBean(loggerRepository, LogRepository.class);
 		if(inInterfaceLogSDO != null) {
 			loggerRepository.insertInterfaceLog(inInterfaceLogSDO);
-		}
+		} 
 		else if(inInterfaceLogList != null) {
 			loggerRepository.insertInterfaceLog(inInterfaceLogList);
 		}

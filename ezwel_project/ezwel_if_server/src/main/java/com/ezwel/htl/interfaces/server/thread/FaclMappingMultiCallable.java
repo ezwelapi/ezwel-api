@@ -67,7 +67,7 @@ public class FaclMappingMultiCallable extends AbstractComponent implements Calla
 			faclMappingComponent = (FaclMappingComponent) LApplicationContext.getBean(faclMappingComponent, FaclMappingComponent.class);
 			outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
 			
-			if(IS_LOGGING) {
+			if(IS_LOGGING) { 
 				logger.debug("[START-FaclMappingMulti({})] 다중 시설 매핑 : {}", count, faclCode);
 			}
 			//::DB 도시,지역,숙소유형,숙소등급 파라매터의 시설코드별 형태소 목록  ( FACL_MORP_PAGE_SIZE 개수 만큼 끊어 읽음 속도 및 타임아웃 이슈 )

@@ -37,9 +37,9 @@ public class ImageTest3 implements Callable<Integer> {
 		finally {
 			//Local.remove();
 			
-			//Thread.sleep(500);
+			//Thread.sleep(500); 
 		}
-		
+		 
 		//logger.debug("ImageTest3 result : {} ", out);
 		return out;
 	}

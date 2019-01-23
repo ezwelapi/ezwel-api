@@ -15,7 +15,7 @@
 			<devRootPath>/Volume/data/webroot/ezwel-welfare-checkin/services/ezc-api/logs/batch/</devRootPath>
 			<prodRootPath>/Volume/data/webroot/ezwel-welfare-checkin/services/ezc-api/logs/batch/</prodRootPath>
 		</errorLog>
-	</fileRepository>
+	</fileRepository>  
 	
 	<!-- 시설 매핑 설정 정보 -->
 	<faclMapping>
