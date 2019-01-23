@@ -403,10 +403,10 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		
 		try {
 			
-			if(finalFaclImgList != null) {
+			if(finalFaclImgList != null && finalFaclImgList.size() > 0) {
 			
 				executor = new CallableExecutor();
-				executor.initThreadPool(10);				
+				executor.initThreadPool(finalFaclImgList.size());				
 				
 				for(dataIndex = 0; dataIndex < finalFaclImgList.size(); dataIndex++) {
 					ezcFaclImg = finalFaclImgList.get(dataIndex);
@@ -456,6 +456,12 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			}
 			else {
 				throw new APIException("이미지 다운르드 경로 DB 다건 저장 실패 {}", new Object[] {e.getMessage()}, e) ;
+			}
+		}
+		finally {
+			
+			if(executor != null) {
+				executor.clear();
 			}
 		}
 

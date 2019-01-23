@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 
 /**
@@ -32,8 +33,6 @@ public class CallableExecutor {
 	
 	private List<Future<?>> result;
 	
-	public CallableExecutor() {}
-	
 	public void initThreadPool(int poolCount) {
 		if(executor != null) {
 			this.clear();
@@ -45,12 +44,29 @@ public class CallableExecutor {
 		result = new ArrayList<Future<?>>();
 	}
 	
-	public <T> Future<T> call(Callable<T> task) {
-		return executor.submit(task);
+	public <T> Future<T> call(Callable<T> task, Long sleepMillis) {
+		Future<T> future = null;
+		try {
+
+			future = executor.submit(task);
+			
+			if(sleepMillis != null && sleepMillis > OperateConstants.LONG_ZERO_VALUE) {
+				Thread.sleep(sleepMillis);
+			}
+		} catch (InterruptedException e) {
+			logger.error("[CallableExecutor Call]", e);
+		} catch (Exception e) {
+			logger.error("[CallableExecutor Call]", e);
+		}
+		return future;
 	}
 	
 	public boolean addCall(Callable<?> task) {
-		return addResult(call(task));
+		return addCall(task, null);
+	}
+	
+	public boolean addCall(Callable<?> task, Long sleepMillis) {
+		return addResult(call(task, sleepMillis));
 	}
 	
 	public boolean addResult(Future<?> in){
