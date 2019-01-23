@@ -35,6 +35,7 @@ public class IfLoggingRunnable extends AbstractComponent implements Runnable {
 	
 	@Override
 	public void run() {
+		logger.debug("[IfLoggingRunnable-START] {}", Thread.currentThread().getName());
 		
 		loggerRepository = (LogRepository) LApplicationContext.getBean(loggerRepository, LogRepository.class);
 		if(inInterfaceLogSDO != null) {

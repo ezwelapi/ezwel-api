@@ -45,6 +45,8 @@ public class DownloadMultiCallable extends AbstractComponent implements Callable
 	 */
 	@Override
 	public ImageSDO call() throws Exception {
+		logger.debug("[DownloadMultiCallable-START] {}", Thread.currentThread().getName());
+		
 		ImageSDO out = null;
 		
 		try {

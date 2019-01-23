@@ -54,6 +54,7 @@ public class RoomReadMultiCallable extends AbstractComponent implements Callable
 	 */
 	@Override
 	public RoomReadOutSDO call() {
+		logger.debug("[RoomReadMultiCallable-START] {}", Thread.currentThread().getName());
 		
 		RoomReadOutSDO out = null;
 		

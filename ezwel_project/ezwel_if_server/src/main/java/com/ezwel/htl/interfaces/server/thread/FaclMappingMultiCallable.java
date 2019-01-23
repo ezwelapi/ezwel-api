@@ -57,6 +57,7 @@ public class FaclMappingMultiCallable extends AbstractComponent implements Calla
 	 */
 	@Override
 	public List<EzcFacl> call() {
+		logger.debug("[FaclMappingMultiCallable-START] {}", Thread.currentThread().getName());
 		
 		List<EzcFacl> out = null;
 		List<EzcFacl> faclMorpSearchList = null;
