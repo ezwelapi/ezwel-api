@@ -40,7 +40,6 @@
 			<encoding>UTF-8</encoding>
 			<smsURI>http://wow.ezwel.com/common/sms/send.ez</smsURI>
 		</smsConfig>
-		<!-- <faxConfig></faxConfig> -->
 		<!-- MAIL 설정 정보 -->
 		<emailConfig>
 			<restURI>http://ezc-api.jyp.ezwel.com:8282/API1.0/service/callMailSender</restURI>
@@ -52,6 +51,11 @@
 		 	<userName>yanagi10</userName>
 		 	<passWord>20312@jong</passWord>
 		</emailConfig>
+		<!-- FAX 설정 정보 -->
+		<faxConfig>
+			<restURI>http://ezc-api.jyp.ezwel.com:8282/API1.0/service/callFaxSender</restURI>
+			<encoding>UTF-8</encoding>
+		</faxConfig>
 	</optionalApps>
 	
 	<!-- 제휴사 목록 -->
