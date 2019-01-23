@@ -35,14 +35,14 @@ public class MailSender {
 	@APIOperation(description="메일발송 인터페이스")
 	protected void callMailSender(String recipient, String subject, String body) throws Exception {
 		
-		String host = InterfaceFactory.getOptionalApps().getEmailConfig().getHost();
-		String port = InterfaceFactory.getOptionalApps().getEmailConfig().getPort();
-		String from = InterfaceFactory.getOptionalApps().getEmailConfig().getFrom();
-		String fromName = InterfaceFactory.getOptionalApps().getEmailConfig().getFromName();
-		String userName = InterfaceFactory.getOptionalApps().getEmailConfig().getUserName();
-		String passWord = InterfaceFactory.getOptionalApps().getEmailConfig().getPassWord();
-		String connTimeout = InterfaceFactory.getOptionalApps().getEmailConfig().getConnTimeout();
-		String readTimeout = InterfaceFactory.getOptionalApps().getEmailConfig().getReadTimeout();
+		String host = InterfaceFactory.getOptionalApps().getMailConfig().getHost();
+		String port = InterfaceFactory.getOptionalApps().getMailConfig().getPort();
+		String from = InterfaceFactory.getOptionalApps().getMailConfig().getFrom();
+		String fromName = InterfaceFactory.getOptionalApps().getMailConfig().getFromName();
+		String userName = InterfaceFactory.getOptionalApps().getMailConfig().getUserName();
+		String passWord = InterfaceFactory.getOptionalApps().getMailConfig().getPassWord();
+		String connTimeout = InterfaceFactory.getOptionalApps().getMailConfig().getConnTimeout();
+		String readTimeout = InterfaceFactory.getOptionalApps().getMailConfig().getReadTimeout();
 		
 		//properties 설정
 		Properties props = System.getProperties();

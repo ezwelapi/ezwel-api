@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.commons.send;
+package com.ezwel.htl.interfaces.server.commons.send;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,10 +20,12 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.HttpHeaderConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
-import com.ezwel.htl.interfaces.commons.send.data.SmsSenderSDO;
+import com.ezwel.htl.interfaces.service.data.send.SmsSenderInSDO;
+import com.ezwel.htl.interfaces.service.data.send.SmsSenderOutSDO;
 
 @Component
 @APIType(description="문자발송 인터페이스")
@@ -31,20 +33,23 @@ public class SmsSender {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
 	
+	static final String CALLFROM = "0232820579"; //수신번호
+	static final String SVC_TYPE = "1008";		 //서비스구분코드(숙박)
+	
 	@APIOperation(description="문자발송 인터페이스 HttpURLConnection")
-	public static String requestUrl(HttpConfigSDO httpConfigSDO, SmsSenderSDO smsSenderSDO) throws Exception {
+	public Object requestUrl(SmsSenderInSDO smsSenderInSDO) throws Exception {
 		
 		String params = null;
 		
 		// 발송정보생성
-		String callTo = smsSenderSDO.getCallTo();		
+		String callTo = smsSenderInSDO.getCallTo();		
 		String callFrom = "";
-		if (StringUtils.isEmpty(smsSenderSDO.getCallFrom())) {
-			callFrom = "0232820579";
+		if (StringUtils.isEmpty(smsSenderInSDO.getCallFrom())) {
+			callFrom = CALLFROM;
 		}		
-		String smsTxt = URLEncoder.encode(smsSenderSDO.getSmsTxt(), "euc-kr");
-		String svcType = "1008";
-		String templateCode = smsSenderSDO.getTemplateCode();		
+		String smsTxt = URLEncoder.encode(smsSenderInSDO.getSmsTxt(), "euc-kr");
+		String svcType = SVC_TYPE;
+		String templateCode = smsSenderInSDO.getTemplateCode();		
 		String smsUseYn = "N";
 		if (StringUtils.isEmpty(templateCode)) {
 			smsUseYn = "Y";
@@ -52,8 +57,9 @@ public class SmsSender {
 		
 		params = "callTo="+callTo+"&callFrom="+callFrom+"&smsTxt="+smsTxt+"&svcType="+svcType+"&smsUseYn="+smsUseYn+"&templateCode="+templateCode;			
 		
+		HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
 		// HttpURLConnection
-		URL url = new URL(httpConfigSDO.getRestURI());
+		URL url = new URL(InterfaceFactory.getOptionalApps().getSmsConfig().getSmsURI());
 		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 		urlConnection.setRequestMethod(OperateConstants.HTTP_METHOD_POST);
 		urlConnection.setConnectTimeout(httpConfigSDO.getConnTimeout());
@@ -77,7 +83,11 @@ public class SmsSender {
 			}
 		}
 		
-		return streamToString(urlConnection.getInputStream());
+		SmsSenderOutSDO smsSenderOutSDO = new SmsSenderOutSDO();
+		//smsSenderOutSDO.setData(streamToString(urlConnection.getInputStream()));
+		smsSenderOutSDO.setSuccess(true);
+		
+		return smsSenderOutSDO;
 	}
 	
 	@APIOperation(description="inputStream To String return")

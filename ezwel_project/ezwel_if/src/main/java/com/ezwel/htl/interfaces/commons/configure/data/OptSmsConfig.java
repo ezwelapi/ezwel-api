@@ -9,11 +9,14 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 @APIModel(description="SMS/MMS/KAKAO")
 public class OptSmsConfig extends APIObject {
 	
-	@APIFields(description = "SMS 서버 REST API URI")
+	@APIFields(description = "REST API URI")
 	private String restURI;
 	
-	@APIFields(description = "SMS 데이터 인코딩")
+	@APIFields(description = "데이터 인코딩")
 	private String encoding;
+	
+	@APIFields(description = "SMS 서버 API URI")
+	private String smsURI;
 	
 	public OptSmsConfig() {
 		this.reset();
@@ -22,6 +25,7 @@ public class OptSmsConfig extends APIObject {
 	private void reset() {
 		restURI = null;
 		encoding = null;
+		smsURI = null;
 	}
 
 	public String getRestURI() {
@@ -42,5 +46,12 @@ public class OptSmsConfig extends APIObject {
 		this.encoding = encoding;
 	}
 
+	public String getSmsURI() {
+		return smsURI;
+	}
+
+	public void setSmsURI(String smsURI) {
+		this.smsURI = smsURI;
+	}
 	
 }

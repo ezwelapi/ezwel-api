@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.commons.send.data;
+package com.ezwel.htl.interfaces.service.data.send;
 
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
@@ -15,12 +15,12 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
  */
 
 @APIModel
-public class SmsSenderSDO extends AbstractSDO {
+public class SmsSenderInSDO extends AbstractSDO {
 	
 	@APIFields(description = "문자발송 수신번호", required=true, maxLength=12)
 	private String callTo;
 	
-	@APIFields(description = "문자발송 발신번호", required=true, maxLength=12)
+	@APIFields(description = "문자발송 발신번호", required=false, maxLength=12)
 	private String callFrom;
 	
 	@APIFields(description = "문자발송 발송타입", required=false, maxLength=3)
@@ -29,10 +29,10 @@ public class SmsSenderSDO extends AbstractSDO {
 	@APIFields(description = "문자발송 메세지 제목", required=false, maxLength=200)
 	private String mmsSubject;
 	
-	@APIFields(description = "문자발송 메세지 내용", required=true, maxLength=200)
+	@APIFields(description = "문자발송 메세지 내용", required=true)
 	private String smsTxt;
 	
-	@APIFields(description = "문자발송 서비스 구분코드", required=true, maxLength=4)
+	@APIFields(description = "문자발송 서비스 구분코드", required=false, maxLength=4)
 	private String svcType;
 	
 	@APIFields(description = "문자발송 발송 예약일시", required=false, maxLength=14)
@@ -50,20 +50,8 @@ public class SmsSenderSDO extends AbstractSDO {
 	@APIFields(description = "문자발송 카카오 알림톡 사용여부", required=false, maxLength=1)
 	private String smsUseYn;
 	
-	@APIFields(description = "문자발송 카카오 알림톡 템플릿 번호", required=false, maxLength=4)
+	@APIFields(description = "문자발송 카카오 알림톡 템플릿 번호", required=false, maxLength=5)
 	private String templateCode;
-	
-	@APIFields(description = "문자발송errorCode", required=false, maxLength=4)
-	private String errorCode;
-	
-	@APIFields(description = "문자발송 errorMessage", required=false, maxLength=4)
-	private String errorMessage;
-	
-	@APIFields(description = "문자발송 data", required=false, maxLength=4)
-	private String data;
-	
-	@APIFields(description = "문자발송 성공여부", required=false)
-	private boolean success;
 	
 	public String getCallTo() {
 		return callTo;
@@ -159,38 +147,6 @@ public class SmsSenderSDO extends AbstractSDO {
 
 	public void setTemplateCode(String templateCode) {
 		this.templateCode = templateCode;
-	}
-
-	public String getErrorCode() {
-		return errorCode;
-	}
-
-	public void setErrorCode(String errorCode) {
-		this.errorCode = errorCode;
-	}
-
-	public String getErrorMessage() {
-		return errorMessage;
-	}
-
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
-	}
-
-	public String getData() {
-		return data;
-	}
-
-	public void setData(String data) {
-		this.data = data;
-	}
-
-	public boolean isSuccess() {
-		return success;
-	}
-
-	public void setSuccess(boolean success) {
-		this.success = success;
 	}
 	
 }

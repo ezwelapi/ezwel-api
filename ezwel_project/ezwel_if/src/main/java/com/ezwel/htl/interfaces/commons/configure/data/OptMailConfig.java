@@ -5,8 +5,14 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
 @APIModel(description="EMAIL")
-public class OptEmailConfig extends APIObject {
+public class OptMailConfig extends APIObject {
 		
+	@APIFields(description = "SMS 서버 REST API URI")
+	private String restURI;
+	
+	@APIFields(description = "SMS 데이터 인코딩")
+	private String encoding;
+	
 	@APIFields(description = "메일호스트")
 	private String host;
 	
@@ -31,11 +37,13 @@ public class OptEmailConfig extends APIObject {
 	@APIFields(description = "readTimeout")
 	private String readTimeout;
 	
-	public OptEmailConfig() {
+	public OptMailConfig() {
 		this.reset();
 	}
 	
 	private void reset() {
+		restURI = null;
+		encoding = null;
 		host = null;
 		port = null;
 		from = null;
@@ -44,6 +52,22 @@ public class OptEmailConfig extends APIObject {
 		passWord = null;
 		connTimeout = null;
 		readTimeout = null;
+	}
+
+	public String getRestURI() {
+		return restURI;
+	}
+
+	public void setRestURI(String restURI) {
+		this.restURI = restURI;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 
 	public String getHost() {

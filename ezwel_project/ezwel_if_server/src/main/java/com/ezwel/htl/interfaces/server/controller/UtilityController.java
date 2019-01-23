@@ -26,9 +26,6 @@ import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
-import com.ezwel.htl.interfaces.commons.send.data.FaxSenderSDO;
-import com.ezwel.htl.interfaces.commons.send.data.MailSenderSDO;
-import com.ezwel.htl.interfaces.commons.send.data.SmsSenderSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.RegexUtil;
 import com.ezwel.htl.interfaces.server.commons.interfaces.RequestNamespace;
@@ -42,6 +39,8 @@ import com.ezwel.htl.interfaces.server.sdo.AgentApiKeySDO;
 import com.ezwel.htl.interfaces.server.sdo.MorphemeSDO;
 import com.ezwel.htl.interfaces.server.service.SendService;
 import com.ezwel.htl.interfaces.service.SendIFService;
+import com.ezwel.htl.interfaces.service.data.send.SmsSenderInSDO;
+import com.ezwel.htl.interfaces.service.data.send.SmsSenderOutSDO;
 
 @Controller
 @RequestMapping(value = RequestNamespace.NAME_SPACE)
@@ -206,80 +205,42 @@ public class UtilityController {
 		return out;
 	}
 	
-	@APIOperation(description="문자발송 인터페이스", isOutputJsonMarshall=true, returnType=SmsSenderSDO.class)
+	@APIOperation(description="문자발송 인터페이스", isOutputJsonMarshall=true, returnType=SmsSenderOutSDO.class)
 	@RequestMapping(value="/callSmsSender")
-	public Object callSmsSender() {
-		logger.debug("[START] callSmsSender {} {}", "sms send");
+	public Object callSmsSender(SmsSenderInSDO smsSenderInSDO) {
 		
-		sendIFService = (SendIFService) LApplicationContext.getBean(sendIFService, SendIFService.class);
+		sendService = (SendService) LApplicationContext.getBean(sendService, SendService.class);
 		
-		String callTo = "01037440698";
-		String smsTxt = "대기예약 확정이 가능합니다. 예약 확정은 2019-01-15 18:00 시간 내에 홈페이지에서 해주셔야 하며, 이후 자동 취소 됩니다.  - 시설 : 부산파라다이스호텔 - 일시 : 2019-01-17 이지웰 복지몰 서비스를 이용해 주셔서 감사합니다.";
-		String templateCode = "10052";
-		
-		SmsSenderSDO smsSenderSDO = new SmsSenderSDO();
-		smsSenderSDO.setCallTo(callTo);
-		smsSenderSDO.setSmsTxt(smsTxt);
-		smsSenderSDO.setTemplateCode(templateCode);
-		
-		SmsSenderSDO out = new SmsSenderSDO();
-		out.setSuccess(sendIFService.callSmsSender(smsSenderSDO));
+		SmsSenderOutSDO out = new SmsSenderOutSDO();
+		out = (SmsSenderOutSDO) sendService.callSmsSender(smsSenderInSDO);
 		
 		return out;
 	}
 	
-	@APIOperation(description="메일발송 인터페이스", isOutputJsonMarshall=true, returnType=MailSenderSDO.class)
-	@RequestMapping(value="/callMailSender")
-	public Object callMailSender() {
-		logger.debug("[START] callMailSender {} {}", "mail send");
-		
-		sendService = (SendService) LApplicationContext.getBean(sendService, SendService.class);
-		
-		String recipient = "java124@naver.com"; 
-		String subject = "메일 제목 테스트";
-		String body = "메일 내용 테스트";
-		
-		MailSenderSDO mailSenderSDO = new MailSenderSDO();
-		mailSenderSDO.setRecipient(recipient);
-		mailSenderSDO.setSubject(subject);
-		mailSenderSDO.setBody(body);		
-		
-		MailSenderSDO out = new MailSenderSDO();
-		out.setSuccess(sendService.callMailSender(mailSenderSDO));
-		
-		return out;	
-	}
-	
-	@APIOperation(description="팩스발송 인터페이스", isOutputJsonMarshall=true, returnType=FaxSenderSDO.class)
-	@RequestMapping(value="/callFaxSender")
-	public Object callFaxSender() {
-		logger.debug("[START] callFaxSender {} {}", "fax send");
-		
-		sendService = (SendService) LApplicationContext.getBean(sendService, SendService.class);
-		
-//		webfax 파일 경로
-//		수신fax : /Volume/data/nas_image/webfax/receive/
-//		송신fax : /Volume/data/nas_image/webfax/send/
-		  
-		String trTitle = "팩스발신 테스트"; 	//발송제목
-		String trSendName = "이지웰"; 		//발신자이름
-		String trSendFaxNum = "0269191002"; //발신자팩스번호
-		String trDocName = ""; 				//발송파일정보
-		String trName = "이지웰"; 			//수신자명
-		String trPhone = "0269191002"; 		//수신자팩스번호
-		
-		FaxSenderSDO faxSenderSDO = new FaxSenderSDO();
-		faxSenderSDO.setTrTitle(trTitle);
-		faxSenderSDO.setTrSendName(trSendName);
-		faxSenderSDO.setTrSendFaxNum(trSendFaxNum);
-		faxSenderSDO.setTrDocName(trDocName);
-		faxSenderSDO.setTrName(trName);
-		faxSenderSDO.setTrPhone(trPhone);
-		
-		FaxSenderSDO out = new FaxSenderSDO();
-		out.setSuccess(sendService.callFaxSender(faxSenderSDO));
-		
-		return out;	
-	}
+//	@APIOperation(description="메일발송 인터페이스", isOutputJsonMarshall=true, returnType=MailSenderOutSDO.class)
+//	@RequestMapping(value="/callMailSender")
+//	public Object callMailSender(MailSenderInSDO mailSenderInSDO) {
+//		logger.debug("[START] callMailSender {} {}", "mail send");
+//		
+//		sendService = (SendService) LApplicationContext.getBean(sendService, SendService.class);
+//		
+//		MailSenderOutSDO out = new MailSenderOutSDO();
+//		out.setSuccess(sendService.callMailSender(mailSenderInSDO));
+//		
+//		return out;	
+//	}
+//	
+//	@APIOperation(description="팩스발송 인터페이스", isOutputJsonMarshall=true, returnType=MailSenderOutSDO.class)
+//	@RequestMapping(value="/callFaxSender")
+//	public Object callFaxSender(FaxSenderInSDO faxSenderInSDO) {
+//		logger.debug("[START] callFaxSender {} {}", "fax send");
+//		
+//		sendService = (SendService) LApplicationContext.getBean(sendService, SendService.class);
+//		
+//		FaxSenderOutSDO out = new FaxSenderOutSDO();
+//		out.setSuccess(sendService.callFaxSender(faxSenderInSDO));
+//		
+//		return out;	
+//	}
 	
 }

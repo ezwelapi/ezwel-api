@@ -10,9 +10,12 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
-import com.ezwel.htl.interfaces.commons.send.SmsSender;
-import com.ezwel.htl.interfaces.commons.send.data.SmsSenderSDO;
+import com.ezwel.htl.interfaces.service.data.send.MailSenderInSDO;
+import com.ezwel.htl.interfaces.service.data.send.MailSenderOutSDO;
+import com.ezwel.htl.interfaces.service.data.send.SmsSenderInSDO;
+import com.ezwel.htl.interfaces.service.data.send.SmsSenderOutSDO;
 
 /**
  * <pre>
@@ -28,98 +31,64 @@ public class SendIFService {
 	private static final Logger logger = LoggerFactory.getLogger(OutsideIFService.class);
 	
 	@Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */
-	private SmsSender smsSender;
+	private HttpInterfaceExecutor inteface;	
 	
 	public SendIFService() {
 		
-		if(smsSender == null) {
-			smsSender = new SmsSender();
+		if(inteface == null) {
+			inteface = new HttpInterfaceExecutor();
 		}
-	}	
-	
-	@APIOperation(description="문자발송 인터페이스", isOutputJsonMarshall=true, returnType=SmsSenderSDO.class)
-	public boolean callSmsSender(SmsSenderSDO smsSenderSDO) {
-		return callSmsSender(smsSenderSDO, false);
+	}
+
+	@APIOperation(description="문자발송 인터페이스 (외부로직접나감)")
+	public SmsSenderOutSDO callSmsSender(SmsSenderInSDO smsSenderInSDO) {
+		return callSmsSender(smsSenderInSDO, false);
 	}
 	
-	@APIOperation(description="문자발송 인터페이스", isOutputJsonMarshall=true, returnType=SmsSenderSDO.class)
-	public boolean callSmsSender(SmsSenderSDO smsSenderSDO, boolean isEzwelInsideInterface) {
-				
-//		String callTo = "01037440698";
-//		String callFrom = "0232820579";
-//		String mmsSubject = "테스트";
-//		String smsTxt = "대기예약 확정이 가능합니다. 예약 확정은 2019-01-15 18:00 시간 내에 홈페이지에서 해주셔야 하며, 이후 자동 취소 됩니다.  - 시설 : 부산파라다이스호텔 - 일시 : 2019-01-17 이지웰 복지몰 서비스를 이용해 주셔서 감사합니다.";
-//		String svcType = "1008";
-//		String smsUseYn = "N";
-//		String templateCode = "10052";
-//		
-//		//Input parameter
-//		SmsSenderSDO smsSenderSDO = new SmsSenderSDO();
-//		smsSenderSDO.setCallTo(callTo); 			// 필수
-//		smsSenderSDO.setCallFrom(callFrom); 		// 선택
-//		smsSenderSDO.setMmsSubject(mmsSubject); 	// 선택
-//		smsSenderSDO.setSmsText(smsTxt); 			// 필수
-//		smsSenderSDO.setTemplateCode(templateCode); // 선택 ( 카카오톡메세지일경우 필수 )
+	@APIOperation(description="문자발송 인터페이스")
+	public SmsSenderOutSDO callSmsSender(SmsSenderInSDO smsSenderInSDO, boolean isEzwelInsideInterface) {
 		
-		boolean out = true;
+		SmsSenderOutSDO out = new SmsSenderOutSDO();
 		
 		try {
 			
 			HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
+			httpConfigSDO.setHttpAgentId(null);
+			httpConfigSDO.setHttpApiKey(null);
+			httpConfigSDO.setHttpApiSignature(null);
+			httpConfigSDO.getHttpApiTimestamp();
 			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getSmsConfig().getRestURI());
-			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
-					
-			smsSender.requestUrl(httpConfigSDO, smsSenderSDO);
 			
-			logger.debug("[SMS START] : {}", out);
+			/** execute interface */
+			out = (SmsSenderOutSDO) inteface.sendJSON(httpConfigSDO, smsSenderInSDO, SmsSenderOutSDO.class);
+			
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "문자발송 인터페이스 장애발생.", e);
 		}
-			
+		
 		return out;
 	}
 	
-//	@APIOperation(description="메일발송 인터페이스")
-//	public boolean callMailSender(MailSenderSDO mailSenderSDO) {
-//		return callMailSender(mailSenderSDO, false);
-//	}
-//	
-//	@APIOperation(description="메일발송 인터페이스")
-//	public boolean callMailSender(MailSenderSDO mailSenderSDO, boolean isEzwelInsideInterface) {
-//		
-//		boolean out = true;
-//		
-//		/*
-//		String recipient = "jyp0698@gmail.com"; 
-//		String subject = "메일 제목 테스트";
-//		String body = "메일 내용 테스트";
-//		
-//		mailSenderSDO.setRecipient(recipient); 필수
-//		mailSenderSDO.setSubject(subject); 필수
-//		mailSenderSDO.setBody(body); 필수
-//		
-//		mailSenderSDO.setFrom(from); 옵션
-//		mailSenderSDO.setFromName(fromName);옵션
-//		
-//		*/
-//		
-//		if(StringUtils.isEmpty(mailSenderSDO.getRecipient()) || StringUtils.isEmpty(mailSenderSDO.getSubject()) || StringUtils.isEmpty(mailSenderSDO.getBody())) {
-//			return false;
-//		}
-//		
-//		try {
-//			
-//			
-//			MailSenderSDO out = (MailSenderSDO) mailSender.callMailSender();
-//			
-//			
-//		}
-//		catch(Exception e) {
-//			return false;
-//		}
-//			
-//		return out;		
-//	}
+	@APIOperation(description="메일발송 인터페이스")
+	public MailSenderOutSDO callMailSender(MailSenderInSDO mailSenderInSDO, boolean isEzwelInsideInterface) {
+		
+		MailSenderOutSDO out = null;
+		
+		try {
+			
+			HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
+			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getMailConfig().getRestURI());
+			
+			/** execute interface */
+			out = (MailSenderOutSDO) inteface.sendJSON(httpConfigSDO, mailSenderInSDO, MailSenderOutSDO.class);
+			
+		}
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "메일발송 인터페이스 장애발생.", e);
+		}
+			
+		return out;		
+	}
 
 }

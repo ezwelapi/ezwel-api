@@ -36,22 +36,21 @@
 	<optionalApps>
 		<!-- SMS 설정 정보 -->
 		<smsConfig>
-			<restURI>http://wow.ezwel.com/common/sms/send.ez</restURI>
+			<restURI>http://ezc-api.jyp.ezwel.com:8282/API1.0/service/callSmsSender</restURI>
 			<encoding>UTF-8</encoding>
-			<connTimeout>3000</connTimeout>
-			<readTimeout>6000</readTimeout>
+			<smsURI>http://wow.ezwel.com/common/sms/send.ez</smsURI>
 		</smsConfig>
 		<!-- <faxConfig></faxConfig> -->
 		<!-- MAIL 설정 정보 -->
 		<emailConfig>
+			<restURI>/service/callMailSender</restURI>
+			<encoding>UTF-8</encoding>
 			<host>127.0.0.1</host>
 		 	<port>25</port>
 		 	<from>webmaster@ezwel.com</from>
 		 	<fromName>이지웰</fromName>
 		 	<userName>yanagi10</userName>
 		 	<passWord>20312@jong</passWord>
-		 	<connTimeout>3000</connTimeout>
-			<readTimeout>6000</readTimeout>
 		</emailConfig>
 	</optionalApps>
 	
@@ -141,28 +140,28 @@
 		<agentInfo>
 			<agentNo>10</agentNo>
 			<agentName>콘도24(여행스쿨)</agentName>
-			<httpAgentId>-</httpAgentId>
-			<patnCdType>-</patnCdType>
-			<insideApiKey>-</insideApiKey>
-			<outsideApiKey>-</outsideApiKey>
+			<httpAgentId>10058059</httpAgentId>
+			<patnCdType>C0130011</patnCdType>
+			<insideApiKey>80b640b94717fe103223b69789c0bfcdi</insideApiKey>
+			<outsideApiKey>830be7cc177b92b0dd382875a750af6co</outsideApiKey>
 			<cryptKey>jfo3jqfoahsofias</cryptKey>
 		</agentInfo>
 		<agentInfo>
 			<agentNo>11</agentNo>
 			<agentName>야놀자</agentName>
-			<httpAgentId>-</httpAgentId>
-			<patnCdType>-</patnCdType>
-			<insideApiKey>-</insideApiKey>
-			<outsideApiKey>-</outsideApiKey>
+			<httpAgentId>10058061</httpAgentId>
+			<patnCdType>C0130012</patnCdType>
+			<insideApiKey>872787c3ad8aab0147ad9bd51c7b5dcci</insideApiKey>
+			<outsideApiKey>d4c8d82ced2760ecbd6f95fdbbdd7b75o</outsideApiKey>
 			<cryptKey>jio4i5gijhzhfhda</cryptKey>
 		</agentInfo>
 		<agentInfo>
 			<agentNo>12</agentNo>
-			<agentName>온다</agentName>
-			<httpAgentId>-</httpAgentId>
-			<patnCdType>-</patnCdType>
-			<insideApiKey>-</insideApiKey>
-			<outsideApiKey>-</outsideApiKey>
+			<agentName>ONDA(티포트)</agentName>
+			<httpAgentId>10058057</httpAgentId>
+			<patnCdType>C0130013</patnCdType>
+			<insideApiKey>80678cfc3b639a39914dcbe5ba30814bi</insideApiKey>
+			<outsideApiKey>a008424b58cdcb7f74b526421a2e5380o</outsideApiKey>
 			<cryptKey>uxo4e5gijhghfkd9</cryptKey>
 		</agentInfo>		
 		<agentInfo>

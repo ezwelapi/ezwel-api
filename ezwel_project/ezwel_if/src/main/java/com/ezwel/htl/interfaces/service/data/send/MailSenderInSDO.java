@@ -1,4 +1,4 @@
-package com.ezwel.htl.interfaces.commons.send.data;
+package com.ezwel.htl.interfaces.service.data.send;
 
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
@@ -15,7 +15,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
  */
 
 @APIModel
-public class MailSenderSDO extends AbstractSDO {
+public class MailSenderInSDO extends AbstractSDO {
 	
 	@APIFields(description = "발송자이메일주소", required=false, maxLength=50)
 	private String from;
