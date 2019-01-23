@@ -10,12 +10,14 @@ import javax.mail.internet.MimeMessage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor;
+import com.ezwel.htl.interfaces.service.data.send.MailSenderOutSDO;
 
 @Component
 @APIType(description="메일발송")
@@ -33,7 +35,8 @@ public class MailSender {
 	 * @throws Exception
 	 */
 	@APIOperation(description="메일발송 인터페이스")
-	protected void callMailSender(String recipient, String subject, String body) throws Exception {
+	@Async
+	public Object callMailSender(String recipient, String subject, String body) throws Exception {
 		
 		String host = InterfaceFactory.getOptionalApps().getMailConfig().getHost();
 		String port = InterfaceFactory.getOptionalApps().getMailConfig().getPort();
@@ -79,7 +82,11 @@ public class MailSender {
         {
             transport.close();
         }
-
+        
+        MailSenderOutSDO mailSenderOutSDO = new MailSenderOutSDO();
+        mailSenderOutSDO.setSuccess(true);
+		
+		return mailSenderOutSDO;
 	}
 	
 }

@@ -38,7 +38,8 @@ import com.ezwel.htl.interfaces.server.commons.utils.ResponseUtil;
 import com.ezwel.htl.interfaces.server.sdo.AgentApiKeySDO;
 import com.ezwel.htl.interfaces.server.sdo.MorphemeSDO;
 import com.ezwel.htl.interfaces.server.service.SendService;
-import com.ezwel.htl.interfaces.service.SendIFService;
+import com.ezwel.htl.interfaces.service.data.send.MailSenderInSDO;
+import com.ezwel.htl.interfaces.service.data.send.MailSenderOutSDO;
 import com.ezwel.htl.interfaces.service.data.send.SmsSenderInSDO;
 import com.ezwel.htl.interfaces.service.data.send.SmsSenderOutSDO;
 
@@ -55,7 +56,6 @@ public class UtilityController {
 	private EnglishAnalyzers englishAnalayzer;
 	private RegexUtil regexUtil;
 	private ResponseUtil responseUtil;
-	private SendIFService sendIFService;
 	private SendService sendService;
 	
 	@APIOperation(description="테스트 JSP Forward Operation")
@@ -217,19 +217,18 @@ public class UtilityController {
 		return out;
 	}
 	
-//	@APIOperation(description="메일발송 인터페이스", isOutputJsonMarshall=true, returnType=MailSenderOutSDO.class)
-//	@RequestMapping(value="/callMailSender")
-//	public Object callMailSender(MailSenderInSDO mailSenderInSDO) {
-//		logger.debug("[START] callMailSender {} {}", "mail send");
-//		
-//		sendService = (SendService) LApplicationContext.getBean(sendService, SendService.class);
-//		
-//		MailSenderOutSDO out = new MailSenderOutSDO();
-//		out.setSuccess(sendService.callMailSender(mailSenderInSDO));
-//		
-//		return out;	
-//	}
-//	
+	@APIOperation(description="메일발송 인터페이스", isOutputJsonMarshall=true, returnType=MailSenderOutSDO.class)
+	@RequestMapping(value="/callMailSender")
+	public Object callMailSender(MailSenderInSDO mailSenderInSDO) {
+		
+		sendService = (SendService) LApplicationContext.getBean(sendService, SendService.class);
+		
+		MailSenderOutSDO out = new MailSenderOutSDO();
+		out = (MailSenderOutSDO) sendService.callMailSender(mailSenderInSDO);
+		
+		return out;
+	}
+	
 //	@APIOperation(description="팩스발송 인터페이스", isOutputJsonMarshall=true, returnType=MailSenderOutSDO.class)
 //	@RequestMapping(value="/callFaxSender")
 //	public Object callFaxSender(FaxSenderInSDO faxSenderInSDO) {

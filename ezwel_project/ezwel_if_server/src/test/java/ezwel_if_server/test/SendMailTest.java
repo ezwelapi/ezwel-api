@@ -1,11 +1,11 @@
-package interfaces.example;
+package ezwel_if_server.test;
 
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
-import com.ezwel.htl.interfaces.service.SendIFService;
+import com.ezwel.htl.interfaces.server.service.SendService;
 import com.ezwel.htl.interfaces.service.data.send.MailSenderInSDO;
 import com.ezwel.htl.interfaces.service.data.send.MailSenderOutSDO;
 
@@ -13,20 +13,20 @@ public class SendMailTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(SendMailTest.class);
 	
-	private SendIFService sendIFService;
+	private SendService sendService;
 	
 	public SendMailTest() {
 		
 		InterfaceFactory.initLocalTestInterfaceFactory();
 		
-		sendIFService = new SendIFService();
+		sendService = new SendService();
 
 	}
 	
 	@Test
-	public void callMailSenderTest()  throws Exception {
+	public void callMailSender()  throws Exception {
 		
-		logger.debug("[START] callMailSenderTest");
+		logger.debug("[START] callMailSender");
 		
 		//Input value
 		String recipient = "java124@naver.com"; 
@@ -40,11 +40,10 @@ public class SendMailTest {
 		mailSenderInSDO.setBody(body);
 		
 		//interface api call
-		MailSenderOutSDO out = (MailSenderOutSDO) sendIFService.callMailSender(mailSenderInSDO);
+		MailSenderOutSDO out = new MailSenderOutSDO();
+		out = (MailSenderOutSDO) sendService.callMailSender(mailSenderInSDO);
 		
-		logger.debug("[MSG] callMailSenderTest {} {}", out);
-		
-		logger.debug("[END] callMailSenderTest");
+		logger.debug("[END] callMailSender");
 	}
 	
 }

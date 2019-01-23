@@ -70,14 +70,23 @@ public class SendIFService {
 		return out;
 	}
 	
+	@APIOperation(description="메일발송 인터페이스 (외부로직접나감)")
+	public MailSenderOutSDO callMailSender(MailSenderInSDO mailSenderInSDO) {
+		return callMailSender(mailSenderInSDO, false);
+	}
+	
 	@APIOperation(description="메일발송 인터페이스")
 	public MailSenderOutSDO callMailSender(MailSenderInSDO mailSenderInSDO, boolean isEzwelInsideInterface) {
 		
-		MailSenderOutSDO out = null;
+		MailSenderOutSDO out = new MailSenderOutSDO();
 		
 		try {
 			
 			HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
+			httpConfigSDO.setHttpAgentId(null);
+			httpConfigSDO.setHttpApiKey(null);
+			httpConfigSDO.setHttpApiSignature(null);
+			//httpConfigSDO.getHttpApiTimestamp();
 			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getMailConfig().getRestURI());
 			
 			/** execute interface */

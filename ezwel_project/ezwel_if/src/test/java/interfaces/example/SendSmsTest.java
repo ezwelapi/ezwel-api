@@ -24,9 +24,9 @@ public class SendSmsTest {
 	}
 	
 	@Test
-	public void callSmsSender()  throws Exception {
+	public void callSmsSenderTest()  throws Exception {
 		
-		logger.debug("[START] smsSenderTest");
+		logger.debug("[START] callSmsSenderTest");
 		
 		//Input value
 		String callTo = "01037440698";
@@ -42,9 +42,9 @@ public class SendSmsTest {
 		//interface api call		
 		SmsSenderOutSDO out = (SmsSenderOutSDO) sendIFService.callSmsSender(smsSenderInSDO);
 		
-		logger.debug("[MSG] smsSenderTest {} {}", out);
+		logger.debug("[MSG] callSmsSenderTest {} {}", out);
 		
-		logger.debug("[END] smsSenderTest");
+		logger.debug("[END] callSmsSenderTest");
 	}
 	
 }
