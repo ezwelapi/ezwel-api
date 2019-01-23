@@ -21,8 +21,7 @@ public class CryptUtil {
 			return word;
 		}
 		
-		String out = Base64Codec.getInstance().encode(word);
-		return out;
+		return Base64Codec.getInstance().encode(word);
 	}
 	
 	@APIOperation
@@ -32,8 +31,7 @@ public class CryptUtil {
 			return word;
 		}
 		
-		String out = Base64Codec.getInstance().decode(word);
-		return out;
+		return Base64Codec.getInstance().decode(word);
 	}
 	
 	@APIOperation
@@ -53,8 +51,7 @@ public class CryptUtil {
 			return null;
 		}
 		
-		byte[] out = MD5.getInstance().getHash(word);
-		return out;
+		return MD5.getInstance().getHash(word);
 	}
 	
 	@APIOperation
@@ -64,8 +61,7 @@ public class CryptUtil {
 			return null;
 		}
 		
-		byte[] out = DigestUtils.sha256(word);
-		return out;
+		return DigestUtils.sha256(word);
 	}
 	
 	@APIOperation
@@ -75,7 +71,6 @@ public class CryptUtil {
 			return word;
 		}
 		
-		String out = DigestUtils.sha256Hex(word);
-		return out;
+		return DigestUtils.sha256Hex(word);
 	}
 }
