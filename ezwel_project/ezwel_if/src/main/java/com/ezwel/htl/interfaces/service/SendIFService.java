@@ -119,7 +119,7 @@ public class SendIFService {
 			httpConfigSDO.setHttpApiKey(null);
 			httpConfigSDO.setHttpApiSignature(null);
 			httpConfigSDO.getHttpApiTimestamp();
-			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getMailConfig().getRestURI());
+			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getFaxConfig().getRestURI());
 			
 			/** execute interface */
 			out = (FaxSenderOutSDO) inteface.sendJSON(httpConfigSDO, faxSenderInSDO, FaxSenderOutSDO.class);

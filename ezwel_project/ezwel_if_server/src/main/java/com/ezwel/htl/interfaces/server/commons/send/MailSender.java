@@ -38,14 +38,14 @@ public class MailSender {
 	@Async
 	public Object callMailSender(String recipient, String subject, String body) throws Exception {
 		
-		String host = InterfaceFactory.getOptionalApps().getMailConfig().getHost();
-		String port = InterfaceFactory.getOptionalApps().getMailConfig().getPort();
-		String from = InterfaceFactory.getOptionalApps().getMailConfig().getFrom();
-		String fromName = InterfaceFactory.getOptionalApps().getMailConfig().getFromName();
-		String userName = InterfaceFactory.getOptionalApps().getMailConfig().getUserName();
-		String passWord = InterfaceFactory.getOptionalApps().getMailConfig().getPassWord();
-		String connTimeout = InterfaceFactory.getOptionalApps().getMailConfig().getConnTimeout();
-		String readTimeout = InterfaceFactory.getOptionalApps().getMailConfig().getReadTimeout();
+		String host			= InterfaceFactory.getOptionalApps().getMailConfig().getHost();
+		String port 		= InterfaceFactory.getOptionalApps().getMailConfig().getPort();
+		String from 		= InterfaceFactory.getOptionalApps().getMailConfig().getFrom();
+		String fromName 	= InterfaceFactory.getOptionalApps().getMailConfig().getFromName();
+		String userName 	= InterfaceFactory.getOptionalApps().getMailConfig().getUserName();
+		String passWord 	= InterfaceFactory.getOptionalApps().getMailConfig().getPassWord();
+		String connTimeout 	= InterfaceFactory.getOptionalApps().getMailConfig().getConnTimeout();
+		String readTimeout 	= InterfaceFactory.getOptionalApps().getMailConfig().getReadTimeout();
 		
 		//properties 설정
 		Properties props = System.getProperties();

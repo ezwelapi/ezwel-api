@@ -36,13 +36,13 @@
 	<optionalApps>
 		<!-- SMS 설정 정보 -->
 		<smsConfig>
-			<restURI>http://ezc-api.jyp.ezwel.com:8282/API1.0/service/callSmsSender</restURI>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/callSmsSender</restURI>
 			<encoding>UTF-8</encoding>
 			<smsURI>http://wow.ezwel.com/common/sms/send.ez</smsURI>
 		</smsConfig>
 		<!-- MAIL 설정 정보 -->
-		<emailConfig>
-			<restURI>http://ezc-api.jyp.ezwel.com:8282/API1.0/service/callMailSender</restURI>
+		<mailConfig>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/callMailSender</restURI>
 			<encoding>UTF-8</encoding>
 			<host>127.0.0.1</host>
 		 	<port>25</port>
@@ -50,7 +50,9 @@
 		 	<fromName>이지웰</fromName>
 		 	<userName>yanagi10</userName>
 		 	<passWord>20312@jong</passWord>
-		</emailConfig>
+		 	<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</mailConfig>
 		<!-- FAX 설정 정보 -->
 		<faxConfig>
 			<restURI>http://ezc-api.jyp.ezwel.com:8282/API1.0/service/callFaxSender</restURI>

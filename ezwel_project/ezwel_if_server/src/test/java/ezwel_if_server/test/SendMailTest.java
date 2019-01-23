@@ -40,7 +40,7 @@ public class SendMailTest {
 		mailSenderInSDO.setBody(body);
 		
 		//interface api call
-		MailSenderOutSDO out = (MailSenderOutSDO) sendService.callMailSender(mailSenderInSDO, true);
+		MailSenderOutSDO out = (MailSenderOutSDO) sendService.callMailSender(mailSenderInSDO);
 		
 		logger.debug("[MSG] callMailSenderTest {} {}", out);
 		

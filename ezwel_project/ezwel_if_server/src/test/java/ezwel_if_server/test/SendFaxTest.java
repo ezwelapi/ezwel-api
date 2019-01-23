@@ -46,7 +46,7 @@ public class SendFaxTest {
 		faxSenderInSDO.setTrPhone(trPhone);
 		
 		//interface api call
-		FaxSenderOutSDO out = (FaxSenderOutSDO) sendService.callFaxSender(faxSenderInSDO, true);
+		FaxSenderOutSDO out = (FaxSenderOutSDO) sendService.callFaxSender(faxSenderInSDO);
 		
 		logger.debug("[MSG] callFaxSenderTest {} {}", out);
 		

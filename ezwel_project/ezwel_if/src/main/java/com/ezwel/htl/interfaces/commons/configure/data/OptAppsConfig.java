@@ -15,10 +15,8 @@ public class OptAppsConfig extends APIObject {
 	@APIFields(description = "EMAIL 설정")
 	private OptMailConfig mailConfig;
 	
-	/*	
 	@APIFields(description = "FAX 설정")
 	private OptFaxConfig faxConfig;
-	*/
 	
 	public OptAppsConfig() {
 		this.reset();
@@ -27,9 +25,7 @@ public class OptAppsConfig extends APIObject {
 	private void reset() {
 		smsConfig = null;
 		mailConfig = null;
-		/*
 		faxConfig = null;
-		*/
 	}
 
 	public OptSmsConfig getSmsConfig() {
@@ -50,7 +46,6 @@ public class OptAppsConfig extends APIObject {
 		this.mailConfig = mailConfig;
 	}
 
-	/*
 	public OptFaxConfig getFaxConfig() {
 		return faxConfig;
 	}
@@ -59,6 +54,5 @@ public class OptAppsConfig extends APIObject {
 	public void setFaxConfig(OptFaxConfig faxConfig) {
 		this.faxConfig = faxConfig;
 	}
-	*/
 	
 }

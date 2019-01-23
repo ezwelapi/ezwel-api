@@ -40,7 +40,7 @@ public class SendSmsTest {
 		smsSenderInSDO.setTemplateCode(templateCode); 	// 선택 ( 카카오톡메세지일경우 필수 )
 		
 		//interface api call		
-		SmsSenderOutSDO out = (SmsSenderOutSDO) sendIFService.callSmsSender(smsSenderInSDO);
+		SmsSenderOutSDO out = (SmsSenderOutSDO) sendIFService.callSmsSender(smsSenderInSDO,true);
 		
 		logger.debug("[MSG] callSmsSenderTest {} {}", out);
 		
