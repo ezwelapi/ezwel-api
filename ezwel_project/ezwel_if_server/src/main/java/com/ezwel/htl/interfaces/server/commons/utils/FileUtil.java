@@ -14,8 +14,10 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
@@ -52,7 +54,11 @@ public class FileUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 	
-	private final static Integer URL_CONNECT_TIMEOUT = 5000;
+	private final static int URL_CONNECT_TIMEOUT = 5000;
+	
+	private final static int RETRY_INTERVAL_MILLISECOND = 5000;
+	
+	private final static int RETRY_COUNT = 2;
 	
 	private WebApplicationContext context;
 	
@@ -177,7 +183,7 @@ public class FileUtil {
 						//namedSDO.setSave(isDownloadImageIO(url, fileExt, outputFile));
 						
 						// URL 이미지 다운로드 version.2
-						namedSDO.setSave(isDownloadURLStream(url, outputFile));
+						namedSDO.setSave(isDownloadURLStream(url, outputFile, 0));
 						
 						// 저장소 루트를 제외한 경로
 						namedSDO.setFileExt(fileExt);
@@ -233,7 +239,7 @@ public class FileUtil {
 	}
 	
 	
-	public boolean isDownloadURLStream(URL url, File outputFile) {
+	public boolean isDownloadURLStream(URL url, File outputFile, int callCount) {
 		
 		boolean out = false;
 
@@ -264,7 +270,23 @@ public class FileUtil {
 			else {
 				logger.debug("[FAIL] isDownloadURLStream Failed to download URL file. {}", url);
 			}
-			
+		} catch (SocketTimeoutException e) {
+			// Connect | Read timed out 이후 5초후 1 회 다시 호출
+			if(callCount > (RETRY_COUNT - 1)) {
+				logger.error(APIUtil.formatMessage("[SocketTimeoutException] 호스트에 접속할 수 없습니다. 재호출({})회", (callCount + 1)), e);	
+			}
+			else {
+				try {
+					logger.debug("* 고객 요구사항 Connection/Read Timeout 발생시 5초후 재시도 2회 {}", url);
+					Thread.sleep(RETRY_INTERVAL_MILLISECOND);
+				} catch (InterruptedException ie) {
+					logger.debug("[InterruptedException] 타임아웃으로 다시 호출 시도 인터벌중 장애발생", ie);
+				}
+ 
+				out = isDownloadURLStream(url, outputFile, (callCount + 1));
+			}
+		} catch (UnknownHostException e) {
+			logger.error("[UnknownHostException] 호스트를 찾을수 없습니다.", e);
 		} catch (Exception e) {
 			logger.error(APIUtil.formatMessage("[Exception] isDownloadURLStream URL : {}", url), e);
 		} finally {

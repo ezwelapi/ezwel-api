@@ -11,8 +11,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
@@ -261,7 +263,7 @@ public class ImageAPI {
 		downloadFileFromURL(urlString, filePath, count);
 
 		// case 3
-		downloadBuffer(urlString, filePath, count);
+		downloadBuffer(urlString, filePath, count, 0);
 
 		// case 4
 		saveUrl(filePath, urlString, secsConnectTimeout, secsReadTimeout, count);
@@ -385,7 +387,7 @@ public class ImageAPI {
 	/*********************************************************************************/
 	
 
-	public int downloadBuffer(String urlString, String localFileName, int eCount) {
+	public int downloadBuffer(String urlString, String localFileName, int eCount, int callCount) {
 		
 		OutputStream out = null;
 		URLConnection conn = null;
@@ -404,10 +406,10 @@ public class ImageAPI {
 				//logger.debug("# 존재여부 : {}", new File(path).exists());
 				out = new BufferedOutputStream(new FileOutputStream(path));
 				conn = url.openConnection();
-				conn.setConnectTimeout(3000);
+				conn.setConnectTimeout(10000);
 				//conn.setReadTimeout(180000);
 				in = conn.getInputStream();
-				byte[] buffer = new byte[2048];
+				byte[] buffer = new byte[8192];
 				
 				int numRead;
 				long numWritten = 0;
@@ -425,6 +427,24 @@ public class ImageAPI {
 			else {
 				//logger.debug("[CASE3-ELSE] eCount : {}, urlString : {}, path : {}, isDownload : {}", eCount, urlString, path, isDownload);
 			}
+			
+		} catch (SocketTimeoutException e) {
+			// Connect | Read timed out 이후 5초후 1 회 다시 호출
+			if(callCount > (2 - 1)) {
+				logger.error(APIUtil.formatMessage("[SocketTimeoutException] 호스트에 접속할 수 없습니다. 재호출({})회", (callCount + 1)), e);	
+			}
+			else {
+				try {
+					logger.debug("* 고객 요구사항 Connection/Read Timeout 발생시 5초후 재시도 2회 {}", urlString);
+					Thread.sleep(5000);
+				} catch (InterruptedException ie) {
+					logger.debug("[InterruptedException] 타임아웃으로 다시 호출 시도 인터벌중 장애발생", ie);
+				}
+ 
+				return downloadBuffer(urlString, localFileName, eCount, (callCount + 1));
+			}
+		} catch (UnknownHostException e) {
+			logger.error("[UnknownHostException] 호스트를 찾을수 없습니다.", e);
 		} catch (Exception e) {
 			logger.error("[CASE3-ERROR]", e);
 		} finally {

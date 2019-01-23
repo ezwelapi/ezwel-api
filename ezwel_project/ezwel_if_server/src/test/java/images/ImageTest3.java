@@ -32,7 +32,7 @@ public class ImageTest3 implements Callable<Integer> {
 		try {
 			
 			// case 3
-			out += imageAPI.downloadBuffer(item.getUrlString(), item.getFilePath(), count);
+			out += imageAPI.downloadBuffer(item.getUrlString(), item.getFilePath(), count, 0);
 		}
 		finally {
 			//Local.remove();
