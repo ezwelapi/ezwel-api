@@ -76,7 +76,7 @@ public class SendService {
 			
 		} 
 		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "문자발송 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9900, "문자발송 인터페이스 장애발생.", e);
 		}
 			
 		return out;
@@ -96,15 +96,10 @@ public class SendService {
 		
 		try {
 			
-			String recipient = mailSenderInSDO.getRecipient();
-			String subject = mailSenderInSDO.getSubject();
-			String body = mailSenderInSDO.getBody();
-			
-			out = (MailSenderOutSDO) mailSender.callMailSender(ailSenderInSDO);
-			
+			out = (MailSenderOutSDO) mailSender.callMailSender(mailSenderInSDO);
 		} 
 		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "메일발송 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9900, "메일발송 인터페이스 장애발생.", e);
 		}
 			
 		return out;
@@ -135,7 +130,7 @@ public class SendService {
 			
 		} 
 		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "팩스발송 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9900, "팩스발송 인터페이스 장애발생.", e);
 		}
 			
 		return out;
