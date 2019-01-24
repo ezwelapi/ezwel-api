@@ -232,7 +232,7 @@ public class UtilityController {
 	}
 	
 	@APIOperation(description="팩스발송 인터페이스", isOutputJsonMarshall=true, returnType=FaxSenderOutSDO.class)
-	@RequestMapping(value="/callMailSender")
+	@RequestMapping(value="/callFaxSender")
 	public Object callFaxSender(FaxSenderInSDO faxSenderInSDO) {
 		
 		sendService = (SendService) LApplicationContext.getBean(sendService, SendService.class);
