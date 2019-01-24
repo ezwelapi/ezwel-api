@@ -36,13 +36,13 @@
 	<optionalApps>
 		<!-- 문자 설정 정보 -->
 		<smsConfig>
-			<restURI>/service/callSmsSender</restURI>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/callSmsSender</restURI>
 			<encoding>UTF-8</encoding>
 			<smsURI>http://wow.ezwel.com/common/sms/send.ez</smsURI>
 		</smsConfig>
 		<!-- 메일 설정 정보 -->
 		<mailConfig>
-			<restURI>/service/callMailSender</restURI>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/callMailSender</restURI>
 			<encoding>UTF-8</encoding>
 			<host>127.0.0.1</host>
 		 	<port>25</port>
@@ -55,7 +55,7 @@
 		</mailConfig>
 		<!-- 팩스 설정 정보 -->
 		<faxConfig>
-			<restURI>/service/callFaxSender</restURI>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/callFaxSender</restURI>
 			<encoding>UTF-8</encoding>
 		</faxConfig>
 	</optionalApps>
