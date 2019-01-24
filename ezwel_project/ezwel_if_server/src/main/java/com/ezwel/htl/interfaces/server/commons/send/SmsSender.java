@@ -84,8 +84,17 @@ public class SmsSender {
 		}
 		
 		SmsSenderOutSDO smsSenderOutSDO = new SmsSenderOutSDO();
-		//smsSenderOutSDO.setData(streamToString(urlConnection.getInputStream()));
-		smsSenderOutSDO.setSuccess(true);
+		
+		if(urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+			smsSenderOutSDO.setData(streamToString(urlConnection.getInputStream()));
+			smsSenderOutSDO.setSuccess(true);
+		} else {
+			if(urlConnection.getErrorStream() != null) {
+				smsSenderOutSDO.setData(streamToString(urlConnection.getErrorStream()));
+			} else {
+				smsSenderOutSDO.setData(streamToString(urlConnection.getInputStream()));
+			}
+		}
 		
 		return smsSenderOutSDO;
 	}
