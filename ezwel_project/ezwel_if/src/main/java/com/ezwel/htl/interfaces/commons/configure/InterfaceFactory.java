@@ -23,6 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.configure.data.ApiReportConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.FaclMappingConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.FileRepositoryConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.InterfaceRootConfig;
@@ -84,6 +85,9 @@ public class InterfaceFactory {
 	
 	@APIFields(description = "로컬 호스트 정규화 된 도메인명")
 	public final static String LOCAL_CANONICAL_HOST_NAME;
+	
+	@APIFields(description = "API 인터페이스/배치 레포트")
+	public static ApiReportConfig apiReport;
 	
 	@APIFields(description = "인터페이스 부가기능 설정정보")
 	public static OptAppsConfig optionalApps;
@@ -235,6 +239,14 @@ public class InterfaceFactory {
 	
 	public static FaclMappingConfig getFaclMapping() {
 		return faclMapping;
+	}
+
+	public static ApiReportConfig getApiReport() {
+		return apiReport;
+	}
+
+	public static void setApiReport(ApiReportConfig apiReport) {
+		InterfaceFactory.apiReport = apiReport;
 	}
 
 	public static OptAppsConfig getOptionalApps() {
@@ -508,6 +520,8 @@ public class InterfaceFactory {
 					
 					/** 인터페이스 부가기능 설정 정보 */
 					InterfaceFactory.optionalApps = ifc.getOptionalApps();
+					
+					InterfaceFactory.apiReport = ifc.getApiReport();
 				}
 				
 				if(isMasterServer)  {

@@ -137,7 +137,7 @@
   	
 	<!-- root Loggers -->  
 	<root>
-		<level value="WARN" />
+		<level value="DEBUG" />
 		<!-- <appender-ref ref="defaultConsole" /> -->
 		<appender-ref ref="fileAppender" />
 	</root>
