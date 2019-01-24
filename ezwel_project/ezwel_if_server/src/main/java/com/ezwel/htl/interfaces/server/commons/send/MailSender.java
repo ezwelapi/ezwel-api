@@ -1,5 +1,7 @@
 package com.ezwel.htl.interfaces.server.commons.send;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -10,13 +12,13 @@ import javax.mail.internet.MimeMessage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor;
+import com.ezwel.htl.interfaces.service.data.send.MailSenderInSDO;
 import com.ezwel.htl.interfaces.service.data.send.MailSenderOutSDO;
 
 @Component
@@ -27,12 +29,12 @@ public class MailSender {
 	
 	static final String CONFIGSET = "Configset";
     
-	public List<MailSenderOutSDO> callMailSender(List<MailDTO> mailDTOList) throws Exception {
+	public List<MailSenderOutSDO> callMailSender(List<MailSenderInSDO> mailSenderInList) throws Exception {
 		List<MailSenderOutSDO> out = null;
 		
-		if(mailDTOList != null) {
+		if(mailSenderInList != null) {
 			out = new ArrayList<MailSenderOutSDO>();
-			for(MailDTO mail : mailDTOList) {
+			for(MailSenderInSDO mail : mailSenderInList) {
 				out.add(callMailSender(mail));
 			}
 		}
@@ -48,8 +50,7 @@ public class MailSender {
 	 * @throws Exception
 	 */
 	@APIOperation(description="메일발송 인터페이스")
-	@Async
-	public MailSenderOutSDO callMailSender(MailDTO mailDTO) throws Exception {
+	public MailSenderOutSDO callMailSender(MailSenderInSDO mailSenderInSDO) throws Exception {
 		
 		String host			= InterfaceFactory.getOptionalApps().getMailConfig().getHost();
 		String port 		= InterfaceFactory.getOptionalApps().getMailConfig().getPort();
@@ -74,9 +75,9 @@ public class MailSender {
 	    //MimeMessage 설정
         MimeMessage msg = new MimeMessage(session);
         msg.setFrom(new InternetAddress(from, fromName));
-        msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-        msg.setSubject(subject);
-        msg.setContent(body,"text/html");
+        msg.setRecipient(Message.RecipientType.TO, new InternetAddress(mailSenderInSDO.getRecipient()));
+        msg.setSubject(mailSenderInSDO.getSubject());
+        msg.setContent(mailSenderInSDO.getBody(),"text/html");
         msg.setHeader("X-SES-CONFIGURATION-SET", CONFIGSET);
         
         Transport transport = session.getTransport();

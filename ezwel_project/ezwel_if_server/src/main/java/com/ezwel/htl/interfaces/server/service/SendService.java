@@ -100,7 +100,7 @@ public class SendService {
 			String subject = mailSenderInSDO.getSubject();
 			String body = mailSenderInSDO.getBody();
 			
-			out = (MailSenderOutSDO) mailSender.callMailSender(recipient, subject, body);
+			out = (MailSenderOutSDO) mailSender.callMailSender(ailSenderInSDO);
 			
 		} 
 		catch(Exception e) {

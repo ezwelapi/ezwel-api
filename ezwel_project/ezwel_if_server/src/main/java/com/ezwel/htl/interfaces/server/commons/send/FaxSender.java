@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
@@ -31,7 +30,6 @@ public class FaxSender {
 	 * @throws NoSuchAlgorithmException
 	 */
 	@APIOperation(description="팩스발송 인터페이스 DB Insert")
-	@Async
 	public Object callFaxSender(String trTitle, String trSendName, String trSendFaxNum, String trDocName, String toName, String toPhone) throws NoSuchAlgorithmException {
 		
 		// 팩스발송등록 파라미터
