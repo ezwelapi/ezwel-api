@@ -245,10 +245,6 @@ public class InterfaceFactory {
 		return apiLogReport;
 	}
 
-	public static void setApiLogReport(ApiLogReportConfig apiLogReport) {
-		InterfaceFactory.apiLogReport = apiLogReport;
-	}
-
 	public static OptAppsConfig getOptionalApps() {
 		return optionalApps;
 	}
