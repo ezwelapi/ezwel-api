@@ -216,8 +216,7 @@ public class UtilityController {
 		SmsSenderOutSDO out = new SmsSenderOutSDO();
 		out = (SmsSenderOutSDO) sendService.callSmsSender(smsSenderInSDO);
 		
-		return out;
-		
+		return out;		
 	}
 	
 	@APIOperation(description="메일발송 인터페이스", isOutputJsonMarshall=true, returnType=MailSenderOutSDO.class)
@@ -229,21 +228,19 @@ public class UtilityController {
 		MailSenderOutSDO out = new MailSenderOutSDO();
 		out = (MailSenderOutSDO) sendService.callMailSender(mailSenderInSDO);
 		
-		return out;
-		
+		return out;		
 	}
 	
 	@APIOperation(description="팩스발송 인터페이스", isOutputJsonMarshall=true, returnType=FaxSenderOutSDO.class)
 	@RequestMapping(value="/callMailSender")
-	public Object callMailSender(FaxSenderInSDO faxSenderInSDO) {
+	public Object callFaxSender(FaxSenderInSDO faxSenderInSDO) {
 		
 		sendService = (SendService) LApplicationContext.getBean(sendService, SendService.class);
 		
 		FaxSenderOutSDO out = new FaxSenderOutSDO();
 		out = (FaxSenderOutSDO) sendService.callFaxSender(faxSenderInSDO);
 		
-		return out;
-		
+		return out;		
 	}
 	
 }
