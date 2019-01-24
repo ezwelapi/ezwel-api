@@ -23,7 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.configure.data.ApiReportConfig;
+import com.ezwel.htl.interfaces.commons.configure.data.ApiLogReportConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.FaclMappingConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.FileRepositoryConfig;
 import com.ezwel.htl.interfaces.commons.configure.data.InterfaceRootConfig;
@@ -87,7 +87,7 @@ public class InterfaceFactory {
 	public final static String LOCAL_CANONICAL_HOST_NAME;
 	
 	@APIFields(description = "API 인터페이스/배치 레포트")
-	public static ApiReportConfig apiReport;
+	public static ApiLogReportConfig apiLogReport;
 	
 	@APIFields(description = "인터페이스 부가기능 설정정보")
 	public static OptAppsConfig optionalApps;
@@ -241,12 +241,12 @@ public class InterfaceFactory {
 		return faclMapping;
 	}
 
-	public static ApiReportConfig getApiReport() {
-		return apiReport;
+	public static ApiLogReportConfig getApiLogReport() {
+		return apiLogReport;
 	}
 
-	public static void setApiReport(ApiReportConfig apiReport) {
-		InterfaceFactory.apiReport = apiReport;
+	public static void setApiLogReport(ApiLogReportConfig apiLogReport) {
+		InterfaceFactory.apiLogReport = apiLogReport;
 	}
 
 	public static OptAppsConfig getOptionalApps() {
@@ -521,10 +521,11 @@ public class InterfaceFactory {
 					/** 인터페이스 부가기능 설정 정보 */
 					InterfaceFactory.optionalApps = ifc.getOptionalApps();
 					
-					InterfaceFactory.apiReport = ifc.getApiReport();
+					InterfaceFactory.apiLogReport = ifc.getApiLogReport();
 				}
 				
 				if(isMasterServer)  {
+					
 					logger.debug("# LOCAL_HOST_ADDRESS : {}", LOCAL_HOST_ADDRESS);
 					logger.debug("# LOCAL_HOST_NAME : {}", LOCAL_HOST_NAME);
 					logger.debug("# LOCAL_CANONICAL_HOST_NAME : {}", LOCAL_CANONICAL_HOST_NAME);
@@ -544,6 +545,8 @@ public class InterfaceFactory {
 					logger.debug("# Agents : {}", ifc.getAgentList());
 					logger.debug("# Real Cached Size : {}", interfaceChannels.size());
 					logger.debug("# interfaceChannels : {}", interfaceChannels);
+					
+					logger.debug("# apiLogReport : {}", InterfaceFactory.apiLogReport);
 				}
 			}
 		} catch (JAXBException e) {

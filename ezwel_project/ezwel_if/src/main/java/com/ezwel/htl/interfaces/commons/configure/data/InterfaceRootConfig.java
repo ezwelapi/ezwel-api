@@ -22,7 +22,7 @@ import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
  * @date   2018. 11. 14.
  */
 @XmlRootElement( name = "interfaceConfigure" )
-@XmlType (propOrder={"fileRepository", "faclMapping", "apiReport", "optionalApps", "agentList", "insideChans", "outsideChans"})
+@XmlType (propOrder={"fileRepository", "faclMapping", "apiLogReport", "optionalApps", "agentList", "insideChans", "outsideChans"})
 @APIModel(description="인터페이스 설정")
 public class InterfaceRootConfig extends APIObject {
 
@@ -49,7 +49,7 @@ public class InterfaceRootConfig extends APIObject {
 	private OptAppsConfig optionalApps;	
 	
 	@APIFields(description = "API 인터페이스/배치 레포트")
-	private ApiReportConfig apiReport;	
+	private ApiLogReportConfig apiLogReport;	
 	
 	
 	public InterfaceRootConfig() {
@@ -64,7 +64,7 @@ public class InterfaceRootConfig extends APIObject {
 		fileRepository = null;
 		//serverAddress = null;
 		optionalApps = null;
-		apiReport = null;
+		apiLogReport = null;
 	}
 
 	/*
@@ -135,13 +135,13 @@ public class InterfaceRootConfig extends APIObject {
 		this.optionalApps = optionalApps;
 	}
 
-	public ApiReportConfig getApiReport() {
-		return apiReport;
+	public ApiLogReportConfig getApiLogReport() {
+		return apiLogReport;
 	}
 
 	@XmlElement
-	public void setApiReport(ApiReportConfig apiReport) {
-		this.apiReport = apiReport;
+	public void setApiLogReport(ApiLogReportConfig apiLogReport) {
+		this.apiLogReport = apiLogReport;
 	}
 
 	public void clear() {

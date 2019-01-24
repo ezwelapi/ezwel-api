@@ -10,12 +10,12 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
 @APIModel(description="API 인터페이스/배치 레포트")
-public class ApiReportConfig extends APIObject {
+public class ApiLogReportConfig extends APIObject {
 	
 	@APIFields(description = "레포트 수신자 목록")
-	private List<ApiReportRecevConfig> receiverList;
+	private List<ApiLogReportRecevConfig> receiverList;
 
-	public ApiReportConfig() {
+	public ApiLogReportConfig() {
 		this.reset();
 	}
 	
@@ -23,13 +23,13 @@ public class ApiReportConfig extends APIObject {
 		receiverList = null;
 	}
 
-	public List<ApiReportRecevConfig> getReceiverList() {
+	public List<ApiLogReportRecevConfig> getReceiverList() {
 		return receiverList;
 	}
 
 	@XmlElementWrapper(name = "receiverList")
 	@XmlElement(name = "receiver")
-	public void setReceiverList(List<ApiReportRecevConfig> receiverList) {
+	public void setReceiverList(List<ApiLogReportRecevConfig> receiverList) {
 		this.receiverList = receiverList;
 	}
 

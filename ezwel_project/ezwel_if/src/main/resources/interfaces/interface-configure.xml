@@ -33,7 +33,7 @@
 	</faclMapping>
 	
 	<!-- 인터페이스/배치 레포트 -->
-	<apiReport>
+	<apiLogReport>
 		<receiverList>
 			<receiver>
 				<name>전산실</name>
@@ -48,7 +48,7 @@
 				<emailAddr>java124@naver.com</emailAddr>
 			</receiver>											
 		</receiverList>
-	</apiReport>
+	</apiLogReport>
 	
 	<!-- 부가 기능 설정 정보 -->
 	<optionalApps>

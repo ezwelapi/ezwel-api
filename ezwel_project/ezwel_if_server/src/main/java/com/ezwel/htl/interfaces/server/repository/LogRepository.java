@@ -19,6 +19,7 @@ import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
+import com.ezwel.htl.interfaces.server.commons.send.MailSender;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.entities.EzcApiBatcLog;
 import com.ezwel.htl.interfaces.server.entities.EzcIfLog;
@@ -37,6 +38,8 @@ public class LogRepository extends AbstractDataAccessObject {
 	private static final Logger logger = LoggerFactory.getLogger(LogRepository.class);
 	
 	private PropertyUtil propertyUtil;
+	
+	private MailSender mailSender;
 	
 	@APIOperation(description="인터페이스 실행 로그 목록 입력")
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
@@ -58,6 +61,8 @@ public class LogRepository extends AbstractDataAccessObject {
 		logger.debug("[START] insertInterfaceLog [FINAL-LOG-DATA] "/*, inInterfaceLogSDO*/);
 		
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		mailSender = (MailSender) LApplicationContext.getBean(mailSender, MailSender.class);
+		
 		Integer out = OperateConstants.INTEGER_ZERO_VALUE;
 		EzcIfLog ezcIfLog = null;
 		

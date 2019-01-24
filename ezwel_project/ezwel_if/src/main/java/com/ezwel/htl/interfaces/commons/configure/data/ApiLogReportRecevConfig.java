@@ -7,7 +7,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
 @APIModel(description="숙박 건물 이미지 저장 경로")
-public class ApiReportRecevConfig extends APIObject {
+public class ApiLogReportRecevConfig extends APIObject {
 
 	@APIFields(description="수신자")
 	private String name;
@@ -16,7 +16,7 @@ public class ApiReportRecevConfig extends APIObject {
 	private String emailAddr;
 	
 	
-	public ApiReportRecevConfig() {
+	public ApiLogReportRecevConfig() {
 		this.reset();
 	}
 	

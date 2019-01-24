@@ -27,6 +27,19 @@ public class MailSender {
 	
 	static final String CONFIGSET = "Configset";
     
+	public List<MailSenderOutSDO> callMailSender(List<MailDTO> mailDTOList) throws Exception {
+		List<MailSenderOutSDO> out = null;
+		
+		if(mailDTOList != null) {
+			out = new ArrayList<MailSenderOutSDO>();
+			for(MailDTO mail : mailDTOList) {
+				out.add(callMailSender(mail));
+			}
+		}
+		
+		return out;
+	}
+	
 	/**
 	 * 메일전송
 	 * @param recipient 수신자
@@ -36,7 +49,7 @@ public class MailSender {
 	 */
 	@APIOperation(description="메일발송 인터페이스")
 	@Async
-	public Object callMailSender(String recipient, String subject, String body) throws Exception {
+	public MailSenderOutSDO callMailSender(MailDTO mailDTO) throws Exception {
 		
 		String host			= InterfaceFactory.getOptionalApps().getMailConfig().getHost();
 		String port 		= InterfaceFactory.getOptionalApps().getMailConfig().getPort();
