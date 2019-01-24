@@ -55,9 +55,9 @@ public class SendIFService {
 		try {
 			
 			HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
-			httpConfigSDO.setHttpAgentId(null);
-			httpConfigSDO.setHttpApiKey(null);
-			httpConfigSDO.setHttpApiSignature(null);
+			httpConfigSDO.setHttpAgentId("00000000");
+			httpConfigSDO.setHttpApiKey("");
+			httpConfigSDO.setHttpApiSignature("");
 			httpConfigSDO.getHttpApiTimestamp();
 			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getSmsConfig().getRestURI());
 			
@@ -85,9 +85,9 @@ public class SendIFService {
 		try {
 			
 			HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
-			httpConfigSDO.setHttpAgentId(null);
-			httpConfigSDO.setHttpApiKey(null);
-			httpConfigSDO.setHttpApiSignature(null);
+			httpConfigSDO.setHttpAgentId("00000000");
+			httpConfigSDO.setHttpApiKey("");
+			httpConfigSDO.setHttpApiSignature("");
 			httpConfigSDO.getHttpApiTimestamp();
 			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getMailConfig().getRestURI());
 			
@@ -115,9 +115,9 @@ public class SendIFService {
 		try {
 			
 			HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
-			httpConfigSDO.setHttpAgentId(null);
-			httpConfigSDO.setHttpApiKey(null);
-			httpConfigSDO.setHttpApiSignature(null);
+			httpConfigSDO.setHttpAgentId("00000000");
+			httpConfigSDO.setHttpApiKey("");
+			httpConfigSDO.setHttpApiSignature("");
 			httpConfigSDO.getHttpApiTimestamp();
 			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getFaxConfig().getRestURI());
 			
