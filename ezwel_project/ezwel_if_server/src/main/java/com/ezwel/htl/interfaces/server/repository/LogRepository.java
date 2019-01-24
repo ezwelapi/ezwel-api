@@ -23,6 +23,7 @@ import com.ezwel.htl.interfaces.server.commons.send.MailSender;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.entities.EzcApiBatcLog;
 import com.ezwel.htl.interfaces.server.entities.EzcIfLog;
+import com.ezwel.htl.interfaces.service.data.send.MailSenderOutSDO;
 
 /**
  * <pre>
@@ -78,6 +79,13 @@ public class LogRepository extends AbstractDataAccessObject {
 				//logger.debug("# EzcIfLog : {}", ezcIfLog);
 				out = sqlSession.insert(getNamespace("IF_LOG_MAPPER", "insertEzcIfLog"), ezcIfLog);
 				logger.debug("[LOG-SAVED] txSuccess : {}", out);
+				
+				//메일 발송
+				String recipient = mailSenderInSDO.getRecipient();
+				String subject = mailSenderInSDO.getSubject();
+				String body = mailSenderInSDO.getBody();
+				
+				out = (MailSenderOutSDO) mailSender.callMailSender(recipient, subject, body);
 			}
 		}
 		catch(Exception e) {
