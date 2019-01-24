@@ -72,7 +72,7 @@ public class SendService {
 		
 		try {
 			
-			out = (SmsSenderOutSDO) smsSender.requestUrl(smsSenderInSDO);
+			out = (SmsSenderOutSDO) smsSender.callSmsSender(smsSenderInSDO);
 			
 		} 
 		catch(Exception e) {

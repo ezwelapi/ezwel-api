@@ -29,7 +29,7 @@ public class MailSender {
 	
 	static final String CONFIGSET = "Configset";
     
-	@APIOperation(description="메일목록발송 인터페이스")
+	@APIOperation(description="메일발송 목록 인터페이스")
 	public List<MailSenderOutSDO> callMailSender(List<MailSenderInSDO> mailSenderInList) throws Exception {
 		
 		List<MailSenderOutSDO> out = null;

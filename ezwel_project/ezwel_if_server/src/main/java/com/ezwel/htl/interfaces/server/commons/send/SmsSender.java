@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +37,23 @@ public class SmsSender {
 	static final String CALLFROM = "0232820579"; //수신번호
 	static final String SVC_TYPE = "1008";		 //서비스구분코드(숙박)
 	
+	@APIOperation(description="문자발송 목록 인터페이스")
+	public List<SmsSenderOutSDO> callSmsSender(List<SmsSenderInSDO> smsSenderInList) throws Exception {
+		
+		List<SmsSenderOutSDO> out = null;
+		
+		if(smsSenderInList != null) {
+			out = new ArrayList<SmsSenderOutSDO>();
+			for(SmsSenderInSDO sms : smsSenderInList) {
+				out.add(callSmsSender(sms));
+			}
+		}
+		
+		return out;
+	}
+	
 	@APIOperation(description="문자발송 인터페이스 HttpURLConnection")
-	public Object requestUrl(SmsSenderInSDO smsSenderInSDO) throws Exception {
+	public SmsSenderOutSDO callSmsSender(SmsSenderInSDO smsSenderInSDO) throws Exception {
 		
 		String params = null;
 		
