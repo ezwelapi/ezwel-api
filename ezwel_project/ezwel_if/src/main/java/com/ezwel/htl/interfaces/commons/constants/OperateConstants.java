@@ -151,6 +151,7 @@ public class OperateConstants {
 	public static final String STR_E;
 
 	public static final String IMAGE_FILE_NAME_SPACE;
+	public static final String API_NAS_ROOT_NAME_SPACE;
 	
 	public static final String STR_I;
 	public static final String STR_O;
@@ -163,7 +164,8 @@ public class OperateConstants {
 		EZWEL_INSIDE_EXCLUDE_FIELDS.add("httpApiSignature");
 		
 		// OperateConstants.IMAGE_FILE_NAME_SPACE
-		IMAGE_FILE_NAME_SPACE = "ezc-api";
+		API_NAS_ROOT_NAME_SPACE = "ezc-api";
+		IMAGE_FILE_NAME_SPACE = "facl-images";
 		
 		STR_I = "I";
 		STR_O = "O";

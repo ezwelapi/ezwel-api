@@ -37,7 +37,51 @@ var $util = {
 		
 		//return parseInt(new Date().getTime().toString().substring(0, 10));
 		return Math.floor(new Date().getTime() / 1000);
-	}	
+	},
+	// $util.getDate(false, 1)
+	getDate: function(isTime, plusDay, plusMonth) {
+		var date = new Date(); 
+		if(plusDay && Number(plusDay) > 0) {
+			date.setDate(date.getDate() + plusDay); 
+		}
+		if(plusMonth && Number(plusMonth) > 0) {
+			date.setMonth(date.getMonth() + plusMonth);
+		}
+		var year = date.getFullYear(); 
+		var month = new String(date.getMonth()+1);
+		var day = new String(date.getDate()); 
+		var hours = new String(date.getHours());
+		var minutes = new String(date.getMinutes());
+		var seconds = new String(date.getSeconds());
+		
+		if(hours.length == 1) {
+			hours = "0" + hours;
+		}
+		if(minutes.length == 1) {
+			minutes = "0" + minutes;
+		}
+		if(seconds.length == 1) {
+			seconds = "0" + seconds;
+		}
+		// 한자리수일 경우 0을 채워준다. 
+		if(month.length == 1){ 
+		  month = "0" + month; 
+		} 
+		if(day.length == 1){ 
+		  day = "0" + day; 
+		}
+		return year + month + day + (isTime ? hours + minutes + seconds : "");
+	},
+	// $util.getRandomNumber(9)
+	getRandomNumber: function(maxLength) {
+		
+		var out = "";
+		for(var i = 0; i < maxLength; i++) {
+			out += new String(Math.floor((Math.random() * (9 - 0 + 1))) + 0);
+		}
+		console.log(out + ", length : " + out.length);
+		return out;
+	}
 };
 
 var $interface = {
@@ -113,8 +157,8 @@ var $interface = {
 			 url : requestNamespace + "/facl/agentJob"
 			,input : {
 				"rsvNo": "123456789",
-				"rsvDateStart": "20181201",
-				"rsvDateEnd": "20181215"
+				"rsvDateStart": $util.getDate(false, 1),
+				"rsvDateEnd": $util.getDate(false, 2)
 			}
 		},
 		
@@ -143,8 +187,8 @@ var $interface = {
 					"readTimeout": 100000	/* {setClientUserData} */
 				},
 				faclSearchInSDO : {
-					"checkInDate": "20190101",	/* {setClientUserData} */
-					"checkOutDate": "20190102",	/* {setClientUserData} */
+					"checkInDate": $util.getDate(false, 1),	/* {setClientUserData} */
+					"checkOutDate": $util.getDate(false, 2),	/* {setClientUserData} */
 					"sidoCode": "11",	/* {setClientUserData} */
 					"gunguCode": ""	/* {setClientUserData} */
 				}
@@ -176,8 +220,8 @@ var $interface = {
 				},
 				roomReadInSDO : {
 					"pdtNo": "KRSEL340",	/* {setClientUserData} */
-					"checkInDate": "20190101",	/* {setClientUserData} */
-					"checkOutDate": "20190102",	/* {setClientUserData} */
+					"checkInDate": $util.getDate(false, 1),	/* {setClientUserData} */
+					"checkOutDate": $util.getDate(false, 2),	/* {setClientUserData} */
 					"roomCnt": 1,	/* {setClientUserData} */
 					"adultCnt": 2,	/* {setClientUserData} */
 					"childCnt": 0	/* {setClientUserData} */
@@ -196,9 +240,23 @@ var $interface = {
 					"readTimeout": 100000	/* {setClientUserData} */
 				},
 				roomReadInSDO : {
-					"grpFaclCd": "64512",
-					"checkInDate": "20190101",	/* {setClientUserData} */
-					"checkOutDate": "20190102",	/* {setClientUserData} */
+					"seachMinRoomInList": [
+						{
+							partnerCd: "10030653",
+							pdtNo: "6eef50a9-9e4b-4637-aab2-a444e030478a"
+						},
+						{
+							partnerCd: "10055550",
+							pdtNo: "KRKAG020"
+						},
+						{
+							partnerCd: "10054233",
+							pdtNo: "DHC000483"
+						}						
+					],
+					"grpFaclCd": null,
+					"checkInDate": $util.getDate(false, 1),	/* {setClientUserData} */
+					"checkOutDate": $util.getDate(false, 2),	/* {setClientUserData} */
 					"roomCnt": 1,	/* {setClientUserData} */
 					"adultCnt": 2,	/* {setClientUserData} */
 					"childCnt": 0	/* {setClientUserData} */
@@ -220,8 +278,8 @@ var $interface = {
 				cancelFeePsrcInSDO : {
 					"pdtNo": "KRSEL402",	/* {setClientUserData} */
 					"roomNo": "ZyM^JZUuHL^IGl8A4YyHevULP9zS8K2ev1C8NgVQnc3lQabQXTwtxa52D2tOFZB2tN7ujSDtk3otQJI/mC1K8WBmiQtdoKdpQmCmqKh8no3FwuqqmGtyuccVc6rLbyAndR69WtV9Q7yJANWNZvF^pDUf/WJPWCOUtlau0aEKEWKybat7rYTTc4ZK8Lr2bmY99lX5X^ECCR7G3B5mSVU639vOOl3l^EG2qfYwiFx1hRw=",	/* {setClientUserData} */
-					"checkInDate": "20190101",	/* {setClientUserData} */
-					"checkOutDate": "20190102",	/* {setClientUserData} */
+					"checkInDate": $util.getDate(false, 1),	/* {setClientUserData} */
+					"checkOutDate": $util.getDate(false, 2),	/* {setClientUserData} */
 					"roomCnt": 1	/* {setClientUserData} */
 				}
 			}
@@ -238,21 +296,21 @@ var $interface = {
 					"connTimeout": 1000,	/* {setClientUserData} */
 					"readTimeout": 100000	/* {setClientUserData} */
 				},
-				rsvHistSendInSDO : {
+				rsvHistSendInSDO : {  
 					data : {
-						"rsvNo": "E000000003",	/* {setClientUserData} */
-						"rsvDatetime": "20181220153034",	/* {setClientUserData} */
+						"rsvNo": "E" + $util.getRandomNumber(9),	/* {setClientUserData} */
+						"rsvDatetime": $util.getDate(true),	/* {setClientUserData} */
 						"rsvPrice": 56000,	/* {setClientUserData} */
 						"rsvStat": "r02",	/* {setClientUserData} */
 						"rsvPdtName": "더 리센츠 동대문 호텔",	/* {setClientUserData} */
-						"rsvPdtNo": "P000000003",	/* {setClientUserData} */
+						"rsvPdtNo": "P" + $util.getRandomNumber(9),	/* {setClientUserData} */
 						"pdtNo": "KRSEL402",	/* {setClientUserData} */
 						"pdtName": "더 리센츠 동대문 호텔",	/* {setClientUserData} */
 						"roomNo": "ZyM^JZUuHL^IGl8A4YyHevULP9zS8K2ev1C8NgVQnc3lQabQXTwtxa52D2tOFZB2tN7ujSDtk3otQJI/mC1K8WBmiQtdoKdpQmCmqKh8no3FwuqqmGtyuccVc6rLbyAndR69WtV9Q7yJANWNZvF^pDUf/WJPWCOUtlau0aEKEWKybat7rYTTc4ZK8Lr2bmY99lX5X^ECCR7G3B5mSVU639vOOl3l^EG2qfYwiFx1hRw=",	/* {setClientUserData} */
 						"roomName": "Standard Double Room (Latex Mattress)(1 double bed request)",	/* {setClientUserData} */
 						"roomCnt": 1,	/* {setClientUserData} */
-						"checkInDate": "20190101",	/* {setClientUserData} */
-						"checkOutDate": "20190102",	/* {setClientUserData} */
+						"checkInDate": $util.getDate(false, 1),	/* {setClientUserData} */
+						"checkOutDate": $util.getDate(false, 2),	/* {setClientUserData} */
 						"memKey": "EZ0001",	/* {setClientUserData} */
 						"memName": "홍길동",	/* {setClientUserData} */
 						"memPhone": "01012341234",	/* {setClientUserData} */
@@ -336,8 +394,8 @@ var $interface = {
 				},
 				ezwelJobInSDO : {
 					"rsvNo": "E000000003",	/* {setClientUserData} */
-					"rsvDateStart": "20181201",	/* {setClientUserData} */
-					"rsvDateEnd": "20181220"	/* {setClientUserData} */
+					"rsvDateStart": $util.getDate(false, 1),	/* {setClientUserData} */
+					"rsvDateEnd": $util.getDate(false, 2)	/* {setClientUserData} */
 				}
 			}
 		},
@@ -647,7 +705,7 @@ var $interface = {
 		});
 	}
 	,init : function() {
-
+		
 		$interface.color.metroColor();
 		
 		var datas = this.datas;

@@ -66,7 +66,7 @@ public class LogController {
 	}
 	
 
-	@RequestMapping(value = "/countListIfLogSDO")
+	@RequestMapping(value = "/countListApiBatcLog")
 	@APIOperation(description="API 배치 실행 로그 건수 조회", isOutputJsonMarshall=true, returnType=ApiBatcLogSDO.class)
 	public Object countListApiBatcLogSDO(ApiBatcLogSDO apiBatcLogSDO) throws APIException {
 		logger.debug("[START] countListApiBatcLogSDO");
@@ -77,7 +77,7 @@ public class LogController {
 		return out;
 	}
 	
-	@RequestMapping(value = "/selectListApiBatcLogSDO")
+	@RequestMapping(value = "/selectListApiBatcLog")
 	@APIOperation(description="API 배치 실행 로그 목록 조회", isOutputJsonMarshall=true, returnType=ApiBatcLogSDO.class)
 	public Object selectListApiBatcLogSDO(ApiBatcLogSDO apiBatcLogSDO) throws APIException {
 		logger.debug("[START] selectListApiBatcLogSDO");
@@ -88,7 +88,7 @@ public class LogController {
 		return out;
 	}
 	
-	@RequestMapping(value = "/selectApiBatcLogSDO")
+	@RequestMapping(value = "/selectApiBatcLog")
 	@APIOperation(description="API 배치 실행 로그 단건 조회", isOutputJsonMarshall=true, returnType=ApiBatcLogSDO.class)
 	public Object selectApiBatcLogSDO(ApiBatcLogSDO apiBatcLogSDO) throws APIException {
 		logger.debug("[START] selectApiBatcLogSDO");

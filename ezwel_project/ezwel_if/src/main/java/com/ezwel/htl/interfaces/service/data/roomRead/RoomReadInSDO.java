@@ -2,6 +2,7 @@ package com.ezwel.htl.interfaces.service.data.roomRead;
 
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
@@ -47,6 +48,9 @@ public class RoomReadInSDO extends AbstractSDO {
 	
 	@APIFields(description = "그룹 시설 코드")
 	private BigDecimal grpFaclCd;
+	
+	@APIFields(description = "최저가 객실 조회 상품정보")
+	private List<RoomReadSeachMinInSDO> seachMinRoomInList;
 	
 	public String getPdtNo() {
 		return pdtNo;
@@ -112,4 +116,13 @@ public class RoomReadInSDO extends AbstractSDO {
 		this.grpFaclCd = grpFaclCd;
 	}
 
+	public List<RoomReadSeachMinInSDO> getSeachMinRoomInList() {
+		return seachMinRoomInList;
+	}
+
+	public void setSeachMinRoomInList(List<RoomReadSeachMinInSDO> seachMinRoomInList) {
+		this.seachMinRoomInList = seachMinRoomInList;
+	}
+
+	
 }
