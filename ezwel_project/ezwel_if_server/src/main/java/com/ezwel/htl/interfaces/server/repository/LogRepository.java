@@ -80,12 +80,7 @@ public class LogRepository extends AbstractDataAccessObject {
 				out = sqlSession.insert(getNamespace("IF_LOG_MAPPER", "insertEzcIfLog"), ezcIfLog);
 				logger.debug("[LOG-SAVED] txSuccess : {}", out);
 				
-				//메일 발송
-				String recipient = mailSenderInSDO.getRecipient();
-				String subject = mailSenderInSDO.getSubject();
-				String body = mailSenderInSDO.getBody();
-				
-				out = (MailSenderOutSDO) mailSender.callMailSender(recipient, subject, body);
+				//메일발송
 			}
 		}
 		catch(Exception e) {
