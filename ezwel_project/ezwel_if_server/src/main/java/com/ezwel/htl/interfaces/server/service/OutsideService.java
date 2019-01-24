@@ -949,6 +949,7 @@ public class OutsideService extends AbstractServiceObject {
 							.append(OperateConstants.IMAGE_FILE_NAME_SPACE).append(File.separator)
 							.append(imageParam.getPartnerCd()).append(File.separator)
 							.append(imageParam.getCityCd()).append(File.separator)
+							.append(imageParam.getFaclCd()).append(File.separator)
 							.append(imageParam.getAreaCd()).toString());
 					
 					inImageSDO.setDummy(imageParam);
