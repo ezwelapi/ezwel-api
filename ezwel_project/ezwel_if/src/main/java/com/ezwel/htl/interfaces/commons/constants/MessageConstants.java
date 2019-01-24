@@ -33,6 +33,9 @@ public class MessageConstants {
 	public static final int RESPONSE_CODE_9600;
 	public static final int RESPONSE_CODE_9700;
 	public static final int RESPONSE_CODE_9800;
+	public static final int RESPONSE_CODE_9900;
+	public static final int RESPONSE_CODE_9901;
+	public static final int RESPONSE_CODE_9902;
 	
 	public static final Map<Integer, String> MESSAGE_MAP;
 
@@ -73,6 +76,9 @@ public class MessageConstants {
 		RESPONSE_CODE_9600 = 9600;	// MessageConstants.RESPONSE_CODE_9600
 		RESPONSE_CODE_9700 = 9700;	// MessageConstants.RESPONSE_CODE_9700
 		RESPONSE_CODE_9800 = 9800;
+		RESPONSE_CODE_9900 = 9900;
+		RESPONSE_CODE_9901 = 9901;
+		RESPONSE_CODE_9902 = 9902;
 		
 		MESSAGE_MAP.put(RESPONSE_CODE_1000, "정상적으로 처리되었습니다.");
 		MESSAGE_MAP.put(RESPONSE_CODE_2000, "필수 파라메터 누락");
@@ -95,6 +101,9 @@ public class MessageConstants {
 		MESSAGE_MAP.put(RESPONSE_CODE_9600, "숙박 시설 매핑 장애발생");
 		MESSAGE_MAP.put(RESPONSE_CODE_9700, "프로세스 실행중");
 		MESSAGE_MAP.put(RESPONSE_CODE_9800, "파라메터 인코딩 장애발생");
+		MESSAGE_MAP.put(RESPONSE_CODE_9900, "메일 발송 장애발생");
+		MESSAGE_MAP.put(RESPONSE_CODE_9901, "팩스 발송 장애발생");
+		MESSAGE_MAP.put(RESPONSE_CODE_9902, "메시지 발송 장애발생");
 		
 		
 		RESPONSE_CODE_FIELD_NAME = "code";
