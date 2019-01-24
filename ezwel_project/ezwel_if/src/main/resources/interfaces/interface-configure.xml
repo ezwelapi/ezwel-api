@@ -62,7 +62,7 @@
 		<mailConfig>
 			<restURI>/service/callMailSender</restURI>
 			<encoding>UTF-8</encoding>
-			<host>127.0.0.1</host>
+			<host>localhost</host>
 		 	<port>25</port>
 		 	<from>webmaster@ezwel.com</from>
 		 	<fromName>이지웰</fromName>
