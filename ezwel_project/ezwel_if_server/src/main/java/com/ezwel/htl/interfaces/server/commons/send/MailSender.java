@@ -81,13 +81,16 @@ public class MailSender {
         msg.setHeader("X-SES-CONFIGURATION-SET", CONFIGSET);
         
         Transport transport = session.getTransport();
-        
+        MailSenderOutSDO mailSenderOutSDO = null;
         try
         {
         	logger.info("Send Mail Sending...");
             transport.connect(host, userName, passWord);
             transport.sendMessage(msg, msg.getAllRecipients());
             logger.info("Send Mail Sent");
+            mailSenderOutSDO = new MailSenderOutSDO();
+            mailSenderOutSDO.setSuccess(true);
+        
         }
         catch (Exception ex) {
         	logger.info("Send Mail Error message" + ex.getMessage());
@@ -97,8 +100,7 @@ public class MailSender {
             transport.close();
         }
         
-        MailSenderOutSDO mailSenderOutSDO = new MailSenderOutSDO();
-        mailSenderOutSDO.setSuccess(true);
+    
 		
 		return mailSenderOutSDO;
 	}
