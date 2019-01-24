@@ -217,6 +217,7 @@ public class UtilityController {
 		out = (SmsSenderOutSDO) sendService.callSmsSender(smsSenderInSDO);
 		
 		return out;
+		
 	}
 	
 	@APIOperation(description="메일발송 인터페이스", isOutputJsonMarshall=true, returnType=MailSenderOutSDO.class)
@@ -229,6 +230,7 @@ public class UtilityController {
 		out = (MailSenderOutSDO) sendService.callMailSender(mailSenderInSDO);
 		
 		return out;
+		
 	}
 	
 	@APIOperation(description="팩스발송 인터페이스", isOutputJsonMarshall=true, returnType=FaxSenderOutSDO.class)
@@ -241,6 +243,7 @@ public class UtilityController {
 		out = (FaxSenderOutSDO) sendService.callFaxSender(faxSenderInSDO);
 		
 		return out;
+		
 	}
 	
 }
