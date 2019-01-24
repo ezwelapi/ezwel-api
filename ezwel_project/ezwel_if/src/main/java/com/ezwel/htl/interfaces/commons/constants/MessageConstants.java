@@ -101,9 +101,9 @@ public class MessageConstants {
 		MESSAGE_MAP.put(RESPONSE_CODE_9600, "숙박 시설 매핑 장애발생");
 		MESSAGE_MAP.put(RESPONSE_CODE_9700, "프로세스 실행중");
 		MESSAGE_MAP.put(RESPONSE_CODE_9800, "파라메터 인코딩 장애발생");
-		MESSAGE_MAP.put(RESPONSE_CODE_9900, "메일 발송 장애발생");
-		MESSAGE_MAP.put(RESPONSE_CODE_9901, "팩스 발송 장애발생");
-		MESSAGE_MAP.put(RESPONSE_CODE_9902, "메시지 발송 장애발생");
+		MESSAGE_MAP.put(RESPONSE_CODE_9900, "메시지 발송 장애발생");
+		MESSAGE_MAP.put(RESPONSE_CODE_9901, "메일 발송 장애발생");
+		MESSAGE_MAP.put(RESPONSE_CODE_9902, "팩스 발송 장애발생");
 		
 		
 		RESPONSE_CODE_FIELD_NAME = "code";

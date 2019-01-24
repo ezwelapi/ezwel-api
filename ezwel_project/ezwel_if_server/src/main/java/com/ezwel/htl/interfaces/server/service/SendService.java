@@ -99,7 +99,7 @@ public class SendService {
 			out = (MailSenderOutSDO) mailSender.callMailSender(mailSenderInSDO);
 		} 
 		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9900, "메일발송 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9901, "메일발송 인터페이스 장애발생.", e);
 		}
 			
 		return out;
@@ -123,7 +123,7 @@ public class SendService {
 			
 		} 
 		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9900, "팩스발송 인터페이스 장애발생.", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9902, "팩스발송 인터페이스 장애발생.", e);
 		}
 			
 		return out;
