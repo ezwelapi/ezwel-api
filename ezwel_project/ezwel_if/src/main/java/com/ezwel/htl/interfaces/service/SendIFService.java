@@ -59,7 +59,7 @@ public class SendIFService {
 			httpConfigSDO.setHttpApiKey("");
 			httpConfigSDO.setHttpApiSignature("");
 			httpConfigSDO.getHttpApiTimestamp();
-			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getSmsConfig().getRestURI());
+			httpConfigSDO.setRestURI(InterfaceFactory.getServerHttpDomainURI().concat(InterfaceFactory.getOptionalApps().getSmsConfig().getRestURI()));
 			
 			/** execute interface */
 			out = (SmsSenderOutSDO) inteface.sendJSON(httpConfigSDO, smsSenderInSDO, SmsSenderOutSDO.class);
@@ -89,7 +89,7 @@ public class SendIFService {
 			httpConfigSDO.setHttpApiKey("");
 			httpConfigSDO.setHttpApiSignature("");
 			httpConfigSDO.getHttpApiTimestamp();
-			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getMailConfig().getRestURI());
+			httpConfigSDO.setRestURI(InterfaceFactory.getServerHttpDomainURI().concat(InterfaceFactory.getOptionalApps().getMailConfig().getRestURI()));
 			
 			/** execute interface */
 			out = (MailSenderOutSDO) inteface.sendJSON(httpConfigSDO, mailSenderInSDO, MailSenderOutSDO.class);
@@ -119,7 +119,7 @@ public class SendIFService {
 			httpConfigSDO.setHttpApiKey("");
 			httpConfigSDO.setHttpApiSignature("");
 			httpConfigSDO.getHttpApiTimestamp();
-			httpConfigSDO.setRestURI(InterfaceFactory.getOptionalApps().getFaxConfig().getRestURI());
+			httpConfigSDO.setRestURI(InterfaceFactory.getServerHttpDomainURI().concat(InterfaceFactory.getOptionalApps().getFaxConfig().getRestURI()));
 			
 			/** execute interface */
 			out = (FaxSenderOutSDO) inteface.sendJSON(httpConfigSDO, faxSenderInSDO, FaxSenderOutSDO.class);
