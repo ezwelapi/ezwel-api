@@ -30,6 +30,7 @@ public class MailSender {
 	static final String CONFIGSET = "Configset";
     
 	public List<MailSenderOutSDO> callMailSender(List<MailSenderInSDO> mailSenderInList) throws Exception {
+		
 		List<MailSenderOutSDO> out = null;
 		
 		if(mailSenderInList != null) {
@@ -81,13 +82,16 @@ public class MailSender {
         msg.setHeader("X-SES-CONFIGURATION-SET", CONFIGSET);
         
         Transport transport = session.getTransport();
+        
         MailSenderOutSDO mailSenderOutSDO = null;
+        
         try
         {
         	logger.info("Send Mail Sending...");
             transport.connect(host, userName, passWord);
             transport.sendMessage(msg, msg.getAllRecipients());
             logger.info("Send Mail Sent");
+            
             mailSenderOutSDO = new MailSenderOutSDO();
             mailSenderOutSDO.setSuccess(true);
         
@@ -100,8 +104,6 @@ public class MailSender {
             transport.close();
         }
         
-    
-		
 		return mailSenderOutSDO;
 	}
 	

@@ -1,7 +1,6 @@
 package com.ezwel.htl.interfaces.server.commons.send;
 
 import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,17 +29,17 @@ public class FaxSender {
 	 * @throws NoSuchAlgorithmException
 	 */
 	@APIOperation(description="팩스발송 인터페이스 DB Insert")
-	public Object callFaxSender(String trTitle, String trSendName, String trSendFaxNum, String trDocName, String toName, String toPhone) throws NoSuchAlgorithmException {
+	public FaxSenderOutSDO callFaxSender(FaxSenderInSDO faxSenderInSDO) throws NoSuchAlgorithmException {
 		
 		// 팩스발송등록 파라미터
-		FaxSenderInSDO faxSenderInSDO = new FaxSenderInSDO();		
-		faxSenderInSDO.setTrSendDate(new Timestamp(new java.util.Date().getTime())); // 발송일시
-		faxSenderInSDO.setTrTitle(trTitle);					// 발송제목
-		faxSenderInSDO.setTrSendName(trSendName); 			// 발신자이름
-		faxSenderInSDO.setTrSendFaxNum(trSendFaxNum); 		// 발신자팩스번호
-		faxSenderInSDO.setTrMsgCount(1); 					// 동보건수
-		faxSenderInSDO.setTrDocName(trDocName); 			// 발송파일정보
-		faxSenderInSDO.setTrSendStat("0"); 					// 발송상태값(0:발송대기,1:발송중,2:발송완료)
+//		FaxSenderInSDO faxSenderInSDO = new FaxSenderInSDO();		
+//		faxSenderInSDO.setTrSendDate(new Timestamp(new java.util.Date().getTime())); // 발송일시
+//		faxSenderInSDO.setTrTitle(trTitle);					// 발송제목
+//		faxSenderInSDO.setTrSendName(trSendName); 			// 발신자이름
+//		faxSenderInSDO.setTrSendFaxNum(trSendFaxNum); 		// 발신자팩스번호
+//		faxSenderInSDO.setTrMsgCount(1); 					// 동보건수
+//		faxSenderInSDO.setTrDocName(trDocName); 			// 발송파일정보
+//		faxSenderInSDO.setTrSendStat("0"); 					// 발송상태값(0:발송대기,1:발송중,2:발송완료)
 
 		// 팩스발송내용등록	
 		//Integer txCount = sqlSession.update(getNamespace("RESERV_BASE_MAPPER", "updateEzcReservBaseVoucherNo"), inEzcReservBase);
@@ -82,9 +81,9 @@ public class FaxSender {
 //	        )
 //	    </insert>
 
-		faxSenderInSDO.setTrSerialNo(1); 						// 발송순번
-		faxSenderInSDO.setTrName(toName); 					// 수신자이름
-		faxSenderInSDO.setTrPhone(toPhone); 					// 수신자팩스번호
+//		faxSenderInSDO.setTrSerialNo(1); 						// 발송순번
+//		faxSenderInSDO.setTrName(toName); 					// 수신자이름
+//		faxSenderInSDO.setTrPhone(toPhone); 					// 수신자팩스번호
 		
 		// 팩스발송수신자등록
 		//this.sendManagerDAO.insertFaxSendMsg(faxSenderSDO);

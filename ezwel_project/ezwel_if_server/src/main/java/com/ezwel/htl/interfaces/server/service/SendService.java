@@ -119,14 +119,7 @@ public class SendService {
 		
 		try {
 			
-			String trTitle = faxSenderInSDO.getTrTitle();
-			String trSendName = faxSenderInSDO.getTrSendName();
-			String trSendFaxNum = faxSenderInSDO.getTrSendFaxNum();
-			String trDocName = faxSenderInSDO.getTrDocName();
-			String trName = faxSenderInSDO.getTrName();
-			String trPhone = faxSenderInSDO.getTrPhone();
-			
-			out = (FaxSenderOutSDO) faxSender.callFaxSender(trTitle, trSendName, trSendFaxNum, trDocName, trName, trPhone);
+			out = (FaxSenderOutSDO) faxSender.callFaxSender(faxSenderInSDO);
 			
 		} 
 		catch(Exception e) {
