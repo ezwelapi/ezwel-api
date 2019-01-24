@@ -34,13 +34,13 @@
 	
 	<!-- 부가 기능 설정 정보 -->
 	<optionalApps>
-		<!-- SMS 설정 정보 -->
+		<!-- 문자 설정 정보 -->
 		<smsConfig>
 			<restURI>/service/callSmsSender</restURI>
 			<encoding>UTF-8</encoding>
 			<smsURI>http://wow.ezwel.com/common/sms/send.ez</smsURI>
 		</smsConfig>
-		<!-- MAIL 설정 정보 -->
+		<!-- 메일 설정 정보 -->
 		<mailConfig>
 			<restURI>/service/callMailSender</restURI>
 			<encoding>UTF-8</encoding>
@@ -53,7 +53,7 @@
 		 	<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</mailConfig>
-		<!-- FAX 설정 정보 -->
+		<!-- 팩스 설정 정보 -->
 		<faxConfig>
 			<restURI>/service/callFaxSender</restURI>
 			<encoding>UTF-8</encoding>
@@ -1102,5 +1102,5 @@
 		<!-- 주문대사 END -->
 		
 	</outsideChans>
-
+	
 </interfaceConfigure>
