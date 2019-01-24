@@ -65,6 +65,7 @@ import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadSeachMinInSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 
@@ -243,7 +244,8 @@ public class OutsideService extends AbstractServiceObject {
 				/** execute save transaction */
 				out = insertAllFacl(assets, new AllRegOutSDO(), commonRepository.selectListCommonCode(inEzcDetailCd), 0);
 			
-				//등록/갱신이 실행된 yyyyMMddHHmmss이 ThradLocal의 StartTimeMillis보다 이전 데이터는 전문에서 제외된 시설로서 사용안함 처리
+				//등록/갱신 일시(yyyyMMddHHmmss)가 인터페이스 실행(StartTimeMillis)보다 이전 데이터는 전문에서 제외된 시설로서 사용안함 처리
+				// 
 				// 조건 : 시설 구분 컬럼 데이터가 API 인것만
 				EzcFacl removeEzcFacl = new EzcFacl();
 				removeEzcFacl.setFaclDiv(CodeDataConstants.CD_API_G0010001); // API
@@ -617,9 +619,9 @@ public class OutsideService extends AbstractServiceObject {
 						ezcFacl.setSaleEndDd( commonUtil.getNumberOnly(faclData.getSellEndDate(), 8) );	// 판매종료일 => 8바이트가 넘게 오는 데이터는 에러 뱃도록 함 (전용필차장 요구사항)
 						ezcFacl.setCheckInTm( commonUtil.getNumberOnly(faclData.getCheckInTime(), 4) );	//채크인시간 => 10바이트로 변경
 						ezcFacl.setCheckOutTm( commonUtil.getNumberOnly(faclData.getCheckOutTime(), 4) );	//채크아웃시간 => 10바이트로 변경 
-						ezcFacl.setAreaCd( APIUtil.NVL(faclData.getGunguCode(), OperateConstants.STR_EMPTY) );	//지역코드(군구코드) => 호텔패스글로벌 전문에 데이터가  전달되어오지 않기때문에 임시로 EMPTY 처리함 */
-						ezcFacl.setCityCd( APIUtil.NVL(faclData.getSidoCode(), OperateConstants.STR_EMPTY) );	//도시코드(시도코드)
-						ezcFacl.setAddrType( APIUtil.NVL(commonUtil.getMasterCdForCodeList(detailCdList, faclData.getAddressType()), "NA-C007") );  //주소 유형 -> DB 공통코드 (테이블 : EZC_DETAIL_CD)
+						ezcFacl.setAreaCd( faclData.getGunguCode() );	//지역코드(군구코드) => 호텔패스글로벌 전문에 데이터가  전달되어오지 않기때문에 임시로 EMPTY 처리함 */
+						ezcFacl.setCityCd( faclData.getSidoCode() );	//도시코드(시도코드)
+						ezcFacl.setAddrType( APIUtil.NVL(commonUtil.getMasterCdForCodeList(detailCdList, faclData.getAddressType()), OperateConstants.STR_HYPHEN) );  //주소 유형 -> DB 공통코드 (테이블 : EZC_DETAIL_CD)
 						ezcFacl.setAddr( APIUtil.NVL(faclData.getAddress(), OperateConstants.STR_EMPTY, true) );	//주소
 						ezcFacl.setPost( faclData.getZipCode() );	//우편번호
 						ezcFacl.setTelNum(faclData.getTelephone());	//전화 번호
@@ -679,6 +681,7 @@ public class OutsideService extends AbstractServiceObject {
 							imgUrlStringList.clear();
 						}
 						
+						//DB 저장대상 이미지 정보
 						ezcFacl.setEzcFaclImgList(ezcFaclImgList);
 						
 						//부대시설 세팅
@@ -942,6 +945,7 @@ public class OutsideService extends AbstractServiceObject {
 					inImageSDO.setImageURL(imageParam.getPartnerImgUrl());
 					//파일 저장 경로 ( 환경설정의 이미지 저장 루트디렉토리로 부터 하위 )
 					inImageSDO.setChildPath(new StringBuffer()
+							.append(OperateConstants.API_NAS_ROOT_NAME_SPACE).append(File.separator)
 							.append(OperateConstants.IMAGE_FILE_NAME_SPACE).append(File.separator)
 							.append(imageParam.getPartnerCd()).append(File.separator)
 							.append(imageParam.getCityCd()).append(File.separator)
@@ -1213,6 +1217,7 @@ public class OutsideService extends AbstractServiceObject {
 							txCount += outsideRepository.callSddSearch(data, true);
 						}
 						
+						/**** 여기 */
 						out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(data.getCode()).toString().trim());
 						out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(data.getMessage()).toString().trim());
 						out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(data.getRestURI()).toString().trim());
@@ -1377,6 +1382,7 @@ public class OutsideService extends AbstractServiceObject {
 							}
 						}
 						
+						/**** 여기 */
 						out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(data.getCode()).toString().trim());
 						out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(data.getMessage()).toString().trim());
 						out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(data.getRestURI()).toString().trim());						
@@ -1533,24 +1539,40 @@ public class OutsideService extends AbstractServiceObject {
 		List<Future<?>> futures = null;
 		CallableExecutor executor = null;
 		Callable<RoomReadOutSDO> callable = null;
-		List<EzcFacl> grpFaclList = null;
+		List<EzcFacl> searchRoomParams = null;
+		EzcFacl searchMinRoomFacl = null;
 		//최저가 객실 정보
 		RoomReadDataOutSDO minAmtRoom = null;
 		List<RoomReadOutSDO> roomReadList = null;
 		RoomReadOutSDO roomReadFuture = null;
 		IfLogSDO ifLogSDO = null;
+		EzcFacl inEzcFacl = null;
 		
 		try {
 			
 			out = new RoomReadOutSDO();
-			EzcFacl inEzcFacl = new EzcFacl();
-			inEzcFacl.setGrpFaclCd(roomReadSDO.getGrpFaclCd());
-			
-			//그룹시설코드 기준 시설목록 조회
-			grpFaclList = selectRoomReadFaclList(inEzcFacl);
+
+			//상품목록이 없고 그룹시설코드가 있으면 매핑기준으로 조회
+			if((roomReadSDO.getSeachMinRoomInList() == null || roomReadSDO.getSeachMinRoomInList().size() == 0) && roomReadSDO.getGrpFaclCd() != null) {
+				//그룹시설코드 기준 시설목록 조회
+				inEzcFacl = new EzcFacl();
+				inEzcFacl.setGrpFaclCd(roomReadSDO.getGrpFaclCd());
+				searchRoomParams = selectRoomReadFaclList(inEzcFacl);
+			}
+			else {
+				//상품목록이 있으면 상품목록기준으로 조회
+				searchRoomParams = new ArrayList<EzcFacl>();
+				
+				for(RoomReadSeachMinInSDO minRoom : roomReadSDO.getSeachMinRoomInList()) {
+					searchMinRoomFacl = new EzcFacl();
+					searchMinRoomFacl.setPartnerGoodsCd(minRoom.getPdtNo());
+					searchMinRoomFacl.setPartnerCd(minRoom.getPartnerCd());
+					searchRoomParams.add(searchMinRoomFacl);
+				}
+			}
 			
 			//그룹시설코드에 대한 목록이 있으면...
-			if(grpFaclList != null && grpFaclList.size() > 0) {
+			if(searchRoomParams != null && searchRoomParams.size() > 0) {
 				
 				//제휴사별 상품코드별 객실목록
 				roomReadList = new ArrayList<RoomReadOutSDO>();
@@ -1559,7 +1581,7 @@ public class OutsideService extends AbstractServiceObject {
 				executor.initThreadPool(ROOM_READ_MULTI_COUNT);
 				
 				int count = 0;
-				for(EzcFacl faclitem : grpFaclList) {
+				for(EzcFacl faclitem : searchRoomParams) {
 					//제휴사 상품 코드
 					roomReadSDO.setPdtNo(faclitem.getPartnerGoodsCd());
 					//제휴사 코드 (에이젼트ID)
@@ -1617,6 +1639,7 @@ public class OutsideService extends AbstractServiceObject {
 						}
 					}
 					
+					/**** 여기 */
 					out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(item.getCode()).toString().trim());
 					out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(item.getMessage()).toString().trim());
 					out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(item.getRestURI()).toString().trim());
@@ -1632,8 +1655,8 @@ public class OutsideService extends AbstractServiceObject {
 		}
 		finally {
 			
-			if(grpFaclList != null) {
-				grpFaclList.clear();
+			if(searchRoomParams != null) {
+				searchRoomParams.clear();
 			}
 			if(executor != null) {
 				executor.clear();

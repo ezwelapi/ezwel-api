@@ -161,7 +161,7 @@ public class FileUtil {
 						}
 
 						// 파일시스템에 저장 할 파일명
-						chngFileName = CryptUtil.getMD5HashString(orgFileName).concat(OperateConstants.STR_DOT).concat(fileExt);
+						chngFileName = CryptUtil.getMD5HashString(orgFileName.concat(APIUtil.getId()).concat(Long.toString(APIUtil.currentTimeMillis()))).concat(OperateConstants.STR_DOT).concat(fileExt);
 						// 파일시스템에 저장 할 파일
 						outputFile = new File(outputFile, chngFileName);
 						

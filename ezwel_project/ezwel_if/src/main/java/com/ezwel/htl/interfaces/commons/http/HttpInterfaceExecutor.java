@@ -527,9 +527,9 @@ public class HttpInterfaceExecutor {
 				if(Local.commonHeader().getInterfaceLogSDO() != null) {
 					
 					logger.debug("{}", new StringBuffer().append(OperateConstants.LINE_SEPARATOR)
-											 	.append("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
-											 	.append("■■■■■■■■■■■ 에러 정보 세팅 ■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
-												.append("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
+											 	.append("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
+											 	.append("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 에러 정보 세팅 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
+												.append("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
 												.toString());
 					
 					errCont = message.concat(OperateConstants.LINE_SEPARATOR).concat(APIUtil.formatMessage("■ SendJSONException : {}", new Object[]{stackTraceUtil.getStackTrace(e)}));

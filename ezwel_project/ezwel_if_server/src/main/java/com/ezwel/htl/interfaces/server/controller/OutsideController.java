@@ -1,5 +1,8 @@
 package com.ezwel.htl.interfaces.server.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -36,6 +39,7 @@ import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqInSDO;
 import com.ezwel.htl.interfaces.service.data.orderCancelReq.OrderCancelReqOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadSeachMinInSDO;
 import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendInSDO;
 import com.ezwel.htl.interfaces.service.data.rsvHistSend.RsvHistSendOutSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
@@ -159,10 +163,30 @@ public class OutsideController {
 		RoomReadOutSDO out = null;
 		
 		//그룹시설코드가 존재할경우
-		if(roomReadSDO.getGrpFaclCd() != null) {
+		if(roomReadSDO.getGrpFaclCd() != null || (roomReadSDO.getSeachMinRoomInList() != null && roomReadSDO.getSeachMinRoomInList().size() > 0)) {
 			
 			/** 그릅코드 이용 */
 			outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
+			
+			//상품목록 유효성 검증
+			if(roomReadSDO.getSeachMinRoomInList() != null && roomReadSDO.getSeachMinRoomInList().size() > 0) {
+				
+				List<String> confirmPartnerCds = new ArrayList<String>(); 
+				for(RoomReadSeachMinInSDO searchParam : roomReadSDO.getSeachMinRoomInList()) {
+					if(APIUtil.isEmpty(searchParam.getPdtNo())) {
+						throw new APIException(MessageConstants.RESPONSE_CODE_2000, "상품코드는 필수 입력사항입니다.");
+					}
+					if(APIUtil.isEmpty(searchParam.getPartnerCd())) {
+						throw new APIException(MessageConstants.RESPONSE_CODE_2000, "제휴사코드는 필수 입력사항입니다.");
+					}
+					if(confirmPartnerCds.contains(searchParam.getPartnerCd())) {
+						throw new APIException(MessageConstants.RESPONSE_CODE_2000, "같은 제휴사코드로 중복 검색 할 수 없습니다. 제휴사코드 : {}", searchParam.getPartnerCd());
+					}
+					
+					confirmPartnerCds.add(searchParam.getPartnerCd());
+				}
+			}
+			
 			out = outsideService.callRoomRead(userAgentSDO, roomReadSDO);
 			out.setGrpFaclCd(roomReadSDO.getGrpFaclCd());
 		}
