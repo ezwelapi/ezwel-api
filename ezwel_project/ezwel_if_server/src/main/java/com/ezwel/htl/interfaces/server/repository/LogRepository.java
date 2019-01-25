@@ -89,8 +89,8 @@ public class LogRepository extends AbstractDataAccessObject {
 				//logger.debug("# EzcIfLog : {}", ezcIfLog);
 				out = sqlSession.insert(getNamespace("IF_LOG_MAPPER", "insertEzcIfLog"), ezcIfLog);
 				logger.debug("[LOG-SAVED] txSuccess : {}", out);
-				
-				if(out > 0) /* 로그 정보 이메일 발송 */ {
+				/*
+				if(out > 0) { // 로그 정보 이메일 발송 
 					executorService = Executors.newCachedThreadPool();
 					final EzcIfLog mailEzcIfLog = (EzcIfLog) propertyUtil.copySameProperty(ezcIfLog, EzcIfLog.class);
 					Runnable runnable = new Runnable() {
@@ -102,6 +102,7 @@ public class LogRepository extends AbstractDataAccessObject {
 					// 스레드풀에게 작업 처리 요청
 					executorService.execute(runnable);
 				}
+				*/
 			}
 		}
 		catch(Exception e) {
@@ -199,8 +200,8 @@ public class LogRepository extends AbstractDataAccessObject {
 					ezcApiBatcLog.setInptDt(inptDt);
 					//logger.debug("# EzcApiBatcLog : {}", ezcApiBatcLog);
 					out += sqlSession.insert(getNamespace("API_BATC_LOG_MAPPER", "insertEzcApiBatcLog"), ezcApiBatcLog);
-					
-					if(out > 0) /* 로그 정보 이메일 발송 */ {
+					/*
+					if(out > 0) { // 로그 정보 이메일 발송
 						executorService = Executors.newCachedThreadPool();
 						final EzcApiBatcLog mailApiBatcLog = (EzcApiBatcLog) propertyUtil.copySameProperty(ezcApiBatcLog, EzcApiBatcLog.class);
 						runnable = new Runnable() {
@@ -214,6 +215,7 @@ public class LogRepository extends AbstractDataAccessObject {
 						// 스레드풀에게 작업 처리 요청
 						executorService.execute(runnable);
 					}
+					*/
 				}
 				
 				logger.debug("[LOG-SAVED] txSuccess : {}", out);

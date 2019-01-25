@@ -1548,6 +1548,8 @@ public class OutsideService extends AbstractServiceObject {
 		RoomReadOutSDO roomReadFuture = null;
 		IfLogSDO ifLogSDO = null;
 		EzcFacl inEzcFacl = null;
+		RoomReadInSDO inRoomReadSDO = null;
+		UserAgentSDO inUserAgentSDO = null;
 		
 		try {
 			
@@ -1565,9 +1567,9 @@ public class OutsideService extends AbstractServiceObject {
 				searchRoomParams = new ArrayList<EzcFacl>();
 				
 				for(RoomReadSeachMinInSDO minRoom : roomReadSDO.getSeachMinRoomInList()) {
-					searchMinRoomFacl = new EzcFacl();
+					
+					searchMinRoomFacl = (EzcFacl) propertyUtil.copySameProperty(minRoom, EzcFacl.class);
 					searchMinRoomFacl.setPartnerGoodsCd(minRoom.getPdtNo());
-					searchMinRoomFacl.setPartnerCd(minRoom.getPartnerCd());
 					searchRoomParams.add(searchMinRoomFacl);
 				}
 			}
@@ -1583,12 +1585,16 @@ public class OutsideService extends AbstractServiceObject {
 				
 				int count = 0;
 				for(EzcFacl faclitem : searchRoomParams) {
-					//제휴사 상품 코드
-					roomReadSDO.setPdtNo(faclitem.getPartnerGoodsCd());
-					//제휴사 코드 (에이젼트ID)
-					userAgentSDO.setHttpAgentId(faclitem.getPartnerCd());
+					//logger.debug("# 인터페이스 실행전 : {}", faclitem);
+					
+					inUserAgentSDO = (UserAgentSDO) propertyUtil.copySameProperty(userAgentSDO, UserAgentSDO.class);			
+					inUserAgentSDO.setHttpAgentId(faclitem.getPartnerCd()); //제휴사 코드 (에이젼트ID)
+					
+					inRoomReadSDO = (RoomReadInSDO) propertyUtil.copySameProperty(roomReadSDO, RoomReadInSDO.class, "seachMinRoomInList");
+					inRoomReadSDO.setPdtNo(faclitem.getPartnerGoodsCd()); //제휴사 상품 코드
+
 					//멀티쓰레드 세팅
-					callable = new RoomReadMultiCallable(userAgentSDO, roomReadSDO, count);
+					callable = new RoomReadMultiCallable(inUserAgentSDO, inRoomReadSDO, count);
 					//설정된 멀티쓰레드 개수만큼 반복 실행 
 					executor.addCall(callable);
 					count++;
@@ -1630,11 +1636,13 @@ public class OutsideService extends AbstractServiceObject {
 							//최저가 정보를 담는다.
 							//minAmtRoom.set ...
 							if(minAmtRoom == null) {
-								minAmtRoom = roomItem;
+								//logger.debug("# First roomItem : {}", roomItem);
+								minAmtRoom = (RoomReadDataOutSDO) propertyUtil.copySameProperty(roomItem, new RoomReadDataOutSDO(), new String[] {"penalty","options"}, true);
 								minAmtRoom.setPartnerCd(item.getPartnerCd());
 							}
-							else if(roomItem.getPriceForSale() < minAmtRoom.getPriceForSale()) {
-								minAmtRoom = roomItem;
+							else if(roomItem.getPriceForSale() <= minAmtRoom.getPriceForSale()) {
+								//logger.debug("# Find MinRoom : {}", roomItem);
+								minAmtRoom = (RoomReadDataOutSDO) propertyUtil.copySameProperty(roomItem, new RoomReadDataOutSDO(), new String[] {"penalty","options"}, true);
 								minAmtRoom.setPartnerCd(item.getPartnerCd());
 							}
 						}
