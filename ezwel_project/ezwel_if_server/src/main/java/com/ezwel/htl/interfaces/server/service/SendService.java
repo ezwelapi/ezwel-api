@@ -13,7 +13,6 @@ import com.ezwel.htl.interfaces.server.commons.send.FaxSender;
 import com.ezwel.htl.interfaces.server.commons.send.MailSender;
 import com.ezwel.htl.interfaces.server.commons.send.SmsSender;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
-import com.ezwel.htl.interfaces.service.OutsideIFService;
 import com.ezwel.htl.interfaces.service.data.send.FaxSenderInSDO;
 import com.ezwel.htl.interfaces.service.data.send.FaxSenderOutSDO;
 import com.ezwel.htl.interfaces.service.data.send.MailSenderInSDO;
@@ -32,7 +31,7 @@ import com.ezwel.htl.interfaces.service.data.send.SmsSenderOutSDO;
 @APIType(description="메일발송 인터페이스")
 public class SendService {
 
-	private static final Logger logger = LoggerFactory.getLogger(OutsideIFService.class);
+	private static final Logger logger = LoggerFactory.getLogger(SendService.class);
 	
 	@Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */
 	private SmsSender smsSender;
@@ -59,12 +58,12 @@ public class SendService {
 	}
 	
 	@APIOperation(description="문자발송 인터페이스")
-	public Object callSmsSender(SmsSenderInSDO smsSenderInSDO) {
+	public SmsSenderOutSDO callSmsSender(SmsSenderInSDO smsSenderInSDO) {
 		return callSmsSender(smsSenderInSDO, false);
 	}
 	
 	@APIOperation(description="문자발송 인터페이스")
-	public Object callSmsSender(SmsSenderInSDO smsSenderInSDO, boolean isEzwelInsideInterface) {
+	public SmsSenderOutSDO callSmsSender(SmsSenderInSDO smsSenderInSDO, boolean isEzwelInsideInterface) {
 		
 		smsSender = (SmsSender) LApplicationContext.getBean(smsSender, SmsSender.class);
 		
@@ -83,12 +82,12 @@ public class SendService {
 	}
 	
 	@APIOperation(description="메일발송 인터페이스")
-	public Object callMailSender(MailSenderInSDO mailSenderInSDO) {
+	public MailSenderOutSDO callMailSender(MailSenderInSDO mailSenderInSDO) {
 		return callMailSender(mailSenderInSDO, false);
 	}
 	
 	@APIOperation(description="메일발송 인터페이스")
-	public Object callMailSender(MailSenderInSDO mailSenderInSDO, boolean isEzwelInsideInterface) {
+	public MailSenderOutSDO callMailSender(MailSenderInSDO mailSenderInSDO, boolean isEzwelInsideInterface) {
 		
 		mailSender = (MailSender) LApplicationContext.getBean(mailSender, MailSender.class);
 		
@@ -106,12 +105,12 @@ public class SendService {
 	}
 	
 	@APIOperation(description="팩스발송 인터페이스")
-	public Object callFaxSender(FaxSenderInSDO faxSenderInSDO) {
+	public FaxSenderOutSDO callFaxSender(FaxSenderInSDO faxSenderInSDO) {
 		return callFaxSender(faxSenderInSDO, false);
 	}
 	
 	@APIOperation(description="팩스발송 인터페이스")
-	public Object callFaxSender(FaxSenderInSDO faxSenderInSDO, boolean isEzwelInsideInterface) {
+	public FaxSenderOutSDO callFaxSender(FaxSenderInSDO faxSenderInSDO, boolean isEzwelInsideInterface) {
 		
 		faxSender = (FaxSender) LApplicationContext.getBean(faxSender, FaxSender.class);
 		

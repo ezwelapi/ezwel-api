@@ -141,5 +141,9 @@ SELECT EZC_API_REQ_SEQ.NEXTVAL FROM DUAL
 SELECT EZC_API_LOG_SEQ.NEXTVAL FROM DUAL
 </select>
 
+<select id="selectTrBatchIdSeq" resultType="java.math.Long">
+SELECT FC_BATCHID.NEXTVAL FROM DUAL
+</select>
+
 
 </mapper>
