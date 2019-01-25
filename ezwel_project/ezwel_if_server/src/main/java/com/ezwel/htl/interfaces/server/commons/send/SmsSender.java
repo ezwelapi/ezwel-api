@@ -28,6 +28,13 @@ import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.service.data.send.SmsSenderInSDO;
 import com.ezwel.htl.interfaces.service.data.send.SmsSenderOutSDO;
 
+/**
+ * <pre>
+ * 문자발송
+ * </pre>
+ * @author ypjeon@ebsolution.co.kr
+ * @date   2019. 01. 22.
+ */
 @Component
 @APIType(description="문자발송 인터페이스")
 public class SmsSender {

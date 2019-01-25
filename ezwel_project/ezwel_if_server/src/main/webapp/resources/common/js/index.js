@@ -242,10 +242,6 @@ var $interface = {
 				roomReadInSDO : {
 					"seachMinRoomInList": [
 						{
-							partnerCd: "10030653",
-							pdtNo: "6eef50a9-9e4b-4637-aab2-a444e030478a"
-						},
-						{
 							partnerCd: "10055550",
 							pdtNo: "KRKAG020"
 						},
@@ -585,14 +581,7 @@ var $interface = {
 		
 		try {
 			
-			if(!jsonString || $.trim(jsonString) === "") {
-				inputJson = JSON.parse("{}");
-			}
-			else {
-				inputJson = JSON.parse(jsonString);
-			}
-			
-			if( passAgentIdURI.indexOf(restURL) === -1 ) {
+			var partnerAlert = function( httpAgentId, inputJson ) {
 				
 				if(!httpAgentId || $.trim(httpAgentId) === "") {
 					alert("제휴사를 선택하세요.");
@@ -601,6 +590,37 @@ var $interface = {
 				
 				if(inputJson["userAgentSDO"] && inputJson["userAgentSDO"]["httpAgentId"]) {
 					inputJson.userAgentSDO.httpAgentId = httpAgentId;
+				}
+				
+				return true;
+			};
+			
+			if(!jsonString || $.trim(jsonString) === "") {
+				inputJson = JSON.parse("{}");
+			}
+			else {
+				inputJson = JSON.parse(jsonString);
+			}
+			
+			var confirmPartner = true; 
+			
+			if( $.trim(requestNamespace + "/callRoomRead") === $.trim(restURL) ) {
+				
+				if( !inputJson.roomReadInSDO.seachMinRoomInList && !inputJson.roomReadInSDO.grpFaclCd ) {
+					confirmPartner = partnerAlert( httpAgentId, inputJson );
+					if(!confirmPartner) {
+						return false;
+					}
+				}
+				else {
+					$("#httpAgentId").val("");
+				}
+			}
+			else if( passAgentIdURI.indexOf(restURL) === -1 ) {
+				
+				confirmPartner = partnerAlert( httpAgentId, inputJson );
+				if(!confirmPartner) {
+					return false;
 				}
 			}
 			else {
