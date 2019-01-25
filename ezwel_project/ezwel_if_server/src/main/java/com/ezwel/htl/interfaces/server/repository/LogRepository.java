@@ -3,11 +3,8 @@ package com.ezwel.htl.interfaces.server.repository;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +21,6 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.sdo.ApiBatcLogSDO;
 import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
-import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
@@ -89,7 +85,7 @@ public class LogRepository extends AbstractDataAccessObject {
 				//logger.debug("# EzcIfLog : {}", ezcIfLog);
 				out = sqlSession.insert(getNamespace("IF_LOG_MAPPER", "insertEzcIfLog"), ezcIfLog);
 				logger.debug("[LOG-SAVED] txSuccess : {}", out);
-				/*
+				
 				if(out > 0) { // 로그 정보 이메일 발송 
 					executorService = Executors.newCachedThreadPool();
 					final EzcIfLog mailEzcIfLog = (EzcIfLog) propertyUtil.copySameProperty(ezcIfLog, EzcIfLog.class);
@@ -102,7 +98,7 @@ public class LogRepository extends AbstractDataAccessObject {
 					// 스레드풀에게 작업 처리 요청
 					executorService.execute(runnable);
 				}
-				*/
+				
 			}
 		}
 		catch(Exception e) {
@@ -200,7 +196,7 @@ public class LogRepository extends AbstractDataAccessObject {
 					ezcApiBatcLog.setInptDt(inptDt);
 					//logger.debug("# EzcApiBatcLog : {}", ezcApiBatcLog);
 					out += sqlSession.insert(getNamespace("API_BATC_LOG_MAPPER", "insertEzcApiBatcLog"), ezcApiBatcLog);
-					/*
+					
 					if(out > 0) { // 로그 정보 이메일 발송
 						executorService = Executors.newCachedThreadPool();
 						final EzcApiBatcLog mailApiBatcLog = (EzcApiBatcLog) propertyUtil.copySameProperty(ezcApiBatcLog, EzcApiBatcLog.class);
@@ -215,7 +211,7 @@ public class LogRepository extends AbstractDataAccessObject {
 						// 스레드풀에게 작업 처리 요청
 						executorService.execute(runnable);
 					}
-					*/
+					
 				}
 				
 				logger.debug("[LOG-SAVED] txSuccess : {}", out);
@@ -418,7 +414,7 @@ public class LogRepository extends AbstractDataAccessObject {
 				//메일 정보 설정
 				mailSenderIn = new MailSenderInSDO();
 				mailSenderIn.setSubject(subjectBuffer.toString());
-				mailSenderIn.setRecipient(receiver.getName());
+				mailSenderIn.setRecipient(receiver.getEmailAddr());
 				mailSenderIn.setBody(contentBuffer.toString());
 				mailSenderInList.add(mailSenderIn);
 			}
@@ -441,9 +437,7 @@ public class LogRepository extends AbstractDataAccessObject {
 			logger.error("인터페이스 로그 레포트 이메일 발송중 에러 발생.");
 		}
 		
-		logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-		logger.debug("■■■■■■■■■ 인터페이스 로그 레포트 메일발송 성공 여부 : {} ■■■■■ ", out);
-		logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		logger.debug("■■■■■■■■■ 인터페이스 로그 레포트 메일발송 성공 여부 : {} ■■■■■■■■■", out);
 		return out;
 	}
 	
@@ -548,7 +542,7 @@ public class LogRepository extends AbstractDataAccessObject {
 				//메일 정보 설정
 				mailSenderIn = new MailSenderInSDO();
 				mailSenderIn.setSubject(subjectBuffer.toString());
-				mailSenderIn.setRecipient(receiver.getName());
+				mailSenderIn.setRecipient(receiver.getEmailAddr());
 				mailSenderIn.setBody(contentBuffer.toString());
 				mailSenderInList.add(mailSenderIn);
 			}
@@ -571,9 +565,7 @@ public class LogRepository extends AbstractDataAccessObject {
 			logger.error("인터페이스 로그 레포트 이메일 발송중 에러 발생.");
 		}
 		
-		logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-		logger.debug("■■■■■■■■■ API 배치 로그 레포트 메일발송 성공 여부 : {} ■■■■■ ", out);
-		logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		logger.debug("■■■■■■■■■ API 배치 로그 레포트 메일발송 성공 여부 : {} ■■■■■■■■■", out);
 
 		return out;
 	}

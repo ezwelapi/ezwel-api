@@ -91,6 +91,7 @@ public class MailSender {
         MailSenderOutSDO mailSenderOutSDO = null;
         Transport transport = null;
         Session session = null;
+        MimeMessage msg = null;
         
         //ksw 수정 20190125
 	    try {
@@ -98,7 +99,7 @@ public class MailSender {
 		    session = Session.getDefaultInstance(props);
 		    
 		    //MimeMessage 설정
-	        MimeMessage msg = new MimeMessage(session);
+	        msg = new MimeMessage(session);
 	        msg.setFrom(new InternetAddress(from, fromName));
 	        msg.setRecipient(Message.RecipientType.TO, new InternetAddress(mailSenderInSDO.getRecipient()));
 	        msg.setSubject(mailSenderInSDO.getSubject());
@@ -116,7 +117,6 @@ public class MailSender {
             logger.info("Send Mail Complete...");
             mailSenderOutSDO = new MailSenderOutSDO();
             mailSenderOutSDO.setSuccess(true);
-            
         }
         catch (Exception e) {
         	logger.error("Send Mail Error message", e);
