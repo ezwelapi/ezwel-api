@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
@@ -21,7 +21,7 @@ import com.ezwel.htl.interfaces.service.data.send.FaxSenderOutSDO;
  * @author ypjeon@ebsolution.co.kr
  * @date   2019. 01. 22.
  */
-@Component
+@Repository
 @APIType(description="팩스발송")
 public class FaxSender extends AbstractDataAccessObject {
 	
