@@ -17,10 +17,18 @@ import org.springframework.stereotype.Component;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
+import com.ezwel.htl.interfaces.commons.configure.data.OptMailConfig;
 import com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor;
 import com.ezwel.htl.interfaces.service.data.send.MailSenderInSDO;
 import com.ezwel.htl.interfaces.service.data.send.MailSenderOutSDO;
 
+/**
+ * <pre>
+ * 메일발송
+ * </pre>
+ * @author jyp@ebsolution.co.kr
+ * @date   2019. 01. 22.
+ */
 @Component
 @APIType(description="메일발송")
 public class MailSender {
@@ -44,17 +52,25 @@ public class MailSender {
 		return out;
 	}
 	
+	/**
+	 * 최초개발 jyp
+	 * @param mailSenderInSDO
+	 * @return
+	 * @throws Exception
+	 */
 	@APIOperation(description="메일발송 인터페이스")
 	public MailSenderOutSDO callMailSender(MailSenderInSDO mailSenderInSDO) throws Exception {
 		
-		String host			= InterfaceFactory.getOptionalApps().getMailConfig().getHost();
-		String port 		= InterfaceFactory.getOptionalApps().getMailConfig().getPort();
-		String from 		= InterfaceFactory.getOptionalApps().getMailConfig().getFrom();
-		String fromName 	= InterfaceFactory.getOptionalApps().getMailConfig().getFromName();
-		String userName 	= InterfaceFactory.getOptionalApps().getMailConfig().getUserName();
-		String passWord 	= InterfaceFactory.getOptionalApps().getMailConfig().getPassWord();
-		String connTimeout 	= InterfaceFactory.getOptionalApps().getMailConfig().getConnTimeout();
-		String readTimeout 	= InterfaceFactory.getOptionalApps().getMailConfig().getReadTimeout();
+		//ksw 수정 20190125
+		OptMailConfig mailConfig = InterfaceFactory.getOptionalApps().getMailConfig();
+		String host			= mailConfig.getHost();
+		String port 		= mailConfig.getPort();
+		String from 		= mailConfig.getFrom();
+		String fromName 	= mailConfig.getFromName();
+		String userName 	= mailConfig.getUserName();
+		String passWord 	= mailConfig.getPassWord();
+		String connTimeout 	= mailConfig.getConnTimeout();
+		String readTimeout 	= mailConfig.getReadTimeout();
 		
 		//properties 설정
 		Properties props = System.getProperties();
@@ -64,34 +80,37 @@ public class MailSender {
 	    props.put("mail.smtp.auth", "true");
 	    props.put("mail.smtp.connectiontimeout", connTimeout);
 	    props.put("mail.smtp.timeout", readTimeout);
-		
-	    Session session = Session.getDefaultInstance(props);
 	    
-	    //MimeMessage 설정
-        MimeMessage msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress(from, fromName));
-        msg.setRecipient(Message.RecipientType.TO, new InternetAddress(mailSenderInSDO.getRecipient()));
-        msg.setSubject(mailSenderInSDO.getSubject());
-        msg.setContent(mailSenderInSDO.getBody(),"text/html");
-        msg.setHeader("X-SES-CONFIGURATION-SET", CONFIGSET);
-        
-        Transport transport = session.getTransport();
-        
         MailSenderOutSDO mailSenderOutSDO = null;
+        Transport transport = null;
         
-        try
-        {
-        	logger.info("Send Mail Sending...");
+	    try {
+	    	
+		    Session session = Session.getDefaultInstance(props);
+		    
+		    //MimeMessage 설정
+	        MimeMessage msg = new MimeMessage(session);
+	        msg.setFrom(new InternetAddress(from, fromName));
+	        msg.setRecipient(Message.RecipientType.TO, new InternetAddress(mailSenderInSDO.getRecipient()));
+	        msg.setSubject(mailSenderInSDO.getSubject());
+	        msg.setContent(mailSenderInSDO.getBody(),"text/html");
+	        msg.setHeader("X-SES-CONFIGURATION-SET", CONFIGSET);
+	        
+	        transport = session.getTransport();
+
+	        logger.info("Mail Connecting... [host : {}, userName : {}, passWord : {}]", host, userName, passWord);
             transport.connect(host, userName, passWord);
-            transport.sendMessage(msg, msg.getAllRecipients());
-            logger.info("Send Mail Sent");
             
+            logger.info("Send Mail Sending...");
+            transport.sendMessage(msg, msg.getAllRecipients());
+            
+            logger.info("Send Mail Complete...");
             mailSenderOutSDO = new MailSenderOutSDO();
             mailSenderOutSDO.setSuccess(true);
-        
+            
         }
         catch (Exception ex) {
-        	logger.info("Send Mail Error message" + ex.getMessage());
+        	logger.error("Send Mail Error message", ex);
         }
         finally
         {

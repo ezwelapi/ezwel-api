@@ -12,8 +12,15 @@ import com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor;
 import com.ezwel.htl.interfaces.service.data.send.FaxSenderInSDO;
 import com.ezwel.htl.interfaces.service.data.send.FaxSenderOutSDO;
 
+/**
+ * <pre>
+ * 팩스발송
+ * </pre>
+ * @author jyp@ebsolution.co.kr
+ * @date   2019. 01. 22.
+ */
 @Component
-@APIType(description="팩스발송 인터페이스")
+@APIType(description="팩스발송")
 public class FaxSender {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
