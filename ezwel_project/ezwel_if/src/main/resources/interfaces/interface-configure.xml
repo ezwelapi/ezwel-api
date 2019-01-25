@@ -342,6 +342,17 @@
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</httpChan>
+		<httpChan>
+			<agentNo>12</agentNo>
+			<description>전체시설검색-ONDA(티포트)</description>
+			<chanId>allReg</chanId>
+			<httpAgentId>10058057</httpAgentId>
+			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
+			<restURI>https://gds.tport.io/gds/ezwel/ezcheck-01</restURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
 		<!-- 전체시설일괄등록 END -->
 		
 		<!-- 시설검색 START (멀티쓰레드 인터페이스체널) -->
