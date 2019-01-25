@@ -26,7 +26,7 @@ import com.ezwel.htl.interfaces.service.data.send.MailSenderOutSDO;
  * <pre>
  * 메일발송
  * </pre>
- * @author jyp@ebsolution.co.kr
+ * @author ypjeon@ebsolution.co.kr
  * @date   2019. 01. 22.
  */
 @Component
@@ -37,6 +37,12 @@ public class MailSender {
 	
 	static final String CONFIGSET = "Configset";
     
+	/**
+	 * 최초개발 jyp
+	 * @param mailSenderInList
+	 * @return
+	 * @throws Exception
+	 */
 	@APIOperation(description="메일발송 목록 인터페이스")
 	public List<MailSenderOutSDO> callMailSender(List<MailSenderInSDO> mailSenderInList) throws Exception {
 		
@@ -60,6 +66,7 @@ public class MailSender {
 	 */
 	@APIOperation(description="메일발송 인터페이스")
 	public MailSenderOutSDO callMailSender(MailSenderInSDO mailSenderInSDO) throws Exception {
+		logger.debug("[START] callMailSender {}", mailSenderInSDO);
 		
 		//ksw 수정 20190125
 		OptMailConfig mailConfig = InterfaceFactory.getOptionalApps().getMailConfig();
@@ -83,10 +90,12 @@ public class MailSender {
 	    
         MailSenderOutSDO mailSenderOutSDO = null;
         Transport transport = null;
+        Session session = null;
         
+        //ksw 수정 20190125
 	    try {
 	    	
-		    Session session = Session.getDefaultInstance(props);
+		    session = Session.getDefaultInstance(props);
 		    
 		    //MimeMessage 설정
 	        MimeMessage msg = new MimeMessage(session);
@@ -109,14 +118,15 @@ public class MailSender {
             mailSenderOutSDO.setSuccess(true);
             
         }
-        catch (Exception ex) {
-        	logger.error("Send Mail Error message", ex);
+        catch (Exception e) {
+        	logger.error("Send Mail Error message", e);
         }
         finally
         {
             transport.close();
         }
         
+	    logger.debug("[END] callMailSender {}", mailSenderOutSDO);
 		return mailSenderOutSDO;
 	}
 	

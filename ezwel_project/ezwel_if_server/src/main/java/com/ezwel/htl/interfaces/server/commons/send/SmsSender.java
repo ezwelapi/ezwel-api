@@ -32,7 +32,7 @@ import com.ezwel.htl.interfaces.service.data.send.SmsSenderOutSDO;
  * <pre>
  * 문자발송
  * </pre>
- * @author jyp@ebsolution.co.kr
+ * @author ypjeon@ebsolution.co.kr
  * @date   2019. 01. 22.
  */
 @Component

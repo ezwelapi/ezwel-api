@@ -16,7 +16,7 @@ import com.ezwel.htl.interfaces.service.data.send.FaxSenderOutSDO;
  * <pre>
  * 팩스발송
  * </pre>
- * @author jyp@ebsolution.co.kr
+ * @author ypjeon@ebsolution.co.kr
  * @date   2019. 01. 22.
  */
 @Component
