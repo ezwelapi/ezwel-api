@@ -46,7 +46,11 @@
 			<receiver>
 				<name>개발팀 Operator</name>
 				<emailAddr>java124@naver.com</emailAddr>
-			</receiver>											
+			</receiver>		
+			<receiver>
+				<name>PM</name>
+				<emailAddr>ong0410@naver.com</emailAddr>
+			</receiver>													
 		</receiverList>
 	</apiLogReport>
 	

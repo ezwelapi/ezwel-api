@@ -488,6 +488,20 @@ public class APIUtil {
 		return out;
 	}
 	
+	@APIOperation(description="밀리세컨을 일시로 변환하여 리턴합니다.")
+	public static String getTimeMillisToDateString(long timeMillis) {
+		
+		try {
+
+			Date resultDate = new Date( new Timestamp(timeMillis).getTime( ) );
+			return FastDateFormat.getInstance(OperateConstants.GENERAL_DATE_FORMAT, TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA).format(resultDate);			
+		}
+		catch(Exception e) {
+			throw new RuntimeException("밀리세컨을 일시로 변환중 장애 발생", e);
+		}
+	}
+	
+	
 	@APIOperation(description="현제 타임스템프를 리턴합니다.")
 	public static String getTimeStamp() {
 		
@@ -497,7 +511,7 @@ public class APIUtil {
 			return FastDateFormat.getInstance(OperateConstants.DEF_DATE_MILLISECOND_FORMAT, TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA).format(resultDate);			
 		}
 		catch(Exception e) {
-			throw new RuntimeException("타임스탬프발급 장애 발생");
+			throw new RuntimeException("타임스탬프발급 장애 발생", e);
 		}
 	}
 	

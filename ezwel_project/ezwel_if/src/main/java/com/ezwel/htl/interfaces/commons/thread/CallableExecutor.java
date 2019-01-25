@@ -33,14 +33,20 @@ public class CallableExecutor {
 	
 	private List<Future<?>> result;
 	
+	public void initThreadPool() {
+		initThreadPool(0);
+	}
+	
 	public void initThreadPool(int poolCount) {
 		if(executor != null) {
 			this.clear();
 		}
 		if(poolCount < 1) {
-			throw new APIException("Threads number can not be smaller than one. '{}'", Integer.toString(poolCount));
+			executor = Executors.newCachedThreadPool(); //태스크의 숫자에 따라 쓰레드의 숫자가 가변됨 (쓰레드숫자를지정할필요없음)
 		}
-		executor = Executors.newFixedThreadPool(poolCount);
+		else {
+			executor = Executors.newFixedThreadPool(poolCount);
+		}
 		result = new ArrayList<Future<?>>();
 	}
 	
