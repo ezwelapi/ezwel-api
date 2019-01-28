@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
 import com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor;
 import com.ezwel.htl.interfaces.server.entities.FcMetaTran;
 import com.ezwel.htl.interfaces.service.data.send.FaxSenderInSDO;
@@ -25,15 +24,14 @@ import com.ezwel.htl.interfaces.service.data.send.FaxSenderOutSDO;
  */
 @Repository
 @APIType(description="팩스발송")
-public class FaxSender extends AbstractDataAccessObject {
+public class FaxSender {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
 	
 	@APIOperation(description="팩스발송 인터페이스 DB Insert")
 	public FaxSenderOutSDO callFaxSender(FaxSenderInSDO faxSenderInSDO) {
 		
-		FcMetaTran inFcMetaTran = null;
-		FcMetaTran outFcMetaTran = null;
+		FcMetaTran fcMetaTran = new FcMetaTran();
 		
 		BigDecimal trBatchId = null;
 		Integer txSuccess = 0;
@@ -42,13 +40,11 @@ public class FaxSender extends AbstractDataAccessObject {
 		
 		try {
 			
-			inFcMetaTran = new FcMetaTran();
-			
-			trBatchId = sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectTrBatchIdSeq"));
-			inFcMetaTran.setTrBatchId(trBatchId);
+			//trBatchId = sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectTrBatchIdSeq"));
+			//fcMetaTran.setTrBatchId(trBatchId);
 			
 			//Insert
-			txSuccess = sqlSession.insert(getNamespace("FC_META_TRAN", "insertFcMetaTran"), inFcMetaTran);			
+			//txSuccess = sqlSession.insert(getNamespace("FC_META_TRAN", "insertFcMetaTran"), inFcMetaTran);			
 			faxSenderOutSDO.setSuccess(true);
 			
 		}
