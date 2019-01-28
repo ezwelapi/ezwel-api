@@ -581,8 +581,9 @@ public class OutsideService extends AbstractServiceObject {
 			 * 2. 제휴사 내 100개씩  commit 되도록 operation 구성
 			 */
 			allReg = assets.get(faclIndex);// 제휴사 (단건 / 인터페이스 전문 SDO )
-			out.addMultiExecCodeList(allReg.getCode());
-			out.addMultiExecMessageList(allReg.getMessage());
+			
+			/**** 멀티쓰레드 인터페이스 결과 세팅 */
+			out.addMultiThreadResults(allReg.getCode(), allReg.getMessage(), allReg.getRestURI());
 			logger.debug("- 멀티쓰레드 별 인터페이스 실행결과 : {}", allReg.getCode());
 			
 			nextIndex = faclIndex + 1;
@@ -1218,10 +1219,8 @@ public class OutsideService extends AbstractServiceObject {
 							txCount += outsideRepository.callSddSearch(data, true);
 						}
 						
-						/**** 여기 */
-						out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(data.getCode()).toString().trim());
-						out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(data.getMessage()).toString().trim());
-						out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(data.getRestURI()).toString().trim());
+						/**** 멀티쓰레드 인터페이스 결과 세팅 */
+						out.addMultiThreadResults(data.getCode(), data.getMessage(), data.getRestURI());
 					}
 					
 					out.setTxCount(txCount);
@@ -1411,10 +1410,8 @@ public class OutsideService extends AbstractServiceObject {
 							}
 						}
 						
-						/**** 여기 */
-						out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(data.getCode()).toString().trim());
-						out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(data.getMessage()).toString().trim());
-						out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(data.getRestURI()).toString().trim());						
+						/**** 멀티쓰레드 인터페이스 결과 세팅 */
+						out.addMultiThreadResults(data.getCode(), data.getMessage(), data.getRestURI());
 					}
 					
 					out.setTxCount(txCount);
@@ -1690,10 +1687,8 @@ public class OutsideService extends AbstractServiceObject {
 						}
 					}
 					
-					/**** 여기 */
-					out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(item.getCode()).toString().trim());
-					out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(item.getMessage()).toString().trim());
-					out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(item.getRestURI()).toString().trim());
+					/**** 멀티쓰레드 인터페이스 결과 세팅 */
+					out.addMultiThreadResults(item.getCode(), item.getMessage(), item.getRestURI());
 					
 					/* <20190128 주석처리>
 					if(minAmtRoom != null) {

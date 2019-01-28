@@ -25,28 +25,32 @@ import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
 public class Local {
 
 	private static final Logger logger = LoggerFactory.getLogger(Local.class);
-
+	
 	/**
 	 * Thread local variable containing each thread's CommonHeader
 	 */
     private static final ThreadLocal<CommonHeader> threadLocalHeader = new ThreadLocal<CommonHeader>() {
-            @Override
+    
+    		@Override
             @APIOperation(description="ThreadLocal의 초기값을 설정하여 리턴합니다.", isExecTest=true)
             protected CommonHeader initialValue() {
-
+    			
             	CommonHeader header = new CommonHeader();
             	header.setGuid(APIUtil.getId());
             	header.setStartTimeMillis(APIUtil.currentTimeMillis());
-
+            	
             	if(InterfaceFactory.isMasterServer()) {
             		
             		logger.debug(new StringBuilder()
         				.append(OperateConstants.LINE_SEPARATOR)
         				.append(" ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ")
         				.append(OperateConstants.LINE_SEPARATOR)
-        				.append(" ■■ [START]    ")
+        				.append(" ■■ [INITIALIZE] ")
         				.append(OperateConstants.LINE_SEPARATOR)
         				.append(" ■■ initialValue    ")
+        				.append(OperateConstants.LINE_SEPARATOR)
+        				.append(" ■■ currentThread : ")
+        				.append(Thread.currentThread().getName())
         				.append(OperateConstants.LINE_SEPARATOR)
         				.append(" ■■ guid : " + header.getGuid() )
         				.append(OperateConstants.LINE_SEPARATOR)
@@ -68,6 +72,18 @@ public class Local {
      */
     @APIOperation(description="ThreadLocal을 초기화 하고 CommonHeader를 리턴합니다.", isExecTest=true)
     public static CommonHeader commonHeader() {
+    	/*
+    	StackTraceElement stackElement = StackTraceUtil.getCurrentStack(Local.class);
+    	StringBuffer stackBuffer = null;
+    	if(stackElement != null) {
+    		stackBuffer = new StringBuffer();
+    		stackBuffer.append("caller : ")
+    				   .append(stackElement.getClassName())
+					   .append(OperateConstants.STR_DOT)
+					   .append(stackElement.getMethodName());
+    		logger.debug("# commonHeader {}",stackBuffer.toString());
+		}
+    	*/
         return threadLocalHeader.get();
     }
 
@@ -156,7 +172,11 @@ public class Local {
 				.append(OperateConstants.LINE_SEPARATOR)
 				.append(" ■■ [END]    ")
 				.append(OperateConstants.LINE_SEPARATOR)
-				.append(" ■■ guid : " + commonHeader().getGuid() )
+				.append(" ■■ currentThread : ")
+				.append(Thread.currentThread().getName())				
+				.append(OperateConstants.LINE_SEPARATOR)
+				.append(" ■■ guid : ")
+				.append(commonHeader().getGuid() )
 				.append(OperateConstants.LINE_SEPARATOR)
 				.append(" ■■ RunTime lapTimeMillis : ")
 				.append(commonHeader().getLapTimeMillis())

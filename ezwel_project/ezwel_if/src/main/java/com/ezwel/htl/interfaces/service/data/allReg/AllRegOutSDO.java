@@ -29,12 +29,6 @@ public class AllRegOutSDO extends AbstractSDO {
 	
 	@APIFields(description = "전체시설일괄등록 output message", maxLength=100)
 	private String message;
-
-	@APIFields(description = "전체시설일괄등록 output code list", required=true, maxLength=4)
-	private List<String> multiExecCodeList;
-	
-	@APIFields(description = "전체시설일괄등록 output message list", maxLength=100)
-	private List<String> multiExecMessageList;
 	
 	@APIFields(description = "RestAPI URI")
 	private String restURI;
@@ -125,36 +119,6 @@ public class AllRegOutSDO extends AbstractSDO {
 
 	public void setHttpAgentDesc(String httpAgentDesc) {
 		this.httpAgentDesc = httpAgentDesc;
-	}
-
-	public List<String> getMultiExecCodeList() {
-		return multiExecCodeList;
-	}
-
-	public void setMultiExecCodeList(List<String> multiExecCodeList) {
-		this.multiExecCodeList = multiExecCodeList;
-	}
-
-	public void addMultiExecCodeList(String multiExecCode) {
-		if(this.multiExecCodeList == null) {
-			this.multiExecCodeList = new ArrayList<String>();
-		}
-		this.multiExecCodeList.add(multiExecCode);
-	}
-	
-	public List<String> getMultiExecMessageList() {
-		return multiExecMessageList;
-	}
-
-	public void setMultiExecMessageList(List<String> multiExecMessageList) {
-		this.multiExecMessageList = multiExecMessageList;
-	}
-
-	public void addMultiExecMessageList(String multiExecMessage) {
-		if(this.multiExecMessageList == null) {
-			this.multiExecMessageList = new ArrayList<String>();
-		}
-		this.multiExecMessageList.add(multiExecMessage);
 	}
 
 	public List<ImageSDO> getImageList() {

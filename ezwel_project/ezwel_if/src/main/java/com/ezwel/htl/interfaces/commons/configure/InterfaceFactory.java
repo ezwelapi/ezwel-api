@@ -301,7 +301,7 @@ public class InterfaceFactory {
 	}
 	
 	public void initFactory() {
-		logger.debug("[INITIALIZE] INTERFACE FACTORY ... ");
+		logger.debug("[INITIALIZE-START] INTERFACE FACTORY ... ");
 		
 		if( isLocalTestInit ) {
 			testBeanInit();
@@ -362,6 +362,16 @@ public class InterfaceFactory {
 			}
 			
 			if(isMasterServer || isLocalTestInit) {
+				
+				if(isMasterServer) {
+					
+					if(webContext != null && webRootKey != null) {
+						isMasterServer = (InterfaceFactory.serverManaged.getIfServerWebRootKey().equals(webRootKey));
+					}
+					else {
+						isMasterServer = false;
+					}
+				}
 				
 				// 1. xmlPath를 canonical로 채크
 				configureXml = new File(getConfigXmlPath());
@@ -545,6 +555,8 @@ public class InterfaceFactory {
 					logger.debug("# apiLogReport : {}", InterfaceFactory.apiLogReport);
 				}
 			}
+			
+			logger.debug("[INITIALIZE-END] INTERFACE FACTORY");
 		} catch (JAXBException e) {
 			
 			if(isMasterServer) {

@@ -447,6 +447,14 @@ var $interface = {
 				,"faclDiv" : ""
 			}
 		}, 
+		"매일 발송" : {
+			url : requestNamespace + "/callMailSender"
+			,input : {
+				 "recipient" : ""
+				,"subject" : ""
+				,"body" : ""
+			}
+		},
 		"InterfaceConfigXml" : {
 			url : requestNamespace + "/configXML"
 		}
@@ -578,7 +586,8 @@ var $interface = {
 		passAgentIdURI.push(requestNamespace + "/configXML");
 		passAgentIdURI.push(requestNamespace + "/callFaclSearch");
 		passAgentIdURI.push(requestNamespace + "/callSddSearch");
-
+		passAgentIdURI.push(requestNamespace + "/callMailSender");
+		
 		if(!dataType) {
 			dataType = "json";	
 		}

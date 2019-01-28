@@ -23,13 +23,13 @@ public class MailSenderInSDO extends AbstractSDO {
 	@APIFields(description = "발송자명", required=false, maxLength=50)
 	private String fromName;
 	
-	@APIFields(description = "수신이메일주소", required=false, maxLength=50)
+	@APIFields(description = "수신이메일주소", required=true, maxLength=50)
 	private String recipient;
 	
-	@APIFields(description = "메일제목", required=false)
+	@APIFields(description = "메일제목", required=true)
 	private String subject;
 	
-	@APIFields(description = "메일내용", required=false)
+	@APIFields(description = "메일내용", required=true)
 	private String body;
 
 	@APIFields(description = "메일발송 성공여부", required=false)

@@ -125,7 +125,7 @@ public class MailSender {
             transport.close();
         }
         
-	    logger.debug("[END] callMailSender {}" + mailSenderInSDO.getRecipient() + "]", mailSenderOutSDO);
+	    logger.debug("[END] callMailSender {} {}",mailSenderInSDO.getRecipient(), mailSenderOutSDO);
 		return mailSenderOutSDO;
 	}
 	

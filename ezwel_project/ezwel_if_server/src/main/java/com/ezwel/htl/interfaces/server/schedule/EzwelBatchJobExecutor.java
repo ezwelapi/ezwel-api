@@ -37,26 +37,18 @@ public class EzwelBatchJobExecutor {
 	
 	private boolean isInitApplication = false;
 	
-	@Scheduled(fixedDelay=10)
+	//@Scheduled(fixedDelay=10)
 	@APIOperation(description="어플리케이션 초기화 직후 실행")
 	public void initApplication() {
 		
 		if(!isInitApplication) {
-
-			CommonHeader header = Local.commonHeader();
-			header.setClientAddress(InterfaceFactory.LOCAL_HOST_ADDRESS);
+			//TEST
 			try {
-
-				logger.debug("어플리케이션 초기화 직후 실행");
-				
-				
+				logger.debug("EZWEL Application Init Complete");
 				isInitApplication = true;
 			}
 			catch(Exception e) {
-				e.printStackTrace();
-			}
-			finally {
-				Local.remove();
+				logger.error("[Scheduled-Exception] initApplication", e);
 			}
 		}
 	}
@@ -120,7 +112,9 @@ public class EzwelBatchJobExecutor {
 				logger.error("[Scheduled-Exception] allFaclRegJob", e);
 			}
 			
-			Local.remove();
+			if(header != null) {
+				header.setHandlerInterceptorComplete(true);
+			}
 		}
 		
 		logger.debug("[END-Scheduled] allFaclRegJob end-time : {} {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT), out);
@@ -159,7 +153,9 @@ public class EzwelBatchJobExecutor {
 		} catch (Exception e) {
 			logger.error("[Scheduled-Exception] allFaclMappingJob", e);
 		} finally {
-			Local.remove();
+			if(header != null) {
+				header.setHandlerInterceptorComplete(true);
+			}
 		}
 
 		logger.debug("[END-Scheduled] allFaclMappingJob end-time : {} {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT), out);
@@ -200,7 +196,9 @@ public class EzwelBatchJobExecutor {
 		} catch (Exception e) {
 			logger.error("[Scheduled-Exception] allFaclSearchJob", e);
 		} finally {
-			Local.remove();
+			if(header != null) {
+				header.setHandlerInterceptorComplete(true);
+			}
 		}
 		
 		logger.debug("[END-Scheduled] allFaclSearchJob end-time : {} {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT), out);
@@ -235,7 +233,9 @@ public class EzwelBatchJobExecutor {
 		} catch (Exception e) {
 			logger.error("[Scheduled-Exception] allSddSearchJob", e);
 		} finally {
-			Local.remove();
+			if(header != null) {
+				header.setHandlerInterceptorComplete(true);
+			}
 		}
 		
 		logger.debug("[END-Scheduled] allSddSearchJob end-time : {} {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT), out);

@@ -83,6 +83,11 @@ public class LogRepository extends AbstractDataAccessObject {
 				if(APIUtil.isEmpty(ezcIfLog.getInptDt())) {
 					ezcIfLog.setInptDt(APIUtil.getFastDate());
 				}
+				
+				if(APIUtil.isEmpty(ezcIfLog.getPartAgentId())) {
+					ezcIfLog.setPartAgentId(OperateConstants.STR_EMPTY);
+				}
+				
 				//logger.debug("# EzcIfLog : {}", ezcIfLog);
 				out = sqlSession.insert(getNamespace("IF_LOG_MAPPER", "insertEzcIfLog"), ezcIfLog);
 				logger.debug("[LOG-SAVED] txSuccess : {}", out);

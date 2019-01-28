@@ -230,7 +230,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			
 			//logger.debug("■■ [OUTPUT] {} {}", typeMethodName, retVal);
 		}
-		catch(APIException e) {
+		catch(Exception e) {
 			
 			//logger.debug("[AOP-APIException-InterfaceLog] {}", Local.commonHeader().getInterfaceLogSDO());
 			
@@ -246,6 +246,9 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
             		.append( " ■■ guid : " )
             		.append( Local.getId() )
             		.append( OperateConstants.LINE_SEPARATOR )
+    				.append(" ■■ currentThread : " )
+    				.append( Thread.currentThread().getName() )
+    				.append( OperateConstants.LINE_SEPARATOR )
             		.append( " ■■ Message : " )
             		.append( stackTraceUtil.getStackTrace(e) )
             		.append( OperateConstants.LINE_SEPARATOR )
@@ -255,8 +258,8 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
             	);
 			
 				output = new ExceptionSDO();
-				output.setCode(e.getResultCodeString());
-				output.setMessage(e.getMessages());
+				output.setCode(((APIException) e).getResultCodeString());
+				output.setMessage(((APIException) e).getMessages());
 				output.setDetailMessage(stackTraceUtil.getStackTrace(e));
 				
 				resultValue = output;
@@ -265,7 +268,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				
 			}
 			else {
-				e.printStackTrace();
+				//e.printStackTrace();
 				throw new APIException("■■ [AOP-APIException] {} 장애발생" , new Object[]{ typeMethodName }, e);
 			}
 		}

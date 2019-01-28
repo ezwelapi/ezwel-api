@@ -1,9 +1,13 @@
 package com.ezwel.htl.interfaces.commons.abstracts;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
+import com.ezwel.htl.interfaces.commons.sdo.MultiThreadResult;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,6 +42,9 @@ public abstract class AbstractSDO extends APIObject {
 	
 	@APIFields(description = "개인정보 암호화 여부")
 	private boolean isEncPrvtInfo;
+	
+	@APIFields(description = "멀티쓰레드 인터페이스 결과 코드/메시지")
+	private List<MultiThreadResult> multiThreadResults;
 	
 	public long getTotalCount() {
 		return totalCount;
@@ -79,6 +86,22 @@ public abstract class AbstractSDO extends APIObject {
 		this.isEncPrvtInfo = isEncPrvtInfo;
 	}
 
+	public List<MultiThreadResult> getMultiThreadResults() {
+		return multiThreadResults;
+	}
 
+	public void setMultiThreadResults(List<MultiThreadResult> multiThreadResults) {
+		this.multiThreadResults = multiThreadResults;
+	}
 	
+	public void addMultiThreadResults(String code, String message, String restURI) {
+		if(this.multiThreadResults == null) {
+			this.multiThreadResults = new ArrayList<MultiThreadResult>();
+		}
+		MultiThreadResult result = new MultiThreadResult();
+		result.setCode(code);
+		result.setMessage(message);
+		result.setRestURI(restURI);
+		this.multiThreadResults.add(result);
+	}
 }
