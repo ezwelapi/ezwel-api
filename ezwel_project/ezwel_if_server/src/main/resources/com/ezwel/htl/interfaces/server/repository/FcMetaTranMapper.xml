@@ -41,6 +41,7 @@
 		, #{trEtc2,jdbcType=VARCHAR}	/* 기타필드2(파일경로) */
 	)
 	
+	
 </insert>
 
 </mapper>
