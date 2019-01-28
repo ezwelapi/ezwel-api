@@ -1,9 +1,8 @@
 package com.ezwel.htl.interfaces.server.entities;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
-//import lombok.Data;
-//import lombok.EqualsAndHashCode;
 import org.apache.ibatis.type.Alias;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
@@ -31,7 +30,7 @@ import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractEntity;
 public class FcMetaTran extends AbstractEntity {
 
 	@APIFields(description = "고유번호(발송고유번호)")
-	private Long trBatchId;
+	private BigDecimal trBatchId;
 	
 	@APIFields(description = "발송일시")
 	private Date trSendDate;
@@ -64,11 +63,11 @@ public class FcMetaTran extends AbstractEntity {
 	@APIFields(description = "수신팩스번호", required=true, maxLength=20)
 	private String trPhone;
 
-	public Long getTrBatchId() {
+	public BigDecimal getTrBatchId() {
 		return trBatchId;
 	}
 
-	public void setTrBatchId(Long trBatchId) {
+	public void setTrBatchId(BigDecimal trBatchId) {
 		this.trBatchId = trBatchId;
 	}
 

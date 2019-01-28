@@ -19,28 +19,21 @@
 		  TR_BATCHID                   	/* 발송번호 */
 		, TR_SENDDATE                  	/* 발송일시 */
 		, TR_TITLE                     	/* 발송제목 */
-		, TR_MSGCOUNT                  	/* 동보건수 */
 		, TR_SENDNAME                  	/* 발신자이름 */
 		, TR_SENDFAXNUM                	/* 발신자팩스번호 */
+		, TR_MSGCOUNT                  	/* 동보건수 */		
 		, TR_DOCNAME                   	/* 발송파일정보 */
 		, TR_SENDSTAT                  	/* 발송상태값(0:발송대기,1:발송중,2:발송완료) */
-		, TR_ID                       	/* 참조번호 */
-		, TR_ETC1                      	/* 기타필드1 */
-		, TR_ETC2                      	/* 기타필드2(파일경로) */
 	) VALUES (
 		  #{trBatchId}                 	/* 발송번호 */
 		, #{trSendDate}                 /* 발송일시 */
 		, #{trTitle}                    /* 발송제목 */
-		, #{trMsgCount}                 /* 동보건수 */
 		, #{trSendName}                 /* 발신자이름 */
 		, #{trSendFaxNum}               /* 발신자팩스번호 */
+		, #{trMsgCount}                 /* 동보건수 */		
 		, #{trDocName}                  /* 발송파일정보 */
 		, #{trSendStat}                 /* 발송상태값(0:발송대기,1:발송중,2:발송완료) */
-		, #{refrnNo}                    /* 참조번호 */
-		, #{trEtc1,jdbcType=VARCHAR}    /* 기타필드1 */
-		, #{trEtc2,jdbcType=VARCHAR}	/* 기타필드2(파일경로) */
 	)
-	
 	
 </insert>
 

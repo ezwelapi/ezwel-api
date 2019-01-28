@@ -1,5 +1,6 @@
 package com.ezwel.htl.interfaces.server.commons.send;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
 import com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor;
+import com.ezwel.htl.interfaces.server.entities.FcMetaTran;
 import com.ezwel.htl.interfaces.service.data.send.FaxSenderInSDO;
 import com.ezwel.htl.interfaces.service.data.send.FaxSenderOutSDO;
 
@@ -30,19 +32,23 @@ public class FaxSender extends AbstractDataAccessObject {
 	@APIOperation(description="팩스발송 인터페이스 DB Insert")
 	public FaxSenderOutSDO callFaxSender(FaxSenderInSDO faxSenderInSDO) {
 		
-		Long trBatchId = null;
+		FcMetaTran inFcMetaTran = null;
+		FcMetaTran outFcMetaTran = null;
+		
+		BigDecimal trBatchId = null;
 		Integer txSuccess = 0;
 		
 		FaxSenderOutSDO faxSenderOutSDO = new FaxSenderOutSDO();
 		
 		try {
 			
+			inFcMetaTran = new FcMetaTran();
+			
 			trBatchId = sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectTrBatchIdSeq"));
-			faxSenderInSDO.setTrBatchId(trBatchId);
+			inFcMetaTran.setTrBatchId(trBatchId);
 			
 			//Insert
-			txSuccess = sqlSession.insert(getNamespace("FC_META_TRAN", "insertFcMetaTran"), faxSenderInSDO);
-			
+			txSuccess = sqlSession.insert(getNamespace("FC_META_TRAN", "insertFcMetaTran"), inFcMetaTran);			
 			faxSenderOutSDO.setSuccess(true);
 			
 		}
