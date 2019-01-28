@@ -379,7 +379,6 @@ public class LogRepository extends AbstractDataAccessObject {
 			contentBuffer.append("- 로그 입력 시각 : ");
 			contentBuffer.append(ezcIfLog.getInptDt());
 			contentBuffer.append(OperateConstants.LINE_SEPARATOR);
-			contentBuffer.append(OperateConstants.LINE_SEPARATOR);
 			
 			contentBuffer.append("- 인터페이스 메시지 : ");
 			contentBuffer.append(ezcIfLog.getExecMsg());
@@ -387,7 +386,7 @@ public class LogRepository extends AbstractDataAccessObject {
 			contentBuffer.append(OperateConstants.LINE_SEPARATOR);
 			
 			if(APIUtil.isNotEmpty(ezcIfLog.getInptTelg())) {
-				contentBuffer.append("[입력(Request) 전문] 사이즈 : ");
+				contentBuffer.append("<b>[입력(Request) 전문]</b> 사이즈 : ");
 				contentBuffer.append(ezcIfLog.getInptTelgSize());
 				contentBuffer.append(" Bytes(length) ");
 				contentBuffer.append(OperateConstants.LINE_SEPARATOR);
@@ -398,7 +397,7 @@ public class LogRepository extends AbstractDataAccessObject {
 			}
 			
 			if(APIUtil.isNotEmpty(ezcIfLog.getOutpTelg())) {
-				contentBuffer.append("[출력(Response) 전문] 사이즈 : ");
+				contentBuffer.append("<b>[출력(Response) 전문]</b> 사이즈 : ");
 				contentBuffer.append(ezcIfLog.getOutpTelgSize());
 				contentBuffer.append(" Bytes(length) ");
 				contentBuffer.append(OperateConstants.LINE_SEPARATOR);
@@ -409,7 +408,7 @@ public class LogRepository extends AbstractDataAccessObject {
 			}
 			
 			if(APIUtil.isNotEmpty(ezcIfLog.getErrCont())) {
-				contentBuffer.append("[장애 내용]");
+				contentBuffer.append("<b>[장애 내용]</b>");
 				contentBuffer.append(OperateConstants.LINE_SEPARATOR);
 				contentBuffer.append(ezcIfLog.getErrCont());
 				contentBuffer.append(OperateConstants.LINE_SEPARATOR);
@@ -522,7 +521,7 @@ public class LogRepository extends AbstractDataAccessObject {
 			contentBuffer.append(APIUtil.getTimeMillisToDateString(mailApiBatcLog.getExecEndMlisSecd()));
 			contentBuffer.append(OperateConstants.LINE_SEPARATOR);
 			
-			contentBuffer.append("- 전체 실행 시간(초) : ");
+			contentBuffer.append("- <b>전체 실행 시간(초) :</b> ");
 			contentBuffer.append(APIUtil.getTimeMillisToSecond(mailApiBatcLog.getExecEndMlisSecd()));
 			contentBuffer.append(OperateConstants.LINE_SEPARATOR);			
 			
@@ -531,13 +530,13 @@ public class LogRepository extends AbstractDataAccessObject {
 			contentBuffer.append(OperateConstants.LINE_SEPARATOR);
 			contentBuffer.append(OperateConstants.LINE_SEPARATOR);
 			
-			contentBuffer.append("- 배치 실행 메시지 : ");
+			contentBuffer.append("- <b>배치 실행 메시지 :</b> ");
 			contentBuffer.append(mailApiBatcLog.getErrMsg());
 			contentBuffer.append(OperateConstants.LINE_SEPARATOR);
 			contentBuffer.append(OperateConstants.LINE_SEPARATOR);
 			
 			if(APIUtil.isNotEmpty(mailApiBatcLog.getErrCont())) {
-				contentBuffer.append("[장애 내용]");
+				contentBuffer.append("<b>[장애 내용]</b>");
 				contentBuffer.append(OperateConstants.LINE_SEPARATOR);
 				contentBuffer.append(mailApiBatcLog.getErrCont());
 				contentBuffer.append(OperateConstants.LINE_SEPARATOR);

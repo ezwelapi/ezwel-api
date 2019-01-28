@@ -633,24 +633,24 @@ public class CommonHeader extends APIObject implements Serializable {
 				header = beanConvert.toJSONString(getProperties());
 			}
 			
-			if(header != null && inJsonParam != null) {
-				inJsonParam = new StringBuffer()
-						.append("RequestHeader : ")
-						.append(header)
-						.append(OperateConstants.LINE_SEPARATOR)
-						.append("InputParameter : ")
-						.append(inJsonParam).toString();
+			StringBuffer inptTelg = new StringBuffer();
+			if(header != null) {
+				inptTelg.append("RequestHeader : ").append(header);
 			}
 			
-			logger.debug("[PROC] InputTelegram : {}", inJsonParam);
+			if(inJsonParam != null && !inJsonParam.isEmpty()) {
+				inptTelg.append("InputParameter : ").append(inJsonParam);
+			}
+			
+			//logger.debug("[PROC] InputTelegram : {}", inptTelg.toString());
 			
 			if(interfaceLogSDO != null && interfaceLogInitCount > 0) {
 				
-				interfaceLogSDO.setInptTelg(inJsonParam);			
-				if(inJsonParam != null) {
+				interfaceLogSDO.setInptTelg(inptTelg.toString());			
+				if(inptTelg.toString() != null) {
 					
 					if(httpConfig != null ) {
-						interfaceLogSDO.setInptTelgSize(new BigDecimal(inJsonParam.getBytes(httpConfig.getEncoding()).length));
+						interfaceLogSDO.setInptTelgSize(new BigDecimal(inptTelg.toString().getBytes(httpConfig.getEncoding()).length));
 					}
 				}
 				else {

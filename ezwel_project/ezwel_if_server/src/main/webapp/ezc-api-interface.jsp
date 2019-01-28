@@ -34,13 +34,21 @@
 		</li>
 		<li><button id="sendBtn" >실행</button></li>
 		<li><button id="getXmlConfigBtn" >IF설정파일조회</button></li>
+		<li><button id="mailContentsDecode" >Decode</button></li>
 	</ul>
 	<ul>
-		<li style="width:55%;"><textarea placeholder="API 입력 파라메터(JSON)" id="inputJson" name="inputJson" style="width:99%;height:200px;"></textarea></li>
-		<li style="width:45%"><textarea placeholder="API 요청 헤더(JSON)" id="inputHeader" name="inputHeader" style="width:99%;height:200px;"></textarea></li>
+		<li style="width:55%;height:200px;"><textarea placeholder="API 입력 파라메터(JSON)" id="inputJson" name="inputJson" style="width:99%;height:200px;"></textarea></li>
+		<li style="width:45%;height:200px;float:right;">
+			<div>
+				<textarea placeholder="API 요청 헤더(JSON)" id="inputHeader" name="inputHeader" style="width:98%;height:150px;"></textarea>
+			</div>
+			<div>
+				<textarea placeholder="body" id="inputMailContents" name="inputMailContents" style="width:98%;height:40px;"></textarea>
+			</div>			
+		</li>
 	</ul>
 	<ul class="titleContainer">
-		<li style="width:100%;"><span class="title">Output Data</span></li>
+		<li style="width:100%;padding-top:8px;"><span class="title">Output Data</span></li>
 	</ul>
 	<ul>
 		<li style="width:100%;">

@@ -13,6 +13,7 @@ import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
@@ -1712,6 +1713,22 @@ public class OutsideService extends AbstractServiceObject {
 		}
 		
 		return out;		
+	}
+	
+	
+	@APIOperation(description = "직영숙박 DB조회")
+	public RoomReadOutSDO findGuestRoom(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
+		logger.debug("[START] findGuestRoom {} {}", userAgentSDO, roomReadSDO);
+		
+		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
+		
+		RoomReadOutSDO out = new RoomReadOutSDO();
+		out.setData(outsideRepository.selectGuestRoomList(roomReadSDO));
+		if(out.getData() == null || out.getData().size() == 0) {
+			out.setMessage("객실 정보가 존재하지 않습니다.");
+		}
+		
+		return out;
 	}
 	
 }

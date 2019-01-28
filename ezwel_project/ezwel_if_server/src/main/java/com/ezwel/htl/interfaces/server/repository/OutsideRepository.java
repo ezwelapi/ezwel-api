@@ -18,6 +18,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.sdo.ApiBatcLogSDO;
 import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.thread.Local;
@@ -41,6 +42,9 @@ import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadDataOutSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 
@@ -1146,4 +1150,23 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		
 		return out;
 	}
+	
+	@Transactional(readOnly=true)
+	@APIOperation(description = "직영숙박 목록조회")
+	public List<RoomReadDataOutSDO> selectGuestRoomList(RoomReadInSDO roomReadSDO) {
+		logger.debug("[START] selectGuestRoomList {} {}", roomReadSDO);
+		
+		List<RoomReadDataOutSDO> out = null;
+		
+		try {
+			
+			// out = sqlSession.selectList(getNamespace("ROOM_MAPPER", "selectListRoom"), roomReadSDO);
+		}
+		catch(APIException e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "직영숙박 목록조회 장애발생", e);
+		}
+		
+		return out;
+	}
+	
 }
