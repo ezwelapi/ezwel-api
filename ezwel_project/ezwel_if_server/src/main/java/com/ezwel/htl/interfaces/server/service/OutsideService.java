@@ -239,14 +239,14 @@ public class OutsideService extends AbstractServiceObject {
 		try {
 		
 			if(assets != null && assets.size() > 0) {
+				
 				/** execute code select transaction */ 
 				EzcDetailCd inEzcDetailCd = new EzcDetailCd();
 				inEzcDetailCd.addClassCdList(CodeDataConstants.CD_CLASS_CD_G002, CodeDataConstants.CD_CLASS_CD_G003, CodeDataConstants.CD_CLASS_CD_C007, CodeDataConstants.CD_CLASS_CD_G005);
 				/** execute save transaction */
 				out = insertAllFacl(assets, new AllRegOutSDO(), commonRepository.selectListCommonCode(inEzcDetailCd), 0);
 			
-				//등록/갱신 일시(yyyyMMddHHmmss)가 인터페이스 실행(StartTimeMillis)보다 이전 데이터는 전문에서 제외된 시설로서 사용안함 처리
-				// 
+				// 등록/갱신 일시(yyyyMMddHHmmss)가 인터페이스 실행(StartTimeMillis)보다 이전 데이터는 전문에서 제외된 시설로서 사용안함 처리
 				// 조건 : 시설 구분 컬럼 데이터가 API 인것만
 				EzcFacl removeEzcFacl = new EzcFacl();
 				removeEzcFacl.setFaclDiv(CodeDataConstants.CD_API_G0010001); // API
@@ -261,7 +261,6 @@ public class OutsideService extends AbstractServiceObject {
 				/** 데이터 저장이 모두 끝난후 변경사항이 존재하는 제휴사 별 멀티쓰레드 이미지 다운로드/삭제 실행 */
 				downloadMultiImage(out);	
 			}
-		
 		}
 		finally {
 			
@@ -1254,7 +1253,7 @@ public class OutsideService extends AbstractServiceObject {
 		List<EzcCityCd> ezcCityCdList = null;
 		
 		try {
-
+			
 			ezcCityCdList = commonRepository.selectListSidoCode(new EzcCityCd());
 			
 			if(ezcCityCdList != null) {
@@ -1659,13 +1658,22 @@ public class OutsideService extends AbstractServiceObject {
 					//logger.debug("- RoomReadOutSDO : {}", item);
 					
 					//최저가 정보를 담을 객체
-					minAmtRoom = null;
+					// minAmtRoom = null; //+
 					//인터페이스 정상 성공인경우
 					if(item.getCode().equals(Integer.toString(MessageConstants.RESPONSE_CODE_1000)) && item.getData() != null) {
 						
 						for(RoomReadDataOutSDO roomItem : item.getData()) {
+							
+							//START 20190128 (전용필차장, PM요청으로 모든 객실정보를 리턴함)
+							minAmtRoom = (RoomReadDataOutSDO) propertyUtil.copySameProperty(roomItem, new RoomReadDataOutSDO(), new String[] {"penalty","options"}, true);
+							minAmtRoom.setPartnerCd(item.getPartnerCd());
+							minAmtRoom.setFaclCd(item.getFaclCd());
+							out.addData(minAmtRoom);
+							//END 20190128 (전용필차장, PM요청으로 모든 객실정보를 리턴함)
+							
 							//최저가 정보를 담는다.
 							//minAmtRoom.set ...
+							/* <20190128 주석처리>
 							if(minAmtRoom == null) {
 								//logger.debug("# First roomItem : {}", roomItem);
 								minAmtRoom = (RoomReadDataOutSDO) propertyUtil.copySameProperty(roomItem, new RoomReadDataOutSDO(), new String[] {"penalty","options"}, true);
@@ -1678,6 +1686,7 @@ public class OutsideService extends AbstractServiceObject {
 								minAmtRoom.setPartnerCd(item.getPartnerCd());
 								minAmtRoom.setFaclCd(item.getFaclCd());
 							}
+							*/
 						}
 					}
 					
@@ -1685,10 +1694,12 @@ public class OutsideService extends AbstractServiceObject {
 					out.setCode(new StringBuffer().append(APIUtil.NVL(out.getCode())).append(OperateConstants.STR_TAB).append(item.getCode()).toString().trim());
 					out.setMessage(new StringBuffer().append(APIUtil.NVL(out.getMessage())).append(OperateConstants.STR_TAB).append(item.getMessage()).toString().trim());
 					out.setRestURI(new StringBuffer().append(APIUtil.NVL(out.getRestURI())).append(OperateConstants.STR_TAB).append(item.getRestURI()).toString().trim());
-
+					
+					/* <20190128 주석처리>
 					if(minAmtRoom != null) {
 						out.addData(minAmtRoom);
 					}
+					*/
 				}
 			}
 		}

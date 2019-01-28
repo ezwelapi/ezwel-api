@@ -13,6 +13,7 @@
  * @author ksw
  * @see "DBIO Mapper"
  * -->
+ <!-- 
 <insert id="insertFcMsgTran" parameterType="fcMsgTran">
 
 	INSERT INTO FC_MSG_TRAN (	
@@ -32,5 +33,5 @@
 	)
 	
 </insert>
-
+-->
 </mapper>

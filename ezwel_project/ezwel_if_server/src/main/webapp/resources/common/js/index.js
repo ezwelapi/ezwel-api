@@ -478,7 +478,8 @@ var $interface = {
 			out = $util.replaceAll(out, "\n", "<br>", "");
 			out = $util.replaceAll(out, " ", "&nbsp;", "");
 			out = $util.replaceAll(out, "	", "&nbsp;&nbsp;&nbsp;&nbsp;", "");
-			
+			out = $util.replaceAll(out, "\t", "&nbsp;&nbsp;&nbsp;&nbsp;", "");
+			out = $util.replaceAll(out, "\\t", "&nbsp;&nbsp;&nbsp;&nbsp;", "");
 			//console.log(out);
 			
 			return out;
@@ -497,6 +498,7 @@ var $interface = {
 			beforeSend: function ( xhr ) {
 				console.info( "[TRANSACTION.AJAX BEFORESEND]");
 				console.warn(xhr);
+				$('#outputJson').html("");
 			},			
 			timeout : function(){
 				console.error( "[TRANSACTION TIMEOUT]");

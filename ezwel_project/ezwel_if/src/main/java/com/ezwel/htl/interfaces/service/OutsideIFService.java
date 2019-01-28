@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.ConfigureHelper;
@@ -123,6 +124,9 @@ public class OutsideIFService {
 		try {
 			
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("roomRead", userAgentSDO.getHttpAgentId());
+			if(httpConfigSDO == null) {
+				return configureHelper.getChannelNotFoundMessage(RoomReadOutSDO.class);
+			}
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			logger.debug("httpConfigSDO {}", httpConfigSDO);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
@@ -155,6 +159,9 @@ public class OutsideIFService {
 		try {
 			
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("cancelFeePsrc", userAgentSDO.getHttpAgentId());
+			if(httpConfigSDO == null) {
+				return configureHelper.getChannelNotFoundMessage(CancelFeePsrcOutSDO.class);
+			}
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
@@ -171,7 +178,7 @@ public class OutsideIFService {
 		
 		return out;		
 	}
-
+	
 	@APIOperation(description="결재완료내역전송 인터페이스 (외부로직접나감)")
 	public RsvHistSendOutSDO callRsvHistSend(UserAgentSDO userAgentSDO, RsvHistSendInSDO rsvHistSendSDO) {
 		return callRsvHistSend(userAgentSDO, rsvHistSendSDO, false);
@@ -188,6 +195,9 @@ public class OutsideIFService {
 		try {
 			
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("rsvHistSend", userAgentSDO.getHttpAgentId());
+			if(httpConfigSDO == null) {
+				return configureHelper.getChannelNotFoundMessage(RsvHistSendOutSDO.class);
+			}
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
@@ -219,6 +229,9 @@ public class OutsideIFService {
 		try {
 			
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("cancelFeeAmt", userAgentSDO.getHttpAgentId());
+			if(httpConfigSDO == null) {
+				return configureHelper.getChannelNotFoundMessage(CancelFeeAmtOutSDO.class);
+			}
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
@@ -249,6 +262,9 @@ public class OutsideIFService {
 		try {
 			
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("orderCancelReq", userAgentSDO.getHttpAgentId());
+			if(httpConfigSDO == null) {
+				return configureHelper.getChannelNotFoundMessage(OrderCancelReqOutSDO.class);
+			}
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
@@ -284,6 +300,9 @@ public class OutsideIFService {
 			omiNumIdnSDO.setRsvStat(getEzcInputCode(omiNumIdnSDO.getRsvStat()));
 			
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("omiNumIdn", userAgentSDO.getHttpAgentId());
+			if(httpConfigSDO == null) {
+				return configureHelper.getChannelNotFoundMessage(OmiNumIdnOutSDO.class);
+			}
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
@@ -326,6 +345,9 @@ public class OutsideIFService {
 		try {
 			
 			HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("ezwelJob", userAgentSDO.getHttpAgentId());
+			if(httpConfigSDO == null) {
+				return configureHelper.getChannelNotFoundMessage(EzwelJobOutSDO.class);
+			}
 			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
 			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
 			/** execute interface */
@@ -357,5 +379,7 @@ public class OutsideIFService {
 		
 		return out;
 	}
+
+
 
 }

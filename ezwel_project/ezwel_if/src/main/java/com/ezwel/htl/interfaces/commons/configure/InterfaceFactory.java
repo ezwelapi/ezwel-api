@@ -182,7 +182,7 @@ public class InterfaceFactory {
 		}
 		
 		if(out == null) {
-			throw new APIException("인터페이스 체널정보가 존재하지 않습니다. 채널아이디 : {}, 에이전트아이디 : {}", chanId, httpAgentId);
+			logger.warn("인터페이스 체널정보가 존재하지 않습니다. 채널아이디 : {}, 에이전트아이디 : {}", chanId, httpAgentId);
 		}
 		
 		return out;
