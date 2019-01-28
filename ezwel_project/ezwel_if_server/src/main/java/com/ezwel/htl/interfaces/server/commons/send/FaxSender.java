@@ -37,7 +37,7 @@ public class FaxSender extends AbstractDataAccessObject {
 		
 		try {
 			
-			trBatchId = sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "insertFcMsgTran"));
+			trBatchId = sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectTrBatchIdSeq"));
 			faxSenderInSDO.setTrBatchId(trBatchId);
 			
 			//Insert
