@@ -15,7 +15,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
  * @date 2019.01.07
  */
 
-@APIModel
+@APIModel(description="팩스발송 정보")
 public class FaxSenderInSDO extends AbstractSDO {
 	
 	@APIFields(description = "고유번호(발송고유번호)")

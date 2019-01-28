@@ -13,7 +13,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
  * @date 2019.01.07
  */
 
-@APIModel
+@APIModel(description="팩스발송 정보")
 public class FaxSenderOutSDO extends AbstractSDO {
 	
 	@APIFields(description = "팩스발송 성공여부", required=false)

@@ -14,7 +14,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
  * @date 2018. 12. 13.
  */
 
-@APIModel
+@APIModel(description="메일발송 정보")
 public class MailSenderInSDO extends AbstractSDO {
 	
 	@APIFields(description = "발송자이메일주소", required=false, maxLength=50)
