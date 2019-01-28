@@ -18,6 +18,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.configure.data.OptMailConfig;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.server.commons.intercepter.HandlerInterceptor;
 import com.ezwel.htl.interfaces.service.data.send.MailSenderInSDO;
 import com.ezwel.htl.interfaces.service.data.send.MailSenderOutSDO;
@@ -101,7 +102,7 @@ public class MailSender {
 	        msg.setFrom(new InternetAddress(from, fromName));
 	        msg.setRecipient(Message.RecipientType.TO, new InternetAddress(mailSenderInSDO.getRecipient()));
 	        msg.setSubject(mailSenderInSDO.getSubject());
-	        msg.setContent(mailSenderInSDO.getBody(),"text/html");
+	        msg.setContent(mailSenderInSDO.getBody(),"text/html; charset=" + OperateConstants.DEFAULT_ENCODING);
 	        msg.setHeader("X-SES-CONFIGURATION-SET", CONFIGSET);
 	        
 	        transport = session.getTransport();
