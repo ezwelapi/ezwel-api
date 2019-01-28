@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
+import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
 /**
  * <pre>
@@ -14,6 +15,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
  * @date 2019.01.07
  */
 
+@APIModel
 public class FaxSenderInSDO extends AbstractSDO {
 	
 	@APIFields(description = "고유번호(발송고유번호)")

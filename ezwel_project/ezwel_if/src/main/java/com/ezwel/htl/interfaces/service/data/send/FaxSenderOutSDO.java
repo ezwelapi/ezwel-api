@@ -2,6 +2,7 @@ package com.ezwel.htl.interfaces.service.data.send;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
+import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 
 /**
  * <pre>
@@ -12,6 +13,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIFields;
  * @date 2019.01.07
  */
 
+@APIModel
 public class FaxSenderOutSDO extends AbstractSDO {
 	
 	@APIFields(description = "팩스발송 성공여부", required=false)
