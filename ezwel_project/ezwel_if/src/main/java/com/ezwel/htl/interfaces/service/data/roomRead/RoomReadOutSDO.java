@@ -40,6 +40,9 @@ public class RoomReadOutSDO extends AbstractSDO {
 	@APIFields(description = "그룹 시설 코드")
 	private BigDecimal grpFaclCd;
 	
+	@APIFields(description = "시설 코드", maxLength=10)
+	private BigDecimal faclCd;
+	
 	@APIFields(description = "객실정보조회 output data")
 	private List<RoomReadDataOutSDO> data;
 
@@ -97,6 +100,14 @@ public class RoomReadOutSDO extends AbstractSDO {
 
 	public void setGrpFaclCd(BigDecimal grpFaclCd) {
 		this.grpFaclCd = grpFaclCd;
+	}
+
+	public BigDecimal getFaclCd() {
+		return faclCd;
+	}
+
+	public void setFaclCd(BigDecimal faclCd) {
+		this.faclCd = faclCd;
 	}
 	
 	

@@ -49,6 +49,9 @@ public class RoomReadInSDO extends AbstractSDO {
 	@APIFields(description = "그룹 시설 코드")
 	private BigDecimal grpFaclCd;
 	
+	@APIFields(description = "시설 코드", maxLength=10)
+	private BigDecimal faclCd;
+	
 	@APIFields(description = "최저가 객실 조회 상품정보")
 	private List<RoomReadSeachMinInSDO> seachMinRoomInList;
 	
@@ -122,6 +125,14 @@ public class RoomReadInSDO extends AbstractSDO {
 
 	public void setSeachMinRoomInList(List<RoomReadSeachMinInSDO> seachMinRoomInList) {
 		this.seachMinRoomInList = seachMinRoomInList;
+	}
+
+	public BigDecimal getFaclCd() {
+		return faclCd;
+	}
+
+	public void setFaclCd(BigDecimal faclCd) {
+		this.faclCd = faclCd;
 	}
 
 	

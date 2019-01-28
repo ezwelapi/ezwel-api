@@ -44,6 +44,7 @@ import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.CoordinateUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.FileUtil;
 import com.ezwel.htl.interfaces.server.component.FaclMappingComponent;
+import com.ezwel.htl.interfaces.server.entities.EzcCityCd;
 import com.ezwel.htl.interfaces.server.entities.EzcDetailCd;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
@@ -1243,6 +1244,34 @@ public class OutsideService extends AbstractServiceObject {
 		return out;
 	}
 	
+	
+	@APIOperation(description="시설검색 인터페이스 (DB테이블의 시도코드 만큼 (callFaclSearch)반복실행)")
+	public List<FaclSearchOutSDO> callFaclSearchWithSidoList(UserAgentSDO userAgentDTO, FaclSearchInSDO faclSearchDTO) {
+		
+		commonRepository = (CommonRepository) LApplicationContext.getBean(commonRepository, CommonRepository.class);
+		
+		List<FaclSearchOutSDO> out = null;
+		List<EzcCityCd> ezcCityCdList = null;
+		
+		try {
+
+			ezcCityCdList = commonRepository.selectListSidoCode(new EzcCityCd());
+			
+			if(ezcCityCdList != null) {
+			
+				out = new ArrayList<FaclSearchOutSDO>();
+				for(EzcCityCd item : ezcCityCdList) {
+					faclSearchDTO.setSidoCode(item.getCityCd());
+					out.add(callFaclSearch(userAgentDTO, faclSearchDTO));
+				}
+			}
+		}
+		catch(Exception e) {
+			logger.error("시설검색 인터페이스 (DB테이블의 시도코드 만큼 (callFaclSearch)반복실행)중 장애발생", e);
+		}
+		
+		return out;
+	}
 
 	/**
 	 * 멀티쓰레드
@@ -1592,7 +1621,9 @@ public class OutsideService extends AbstractServiceObject {
 					
 					inRoomReadSDO = (RoomReadInSDO) propertyUtil.copySameProperty(roomReadSDO, RoomReadInSDO.class, "seachMinRoomInList");
 					inRoomReadSDO.setPdtNo(faclitem.getPartnerGoodsCd()); //제휴사 상품 코드
-
+					inRoomReadSDO.setGrpFaclCd(faclitem.getGrpFaclCd()); //제휴사 상품 코드
+					inRoomReadSDO.setFaclCd(faclitem.getFaclCd()); //제휴사 상품 코드
+					
 					//멀티쓰레드 세팅
 					callable = new RoomReadMultiCallable(inUserAgentSDO, inRoomReadSDO, count);
 					//설정된 멀티쓰레드 개수만큼 반복 실행 
@@ -1639,11 +1670,13 @@ public class OutsideService extends AbstractServiceObject {
 								//logger.debug("# First roomItem : {}", roomItem);
 								minAmtRoom = (RoomReadDataOutSDO) propertyUtil.copySameProperty(roomItem, new RoomReadDataOutSDO(), new String[] {"penalty","options"}, true);
 								minAmtRoom.setPartnerCd(item.getPartnerCd());
+								minAmtRoom.setFaclCd(item.getFaclCd());
 							}
 							else if(roomItem.getPriceForSale() <= minAmtRoom.getPriceForSale()) {
 								//logger.debug("# Find MinRoom : {}", roomItem);
 								minAmtRoom = (RoomReadDataOutSDO) propertyUtil.copySameProperty(roomItem, new RoomReadDataOutSDO(), new String[] {"penalty","options"}, true);
 								minAmtRoom.setPartnerCd(item.getPartnerCd());
+								minAmtRoom.setFaclCd(item.getFaclCd());
 							}
 						}
 					}

@@ -161,7 +161,7 @@ public class FaclMappingComponent {
 
 							if(faclCompMorp.isGroupData()) {
 								if(verbose) {
-									logger.debug("이미 그룹데이터로 선정된 시설 입니다. => faclCompMorp.ezcFaclMappingList size : {}", faclCompMorp.getEzcFaclMappingList().size());
+									logger.debug("이미 그룹데이터로 선정된 시설 입니다. => faclCompMorp.ezcFaclMappingList size : {}", (faclCompMorp.getEzcFaclMappingList() != null ? faclCompMorp.getEzcFaclMappingList().size() : 0));
 								}
 								continue;
 							}

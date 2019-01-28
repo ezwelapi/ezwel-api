@@ -38,7 +38,7 @@ public class MailSender {
 	static final String CONFIGSET = "Configset";
     
 	/**
-	 * 최초개발 jyp
+	 * 
 	 * @param mailSenderInList
 	 * @return
 	 * @throws Exception
@@ -59,7 +59,7 @@ public class MailSender {
 	}
 	
 	/**
-	 * 최초개발 jyp
+	 * 
 	 * @param mailSenderInSDO
 	 * @return
 	 * @throws Exception
@@ -68,7 +68,6 @@ public class MailSender {
 	public MailSenderOutSDO callMailSender(MailSenderInSDO mailSenderInSDO) throws Exception {
 		logger.debug("[START] callMailSender {}", mailSenderInSDO);
 		
-		//ksw 수정 20190125
 		OptMailConfig mailConfig = InterfaceFactory.getOptionalApps().getMailConfig();
 		String host			= mailConfig.getHost();
 		String port 		= mailConfig.getPort();
@@ -93,7 +92,6 @@ public class MailSender {
         Session session = null;
         MimeMessage msg = null;
         
-        //ksw 수정 20190125
 	    try {
 	    	
 		    session = Session.getDefaultInstance(props);

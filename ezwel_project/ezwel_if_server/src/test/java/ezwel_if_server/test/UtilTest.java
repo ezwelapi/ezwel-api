@@ -46,6 +46,22 @@ public class UtilTest {
 		
 		logger.debug("{}", date.replaceAll(PatternConstants.PATTERN_NUMBER, OperateConstants.STR_BLANK));
 		
+		
+		logger.debug("날자 변경 : {}", APIUtil.getDateHandler(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT), OperateConstants.DEF_DAY_FORMAT, null, 30, null));
+		/*
+		int imgIdx = OperateConstants.INTEGER_MINUS_ONE; 
+		//이미 동일한 이미지 URL이 저장되어있는 지 체크
+		for(imgIdx = 0; imgIdx < ezcFaclImgDBList.size(); imgIdx++) {
+			savedImageDB = ezcFaclImgDBList.get(imgIdx);
+			//logger.info("# image check FaclCd : '{}' equals '{}', PartnerImgUrl : '{}' equals '{}'", savedImageDB.getFaclCd(), ezcFacl.getFaclCd(), savedImageDB.getPartnerImgUrl(), faclImg.getPartnerImgUrl());
+			if(savedImageDB.getFaclCd().equals(ezcFacl.getFaclCd()) 
+				&& savedImageDB.getPartnerImgUrl().equals(faclImg.getPartnerImgUrl())) {
+				
+				logger.info("# image db equals image url : {}", faclImg.getPartnerImgUrl());
+				break;
+			}
+		}
+		*/
 	}
 	
 	

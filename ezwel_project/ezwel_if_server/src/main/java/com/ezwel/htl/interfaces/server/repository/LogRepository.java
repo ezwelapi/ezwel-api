@@ -24,6 +24,7 @@ import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
+import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
 import com.ezwel.htl.interfaces.server.commons.send.MailSender;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.entities.EzcApiBatcLog;
@@ -86,7 +87,8 @@ public class LogRepository extends AbstractDataAccessObject {
 				out = sqlSession.insert(getNamespace("IF_LOG_MAPPER", "insertEzcIfLog"), ezcIfLog);
 				logger.debug("[LOG-SAVED] txSuccess : {}", out);
 				
-				if(out > 0) { // 로그 정보 이메일 발송 
+				if(out > 0 && APIUtil.NVL(ezcIfLog.getSuccYn(), CodeDataConstants.CD_N).equals(CodeDataConstants.CD_N)) { // 로그 정보 이메일 발송
+					
 					executorService = Executors.newCachedThreadPool();
 					final EzcIfLog mailEzcIfLog = (EzcIfLog) propertyUtil.copySameProperty(ezcIfLog, EzcIfLog.class);
 					Runnable runnable = new Runnable() {
@@ -196,7 +198,8 @@ public class LogRepository extends AbstractDataAccessObject {
 					ezcApiBatcLog.setInptDt(inptDt);
 					//logger.debug("# EzcApiBatcLog : {}", ezcApiBatcLog);
 					out += sqlSession.insert(getNamespace("API_BATC_LOG_MAPPER", "insertEzcApiBatcLog"), ezcApiBatcLog);
-					
+
+					// APIUtil.NVL(ezcApiBatcLog.getBatcLogType()).equals("IV")
 					if(out > 0) { // 로그 정보 이메일 발송
 						executorService = Executors.newCachedThreadPool();
 						final EzcApiBatcLog mailApiBatcLog = (EzcApiBatcLog) propertyUtil.copySameProperty(ezcApiBatcLog, EzcApiBatcLog.class);
@@ -326,7 +329,7 @@ public class LogRepository extends AbstractDataAccessObject {
 			subjectBuffer.append("(");
 			subjectBuffer.append(ezcIfLog.getPartAgentId());
 			subjectBuffer.append(") ");
-			if(ezcIfLog.getSuccYn().equals("Y")) {
+			if(ezcIfLog.getSuccYn().equals(CodeDataConstants.CD_Y)) {
 				subjectBuffer.append("성공!!");	
 			}
 			else {
@@ -434,7 +437,7 @@ public class LogRepository extends AbstractDataAccessObject {
 			}
 		}
 		catch(Exception e) {
-			logger.error("인터페이스 로그 레포트 이메일 발송중 에러 발생.");
+			logger.error("인터페이스 로그 레포트 이메일 발송중 에러 발생. {}", e.getMessage());
 		}
 		
 		logger.debug("■■■■■■■■■ 인터페이스 로그 레포트 메일발송 성공 여부 : {} ■■■■■■■■■", out);
@@ -562,7 +565,7 @@ public class LogRepository extends AbstractDataAccessObject {
 			}
 		}
 		catch(Exception e) {
-			logger.error("인터페이스 로그 레포트 이메일 발송중 에러 발생.");
+			logger.error("인터페이스 로그 레포트 이메일 발송중 에러 발생. {}", e.getMessage());
 		}
 		
 		logger.debug("■■■■■■■■■ API 배치 로그 레포트 메일발송 성공 여부 : {} ■■■■■■■■■", out);

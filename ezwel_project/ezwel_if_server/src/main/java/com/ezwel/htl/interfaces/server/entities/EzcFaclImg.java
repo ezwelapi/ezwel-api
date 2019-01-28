@@ -85,9 +85,7 @@ public class EzcFaclImg extends AbstractEntity {
 	private boolean isDownload = false;
 	
 	@APIFields(description = "이미지 저장/다운로드 패스 여부")
-	private boolean isPassImage;
-	
-	
+	private boolean isPassImage = false;
 	
 	public boolean isPassImage() {
 		return isPassImage;

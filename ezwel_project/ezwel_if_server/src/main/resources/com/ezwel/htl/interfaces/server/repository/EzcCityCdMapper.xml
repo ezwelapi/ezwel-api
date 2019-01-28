@@ -143,7 +143,7 @@ SELECT * FROM (
 			AND EZC_CITY_CD.MODI_DT = #{modiDt, jdbcType=VARCHAR}	/* 수정 일시, VARCHAR2(14) */
 			</if>
 		ORDER BY
-			EZC_CITY_CD.CITY_CD DESC
+			EZC_CITY_CD.CITY_CD ASC
 		/*  SQL Body End  */
 	) RECORDS
 	WHERE ROWNUM &lt;= ((#{pageNum, jdbcType=NUMERIC}*#{pageCount, jdbcType=NUMERIC})) 

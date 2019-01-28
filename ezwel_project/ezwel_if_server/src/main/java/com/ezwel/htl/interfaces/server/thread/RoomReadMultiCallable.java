@@ -38,8 +38,8 @@ public class RoomReadMultiCallable extends AbstractComponent implements Callable
 	 * @param inImageParam
 	 * @param count
 	 */
-	public RoomReadMultiCallable(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO, Integer count) {
 		//ThreadLocal 초기화
+	public RoomReadMultiCallable(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO, Integer count) {
 		Local.commonHeader();
 		
 		logger.debug("- RoomReadMultiService Initialized : {}", count);
@@ -69,6 +69,8 @@ public class RoomReadMultiCallable extends AbstractComponent implements Callable
 			out = outsideIFService.callRoomRead(userAgentSDO, roomReadSDO);
 			//제휴사 코드 세팅
 			out.setPartnerCd(userAgentSDO.getHttpAgentId());
+			out.setGrpFaclCd(roomReadSDO.getGrpFaclCd());
+			out.setFaclCd(roomReadSDO.getFaclCd());
 			
 			if(IS_LOGGING) {
 				logger.debug("[END-RoomReadMultiService({})] 객실 정보 조회 멀티 => RoomReadOutSDO : {}", count, out);

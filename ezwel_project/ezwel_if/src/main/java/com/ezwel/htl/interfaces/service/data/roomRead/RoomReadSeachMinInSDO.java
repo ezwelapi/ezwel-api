@@ -30,6 +30,9 @@ public class RoomReadSeachMinInSDO extends AbstractSDO {
 	@APIFields(description = "최저가조회 제휴사코드", maxLength=20)
 	private String partnerCd;
 
+	@APIFields(description = "시설 코드", maxLength=10)
+	private BigDecimal faclCd;
+	
 	public String getPdtNo() {
 		return pdtNo;
 	}
@@ -44,6 +47,14 @@ public class RoomReadSeachMinInSDO extends AbstractSDO {
 
 	public void setPartnerCd(String partnerCd) {
 		this.partnerCd = partnerCd;
+	}
+
+	public BigDecimal getFaclCd() {
+		return faclCd;
+	}
+
+	public void setFaclCd(BigDecimal faclCd) {
+		this.faclCd = faclCd;
 	}
 	
 	

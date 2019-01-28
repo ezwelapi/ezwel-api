@@ -165,6 +165,56 @@ public class APIUtil {
     	return FastDateFormat.getInstance(dateformat, TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA).format(datetime);
     }
 	
+	
+	public static String getDateHandler(String date, String format, Integer mpYear, Integer mpMonth, Integer mpDay) {
+		logger.debug("[END-getDateHandler] START => date: {}, dateFormat: {}, mpYear: {}, mpMonth: {}, mpDay: {}", date, format, mpYear, mpMonth, mpDay);
+
+		if(date == null) {
+			throw new APIException("[INVALIDATE-PARAMETER] date is null");
+		}
+		if(format == null) {
+			throw new APIException("[INVALIDATE-PARAMETER] format is null");
+		}
+
+		String out = null;
+		String dateFormat = null;
+		SimpleDateFormat simpleFormat = null;
+		Date datetime = null;
+		try {
+			dateFormat = (format != null && !format.isEmpty()) ? format:OperateConstants.DEF_DATE_FORMAT;
+			simpleFormat = new SimpleDateFormat(dateFormat);
+			datetime = simpleFormat.parse(date);
+			
+			// 날짜 증/감
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(datetime);
+			if(mpYear != null && mpYear != 0) {
+				//년도 +/-
+				cal.add(Calendar.YEAR, mpYear);	
+			}
+			if(mpMonth != null && mpMonth != 0) {
+				//날짜 +/-
+				cal.add(Calendar.DATE, mpMonth); 
+			}
+			if(mpDay != null && mpDay != 0) {
+				//월   +/-
+				cal.add(Calendar.MONTH, mpDay);	
+			}
+	    	
+			out = simpleFormat.format(cal.getTime());
+		}
+		catch (Exception e) {
+			throw new APIException("[Exception-getDateHandler] ", e);
+		}
+		
+		logger.debug("[END-getDateHandler] END => date: {}", out);
+		return out;
+	}
+	
+
+	
+	
+	
 	@APIOperation(description="현제 TimeMillis를 second로 변환하여 리턴합니다.", isExecTest=true)
 	public static double getTimeMillisToSecond(long timeMillis){
 		double out = timeMillis / 1000.;
