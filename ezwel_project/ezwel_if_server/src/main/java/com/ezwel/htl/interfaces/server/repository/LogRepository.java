@@ -418,7 +418,7 @@ public class LogRepository extends AbstractDataAccessObject {
 				mailSenderIn = new MailSenderInSDO();
 				mailSenderIn.setSubject(subjectBuffer.toString());
 				mailSenderIn.setRecipient(receiver.getEmailAddr());
-				mailSenderIn.setBody(contentBuffer.toString());
+				mailSenderIn.setBody(convertGeneralCharToHTML(contentBuffer.toString()));
 				mailSenderInList.add(mailSenderIn);
 			}
 			
@@ -546,7 +546,7 @@ public class LogRepository extends AbstractDataAccessObject {
 				mailSenderIn = new MailSenderInSDO();
 				mailSenderIn.setSubject(subjectBuffer.toString());
 				mailSenderIn.setRecipient(receiver.getEmailAddr());
-				mailSenderIn.setBody(contentBuffer.toString());
+				mailSenderIn.setBody(convertGeneralCharToHTML(contentBuffer.toString()));
 				mailSenderInList.add(mailSenderIn);
 			}
 			
@@ -570,6 +570,21 @@ public class LogRepository extends AbstractDataAccessObject {
 		
 		logger.debug("■■■■■■■■■ API 배치 로그 레포트 메일발송 성공 여부 : {} ■■■■■■■■■", out);
 
+		return out;
+	}
+	
+	private String convertGeneralCharToHTML(String contents) {
+		String out = null;
+		
+		if(contents == null ) {
+			return out;
+		}
+		
+		out = contents
+				.replace(OperateConstants.LINE_SEPARATOR, "<br>")
+				.replace(OperateConstants.STR_WHITE_SPACE, "&nbsp;")
+				.replace(OperateConstants.STR_TAB, "&nbsp;&nbsp;&nbsp;&nbsp;");
+		
 		return out;
 	}
 	

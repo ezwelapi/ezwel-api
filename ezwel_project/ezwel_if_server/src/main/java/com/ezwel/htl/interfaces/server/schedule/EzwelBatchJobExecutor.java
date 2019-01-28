@@ -10,12 +10,15 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
+import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
+import com.ezwel.htl.interfaces.commons.entity.CommonHeader;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
+import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.controller.OutsideController;
-import com.ezwel.htl.interfaces.server.entities.EzcIfLog;
 import com.ezwel.htl.interfaces.server.sdo.FaclSDO;
 import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
 import com.ezwel.htl.interfaces.server.service.OutsideService;
@@ -25,11 +28,38 @@ import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 
 @Component
+@APIType(description="이지웰 배치 좝 스케쥴 실행기")
 public class EzwelBatchJobExecutor {
 
 	private static final Logger logger = LoggerFactory.getLogger(OutsideController.class);
 	
 	private OutsideService outsideService;
+	
+	private boolean isInitApplication = false;
+	
+	@Scheduled(fixedDelay=10)
+	@APIOperation(description="어플리케이션 초기화 직후 실행")
+	public void initApplication() {
+		
+		if(!isInitApplication) {
+
+			CommonHeader header = Local.commonHeader();
+			header.setClientAddress(InterfaceFactory.LOCAL_HOST_ADDRESS);
+			try {
+
+				logger.debug("어플리케이션 초기화 직후 실행");
+				
+				
+				isInitApplication = true;
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+			finally {
+				Local.remove();
+			}
+		}
+	}
 	
 	/***
 	 * 1. 전체 시설 (부대시설, 이미지 다운로드) : 매일 01
@@ -58,6 +88,8 @@ public class EzwelBatchJobExecutor {
 		AllRegOutSDO out = null;
 		ExecutorService executorService = null;
 		
+		CommonHeader header = Local.commonHeader();
+		header.setClientAddress(InterfaceFactory.LOCAL_HOST_ADDRESS);		
 		try {
 			
 			UserAgentSDO userAgentSDO = new UserAgentSDO();
@@ -70,7 +102,6 @@ public class EzwelBatchJobExecutor {
 			out = outsideService.callAllReg(userAgentSDO);
 		}
 		finally {
-			
 
 			try {
 				
@@ -86,8 +117,10 @@ public class EzwelBatchJobExecutor {
 				executorService.execute(runnable);
 				
 			} catch (Exception e) {
-				logger.error("[Scheduled-InterruptedException] allFaclRegJob", e);
+				logger.error("[Scheduled-Exception] allFaclRegJob", e);
 			}
+			
+			Local.remove();
 		}
 		
 		logger.debug("[END-Scheduled] allFaclRegJob end-time : {} {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT), out);
@@ -104,6 +137,8 @@ public class EzwelBatchJobExecutor {
 		Long sleepMinute = 30L;
 		TransactionOutSDO out = null;
 		
+		CommonHeader header = Local.commonHeader();
+		header.setClientAddress(InterfaceFactory.LOCAL_HOST_ADDRESS);
 		try {
 			
 			if(OutsideService.isFaclMappingRunning()) {
@@ -120,7 +155,11 @@ public class EzwelBatchJobExecutor {
 			out = outsideService.execFaclMapping(faclSDO);	
 			
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			logger.error("[Scheduled-InterruptedException] allFaclMappingJob", e);
+		} catch (Exception e) {
+			logger.error("[Scheduled-Exception] allFaclMappingJob", e);
+		} finally {
+			Local.remove();
 		}
 
 		logger.debug("[END-Scheduled] allFaclMappingJob end-time : {} {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT), out);
@@ -138,22 +177,31 @@ public class EzwelBatchJobExecutor {
 		
 		List<FaclSearchOutSDO> out = null;
 		
-		UserAgentSDO userAgentSDO = new UserAgentSDO();
-		//setting
-		userAgentSDO.setHttpAgentGroupId("multiFaclSearch");
-		userAgentSDO.setConnTimeout(1000);
-		userAgentSDO.setReadTimeout(100000);
-		
-		FaclSearchInSDO faclSearchSDO = new FaclSearchInSDO();
-		//setting
-		//시작일 당일
-		faclSearchSDO.setCheckInDate(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT));
-		//종료일 당일로 부터 30일 이후
-		faclSearchSDO.setCheckOutDate(APIUtil.getDateHandler(faclSearchSDO.getCheckInDate(), OperateConstants.DEF_DAY_FORMAT, null, 30, null));
-		//시도 코드는 DB에서 조회 (EZC_CITY_CD)
-		
-		outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
-		out = outsideService.callFaclSearchWithSidoList(userAgentSDO, faclSearchSDO);
+		CommonHeader header = Local.commonHeader();
+		header.setClientAddress(InterfaceFactory.LOCAL_HOST_ADDRESS);
+		try {
+			
+			UserAgentSDO userAgentSDO = new UserAgentSDO();
+			//setting
+			userAgentSDO.setHttpAgentGroupId("multiFaclSearch");
+			userAgentSDO.setConnTimeout(1000);
+			userAgentSDO.setReadTimeout(100000);
+			
+			FaclSearchInSDO faclSearchSDO = new FaclSearchInSDO();
+			//setting
+			//시작일 당일
+			faclSearchSDO.setCheckInDate(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT));
+			//종료일 당일로 부터 30일 이후
+			faclSearchSDO.setCheckOutDate(APIUtil.getDateHandler(faclSearchSDO.getCheckInDate(), OperateConstants.DEF_DAY_FORMAT, null, 30, null));
+			//시도 코드는 DB에서 조회 (EZC_CITY_CD)
+			
+			outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
+			out = outsideService.callFaclSearchWithSidoList(userAgentSDO, faclSearchSDO);
+		} catch (Exception e) {
+			logger.error("[Scheduled-Exception] allFaclSearchJob", e);
+		} finally {
+			Local.remove();
+		}
 		
 		logger.debug("[END-Scheduled] allFaclSearchJob end-time : {} {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT), out);
 	}
@@ -171,19 +219,26 @@ public class EzwelBatchJobExecutor {
 		
 		SddSearchOutSDO out = null;
 		
-		UserAgentSDO userAgentSDO = new UserAgentSDO();
-		//setting
-		userAgentSDO.setHttpAgentGroupId("multiSddSearch");
-		userAgentSDO.setConnTimeout(1000);
-		userAgentSDO.setReadTimeout(100000);
-		
-		outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
-		out = outsideService.callSddSearch(userAgentSDO);
+		CommonHeader header = Local.commonHeader();
+		header.setClientAddress(InterfaceFactory.LOCAL_HOST_ADDRESS);
+		try {
+			
+			UserAgentSDO userAgentSDO = new UserAgentSDO();
+			//setting
+			userAgentSDO.setHttpAgentGroupId("multiSddSearch");
+			userAgentSDO.setConnTimeout(1000);
+			userAgentSDO.setReadTimeout(100000);
+			
+			outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
+			out = outsideService.callSddSearch(userAgentSDO);
+			
+		} catch (Exception e) {
+			logger.error("[Scheduled-Exception] allSddSearchJob", e);
+		} finally {
+			Local.remove();
+		}
 		
 		logger.debug("[END-Scheduled] allSddSearchJob end-time : {} {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT), out);
 	}
-	
-	
-	
 	
 }

@@ -5,8 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
@@ -48,5 +50,26 @@ public class ConfigureHelper {
 		return httpConfigSDO;
 	}
 	
-	
+	@APIOperation(description="체널정보가 없을경우 결과 타입에 메시지세팅")
+	public <T extends AbstractSDO> T getChannelNotFoundMessage(Class<T> returnObject) {
+		
+		T value = null;
+		try {
+			value = (T) returnObject.newInstance();
+			
+			//code
+			propertyUtil.setProperty(value, MessageConstants.RESPONSE_CODE_FIELD_NAME, Integer.toString(MessageConstants.RESPONSE_CODE_9103));
+			//message
+			propertyUtil.setProperty(value, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, MessageConstants.getMessage(MessageConstants.RESPONSE_CODE_9103));
+			
+		} catch (InstantiationException e) {
+			logger.error("[setChannelNotFoundMessage-InstantiationException]", e);
+		} catch (IllegalAccessException e) {
+			logger.error("[setChannelNotFoundMessage-IllegalAccessException]", e);
+		} catch (Exception e) {
+			logger.error("[setChannelNotFoundMessage-Exception]", e);
+		}
+		
+		return value;
+	}
 }

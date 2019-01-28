@@ -618,13 +618,15 @@ public class HttpInterfaceExecutor {
 		
 		T value = null;
 		List<T> out = null;
-		CallableExecutor executor = null;
 		IfLogSDO ifLogSDO = null;
+		CallableExecutor executor = null;
+		Callable<AbstractSDO> callable = null;
 		
 		try {
 		
 			if(in == null || in.size() == 0) {
-				throw new APIException(MessageConstants.RESPONSE_CODE_2000, "■ 멀티쓰레드 URL통신에 필요한 설정 목록이 존재하지 않습니다.");
+				logger.warn("■ 멀티쓰레드 URL통신에 필요한 설정 목록이 존재하지 않습니다.");
+				return out;
 			}
 			
 			executor = new CallableExecutor();
@@ -634,7 +636,7 @@ public class HttpInterfaceExecutor {
 			executor.initThreadPool(in.size());
 			
 			for(MultiHttpConfigSDO multiHttpConfig : in) {
-				Callable<AbstractSDO> callable = new HttpInterfaceHelper(multiHttpConfig);
+				callable = new HttpInterfaceHelper(multiHttpConfig);
 				//logger.debug("[before] executor.addCall : {}", in);
 				// 생성된 callable들을 threadpool에서 수행시키고 결과는 Future 목록에 담는다
 				executor.addCall(callable);
