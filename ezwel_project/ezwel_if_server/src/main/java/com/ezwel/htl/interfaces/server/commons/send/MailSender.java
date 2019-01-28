@@ -88,7 +88,7 @@ public class MailSender {
 	    props.put("mail.smtp.connectiontimeout", connTimeout);
 	    props.put("mail.smtp.timeout", readTimeout);
 	    
-        MailSenderOutSDO mailSenderOutSDO = null;
+        MailSenderOutSDO mailSenderOutSDO = new MailSenderOutSDO();
         Transport transport = null;
         Session session = null;
         MimeMessage msg = null;
@@ -114,18 +114,18 @@ public class MailSender {
             transport.sendMessage(msg, msg.getAllRecipients());
             
             logger.info("Send Mail Complete...");
-            mailSenderOutSDO = new MailSenderOutSDO();
             mailSenderOutSDO.setSuccess(true);
         }
         catch (Exception e) {
-        	logger.error("Send Mail Error message : [" + mailSenderInSDO.getRecipient() + "]", e);
+        	logger.error("Send Mail Error message : ", e);
+        	mailSenderOutSDO.setSuccess(false);
         }
         finally
         {
             transport.close();
         }
         
-	    logger.debug("[END] callMailSender {}", mailSenderOutSDO);
+	    logger.debug("[END] callMailSender {}" + mailSenderInSDO.getRecipient() + "]", mailSenderOutSDO);
 		return mailSenderOutSDO;
 	}
 	
