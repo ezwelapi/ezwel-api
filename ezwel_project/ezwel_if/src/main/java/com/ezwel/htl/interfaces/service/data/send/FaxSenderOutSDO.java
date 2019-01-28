@@ -25,4 +25,5 @@ public class FaxSenderOutSDO extends AbstractSDO {
 		this.success = success;
 	}
 	
+	
 }
