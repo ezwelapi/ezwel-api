@@ -1254,11 +1254,19 @@ public class OutsideService extends AbstractServiceObject {
 			ezcCityCdList = commonRepository.selectListSidoCode(new EzcCityCd());
 			
 			if(ezcCityCdList != null) {
-			
+				
 				out = new ArrayList<FaclSearchOutSDO>();
-				for(EzcCityCd item : ezcCityCdList) {
-					faclSearchDTO.setSidoCode(item.getCityCd());
-					out.add(callFaclSearch(userAgentDTO, faclSearchDTO));
+				
+				for(int i = 0; i < faclSearchDTO.getPlusDay(); i++) {
+					faclSearchDTO.setCheckInDate(APIUtil.getDateHandler(faclSearchDTO.getStndDate(), OperateConstants.DEF_DAY_FORMAT, null, null, i));
+					faclSearchDTO.setCheckOutDate(APIUtil.getDateHandler(faclSearchDTO.getCheckInDate(), OperateConstants.DEF_DAY_FORMAT, null, null, 1));
+					logger.debug("[INPUT] faclSearchDTO : {}", faclSearchDTO);
+				
+					for(EzcCityCd item : ezcCityCdList) {
+						logger.debug("[INPUT] cityCd : {}", item.getCityCd());
+						faclSearchDTO.setSidoCode(item.getCityCd());
+						out.add(callFaclSearch(userAgentDTO, faclSearchDTO));
+					}
 				}
 			}
 		}

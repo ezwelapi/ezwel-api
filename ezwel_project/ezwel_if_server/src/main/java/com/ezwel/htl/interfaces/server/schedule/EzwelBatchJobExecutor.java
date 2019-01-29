@@ -37,7 +37,7 @@ public class EzwelBatchJobExecutor {
 	
 	private boolean isInitApplication = false;
 	
-	//@Scheduled(fixedDelay=10)
+	//@Scheduled(fixedDelay=999999999)
 	@APIOperation(description="어플리케이션 초기화 직후 실행")
 	public void initApplication() {
 		
@@ -167,6 +167,7 @@ public class EzwelBatchJobExecutor {
 	 */
 	//초 분 시 일 월 주(년)
 	@Scheduled(cron="* 30/120 * * * *")
+	//@Scheduled(fixedDelay=999999999)
 	@APIOperation(description="시설검색(최저가 정보) 인터페이스 : 0시30분부터 2시간마다")
 	public void allFaclSearchJob() {
 		logger.debug("[START-Scheduled] allFaclSearchJob start-time : {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT));
@@ -185,10 +186,10 @@ public class EzwelBatchJobExecutor {
 			
 			FaclSearchInSDO faclSearchSDO = new FaclSearchInSDO();
 			//setting
-			//시작일 당일
-			faclSearchSDO.setCheckInDate(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT));
-			//종료일 당일로 부터 30일 이후
-			faclSearchSDO.setCheckOutDate(APIUtil.getDateHandler(faclSearchSDO.getCheckInDate(), OperateConstants.DEF_DAY_FORMAT, null, 30, null));
+			//시작일 당일(기준일)
+			faclSearchSDO.setStndDate(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT));
+			//종료일 당일로 부터 90일 이후
+			faclSearchSDO.setPlusDay(90);
 			//시도 코드는 DB에서 조회 (EZC_CITY_CD)
 			
 			outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);

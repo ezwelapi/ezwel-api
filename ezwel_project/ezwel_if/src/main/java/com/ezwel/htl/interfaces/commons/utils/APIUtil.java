@@ -165,7 +165,7 @@ public class APIUtil {
     	return FastDateFormat.getInstance(dateformat, TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA).format(datetime);
     }
 	
-	
+	@APIOperation(description="데이트에 바인드된 년/월/일 만큼 증/감하여 날짜포멧에 마추어 리턴합니다.", isExecTest=true)
 	public static String getDateHandler(String date, String format, Integer mpYear, Integer mpMonth, Integer mpDay) {
 		logger.debug("[END-getDateHandler] START => date: {}, dateFormat: {}, mpYear: {}, mpMonth: {}, mpDay: {}", date, format, mpYear, mpMonth, mpDay);
 
@@ -193,14 +193,14 @@ public class APIUtil {
 				cal.add(Calendar.YEAR, mpYear);	
 			}
 			if(mpMonth != null && mpMonth != 0) {
-				//날짜 +/-
-				cal.add(Calendar.DATE, mpMonth); 
+				//월   +/-
+				cal.add(Calendar.MONTH, mpMonth);	
 			}
 			if(mpDay != null && mpDay != 0) {
-				//월   +/-
-				cal.add(Calendar.MONTH, mpDay);	
+				//날짜 +/-
+				cal.add(Calendar.DATE, mpDay); 
 			}
-	    	
+			
 			out = simpleFormat.format(cal.getTime());
 		}
 		catch (Exception e) {
