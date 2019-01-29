@@ -303,13 +303,13 @@ SELECT * FROM (
 			<if test="dateType != null and dateType != ''">
 				<choose>
 					<when test='dateType == "R"'>
-						AND TO_DATE(EZC_RESERV_BASE.RESERV_DT, 'yyyyMMdd') BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'yyyyMMdd') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'yyyyMMdd')
+						AND TO_DATE(EZC_RESERV_BASE.RESERV_DT, 'yyyyMMddhh24miss') BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'yyyyMMdd') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'yyyyMMdd')
 					</when>
 					<when test='dateType == "C"'>
 						AND TO_DATE(EZC_RESERV_BASE.CHECK_IN_DD, 'yyyyMMdd') BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'yyyyMMdd') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'yyyyMMdd')
 					</when>
 					<when test='dateType == "J"'>
-						AND TO_DATE(EZC_RESERV_BASE.RESERV_DT, 'yyyyMMdd') BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'yyyyMMdd') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'yyyyMMdd')
+						AND TO_DATE(EZC_RESERV_BASE.RESERV_DT, 'yyyyMMddhh24miss') BETWEEN TO_DATE(#{startDate, jdbcType=VARCHAR}, 'yyyyMMdd') AND TO_DATE(#{endDate, jdbcType=VARCHAR}, 'yyyyMMdd')
 					</when>
 				</choose>
 			</if>
