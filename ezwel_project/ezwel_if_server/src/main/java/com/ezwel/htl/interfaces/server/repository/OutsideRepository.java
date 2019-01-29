@@ -18,7 +18,6 @@ import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
-import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.sdo.ApiBatcLogSDO;
 import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.thread.Local;
@@ -34,6 +33,7 @@ import com.ezwel.htl.interfaces.server.entities.EzcCacheMinAmt;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclAment;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
+import com.ezwel.htl.interfaces.server.entities.EzcGuestRoom;
 import com.ezwel.htl.interfaces.server.entities.EzcMappingFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcMappingGrpFacl;
 import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
@@ -43,8 +43,6 @@ import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadDataOutSDO;
-import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
-import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 
@@ -938,7 +936,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		try {
 			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectFaclCodeGroupList"), ezcFacl);
 		}
-		catch(APIException e) {
+		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설 타입 그룹 목록 조회 장애발생.", e);
 		}
 			
@@ -954,7 +952,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		try {
 			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectFaclMappingMorpDataList"), ezcFacl);
 		}
-		catch(APIException e) {
+		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "타입 그룹 별 시설 형태소 행 목록(형태소 열을 행으로 변환한 목록)조회 장애발생.", e);
 		}
 			
@@ -970,7 +968,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		try {
 			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectFaclMappingMorpRowData"), ezcFacl);
 		}
-		catch(APIException e) {
+		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "타입 그룹 별 시설 형태소 행 목록(형태소 열을 행으로 변환한 목록)조회 장애발생.", e);
 		}
 			
@@ -987,7 +985,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		try {
 			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectCityAreaGroupList"), ezcFacl);
 		}
-		catch(APIException e) {
+		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "시설검색 인터페이스 장애발생.", e);
 		}
 			
@@ -1034,7 +1032,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 				
 			}
 		}
-		catch(APIException e) {
+		catch(Exception e) {
 			
 			if(isErrorPassed) {
 
@@ -1099,7 +1097,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 				txCount += sqlSession.update(getNamespace("CACHE_DAY_PRICE_MAPPER", "mergeEzcCacheDayPrice"), outCacheDayPrice);
 			}
 		}
-		catch(APIException e) {
+		catch(Exception e) {
 			
 			if(isErrorPassed) {
 
@@ -1144,7 +1142,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 			
 			out = sqlSession.selectList(getNamespace("FACL_MAPPER", "selectRoomReadFaclList"), inEzcFacl);
 		}
-		catch(APIException e) {
+		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "그룹시설코드 기준 시설목록검색 장애발생", e);
 		}
 		
@@ -1153,16 +1151,16 @@ public class OutsideRepository extends AbstractDataAccessObject {
 	
 	@Transactional(readOnly=true)
 	@APIOperation(description = "직영숙박 목록조회")
-	public List<RoomReadDataOutSDO> selectGuestRoomList(RoomReadInSDO roomReadSDO) {
-		logger.debug("[START] selectGuestRoomList {} {}", roomReadSDO);
+	public List<EzcGuestRoom> selectGuestRoomList(EzcGuestRoom ezcGuestRoom) {
+		logger.debug("[START] selectGuestRoomList {} {}", ezcGuestRoom);
 		
-		List<RoomReadDataOutSDO> out = null;
+		List<EzcGuestRoom> out = null;
 		
 		try {
 			
-			// out = sqlSession.selectList(getNamespace("ROOM_MAPPER", "selectListRoom"), roomReadSDO);
+			out = sqlSession.selectList(getNamespace("GUEST_ROOM_MAPPER", "selectListGuestRoom"), ezcGuestRoom);
 		}
-		catch(APIException e) {
+		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "직영숙박 목록조회 장애발생", e);
 		}
 		

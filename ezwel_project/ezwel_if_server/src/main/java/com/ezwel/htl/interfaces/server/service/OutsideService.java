@@ -13,7 +13,6 @@ import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
@@ -33,7 +32,6 @@ import com.ezwel.htl.interfaces.commons.thread.CallableExecutor;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
-import com.ezwel.htl.interfaces.commons.utils.StackTraceUtil;
 import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
 import com.ezwel.htl.interfaces.commons.validation.data.ParamValidateSDO;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractServiceObject;
@@ -49,6 +47,7 @@ import com.ezwel.htl.interfaces.server.entities.EzcCityCd;
 import com.ezwel.htl.interfaces.server.entities.EzcDetailCd;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcFaclImg;
+import com.ezwel.htl.interfaces.server.entities.EzcGuestRoom;
 import com.ezwel.htl.interfaces.server.repository.CommonRepository;
 import com.ezwel.htl.interfaces.server.repository.OutsideRepository;
 import com.ezwel.htl.interfaces.server.sdo.FaclSDO;
@@ -97,8 +96,6 @@ public class OutsideService extends AbstractServiceObject {
 	private FileUtil fileUtil;
 	
 	private FaclMappingComponent faclMappingComponent;
-	
-	private StackTraceUtil stackTraceUtil;
 	
 	/** 제휴사 별 시설 정보 transaction commit 건수 */
 	private static final Integer FACL_REG_DATA_TX_COUNT;
@@ -1717,16 +1714,37 @@ public class OutsideService extends AbstractServiceObject {
 	
 	
 	@APIOperation(description = "직영숙박 DB조회")
-	public RoomReadOutSDO findGuestRoom(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
-		logger.debug("[START] findGuestRoom {} {}", userAgentSDO, roomReadSDO);
+	public RoomReadOutSDO findGuestRoomList(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
+		logger.debug("[START] findGuestRoomList {} {}", userAgentSDO, roomReadSDO);
 		
+		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
 		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
 		
-		RoomReadOutSDO out = new RoomReadOutSDO();
-		out.setData(outsideRepository.selectGuestRoomList(roomReadSDO));
-		if(out.getData() == null || out.getData().size() == 0) {
-			out.setMessage("객실 정보가 존재하지 않습니다.");
+		RoomReadOutSDO out = null;
+		RoomReadDataOutSDO roomReadData = null; 
+		EzcGuestRoom inGuestRoom = null;
+		List<EzcGuestRoom> outGuestRoomList = null;
+		
+		try {
+			out = new RoomReadOutSDO();
+			
+			inGuestRoom = (EzcGuestRoom) propertyUtil.copySameProperty(roomReadSDO, EzcGuestRoom.class);
+			outGuestRoomList = outsideRepository.selectGuestRoomList(inGuestRoom);
+			
+			if(outGuestRoomList != null && outGuestRoomList.size() > 0) {
+				for(EzcGuestRoom data : outGuestRoomList) {
+					roomReadData = (RoomReadDataOutSDO) propertyUtil.copySameProperty(data, RoomReadDataOutSDO.class); 
+					out.addData(roomReadData);
+				}
+			}
+			else {
+				out.setMessage("객실 정보가 존재하지 않습니다.");
+			}
 		}
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "직영숙박 객실정보조회 장애발생.", e);
+		}
+		
 		
 		return out;
 	}

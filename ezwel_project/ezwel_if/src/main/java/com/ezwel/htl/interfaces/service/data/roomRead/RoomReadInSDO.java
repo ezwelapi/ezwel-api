@@ -28,10 +28,10 @@ public class RoomReadInSDO extends AbstractSDO {
 	@APIFields(description = "객실정보조회 Input 상품코드", maxLength=100)
 	private String pdtNo;
 	
-	@APIFields(description = "객실정보조회 Input 체크인", required=true, maxLength=8)
+	@APIFields(description = "객실정보조회 Input 체크인", isDate=true, dateFormat="yyyyMMdd", required=true, maxLength=8)
 	private String checkInDate;
 	
-	@APIFields(description = "객실정보조회 Input 체크아웃", required=true, maxLength=8)
+	@APIFields(description = "객실정보조회 Input 체크아웃", isDate=true, dateFormat="yyyyMMdd", required=true, maxLength=8)
 	private String checkOutDate;
 	
 	@APIFields(description = "객실정보조회 Input 객실상품코드", maxLength=500)

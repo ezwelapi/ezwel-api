@@ -46,6 +46,9 @@ public abstract class AbstractSDO extends APIObject {
 	@APIFields(description = "멀티쓰레드 인터페이스 결과 코드/메시지")
 	private List<MultiThreadResult> multiThreadResults;
 	
+	@APIFields(description = "상세 메시지")
+	private String detailMessage;
+	
 	public long getTotalCount() {
 		return totalCount;
 	}
@@ -104,4 +107,14 @@ public abstract class AbstractSDO extends APIObject {
 		result.setRestURI(restURI);
 		this.multiThreadResults.add(result);
 	}
+
+	public String getDetailMessage() {
+		return detailMessage;
+	}
+
+	public void setDetailMessage(String detailMessage) {
+		this.detailMessage = detailMessage;
+	}
+	
+	
 }

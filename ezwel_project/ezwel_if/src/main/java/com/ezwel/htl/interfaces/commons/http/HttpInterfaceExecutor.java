@@ -250,12 +250,13 @@ public class HttpInterfaceExecutor {
 	
 	@APIOperation(description="InputBean To JSON", isExecTest=true)
 	<T extends AbstractSDO> String inputBeanToJSON(HttpConfigSDO config, T inputObject) {
+		logger.debug("[START] inputBeanToJSON");
 		
 		String out = null;
 		try {
 			
-			if(config.isEzwelInsideInterface()) {
-				//★ Front or BackOffice 에서 인터페이스 서버를 경유할때의 전문 생성
+			if(config.isEzwelInsideInterface() || config.isInsideOnly()) {
+				//★ Front or BackOffice 에서 인터페이스 서버를 경유할때 또는 내부 전용인터페이스 일경우
 				UserAgentSDO userAgentSDO = new UserAgentSDO();
 				propertyUtil.copySameProperty(config, userAgentSDO, false);
 				
@@ -275,10 +276,12 @@ public class HttpInterfaceExecutor {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 입력 SDO를 JSON으로 변환과정에 장애발생", e);
 		}
 		
+		logger.debug("[END] inputBeanToJSON");
 		return out;
 	}
 	
 	void wrtieInputJSON(HttpConfigSDO in, HttpURLConnection conn, String inJsonParam) {
+		logger.debug("[START] wrtieInputJSON");
 		
 		OutputStream os = null;
 		try {
@@ -299,6 +302,7 @@ public class HttpInterfaceExecutor {
 				}
 			}
 		}
+		logger.debug("[END] wrtieInputJSON");
 	}
 	
 	@APIOperation(description="Http URL Communication API (output only)", isExecTest=true)

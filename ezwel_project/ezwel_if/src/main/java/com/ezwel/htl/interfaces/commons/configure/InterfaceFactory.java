@@ -128,6 +128,9 @@ public class InterfaceFactory {
 	@APIFields(description = "인터페이스 운영환경 XML 파일명")
 	private final static String MANAGED_XML_FILE_NAME;
 	
+	@APIFields(description = "스프링 웹어플리케이션 컨텍스트")
+	private static WebApplicationContext webContext;
+	
 	static {
 		
 		MANAGED_PROPERTIES_FILE_NAME = "interface-managed.properties";
@@ -265,6 +268,10 @@ public class InterfaceFactory {
 		this.isLocalTestInit = isLocalTestInit;
 	}
 	
+	public static WebApplicationContext getWebContext() {
+		return webContext;
+	}
+
 	private static String getCacheId(String chanId, String agentId) {
 		
 		if(APIUtil.isEmpty(chanId) || APIUtil.isEmpty(agentId)) {
@@ -315,7 +322,6 @@ public class InterfaceFactory {
 		String xmlPath = null;
 		ChannelListData cld = null;
 		URL resourceURL = null;
-		WebApplicationContext webContext = null;
 		
 		//logger.debug("# 인터페이스 팩토리 초기화 방식 : {}", (isLocalTestInit ? "로컬개발도구" : "스프링"));
 		
