@@ -72,4 +72,5 @@ public class MailSenderInSDO extends AbstractSDO {
 		this.body = body;
 	}
 	
+	
 }
