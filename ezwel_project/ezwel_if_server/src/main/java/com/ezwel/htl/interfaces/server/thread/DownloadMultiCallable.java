@@ -6,9 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.sdo.ImageSDO;
 import com.ezwel.htl.interfaces.commons.thread.Local;
+import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractComponent;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.FileUtil;
@@ -61,11 +63,11 @@ public class DownloadMultiCallable extends AbstractComponent implements Callable
 		}
 		catch(APIException e) {
 			//이미지 다운로드중 발생한 익셉션 무시
-			logger.error("[APIException] Build Image Download : {}", getCause(e));
+			logger.error("[APIException] Build Image Download : {}", getCause((Throwable) APIUtil.ONVL(Local.commonHeader().getThrowable(), e)));
 		}
 		catch(Exception e) {
 			//이미지 다운로드중 발생한 익셉션 무시
-			logger.error("[Exception] Build Image Download : {}", getCause(e));
+			logger.error("[Exception] Build Image Download : {}", getCause((Throwable) APIUtil.ONVL(Local.commonHeader().getThrowable(), e)));
 		}
 		finally {
 			//ThreadLocal 종료

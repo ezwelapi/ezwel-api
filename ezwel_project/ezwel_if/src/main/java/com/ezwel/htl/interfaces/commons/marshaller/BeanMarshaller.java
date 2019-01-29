@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -102,15 +103,15 @@ public class BeanMarshaller {
 			out = mapper.readValue(jsonString, writeBean);
 			
 		} catch (JsonParseException e) {
-			throw new APIException("(JSON)전문 분석 장애 발생. 제휴사 서버의 응답(JSON)전문 데이터 표현이 잘못되었습니다. {}\n{}", new Object[] {fromRestURI, jsonString}, e);
+			throw new APIException("(JSON)전문 분석 장애 발생. 제휴사 서버의 응답(JSON)전문 데이터 표현이 잘못되었습니다.", e);
 		} catch (JsonGenerationException e) {
-			throw new APIException("제휴사 서버의 응답(JSON)전문 언마샬과정에 JsonGenerationException발생. {}\n{}", new Object[] {fromRestURI, jsonString}, e);
+			throw new APIException("제휴사 서버의 응답(JSON)전문 언마샬과정에 JsonGenerationException발생.", e);
 		} catch (JsonMappingException e) {
-			throw new APIException("(JSON)전문의 EZWEL(BEAN)에 언마샬과정에 장애 발생. 제휴사 서버의 응답(JSON)전문 데이터 표현이 잘못되었습니다. {}\n{}", new Object[] {fromRestURI, jsonString}, e) ;
+			throw new APIException("(JSON)전문의 EZWEL(BEAN)에 언마샬과정에 장애 발생. 제휴사 서버의 응답(JSON)전문 데이터 표현이 잘못되었습니다.", e) ;
 		} catch (IOException e) {
-			throw new APIException("제휴사 서버의 응답(JSON)전문 언마샬과정에 IOException발생. {}\n{}", new Object[] {fromRestURI, jsonString}, e);
+			throw new APIException("제휴사 서버의 응답(JSON)전문 언마샬과정에 IOException발생.", e);
 		} catch (Exception e) {
-			throw new APIException("제휴사 서버의 응답(JSON)전문 데이터 표현이 잘못되었습니다. {}\n{}", new Object[] {fromRestURI, jsonString}, e);
+			throw new APIException("제휴사 서버의 응답(JSON)전문 데이터 표현이 잘못되었습니다.", e);
 		}
 		
 		return out;

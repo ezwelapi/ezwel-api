@@ -132,7 +132,7 @@ public class HttpInterfaceExecutor {
 		
 		int httpConnTimeout = (in.getConnTimeout() != null ? in.getConnTimeout() : URL_CONN_TIMEOUT);
 		int httpReadTimeout = (in.getReadTimeout() != null ? in.getReadTimeout() : URL_READ_TIMEOUT);
-		logger.debug("\n# httpConnTimeout : {}\n# httpReadTimeout : {}", httpConnTimeout, httpReadTimeout);
+		logger.debug("[OpenHttpURLConnection] httpConnTimeout : {}, httpReadTimeout : {}", httpConnTimeout, httpReadTimeout);
 		
 		try {
 			url = new URL(in.getRestURI());
@@ -335,7 +335,7 @@ public class HttpInterfaceExecutor {
 	@SuppressWarnings({ "unchecked", "finally", "unused" })
 	@APIOperation(description="Http URL Communication API", isOutsideInterfaceAPI=true)
 	public <T1 extends AbstractSDO, T2 extends AbstractSDO> T2 sendJSON(HttpConfigSDO in, T1 inputObject, Class<T2> outputType) {
-		logger.debug("[START] sendJSON {}\n[CHANNEL-INFO] {}\n[USER-INPUT] {}\n[USER-OUTPUT] {}", in.getRestURI(), in, inputObject, outputType);
+		logger.debug("[START] sendJSON {} \n[USER-INPUT] {} \n[USER-OUTPUT] {} \n[CHANNEL-INFO] {} ", in.getRestURI(), inputObject, outputType, in);
 
 		if(in == null) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_2000, "■ 인터페이스 필수 입력 객체가 존재하지 않습니다.");
@@ -402,7 +402,7 @@ public class HttpInterfaceExecutor {
 			//200 : ok, 201 : created
 			if(conn.getResponseCode() != 200 && conn.getResponseCode() != 201) {
 				
-				errContents = APIUtil.formatMessage("■ 원격 서버 통신 장애 발생({})\n{}", in.getRestURI(), (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
+				errContents = APIUtil.formatMessage("■ 원격 서버 통신 장애 발생({}){}{}", in.getRestURI(), OperateConstants.LINE_SEPARATOR, (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
 				
 				/** 서버측 에러 발생시 에러메시지 세팅 */
 				//logger.error("■ HttpServer Exception '{}'\n{}", in.getRestURI(), (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
@@ -521,7 +521,7 @@ public class HttpInterfaceExecutor {
 					message = ((Exception) e).getMessage();				
 				}
 
-				message = message.concat(", ").concat(in.getRestURI());
+				message = new StringBuffer().append("■ ").append(message).append(OperateConstants.LINE_SEPARATOR).append("■ RestURI : ").append(in.getRestURI()).toString();
 				propertyUtil.setProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME, Integer.toString(code));
 				propertyUtil.setProperty(out, MessageConstants.RESPONSE_MESSAGE_FIELD_NAME, message);
 				
@@ -531,13 +531,11 @@ public class HttpInterfaceExecutor {
 				if(Local.commonHeader().getInterfaceLogSDO() != null) {
 					
 					logger.debug("{}", new StringBuffer().append(OperateConstants.LINE_SEPARATOR)
-											 	.append("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
 											 	.append("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 에러 정보 세팅 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
-												.append("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
 												.toString());
 					
-					errCont = message.concat(OperateConstants.LINE_SEPARATOR).concat(APIUtil.formatMessage("■ SendJSONException : {}", new Object[]{stackTraceUtil.getStackTrace(e)}));
-					
+					errCont = message.concat(OperateConstants.LINE_SEPARATOR).concat(APIUtil.formatMessage("■ Trace : {}", new Object[]{stackTraceUtil.getStackTrace(e)}));
+					logger.debug("#errCont# {}", errCont);
 					Local.commonHeader().getInterfaceLogSDO().setExecMsg(MessageConstants.getMessage(code)); //MessageConstants의 에러 유형 메시지
 					Local.commonHeader().getInterfaceLogSDO().setErrCont(errCont);
 				}
@@ -565,7 +563,7 @@ public class HttpInterfaceExecutor {
 	 */
 	@APIOperation(description="Create Http URL Communication Certification Properties", isExecTest=true)
 	public Properties getCert(HttpConfigSDO request) {
-		logger.debug("[START] getCert : {}", request);
+		logger.debug("[START] getCert"/*, request*/);
 		
 		Properties out = null;
 		Field[] field = null;

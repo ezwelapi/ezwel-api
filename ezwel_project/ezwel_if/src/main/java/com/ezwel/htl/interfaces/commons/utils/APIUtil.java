@@ -379,6 +379,7 @@ public class APIUtil {
      * 	문자열의 바이트를 리턴합니다.
      * [사용방법 설명]
      * 
+     * Validator 에서 사용함으로 static 금지
      * </pre>
      * @param str
      * @param encoding
@@ -402,12 +403,83 @@ public class APIUtil {
     		byteString = sentence.getBytes(encoding);
     		out = byteString.length;
     	} catch (UnsupportedEncodingException e) {
-			throw new APIException("지원하지 않는 인코딩", e);
+			throw new APIException("지원하지 않는 인코딩입니다.", e);
+		} catch (Exception e) {
+			throw new APIException("문자열의 바이트를 구하는 도중 장애발생", e);
 		}
     	
     	return out;
     }
 	
+	
+
+    @APIOperation
+    public static String byteSubstring(String str, int sPoint, String encoding) {
+    	return byteSubstring(str, sPoint, -1, encoding);
+    }
+    
+    @APIOperation
+	public static String byteSubstring(String userSentence, int userStartPoint, int userEndPoint, String userEncoding) {
+	    String out = null;
+
+	    try {
+	    	String sentence = userSentence; 
+	    	int startPoint = userStartPoint;
+	    	int endPoint = userEndPoint;
+	    	String encoding = userEncoding;
+	    	
+			byte[] bytes = sentence.getBytes(encoding);
+
+	    	if(endPoint < 0) {
+	    		endPoint = bytes.length - startPoint;
+	    	}
+	    	
+			byte[] value = new byte[endPoint];
+			
+			if(bytes.length < startPoint + endPoint){
+				logger.warn("[VALIDATE] byteSubstring => Length of bytes is less. length : {}, startPoint : {}, endPoint : {}", bytes.length, startPoint, endPoint);
+				return sentence;
+			}
+			
+			for(int i = 0; i < endPoint; i++){
+				value[i] = bytes[startPoint + i];
+			}
+			
+			/* 
+			    logger.debug("utf-8 -> euc-kr        : " + new String(word.getBytes("utf-8"), "euc-kr"));
+			    logger.debug("utf-8 -> ksc5601       : " + new String(word.getBytes("utf-8"), "ksc5601"));
+			    logger.debug("utf-8 -> x-windows-949 : " + new String(word.getBytes("utf-8"), "x-windows-949"));
+			    logger.debug("utf-8 -> iso-8859-1    : " + new String(word.getBytes("utf-8"), "iso-8859-1"));
+			    logger.debug("iso-8859-1 -> euc-kr        : " + new String(word.getBytes("iso-8859-1"), "euc-kr"));
+			    logger.debug("iso-8859-1 -> ksc5601       : " + new String(word.getBytes("iso-8859-1"), "ksc5601"));
+			    logger.debug("iso-8859-1 -> x-windows-949 : " + new String(word.getBytes("iso-8859-1"), "x-windows-949"));
+			    logger.debug("iso-8859-1 -> utf-8         : " + new String(word.getBytes("iso-8859-1"), "utf-8"));
+			    logger.debug("euc-kr -> utf-8         : " + new String(word.getBytes("euc-kr"), "utf-8"));
+			    logger.debug("euc-kr -> ksc5601       : " + new String(word.getBytes("euc-kr"), "ksc5601"));
+			    logger.debug("euc-kr -> x-windows-949 : " + new String(word.getBytes("euc-kr"), "x-windows-949"));
+			    logger.debug("euc-kr -> iso-8859-1    : " + new String(word.getBytes("euc-kr"), "iso-8859-1"));
+			    logger.debug("ksc5601 -> euc-kr        : " + new String(word.getBytes("ksc5601"), "euc-kr"));
+			    logger.debug("ksc5601 -> utf-8         : " + new String(word.getBytes("ksc5601"), "utf-8"));
+			    logger.debug("ksc5601 -> x-windows-949 : " + new String(word.getBytes("ksc5601"), "x-windows-949"));
+			    logger.debug("ksc5601 -> iso-8859-1    : " + new String(word.getBytes("ksc5601"), "iso-8859-1"));
+			    logger.debug("x-windows-949 -> euc-kr     : " + new String(word.getBytes("x-windows-949"), "euc-kr"));
+			    logger.debug("x-windows-949 -> utf-8      : " + new String(word.getBytes("x-windows-949"), "utf-8"));
+			    logger.debug("x-windows-949 -> ksc5601    : " + new String(word.getBytes("x-windows-949"), "ksc5601"));
+			    logger.debug("x-windows-949 -> iso-8859-1 : " + new String(word.getBytes("x-windows-949"), "iso-8859-1"));
+			*/
+			
+			out = new String(value, encoding).trim();
+		}
+	    catch (UnsupportedEncodingException e) {
+			throw new APIException(e);
+		}
+		catch(Exception e) {
+			throw new APIException(e);
+		} 
+	    
+	    return out;
+	}
+    
 	/**
 	 * <pre>
 	 * [메서드 설명]

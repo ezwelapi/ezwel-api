@@ -94,7 +94,7 @@ public class IfLogSDO extends AbstractSDO {
 	@APIFields(description = "성공 여부", maxLength=1)
 	private String succYn;
 
-	@APIFields(description = "오류 유형", maxLength=8)
+	@APIFields(description = "오류 유형", maxLength=2000)
 	private String execMsg;
 
 	@APIFields(description = "오류 내용", maxLength=4000)

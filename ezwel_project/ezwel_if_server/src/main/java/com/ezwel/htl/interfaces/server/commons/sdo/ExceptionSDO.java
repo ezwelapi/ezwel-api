@@ -13,9 +13,6 @@ public class ExceptionSDO extends AbstractSDO {
 	@APIFields(description = "메시지", maxLength=100)
 	private String message;
 
-	@APIFields(description = "상세 메시지", maxLength=100)
-	private String detailMessage;
-	
 	public String getCode() {
 		return code;
 	}
@@ -31,14 +28,4 @@ public class ExceptionSDO extends AbstractSDO {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-
-	public String getDetailMessage() {
-		return detailMessage;
-	}
-
-	public void setDetailMessage(String detailMessage) {
-		this.detailMessage = detailMessage;
-	}
-	
-	
 }
