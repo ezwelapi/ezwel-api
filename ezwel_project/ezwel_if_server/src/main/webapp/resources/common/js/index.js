@@ -247,8 +247,8 @@ var $interface = {
 					"seachMinRoomInList": [
 						{
 							partnerCd: "10055550",
-							pdtNo: "KRKAG020",
-							faclCd: 38592
+							pdtNo: "KRSEL340",
+							faclCd: 2918
 						},
 						{
 							partnerCd: "10054233",

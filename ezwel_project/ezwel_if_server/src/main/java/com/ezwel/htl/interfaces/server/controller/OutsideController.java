@@ -12,6 +12,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.AgentInfoSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
@@ -190,11 +191,11 @@ public class OutsideController {
 					if(APIUtil.isEmpty(searchParam.getPartnerCd())) {
 						throw new APIException(MessageConstants.RESPONSE_CODE_2000, "제휴사코드는 필수 입력사항입니다.");
 					}
-					if(confirmPartnerCds.contains(searchParam.getPartnerCd())) {
-						throw new APIException(MessageConstants.RESPONSE_CODE_2000, "같은 제휴사코드로 중복 검색 할 수 없습니다. 제휴사코드 : {}", searchParam.getPartnerCd());
+					if(confirmPartnerCds.contains(searchParam.getPartnerCd().concat(searchParam.getPdtNo()))) {
+						throw new APIException(MessageConstants.RESPONSE_CODE_2000, "같은 제휴사의 상품번호는 중복 검색 할 수 없습니다. 제휴사코드 : {}", searchParam.getPartnerCd().concat(OperateConstants.STR_HYPHEN).concat(searchParam.getPdtNo()));
 					}
 					
-					confirmPartnerCds.add(searchParam.getPartnerCd());
+					confirmPartnerCds.add(searchParam.getPartnerCd().concat(searchParam.getPdtNo()));
 				}
 			}
 			
