@@ -34,20 +34,14 @@ public class SendFaxTest {
 		
 		//Input value
 		String trTitle = "팩스발신 테스트"; 	//발송제목
-		String trSendName = "이지웰"; 		//발신자이름
 		String trSendFaxNum = "0269191002"; //발신자팩스번호
 		String trDocName = ""; 				//발송파일정보
-		String trName = "이지웰"; 			//수신자명
-		String trPhone = "0269191002"; 		//수신자팩스번호
 		
 		//Input parameter
 		FaxSenderInSDO faxSenderInSDO = new FaxSenderInSDO();
 		faxSenderInSDO.setTrTitle(trTitle);
-		faxSenderInSDO.setTrSendName(trSendName);
 		faxSenderInSDO.setTrSendFaxNum(trSendFaxNum);
 		faxSenderInSDO.setTrDocName(trDocName);
-		faxSenderInSDO.setTrName(trName);
-		faxSenderInSDO.setTrPhone(trPhone);
 		
 		//interface api call
 		FaxSenderOutSDO out = (FaxSenderOutSDO) sendIFService.callFaxSender(faxSenderInSDO,true);

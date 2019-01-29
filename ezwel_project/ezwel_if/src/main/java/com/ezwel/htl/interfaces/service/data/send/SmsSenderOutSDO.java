@@ -17,7 +17,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 @APIModel(description="문자발송 정보")
 public class SmsSenderOutSDO extends AbstractSDO {
 	
-	@APIFields(description = "문자발송errorCode", required=false, maxLength=4)
+	@APIFields(description = "문자발송 errorCode", required=false, maxLength=4)
 	private String errorCode;
 	
 	@APIFields(description = "문자발송 errorMessage", required=false, maxLength=4)

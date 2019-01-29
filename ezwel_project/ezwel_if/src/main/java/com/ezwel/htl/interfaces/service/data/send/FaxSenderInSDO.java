@@ -34,23 +34,23 @@ public class FaxSenderInSDO extends AbstractSDO {
 	@APIFields(description = "발신자번호", required=true, maxLength=20)
 	private String trSendFaxNum;
 	
-	@APIFields(description = "동보건수")
+	@APIFields(description = "동보건수", required=false, maxLength=1)
 	private Integer trMsgCount;
 	
 	@APIFields(description = "발송파일정보", required=true, maxLength=255)
 	private String trDocName;
 	
 	/** 발송상태값(0:발송대기,1:발송중,2:발송완료) */
-	@APIFields(description = "발송상태값", required=true, maxLength=1)
+	@APIFields(description = "발송상태값", required=false, maxLength=1)
 	private String trSendStat;
 	
-	@APIFields(description = "발송순번", required=true)
+	@APIFields(description = "발송순번", required=false)
 	private Integer trSerialNo;
 	
-	@APIFields(description = "수신자이름", required=true, maxLength=50)
+	@APIFields(description = "수신자이름", required=false, maxLength=50)
 	private String trName;
 	
-	@APIFields(description = "수신팩스번호", required=true, maxLength=20)
+	@APIFields(description = "수신팩스번호", required=false, maxLength=20)
 	private String trPhone;
 
 	public BigDecimal getTrBatchId() {
