@@ -109,7 +109,7 @@ public class EzwelBatchJobExecutor {
 				executorService.execute(runnable);
 				
 			} catch (Exception e) {
-				logger.error("[Scheduled-Exception] allFaclRegJob", e);
+				logger.error("[Scheduled-Runnable-Exception] allFaclRegJob", e);
 			}
 			
 			if(header != null) {
@@ -125,7 +125,6 @@ public class EzwelBatchJobExecutor {
 	 */
 	@APIOperation(description="전체 시설 매핑 : 전체 시설 배치 종료 30분 후 시작")
 	public void allFaclMappingJob() {
-		logger.debug("[START-Scheduled] allFaclMappingJob start-time : {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT));
 		
 		// 2. 전체 시설 매핑 : 전체 시설 배치 종료 30분 후 시작
 		Long sleepMinute = 30L;
@@ -142,6 +141,9 @@ public class EzwelBatchJobExecutor {
 			
 			//sleep
 			Thread.sleep(((sleepMinute * 60L) * 1000L));
+			//start
+			logger.debug("[START-Scheduled] allFaclMappingJob start-time : {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT));
+			
 			FaclSDO faclSDO = new FaclSDO();
 			//setting
 			
@@ -165,15 +167,15 @@ public class EzwelBatchJobExecutor {
 	/**
 	 * 시설검색(최저가 정보) 인터페이스 : 2시간마다
 	 */
-	//초 분 시 일 월 주(년)
-	@Scheduled(cron="* 30/120 * * * *")
-	//@Scheduled(fixedDelay=999999999)
+	//초 분 시 일 월 주(년)  cron = "0 0 0/1 * * *"  1시간마다
+	//@Scheduled(cron="* 30/120 * * * *")
+	@Scheduled(fixedDelay=((120L * 60L) * 1000L))   
 	@APIOperation(description="시설검색(최저가 정보) 인터페이스 : 0시30분부터 2시간마다")
 	public void allFaclSearchJob() {
 		logger.debug("[START-Scheduled] allFaclSearchJob start-time : {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT));
 		
 		List<FaclSearchOutSDO> out = null;
-		
+		ExecutorService executorService = null;
 		CommonHeader header = Local.commonHeader();
 		header.setClientAddress(InterfaceFactory.LOCAL_HOST_ADDRESS);
 		try {
@@ -197,9 +199,28 @@ public class EzwelBatchJobExecutor {
 		} catch (Exception e) {
 			logger.error("[Scheduled-Exception] allFaclSearchJob", e);
 		} finally {
+			
+			try {
+				
+				executorService = Executors.newCachedThreadPool();
+				Runnable runnable = new Runnable() {
+					@Override
+					public void run() {
+						//당일특가검색 인터페이스
+						allSddSearchJob();
+					}
+				};
+				// 스레드풀에게 작업 처리 요청
+				executorService.execute(runnable);
+				
+			} catch (Exception e) {
+				logger.error("[Scheduled-Runnable-Exception] allFaclSearchJob", e);
+			}
+			
 			if(header != null) {
 				header.setHandlerInterceptorComplete(true);
 			}
+			
 		}
 		
 		logger.debug("[END-Scheduled] allFaclSearchJob end-time : {} {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT), out);
@@ -211,16 +232,21 @@ public class EzwelBatchJobExecutor {
 	 * 당일특가검색 인터페이스 : 2시간마다
 	 */
 	//초 분 시 일 월 주(년) 0 0 01 * * ?
-	@Scheduled(cron="* 0/120 * * * *")
-	@APIOperation(description="당일특가검색 인터페이스 : 0시부터 2시간마다")
+	//@Scheduled(cron="* 0/120 * * * *")
+	@APIOperation(description="당일특가검색 인터페이스 : 시설검색(최저가 정보) 인터페이스 종료 후 실행")
 	public void allSddSearchJob() {
-		logger.debug("[START-Scheduled] allSddSearchJob start-time : {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT));
 		
+		// 시설검색(최저가 정보) 인터페이스 : 전체 시설 배치 종료 20분 후 시작
+		Long sleepMinute = 20L;
 		SddSearchOutSDO out = null;
 		
 		CommonHeader header = Local.commonHeader();
 		header.setClientAddress(InterfaceFactory.LOCAL_HOST_ADDRESS);
 		try {
+			
+			Thread.sleep(((sleepMinute * 60L) * 1000L));
+
+			logger.debug("[START-Scheduled] allSddSearchJob start-time : {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT));
 			
 			UserAgentSDO userAgentSDO = new UserAgentSDO();
 			//setting

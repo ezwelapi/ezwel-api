@@ -1260,10 +1260,10 @@ public class OutsideService extends AbstractServiceObject {
 				for(int i = 0; i < faclSearchDTO.getPlusDay(); i++) {
 					faclSearchDTO.setCheckInDate(APIUtil.getDateHandler(faclSearchDTO.getStndDate(), OperateConstants.DEF_DAY_FORMAT, null, null, i));
 					faclSearchDTO.setCheckOutDate(APIUtil.getDateHandler(faclSearchDTO.getCheckInDate(), OperateConstants.DEF_DAY_FORMAT, null, null, 1));
-					logger.debug("[INPUT] faclSearchDTO : {}", faclSearchDTO);
+					logger.debug("[INPUT-시설검색 인터페이스] 날짜 : {}", faclSearchDTO);
 				
 					for(EzcCityCd item : ezcCityCdList) {
-						logger.debug("[INPUT] cityCd : {}", item.getCityCd());
+						logger.debug("[INPUT-시설검색 인터페이스] 도시코드 : {}", item.getCityCd());
 						faclSearchDTO.setSidoCode(item.getCityCd());
 						out.add(callFaclSearch(userAgentDTO, faclSearchDTO));
 					}

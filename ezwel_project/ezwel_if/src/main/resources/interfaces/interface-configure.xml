@@ -580,7 +580,7 @@
 			<description>객실정보조회-직영/숙박</description>
 			<chanId>roomRead</chanId>
 			<httpAgentId>99999999</httpAgentId>
-			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/findGuestRoom</restURI>
+			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/findGuestRoomList</restURI>
 			<receiverRestURI>/service/callRoomRead</receiverRestURI>
 			<insideOnly>true</insideOnly> <!-- 직영숙박 특수케이스 -->
 			<encoding>UTF-8</encoding>
