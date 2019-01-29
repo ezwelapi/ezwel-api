@@ -191,7 +191,7 @@ public class FileUtil {
 						namedSDO.setChngFileName(chngFileName);
 						namedSDO.setOrgFileName(orgFileName);
 						namedSDO.setCanonicalPath(outputFile.getCanonicalPath());
-						namedSDO.setRelativePath(CommonUtil.byteSubstring(outputFile.getCanonicalPath(),
+						namedSDO.setRelativePath(APIUtil.byteSubstring(outputFile.getCanonicalPath(),
 															   imageRootPath.getBytes(OperateConstants.DEFAULT_ENCODING).length,
 															   OperateConstants.DEFAULT_ENCODING));
 					}

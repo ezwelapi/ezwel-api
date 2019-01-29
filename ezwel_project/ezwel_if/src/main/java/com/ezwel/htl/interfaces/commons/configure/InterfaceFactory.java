@@ -170,7 +170,7 @@ public class InterfaceFactory {
 		this.configXmlPath = configXmlPath;
 	}
 	
-	public static HttpConfigSDO getChannel(String chanId, String httpAgentId) {
+	public static HttpConfigSDO getChannel(String chanId, String httpAgentId) throws APIException {
 		if(IS_LOGGING) {
 			logger.debug("[PROC] getChannel chanId : {}, httpAgentId : {}", chanId, httpAgentId);
 		}
@@ -185,7 +185,8 @@ public class InterfaceFactory {
 		}
 		
 		if(out == null) {
-			logger.warn("인터페이스 체널정보가 존재하지 않습니다. 채널아이디 : {}, 에이전트아이디 : {}", chanId, httpAgentId);
+			//logger.warn("인터페이스 체널정보가 존재하지 않습니다. 채널아이디 : {}, 에이전트아이디 : {}", chanId, httpAgentId);
+			throw new APIException("인터페이스 체널정보가 존재하지 않습니다. 채널아이디 : {}, 에이전트아이디 : {}", chanId, httpAgentId);
 		}
 		
 		return out;

@@ -4,13 +4,13 @@ import java.util.concurrent.Callable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.thread.Local;
+import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractComponent;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.service.OutsideIFService;
@@ -77,7 +77,7 @@ public class RoomReadMultiCallable extends AbstractComponent implements Callable
 			}
 		}
 		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9600, "객실 정보 조회 멀티 장애 발생", e);
+			throw new APIException(MessageConstants.RESPONSE_CODE_9100, APIUtil.NVL(Local.commonHeader().getMessage(), "객실 정보 조회 멀티쓰레드 내부 장애 발생"), APIUtil.ONVL(Local.commonHeader().getThrowable(), e));
 		}
 		finally {
 			

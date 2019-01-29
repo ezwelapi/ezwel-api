@@ -271,7 +271,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 					//DB에 저장된 이미지 정보
 					savedImageDB = ezcFaclImgDBList.get(imgIdx);
 					
-					logger.debug("#DB TABLE 이미지정보 : {}", savedImageDB);
+					//logger.debug("#DB TABLE 이미지정보 : {}", savedImageDB);
 					//logger.info("# image check FaclCd : '{}' equals '{}', PartnerImgUrl : '{}' equals '{}'", savedImageDB.getFaclCd(), ezcFacl.getFaclCd(), savedImageDB.getPartnerImgUrl(), faclImg.getPartnerImgUrl());
 					//시설코드가 같고 이미지 URL이 같은 정보인지 체크
 					if(!savedImageDB.isPassImage() && savedImageDB.getFaclCd().equals(ezcFacl.getFaclCd()) 
@@ -279,7 +279,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 						//DB에 존재하는 이미지정보
 						isSavedImageDB = true;
 						savedImageDB.setPassImage(true);
-						logger.info("# image db equals image url : {}", faclImg.getPartnerImgUrl());
+						logger.info("[PASS-IMAGE] image db equals image url : {}", faclImg.getPartnerImgUrl());
 						break;
 					}
 				}

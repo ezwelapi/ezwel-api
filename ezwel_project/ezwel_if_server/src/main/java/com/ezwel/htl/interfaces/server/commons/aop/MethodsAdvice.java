@@ -237,6 +237,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
 			
 			if(controlAnno != null && apiOperAnno != null && apiOperAnno.isOutputJsonMarshall()) {
+				
         		logger.error(new StringBuffer()
             		.append(OperateConstants.LINE_SEPARATOR )
             		.append( " ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ " )
@@ -260,7 +261,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				output = new ExceptionSDO();
 				output.setCode(((APIException) e).getResultCodeString());
 				output.setMessage(((APIException) e).getMessages());
-				output.setDetailMessage(stackTraceUtil.getStackTrace(e));
+				output.setDetailMessage(stackTraceUtil.getStackTrace(((APIException) e).getCause()));
 				
 				resultValue = output;
 				responseJSON = beanMarshaller.toJSONString(output);
@@ -268,8 +269,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				
 			}
 			else {
-				//e.printStackTrace();
-				throw new APIException("■■ [AOP-APIException] {} 장애발생" , new Object[]{ typeMethodName }, e);
+				throw new APIException("■ [AOP-APIException] {} 장애발생" , new Object[]{ typeMethodName }, e);
 			}
 		}
 		finally {

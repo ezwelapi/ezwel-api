@@ -1660,7 +1660,7 @@ public class OutsideService extends AbstractServiceObject {
 						for(RoomReadDataOutSDO roomItem : item.getData()) {
 							
 							//START 20190128 (전용필차장, PM요청으로 모든 객실정보를 리턴함)
-							minAmtRoom = (RoomReadDataOutSDO) propertyUtil.copySameProperty(roomItem, new RoomReadDataOutSDO(), new String[] {"penalty","options"}, true);
+							minAmtRoom = (RoomReadDataOutSDO) propertyUtil.copySameProperty(roomItem, new RoomReadDataOutSDO(), new String[] {"penalty","options"}, false);
 							minAmtRoom.setPartnerCd(item.getPartnerCd());
 							minAmtRoom.setFaclCd(item.getFaclCd());
 							out.addData(minAmtRoom);

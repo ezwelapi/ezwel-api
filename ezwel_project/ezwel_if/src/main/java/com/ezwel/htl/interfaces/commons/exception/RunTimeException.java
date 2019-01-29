@@ -20,6 +20,7 @@ public class RunTimeException extends RuntimeException {
     
     public RunTimeException(String message) {
         super(message);
+        
         if(APIUtil.isEmpty(Local.commonHeader().getMessage())) {
         	Local.commonHeader().setMessage(message);
         }
@@ -70,5 +71,8 @@ public class RunTimeException extends RuntimeException {
 		return APIUtil.NVL(Local.commonHeader().getMessage(), super.getMessage());
 	}
 	
-    
+	public Throwable getCause() {
+		return (Throwable) APIUtil.ONVL(Local.commonHeader().getThrowable(), super.getCause());
+	}
+	
 }

@@ -117,7 +117,7 @@ public class MailSender {
             mailSenderOutSDO.setSuccess(true);
         }
         catch (Exception e) {
-        	logger.error("Send Mail Error message : ", e);
+        	logger.error("Send Mail Error message : {}", e.getMessage());
         	mailSenderOutSDO.setSuccess(false);
         }
         finally

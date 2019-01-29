@@ -65,14 +65,16 @@ public class StackTraceUtil {
     	}
     	
     	StringBuffer message = new StringBuffer();
-    	message.append(cause.toString());
-    	message.append(OperateConstants.LINE_SEPARATOR);
+
     	
     	if(cause.getMessage() != null) {
-    		message.append("Message : ");
     		message.append(cause.getMessage());
     		message.append(OperateConstants.LINE_SEPARATOR);
     	} 
+    	else {
+        	message.append(cause.toString());
+        	message.append(OperateConstants.LINE_SEPARATOR);    		
+    	}
     	
     	if(cause.getCause() != null) {
     		message.append("Cause : ");
@@ -87,6 +89,7 @@ public class StackTraceUtil {
 	    		message.append(OperateConstants.LINE_SEPARATOR);
 	    	}
     	}
+    	
     	return message.toString();
     }	
 }

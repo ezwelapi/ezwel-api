@@ -51,6 +51,8 @@ public class CommonHeader extends APIObject implements Serializable {
     
     private BeanMarshaller beanConvert;
     
+    private APIUtil apiUtil;
+    
 	@APIFields(description = "헤더 어노테이션 맵")
 	private Map<String, Object> annotationMap;
 	
@@ -133,6 +135,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		
 		stackTraceUtil = new StackTraceUtil();
 		beanConvert = new BeanMarshaller();
+		apiUtil = new APIUtil();
 		
 		annotationMap = null;
 		objectMap = null;
@@ -229,6 +232,7 @@ public class CommonHeader extends APIObject implements Serializable {
 	}
 
 	public void setThrowable(Throwable throwable) {
+		//logger.debug(" [SET COMMON HEADER Throwable] : {}", throwable);
 		this.throwable = throwable;
 		this.setInterfaceErrorCont(stackTraceUtil.getStackTrace(throwable));
 	}
@@ -313,9 +317,7 @@ public class CommonHeader extends APIObject implements Serializable {
 	}
 
 	public void setMessage(String message) {
-		if(logger.isDebugEnabled()) {
-			//logger.debug(" [SET COMMON HEADER MESSAGE] : {}", message);
-		}
+		//logger.debug(" [SET COMMON HEADER MESSAGE] : {}", message);
 		this.message = message;
 		this.setInterfaceExecErrorMsg(message);
 	}
@@ -524,8 +526,7 @@ public class CommonHeader extends APIObject implements Serializable {
 	@APIOperation(description="인터페이스 요청헤더 로그 데이터 초기화")
 	public void initInterfaceReqeustLogData(HttpConfigSDO httpConfig, Long execStrtMlisSecd) {
 		if(interfaceLogInitCount == 0) {
-			logger.debug("[INIT] 인터페이스 요청헤더 로그 데이터 초기화 initInterfaceReqeustLogData({}) {} : {}", interfaceLogInitCount, execStrtMlisSecd, interfaceLogSDO);
-			logger.debug("[INPUT] httpConfig : {}", httpConfig);
+			logger.debug("[INIT] 인터페이스 요청헤더 로그 데이터 초기화 initInterfaceReqeustLogData({}) execStrtMlisSecd : {}, httpConfig : {}", interfaceLogInitCount, execStrtMlisSecd, httpConfig);
 		}
 		
 		try {
@@ -566,7 +567,7 @@ public class CommonHeader extends APIObject implements Serializable {
 				interfaceLogInitCount++;
 			}
 			else {
-				logger.debug("# 인터페이스 로그 SDO가 이미 초기화 되었습니다. input-httpConfig : {}", httpConfig);
+				logger.debug("# 인터페이스 로그 SDO가 이미 초기화 되었습니다. '인터페이스 요청회차 : {}'", (httpConfig != null ? httpConfig.getCallCount() : null));
 			}
 			
 		} catch (Exception e) {
@@ -724,13 +725,18 @@ public class CommonHeader extends APIObject implements Serializable {
 			logger.error("[setInterfaceResultLogData] 응답(결과) 로그 데이터 세팅 장애발생", e);
 		}
 		
-		logger.debug("[END] setInterfaceResultLogData({}) {}", code, interfaceLogSDO);
+		logger.debug("[END] setInterfaceResultLogData({}) ExecMsg : {}", code, (interfaceLogSDO != null ? interfaceLogSDO.getExecMsg() : null));
 	}
 	
 	@APIOperation(description="인터페이스 실행 에러 메시지 세팅")
 	public void setInterfaceExecErrorMsg(String execMsg) {
     	
 		if(interfaceLogSDO != null && execMsg != null) {
+			
+			if(apiUtil.getBytesLength(execMsg, OperateConstants.DEFAULT_ENCODING) > 2000) {
+				execMsg =  APIUtil.byteSubstring(execMsg, 0, 1970, OperateConstants.DEFAULT_ENCODING).concat("...");
+			}
+			
 			interfaceLogSDO.setExecMsg(execMsg); 
 			Local.commonHeader().getInterfaceLogSDO().setSuccYn(OperateConstants.STR_N);
 		}
