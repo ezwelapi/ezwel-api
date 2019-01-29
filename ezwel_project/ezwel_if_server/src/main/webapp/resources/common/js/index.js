@@ -2,6 +2,10 @@
 var requestNamespace = "/service";   // requestNamespace		
 
 var $util = {
+	// $util.decodeUTF8( data )
+	decodeUTF8: function(data) {
+		console.log(decodeURIComponent(data));
+	},
 	// $util.replaceAll(sValue, sOrg, sRep, sDef)
 	replaceAll: function(sValue, sOrg, sRep, sDef) {
 		var jsRes = sValue;
@@ -452,7 +456,6 @@ var $interface = {
 			,input : {
 				 "recipient" : ""
 				,"subject" : ""
-				,"body" : ""
 			}
 		},
 		"InterfaceConfigXml" : {
@@ -615,6 +618,10 @@ var $interface = {
 				inputJson = JSON.parse(jsonString);
 			}
 			
+			if(restURL === requestNamespace + "/callMailSender") {
+				inputJson["body"] = encodeURIComponent($("#inputMailContents").val());
+			}
+			
 			var confirmPartner = true; 
 			
 			if( $.trim(requestNamespace + "/callRoomRead") === $.trim(restURL) ) {
@@ -717,6 +724,14 @@ var $interface = {
 			var input = datas[selectText].input;
 			$("#inputJson").val(JSON.stringify(input, undefined, 4));
 			$("#inputHeader").val(JSON.stringify(userHeader, undefined, 4));
+		});
+		
+		$("#mailContentsDecode").on("click", function( e ){
+			
+			var contents = $.trim($("#inputMailContents").val());
+			if( contents && contents !== "" ) {
+				$util.decodeUTF8( contents );
+			}
 		});
 		
 		$("#sendBtn").on("click", function(e) {

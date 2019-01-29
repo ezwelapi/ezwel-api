@@ -143,6 +143,17 @@ public class OutsideController {
 		return out;
 	}
 
+	@APIOperation(description = "직영숙박 조회 인터페이스", isOutputJsonMarshall = true, returnType = RoomReadOutSDO.class)
+	@RequestMapping(value = "/findGuestRoom")
+	public Object findGuestRoom(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
+		logger.debug("[START] findGuestRoom {} {}", userAgentSDO, roomReadSDO);
+		
+		outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
+		RoomReadOutSDO out = outsideService.findGuestRoom(userAgentSDO, roomReadSDO);
+		
+		return out;
+	}
+	
 	/**************************************
 	 * [START] ezwel_if API
 	 **************************************/
