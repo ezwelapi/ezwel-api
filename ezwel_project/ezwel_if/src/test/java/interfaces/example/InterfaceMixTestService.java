@@ -42,39 +42,38 @@ public class InterfaceMixTestService extends TestCase {
 		sendIFService = new SendIFService();
 	}
 
-	
+
 	// 객실정보조회
-	// 객실정보조회
-		public void testRoomRead()  throws Exception {
-			logger.debug("[START] callRoomRead");
-			
-			UserAgentSDO userAgentDTO = new UserAgentSDO();
-			
-			userAgentDTO.setHttpAgentId("10055550"); //호텔패스
-			userAgentDTO.setHttpAgentType("AP02PO");
-			userAgentDTO.setHttpChannelCd("1");
-			userAgentDTO.setHttpClientId("ez1");
-			userAgentDTO.setHttpRequestId("test");
-			
-			//Input parameter
-			RoomReadInSDO roomReadSDO = new RoomReadInSDO();
-			
-			roomReadSDO.setPdtNo("KRSEL217");
-			roomReadSDO.setCheckInDate("20190121");
-			roomReadSDO.setCheckOutDate("20190122");
-			roomReadSDO.setRoomCnt(1);
-			roomReadSDO.setAdultCnt(2);
-			roomReadSDO.setChildCnt(0);
-			
-			//interface api call
-			RoomReadOutSDO out = outIfAdapter.callRoomRead(userAgentDTO, roomReadSDO);
-			
-			logger.debug("Code : {}", out.getCode());
-			logger.debug("Message : {}", out.getMessage());
-			logger.debug("Data : {}", out.getData());
-			
-			logger.debug("[END] callRoomRead");
-		}
+	public void testRoomRead()  throws Exception {
+		logger.debug("[START] callRoomRead");
+		
+		UserAgentSDO userAgentDTO = new UserAgentSDO();
+		
+		userAgentDTO.setHttpAgentId("99999999"); //호텔패스
+		userAgentDTO.setHttpAgentType("AP02PO");
+		userAgentDTO.setHttpChannelCd("1");
+		userAgentDTO.setHttpClientId("ez1");
+		userAgentDTO.setHttpRequestId("test");
+		
+		//Input parameter
+		RoomReadInSDO roomReadSDO = new RoomReadInSDO();
+		
+		roomReadSDO.setPdtNo("KRSEL217");
+		roomReadSDO.setCheckInDate("20190114");
+		roomReadSDO.setCheckOutDate("20190115");
+		roomReadSDO.setRoomCnt(1);
+		roomReadSDO.setAdultCnt(2);
+		roomReadSDO.setChildCnt(0);
+		
+		//interface api call
+		RoomReadOutSDO out = outIfAdapter.callRoomRead(userAgentDTO, roomReadSDO);
+		
+		logger.debug("Code : {}", out.getCode());
+		logger.debug("Message : {}", out.getMessage());
+		logger.debug("Data : {}", out.getData());
+		
+		logger.debug("[END] callRoomRead");
+	}
 	
 	
 //	// 주문대사(이지웰)

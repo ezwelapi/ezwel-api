@@ -112,6 +112,9 @@ public class HttpConfigSDO extends AbstractSDO {
 	@APIFields(description = "내부 인터페이스 여부(Adapter)")
 	private boolean isEzwelInsideInterface;
 	
+	@APIFields(description = "내부 인터페이스 전용 여부")
+	private boolean isInsideOnly;
+	
 	@APIFields(description = "접속 확인 여부")
 	private boolean isConfirmConnect;
 	
@@ -171,6 +174,7 @@ public class HttpConfigSDO extends AbstractSDO {
 		lapTimeMillis = OperateConstants.LONG_ZERO_VALUE;
 		callCount = OperateConstants.INTEGER_ZERO_VALUE;
 		isEzwelInsideInterface = false;
+		isInsideOnly = false;
 		isConfirmConnect = true;
 		//이하 로그기록에 의하여 추가된 필드
 		ifReqtDirt = null;
@@ -431,8 +435,18 @@ public class HttpConfigSDO extends AbstractSDO {
 		return isEzwelInsideInterface;
 	}
 
+	@XmlElement
 	public void setEzwelInsideInterface(boolean isEzwelInsideInterface) {
 		this.isEzwelInsideInterface = isEzwelInsideInterface;
+	}
+
+	public boolean isInsideOnly() {
+		return isInsideOnly;
+	}
+
+	@XmlElement
+	public void setInsideOnly(boolean isInsideOnly) {
+		this.isInsideOnly = isInsideOnly;
 	}
 
 	public boolean isConfirmConnect() {

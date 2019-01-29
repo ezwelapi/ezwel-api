@@ -32,16 +32,29 @@ public class ConfigureHelper {
 	
 	@APIOperation(description="인터페이스 사용 유저 설정 정보 세팅")
 	public HttpConfigSDO setupUserAgentInfo(UserAgentSDO userAgentDTO, HttpConfigSDO httpConfigSDO) {
+		return setupUserAgentInfo(userAgentDTO, httpConfigSDO, false);
+	}
+	
+	
+	@APIOperation(description="인터페이스 사용 유저 설정 정보 세팅")
+	public HttpConfigSDO setupUserAgentInfo(UserAgentSDO userAgentDTO, HttpConfigSDO httpConfigSDO, boolean isEzwelInsideInterface) {
 		/** conntime, readtime, httpAgentType, httpChannelCd, httpClientId, httpRequestId  */
 		logger.debug("[START] setupUserAgentInfo userAgentDTO : {}, httpConfigSDO : {}", userAgentDTO, httpConfigSDO);
 		propertyUtil.copySameProperty(userAgentDTO, httpConfigSDO, false);
 		
+		//인터페이스 서버를 거처가는 인터페이스 여부 설정
+		httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
+		//인터페이스 서버를 거처가는 인터페이스일 경우 커넥션 테스트 여부 설정
 		httpConfigSDO.setConfirmConnect(httpConfigSDO.isEzwelInsideInterface());
+		logger.debug("# httpConfigSDO : {}", httpConfigSDO);
+		
 		/** setup httpApiSignature */
 		if(!httpConfigSDO.isEzwelInsideInterface()) {
+			
 			httpConfigSDO.setHttpApiSignature(APIUtil.getHttpSignature(httpConfigSDO.getHttpAgentId(), httpConfigSDO.getHttpApiKey(), httpConfigSDO.getHttpApiTimestamp()));
 		}
 		else if(httpConfigSDO.isEzwelInsideInterface() && APIUtil.isNotEmpty(httpConfigSDO.getReceiverRestURI())){
+			
 			// isEzwel InsideInterface Receiver URI (개발서버 또는 운영서버 컨트롤러 URL세팅)
 			httpConfigSDO.setRestURI(InterfaceFactory.getServerHttpDomainURI().concat(httpConfigSDO.getReceiverRestURI()));
 			logger.debug("[httpConfigSDO.getRestURI()] : {}", httpConfigSDO.getRestURI());

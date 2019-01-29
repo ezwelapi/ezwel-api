@@ -127,9 +127,7 @@ public class OutsideIFService {
 			if(httpConfigSDO == null) {
 				return configureHelper.getChannelNotFoundMessage(RoomReadOutSDO.class);
 			}
-			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
-			logger.debug("httpConfigSDO {}", httpConfigSDO);
-			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
+			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO, isEzwelInsideInterface);
 			
 			/** execute interface */
 			if(inteface.isHttpConnect(httpConfigSDO)) {
@@ -162,8 +160,7 @@ public class OutsideIFService {
 			if(httpConfigSDO == null) {
 				return configureHelper.getChannelNotFoundMessage(CancelFeePsrcOutSDO.class);
 			}
-			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
-			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
+			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO, isEzwelInsideInterface);
 			/** execute interface */
 			if(inteface.isHttpConnect(httpConfigSDO)) {
 				out = (CancelFeePsrcOutSDO) inteface.sendJSON(httpConfigSDO, cancelFeePsrcSDO, CancelFeePsrcOutSDO.class);
@@ -198,8 +195,7 @@ public class OutsideIFService {
 			if(httpConfigSDO == null) {
 				return configureHelper.getChannelNotFoundMessage(RsvHistSendOutSDO.class);
 			}
-			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
-			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
+			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO, isEzwelInsideInterface);
 			/** execute interface */
 			if(inteface.isHttpConnect(httpConfigSDO)) {
 				out = (RsvHistSendOutSDO) inteface.sendJSON(httpConfigSDO, rsvHistSendSDO, RsvHistSendOutSDO.class);
@@ -232,8 +228,7 @@ public class OutsideIFService {
 			if(httpConfigSDO == null) {
 				return configureHelper.getChannelNotFoundMessage(CancelFeeAmtOutSDO.class);
 			}
-			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
-			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
+			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO, isEzwelInsideInterface);
 			/** execute interface */
 			if(inteface.isHttpConnect(httpConfigSDO)) {
 				out = (CancelFeeAmtOutSDO) inteface.sendJSON(httpConfigSDO, cancelFeeAmtSDO, CancelFeeAmtOutSDO.class);
@@ -265,8 +260,7 @@ public class OutsideIFService {
 			if(httpConfigSDO == null) {
 				return configureHelper.getChannelNotFoundMessage(OrderCancelReqOutSDO.class);
 			}
-			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
-			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
+			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO, isEzwelInsideInterface);
 			/** execute interface */
 			if(inteface.isHttpConnect(httpConfigSDO)) {
 				out = (OrderCancelReqOutSDO) inteface.sendJSON(httpConfigSDO, orderCancelReqSDO, OrderCancelReqOutSDO.class);
@@ -303,8 +297,7 @@ public class OutsideIFService {
 			if(httpConfigSDO == null) {
 				return configureHelper.getChannelNotFoundMessage(OmiNumIdnOutSDO.class);
 			}
-			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
-			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
+			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO, isEzwelInsideInterface);
 			/** execute interface */
 			if(inteface.isHttpConnect(httpConfigSDO)) {
 				out = (OmiNumIdnOutSDO) inteface.sendJSON(httpConfigSDO, omiNumIdnSDO, OmiNumIdnOutSDO.class);
@@ -348,8 +341,7 @@ public class OutsideIFService {
 			if(httpConfigSDO == null) {
 				return configureHelper.getChannelNotFoundMessage(EzwelJobOutSDO.class);
 			}
-			httpConfigSDO.setEzwelInsideInterface(isEzwelInsideInterface);
-			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO);
+			configureHelper.setupUserAgentInfo(userAgentSDO, httpConfigSDO, isEzwelInsideInterface);
 			/** execute interface */
 			if(inteface.isHttpConnect(httpConfigSDO)) {
 				out = (EzwelJobOutSDO) inteface.sendJSON(httpConfigSDO, ezwelJobSDO, EzwelJobOutSDO.class);

@@ -639,7 +639,7 @@ public class CommonHeader extends APIObject implements Serializable {
 			}
 			
 			if(inJsonParam != null && !inJsonParam.isEmpty()) {
-				inptTelg.append("InputParameter : ").append(inJsonParam);
+				inptTelg.append(OperateConstants.LINE_SEPARATOR).append("InputParameter : ").append(inJsonParam);
 			}
 			
 			//logger.debug("[PROC] InputTelegram : {}", inptTelg.toString());

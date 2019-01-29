@@ -144,12 +144,12 @@ public class OutsideController {
 	}
 
 	@APIOperation(description = "직영숙박 조회 인터페이스", isOutputJsonMarshall = true, returnType = RoomReadOutSDO.class)
-	@RequestMapping(value = "/findGuestRoom")
-	public Object findGuestRoom(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
-		logger.debug("[START] findGuestRoom {} {}", userAgentSDO, roomReadSDO);
+	@RequestMapping(value = "/findGuestRoomList")
+	public Object findGuestRoomList(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
+		logger.debug("[START] findGuestRoomList {} {}", userAgentSDO, roomReadSDO);
 		
 		outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
-		RoomReadOutSDO out = outsideService.findGuestRoom(userAgentSDO, roomReadSDO);
+		RoomReadOutSDO out = outsideService.findGuestRoomList(userAgentSDO, roomReadSDO);
 		
 		return out;
 	}

@@ -582,10 +582,11 @@
 			<httpAgentId>99999999</httpAgentId>
 			<restURI>http://ezc-api.dev.ezwel.com/API1.0/service/findGuestRoom</restURI>
 			<receiverRestURI>/service/callRoomRead</receiverRestURI>
+			<insideOnly>true</insideOnly> <!-- 직영숙박 특수케이스 -->
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
-		</httpChan>		
+		</httpChan>
 		<httpChan>
 			<agentNo>100</agentNo>
 			<description>인터페이스서버</description>
