@@ -86,8 +86,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		if (IS_LOGGING) {
 			logger.debug("■■ [AOP] MethodsAdvice.afterThrowingTargetMethod executed.\n■ thisJoinPoint : {}\n■ exception : ", thisJoinPoint, exception);
 		}
-		
-		// throw new ApplicationException("어플리케이션 장애발생", exception);
+		methodsAdviceHelper = (MethodsAdviceHelper) LApplicationContext.getBean(methodsAdviceHelper, MethodsAdviceHelper.class);
 		methodsAdviceHelper.processLogger("afterThrowingTargetMethod", thisJoinPoint);
 	}
 	
@@ -96,7 +95,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		if (IS_LOGGING) {
 			logger.debug("■■ [AOP] MethodsAdvice.afterReturningTargetMethod executed.\n■ thisJoinPoint : {}\n■ retVal : {}", thisJoinPoint, retVal);
 		}
-		
+		methodsAdviceHelper = (MethodsAdviceHelper) LApplicationContext.getBean(methodsAdviceHelper, MethodsAdviceHelper.class);
 		methodsAdviceHelper.processLogger("afterReturningTargetMethod", thisJoinPoint);
 	}
 

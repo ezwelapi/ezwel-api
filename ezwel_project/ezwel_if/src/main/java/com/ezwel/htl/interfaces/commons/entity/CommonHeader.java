@@ -769,6 +769,11 @@ public class CommonHeader extends APIObject implements Serializable {
 	@APIOperation(description="배치 실행 로그 세팅")
 	public void addBatchExecLog(ApiBatcLogSDO inApiBatcLog, Exception e, boolean forcedApiBatcLogSave) {
 		
+		if(inApiBatcLog == null) {
+			logger.warn("[INVALIDATE-addBatchExecLog] inApiBatcLog is null");
+			return;
+		}
+		
 		ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
 		apiBatcLogSDO.setThedGuid(Local.getId());
 		apiBatcLogSDO.setBatcProgType(inApiBatcLog.getBatcProgType());
