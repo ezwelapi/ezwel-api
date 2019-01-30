@@ -472,6 +472,17 @@
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</httpChan>
+		<httpChan>
+			<agentNo>12</agentNo>
+			<description>시설검색(최저가 정보)-ONDA(티포트)</description>
+			<chanId>faclSearch</chanId>
+			<httpAgentId>10058057</httpAgentId>
+			<httpAgentGroupId>multiFaclSearch</httpAgentGroupId>
+			<restURI>https://gds.tport.io/gds/ezwel/ezcheck-05A</restURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
 		<!-- 시설검색 END -->
 		
 		<!-- 당일특가검색 START (멀티쓰레드 인터페이스체널) -->
@@ -515,6 +526,17 @@
 			<httpAgentId>10058059</httpAgentId>
 			<httpAgentGroupId>multiSddSearch</httpAgentGroupId>
 			<restURI>http://api.condo24.com/ezwel/products/getToday/Search.asp</restURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<agentNo>12</agentNo>
+			<description>당일특가검색-ONDA(티포트)</description>
+			<chanId>sddSearch</chanId>
+			<httpAgentId>10058057</httpAgentId>
+			<httpAgentGroupId>multiSddSearch</httpAgentGroupId>
+			<restURI>https://gds.tport.io/gds/ezwel/ezcheck-05B</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -616,6 +638,17 @@
 			<chanId>roomRead</chanId>
 			<httpAgentId>10058059</httpAgentId>
 			<restURI>http://api.condo24.com/ezwel/products/getGoodsInfo.asp</restURI>
+			<receiverRestURI>/service/callRoomRead</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<agentNo>12</agentNo>
+			<description>객실정보조회-ONDA(티포트)</description>
+			<chanId>roomRead</chanId>
+			<httpAgentId>10058057</httpAgentId>
+			<restURI>https://gds.tport.io/gds/ezwel/ezcheck-04</restURI>
 			<receiverRestURI>/service/callRoomRead</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -745,7 +778,18 @@
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
-		</httpChan>		
+		</httpChan>
+		<httpChan>
+			<agentNo>12</agentNo>
+			<description>취소수수료규정-ONDA(티포트)</description>
+			<chanId>cancelFeePsrc</chanId>
+			<httpAgentId>10058057</httpAgentId>
+			<restURI>https://gds.tport.io/gds/ezwel/ezcheck-03A</restURI>
+			<receiverRestURI>/service/callCancelFeePsrc</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
 		<!-- 취소수수료규정 END -->		
 		
 		<!-- 결재완료내역전송 START -->
@@ -843,6 +887,17 @@
 			<chanId>rsvHistSend</chanId>
 			<httpAgentId>10058059</httpAgentId>
 			<restURI>http://api.condo24.com/ezwel/reservation/setReservation.asp</restURI>
+			<receiverRestURI>/service/callRsvHistSend</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<agentNo>12</agentNo>
+			<description>결재완료내역전송-ONDA(티포트)</description>
+			<chanId>rsvHistSend</chanId>
+			<httpAgentId>10058057</httpAgentId>
+			<restURI>https://gds.tport.io/gds/ezwel/ezcheck-09</restURI>
 			<receiverRestURI>/service/callRsvHistSend</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -950,6 +1005,17 @@
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</httpChan>
+		<httpChan>
+			<agentNo>12</agentNo>
+			<description>취소수수료계산-ONDA(티포트)</description>
+			<chanId>cancelFeeAmt</chanId>
+			<httpAgentId>10058057</httpAgentId>
+			<restURI>https://gds.tport.io/gds/ezwel/ezcheck-03B</restURI>
+			<receiverRestURI>/service/callCancelFeeAmt</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
 		<!-- 취소수수료계산 END -->
 		
 		<!-- 주문취소요청 START -->
@@ -1047,6 +1113,17 @@
 			<chanId>orderCancelReq</chanId>
 			<httpAgentId>10058059</httpAgentId>
 			<restURI>http://api.condo24.com/ezwel/reservation/setCancellation.asp</restURI>
+			<receiverRestURI>/service/callOrderCancelReq</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<agentNo>12</agentNo>
+			<description>주문취소요청-ONDA(티포트)</description>
+			<chanId>orderCancelReq</chanId>
+			<httpAgentId>10058057</httpAgentId>
+			<restURI>https://gds.tport.io/gds/ezwel/ezcheck-10</restURI>
 			<receiverRestURI>/service/callOrderCancelReq</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -1153,7 +1230,18 @@
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
-		</httpChan>		
+		</httpChan>
+		<httpChan>
+			<agentNo>12</agentNo>
+			<description>누락건확인-ONDA(티포트)</description>
+			<chanId>omiNumIdn</chanId>
+			<httpAgentId>10058057</httpAgentId>
+			<restURI>https://gds.tport.io/gds/ezwel/ezcheck-11</restURI>
+			<receiverRestURI>/service/callOmiNumIdn</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
 		<!-- 누락건확인 END -->
 		
 		<!-- 주문대사 START -->
@@ -1251,6 +1339,17 @@
 			<chanId>ezwelJob</chanId>
 			<httpAgentId>10058059</httpAgentId>
 			<restURI>http://api.condo24.com/ezwel/reservation/setReservationReConfirm.asp</restURI>
+			<receiverRestURI>/service/callEzwelJob</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<agentNo>12</agentNo>
+			<description>주문대사(이지웰)-ONDA(티포트)</description>
+			<chanId>ezwelJob</chanId>
+			<httpAgentId>10058057</httpAgentId>
+			<restURI>https://gds.tport.io/gds/ezwel/ezcheck-12A</restURI>
 			<receiverRestURI>/service/callEzwelJob</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
