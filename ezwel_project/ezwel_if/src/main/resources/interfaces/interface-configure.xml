@@ -347,6 +347,17 @@
 			<readTimeout>6000</readTimeout>
 		</httpChan>
 		<httpChan>
+			<agentNo>10</agentNo>
+			<description>전체시설검색-콘도24(여행스쿨)</description>
+			<chanId>allReg</chanId>
+			<httpAgentId>10058059</httpAgentId>
+			<httpAgentGroupId>multiAllReg</httpAgentGroupId>
+			<restURI>http://api.condo24.com/ezwel/products/getProduct.asp</restURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
 			<agentNo>12</agentNo>
 			<description>전체시설검색-ONDA(티포트)</description>
 			<chanId>allReg</chanId>
@@ -450,6 +461,17 @@
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</httpChan>
+		<httpChan>
+			<agentNo>10</agentNo>
+			<description>시설검색(최저가 정보)-콘도24(여행스쿨)</description>
+			<chanId>faclSearch</chanId>
+			<httpAgentId>10058059</httpAgentId>
+			<httpAgentGroupId>multiFaclSearch</httpAgentGroupId>
+			<restURI>http://api.condo24.com/ezwel/products/getSearch.asp</restURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
 		<!-- 시설검색 END -->
 		
 		<!-- 당일특가검색 START (멀티쓰레드 인터페이스체널) -->
@@ -482,6 +504,17 @@
 			<httpAgentId>10056562</httpAgentId>
 			<httpAgentGroupId>multiSddSearch</httpAgentGroupId>
 			<restURI>http://channelapi.abouthere.kr/ezwel/properties/dailyPromotion</restURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<agentNo>10</agentNo>
+			<description>당일특가검색-콘도24(여행스쿨)</description>
+			<chanId>sddSearch</chanId>
+			<httpAgentId>10058059</httpAgentId>
+			<httpAgentGroupId>multiSddSearch</httpAgentGroupId>
+			<restURI>http://api.condo24.com/ezwel/products/getToday/Search.asp</restURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
@@ -572,6 +605,17 @@
 			<chanId>roomRead</chanId>
 			<httpAgentId>10056562</httpAgentId>
 			<restURI>http://channelapi.abouthere.kr/ezwel/product/rooms</restURI>
+			<receiverRestURI>/service/callRoomRead</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<agentNo>10</agentNo>
+			<description>객실정보조회-콘도24(여행스쿨)</description>
+			<chanId>roomRead</chanId>
+			<httpAgentId>10058059</httpAgentId>
+			<restURI>http://api.condo24.com/ezwel/products/getGoodsInfo.asp</restURI>
 			<receiverRestURI>/service/callRoomRead</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -690,6 +734,17 @@
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<agentNo>10</agentNo>
+			<description>취소수수료규정-콘도24(여행스쿨)</description>
+			<chanId>cancelFeePsrc</chanId>
+			<httpAgentId>10058059</httpAgentId>
+			<restURI>http://api.condo24.com/ezwel/reservation/getCancelCharge.asp</restURI>
+			<receiverRestURI>/service/callCancelFeePsrc</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
 		</httpChan>		
 		<!-- 취소수수료규정 END -->		
 		
@@ -777,6 +832,17 @@
 			<chanId>rsvHistSend</chanId>
 			<httpAgentId>10056562</httpAgentId>
 			<restURI>http://channelapi.abouthere.kr/ezwel/booking/request</restURI>
+			<receiverRestURI>/service/callRsvHistSend</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<agentNo>10</agentNo>
+			<description>결재완료내역전송-콘도24(여행스쿨)</description>
+			<chanId>rsvHistSend</chanId>
+			<httpAgentId>10058059</httpAgentId>
+			<restURI>http://api.condo24.com/ezwel/reservation/setReservation.asp</restURI>
 			<receiverRestURI>/service/callRsvHistSend</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -873,6 +939,17 @@
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</httpChan>
+		<httpChan>
+			<agentNo>10</agentNo>
+			<description>취소수수료계산-콘도24(여행스쿨)</description>
+			<chanId>cancelFeeAmt</chanId>
+			<httpAgentId>10058059</httpAgentId>
+			<restURI>http://api.condo24.com/ezwel/reservation/getCanCelChargeResult.asp</restURI>
+			<receiverRestURI>/service/callCancelFeeAmt</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
 		<!-- 취소수수료계산 END -->
 		
 		<!-- 주문취소요청 START -->
@@ -959,6 +1036,17 @@
 			<chanId>orderCancelReq</chanId>
 			<httpAgentId>10056562</httpAgentId>
 			<restURI>http://channelapi.abouthere.kr/ezwel/booking/cancel</restURI>
+			<receiverRestURI>/service/callOrderCancelReq</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<agentNo>10</agentNo>
+			<description>주문취소요청-콘도24(여행스쿨)</description>
+			<chanId>orderCancelReq</chanId>
+			<httpAgentId>10058059</httpAgentId>
+			<restURI>http://api.condo24.com/ezwel/reservation/setCancellation.asp</restURI>
 			<receiverRestURI>/service/callOrderCancelReq</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
@@ -1054,6 +1142,17 @@
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<agentNo>10</agentNo>
+			<description>누락건확인-콘도24(여행스쿨)</description>
+			<chanId>omiNumIdn</chanId>
+			<httpAgentId>10058059</httpAgentId>
+			<restURI>http://api.condo24.com/ezwel/reservation/setReservationReConfirm.asp</restURI>
+			<receiverRestURI>/service/callOmiNumIdn</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
 		</httpChan>		
 		<!-- 누락건확인 END -->
 		
@@ -1141,6 +1240,17 @@
 			<chanId>ezwelJob</chanId>
 			<httpAgentId>10056562</httpAgentId>
 			<restURI>http://channelapi.abouthere.kr/ezwel/order/check</restURI>
+			<receiverRestURI>/service/callEzwelJob</receiverRestURI>
+			<encoding>UTF-8</encoding>
+			<connTimeout>3000</connTimeout>
+			<readTimeout>6000</readTimeout>
+		</httpChan>
+		<httpChan>
+			<agentNo>10</agentNo>
+			<description>주문대사(이지웰)-콘도24(여행스쿨)</description>
+			<chanId>ezwelJob</chanId>
+			<httpAgentId>10058059</httpAgentId>
+			<restURI>http://api.condo24.com/ezwel/reservation/setReservationReConfirm.asp</restURI>
 			<receiverRestURI>/service/callEzwelJob</receiverRestURI>
 			<encoding>UTF-8</encoding>
 			<connTimeout>3000</connTimeout>
