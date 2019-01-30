@@ -32,9 +32,9 @@ public class FaxSender extends AbstractDataAccessObject {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
 	
-	static final String TR_SENDNAME = "이지웰";
-	static final String TR_NAME = "이지웰";
-	static final String TR_PHONE = "0269191002";
+	static final String TR_SENDNAME = "이지웰";		//발신자이름
+	static final String TR_NAME = "이지웰";			//수신자이름
+	static final String TR_PHONE = "0269191002";	//수신팩스번호
 	
 	@APIOperation(description="팩스발송 인터페이스 DB Insert")
 	public FaxSenderOutSDO callFaxSender(FaxSenderInSDO faxSenderInSDO) {
@@ -53,7 +53,7 @@ public class FaxSender extends AbstractDataAccessObject {
 			
 			trBatchId = sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectTrBatchIdSeq"));
 //			fcMetaTran.setTrBatchId(trBatchId);								//고유번호
-			fcMetaTran.setTrSendDate(trSendDate);							//	발송일시
+			fcMetaTran.setTrSendDate(trSendDate);							//발송일시
 			fcMetaTran.setTrTitle(faxSenderInSDO.getTrTitle());				//발송제목
 			fcMetaTran.setTrSendName(TR_SENDNAME);							//발신자이름
 			fcMetaTran.setTrSendFaxNum(faxSenderInSDO.getTrSendFaxNum());	//발신자번호

@@ -33,9 +33,9 @@ public class SendFaxTest {
 //		송신fax : /Volume/data/nas_image/webfax/send/
 		
 		//Input value
-		String trTitle = "팩스발신 테스트"; 	//발송제목
-		String trSendFaxNum = "0269191002"; //발신자팩스번호
-		String trDocName = ""; 				//발송파일정보
+		String trTitle = "팩스발신 테스트"; 				//발송제목
+		String trSendFaxNum = "0232828600"; 			//발신자팩스번호
+		String trDocName = "send/ez_checkin_test.html"; //발송파일정보
 		
 		//Input parameter
 		FaxSenderInSDO faxSenderInSDO = new FaxSenderInSDO();
