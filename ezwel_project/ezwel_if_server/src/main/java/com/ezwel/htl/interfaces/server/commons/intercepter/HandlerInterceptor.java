@@ -94,7 +94,8 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 				HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
 				Field[] httpConfigFields = httpConfigSDO.getClass().getDeclaredFields();
 				Enumeration<String> headerNames = request.getHeaderNames();
-		        while(headerNames.hasMoreElements()){
+				
+		        while(headerNames.hasMoreElements()) {
 		            headerName = (String) headerNames.nextElement();
 		            headerValue = request.getHeader(headerName);
 		            logger.debug("- Intercepter RequestHeader ■ {} : {}", headerName, headerValue);
@@ -112,8 +113,13 @@ public class HandlerInterceptor  extends HandlerInterceptorAdapter {
 		            	}
 		            }
 		        }
-		        //logger.debug("[HttpConfigSDO] {}", httpConfigSDO);
+		        
+		    	//RequestURI 세팅
+		    	if(APIUtil.isEmpty(httpConfigSDO.getRestURI())) {
+		    		httpConfigSDO.setRestURI(requestURI);
+		    	}	        
 		        header.setHttpConfigSDO(httpConfigSDO);
+		        //logger.debug("[HttpConfigSDO] {}", httpConfigSDO);
 			}
 		
 			HandlerMethod handlerMethod = commonUtil.getHandlerMethod(handler);

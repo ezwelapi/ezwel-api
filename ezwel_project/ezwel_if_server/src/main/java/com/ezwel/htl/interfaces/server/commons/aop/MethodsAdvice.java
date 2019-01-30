@@ -249,6 +249,9 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
     				.append(" ■■ currentThread : " )
     				.append( Thread.currentThread().getName() )
     				.append( OperateConstants.LINE_SEPARATOR )
+            		.append( " ■■ Code : " )
+            		.append( ((APIException) e).getResultCode() )
+            		.append( OperateConstants.LINE_SEPARATOR )    				
             		.append( " ■■ Message : " )
             		.append( stackTraceUtil.getStackTrace(e) )
             		.append( OperateConstants.LINE_SEPARATOR )
@@ -268,7 +271,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				
 			}
 			else {
-				throw new APIException("■ [AOP-APIException] {} 장애발생" , new Object[]{ typeMethodName }, e);
+				throw new APIException("■ [AOP-Catch] {} {}" , new Object[]{ typeMethodName, ((APIException) e).getResultCode() }, e);
 			}
 		}
 		finally {
