@@ -264,30 +264,47 @@ public class MethodsAdviceHelper {
     	paramValidate = (ParamValidate) LApplicationContext.getBean(paramValidate, ParamValidate.class);
     	
     	HttpConfigSDO httpConfigSDO = Local.commonHeader().getHttpConfigSDO();
+    	
     	//헤더 파라메터 검증
     	paramValidate.addParam(new ParamValidateSDO(httpConfigSDO));
     	//execute validator
 		paramValidate.execute();
 		
+		boolean isHttpConfigXML = true;
     	//인터페이스 설정 파일 체널 정보
     	HttpConfigSDO httpConfigXML = InterfaceFactory.getChannel(chanId, httpConfigSDO.getHttpAgentId());
     	if(IS_LOGGING) {
     		logger.debug("[PROC] ConfirmHeaderSignature httpConfigDTO : {}", httpConfigXML);
     	}
-    	//제휴사 에이전트 정보
-    	AgentInfoSDO agentInfoXML = InterfaceFactory.getInterfaceAgents(httpConfigSDO.getHttpAgentId());
-		if(agentInfoXML == null) {
-			throw new APIException("제휴사 에이전트 정보가 존재하지 않습니다. 에이전트아이디 : {}", httpConfigSDO.getHttpAgentId());
-		}
     	
 		/***************************************
 		 * [START] CERTIFICATION LOG DATA SETTING 
 		 ***************************************/
+    	if(httpConfigXML == null) {
+    		isHttpConfigXML = false;
+    		//로그 저장을 위한 초기화
+    		httpConfigXML = new HttpConfigSDO();
+    		httpConfigXML.setChanId(chanId);
+    		httpConfigXML.setHttpAgentId(httpConfigSDO.getHttpAgentId());
+    		httpConfigXML.setRestURI(httpConfigSDO.getRestURI());
+    	}
+
 		//httpConfigXML.setHttpApiKey(agentInfoXML.getInsideApiKey());
     	Local.commonHeader().initInterfaceCertLogData(httpConfigXML);
 		/***************************************
 		 * [END]   CERTIFICATION LOG DATA SETTING 
 		 ****************************************/
+    	
+    	if(!isHttpConfigXML) {
+    		//존재하지 않는 체널 요청일경우 런타임
+    		throw new APIException("인터페이스 체널정보가 존재하지 않습니다. 채널아이디 : {}, 에이전트아이디 : {}", chanId, httpConfigSDO.getHttpAgentId());
+    	}
+    	
+    	//제휴사 에이전트 정보
+    	AgentInfoSDO agentInfoXML = InterfaceFactory.getInterfaceAgents(httpConfigSDO.getHttpAgentId());
+		if(agentInfoXML == null) {
+			throw new APIException("제휴사 에이전트 정보가 존재하지 않습니다. 에이전트아이디 : {}", httpConfigSDO.getHttpAgentId());
+		}
     	
     	String signature = httpConfigSDO.getHttpApiSignature();
     	logger.debug("[PROC] Signature : {}", signature);
