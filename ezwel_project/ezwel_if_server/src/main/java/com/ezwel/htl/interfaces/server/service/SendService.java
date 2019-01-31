@@ -9,10 +9,12 @@ import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.server.commons.send.FaxReader;
 import com.ezwel.htl.interfaces.server.commons.send.FaxSender;
 import com.ezwel.htl.interfaces.server.commons.send.MailSender;
 import com.ezwel.htl.interfaces.server.commons.send.SmsSender;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.service.data.send.FaxReaderOutSDO;
 import com.ezwel.htl.interfaces.service.data.send.FaxSenderInSDO;
 import com.ezwel.htl.interfaces.service.data.send.FaxSenderOutSDO;
 import com.ezwel.htl.interfaces.service.data.send.MailSenderInSDO;
@@ -41,6 +43,9 @@ public class SendService {
 	
 	@Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */
 	private FaxSender faxSender;
+	
+	@Autowired /** interface_if는 프론트 및 관리자단에서 ezwel 프레임워크 표준인  Autowired를 사용한다. (interface_if_server는 Autowired보다 빠른 스프링 컨텍스트의 getBean을 사용함) */
+	private FaxReader faxReader;
 	
 	public SendService() {
 		
@@ -123,6 +128,30 @@ public class SendService {
 		} 
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9902, "팩스발송 인터페이스 장애발생.", e);
+		}
+			
+		return out;
+	}
+	
+	@APIOperation(description="팩스수신 인터페이스")
+	public FaxReaderOutSDO callFaxReader(String reservNum) {
+		return callFaxReader(reservNum, false);
+	}
+	
+	@APIOperation(description="팩스수신 인터페이스")
+	public FaxReaderOutSDO callFaxReader(String reservNum, boolean isEzwelInsideInterface) {
+		
+		faxReader = (FaxReader) LApplicationContext.getBean(faxReader, FaxReader.class);
+		
+		FaxReaderOutSDO out = new FaxReaderOutSDO();
+		
+		try {
+			
+			out = (FaxReaderOutSDO) faxReader.callFaxReader(reservNum);
+			
+		} 
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9902, "팩스수신 인터페이스 장애발생.", e);
 		}
 			
 		return out;

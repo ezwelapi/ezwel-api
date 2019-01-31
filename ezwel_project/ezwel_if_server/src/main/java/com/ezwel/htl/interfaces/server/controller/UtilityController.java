@@ -38,6 +38,7 @@ import com.ezwel.htl.interfaces.server.commons.utils.ResponseUtil;
 import com.ezwel.htl.interfaces.server.sdo.AgentApiKeySDO;
 import com.ezwel.htl.interfaces.server.sdo.MorphemeSDO;
 import com.ezwel.htl.interfaces.server.service.SendService;
+import com.ezwel.htl.interfaces.service.data.send.FaxReaderOutSDO;
 import com.ezwel.htl.interfaces.service.data.send.FaxSenderInSDO;
 import com.ezwel.htl.interfaces.service.data.send.FaxSenderOutSDO;
 import com.ezwel.htl.interfaces.service.data.send.MailSenderInSDO;
@@ -241,6 +242,19 @@ public class UtilityController {
 		
 		FaxSenderOutSDO out = new FaxSenderOutSDO();
 		out = (FaxSenderOutSDO) sendService.callFaxSender(faxSenderInSDO);
+		
+		return out;
+		
+	}
+	
+	@APIOperation(description="팩스리더 인터페이스", isOutputJsonMarshall=true, returnType=FaxSenderOutSDO.class)
+	@RequestMapping(value="/callFaxReader")
+	public Object callFaxReader(String reservNum) {
+		
+		sendService = (SendService) LApplicationContext.getBean(sendService, SendService.class);
+		
+		FaxReaderOutSDO out = new FaxReaderOutSDO();
+		out = (FaxReaderOutSDO) sendService.callFaxReader(reservNum);
 		
 		return out;
 		
