@@ -9,8 +9,10 @@ import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
+import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
+import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 
@@ -60,6 +62,11 @@ public class ConfigureHelper {
 			logger.debug("[httpConfigSDO.getRestURI()] : {}", httpConfigSDO.getRestURI());
 		}
 		
+		//스케쥴러에의한 실행이면 HttpRequestId를 시스템 아이디로 설정
+		logger.debug("- InitThreadName : {}", Local.commonHeader().getInitThreadName());
+		if(Local.commonHeader().getInitThreadName().indexOf(OperateConstants.TASK_SCHEDULER_THREAD_NAME) > -1) {
+			httpConfigSDO.setHttpRequestId(OperateConstants.SYSTEM_ID);
+		}
 		return httpConfigSDO;
 	}
 	

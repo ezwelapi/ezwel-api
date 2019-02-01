@@ -127,6 +127,8 @@ public class CommonHeader extends APIObject implements Serializable {
 	
 	private boolean isControlMarshalling;
 	
+	private String initThreadName;
+	
 	public CommonHeader() {
 		this.reset();
 	}
@@ -166,6 +168,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		multiIfLogList = null;
 		interfaceLogInitCount = OperateConstants.INTEGER_ZERO_VALUE;
 		forcedApiBatcLogSave = false;
+		initThreadName = Thread.currentThread().getName();
 	}
 	
 	
@@ -512,6 +515,14 @@ public class CommonHeader extends APIObject implements Serializable {
 	public void setForcedApiBatcLogSave(boolean forcedApiBatcLogSave) {
 		this.forcedApiBatcLogSave = forcedApiBatcLogSave;
 	}
+	
+	public String getInitThreadName() {
+		return initThreadName;
+	}
+
+	public void setInitThreadName(String initThreadName) {
+		this.initThreadName = initThreadName;
+	}
 
 	@APIOperation(description="인터페이스 요청헤더 로그 데이터 초기화")
 	public void initInterfaceReqeustLogData() {
@@ -783,6 +794,11 @@ public class CommonHeader extends APIObject implements Serializable {
 		apiBatcLogSDO.setExecEndMlisSecd((Long) APIUtil.ONVL(inApiBatcLog.getExecEndMlisSecd(), APIUtil.currentTimeMillis()));
 
 		if(e != null) {
+			logger.warn("#### stackTraceUtil : {}", stackTraceUtil);
+			if(stackTraceUtil == null) {
+				stackTraceUtil = new StackTraceUtil();
+			}
+			
 			apiBatcLogSDO.setErrMsg(e.getMessage());
 			apiBatcLogSDO.setErrCont(new StringBuffer()
 					.append(inApiBatcLog.getErrCont())

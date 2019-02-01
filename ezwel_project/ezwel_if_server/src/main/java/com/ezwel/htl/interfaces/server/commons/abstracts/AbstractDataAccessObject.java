@@ -12,7 +12,6 @@ import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.constants.NamespaceConstants;
 import com.ezwel.htl.interfaces.server.commons.mybatis.TransactionManager;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
-import com.ezwel.htl.interfaces.server.commons.utils.ExceptionUtil;
 
 public abstract class AbstractDataAccessObject {
 
@@ -22,8 +21,6 @@ public abstract class AbstractDataAccessObject {
 	
 	//@Qualifier("sqlSession")
 	protected SqlSessionTemplate sqlSessionTemplate;
-
-	protected ExceptionUtil exceptionUtil;
 	
 	protected TransactionManager getTransactionManager() {
 		if(sqlSessionTemplate == null) {

@@ -151,6 +151,12 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		
 		try {
 				
+			if(controlAnno != null && requestAnno != null) {
+				channelId = getChannelId(requestAnno);
+				//Controller의 requestAnno오퍼레이션일 경우 chanId 세팅
+				Local.commonHeader().getHttpConfigSDO().setChanId(channelId);
+			}
+			
 			if(controlAnno != null && requestAnno != null && !Local.commonHeader().isControlMarshalling()) {
 				
 				if (IS_LOGGING) {
@@ -161,12 +167,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			}
 			
 			if( controlAnno != null && requestAnno != null && apiOperAnno.isRequestHeaderValidate() && requestAnno.value().length > 0) {
-
-				channelId = requestAnno.value()[0];
-				if(channelId.contains(OperateConstants.STR_SLASH)) {
-					channelId = channelId.substring(channelId.lastIndexOf(OperateConstants.STR_SLASH) + OperateConstants.STR_SLASH.length());
-				}
-				
+	
 				//시그니처 및 에이전트 체널 검증
 				methodsAdviceHelper.isConfirmHeaderSignature(channelId);
 			}
@@ -307,7 +308,18 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 	}
 
 	
-	private void setResultLogData(Controller controlAnno, RequestMapping requestAnno, APIOperation apiOperAnno, String methodGuid, Object resultValue, String responseJSON) {
+	String getChannelId(RequestMapping requestAnno) {
+		
+		String channelId = requestAnno.value()[0];
+		if(channelId.contains(OperateConstants.STR_SLASH)) {
+			channelId = channelId.substring(channelId.lastIndexOf(OperateConstants.STR_SLASH) + OperateConstants.STR_SLASH.length());
+		}
+		
+		return channelId;
+	}
+	
+	
+	void setResultLogData(Controller controlAnno, RequestMapping requestAnno, APIOperation apiOperAnno, String methodGuid, Object resultValue, String responseJSON) {
 		
 		/***************************
 		 * [START] LOG DATA SETTING 

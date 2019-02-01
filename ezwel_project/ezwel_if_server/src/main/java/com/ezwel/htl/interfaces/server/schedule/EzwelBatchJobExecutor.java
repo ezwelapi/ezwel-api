@@ -11,13 +11,12 @@ import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
-import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
-import com.ezwel.htl.interfaces.commons.entity.CommonHeader;
 import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.controller.OutsideController;
 import com.ezwel.htl.interfaces.server.sdo.FaclSDO;
 import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
@@ -79,9 +78,8 @@ public class EzwelBatchJobExecutor {
 		
 		AllRegOutSDO out = null;
 		ExecutorService executorService = null;
+		CommonUtil.initCommonHeader();
 		
-		CommonHeader header = Local.commonHeader();
-		header.setClientAddress(InterfaceFactory.LOCAL_HOST_ADDRESS);		
 		try {
 			
 			UserAgentSDO userAgentSDO = new UserAgentSDO();
@@ -112,8 +110,8 @@ public class EzwelBatchJobExecutor {
 				logger.error("[Scheduled-Runnable-Exception] allFaclRegJob", e);
 			}
 			
-			if(header != null) {
-				header.setHandlerInterceptorComplete(true);
+			if(Local.commonHeader() != null) {
+				Local.commonHeader().setHandlerInterceptorComplete(true);
 			}
 		}
 		
@@ -129,9 +127,8 @@ public class EzwelBatchJobExecutor {
 		// 2. 전체 시설 매핑 : 전체 시설 배치 종료 30분 후 시작
 		Long sleepMinute = 30L;
 		TransactionOutSDO out = null;
+		CommonUtil.initCommonHeader();
 		
-		CommonHeader header = Local.commonHeader();
-		header.setClientAddress(InterfaceFactory.LOCAL_HOST_ADDRESS);
 		try {
 			
 			if(OutsideService.isFaclMappingRunning()) {
@@ -155,8 +152,8 @@ public class EzwelBatchJobExecutor {
 		} catch (Exception e) {
 			logger.error("[Scheduled-Exception] allFaclMappingJob", e);
 		} finally {
-			if(header != null) {
-				header.setHandlerInterceptorComplete(true);
+			if(Local.commonHeader() != null) {
+				Local.commonHeader().setHandlerInterceptorComplete(true);
 			}
 		}
 
@@ -176,8 +173,8 @@ public class EzwelBatchJobExecutor {
 		
 		List<FaclSearchOutSDO> out = null;
 		ExecutorService executorService = null;
-		CommonHeader header = Local.commonHeader();
-		header.setClientAddress(InterfaceFactory.LOCAL_HOST_ADDRESS);
+		CommonUtil.initCommonHeader();
+		
 		try {
 			
 			UserAgentSDO userAgentSDO = new UserAgentSDO();
@@ -217,8 +214,8 @@ public class EzwelBatchJobExecutor {
 				logger.error("[Scheduled-Runnable-Exception] allFaclSearchJob", e);
 			}
 			
-			if(header != null) {
-				header.setHandlerInterceptorComplete(true);
+			if(Local.commonHeader() != null) {
+				Local.commonHeader().setHandlerInterceptorComplete(true);
 			}
 			
 		}
@@ -233,19 +230,19 @@ public class EzwelBatchJobExecutor {
 	 */
 	//초 분 시 일 월 주(년) 0 0 01 * * ?
 	//@Scheduled(cron="* 0/120 * * * *")
+	@Scheduled(fixedDelay=999999999)
 	@APIOperation(description="당일특가검색 인터페이스 : 시설검색(최저가 정보) 인터페이스 종료 후 실행")
 	public void allSddSearchJob() {
 		
 		// 시설검색(최저가 정보) 인터페이스 : 전체 시설 배치 종료 20분 후 시작
 		Long sleepMinute = 20L;
 		SddSearchOutSDO out = null;
+		CommonUtil.initCommonHeader();
 		
-		CommonHeader header = Local.commonHeader();
-		header.setClientAddress(InterfaceFactory.LOCAL_HOST_ADDRESS);
 		try {
 			
-			Thread.sleep(((sleepMinute * 60L) * 1000L));
-
+			//Thread.sleep(((sleepMinute * 60L) * 1000L));
+			
 			logger.debug("[START-Scheduled] allSddSearchJob start-time : {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT));
 			
 			UserAgentSDO userAgentSDO = new UserAgentSDO();
@@ -260,8 +257,8 @@ public class EzwelBatchJobExecutor {
 		} catch (Exception e) {
 			logger.error("[Scheduled-Exception] allSddSearchJob", e);
 		} finally {
-			if(header != null) {
-				header.setHandlerInterceptorComplete(true);
+			if(Local.commonHeader() != null) {
+				Local.commonHeader().setHandlerInterceptorComplete(true);
 			}
 		}
 		

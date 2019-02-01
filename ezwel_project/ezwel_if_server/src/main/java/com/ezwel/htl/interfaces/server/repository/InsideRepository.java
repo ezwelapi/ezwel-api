@@ -238,12 +238,14 @@ public class InsideRepository extends AbstractDataAccessObject {
 		try {
 			
 			commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
+			propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
 			
 			EzcReservBase inEzcReservBase = new EzcReservBase();
 			inEzcReservBase.setReservNum(new BigDecimal(agentJobSDO.getRsvNo()));
 			inEzcReservBase.setStartDate(agentJobSDO.getRsvDateStart());
 			inEzcReservBase.setEndDate(agentJobSDO.getRsvDateEnd());
 			inEzcReservBase.setDateType("J");
+			propertyUtil.removeDefaulFieldData(inEzcReservBase);
 			
 			List<EzcReservBase> ezcReservBaseList = sqlSession.selectList(getNamespace("RESERV_BASE_MAPPER", "selectListEzcReservBase"), inEzcReservBase);		
 			

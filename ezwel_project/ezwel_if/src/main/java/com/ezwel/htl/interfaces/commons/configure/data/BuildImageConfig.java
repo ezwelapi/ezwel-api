@@ -14,6 +14,9 @@ public class BuildImageConfig extends APIObject {
 
 	@APIFields(description="개발서버 경로 루트")
 	private String devRootPath;
+
+	@APIFields(description="테스트서버 경로 루트")
+	private String testRootPath;
 	
 	@APIFields(description="운영서버 경로 루트")
 	private String prodRootPath;
@@ -25,6 +28,7 @@ public class BuildImageConfig extends APIObject {
 	private void reset() {
 		localRootPath = null;
 		devRootPath = null;
+		testRootPath = null;
 		prodRootPath = null;
 	}
 
@@ -44,6 +48,15 @@ public class BuildImageConfig extends APIObject {
 	@XmlElement
 	public void setDevRootPath(String devRootPath) {
 		this.devRootPath = devRootPath;
+	}
+
+	public String getTestRootPath() {
+		return testRootPath;
+	}
+
+	@XmlElement
+	public void setTestRootPath(String testRootPath) {
+		this.testRootPath = testRootPath;
 	}
 
 	public String getProdRootPath() {

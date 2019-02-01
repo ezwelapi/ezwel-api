@@ -694,7 +694,7 @@ var $interface = {
 					 httpAgentId: headerJson["http-agent-id"]
 					,httpApiKey: headerJson["http-api-key"]
 					,httpApiTimestamp: headerJson["http-api-timestamp"]
-					,httpApiSignature: null/*headerJson["http-api-signature"]*/
+					,httpApiSignature: headerJson["http-api-signature"]
 				}, 
 				function( data ) {
 					

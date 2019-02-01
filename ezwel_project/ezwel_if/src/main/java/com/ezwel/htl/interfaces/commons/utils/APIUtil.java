@@ -32,6 +32,7 @@ import org.springframework.stereotype.Component;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
+import com.ezwel.htl.interfaces.commons.configure.data.ServerManagedConfig;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 
@@ -720,10 +721,10 @@ public class APIUtil {
 
 		try {
 			local = InetAddress.getLocalHost();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error("[Exception] getLocalHost", e);
 		} 
-
+		
 		return local;
 	}
 
@@ -731,36 +732,60 @@ public class APIUtil {
 	@APIOperation(description="서버 IP 대역")
 	public static String getServerAddress() {
 		String out = null;
-		String prodServerIpRange = InterfaceFactory.getServerAddress().getProdServerIpRange(); 
-		String devServerIpRange = InterfaceFactory.getServerAddress().getDevServerIpRange();
+		ServerManagedConfig managedConfig = InterfaceFactory.getServerAddress();
+		String prodServerIpRange = managedConfig.getProdServerIpRange(); 
+		String devServerIpRange = managedConfig.getDevServerIpRange();
+		String testServerIpRange = managedConfig.getTestServerIpRange();
+		String webRootKey = InterfaceFactory.getWebRootKey();
 		
-		//운영서버인지 IP대역 확인
-		if(APIUtil.isNotEmpty(prodServerIpRange)) {
+		//테스트 서버일 경우
+		if(webRootKey.endsWith(OperateConstants.TEST_SERVER_ROOTKEY_POSTFIX)) {
 			
-			if(prodServerIpRange.endsWith(OperateConstants.STR_ASTERISK)) {
-				prodServerIpRange = prodServerIpRange.substring(0, prodServerIpRange.indexOf(OperateConstants.STR_ASTERISK));
+			//테스트서버인지 IP대역 확인
+			if(APIUtil.isNotEmpty(testServerIpRange)) {
 				
-				if(InterfaceFactory.LOCAL_HOST_ADDRESS.startsWith(prodServerIpRange)) {
+				if(testServerIpRange.endsWith(OperateConstants.STR_ASTERISK)) {
+					testServerIpRange = testServerIpRange.substring(0, testServerIpRange.indexOf(OperateConstants.STR_ASTERISK));
+					
+					if(InterfaceFactory.LOCAL_HOST_ADDRESS.startsWith(testServerIpRange)) {
+						out = OperateConstants.CURRENT_TEST_SERVER;
+					}
+				}
+				else if(InterfaceFactory.LOCAL_HOST_ADDRESS.equals(testServerIpRange)) {
+					out = OperateConstants.CURRENT_TEST_SERVER;
+				}
+			}
+		}
+		else {
+			
+			//운영서버인지 IP대역 확인
+			if(APIUtil.isNotEmpty(prodServerIpRange)) {
+				
+				if(prodServerIpRange.endsWith(OperateConstants.STR_ASTERISK)) {
+					prodServerIpRange = prodServerIpRange.substring(0, prodServerIpRange.indexOf(OperateConstants.STR_ASTERISK));
+					
+					if(InterfaceFactory.LOCAL_HOST_ADDRESS.startsWith(prodServerIpRange)) {
+						out = OperateConstants.CURRENT_PROD_SERVER;
+					}
+				}
+				else if(InterfaceFactory.LOCAL_HOST_ADDRESS.equals(prodServerIpRange)) {
 					out = OperateConstants.CURRENT_PROD_SERVER;
 				}
 			}
-			else if(InterfaceFactory.LOCAL_HOST_ADDRESS.equals(prodServerIpRange)) {
-				out = OperateConstants.CURRENT_PROD_SERVER;
-			}
-		}
-		
-		//운영서버가 아니면 개발서버 IP대역에서 확인
-		if(out == null && APIUtil.isNotEmpty(devServerIpRange)) {
 			
-			if(devServerIpRange.endsWith(OperateConstants.STR_ASTERISK)) {
-				devServerIpRange = devServerIpRange.substring(0, devServerIpRange.indexOf(OperateConstants.STR_ASTERISK));
+			//운영서버가 아니면 개발서버 IP대역에서 확인
+			if(out == null && APIUtil.isNotEmpty(devServerIpRange)) {
 				
-				if(InterfaceFactory.LOCAL_HOST_ADDRESS.startsWith(devServerIpRange)) {
+				if(devServerIpRange.endsWith(OperateConstants.STR_ASTERISK)) {
+					devServerIpRange = devServerIpRange.substring(0, devServerIpRange.indexOf(OperateConstants.STR_ASTERISK));
+					
+					if(InterfaceFactory.LOCAL_HOST_ADDRESS.startsWith(devServerIpRange)) {
+						out = OperateConstants.CURRENT_DEV_SERVER;
+					}
+				}
+				else if(InterfaceFactory.LOCAL_HOST_ADDRESS.equals(devServerIpRange)) {
 					out = OperateConstants.CURRENT_DEV_SERVER;
 				}
-			}
-			else if(InterfaceFactory.LOCAL_HOST_ADDRESS.equals(devServerIpRange)) {
-				out = OperateConstants.CURRENT_DEV_SERVER;
 			}
 		}
 		
