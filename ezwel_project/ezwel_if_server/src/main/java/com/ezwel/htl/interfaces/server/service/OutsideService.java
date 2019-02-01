@@ -177,10 +177,6 @@ public class OutsideService extends AbstractServiceObject {
 			
 			inteface = (HttpInterfaceExecutor) LApplicationContext.getBean(inteface, HttpInterfaceExecutor.class);
 			configureHelper = (ConfigureHelper) LApplicationContext.getBean(configureHelper, ConfigureHelper.class);
-			commonRepository = (CommonRepository) LApplicationContext.getBean(commonRepository, CommonRepository.class);
-			outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
-			commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
-			
 			
 			multiHttpConfigList = new ArrayList<MultiHttpConfigSDO>();
 			
@@ -222,7 +218,16 @@ public class OutsideService extends AbstractServiceObject {
 	}	
 
 	public AllRegOutSDO saveAllReg(List<AllRegOutSDO> assets) {
+		return saveAllReg(assets, false);
+	}
+	
+	@APIOperation(description="전체시설일괄 저장")
+	public AllRegOutSDO saveAllReg(List<AllRegOutSDO> assets, boolean isRecord) {
 		logger.debug("[START] saveAllReg");
+		
+		commonRepository = (CommonRepository) LApplicationContext.getBean(commonRepository, CommonRepository.class);
+		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
+		commonUtil = (CommonUtil) LApplicationContext.getBean(commonUtil, CommonUtil.class);
 		
 		/*****************************
 		 * [START] DB LOG DATA SETTING
@@ -243,13 +248,16 @@ public class OutsideService extends AbstractServiceObject {
 				inEzcDetailCd.addClassCdList(CodeDataConstants.CD_CLASS_CD_G002, CodeDataConstants.CD_CLASS_CD_G003, CodeDataConstants.CD_CLASS_CD_C007, CodeDataConstants.CD_CLASS_CD_G005);
 				/** execute save transaction */
 				out = insertAllFacl(assets, new AllRegOutSDO(), commonRepository.selectListCommonCode(inEzcDetailCd), 0);
-			
-				// 등록/갱신 일시(yyyyMMddHHmmss)가 인터페이스 실행(StartTimeMillis)보다 이전 데이터는 전문에서 제외된 시설로서 사용안함 처리
-				// 조건 : 시설 구분 컬럼 데이터가 API 인것만
-				EzcFacl removeEzcFacl = new EzcFacl();
-				removeEzcFacl.setFaclDiv(CodeDataConstants.CD_API_G0010001); // API
-				removeEzcFacl.setUseYn(CodeDataConstants.CD_N);
-				out.setTxCount(out.getTxCount() + outsideRepository.updateRemoveFacl(removeEzcFacl, true));
+				
+				if(!isRecord) {
+					
+					// 등록/갱신 일시(yyyyMMddHHmmss)가 인터페이스 실행(StartTimeMillis)보다 이전 데이터는 전문에서 제외된 시설로서 사용안함 처리
+					// 조건 : 시설 구분 컬럼 데이터가 API 인것만
+					EzcFacl removeEzcFacl = new EzcFacl();
+					removeEzcFacl.setFaclDiv(CodeDataConstants.CD_API_G0010001); // API
+					removeEzcFacl.setUseYn(CodeDataConstants.CD_N);
+					out.setTxCount(out.getTxCount() + outsideRepository.updateRemoveFacl(removeEzcFacl, true));
+				}
 			}
 			
 			if(out != null) {

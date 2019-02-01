@@ -30,7 +30,7 @@ import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 @APIType(description="이지웰 배치 좝 스케쥴 실행기")
 public class EzwelBatchJobExecutor {
 
-	private static final Logger logger = LoggerFactory.getLogger(OutsideController.class);
+	private static final Logger logger = LoggerFactory.getLogger(EzwelBatchJobExecutor.class);
 	
 	private OutsideService outsideService;
 	
@@ -162,11 +162,12 @@ public class EzwelBatchJobExecutor {
 	
 	
 	/**
-	 * 시설검색(최저가 정보) 인터페이스 : 2시간마다
+	 * 시설검색(최저가 정보) 인터페이스 : 2시간반 마다
 	 */
 	//초 분 시 일 월 주(년)  cron = "0 0 0/1 * * *"  1시간마다
-	@Scheduled(cron="* 0/150 * * * *")
-	//@Scheduled(fixedDelay=((120L * 60L) * 1000L))   
+	@Scheduled(cron="* 0/150 * * * *") // 0분 부터 2시간반 마다
+	//@Scheduled(fixedDelay=((120L * 60L) * 1000L))
+	//@Scheduled(fixedDelay=999999999)
 	@APIOperation(description="시설검색(최저가 정보) 인터페이스 : 0시30분부터 2시간마다")
 	public void allFaclSearchJob() {
 		logger.debug("[START-Scheduled] allFaclSearchJob start-time : {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT));
@@ -230,7 +231,7 @@ public class EzwelBatchJobExecutor {
 	 */
 	//초 분 시 일 월 주(년) 0 0 01 * * ?
 	//@Scheduled(cron="* 0/120 * * * *")
-	@Scheduled(fixedDelay=999999999)
+	//@Scheduled(fixedDelay=999999999)
 	@APIOperation(description="당일특가검색 인터페이스 : 시설검색(최저가 정보) 인터페이스 종료 후 실행")
 	public void allSddSearchJob() {
 		
@@ -241,7 +242,7 @@ public class EzwelBatchJobExecutor {
 		
 		try {
 			
-			//Thread.sleep(((sleepMinute * 60L) * 1000L));
+			Thread.sleep(((sleepMinute * 60L) * 1000L));
 			
 			logger.debug("[START-Scheduled] allSddSearchJob start-time : {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT));
 			

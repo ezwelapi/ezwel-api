@@ -18,6 +18,7 @@ import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.sdo.ApiBatcLogSDO;
 import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
+import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
@@ -65,10 +66,10 @@ public class LogRepository extends AbstractDataAccessObject {
 		
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
 		
-		
 		Integer out = OperateConstants.INTEGER_ZERO_VALUE;
 		EzcIfLog ezcIfLog = null;
 		ExecutorService executorService = null;
+		Runnable runnable = null;
 		
 		try {
 			
@@ -92,12 +93,20 @@ public class LogRepository extends AbstractDataAccessObject {
 					
 					executorService = Executors.newCachedThreadPool();
 					final EzcIfLog mailEzcIfLog = (EzcIfLog) propertyUtil.copySameProperty(ezcIfLog, EzcIfLog.class);
-					Runnable runnable = new Runnable() {
+					runnable = new Runnable() {
 						
 						@Override
 						public void run() {
+							Local.commonHeader();
+							
 							mailComponent = (LogReportMailComponent) LApplicationContext.getBean(mailComponent, LogReportMailComponent.class);
-							mailComponent.sendInterfaceLog(mailEzcIfLog);
+							
+							try {
+								mailComponent.sendInterfaceLog(mailEzcIfLog);
+							}
+							finally {
+								Local.remove();
+							}
 						}
 					};
 					// 스레드풀에게 작업 처리 요청
@@ -191,6 +200,7 @@ public class LogRepository extends AbstractDataAccessObject {
 		EzcApiBatcLog ezcApiBatcLog = null;
 		ExecutorService executorService = null;
 		Runnable runnable = null;
+		
 		try {
 			
 			if(inApiBatcLogList != null) {
@@ -212,8 +222,16 @@ public class LogRepository extends AbstractDataAccessObject {
 							
 							@Override
 							public void run() {
+								Local.commonHeader();
+								
 								mailComponent = (LogReportMailComponent) LApplicationContext.getBean(mailComponent, LogReportMailComponent.class);
-								mailComponent.sendApiBatchLog(mailApiBatcLog);
+								
+								try {
+									mailComponent.sendApiBatchLog(mailApiBatcLog);
+								}
+								finally {
+									Local.remove();
+								}
 							}
 						};
 						

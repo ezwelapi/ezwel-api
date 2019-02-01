@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.sdo.ApiBatcLogSDO;
+import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractComponent;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.repository.LogRepository;
@@ -24,6 +25,9 @@ public class BatchLoggingRunnable extends AbstractComponent implements Runnable 
 	private LogRepository logginRepository;
 	
 	public BatchLoggingRunnable(List<ApiBatcLogSDO> apiBatcLogList) {
+		//ThreadLocal 초기화
+		Local.commonHeader();
+		
 		this.apiBatcLogList = apiBatcLogList;
 	}
 	
@@ -32,7 +36,14 @@ public class BatchLoggingRunnable extends AbstractComponent implements Runnable 
 		logger.debug("[BatchLoggingRunnable-START] {}", Thread.currentThread().getName());
 		
 		logginRepository = (LogRepository) LApplicationContext.getBean(logginRepository, LogRepository.class);
-		logginRepository.insertEzcApiBatcLog(apiBatcLogList);
+		
+		try {
+			logginRepository.insertEzcApiBatcLog(apiBatcLogList);
+		}
+		finally {
+			//ThreadLocal 종료
+			Local.remove();
+		}
 	}
 
 }

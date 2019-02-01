@@ -739,7 +739,7 @@ public class APIUtil {
 		String webRootKey = InterfaceFactory.getWebRootKey();
 		
 		//테스트 서버일 경우
-		if(webRootKey.endsWith(OperateConstants.TEST_SERVER_ROOTKEY_POSTFIX)) {
+		if(webRootKey != null && webRootKey.endsWith(OperateConstants.TEST_SERVER_ROOTKEY_POSTFIX)) {
 			
 			//테스트서버인지 IP대역 확인
 			if(APIUtil.isNotEmpty(testServerIpRange)) {

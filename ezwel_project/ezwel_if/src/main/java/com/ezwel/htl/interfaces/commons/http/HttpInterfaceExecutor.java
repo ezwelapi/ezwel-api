@@ -154,9 +154,9 @@ public class HttpInterfaceExecutor {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 연결이 불가능한 주소입니다.", e); 
 		} catch (MalformedURLException e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 프로토콜이 잘못되었습니다.", e);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ 통신 장애 발생.", e);
-		}
+		} 
 
 		return conn;
 	}

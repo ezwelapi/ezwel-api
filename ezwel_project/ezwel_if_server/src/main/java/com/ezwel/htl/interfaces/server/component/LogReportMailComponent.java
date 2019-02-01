@@ -51,6 +51,10 @@ public class LogReportMailComponent {
 		
 		try {
 			receiverList = InterfaceFactory.getApiLogReport().getReceiverList();
+			//등록된 수신자가 존재하지 않음
+			if(receiverList == null) {
+				return false;
+			}
 			
 			//제목 
 			subjectBuffer = new StringBuffer();
@@ -178,7 +182,7 @@ public class LogReportMailComponent {
 			logger.error("인터페이스 로그 레포트 이메일 발송중 에러 발생. {}", e.getMessage());
 		}
 		
-		logger.debug("■■■■■■■■■ 인터페이스 로그 레포트 메일발송 성공 여부 : {} ■■■■■■■■■", out);
+		logger.debug("■■■■■■■■■ 인터페이스 로그 레포트 메일발송 성공 개수 : {} ■■■■■■■■■", sendCount);
 		return out;
 	}
 	
@@ -205,6 +209,10 @@ public class LogReportMailComponent {
 		
 		try {
 			receiverList = InterfaceFactory.getApiLogReport().getReceiverList();
+			//등록된 수신자가 존재하지 않음
+			if(receiverList == null) {
+				return false;
+			}
 			
 			//제목 
 			subjectBuffer = new StringBuffer();
@@ -298,16 +306,12 @@ public class LogReportMailComponent {
 					}
 				}
 			}
-			
-			if(sendCount == receiverList.size()) {
-				out = true;
-			}
 		}
 		catch(Exception e) {
 			logger.error("인터페이스 로그 레포트 이메일 발송중 에러 발생. {}", e.getMessage());
 		}
 		
-		logger.debug("■■■■■■■■■ API 배치 로그 레포트 메일발송 성공 여부 : {} ■■■■■■■■■", out);
+		logger.debug("■■■■■■■■■ API 배치 로그 레포트 메일발송 성공 개수 : {} ■■■■■■■■■", sendCount);
 
 		return out;
 	}

@@ -6,6 +6,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.mybatis.spring.MyBatisSystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cglib.proxy.MethodInterceptor;
@@ -230,6 +231,9 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			
 			//logger.debug("■■ [OUTPUT] {} {}", typeMethodName, retVal);
 		}
+		catch(MyBatisSystemException e) {
+			
+		}
 		catch(Exception e) {
 			
 			//logger.debug("[AOP-APIException-InterfaceLog] {}", Local.commonHeader().getInterfaceLogSDO());
@@ -272,7 +276,14 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				
 			}
 			else {
-				throw new APIException("■ [AOP-Catch] {} {}" , new Object[]{ typeMethodName, ((APIException) e).getResultCode() }, e);
+				Integer resultCode = null;
+				if(APIException.class.isAssignableFrom(e.getClass())) {
+					resultCode = ((APIException) e).getResultCode();
+				}
+				else {
+					resultCode = APIException.DEFAULT_EXCEPTION_CODE;
+				}
+				throw new APIException("■ [AOP-Catch] {} {}" , new Object[]{ typeMethodName, resultCode }, e);
 			}
 		}
 		finally {

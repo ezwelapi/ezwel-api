@@ -810,7 +810,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		
 		apiBatcLogSDO.setBatcReqtIp(Local.commonHeader().getClientAddress());
 		//배치는 특정 관리자가 실행하지 않는한 스프링 스캐쥴러가 실행함으로 HttpReqeustId가 없으면 SYSTEM_ID이다.
-		apiBatcLogSDO.setBatcReqtId(APIUtil.NVL(Local.commonHeader().getHttpConfigSDO().getHttpRequestId(), OperateConstants.SYSTEM_ID));
+		apiBatcLogSDO.setBatcReqtId((Local.commonHeader().getHttpConfigSDO() != null ? APIUtil.NVL(Local.commonHeader().getHttpConfigSDO().getHttpRequestId(), OperateConstants.SYSTEM_ID) : OperateConstants.SYSTEM_ID));
 		//List ADD
 		addApiBatcLogList(apiBatcLogSDO);
 		//forcedApiBatcLogSave
