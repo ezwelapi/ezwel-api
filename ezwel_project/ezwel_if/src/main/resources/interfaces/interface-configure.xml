@@ -675,7 +675,6 @@
 			<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</httpChan>
-
 		<!-- 객실정보조회 END -->
 		
 		<!-- 취소수수료규정 START -->
