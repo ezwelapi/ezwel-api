@@ -232,6 +232,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		}
 	}
 	
+	@Transactional(readOnly=true)
 	@APIOperation(description="기존 DB테이블 저장된 이미지 정보 조회")
 	private List<EzcFaclImg> getEzcFaclImgList(EzcFacl ezcFacl) {
 		//기존 저장된 이미지 정보 조회
@@ -513,83 +514,6 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		return ezcFaclImgList;
 	}
 	
-	@APIOperation(description="전체시설 이미지 다운로드 경로 다건 저장")
-	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
-	public Integer updateMultiBuildImage(List<EzcFaclImg> finalFaclImgList, boolean isErrorPassed) {
-		
-		Integer txCount = OperateConstants.INTEGER_ZERO_VALUE;
-		Integer dataIndex = OperateConstants.INTEGER_ZERO_VALUE;
-		EzcFaclImg ezcFaclImg = null;
-		List<Future<?>> futures = null;
-		CallableExecutor executor = null;
-		Callable<Integer> callable = null;
-		
-		try {
-			
-			if(finalFaclImgList != null && finalFaclImgList.size() > 0) {
-			
-				executor = new CallableExecutor();
-				executor.initThreadPool(finalFaclImgList.size());				
-				
-				for(dataIndex = 0; dataIndex < finalFaclImgList.size(); dataIndex++) {
-					ezcFaclImg = finalFaclImgList.get(dataIndex);
-					//txCount += updateBuildImage(ezcFaclImg, isErrorPassed);
-					
-					callable = new MultiBuildImageUpdateRepository(ezcFaclImg, isErrorPassed);
-					//설정된 멀티쓰레드 개수만큼 반복 실행 
-					executor.addCall(callable);
-				}
-				
-				futures = executor.getResult();
-				if(futures != null) {
-					
-					for(Future<?> future : futures) {
-						if(future.get() != null) {
-							txCount += (Integer) future.get();
-						}
-					}
-				}
-			}
-		}
-		catch(Exception e) {
-			
-			if(isErrorPassed) {
-				
-				/*****************************
-				 * [START] DB LOG DATA SETTING 
-				 *****************************/
-				ApiBatcLogSDO apiBatcLogSDO = new ApiBatcLogSDO();
-				apiBatcLogSDO.setBatcProgType(this.getClass().getName().concat(OperateConstants.STR_AT).concat("updateMultiBuildImage"));
-				apiBatcLogSDO.setBatcDesc("전체시설 이미지 다운로드 경로 다건 저장");
-				apiBatcLogSDO.setBatcLogType(MessageConstants.API_BATCH_LOG_TYPE_ER);
-				apiBatcLogSDO.setErrCont(new StringBuffer()
-						.append( "::전체시설 이미지 다운로드 경로 다건 저장 장애 발생시각 : " )
-						.append( APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT) )
-						.append( OperateConstants.LINE_SEPARATOR )
-						.append( "- 에러발생 시설이미지 : " )
-						.append( ezcFaclImg )
-						.toString());
-				
-				Local.commonHeader().addBatchExecLog(apiBatcLogSDO, e);
-				/*****************************
-				 * [END]   DB LOG DATA SETTING 
-				 *****************************/
-				
-				logger.error(APIUtil.formatMessage("- 전체시설 이미지 다운로드 경로 다건 저장 장애발생 =>> 에러발생 시설 : {}", ezcFaclImg), e);
-			}
-			else {
-				throw new APIException("이미지 다운르드 경로 DB 다건 저장 실패 {}", new Object[] {e.getMessage()}, e) ;
-			}
-		}
-		finally {
-			
-			if(executor != null) {
-				executor.clear();
-			}
-		}
-
-		return txCount;
-	}
 
 	
 	@APIOperation(description="시설 매핑 데이터 저장")

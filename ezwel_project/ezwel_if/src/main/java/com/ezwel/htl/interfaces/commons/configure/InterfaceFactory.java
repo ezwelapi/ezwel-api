@@ -77,6 +77,8 @@ public class InterfaceFactory {
 	@APIFields(description = "그룹체널 캐쉬명 접미사")
 	private final static String GROUP_CACHE_POSTFIX;
 	
+
+	
 	@APIFields(description = "로컬 호스트 주소")
 	public final static String LOCAL_HOST_ADDRESS; 
 	
@@ -101,9 +103,6 @@ public class InterfaceFactory {
 	@APIFields(description = "서버 도메인 URI")
 	private static String serverHttpDomainURI;
 	
-	@APIFields(description = "인터페이스 배치 에러 로그 루트 경로")
-	private static String interfaceBatchErrorLogPath;
-	
 	@APIFields(description = "인터페이스 초기화 에러 메시지")
 	private final static String INIT_ERROR_MESSAGE;
 	
@@ -122,6 +121,9 @@ public class InterfaceFactory {
 	@APIFields(description = "로컬 테스트여부")
 	private boolean isLocalTestInit;
 
+	@APIFields(description = "로칼 서버 타입")
+	private static String localServerType;
+	
 	@APIFields(description = "인터페이스 서버환경 프로퍼티 파일명")
 	private final static String MANAGED_PROPERTIES_FILE_NAME;
 
@@ -217,10 +219,6 @@ public class InterfaceFactory {
 		return serverHttpDomainURI;
 	}
 
-	public static String getInterfaceBatchErrorLogPath() {
-		return interfaceBatchErrorLogPath;
-	}
-
 	public static ServerManagedConfig getServerAddress() {
 		return serverManaged;
 	}
@@ -272,6 +270,11 @@ public class InterfaceFactory {
 	public static WebApplicationContext getWebContext() {
 		return webContext;
 	}
+
+	public static String getLocalServerType() {
+		return localServerType;
+	}
+
 
 	private static String getCacheId(String chanId, String agentId) {
 		
@@ -345,7 +348,7 @@ public class InterfaceFactory {
 			webContext = ContextLoader.getCurrentWebApplicationContext();
 			if(webContext != null) {   
 				webRootKey = webContext.getEnvironment().getProperty(InterfaceFactory.serverManaged.getWebRootKeyName());
-				isMasterServer = (InterfaceFactory.serverManaged.getIfServerWebRootKey().equals(webRootKey));
+				isMasterServer = (InterfaceFactory.serverManaged.getIfServerWebRootKeyList().contains(webRootKey));
 				logger.debug("# WebRootKey : {}, Environment : {}", webRootKey, webContext.getEnvironment().toString());
 				if(isMasterServer) {
 					logger.debug("# INTERFACE MANAGED PROPERTIES : {}", InterfaceFactory.serverManaged);
@@ -368,12 +371,15 @@ public class InterfaceFactory {
 				logger.debug("- Direct Parse : {}", isMasterServer);
 			}
 			
+			//서버유형 설정
+			InterfaceFactory.localServerType = APIUtil.getServerAddress(); 
+			
 			if(isMasterServer || isLocalTestInit) {
 				
 				if(isMasterServer) {
 					
 					if(webContext != null && webRootKey != null) {
-						isMasterServer = (InterfaceFactory.serverManaged.getIfServerWebRootKey().equals(webRootKey));
+						isMasterServer = (InterfaceFactory.serverManaged.getIfServerWebRootKeyList().contains(webRootKey));
 					}
 					else {
 						isMasterServer = false;
@@ -468,6 +474,10 @@ public class InterfaceFactory {
 					// dev server
 					resourceURL = new URL(InterfaceFactory.serverManaged.getDevMasterServerName().concat(InterfaceFactory.serverManaged.getConfigXmlServerUri()));
 				}
+				else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_TEST_SERVER)) {
+					// test server
+					resourceURL = new URL(InterfaceFactory.serverManaged.getTestMasterServerName().concat(InterfaceFactory.serverManaged.getConfigXmlServerUri()));
+				}
 				else {
 					// developer local pc server
 					resourceURL = new URL(InterfaceFactory.serverManaged.getDevMasterServerName().concat(InterfaceFactory.serverManaged.getConfigXmlServerUri()));
@@ -494,7 +504,6 @@ public class InterfaceFactory {
 					 */
 					String imageRootPath = null;
 					String serverHttpDomainUri = null;
-					String interfaceBatchErrorLogPath = null;
 					
 					if(APIUtil.getServerAddress() == null) {
 						if(isMasterServer) {
@@ -509,24 +518,25 @@ public class InterfaceFactory {
 						// prod server
 						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getProdRootPath();
 						serverHttpDomainUri = InterfaceFactory.getServerAddress().getProdServerL4Domain();
-						interfaceBatchErrorLogPath = InterfaceFactory.getFileRepository().getErrorLog().getProdRootPath();
 					}
 					else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_DEV_SERVER)) {
 						// dev server
 						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getDevRootPath();
 						serverHttpDomainUri = InterfaceFactory.getServerAddress().getDevServerL4Domain();
-						interfaceBatchErrorLogPath = InterfaceFactory.getFileRepository().getErrorLog().getDevRootPath();
+					}
+					else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_TEST_SERVER)) {
+						// dev server
+						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getTestRootPath();
+						serverHttpDomainUri = InterfaceFactory.getServerAddress().getTestServerL4Domain();
 					}
 					else {
 						// developer local pc server
 						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getLocalRootPath();
 						serverHttpDomainUri = InterfaceFactory.getServerAddress().getDevServerL4Domain();
-						interfaceBatchErrorLogPath = InterfaceFactory.getFileRepository().getErrorLog().getLocalRootPath();
 					}
 					
 					InterfaceFactory.serverHttpDomainURI = serverHttpDomainUri;
 					InterfaceFactory.imageRootPath = getRevisionPath(imageRootPath);
-					InterfaceFactory.interfaceBatchErrorLogPath = getRevisionPath(interfaceBatchErrorLogPath);
 					
 					/** 시설정보 매핑 설정 */
 					InterfaceFactory.faclMapping = ifc.getFaclMapping();
@@ -539,13 +549,13 @@ public class InterfaceFactory {
 				
 				if(isMasterServer)  {
 					
+					logger.debug("# LOCAL_SERVER_TYPE : {}", InterfaceFactory.localServerType);
 					logger.debug("# LOCAL_HOST_ADDRESS : {}", LOCAL_HOST_ADDRESS);
 					logger.debug("# LOCAL_HOST_NAME : {}", LOCAL_HOST_NAME);
 					logger.debug("# LOCAL_CANONICAL_HOST_NAME : {}", LOCAL_CANONICAL_HOST_NAME);
 									
 					logger.debug("# imageRootPath : {}", InterfaceFactory.imageRootPath);
 					logger.debug("# serverHttpDomainURI : {}", InterfaceFactory.serverHttpDomainURI);
-					logger.debug("# interfaceBatchErrorLogPath : {}", InterfaceFactory.interfaceBatchErrorLogPath);	
 	
 					logger.debug("# InsideChans Channel Size : {}", ifc.getInsideChans().size());
 					logger.debug("# OutsideChans Channel Size : {}", ifc.getOutsideChans().size());

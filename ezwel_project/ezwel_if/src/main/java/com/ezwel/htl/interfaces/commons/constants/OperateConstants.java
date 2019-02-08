@@ -135,8 +135,11 @@ public class OperateConstants {
 	
 	
 	public final static String CURRENT_DEV_SERVER;
+	public final static String CURRENT_TEST_SERVER;
 	public final static String CURRENT_PROD_SERVER;
 	public final static String CURRENT_PC_SERVER;
+	
+	public final static String TEST_SERVER_ROOTKEY_POSTFIX;
 	
 	public final static String STR_EMPTY;
 	public final static String STR_RESERVE_IS_SAVED;
@@ -156,9 +159,13 @@ public class OperateConstants {
 	public static final String STR_I;
 	public static final String STR_O;
 	
+	public static final String TASK_SCHEDULER_THREAD_NAME; 
+	
 	public static final List<String> EZWEL_INSIDE_EXCLUDE_FIELDS;
 	
 	static {
+		
+		TASK_SCHEDULER_THREAD_NAME = "taskScheduler";
 		
 		EZWEL_INSIDE_EXCLUDE_FIELDS = new ArrayList<String>(); 
 		EZWEL_INSIDE_EXCLUDE_FIELDS.add("httpApiSignature");
@@ -176,8 +183,11 @@ public class OperateConstants {
 		STR_RESERVE_IS_SAVED = "isSaved";
 		STR_EMPTY = "EMPTY";
 		CURRENT_DEV_SERVER = "DEV-SERVER";
+		CURRENT_TEST_SERVER = "TEST-SERVER";
 		CURRENT_PROD_SERVER = "PROD-SERVER";
 		CURRENT_PC_SERVER = "DEVELOPER-PC";
+		
+		TEST_SERVER_ROOTKEY_POSTFIX = "_test";
 		
 		STR_ZERO = "0";
 		STR_QUESTION_MARK = "?";

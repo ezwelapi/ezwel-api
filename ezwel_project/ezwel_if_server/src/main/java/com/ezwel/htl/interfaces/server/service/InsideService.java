@@ -9,19 +9,21 @@ import org.springframework.stereotype.Service;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.thread.Local;
+import com.ezwel.htl.interfaces.commons.utils.APIUtil;
+import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
-import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.repository.InsideRepository;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.record.RecordInSDO;
 import com.ezwel.htl.interfaces.service.data.record.RecordOutSDO;
-import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopInSDO;
 import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopOutSDO;
 import com.ezwel.htl.interfaces.service.data.view.ViewInSDO;
@@ -58,7 +60,8 @@ public class InsideService {
 		outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
 		inteface = (HttpInterfaceExecutor) LApplicationContext.getBean(inteface, HttpInterfaceExecutor.class);
 		
-		HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
+		HttpConfigSDO httpConfigSDO = InterfaceFactory.getChannel("record", Local.commonHeader().getHttpConfigSDO().getHttpAgentId());
+		httpConfigSDO.setHttpApiSignature(APIUtil.getHttpSignature(httpConfigSDO.getHttpAgentId(), httpConfigSDO.getHttpApiKey(), httpConfigSDO.getHttpApiTimestamp()));
 		httpConfigSDO.setRestURI(recordSDO.getDataUrl());
 		httpConfigSDO.setEncoding(OperateConstants.DEFAULT_ENCODING);
 		httpConfigSDO.setDoInput(true);
@@ -67,7 +70,12 @@ public class InsideService {
 		List<AllRegOutSDO> assets = new ArrayList<AllRegOutSDO>();
 		AllRegOutSDO recordData = (AllRegOutSDO) inteface.sendJSON(httpConfigSDO, AllRegOutSDO.class);
 		assets.add(recordData);
-		outsideService.saveAllReg(assets);
+		AllRegOutSDO result = outsideService.saveAllReg(assets, true);
+		
+		out = new RecordOutSDO();
+		out.setCode(result.getCode());
+		out.setMessage(result.getMessage());
+		out.setTxCount(result.getTxCount());
 		
 		logger.debug("[END] callRecord {}", out);
 		return out;

@@ -131,7 +131,7 @@ var $interface = {
 		"IN-신규시설등록수정" : {
 			 url : requestNamespace + "/facl/record"
 			,input : {
-				"dataUrl" : "http://ezc-api.dev.ezwel.com/API1.0/10000496/facl/record"
+				"dataUrl": "http://ezc-api.dev.ezwel.com/API1.0/service/record"
 			}
 		},
 		"IN-시설판매중지설정" : {
@@ -694,7 +694,7 @@ var $interface = {
 					 httpAgentId: headerJson["http-agent-id"]
 					,httpApiKey: headerJson["http-api-key"]
 					,httpApiTimestamp: headerJson["http-api-timestamp"]
-					,httpApiSignature: null/*headerJson["http-api-signature"]*/
+					,httpApiSignature: headerJson["http-api-signature"]
 				}, 
 				function( data ) {
 					
@@ -751,6 +751,21 @@ var $interface = {
 			$("#inputJson").val("");
 			$interface.send( null, $interface.datas["InterfaceConfigXml"].url, null, "xml" );
 		});
+	},
+	size : {
+		output : function(megerDivH) {
+			
+			var megerDivH = 0;
+			$("#mainContiner .heightTarget").each(function(idx, item) {
+				if($(item).attr("id") != "outputContainer") {
+					megerDivH += $(item).outerHeight();
+				}
+			});
+			
+			$("#outputJson").height($(window).outerHeight() - megerDivH - 24);
+			console.info("newHeight : " + $("#outputJson").height());
+		}
+		
 	}
 	,init : function() {
 		
@@ -765,7 +780,16 @@ var $interface = {
 			$select.append(new Option(optionText, datas[optionText].url));
 		});
 		
+		$(window).resize(function() {
+			
+			setTimeout(function(){ 
+				$interface.size.output();
+			}, 100);
+		});
+		
 		this.bind();
+		
+		$interface.size.output();
 	}
 };
 

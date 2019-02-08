@@ -67,7 +67,7 @@ public class MailSender {
 	 */
 	@APIOperation(description="메일발송 인터페이스")
 	public MailSenderOutSDO callMailSender(MailSenderInSDO mailSenderInSDO) throws Exception {
-		logger.debug("[START] callMailSender {}", mailSenderInSDO);
+		logger.debug("[START] callMailSender");
 		
 		OptMailConfig mailConfig = InterfaceFactory.getOptionalApps().getMailConfig();
 		String host			= mailConfig.getHost();

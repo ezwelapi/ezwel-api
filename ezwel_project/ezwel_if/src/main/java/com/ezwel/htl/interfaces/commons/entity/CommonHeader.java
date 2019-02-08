@@ -127,6 +127,8 @@ public class CommonHeader extends APIObject implements Serializable {
 	
 	private boolean isControlMarshalling;
 	
+	private String initThreadName;
+	
 	public CommonHeader() {
 		this.reset();
 	}
@@ -166,6 +168,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		multiIfLogList = null;
 		interfaceLogInitCount = OperateConstants.INTEGER_ZERO_VALUE;
 		forcedApiBatcLogSave = false;
+		initThreadName = Thread.currentThread().getName();
 	}
 	
 	
@@ -512,6 +515,14 @@ public class CommonHeader extends APIObject implements Serializable {
 	public void setForcedApiBatcLogSave(boolean forcedApiBatcLogSave) {
 		this.forcedApiBatcLogSave = forcedApiBatcLogSave;
 	}
+	
+	public String getInitThreadName() {
+		return initThreadName;
+	}
+
+	public void setInitThreadName(String initThreadName) {
+		this.initThreadName = initThreadName;
+	}
 
 	@APIOperation(description="인터페이스 요청헤더 로그 데이터 초기화")
 	public void initInterfaceReqeustLogData() {
@@ -783,6 +794,11 @@ public class CommonHeader extends APIObject implements Serializable {
 		apiBatcLogSDO.setExecEndMlisSecd((Long) APIUtil.ONVL(inApiBatcLog.getExecEndMlisSecd(), APIUtil.currentTimeMillis()));
 
 		if(e != null) {
+			logger.warn("#### stackTraceUtil : {}", stackTraceUtil);
+			if(stackTraceUtil == null) {
+				stackTraceUtil = new StackTraceUtil();
+			}
+			
 			apiBatcLogSDO.setErrMsg(e.getMessage());
 			apiBatcLogSDO.setErrCont(new StringBuffer()
 					.append(inApiBatcLog.getErrCont())
@@ -794,7 +810,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		
 		apiBatcLogSDO.setBatcReqtIp(Local.commonHeader().getClientAddress());
 		//배치는 특정 관리자가 실행하지 않는한 스프링 스캐쥴러가 실행함으로 HttpReqeustId가 없으면 SYSTEM_ID이다.
-		apiBatcLogSDO.setBatcReqtId(APIUtil.NVL(Local.commonHeader().getHttpConfigSDO().getHttpRequestId(), OperateConstants.SYSTEM_ID));
+		apiBatcLogSDO.setBatcReqtId((Local.commonHeader().getHttpConfigSDO() != null ? APIUtil.NVL(Local.commonHeader().getHttpConfigSDO().getHttpRequestId(), OperateConstants.SYSTEM_ID) : OperateConstants.SYSTEM_ID));
 		//List ADD
 		addApiBatcLogList(apiBatcLogSDO);
 		//forcedApiBatcLogSave

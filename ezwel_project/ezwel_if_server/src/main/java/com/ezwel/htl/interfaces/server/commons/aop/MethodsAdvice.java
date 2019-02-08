@@ -6,6 +6,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.mybatis.spring.MyBatisSystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cglib.proxy.MethodInterceptor;
@@ -151,6 +152,12 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 		
 		try {
 				
+			if(controlAnno != null && requestAnno != null) {
+				channelId = getChannelId(requestAnno);
+				//Controller의 requestAnno오퍼레이션일 경우 chanId 세팅
+				Local.commonHeader().getHttpConfigSDO().setChanId(channelId);
+			}
+			
 			if(controlAnno != null && requestAnno != null && !Local.commonHeader().isControlMarshalling()) {
 				
 				if (IS_LOGGING) {
@@ -161,12 +168,7 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			}
 			
 			if( controlAnno != null && requestAnno != null && apiOperAnno.isRequestHeaderValidate() && requestAnno.value().length > 0) {
-
-				channelId = requestAnno.value()[0];
-				if(channelId.contains(OperateConstants.STR_SLASH)) {
-					channelId = channelId.substring(channelId.lastIndexOf(OperateConstants.STR_SLASH) + OperateConstants.STR_SLASH.length());
-				}
-				
+	
 				//시그니처 및 에이전트 체널 검증
 				methodsAdviceHelper.isConfirmHeaderSignature(channelId);
 			}
@@ -229,6 +231,9 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			
 			//logger.debug("■■ [OUTPUT] {} {}", typeMethodName, retVal);
 		}
+		catch(MyBatisSystemException e) {
+			
+		}
 		catch(Exception e) {
 			
 			//logger.debug("[AOP-APIException-InterfaceLog] {}", Local.commonHeader().getInterfaceLogSDO());
@@ -271,7 +276,14 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				
 			}
 			else {
-				throw new APIException("■ [AOP-Catch] {} {}" , new Object[]{ typeMethodName, ((APIException) e).getResultCode() }, e);
+				Integer resultCode = null;
+				if(APIException.class.isAssignableFrom(e.getClass())) {
+					resultCode = ((APIException) e).getResultCode();
+				}
+				else {
+					resultCode = APIException.DEFAULT_EXCEPTION_CODE;
+				}
+				throw new APIException("■ [AOP-Catch] {} {}" , new Object[]{ typeMethodName, resultCode }, e);
 			}
 		}
 		finally {
@@ -307,7 +319,18 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 	}
 
 	
-	private void setResultLogData(Controller controlAnno, RequestMapping requestAnno, APIOperation apiOperAnno, String methodGuid, Object resultValue, String responseJSON) {
+	String getChannelId(RequestMapping requestAnno) {
+		
+		String channelId = requestAnno.value()[0];
+		if(channelId.contains(OperateConstants.STR_SLASH)) {
+			channelId = channelId.substring(channelId.lastIndexOf(OperateConstants.STR_SLASH) + OperateConstants.STR_SLASH.length());
+		}
+		
+		return channelId;
+	}
+	
+	
+	void setResultLogData(Controller controlAnno, RequestMapping requestAnno, APIOperation apiOperAnno, String methodGuid, Object resultValue, String responseJSON) {
 		
 		/***************************
 		 * [START] LOG DATA SETTING 

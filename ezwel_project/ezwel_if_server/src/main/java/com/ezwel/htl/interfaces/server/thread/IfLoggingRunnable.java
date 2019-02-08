@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
+import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractComponent;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.repository.LogRepository;
@@ -26,10 +27,16 @@ public class IfLoggingRunnable extends AbstractComponent implements Runnable {
 	private LogRepository loggerRepository;
 	
 	public IfLoggingRunnable(IfLogSDO inInterfaceLogSDO) {
+		//ThreadLocal 초기화
+		Local.commonHeader();
+		
 		this.inInterfaceLogSDO = inInterfaceLogSDO;
 	}
 	
 	public IfLoggingRunnable(List<IfLogSDO> inInterfaceLogList) {
+		//ThreadLocal 초기화
+		Local.commonHeader();
+		
 		this.inInterfaceLogList = inInterfaceLogList;
 	}
 	
@@ -38,11 +45,16 @@ public class IfLoggingRunnable extends AbstractComponent implements Runnable {
 		logger.debug("[IfLoggingRunnable-START] {}", Thread.currentThread().getName());
 		
 		loggerRepository = (LogRepository) LApplicationContext.getBean(loggerRepository, LogRepository.class);
-		if(inInterfaceLogSDO != null) {
-			loggerRepository.insertInterfaceLog(inInterfaceLogSDO);
-		} 
-		else if(inInterfaceLogList != null) {
-			loggerRepository.insertInterfaceLog(inInterfaceLogList);
+		
+		try {
+			if(inInterfaceLogSDO != null) {
+				loggerRepository.insertInterfaceLog(inInterfaceLogSDO);
+			} 
+			else if(inInterfaceLogList != null) {
+				loggerRepository.insertInterfaceLog(inInterfaceLogList);
+			}
+		}finally {
+			Local.remove();
 		}
 	}
 

@@ -26,11 +26,14 @@ import org.springframework.web.method.HandlerMethod;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
+import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
+import com.ezwel.htl.interfaces.commons.entity.CommonHeader;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.RegexUtil;
 import com.ezwel.htl.interfaces.commons.validation.ParamValidate;
@@ -583,6 +586,18 @@ public class CommonUtil {
 		}
 		
 		return out;
+	}
+	
+    
+	@APIOperation(description="initCommonHeader")
+	public static void initCommonHeader() {
+		
+		CommonHeader header = Local.commonHeader();
+		header.setClientAddress(InterfaceFactory.LOCAL_HOST_ADDRESS);
+		
+		HttpConfigSDO httpConfigSDO = new HttpConfigSDO();
+		httpConfigSDO.setHttpRequestId(OperateConstants.SYSTEM_ID);
+		Local.commonHeader().setHttpConfigSDO(httpConfigSDO);
 	}
 	
 }

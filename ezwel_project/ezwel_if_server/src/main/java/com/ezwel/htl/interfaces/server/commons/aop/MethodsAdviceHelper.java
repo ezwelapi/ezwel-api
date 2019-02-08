@@ -164,7 +164,7 @@ public class MethodsAdviceHelper {
 				else {
 					startTimeMillis = APIUtil.currentTimeMillis();
 				}
-				
+		  
 				Local.commonHeader().initInterfaceReqeustLogData(startTimeMillis);
 			}
 			/***************************
@@ -219,6 +219,7 @@ public class MethodsAdviceHelper {
 		}
 	}
 	
+	@APIOperation
 	RuntimeHeader getRuntimeHeader(String methodGuid) {
 		return Local.commonHeader().getRuntimeHeader(methodGuid);
 	}
