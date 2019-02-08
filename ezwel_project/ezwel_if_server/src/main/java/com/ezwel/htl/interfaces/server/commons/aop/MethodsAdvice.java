@@ -240,7 +240,28 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 			
 			stackTraceUtil = (StackTraceUtil) LApplicationContext.getBean(stackTraceUtil, StackTraceUtil.class);
 			
+			Boolean isAPIException = false;
+			Integer resultCode = null;
+			if(APIException.class.isAssignableFrom(e.getClass())) {
+				resultCode = ((APIException) e).getResultCode();
+				isAPIException = true;
+			}
+			else {
+				resultCode = APIException.DEFAULT_EXCEPTION_CODE;
+			}
+			
 			if(controlAnno != null && apiOperAnno != null && apiOperAnno.isOutputJsonMarshall()) {
+				
+				String message = null;
+				String detailMessage = null;
+				if(isAPIException) {
+					message = ((APIException) e).getMessages();
+					detailMessage = stackTraceUtil.getStackTrace(((APIException) e).getCause());
+				}
+				else {
+					message = MessageConstants.getMessage(resultCode);
+					detailMessage = stackTraceUtil.getStackTrace(e);
+				}
 				
         		logger.error(new StringBuffer()
             		.append(OperateConstants.LINE_SEPARATOR )
@@ -255,10 +276,10 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
     				.append( Thread.currentThread().getName() )
     				.append( OperateConstants.LINE_SEPARATOR )
             		.append( " ■■ Code : " )
-            		.append( ((APIException) e).getResultCode() )
+            		.append( resultCode )
             		.append( OperateConstants.LINE_SEPARATOR )    				
             		.append( " ■■ Message : " )
-            		.append( stackTraceUtil.getStackTrace(e) )
+            		.append( detailMessage )
             		.append( OperateConstants.LINE_SEPARATOR )
             		.append( " ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ " )
             		.append( OperateConstants.LINE_SEPARATOR )
@@ -266,9 +287,9 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
             	);
 			
 				output = new ExceptionSDO();
-				output.setCode(((APIException) e).getResultCodeString());
-				output.setMessage(((APIException) e).getMessages());
-				output.setDetailMessage(stackTraceUtil.getStackTrace(((APIException) e).getCause()));
+				output.setCode(Integer.toString(resultCode));
+				output.setMessage(message);
+				output.setDetailMessage(detailMessage);
 				
 				resultValue = output;
 				responseJSON = beanMarshaller.toJSONString(output);
@@ -276,14 +297,8 @@ public class MethodsAdvice implements MethodInterceptor, Ordered {
 				
 			}
 			else {
-				Integer resultCode = null;
-				if(APIException.class.isAssignableFrom(e.getClass())) {
-					resultCode = ((APIException) e).getResultCode();
-				}
-				else {
-					resultCode = APIException.DEFAULT_EXCEPTION_CODE;
-				}
-				throw new APIException("■ [AOP-Catch] {} {}" , new Object[]{ typeMethodName, resultCode }, e);
+				//APIException
+				throw new APIException(resultCode, "■ [AOP-Catch] {}" , new Object[]{ typeMethodName }, e);
 			}
 		}
 		finally {

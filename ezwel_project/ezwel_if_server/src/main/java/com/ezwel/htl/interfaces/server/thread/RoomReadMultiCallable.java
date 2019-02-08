@@ -38,8 +38,8 @@ public class RoomReadMultiCallable extends AbstractComponent implements Callable
 	 * @param inImageParam
 	 * @param count
 	 */
-		//ThreadLocal 초기화
 	public RoomReadMultiCallable(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO, Integer count) {
+		//ThreadLocal 초기화
 		Local.commonHeader();
 		
 		logger.debug("- RoomReadMultiService Initialized : {}", count);
@@ -54,11 +54,12 @@ public class RoomReadMultiCallable extends AbstractComponent implements Callable
 	 */
 	@Override
 	public RoomReadOutSDO call() {
-		logger.debug("[RoomReadMultiCallable-START] {}", Thread.currentThread().getName());
+		logger.debug("[START-RoomReadMultiCallable] 객실 정보 조회 쓰레드({}) : {}", count, Thread.currentThread().getName());
 		
 		RoomReadOutSDO out = null;
 		
 		try { 
+
 			if(IS_LOGGING) {
 				logger.debug("[START-RoomReadMultiService({})] 객실 정보 조회 멀티 => userAgentSDO : {}, roomReadSDO : {}", count, userAgentSDO, roomReadSDO);
 			}
@@ -71,13 +72,9 @@ public class RoomReadMultiCallable extends AbstractComponent implements Callable
 			out.setPartnerCd(userAgentSDO.getHttpAgentId());
 			out.setGrpFaclCd(roomReadSDO.getGrpFaclCd());
 			out.setFaclCd(roomReadSDO.getFaclCd());
-			
-			if(IS_LOGGING) {
-				logger.debug("[END-RoomReadMultiService({})] 객실 정보 조회 멀티 => RoomReadOutSDO : {}", count, out);
-			}
 		}
 		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, APIUtil.NVL(Local.commonHeader().getMessage(), "객실 정보 조회 멀티쓰레드 내부 장애 발생"), APIUtil.ONVL(Local.commonHeader().getThrowable(), e));
+			logger.error(APIUtil.NVL(Local.commonHeader().getMessage(), "객실 정보 조회 멀티쓰레드 내부 장애 발생"), APIUtil.ONVL(Local.commonHeader().getThrowable(), e));
 		}
 		finally {
 			
@@ -85,6 +82,7 @@ public class RoomReadMultiCallable extends AbstractComponent implements Callable
 			Local.remove();
 		}
 		
+		logger.debug("[END-RoomReadMultiCallable] 객실 정보 조회 쓰레드({}) : {}", count, Thread.currentThread().getName());
 		return out;
 	}
 	

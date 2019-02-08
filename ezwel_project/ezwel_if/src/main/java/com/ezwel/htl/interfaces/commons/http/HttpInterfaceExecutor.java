@@ -205,7 +205,7 @@ public class HttpInterfaceExecutor {
 			}
 			
 			//conn.connect();
-		} catch(APIException e) {
+		} catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 인터페이스 요청 헤더 작성중 장애발생.", e);
 		} finally {
 			if(certifications != null) {
@@ -272,7 +272,7 @@ public class HttpInterfaceExecutor {
 				//logger.debug("\n■ input parameter : \n{}", out);
 			}
 		}
-		catch(APIException e) {
+		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 입력 SDO를 JSON으로 변환과정에 장애발생", e);
 		}
 		
@@ -404,6 +404,14 @@ public class HttpInterfaceExecutor {
 				
 				errContents = APIUtil.formatMessage("■ 원격 서버 통신 장애 발생({}){}{}", in.getRestURI(), OperateConstants.LINE_SEPARATOR, (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
 				
+				/***************************
+				 * [START] LOG DATA SETTING 
+				 ***************************/
+				setIfLogData(in, out, responseOrgin);
+				/***************************
+				 * [END]   LOG DATA SETTING 
+				 ***************************/
+				
 				/** 서버측 에러 발생시 에러메시지 세팅 */
 				//logger.error("■ HttpServer Exception '{}'\n{}", in.getRestURI(), (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
 				throw new APIException(MessageConstants.RESPONSE_CODE_9200, errContents);
@@ -467,31 +475,45 @@ public class HttpInterfaceExecutor {
 		} catch (Exception e) { 
 			out = setSendJSONException(e, in, outputType);
 		} finally {
+
+			try {
+				
+				if(conn != null && (conn.getResponseCode() == 200 || conn.getResponseCode() == 201)) {
+					
+					/***************************
+					 * [START] LOG DATA SETTING 
+					 ***************************/
+					setIfLogData(in, out, responseOrgin);
+					/***************************
+					 * [END]   LOG DATA SETTING 
+					 ***************************/
+				}
+			} catch (Exception e) {
+				logger.error("[Exception-sendJSON] Check ResponseCode 장애 발생", e);
+			}
+
 			
 			if(conn != null) {
 				conn.disconnect();
 			}
-
-			/***************************
-			 * [START] LOG DATA SETTING 
-			 ***************************/
-			//logger.debug("[InterfaceResultLogData] output : {}", out);
-			Local.commonHeader().setInterfaceResultLogData(propertyUtil.getProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME), responseOrgin, APIUtil.currentTimeMillis());
-			
-			if(in.isMultiThread()) {
-				//스프링 빈이 아닌 callable의 멀티쓰레드로 실행중인경우 로그 세팅
-				propertyUtil.setProperty(out, MessageConstants.IF_LOG_FIELD_NAME, Local.commonHeader().getInterfaceLogSDO());
-			}
-			/***************************
-			 * [END]   LOG DATA SETTING 
-			 ***************************/
 			
 			logger.debug("[END] sendJSON {}", in.getRestURI());
 			return out;			
 		}
 	}
 	
-
+	@APIOperation
+	private <T extends AbstractSDO> void setIfLogData(HttpConfigSDO in, T out, String responseOrgin) {
+		
+		//logger.debug("[InterfaceResultLogData] output : {}", out);
+		Local.commonHeader().setInterfaceResultLogData(propertyUtil.getProperty(out, MessageConstants.RESPONSE_CODE_FIELD_NAME), responseOrgin, APIUtil.currentTimeMillis());
+		
+		if(in.isMultiThread() && Local.commonHeader().getIfLogSDO() != null) {
+			//스프링 빈이 아닌 callable의 멀티쓰레드로 실행중인경우 로그 세팅
+			propertyUtil.setProperty(out, MessageConstants.IF_LOG_FIELD_NAME, Local.commonHeader().getIfLogSDO());
+		}
+	}
+	
 	
 	@APIOperation(description="통신 장에 내용 세팅", isExecTest=true)
 	private <T extends AbstractSDO> T setSendJSONException(Exception e, HttpConfigSDO in, Class<T> outputType) {
@@ -528,7 +550,7 @@ public class HttpInterfaceExecutor {
 				/***************************
 				 * [START] LOG DATA SETTING 
 				 ***************************/
-				if(Local.commonHeader().getInterfaceLogSDO() != null) {
+				if(Local.commonHeader().getIfLogSDO() != null) {
 					
 					logger.debug("{}", new StringBuffer().append(OperateConstants.LINE_SEPARATOR)
 											 	.append("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 에러 정보 세팅 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■").append(OperateConstants.LINE_SEPARATOR)
@@ -536,8 +558,8 @@ public class HttpInterfaceExecutor {
 					
 					errCont = message.concat(OperateConstants.LINE_SEPARATOR).concat(APIUtil.formatMessage("■ Trace : {}", new Object[]{stackTraceUtil.getStackTrace(e)}));
 					logger.debug("#errCont# {}", errCont);
-					Local.commonHeader().getInterfaceLogSDO().setExecMsg(MessageConstants.getMessage(code)); //MessageConstants의 에러 유형 메시지
-					Local.commonHeader().getInterfaceLogSDO().setErrCont(errCont);
+					Local.commonHeader().getIfLogSDO().setExecMsg(MessageConstants.getMessage(code)); //MessageConstants의 에러 유형 메시지
+					Local.commonHeader().getIfLogSDO().setErrCont(errCont);
 				}
 				/***************************
 				 * [END]    LOG DATA SETTING 

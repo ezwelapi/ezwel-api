@@ -47,7 +47,7 @@ public class DownloadMultiCallable extends AbstractComponent implements Callable
 	 */
 	@Override
 	public ImageSDO call() throws Exception {
-		logger.debug("[DownloadMultiCallable-START] {}", Thread.currentThread().getName());
+		logger.debug("[START-DownloadMultiCallable] {}", Thread.currentThread().getName());
 		
 		ImageSDO out = null;
 		
@@ -61,10 +61,6 @@ public class DownloadMultiCallable extends AbstractComponent implements Callable
 				logger.debug("[DOWNLOAD-END] BUILD IMAGE DOWNLOAD : {}", out.isSave());
 			}
 		}
-		catch(APIException e) {
-			//이미지 다운로드중 발생한 익셉션 무시
-			logger.error("[APIException] Build Image Download : {}", getCause((Throwable) APIUtil.ONVL(Local.commonHeader().getThrowable(), e)));
-		}
 		catch(Exception e) {
 			//이미지 다운로드중 발생한 익셉션 무시
 			logger.error("[Exception] Build Image Download : {}", getCause((Throwable) APIUtil.ONVL(Local.commonHeader().getThrowable(), e)));
@@ -73,7 +69,8 @@ public class DownloadMultiCallable extends AbstractComponent implements Callable
 			//ThreadLocal 종료
 			Local.remove();
 		}
-		
+
+		logger.debug("[END-DownloadMultiCallable] {}", Thread.currentThread().getName());
 		return out;
 	}
 	

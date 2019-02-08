@@ -90,7 +90,7 @@ public class CommonHeader extends APIObject implements Serializable {
 	private Integer interfaceLogInitCount;
 
 	@APIFields(description = "인터페이스 로그")
-	private IfLogSDO interfaceLogSDO;
+	private IfLogSDO ifLogSDO;
 
 	@APIFields(description = "인터페이스 로그")
 	private List<IfLogSDO> multiIfLogList;
@@ -164,7 +164,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		isHandlerInterceptorComplete = false;
 		isControlMarshalling = false;
 		httpConfigSDO = null;
-		interfaceLogSDO = null;
+		ifLogSDO = null;
 		multiIfLogList = null;
 		interfaceLogInitCount = OperateConstants.INTEGER_ZERO_VALUE;
 		forcedApiBatcLogSave = false;
@@ -462,12 +462,12 @@ public class CommonHeader extends APIObject implements Serializable {
 		this.httpConfigSDO = httpConfigSDO;
 	}
 	
-	public IfLogSDO getInterfaceLogSDO() {
-		return interfaceLogSDO;
+	public IfLogSDO getIfLogSDO() {
+		return ifLogSDO;
 	}
 
-	public void setInterfaceLogSDO(IfLogSDO interfaceLogSDO) {
-		this.interfaceLogSDO = interfaceLogSDO;
+	public void setIfLogSDO(IfLogSDO ifLogSDO) {
+		this.ifLogSDO = ifLogSDO;
 	}
 
 	public List<IfLogSDO> getMultiIfLogList() {
@@ -542,36 +542,36 @@ public class CommonHeader extends APIObject implements Serializable {
 		
 		try {
 			
-			if(interfaceLogInitCount == 0 || interfaceLogSDO == null) {
+			if(interfaceLogInitCount == 0 || ifLogSDO == null) {
 				
-				interfaceLogSDO = new IfLogSDO();
-				interfaceLogSDO.setThedGuid(this.guid);
+				ifLogSDO = new IfLogSDO();
+				ifLogSDO.setThedGuid(this.guid);
 				
 				if(httpConfig != null) {
 					
-					interfaceLogSDO.setPartAgentId(httpConfig.getHttpAgentId());
-					interfaceLogSDO.setIfChanId(httpConfig.getChanId());
-					interfaceLogSDO.setIfChanGrpId(httpConfig.getHttpAgentGroupId());
-					interfaceLogSDO.setIfDesc(httpConfig.getDescription());
-					interfaceLogSDO.setIfApiUri(httpConfig.getRestURI());
-					interfaceLogSDO.setIfApiKey(httpConfig.getHttpApiKey());
-					interfaceLogSDO.setIfTimeStmp(httpConfig.getHttpApiTimestamp());
-					interfaceLogSDO.setIfSign(httpConfig.getHttpApiSignature()); 
-					interfaceLogSDO.setIfReqtId(httpConfig.getHttpRequestId()); 
-					interfaceLogSDO.setEncoding(httpConfig.getEncoding());
-					interfaceLogSDO.setIfReqtDirt(OperateConstants.STR_O);
+					ifLogSDO.setPartAgentId(httpConfig.getHttpAgentId());
+					ifLogSDO.setIfChanId(httpConfig.getChanId());
+					ifLogSDO.setIfChanGrpId(httpConfig.getHttpAgentGroupId());
+					ifLogSDO.setIfDesc(httpConfig.getDescription());
+					ifLogSDO.setIfApiUri(httpConfig.getRestURI());
+					ifLogSDO.setIfApiKey(httpConfig.getHttpApiKey());
+					ifLogSDO.setIfTimeStmp(httpConfig.getHttpApiTimestamp());
+					ifLogSDO.setIfSign(httpConfig.getHttpApiSignature()); 
+					ifLogSDO.setIfReqtId(httpConfig.getHttpRequestId()); 
+					ifLogSDO.setEncoding(httpConfig.getEncoding());
+					ifLogSDO.setIfReqtDirt(OperateConstants.STR_O);
 					//시작시간
 					if(execStrtMlisSecd != null && execStrtMlisSecd > OperateConstants.LONG_ZERO_VALUE) {
 						logger.debug("# 시작시간 세팅 : InputSignature > execStrtMlisSecd");
-						interfaceLogSDO.setExecStrtMlisSecd(execStrtMlisSecd);
+						ifLogSDO.setExecStrtMlisSecd(execStrtMlisSecd);
 					}
 					else if(startTimeMillis > OperateConstants.LONG_ZERO_VALUE){
 						logger.debug("# 시작시간 세팅 : Local > startTimeMillis");
-						interfaceLogSDO.setExecStrtMlisSecd(startTimeMillis);
+						ifLogSDO.setExecStrtMlisSecd(startTimeMillis);
 					}
 					else {
 						logger.debug("# 시작시간 세팅 : 신규 currentTimeMillis");
-						interfaceLogSDO.setExecStrtMlisSecd(APIUtil.currentTimeMillis());
+						ifLogSDO.setExecStrtMlisSecd(APIUtil.currentTimeMillis());
 					}
 				}
 				
@@ -586,7 +586,7 @@ public class CommonHeader extends APIObject implements Serializable {
 		}
 
 		if(interfaceLogInitCount == 0) {
-			logger.debug("[END] initInterfaceReqeustLogData({}) {}", interfaceLogInitCount, interfaceLogSDO);		
+			logger.debug("[END] initInterfaceReqeustLogData({}) {}", interfaceLogInitCount, ifLogSDO);		
 		}
 	}
 	
@@ -596,17 +596,17 @@ public class CommonHeader extends APIObject implements Serializable {
 
 		try {
 			
-			if(interfaceLogSDO != null && interfaceLogInitCount > 0) {
+			if(ifLogSDO != null && interfaceLogInitCount > 0) {
 				
 				if(httpConfig != null) {
 					
-					interfaceLogSDO.setPartAgentId(httpConfig.getHttpAgentId());
-					interfaceLogSDO.setIfChanId(httpConfig.getChanId());
-					interfaceLogSDO.setIfChanGrpId(httpConfig.getHttpAgentGroupId());
-					interfaceLogSDO.setIfDesc(httpConfig.getDescription());
-					interfaceLogSDO.setIfApiUri(httpConfig.getRestURI());
-					interfaceLogSDO.setIfApiKey(httpConfig.getHttpApiKey());
-					interfaceLogSDO.setIfReqtDirt(OperateConstants.STR_I);
+					ifLogSDO.setPartAgentId(httpConfig.getHttpAgentId());
+					ifLogSDO.setIfChanId(httpConfig.getChanId());
+					ifLogSDO.setIfChanGrpId(httpConfig.getHttpAgentGroupId());
+					ifLogSDO.setIfDesc(httpConfig.getDescription());
+					ifLogSDO.setIfApiUri(httpConfig.getRestURI());
+					ifLogSDO.setIfApiKey(httpConfig.getHttpApiKey());
+					ifLogSDO.setIfReqtDirt(OperateConstants.STR_I);
 				}
 				
 				interfaceLogInitCount++;
@@ -619,7 +619,7 @@ public class CommonHeader extends APIObject implements Serializable {
 			logger.error("[InterfaceReqeustLogData] 요청(입력) 로그 데이터 세팅 장애발생", e);
 		}
 
-		logger.debug("[END] initInterfaceCertLogData({}) {}", interfaceLogInitCount, interfaceLogSDO);		
+		logger.debug("[END] initInterfaceCertLogData({}) {}", interfaceLogInitCount, ifLogSDO);		
 	}
 	
 	@APIOperation(description="인터페이스 입력파라메터 로그 데이터 세팅")
@@ -656,17 +656,17 @@ public class CommonHeader extends APIObject implements Serializable {
 			
 			//logger.debug("[PROC] InputTelegram : {}", inptTelg.toString());
 			
-			if(interfaceLogSDO != null && interfaceLogInitCount > 0) {
+			if(ifLogSDO != null && interfaceLogInitCount > 0) {
 				
-				interfaceLogSDO.setInptTelg(inptTelg.toString());			
+				ifLogSDO.setInptTelg(inptTelg.toString());			
 				if(inptTelg.toString() != null) {
 					
 					if(httpConfig != null ) {
-						interfaceLogSDO.setInptTelgSize(new BigDecimal(inptTelg.toString().getBytes(httpConfig.getEncoding()).length));
+						ifLogSDO.setInptTelgSize(new BigDecimal(inptTelg.toString().getBytes(httpConfig.getEncoding()).length));
 					}
 				}
 				else {
-					interfaceLogSDO.setInptTelgSize(OperateConstants.BIGDECIMAL_ZERO_VALUE);
+					ifLogSDO.setInptTelgSize(OperateConstants.BIGDECIMAL_ZERO_VALUE);
 				}
 			}
 			else {
@@ -682,50 +682,50 @@ public class CommonHeader extends APIObject implements Serializable {
 	
 	@APIOperation(description="인터페이스 출력(결과) 로그 데이터 세팅")
 	public void setInterfaceResultLogData(Object code, String responseOrgin, Long execEndMlisSecd) {
-		logger.debug("[START] setInterfaceResultLogData({}) {}", code, execEndMlisSecd/*, responseOrgin, interfaceLogSDO*/);
+		logger.debug("[START] setInterfaceResultLogData({}) {}", code, execEndMlisSecd/*, responseOrgin, ifLogSDO*/);
 		
 		try {
 			
-			if(interfaceLogSDO != null && interfaceLogInitCount > 0) {
+			if(ifLogSDO != null && interfaceLogInitCount > 0) {
 				
 				//종료시간 : TotlLapMlisSecd은 세팅하지 않는다. Strt와 End만 세팅하고 TotlLapMlisSecd은 getter에서 계산한다.
 				if(execEndMlisSecd != null && execEndMlisSecd > OperateConstants.LONG_ZERO_VALUE) {
 					logger.debug("# 종료시간 세팅 : InputSignature > execEndMlisSecd");
-					interfaceLogSDO.setExecEndMlisSecd(execEndMlisSecd);
+					ifLogSDO.setExecEndMlisSecd(execEndMlisSecd);
 				}
 				else if(endTimeMillis > OperateConstants.LONG_ZERO_VALUE) {
 					logger.debug("# 종료시간 세팅 : Local > endTimeMillis");
-					interfaceLogSDO.setExecEndMlisSecd(endTimeMillis);
+					ifLogSDO.setExecEndMlisSecd(endTimeMillis);
 				}
 				else {
 					logger.debug("# 종료시간 세팅 : 신규 currentTimeMillis");
-					interfaceLogSDO.setExecEndMlisSecd(APIUtil.currentTimeMillis());
+					ifLogSDO.setExecEndMlisSecd(APIUtil.currentTimeMillis());
 				}
 				
-				interfaceLogSDO.setOutpTelg(responseOrgin);
+				ifLogSDO.setOutpTelg(responseOrgin);
 				
 				if(responseOrgin != null) {
-					interfaceLogSDO.setOutpTelgSize(new BigDecimal(responseOrgin.getBytes(interfaceLogSDO.getEncoding()).length));
+					ifLogSDO.setOutpTelgSize(new BigDecimal(responseOrgin.getBytes(ifLogSDO.getEncoding()).length));
 				}
 				else {
-					interfaceLogSDO.setOutpTelgSize(OperateConstants.BIGDECIMAL_ZERO_VALUE);
+					ifLogSDO.setOutpTelgSize(OperateConstants.BIGDECIMAL_ZERO_VALUE);
 				}
 				
 				if(code != null && String.class.isAssignableFrom(code.getClass())) {
 					
 					if(((String) code).equals(Integer.toString(MessageConstants.RESPONSE_CODE_1000))) {
-						interfaceLogSDO.setSuccYn(OperateConstants.STR_Y);
+						ifLogSDO.setSuccYn(OperateConstants.STR_Y);
 					}
 					else {
-						interfaceLogSDO.setSuccYn(OperateConstants.STR_N);
+						ifLogSDO.setSuccYn(OperateConstants.STR_N);
 					}
 					
-					if(APIUtil.isEmpty(interfaceLogSDO.getExecMsg())) {
-						interfaceLogSDO.setExecMsg(MessageConstants.getMessage(Integer.parseInt((String) code)));
+					if(APIUtil.isEmpty(ifLogSDO.getExecMsg())) {
+						ifLogSDO.setExecMsg(MessageConstants.getMessage(Integer.parseInt((String) code)));
 					}
 				}
 				else {
-					interfaceLogSDO.setSuccYn(OperateConstants.STR_N);
+					ifLogSDO.setSuccYn(OperateConstants.STR_N);
 				}
 			}
 			else {
@@ -736,29 +736,29 @@ public class CommonHeader extends APIObject implements Serializable {
 			logger.error("[setInterfaceResultLogData] 응답(결과) 로그 데이터 세팅 장애발생", e);
 		}
 		
-		logger.debug("[END] setInterfaceResultLogData({}) ExecMsg : {}", code, (interfaceLogSDO != null ? interfaceLogSDO.getExecMsg() : null));
+		logger.debug("[END] setInterfaceResultLogData({}) ExecMsg : {}", code, (ifLogSDO != null ? ifLogSDO.getExecMsg() : null));
 	}
 	
 	@APIOperation(description="인터페이스 실행 에러 메시지 세팅")
 	public void setInterfaceExecErrorMsg(String execMsg) {
     	
-		if(interfaceLogSDO != null && execMsg != null) {
+		if(ifLogSDO != null && execMsg != null) {
 			
 			if(apiUtil.getBytesLength(execMsg, OperateConstants.DEFAULT_ENCODING) > 2000) {
 				execMsg =  APIUtil.byteSubstring(execMsg, 0, 1970, OperateConstants.DEFAULT_ENCODING).concat("...");
 			}
 			
-			interfaceLogSDO.setExecMsg(execMsg); 
-			Local.commonHeader().getInterfaceLogSDO().setSuccYn(OperateConstants.STR_N);
+			ifLogSDO.setExecMsg(execMsg); 
+			Local.commonHeader().getIfLogSDO().setSuccYn(OperateConstants.STR_N);
 		}
     }
     
 	@APIOperation(description="인터페이스 에러내용 세팅")
 	public void setInterfaceErrorCont(String errCont) {
     	
-		if(interfaceLogSDO != null && errCont != null) {
-			interfaceLogSDO.setErrCont(errCont);
-			Local.commonHeader().getInterfaceLogSDO().setSuccYn(OperateConstants.STR_N);
+		if(ifLogSDO != null && errCont != null) {
+			ifLogSDO.setErrCont(errCont);
+			Local.commonHeader().getIfLogSDO().setSuccYn(OperateConstants.STR_N);
 		}
     }
 

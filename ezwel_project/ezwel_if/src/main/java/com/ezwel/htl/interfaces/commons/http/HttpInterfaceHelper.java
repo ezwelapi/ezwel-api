@@ -5,13 +5,13 @@ import java.util.concurrent.Callable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.http.data.MultiHttpConfigSDO;
 import com.ezwel.htl.interfaces.commons.thread.Local;
+import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 
 
@@ -39,6 +39,9 @@ public class HttpInterfaceHelper implements Callable<AbstractSDO> {
 	private PropertyUtil propertyUtil;
 	
 	public HttpInterfaceHelper(MultiHttpConfigSDO multiHttpConfigDTO) {
+		//ThreadLocal 초기화
+		Local.commonHeader();
+		
 		if(httpInterface == null) {
 			this.httpInterface = new HttpInterfaceExecutor();
 		}
@@ -52,25 +55,38 @@ public class HttpInterfaceHelper implements Callable<AbstractSDO> {
 	
 	@Override
 	public AbstractSDO call() throws Exception {
-		logger.debug("[START] HttpInterfaceHelper ThreadName : {}", Thread.currentThread().getName());
+		logger.debug("[HttpInterfaceHelper-START] ThreadName : {}", Thread.currentThread().getName());
 		//logger.debug("[START] Time : {}, Thread Name : {}, httpConfig : {}",  new Date(), Thread.currentThread().getName(), multiHttpConfigDTO);
-		//인터페이스 실행
-		multiHttpConfigDTO.getHttpConfigDTO().setMultiThread(true);
-		Object output = httpInterface.sendJSON(multiHttpConfigDTO.getHttpConfigDTO(), multiHttpConfigDTO.getInputDTO(), multiHttpConfigDTO.getOutputType());
+		AbstractSDO out = null;
+		try {
+			
+			//인터페이스 실행
+			multiHttpConfigDTO.getHttpConfigDTO().setMultiThread(true);
+			Object output = httpInterface.sendJSON(multiHttpConfigDTO.getHttpConfigDTO(), multiHttpConfigDTO.getInputDTO(), multiHttpConfigDTO.getOutputType());
 
-		if(output != null) {
-			//logger.debug("$output : {}", output);
-			//setup httpAgentId
-			propertyUtil.setProperty(output, OperateConstants.FIELD_HTTP_AGENT_ID, multiHttpConfigDTO.getHttpConfigDTO().getHttpAgentId());
-			//setup httpAgentDesc
-			propertyUtil.setProperty(output, OperateConstants.FIELD_HTTP_AGENT_DESC, multiHttpConfigDTO.getHttpConfigDTO().getDescription());
-			//setup patnCdType
-			propertyUtil.setProperty(output, OperateConstants.FIELD_PATN_CD_TYPE, multiHttpConfigDTO.getHttpConfigDTO().getPatnCdType());
+			if(output != null) {
+				//logger.debug("$output : {}", output);
+				//setup httpAgentId
+				propertyUtil.setProperty(output, OperateConstants.FIELD_HTTP_AGENT_ID, multiHttpConfigDTO.getHttpConfigDTO().getHttpAgentId());
+				//setup httpAgentDesc
+				propertyUtil.setProperty(output, OperateConstants.FIELD_HTTP_AGENT_DESC, multiHttpConfigDTO.getHttpConfigDTO().getDescription());
+				//setup patnCdType
+				propertyUtil.setProperty(output, OperateConstants.FIELD_PATN_CD_TYPE, multiHttpConfigDTO.getHttpConfigDTO().getPatnCdType());
+			}
+			//setup output 
+			out = (AbstractSDO) output;
+			//결과 리턴
 		}
-		//setup output 
-		AbstractSDO out = (AbstractSDO) output;
-		//결과 리턴
-		logger.debug("[END] HttpInterfaceHelper ThreadName : {}", Thread.currentThread().getName());
+		catch(Exception e) {
+			logger.error(APIUtil.NVL(Local.commonHeader().getMessage(), "멀티쓰레드 인터페이스 장애 발생"), APIUtil.ONVL(Local.commonHeader().getThrowable(), e));
+		}		
+		finally {
+			
+			//ThreadLocal 종료
+			Local.remove();
+		}
+		
+		logger.debug("[HttpInterfaceHelper-END] ThreadName : {}", Thread.currentThread().getName());
 		return out;
 	}
 
