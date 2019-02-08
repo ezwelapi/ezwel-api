@@ -43,14 +43,8 @@ INSERT INTO EZC_CACHE_MIN_AMT(	/* CACHE 최저가 정보 */
 
 <select id="selectEzcPartnerGoodsMinAmt" parameterType="ezcCacheMinAmt" resultType="ezcCacheMinAmt">
 SELECT
-     NVL(EZC_CACHE_MIN_AMT.CHECK_IN_DD, #{checkInDd, jdbcType=VARCHAR}) AS checkInDd    /* 체크인 일자, VARCHAR2(8) */
-    ,NVL(EZC_CACHE_MIN_AMT.CHECK_OUT_DD, #{checkOutDd, jdbcType=VARCHAR}) AS checkOutDd    /* 체크아웃 일자, VARCHAR2(8) */
-    ,EZC_MAPPING_FACL.GRP_FACL_CD AS grpFaclCd    /* 그룹 시설 코드, NUMBER(0,22) */
+     EZC_MAPPING_FACL.GRP_FACL_CD AS grpFaclCd    /* 그룹 시설 코드, NUMBER(0,22) */
     ,EZC_MAPPING_FACL.FACL_CD AS faclCd    /* 시설 코드, NUMBER(0,22) */
-    ,NVL(EZC_CACHE_MIN_AMT.ROOM_MIN_PRICE, #{roomMinPrice, jdbcType=NUMERIC}) AS roomMinPrice    /* 객실 최저가, NUMBER(0,22) */
-    ,NVL(EZC_CACHE_MIN_AMT.SP_ROOM_MIN_PRICE, #{spRoomMinPrice, jdbcType=NUMERIC}) AS spRoomMinPrice    /* 특가최저가, NUMBER(0,22) */
-    ,NVL(EZC_CACHE_MIN_AMT.ROOM_NET_PRICE, #{roomNetPrice, jdbcType=DECIMAL}) AS roomNetPrice
-    ,NVL(EZC_CACHE_MIN_AMT.SP_ROOM_NET_PRICE, #{spRoomNetPrice, jdbcType=DECIMAL}) AS spRoomNetPrice
 FROM
      EZC_FACL
     ,EZC_MAPPING_FACL
@@ -61,6 +55,9 @@ WHERE 1=1
     AND EZC_MAPPING_FACL.FACL_CD = EZC_CACHE_MIN_AMT.FACL_CD(+)
     AND EZC_FACL.PARTNER_GOODS_CD = #{partnerGoodsCd, jdbcType=VARCHAR}
     AND EZC_FACL.PARTNER_CD = #{partnerCd, jdbcType=VARCHAR}
+GROUP BY
+	 EZC_MAPPING_FACL.GRP_FACL_CD
+	,EZC_MAPPING_FACL.FACL_CD   
 </select>
 
 

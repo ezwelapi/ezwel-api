@@ -939,21 +939,24 @@ public class OutsideRepository extends AbstractDataAccessObject {
 				//logger.debug("$data : {} ", data);
 				
 				inCacheMinAmt = new EzcCacheMinAmt();
-				inCacheMinAmt.setCheckInDd(faclSearchDTO.getCheckInDate());
-				inCacheMinAmt.setCheckOutDd(faclSearchDTO.getCheckOutDate());
-				inCacheMinAmt.setRoomMinPrice(new BigDecimal(data.getSellPrice())); //객실 최저가
-				inCacheMinAmt.setSpRoomMinPrice(new BigDecimal(data.getSpcPrice())); //특가최저가
-				inCacheMinAmt.setRoomNetPrice(new BigDecimal(data.getSellNorPrice())); //객실 정상가
-				inCacheMinAmt.setSpRoomNetPrice(new BigDecimal(data.getSpcNorPrice())); //특가 정상가
 				inCacheMinAmt.setPartnerGoodsCd(data.getPdtNo()); //상품코드
 				inCacheMinAmt.setPartnerCd(new BigDecimal(datas.getHttpAgentId())); //제휴사코드
 				
 				outCacheMinAmt = sqlSession.selectOne(getNamespace("CACHE_MIN_AMT_MAPPER", "selectEzcPartnerGoodsMinAmt"), inCacheMinAmt);
 				
 				if(outCacheMinAmt != null) {
+					outCacheMinAmt.setCheckInDd(faclSearchDTO.getCheckInDate());	//증가
+					outCacheMinAmt.setCheckOutDd(faclSearchDTO.getCheckOutDate()); //증가
+					outCacheMinAmt.setRoomMinPrice(new BigDecimal(data.getSellPrice())); //객실 최저가 전문
+					outCacheMinAmt.setSpRoomMinPrice(new BigDecimal(data.getSpcPrice())); //특가최저가 전문
+					outCacheMinAmt.setRoomNetPrice(new BigDecimal(data.getSellNorPrice())); //객실 정상가 전문
+					outCacheMinAmt.setSpRoomNetPrice(new BigDecimal(data.getSpcNorPrice())); //특가 정상가 전문
+					
 					txCount += sqlSession.update(getNamespace("CACHE_MIN_AMT_MAPPER", "mergeEzcCacheMinAmt"), outCacheMinAmt);
 				}
-				
+				else {
+					logger.warn("- 제휴사코드 {}의 상품코드 {}에 해당하는 그룹시설정보가 존재하지 않습니다.", datas.getHttpAgentId(), data.getPdtNo());
+				}
 			}
 		}
 		catch(Exception e) {
