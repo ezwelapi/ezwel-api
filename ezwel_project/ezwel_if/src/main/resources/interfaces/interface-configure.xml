@@ -69,8 +69,8 @@
 		 	<port>25</port>
 		 	<from>webmaster@ezwel.com</from>
 		 	<fromName>이지웰</fromName>
-		 	<userName>yanagi10</userName>
-		 	<passWord>20312@jong</passWord>
+		 	<userName>ebsolutions</userName>
+		 	<passWord>dlqlthffntuswm</passWord>
 		 	<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</mailConfig>
