@@ -124,7 +124,7 @@ public class OutsideController {
 		return out;
 	}
 
-	@APIOperation(description = "시설검색(최저가 정보) 인터페이스", isOutputJsonMarshall = true, returnType = FaclSearchOutSDO.class)
+	@APIOperation(description = "최저가 시설검색 인터페이스", isOutputJsonMarshall = true, returnType = FaclSearchOutSDO.class)
 	@RequestMapping(value = "/callFaclSearch")
 	public Object callFaclSearch(UserAgentSDO userAgentSDO, FaclSearchInSDO faclSearchSDO) {
 
@@ -144,16 +144,6 @@ public class OutsideController {
 		return out;
 	}
 
-	@APIOperation(description = "직영숙박 조회 인터페이스", isOutputJsonMarshall = true, returnType = RoomReadOutSDO.class)
-	@RequestMapping(value = "/findGuestRoomList")
-	public Object findGuestRoomList(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
-		logger.debug("[START] findGuestRoomList {} {}", userAgentSDO, roomReadSDO);
-		
-		outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
-		RoomReadOutSDO out = outsideService.findGuestRoomList(userAgentSDO, roomReadSDO);
-		
-		return out;
-	}
 	
 	/**************************************
 	 * [START] ezwel_if API

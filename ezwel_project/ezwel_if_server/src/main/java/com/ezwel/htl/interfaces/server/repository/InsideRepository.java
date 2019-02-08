@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
@@ -20,6 +21,7 @@ import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
 import com.ezwel.htl.interfaces.server.commons.utils.CryptoUtil;
 import com.ezwel.htl.interfaces.server.entities.EzcFacl;
+import com.ezwel.htl.interfaces.server.entities.EzcGuestRoom;
 import com.ezwel.htl.interfaces.server.entities.EzcReservBase;
 import com.ezwel.htl.interfaces.server.entities.EzcReservRoomOpt;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
@@ -281,5 +283,23 @@ public class InsideRepository extends AbstractDataAccessObject {
 		return out;
 	}
 	
-	
+
+	@Transactional(readOnly=true)
+	@APIOperation(description = "직영숙박 목록조회")
+	public List<EzcGuestRoom> selectGuestRoomList(EzcGuestRoom ezcGuestRoom) {
+		logger.debug("[START] selectGuestRoomList {} {}", ezcGuestRoom);
+		
+		List<EzcGuestRoom> out = null;
+		
+		try {
+			
+			out = sqlSession.selectList(getNamespace("GUEST_ROOM_MAPPER", "selectListGuestRoom"), ezcGuestRoom);
+		}
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "직영숙박 목록조회 장애발생", e);
+		}
+		
+		logger.debug("[END] selectGuestRoomList data size : {}", (out != null ? out.size() : 0));
+		return out;
+	}
 }

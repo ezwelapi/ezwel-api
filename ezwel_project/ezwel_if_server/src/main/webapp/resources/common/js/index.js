@@ -178,7 +178,7 @@ var $interface = {
 				"readTimeout": 100000	/* {setClientUserData} */
 			}
 		},
-		"OUT-시설검색 인터페이스" : {
+		"OUT-최저가 시설검색 인터페이스" : {
 			 url : requestNamespace + "/callFaclSearch"
 			,input : {
 				userAgentSDO : {

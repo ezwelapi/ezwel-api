@@ -367,7 +367,7 @@
 		</httpChan>
 		<!-- 전체시설일괄등록 END -->
 		
-		<!-- 시설검색 START (멀티쓰레드 인터페이스체널) -->
+		<!-- 최저가 시설검색 START (멀티쓰레드 인터페이스체널) -->
 		<httpChan>
 			<agentNo>01</agentNo>
 			<description>시설검색(최저가 정보)-호텔엔조이(메이트아이)</description>
