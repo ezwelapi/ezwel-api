@@ -10,20 +10,26 @@ import org.springframework.stereotype.Service;
 import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.configure.InterfaceFactory;
+import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
 import com.ezwel.htl.interfaces.commons.http.HttpInterfaceExecutor;
 import com.ezwel.htl.interfaces.commons.http.data.HttpConfigSDO;
+import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
+import com.ezwel.htl.interfaces.server.entities.EzcGuestRoom;
 import com.ezwel.htl.interfaces.server.repository.InsideRepository;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.record.RecordInSDO;
 import com.ezwel.htl.interfaces.service.data.record.RecordOutSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadDataOutSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopInSDO;
 import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopOutSDO;
 import com.ezwel.htl.interfaces.service.data.view.ViewInSDO;
@@ -49,6 +55,8 @@ public class InsideService {
 	private OutsideService outsideService;
 	
 	private HttpInterfaceExecutor inteface;
+	
+	private PropertyUtil propertyUtil;
 	
 	@APIOperation(description="신규시설등록수정 인터페이스")
 	public RecordOutSDO callRecord(RecordInSDO recordSDO) throws APIException, Exception {
@@ -133,4 +141,41 @@ public class InsideService {
 		return out;
 	}
 	
+	
+
+	@APIOperation(description = "직영숙박 DB조회")
+	public RoomReadOutSDO findGuestRoomList(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
+		logger.debug("[START] findGuestRoomList {} {}", userAgentSDO, roomReadSDO);
+		
+		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		insideRepository = (InsideRepository) LApplicationContext.getBean(insideRepository, InsideRepository.class);
+		
+		RoomReadOutSDO out = null;
+		RoomReadDataOutSDO roomReadData = null; 
+		EzcGuestRoom inGuestRoom = null;
+		List<EzcGuestRoom> outGuestRoomList = null;
+		
+		try {
+			out = new RoomReadOutSDO();
+			
+			inGuestRoom = (EzcGuestRoom) propertyUtil.copySameProperty(roomReadSDO, EzcGuestRoom.class);
+			outGuestRoomList = insideRepository.selectGuestRoomList(inGuestRoom);
+			
+			if(outGuestRoomList != null && outGuestRoomList.size() > 0) {
+				for(EzcGuestRoom data : outGuestRoomList) {
+					roomReadData = (RoomReadDataOutSDO) propertyUtil.copySameProperty(data, RoomReadDataOutSDO.class); 
+					out.addData(roomReadData);
+				}
+			}
+			else {
+				out.setMessage("객실 정보가 존재하지 않습니다.");
+			}
+		}
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "직영숙박 객실정보조회 장애발생.", e);
+		}
+		
+		logger.debug("[END] findGuestRoomList data size : {}", (out != null && out.getData() != null ? out.getData().size() : 0));
+		return out;
+	}
 }

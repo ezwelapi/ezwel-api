@@ -1729,40 +1729,5 @@ public class OutsideService extends AbstractServiceObject {
 	}
 	
 	
-	@APIOperation(description = "직영숙박 DB조회")
-	public RoomReadOutSDO findGuestRoomList(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
-		logger.debug("[START] findGuestRoomList {} {}", userAgentSDO, roomReadSDO);
-		
-		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
-		outsideRepository = (OutsideRepository) LApplicationContext.getBean(outsideRepository, OutsideRepository.class);
-		
-		RoomReadOutSDO out = null;
-		RoomReadDataOutSDO roomReadData = null; 
-		EzcGuestRoom inGuestRoom = null;
-		List<EzcGuestRoom> outGuestRoomList = null;
-		
-		try {
-			out = new RoomReadOutSDO();
-			
-			inGuestRoom = (EzcGuestRoom) propertyUtil.copySameProperty(roomReadSDO, EzcGuestRoom.class);
-			outGuestRoomList = outsideRepository.selectGuestRoomList(inGuestRoom);
-			
-			if(outGuestRoomList != null && outGuestRoomList.size() > 0) {
-				for(EzcGuestRoom data : outGuestRoomList) {
-					roomReadData = (RoomReadDataOutSDO) propertyUtil.copySameProperty(data, RoomReadDataOutSDO.class); 
-					out.addData(roomReadData);
-				}
-			}
-			else {
-				out.setMessage("객실 정보가 존재하지 않습니다.");
-			}
-		}
-		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "직영숙박 객실정보조회 장애발생.", e);
-		}
-		
-		
-		return out;
-	}
 	
 }

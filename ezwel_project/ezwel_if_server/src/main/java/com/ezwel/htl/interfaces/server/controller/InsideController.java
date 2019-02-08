@@ -9,13 +9,17 @@ import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.http.data.UserAgentSDO;
 import com.ezwel.htl.interfaces.server.commons.interfaces.RequestNamespace;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.service.InsideService;
+import com.ezwel.htl.interfaces.server.service.OutsideService;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
 import com.ezwel.htl.interfaces.service.data.record.RecordInSDO;
 import com.ezwel.htl.interfaces.service.data.record.RecordOutSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
+import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopInSDO;
 import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopOutSDO;
 import com.ezwel.htl.interfaces.service.data.view.ViewInSDO;
@@ -165,5 +169,16 @@ public class InsideController {
 		return out;
 	}
 	
+
+	@APIOperation(description = "직영숙박 조회 인터페이스", isOutputJsonMarshall = true, returnType = RoomReadOutSDO.class)
+	@RequestMapping(value = "/findGuestRoomList")
+	public Object findGuestRoomList(UserAgentSDO userAgentSDO, RoomReadInSDO roomReadSDO) {
+		logger.debug("[START] findGuestRoomList {} {}", userAgentSDO, roomReadSDO);
+		
+		insideService = (InsideService) LApplicationContext.getBean(insideService, OutsideService.class);
+		RoomReadOutSDO out = insideService.findGuestRoomList(userAgentSDO, roomReadSDO);
 	
+		logger.debug("[END] findGuestRoomList out : {}", out);
+		return out;
+	}
 }

@@ -1073,22 +1073,5 @@ public class OutsideRepository extends AbstractDataAccessObject {
 		return out;
 	}
 	
-	@Transactional(readOnly=true)
-	@APIOperation(description = "직영숙박 목록조회")
-	public List<EzcGuestRoom> selectGuestRoomList(EzcGuestRoom ezcGuestRoom) {
-		logger.debug("[START] selectGuestRoomList {} {}", ezcGuestRoom);
-		
-		List<EzcGuestRoom> out = null;
-		
-		try {
-			
-			out = sqlSession.selectList(getNamespace("GUEST_ROOM_MAPPER", "selectListGuestRoom"), ezcGuestRoom);
-		}
-		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "직영숙박 목록조회 장애발생", e);
-		}
-		
-		return out;
-	}
 	
 }
