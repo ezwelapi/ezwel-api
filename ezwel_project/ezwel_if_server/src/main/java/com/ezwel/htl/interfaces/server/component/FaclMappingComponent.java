@@ -53,7 +53,6 @@ public class FaclMappingComponent {
 		List<EzcFacl> out = null;
 		//비교 기준 객체
 		EzcFacl faclMorp = null;
-		EzcFacl faclGrpMorp = null;
 		String[] faclKorRootMorpArray = null;
 		String[] faclEngRootMorpArray = null;
 		Set<BigDecimal> childfaclCdFilter = null;
@@ -305,7 +304,7 @@ public class FaclMappingComponent {
 				}//# end i for
 			}
 		}
-		catch(APIException e) {
+		catch(Exception e) {
 			isExcpetion = true;
 			throw new APIException(MessageConstants.RESPONSE_CODE_9600, "시설 데이터 매핑 중 장애 발생", e);
 		}

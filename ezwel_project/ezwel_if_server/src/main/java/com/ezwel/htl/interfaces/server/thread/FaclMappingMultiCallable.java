@@ -58,7 +58,7 @@ public class FaclMappingMultiCallable extends AbstractComponent implements Calla
 	 */
 	@Override
 	public List<EzcFacl> call() {
-		logger.debug("[FaclMappingMultiCallable-START] {}", Thread.currentThread().getName());
+		logger.debug("[START-FaclMappingMultiCallable] {}", Thread.currentThread().getName());
 		
 		List<EzcFacl> out = null;
 		List<EzcFacl> faclMorpSearchList = null;
@@ -69,7 +69,7 @@ public class FaclMappingMultiCallable extends AbstractComponent implements Calla
 			outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
 			
 			if(IS_LOGGING) { 
-				logger.debug("[START-FaclMappingMulti({})] 다중 시설 매핑 : {}", count, faclCode);
+				logger.debug("[PROC-FaclMappingMulti({})] 다중 시설 매핑 : {}", count, faclCode);
 			}
 			//::DB 도시,지역,숙소유형,숙소등급 파라매터의 시설코드별 형태소 목록  ( FACL_MORP_PAGE_SIZE 개수 만큼 끊어 읽음 속도 및 타임아웃 이슈 )
 			faclMorpSearchList = outsideService.getFaclMappingMorpDataList(new ArrayList<EzcFacl>(), faclCode, 1, OutsideService.FACL_MORP_PAGE_SIZE);
@@ -92,11 +92,11 @@ public class FaclMappingMultiCallable extends AbstractComponent implements Calla
 			}
 			
 			if(IS_LOGGING) {
-				logger.debug("[END-FaclMappingMulti({})] 다중 시설 매핑 : {}", count, (out != null ? out.size() : 0));
+				logger.debug("[PROC-FaclMappingMulti({})] 다중 시설 매핑 : {}", count, (out != null ? out.size() : 0));
 			}
 		}
 		catch(Exception e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9600, APIUtil.NVL(Local.commonHeader().getMessage(), "그룹별 시설 데이터 조회 및  시설 데이터 매핑 중 장애 발생"), APIUtil.ONVL(Local.commonHeader().getThrowable(), e));
+			logger.error(APIUtil.NVL(Local.commonHeader().getMessage(), "그룹별 시설 데이터 조회 및  시설 데이터 매핑 중 장애 발생"), APIUtil.ONVL(Local.commonHeader().getThrowable(), e));
 		}
 		finally {
 			//시도/지역/숙소유형/시설유형 그룹별  시설 목록 clear 
@@ -108,6 +108,7 @@ public class FaclMappingMultiCallable extends AbstractComponent implements Calla
 			Local.remove();
 		}
 		
+		logger.debug("[END-FaclMappingMultiCallable] {}", Thread.currentThread().getName());
 		return out;
 	}
 	

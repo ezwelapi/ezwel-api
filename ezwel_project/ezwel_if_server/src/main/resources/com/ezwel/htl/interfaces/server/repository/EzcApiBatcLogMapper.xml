@@ -260,4 +260,10 @@ WHERE 1=1
 </delete>
 
 
+<delete id="deletePrevEzcApiBatcLog">
+DELETE FROM EZC_API_BATC_LOG /* EZC API 배치 로그 */
+WHERE 1=1
+	AND TO_CHAR(INPT_DT, 'yyyyMMdd')  &lt; TO_CHAR((SYSDATE - 2), 'yyyyMMdd')	/* 입력일자가 오늘로부터 2일전 모든 데이터 */
+</delete>
+
 </mapper>

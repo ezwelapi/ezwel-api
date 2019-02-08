@@ -17,9 +17,9 @@ import com.ezwel.htl.interfaces.commons.thread.Local;
 import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.CommonUtil;
-import com.ezwel.htl.interfaces.server.controller.OutsideController;
 import com.ezwel.htl.interfaces.server.sdo.FaclSDO;
 import com.ezwel.htl.interfaces.server.sdo.TransactionOutSDO;
+import com.ezwel.htl.interfaces.server.service.LogService;
 import com.ezwel.htl.interfaces.server.service.OutsideService;
 import com.ezwel.htl.interfaces.service.data.allReg.AllRegOutSDO;
 import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
@@ -33,6 +33,8 @@ public class EzwelBatchJobExecutor {
 	private static final Logger logger = LoggerFactory.getLogger(EzwelBatchJobExecutor.class);
 	
 	private OutsideService outsideService;
+	
+	private LogService logService;
 	
 	private boolean isInitApplication = false;
 	
@@ -266,4 +268,15 @@ public class EzwelBatchJobExecutor {
 		logger.debug("[END-Scheduled] allSddSearchJob end-time : {} {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT), out);
 	}
 	
+	
+	//초 분 시 일 월 주(년)
+	@Scheduled(cron="0 10 0 * * ?")
+	@APIOperation(description="오늘로부터 2일전 인터페이스 로그와 API 배치로그 삭제")
+	public void deleteLogData() {
+		
+		logService = (LogService) LApplicationContext.getBean(logService, LogService.class);
+		
+		Integer out = logService.deleteLogData();
+		logger.warn("[PROC-END] deleteLogData totalCount : {}", out);
+	}
 }

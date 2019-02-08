@@ -39,6 +39,7 @@ public class LogService {
 	public IfLogSDO countListEzcIfLog(IfLogSDO interfaceLogSDO) throws APIException {
 		logger.debug("[START] countListEzcIfLog");
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		logRepository = (LogRepository) LApplicationContext.getBean(logRepository, LogRepository.class);
 		
 		IfLogSDO out = new IfLogSDO(); 
 		EzcIfLog inEzcIfLog = (EzcIfLog) propertyUtil.copySameProperty(interfaceLogSDO, EzcIfLog.class);
@@ -53,6 +54,7 @@ public class LogService {
 	public List<IfLogSDO> selectListEzcIfLog(IfLogSDO interfaceLogSDO) throws APIException {
 		logger.debug("[START] selectListEzcIfLog");
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		logRepository = (LogRepository) LApplicationContext.getBean(logRepository, LogRepository.class);
 		
 		EzcIfLog inEzcIfLog = (EzcIfLog) propertyUtil.copySameProperty(interfaceLogSDO, EzcIfLog.class);
 		List<EzcIfLog> outEzcIfLogList = logRepository.selectListEzcIfLog(inEzcIfLog);
@@ -72,6 +74,7 @@ public class LogService {
 	public IfLogSDO selectEzcIfLog(IfLogSDO interfaceLogSDO) throws APIException {
 		logger.debug("[START] selectEzcIfLog");
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		logRepository = (LogRepository) LApplicationContext.getBean(logRepository, LogRepository.class);
 		
 		EzcIfLog inEzcIfLog = (EzcIfLog) propertyUtil.copySameProperty(interfaceLogSDO, EzcIfLog.class);
 		EzcIfLog outEzcIfLog = logRepository.selectEzcIfLog(inEzcIfLog);
@@ -85,6 +88,7 @@ public class LogService {
 	public ApiBatcLogSDO countListEzcApiBatcLog(ApiBatcLogSDO apiBatcLogSDO) throws APIException {
 		logger.debug("[START] countListEzcApiBatcLog");
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		logRepository = (LogRepository) LApplicationContext.getBean(logRepository, LogRepository.class);
 		
 		ApiBatcLogSDO out = new ApiBatcLogSDO(); 
 		EzcApiBatcLog inEzcApiBatcLog = (EzcApiBatcLog) propertyUtil.copySameProperty(apiBatcLogSDO, EzcApiBatcLog.class);
@@ -99,6 +103,7 @@ public class LogService {
 	public List<ApiBatcLogSDO> selectListEzcApiBatcLog(ApiBatcLogSDO apiBatcLogSDO) throws APIException {
 		logger.debug("[START] selectListEzcApiBatcLog");
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		logRepository = (LogRepository) LApplicationContext.getBean(logRepository, LogRepository.class);
 		
 		EzcApiBatcLog inEzcApiBatcLog = (EzcApiBatcLog) propertyUtil.copySameProperty(apiBatcLogSDO, EzcApiBatcLog.class);
 		List<EzcApiBatcLog> outEzcApiBatcLogList = logRepository.selectListEzcApiBatcLog(inEzcApiBatcLog);
@@ -118,12 +123,25 @@ public class LogService {
 	public ApiBatcLogSDO selectEzcApiBatcLog(ApiBatcLogSDO apiBatcLogSDO) throws APIException {
 		logger.debug("[START] selectEzcApiBatcLog");
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		logRepository = (LogRepository) LApplicationContext.getBean(logRepository, LogRepository.class);
 		
 		EzcApiBatcLog inEzcApiBatcLog = (EzcApiBatcLog) propertyUtil.copySameProperty(apiBatcLogSDO, EzcApiBatcLog.class);
 		EzcApiBatcLog outEzcApiBatcLog = logRepository.selectEzcApiBatcLog(inEzcApiBatcLog);
 		ApiBatcLogSDO out = (ApiBatcLogSDO) propertyUtil.copySameProperty(outEzcApiBatcLog, ApiBatcLogSDO.class);
 		
 		logger.debug("[END] selectEzcApiBatcLog");
+		return out;
+	}
+	
+	
+	@APIOperation(description="오늘로부터 2일전 인터페이스 로그와 API 배치로그 삭제")
+	public Integer deleteLogData() throws APIException {
+		logger.debug("[START] deleteLogData");
+		logRepository = (LogRepository) LApplicationContext.getBean(logRepository, LogRepository.class);
+		
+		Integer out = logRepository.deleteLogData();
+		
+		logger.debug("[END] deleteLogData delete log count : {}", out);
 		return out;
 	}
 	

@@ -359,14 +359,14 @@ public class MethodsAdviceHelper {
     @APIOperation
 	void processLogger(String pointcutType, JoinPoint thisJoinPoint) {
 		if(IS_LOGGING) {
-			logger.debug("[PROC] processLogger => pointcutType : {}, thisJoinPoint : {}, InterfaceLogSDO : {}", pointcutType, thisJoinPoint, Local.commonHeader().getInterfaceLogSDO());
+			logger.debug("[PROC] processLogger => pointcutType : {}, thisJoinPoint : {}, InterfaceLogSDO : {}", pointcutType, thisJoinPoint, Local.commonHeader().getIfLogSDO());
 		}
 		
 		APIOperation apiOperAnno = ((MethodSignature) thisJoinPoint.getSignature()).getMethod().getAnnotation(APIOperation.class);
 		
 		if(apiOperAnno != null) {
 			
-			if(Local.commonHeader().getInterfaceLogSDO() != null && APIUtil.isNotEmpty(Local.commonHeader().getInterfaceLogSDO().getSuccYn())) {
+			if(Local.commonHeader().getIfLogSDO() != null && APIUtil.isNotEmpty(Local.commonHeader().getIfLogSDO().getSuccYn())) {
 				
 				//인터페이스 로그 저장
 				logger.debug("■■ [Call] 인터페이스 로그 저장 IfLoggingRunnable => pointcutType : {} =>> thisJoinPoint : {}", pointcutType, thisJoinPoint);
@@ -427,7 +427,7 @@ public class MethodsAdviceHelper {
     		inLogData = inMultiIfLogSDO; 
     	}
     	else {
-    		inLogData = Local.commonHeader().getInterfaceLogSDO();
+    		inLogData = Local.commonHeader().getIfLogSDO();
     	}
     	
 		inLogData.setIfReqtIp(Local.commonHeader().getClientAddress());
@@ -443,7 +443,7 @@ public class MethodsAdviceHelper {
 		Runnable ifLoggingRunnable = new IfLoggingRunnable(ifLogSDO);
 		Thread ifLoggingThread = new Thread(ifLoggingRunnable);
 		ifLoggingThread.start();
-		Local.commonHeader().setInterfaceLogSDO(null);
+		Local.commonHeader().setIfLogSDO(null);
 		Local.commonHeader().setInterfaceLogInitCount(OperateConstants.INTEGER_ZERO_VALUE);
     }
     

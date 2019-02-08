@@ -29,8 +29,9 @@
 	
 	<!-- 인터페이스/배치 레포트 -->
 	<apiLogReport>
-		<!-- 
+		
 		<receiverList>
+			<!--
 			<receiver>
 				<name>전산실</name>
 				<emailAddr>nonsound@ezwel.com</emailAddr>
@@ -38,7 +39,7 @@
 			<receiver>
 				<name>PM</name>
 				<emailAddr>ong0410@naver.com</emailAddr>
-			</receiver>				
+			</receiver>
 			<receiver>
 				<name>개발팀 Operator</name>
 				<emailAddr>swkim@ebsolution.co.kr</emailAddr>
@@ -46,9 +47,10 @@
 			<receiver>
 				<name>개발팀 Operator</name>
 				<emailAddr>java124@naver.com</emailAddr>
-			</receiver>		
+			</receiver>
+			-->		
 		</receiverList>
-		 -->
+		 
 	</apiLogReport>
 	
 	<!-- 부가 기능 설정 정보 -->

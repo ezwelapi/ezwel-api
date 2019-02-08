@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.sdo.IfLogSDO;
 import com.ezwel.htl.interfaces.commons.thread.Local;
+import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractComponent;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.repository.LogRepository;
@@ -42,7 +43,7 @@ public class IfLoggingRunnable extends AbstractComponent implements Runnable {
 	
 	@Override
 	public void run() {
-		logger.debug("[IfLoggingRunnable-START] {}", Thread.currentThread().getName());
+		logger.debug("[START-IfLoggingRunnable] {}", Thread.currentThread().getName());
 		
 		loggerRepository = (LogRepository) LApplicationContext.getBean(loggerRepository, LogRepository.class);
 		
@@ -53,9 +54,15 @@ public class IfLoggingRunnable extends AbstractComponent implements Runnable {
 			else if(inInterfaceLogList != null) {
 				loggerRepository.insertInterfaceLog(inInterfaceLogList);
 			}
-		}finally {
+		}
+		catch(Exception e) {
+			logger.error(APIUtil.NVL(Local.commonHeader().getMessage(), "인터페이스 로그저장 장애 발생"), APIUtil.ONVL(Local.commonHeader().getThrowable(), e));
+		}		
+		finally {
 			Local.remove();
 		}
+		
+		logger.debug("[END-IfLoggingRunnable] {}", Thread.currentThread().getName());
 	}
 
 }

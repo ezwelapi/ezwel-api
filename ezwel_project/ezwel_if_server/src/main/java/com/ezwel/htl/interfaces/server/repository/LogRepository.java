@@ -58,6 +58,28 @@ public class LogRepository extends AbstractDataAccessObject {
 		}
 	}
 	
+	@APIOperation(description="오늘로부터 2일전 인터페이스 로그와 API 배치로그 삭제")
+	@Transactional(rollbackFor={Exception.class, SQLException.class, APIException.class})
+	public Integer deleteLogData() {
+		logger.debug("[START] deleteLogData ");
+		
+		Integer txIfLogCount = OperateConstants.INTEGER_ZERO_VALUE;
+		Integer txApiBatcLogCount = OperateConstants.INTEGER_ZERO_VALUE;
+		
+		try {
+			txIfLogCount = sqlSession.delete(getNamespace("IF_LOG_MAPPER", "deletePrevEzcIfLog"));
+			
+			txApiBatcLogCount = sqlSession.delete(getNamespace("API_BATC_LOG_MAPPER", "deletePrevEzcApiBatcLog"));
+		}
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "오늘로부터 2일전 인터페이스 로그와 API 배치로그 삭제 장애발생.", e);
+		}
+		
+		logger.debug("[END] deleteLogData delete txIfLogCount : {}, txApiBatcLogCount : {}", txIfLogCount, txApiBatcLogCount);
+		return (txIfLogCount + txApiBatcLogCount);
+	}
+	
+	
 	
 	@APIOperation(description="인터페이스 실행 로그 입력")
 	@Transactional(propagation=Propagation.REQUIRES_NEW, rollbackFor={Exception.class, SQLException.class, APIException.class})
@@ -143,8 +165,8 @@ public class LogRepository extends AbstractDataAccessObject {
 		try {
 			out = sqlSession.selectOne(getNamespace("IF_LOG_MAPPER", "selectCountEzcIfLog"), ezcIfLog);
 		}
-		catch(APIException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "인터페이스 실행 로그 목록 조회 장애발생.", e);
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "인터페이스 실행 로그 목록 조회 장애발생.", e);
 		}
 			
 		return out;
@@ -159,8 +181,8 @@ public class LogRepository extends AbstractDataAccessObject {
 		try {
 			out = sqlSession.selectList(getNamespace("IF_LOG_MAPPER", "selectListEzcIfLog"), ezcIfLog);
 		}
-		catch(APIException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "인터페이스 실행 로그 목록 조회 장애발생.", e);
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "인터페이스 실행 로그 목록 조회 장애발생.", e);
 		}
 			
 		return out;
@@ -179,8 +201,8 @@ public class LogRepository extends AbstractDataAccessObject {
 				throw new APIException(MessageConstants.RESPONSE_CODE_9502, "인터페이스 실행 코드에 해당하는 로그 정보가 존재하지 않습니다.");
 			}
 		}
-		catch(APIException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "인터페이스 실행 로그 목록 조회 장애발생.", e);
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "인터페이스 실행 로그 목록 조회 장애발생.", e);
 		}
 			
 		return out;
@@ -272,8 +294,8 @@ public class LogRepository extends AbstractDataAccessObject {
 		try {
 			out = sqlSession.selectOne(getNamespace("API_BATC_LOG_MAPPER", "selectCountEzcApiBatcLog"), ezcApiBatcLog);
 		}
-		catch(APIException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "API 배치 로그 목록 조회 장애발생.", e);
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "API 배치 로그 목록 조회 장애발생.", e);
 		}
 			
 		return out;
@@ -288,8 +310,8 @@ public class LogRepository extends AbstractDataAccessObject {
 		try {
 			out = sqlSession.selectList(getNamespace("API_BATC_LOG_MAPPER", "selectListEzcApiBatcLog"), ezcApiBatcLog);
 		}
-		catch(APIException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "API 배치 로그 목록 조회 장애발생.", e);
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "API 배치 로그 목록 조회 장애발생.", e);
 		}
 			
 		return out;
@@ -308,8 +330,8 @@ public class LogRepository extends AbstractDataAccessObject {
 				throw new APIException(MessageConstants.RESPONSE_CODE_9502, "배치 실행 코드에 해당하는 로그 정보가 존재하지 않습니다.");
 			}
 		}
-		catch(APIException e) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9100, "API 배치 로그 목록 조회 장애발생.", e);
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "API 배치 로그 목록 조회 장애발생.", e);
 		}
 			
 		return out;

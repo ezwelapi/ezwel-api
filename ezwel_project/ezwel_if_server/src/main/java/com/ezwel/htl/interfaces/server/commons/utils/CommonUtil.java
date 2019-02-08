@@ -317,7 +317,7 @@ public class CommonUtil {
 			response.setHeader("Cache-Control", "no-cache");
 			response.setHeader("Content-Length", "1" );
 			
-		} catch(APIException e) {
+		} catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9000, "■ 인터페이스 요청 헤더 작성중 장애발생.", e);
 		} finally {
 			if(certifications != null) {

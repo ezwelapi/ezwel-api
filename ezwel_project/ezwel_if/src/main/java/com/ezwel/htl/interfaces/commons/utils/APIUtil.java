@@ -8,7 +8,6 @@ import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.rmi.dgc.VMID;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
@@ -705,7 +704,7 @@ public class APIUtil {
 	    	String dateFormat = (format != null && !format.isEmpty()) ? format : OperateConstants.DEF_DATE_FORMAT;
 	    	out = FastDateFormat.getInstance(dateFormat, TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA).format(resultDate);
 		}
-		catch(APIException e) {
+		catch(Exception e) {
 			logger.error("- TimeMillisToDate API Exception [inputParameter userTimeMillis : {}, userDateFormat : {}]", new Object[]{timeMillis, format});
 			throw new APIException("- TimeMillisToDate API Exception [inputParameter userTimeMillis : {}, userDateFormat : {}]", new Object[]{timeMillis, format}, e);
 		}
@@ -956,5 +955,34 @@ public class APIUtil {
 		}
 		return true;
 	}	
+    
+    
+    @APIOperation
+	public Field getField(Class<?> clazz, String name) {
+		return getField(clazz, name, null);
+	}
+
+    @APIOperation
+	public Field getField(Class<?> clazz, String name, Class<?> type) {
+
+		if (clazz == null) {
+			throw new APIException("Class must not be null");
+		}
+		if (name == null) {
+			throw new APIException("Either name of the field must be specified");
+		}
+		
+		Class<?> searchType = clazz;
+		while (!Object.class.equals(searchType) && searchType != null) {
+			Field[] fields = searchType.getDeclaredFields();
+			for (Field field : fields) {
+				if ((name == null || name.equals(field.getName()))&& (type == null || type.equals(field.getType()))) {
+					return field;
+				}
+			}
+			searchType = searchType.getSuperclass();
+		}
+		return null;
+	}
     
 }

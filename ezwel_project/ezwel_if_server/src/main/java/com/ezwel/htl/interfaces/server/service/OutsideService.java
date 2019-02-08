@@ -1561,7 +1561,7 @@ public class OutsideService extends AbstractServiceObject {
 		try {
 			out = outsideRepository.selectRoomReadFaclList(inEzcFacl);
 		}
-		catch(APIException e) {
+		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "그룹시설코드 기준 시설목록검색 장애발생", e);
 		}
 		
@@ -1595,13 +1595,7 @@ public class OutsideService extends AbstractServiceObject {
 			out = new RoomReadOutSDO();
 
 			//상품목록이 없고 그룹시설코드가 있으면 매핑기준으로 조회
-			if((roomReadSDO.getSeachMinRoomInList() == null || roomReadSDO.getSeachMinRoomInList().size() == 0) && roomReadSDO.getGrpFaclCd() != null) {
-				//그룹시설코드 기준 시설목록 조회
-				inEzcFacl = new EzcFacl();
-				inEzcFacl.setGrpFaclCd(roomReadSDO.getGrpFaclCd());
-				searchRoomParams = selectRoomReadFaclList(inEzcFacl);
-			}
-			else {
+			if(roomReadSDO.getSeachMinRoomInList() != null && roomReadSDO.getSeachMinRoomInList().size() > 0) {
 				//상품목록이 있으면 상품목록기준으로 조회
 				searchRoomParams = new ArrayList<EzcFacl>();
 				
@@ -1611,6 +1605,13 @@ public class OutsideService extends AbstractServiceObject {
 					searchMinRoomFacl.setPartnerGoodsCd(minRoom.getPdtNo());
 					searchRoomParams.add(searchMinRoomFacl);
 				}
+			}
+			else if(roomReadSDO.getGrpFaclCd() != null) {
+				//그룹시설코드 기준 시설목록 조회
+				inEzcFacl = new EzcFacl();
+				inEzcFacl.setGrpFaclCd(roomReadSDO.getGrpFaclCd());
+				
+				searchRoomParams = selectRoomReadFaclList(inEzcFacl);				
 			}
 			
 			//그룹시설코드에 대한 목록이 있으면...
