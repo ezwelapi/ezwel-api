@@ -52,7 +52,7 @@ public class FaxSender extends AbstractDataAccessObject {
 		try {
 			
 			trBatchId = sqlSession.selectOne(getNamespace("SEQUNCE_MAPPER", "selectTrBatchIdSeq"));
-//			fcMetaTran.setTrBatchId(trBatchId);								//고유번호
+			fcMetaTran.setTrBatchId(trBatchId);								//고유번호
 			fcMetaTran.setTrSendDate(trSendDate);							//발송일시
 			fcMetaTran.setTrTitle(faxSenderInSDO.getTrTitle());				//발송제목
 			fcMetaTran.setTrSendName(TR_SENDNAME);							//발신자이름
@@ -67,7 +67,7 @@ public class FaxSender extends AbstractDataAccessObject {
 			fcMsgTran.setTrBatchId(trBatchId);		//고유번호
 			fcMsgTran.setTrSerialNo(1);				//발송순번
 			fcMsgTran.setTrSendDate(trSendDate);	//발송일시
-//			fcMsgTran.setTrName(TR_NAME);			//수신자이름
+			fcMsgTran.setTrName(TR_NAME);			//수신자이름
 			fcMsgTran.setTrPhone(TR_PHONE);			//수신팩스번호
 			fcMsgTran.setTrSendStat("0");			//발송상태값(0:발송대기,1:발송중,2:발송완료)
 			
