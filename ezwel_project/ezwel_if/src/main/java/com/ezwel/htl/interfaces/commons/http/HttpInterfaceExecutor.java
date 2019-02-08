@@ -402,7 +402,7 @@ public class HttpInterfaceExecutor {
 			//200 : ok, 201 : created
 			if(conn.getResponseCode() != 200 && conn.getResponseCode() != 201) {
 				
-				errContents = APIUtil.formatMessage("■ 원격 서버 통신 장애 발생({}){}{}", in.getRestURI(), OperateConstants.LINE_SEPARATOR, (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
+				errContents = APIUtil.formatMessage("■ 제휴사 서버 통신 장애 발생({}){}■ 제휴사 서버 에러 내용 : {}", in.getRestURI(), OperateConstants.LINE_SEPARATOR, (conn.getErrorStream() != null ? IOUtils.toString(new BufferedInputStream(conn.getErrorStream()), in.getEncoding()) : ""));
 				
 				/***************************
 				 * [START] LOG DATA SETTING 
@@ -564,7 +564,7 @@ public class HttpInterfaceExecutor {
 				/***************************
 				 * [END]    LOG DATA SETTING 
 				 ***************************/
-				logger.error(APIUtil.formatMessage("■ SendJSONException : {}", new Object[]{e.getMessage()}));
+				logger.error(APIUtil.formatMessage("■ SendJSONException : {}", new Object[]{ message }));
 				
 			} catch (InstantiationException e1) {
 				throw new APIException(MessageConstants.RESPONSE_CODE_9100, "■ 통신 장애 발생.", e);
