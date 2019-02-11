@@ -16,12 +16,15 @@ import com.ezwel.htl.interfaces.server.service.InsideService;
 import com.ezwel.htl.interfaces.server.service.OutsideService;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
+import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
+import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchOutSDO;
 import com.ezwel.htl.interfaces.service.data.record.RecordInSDO;
 import com.ezwel.htl.interfaces.service.data.record.RecordOutSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadInSDO;
 import com.ezwel.htl.interfaces.service.data.roomRead.RoomReadOutSDO;
 import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopInSDO;
 import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopOutSDO;
+import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchOutSDO;
 import com.ezwel.htl.interfaces.service.data.view.ViewInSDO;
 import com.ezwel.htl.interfaces.service.data.view.ViewOutSDO;
 import com.ezwel.htl.interfaces.service.data.voucherReg.VoucherRegInSDO;
@@ -181,4 +184,31 @@ public class InsideController {
 		logger.debug("[END] findGuestRoomList out : {}", out);
 		return out;
 	}
+	
+	
+	@APIOperation(description = "시설검색(최저가 정보)-직영/숙박 조회", isOutputJsonMarshall = true, returnType = FaclSearchOutSDO.class)
+	@RequestMapping(value = "/findFaclSearch")
+	public Object findFaclSearch(UserAgentSDO userAgentSDO, FaclSearchInSDO faclSearchInSDO) {
+		logger.debug("[START] findFaclSearch {} {}", userAgentSDO, faclSearchInSDO);
+		
+		insideService = (InsideService) LApplicationContext.getBean(insideService, OutsideService.class);
+		FaclSearchOutSDO out = insideService.findFaclSearch(userAgentSDO, faclSearchInSDO);
+	
+		logger.debug("[END] findFaclSearch out : {}", out);
+		return out;
+	}
+	
+
+	@APIOperation(description = "당일특가검색-직영/숙박 조회", isOutputJsonMarshall = true, returnType = SddSearchOutSDO.class)
+	@RequestMapping(value = "/findSddSearch")
+	public Object findSddSearch(UserAgentSDO userAgentSDO) {
+		logger.debug("[START] findSddSearch {} {}", userAgentSDO);
+		
+		insideService = (InsideService) LApplicationContext.getBean(insideService, OutsideService.class);
+		SddSearchOutSDO out = insideService.findSddSearch(userAgentSDO);
+	
+		logger.debug("[END] findSddSearch out : {}", out);
+		return out;
+	}
+	
 }

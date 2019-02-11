@@ -26,6 +26,7 @@ public class MessageConstants {
 	public static final int RESPONSE_CODE_9200;
 	public static final int RESPONSE_CODE_9300;
 	public static final int RESPONSE_CODE_9301;
+	public static final int RESPONSE_CODE_9302;
 	public static final int RESPONSE_CODE_9400;
 	public static final int RESPONSE_CODE_9401;
 	public static final int RESPONSE_CODE_9500;
@@ -70,6 +71,7 @@ public class MessageConstants {
 		RESPONSE_CODE_9200 = 9200;	// MessageConstants.RESPONSE_CODE_9200
 		RESPONSE_CODE_9300 = 9300;	// MessageConstants.RESPONSE_CODE_9300
 		RESPONSE_CODE_9301 = 9301;	// MessageConstants.RESPONSE_CODE_9301
+		RESPONSE_CODE_9302 = 9302;	// MessageConstants.RESPONSE_CODE_9302
 		RESPONSE_CODE_9400 = 9400;	// MessageConstants.RESPONSE_CODE_9400
 		RESPONSE_CODE_9401 = 9401;	// MessageConstants.RESPONSE_CODE_9401
 		RESPONSE_CODE_9500 = 9500;	// MessageConstants.RESPONSE_CODE_9500
@@ -96,6 +98,7 @@ public class MessageConstants {
 		MESSAGE_MAP.put(RESPONSE_CODE_9200, "원격지 서버 에러 발생");
 		MESSAGE_MAP.put(RESPONSE_CODE_9300, "인터페이스 초기화 실패");
 		MESSAGE_MAP.put(RESPONSE_CODE_9301, "인터페이스 설정 파일 경로가 변경 되었거나 읽을 수 없습니다.");
+		MESSAGE_MAP.put(RESPONSE_CODE_9302, "인터페이스 운영환경 파일핸들링 장애 발생");
 		MESSAGE_MAP.put(RESPONSE_CODE_9400, "URL Image Not Found");
 		MESSAGE_MAP.put(RESPONSE_CODE_9401, "시설 이미지 다운로드 실패!!");
 		MESSAGE_MAP.put(RESPONSE_CODE_9500, "DB 핸들링 장애발생");

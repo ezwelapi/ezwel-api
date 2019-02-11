@@ -72,9 +72,10 @@ public class OutsideController {
 	/**
 	 * <pre>
 	 * [메서드 설명]
-	 * URL : /API1.0/test/facl/record
-	 * [사용방법 설명]
+	 * 전체시설일괄등록 인터페이스
 	 * 
+	 * [사용방법 설명]
+	 * URL : /API1.0/service/allReg
 	 * </pre>
 	 * 
 	 * @param httpAgentId
@@ -82,6 +83,8 @@ public class OutsideController {
 	 * @param request
 	 * @param response
 	 * @return
+	 * @throws APIException
+	 * @throws Exception 
 	 * @author swkim@ebsolution.co.kr
 	 * @since 2018. 11. 21.
 	 */

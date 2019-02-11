@@ -7,6 +7,7 @@ import java.util.List;
 import com.ezwel.htl.interfaces.commons.abstracts.APIObject;
 import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+import com.ezwel.htl.interfaces.commons.constants.CodeMappingConstants;
 import com.ezwel.htl.interfaces.commons.constants.OperateConstants;
 
 @APIModel(description="서버 주소")
@@ -51,6 +52,20 @@ public class ServerManagedConfig extends APIObject {
 	@APIFields(description="슬레이브 서버가 인터페이스 환경파일을 직접파싱할것인지 여부")
 	private String directParseXmlYn;
 	
+	@APIFields(description = "인터페이스 환경XML파일 임시 저장경로 루트")
+	private String temporaryXmlStorageRoot; 
+	
+	@APIFields(description = "인터페이스 환경XML파일 경로")
+	private String xmlConfigRealPath;
+	
+	@APIFields(description = "인터페이스 환경XML파일 경로 (if_server상대경로)")
+	private String ifServerRelativePath;
+	
+	@APIFields(description = "인터페이스 환경파일 백업 루트경로")
+	private String xmlConfigFileBackupRoot;
+	
+	@APIFields(description = "인터페이스 환경 변경 로그 루트 경로")
+	private String applyConfigLogRoot;
 	
 	public ServerManagedConfig() {
 		this.reset();
@@ -70,6 +85,11 @@ public class ServerManagedConfig extends APIObject {
 		configXmlServerUri = null;
 		ifServerWebRootKey = null;	
 		directParseXmlYn = OperateConstants.STR_N;
+		temporaryXmlStorageRoot = "/WEB-INF/config/interface/store";
+		xmlConfigRealPath = "/WEB-INF/config/interface/interface-configure.xml";
+		ifServerRelativePath = OperateConstants.STR_Y;
+		xmlConfigFileBackupRoot = "/WEB-INF/config/interface/backup";
+		applyConfigLogRoot = "/WEB-INF/config/interface/logs";
 	}
 
 	public String getDevServerIpRange() {
@@ -184,4 +204,49 @@ public class ServerManagedConfig extends APIObject {
 		this.directParseXmlYn = directParseXmlYn;
 	}
 
+	public String getTemporaryXmlStorageRoot() {
+		return temporaryXmlStorageRoot;
+	}
+
+	public void setTemporaryXmlStorageRoot(String temporaryXmlStorageRoot) {
+		this.temporaryXmlStorageRoot = temporaryXmlStorageRoot;
+	}
+
+	public String getXmlConfigRealPath() {
+		return xmlConfigRealPath;
+	}
+
+	public void setXmlConfigRealPath(String xmlConfigRealPath) {
+		this.xmlConfigRealPath = xmlConfigRealPath;
+	}
+
+	public boolean isIfServerRelativePath() {
+		return (ifServerRelativePath != null ? ifServerRelativePath.toUpperCase().equals(OperateConstants.STR_Y) : false);
+	}
+	
+	public String getIfServerRelativePath() {
+		return ifServerRelativePath;
+	}
+
+	public void setIfServerRelativePath(String ifServerRelativePath) {
+		this.ifServerRelativePath = ifServerRelativePath;
+	}
+
+	public String getXmlConfigFileBackupRoot() {
+		return xmlConfigFileBackupRoot;
+	}
+
+	public void setXmlConfigFileBackupRoot(String xmlConfigFileBackupRoot) {
+		this.xmlConfigFileBackupRoot = xmlConfigFileBackupRoot;
+	}
+
+	public String getApplyConfigLogRoot() {
+		return applyConfigLogRoot;
+	}
+
+	public void setApplyConfigLogRoot(String applyConfigLogRoot) {
+		this.applyConfigLogRoot = applyConfigLogRoot;
+	}
+
+	
 }

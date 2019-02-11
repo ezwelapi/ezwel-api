@@ -77,8 +77,6 @@ public class InterfaceFactory {
 	@APIFields(description = "그룹체널 캐쉬명 접미사")
 	private final static String GROUP_CACHE_POSTFIX;
 	
-
-	
 	@APIFields(description = "로컬 호스트 주소")
 	public final static String LOCAL_HOST_ADDRESS; 
 	
@@ -219,7 +217,7 @@ public class InterfaceFactory {
 		return serverHttpDomainURI;
 	}
 
-	public static ServerManagedConfig getServerAddress() {
+	public static ServerManagedConfig getServerConfig() {
 		return serverManaged;
 	}
 
@@ -517,22 +515,22 @@ public class InterfaceFactory {
 					else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_PROD_SERVER)) {
 						// prod server
 						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getProdRootPath();
-						serverHttpDomainUri = InterfaceFactory.getServerAddress().getProdServerL4Domain();
+						serverHttpDomainUri = InterfaceFactory.getServerConfig().getProdServerL4Domain();
 					}
 					else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_DEV_SERVER)) {
 						// dev server
 						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getDevRootPath();
-						serverHttpDomainUri = InterfaceFactory.getServerAddress().getDevServerL4Domain();
+						serverHttpDomainUri = InterfaceFactory.getServerConfig().getDevServerL4Domain();
 					}
 					else if(APIUtil.getServerAddress().equals(OperateConstants.CURRENT_TEST_SERVER)) {
 						// dev server
 						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getTestRootPath();
-						serverHttpDomainUri = InterfaceFactory.getServerAddress().getTestServerL4Domain();
+						serverHttpDomainUri = InterfaceFactory.getServerConfig().getTestServerL4Domain();
 					}
 					else {
 						// developer local pc server
 						imageRootPath = InterfaceFactory.getFileRepository().getBuildImage().getLocalRootPath();
-						serverHttpDomainUri = InterfaceFactory.getServerAddress().getDevServerL4Domain();
+						serverHttpDomainUri = InterfaceFactory.getServerConfig().getDevServerL4Domain();
 					}
 					
 					InterfaceFactory.serverHttpDomainURI = serverHttpDomainUri;

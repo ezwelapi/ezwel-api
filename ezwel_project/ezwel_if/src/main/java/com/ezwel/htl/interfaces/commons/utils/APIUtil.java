@@ -731,7 +731,7 @@ public class APIUtil {
 	@APIOperation(description="서버 IP 대역")
 	public static String getServerAddress() {
 		String out = null;
-		ServerManagedConfig managedConfig = InterfaceFactory.getServerAddress();
+		ServerManagedConfig managedConfig = InterfaceFactory.getServerConfig();
 		String prodServerIpRange = managedConfig.getProdServerIpRange(); 
 		String devServerIpRange = managedConfig.getDevServerIpRange();
 		String testServerIpRange = managedConfig.getTestServerIpRange();
