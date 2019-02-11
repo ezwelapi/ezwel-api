@@ -29,8 +29,8 @@ public class SendMailTest {
 		logger.debug("[START] callMailSenderTest");
 		
 		//Input value
-		String recipient = "java124@naver.com"; 
-		String subject = "메일 제목 테스트";
+		String recipient = "jyp0698@gmail.com";
+		String subject = "메일 제목 테스트 2019 02 11";
 		String body = "메일 내용 테스트";
 		
 		//Input parameter

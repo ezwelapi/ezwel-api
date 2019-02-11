@@ -23,8 +23,22 @@ public class FaxReader extends AbstractDataAccessObject {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HandlerInterceptor.class);
 	
-	@APIOperation(description="팩스수신 인터페이스 DB Insert")
+	@APIOperation(description="팩스수신 인터페이스 DB Update")
 	public FaxReaderOutSDO callFaxReader(String reservNum) {
+		
+//		try {
+//			
+//			BufferedImage image = ImageReader.readImage(Paths.get("D:\\qrtest\\123456789.png").toUri());
+//			LuminanceSource source = new BufferedImageLuminanceSource(image);
+//			Binarizer bin = new HybridBinarizer(source);
+//			BinaryBitmap bitmap = new BinaryBitmap(bin);
+//			Result result = new QRCodeReader().decode(bitmap);
+//			
+//			logger.debug( "QRCodeReader Text : {}" , result.toString());
+//			
+//		} catch (Exception e) {
+//            e.printStackTrace();
+//        }
 		
 		FaxReaderOutSDO faxReaderOutSDO = new FaxReaderOutSDO();
 		faxReaderOutSDO.setSuccess(true);

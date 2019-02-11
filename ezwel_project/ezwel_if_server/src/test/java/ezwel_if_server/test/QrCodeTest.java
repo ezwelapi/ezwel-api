@@ -50,27 +50,40 @@ public class QrCodeTest {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	private static void QrCodeWriter() throws WriterException, IOException {
-		String contents = new String("123456789".getBytes("UTF-8"), "ISO-8859-1");
-		
-		Map<EncodeHintType, String> hints = new HashMap<EncodeHintType, String>();
-		hints.put(EncodeHintType.CHARACTER_SET, Charset.forName("UTF-8").toString());
-		
-		BitMatrix matrix = new MultiFormatWriter().encode(contents, BarcodeFormat.QR_CODE, 200, 200, hints);
-				
-        MatrixToImageWriter.writeToPath(matrix, "PNG", Paths.get("D:/qrtest/123456789.png"));
-        
-        logger.debug( "QrCodeWriter Text : {}" , contents);
+			
+		try {
+			
+			String contents = new String("123456789".getBytes("UTF-8"), "ISO-8859-1");
+			
+			Map<EncodeHintType, String> hints = new HashMap<EncodeHintType, String>();
+			hints.put(EncodeHintType.CHARACTER_SET, Charset.forName("UTF-8").toString());
+			
+			BitMatrix matrix = new MultiFormatWriter().encode(contents, BarcodeFormat.QR_CODE, 200, 200, hints);
+					
+	        MatrixToImageWriter.writeToPath(matrix, "PNG", Paths.get("D:/qrtest/123456789.png"));
+	        
+	        logger.debug( "QrCodeWriter Text : {}" , contents);
+	        
+		} catch (Exception e) {
+        	e.printStackTrace();
+    	}
 	}
 
 	private static void QrCodeReader() throws IOException, NotFoundException, ChecksumException, FormatException {
 		
-		BufferedImage image = ImageReader.readImage(Paths.get("d:/qrtest/123456789.png").toUri());
-		LuminanceSource source = new BufferedImageLuminanceSource(image);
-		Binarizer bin = new HybridBinarizer(source);
-		BinaryBitmap bitmap = new BinaryBitmap(bin);
-		Result result = new QRCodeReader().decode(bitmap);
-		
-		logger.debug( "QRCodeReader Text : {}" , result.toString());
+		try {
+			
+			BufferedImage image = ImageReader.readImage(Paths.get("d:/qrtest/123456789.png").toUri());
+			LuminanceSource source = new BufferedImageLuminanceSource(image);
+			Binarizer bin = new HybridBinarizer(source);
+			BinaryBitmap bitmap = new BinaryBitmap(bin);
+			Result result = new QRCodeReader().decode(bitmap);
+			
+			logger.debug( "QRCodeReader Text : {}" , result.toString());
+			
+		} catch (Exception e) {
+        	e.printStackTrace();
+    	}
 	}
 	
 }
