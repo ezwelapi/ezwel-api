@@ -67,10 +67,10 @@
 			<encoding>UTF-8</encoding>
 			<host>localhost</host>
 		 	<port>25</port>
-		 	<from>webmaster@ezwel.com</from>
+		 	<from>ebsolutions@ezwel.com</from>
 		 	<fromName>이지웰</fromName>
-		 	<userName>ebsolutions</userName>
-		 	<passWord>dlqlthffntuswm</passWord>
+		 	<userName></userName>
+		 	<passWord></passWord>
 		 	<connTimeout>3000</connTimeout>
 			<readTimeout>6000</readTimeout>
 		</mailConfig>
