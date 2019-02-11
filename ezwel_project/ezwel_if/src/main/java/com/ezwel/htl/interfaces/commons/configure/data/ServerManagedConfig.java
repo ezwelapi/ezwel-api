@@ -220,7 +220,7 @@ public class ServerManagedConfig extends APIObject {
 		this.xmlConfigRealPath = xmlConfigRealPath;
 	}
 
-	public boolean isIfServerRelativePath() {
+	public boolean isServerRelativePath() {
 		return (ifServerRelativePath != null ? ifServerRelativePath.toUpperCase().equals(OperateConstants.STR_Y) : false);
 	}
 	

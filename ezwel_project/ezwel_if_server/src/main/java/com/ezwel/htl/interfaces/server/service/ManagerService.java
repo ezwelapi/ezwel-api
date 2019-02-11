@@ -51,7 +51,7 @@ public class ManagerService {
 		
 		String appBasePath = "";
 		
-		if(managedConfig != null && managedConfig.isIfServerRelativePath()) {
+		if(managedConfig != null && managedConfig.isServerRelativePath()) {
 			//상대경로
 			URL appBase = ClassLoader.getSystemResource("/");
 			logger.debug("# appBase : {}", appBase);

@@ -162,9 +162,7 @@ public class ParamValidate {
 			int validateCnt = 1;
 			for(ParamValidateSDO validate : this.params) {
 				
-		    	if(logger.isDebugEnabled()) {
-		    		logger.debug("START Validate No.{}", validateCnt);
-		    	}
+	    		//logger.debug("START Validate No.{}", validateCnt);
 
 		    	validate = this.run(validate);
 		    	
@@ -173,9 +171,7 @@ public class ParamValidate {
 	    			break;
 	    		}
 	    		else {
-	    			if(logger.isDebugEnabled()) {
-	    	    		logger.debug("PASS Validate No.{} END", validateCnt);
-	    	    	}
+    	    		//logger.debug("PASS Validate No.{} END", validateCnt);
 	    		}
 	    		validateCnt++;
 			}
