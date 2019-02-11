@@ -12,6 +12,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.abstracts.AbstractDataAccessObject;
+import com.ezwel.htl.interfaces.server.commons.constants.CodeDataConstants;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.entities.EzcCityCd;
 import com.ezwel.htl.interfaces.server.entities.EzcDetailCd;
@@ -43,6 +44,9 @@ public class CommonRepository extends AbstractDataAccessObject {
 	
 	@APIOperation(description="공통코드 목록조회")
 	public List<EzcDetailCd> selectListCommonCode(EzcDetailCd inEzcDetailCd) {
+		if(inEzcDetailCd != null) {
+			inEzcDetailCd.setUseYn(CodeDataConstants.CD_Y);
+		}
 		List<EzcDetailCd> out = sqlSession.selectList(getNamespace("DETAIL_CD_MAPPER", "selectListEzcDetailCd"), inEzcDetailCd);
 		return out;
 	}	
@@ -50,7 +54,13 @@ public class CommonRepository extends AbstractDataAccessObject {
 	@APIOperation(description="시도코드 목록조회") // EZC_CITY_CD
 	public List<EzcCityCd> selectListSidoCode(EzcCityCd inEzcCityCd) {
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		
+		if(inEzcCityCd == null) {
+			inEzcCityCd = new EzcCityCd();
+		}
+		
 		propertyUtil.removeDefaulFieldData(inEzcCityCd);
+		inEzcCityCd.setUseYn(CodeDataConstants.CD_Y);
 		
 		List<EzcCityCd> out = sqlSession.selectList(getNamespace("CITY_CD_MAPPER", "selectListEzcCityCd"), inEzcCityCd);
 		return out;

@@ -250,7 +250,7 @@ public class OutsideService extends AbstractServiceObject {
 				out = insertAllFacl(assets, new AllRegOutSDO(), commonRepository.selectListCommonCode(inEzcDetailCd), 0);
 				
 				if(!isRecord) {
-					
+					// 보완 필요 +++++++
 					// 등록/갱신 일시(yyyyMMddHHmmss)가 인터페이스 실행(StartTimeMillis)보다 이전 데이터는 전문에서 제외된 시설로서 사용안함 처리
 					// 조건 : 시설 구분 컬럼 데이터가 API 인것만
 					EzcFacl removeEzcFacl = new EzcFacl();
@@ -1378,8 +1378,20 @@ public class OutsideService extends AbstractServiceObject {
 								for(FaclSearchDataOutSDO subData : data.getData()) {
 									
 									try {
+										
+										//시설특가최저가 정상가
+										if(subData.getSpcNorPrice() == null || subData.getSpcNorPrice() == OperateConstants.INTEGER_ZERO_VALUE) {
+											//시설판매최저가(정상가) 대입
+											subData.setSpcNorPrice(subData.getSellNorPrice());
+										}
+										//시설특가최저가 판매가
+										if(subData.getSpcPrice() == null || subData.getSpcPrice() == OperateConstants.INTEGER_ZERO_VALUE) {
+											//시설판매최저가(판매가) 대입
+											subData.setSpcPrice(subData.getSellPrice());
+										}
+										
 										//execute paramValidate
-										new ParamValidate(new ParamValidateSDO(subData, new String[]{"faclCd"})).execute();
+										new ParamValidate(new ParamValidateSDO(subData)).execute();
 										
 										validateDataList.add(subData);
 									}

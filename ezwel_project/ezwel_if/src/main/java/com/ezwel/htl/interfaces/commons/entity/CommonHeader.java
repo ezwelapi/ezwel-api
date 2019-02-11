@@ -545,7 +545,14 @@ public class CommonHeader extends APIObject implements Serializable {
 			if(interfaceLogInitCount == 0 || ifLogSDO == null) {
 				
 				ifLogSDO = new IfLogSDO();
-				ifLogSDO.setThedGuid(this.guid);
+				
+				if(httpConfig.getGuid() != null) {
+					//멀티쓰레드일경우
+					ifLogSDO.setThedGuid(httpConfig.getGuid());	
+				}
+				else {
+					ifLogSDO.setThedGuid(this.guid);
+				}
 				
 				if(httpConfig != null) {
 					

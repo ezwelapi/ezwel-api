@@ -32,6 +32,9 @@ public abstract class APIObject implements Serializable {
 	@APIFields(description = "isMultiThread")
 	private boolean isMultiThread = false;
 	
+	@APIFields(description = "GUID")
+	private String guid;
+	
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
@@ -104,5 +107,15 @@ public abstract class APIObject implements Serializable {
 
 	public void setMultiThread(boolean isMultiThread) {
 		this.isMultiThread = isMultiThread;
-	}	
+	}
+
+	public String getGuid() {
+		return guid;
+	}
+
+	public void setGuid(String guid) {
+		this.guid = guid;
+	}
+	
+	
 }

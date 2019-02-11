@@ -660,6 +660,8 @@ public class HttpInterfaceExecutor {
 			executor.initThreadPool(in.size());
 			
 			for(MultiHttpConfigSDO multiHttpConfig : in) {
+				//마더 쓰레드 GUID 전달
+				multiHttpConfig.setGuid(Local.getId());
 				callable = new HttpInterfaceHelper(multiHttpConfig);
 				//logger.debug("[before] executor.addCall : {}", in);
 				// 생성된 callable들을 threadpool에서 수행시키고 결과는 Future 목록에 담는다
