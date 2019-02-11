@@ -24,11 +24,14 @@ import com.ezwel.htl.interfaces.server.entities.EzcFacl;
 import com.ezwel.htl.interfaces.server.entities.EzcGuestRoom;
 import com.ezwel.htl.interfaces.server.entities.EzcReservBase;
 import com.ezwel.htl.interfaces.server.entities.EzcReservRoomOpt;
+import com.ezwel.htl.interfaces.server.entities.EzcRoomSearch;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobInSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobOutSDO;
 import com.ezwel.htl.interfaces.service.data.agentJob.AgentJobReservesOutSDO;
+import com.ezwel.htl.interfaces.service.data.faclSearch.FaclSearchInSDO;
 import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopInSDO;
 import com.ezwel.htl.interfaces.service.data.saleStop.SaleStopOutSDO;
+import com.ezwel.htl.interfaces.service.data.sddSearch.SddSearchInSDO;
 import com.ezwel.htl.interfaces.service.data.view.ViewDataOutSDO;
 import com.ezwel.htl.interfaces.service.data.view.ViewInSDO;
 import com.ezwel.htl.interfaces.service.data.view.ViewOptionsOutSDO;
@@ -300,6 +303,46 @@ public class InsideRepository extends AbstractDataAccessObject {
 		}
 		
 		logger.debug("[END] selectGuestRoomList data size : {}", (out != null ? out.size() : 0));
+		return out;
+	}
+
+
+	@Transactional(readOnly=true)
+	@APIOperation(description = "시설검색(최저가 정보)-직영/숙박 조회")
+	public List<EzcRoomSearch> selectFaclSearchList(EzcRoomSearch ezcRoomSearch) {
+		logger.debug("[START] selectFaclSearchList {} {}", ezcRoomSearch);
+		
+		List<EzcRoomSearch> out = null;
+		
+		try {
+			
+			out = sqlSession.selectList(getNamespace("ROOM_SEARCH_MAPPER", "selectListFaclSearch"), ezcRoomSearch);
+		}
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "시설검색(최저가 정보)-직영/숙박 조회 장애발생", e);
+		}
+		
+		logger.debug("[END] selectFaclSearchList data size : {}", (out != null ? out.size() : 0));
+		return out;
+	}
+	
+
+	@Transactional(readOnly=true)
+	@APIOperation(description = "당일특가검색-직영/숙박 조회")
+	public List<EzcRoomSearch> selectSddSearchList(EzcRoomSearch ezcRoomSearch) {
+		logger.debug("[START] selectSddSearchList {} {}", ezcRoomSearch);
+		
+		List<EzcRoomSearch> out = null;
+		
+		try {
+			
+			out = sqlSession.selectList(getNamespace("ROOM_SEARCH_MAPPER", "selectListSddSearch"), ezcRoomSearch);
+		}
+		catch(Exception e) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "당일특가검색-직영/숙박 조회 장애발생", e);
+		}
+		
+		logger.debug("[END] selectSddSearchList data size : {}", (out != null ? out.size() : 0));
 		return out;
 	}
 }

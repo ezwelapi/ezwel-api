@@ -128,8 +128,6 @@ public class PropertyUtil {
      */
 	@APIOperation(description="주어진 bean에 propertyName이 존재한다면 propertyName 에 result 를 setting합니다.")
     public boolean setProperty(Object bean, String propertyName, Object setValue) {
-		logger.debug("[START-setProperty] bean : {}, propertyName : {}, setValue : {}", bean, propertyName, setValue);
-		
 		if(bean == null) {
 			logger.warn("bean Object is null.");
 			return false;
@@ -139,32 +137,34 @@ public class PropertyUtil {
         	throw new APIException(" The propertyName was null or invalid. propertyName : {}", propertyName) ;
         }        
 
-        Field setField = apiUtil.getField(bean.getClass(), propertyName);
-    	
+        Field setField = null;
         try {
+        	
+        	setField = apiUtil.getField(bean.getClass(), propertyName);
         	
 			if( PropertyUtils.getPropertyDescriptor(bean, propertyName) != null ) {
 				BeanUtils.setProperty(bean, propertyName, setValue);
 				return true;
 			}
+			
 		} catch (IllegalAccessException e) {
 			if(setField != null) {
-				logger.debug("[IllegalAccessException] Setup FieldInfo type : {}, name : {}, setting parameter type : {}", setField.getType(), setField.getName(), (setValue != null ? setValue.getClass().getCanonicalName() : null));
+				logger.error("[IllegalAccessException] Setup FieldInfo type : {}, name : {}, setting parameter type : {}", setField.getType(), setField.getName(), (setValue != null ? setValue.getClass().getCanonicalName() : null));
 			}
 			throw new APIException(e);
 		} catch (InvocationTargetException e) {
 			if(setField != null) {
-				logger.debug("[InvocationTargetException] Setup FieldInfo type : {}, name : {}, setting parameter type : {}", setField.getType(), setField.getName(), (setValue != null ? setValue.getClass().getCanonicalName() : null));
+				logger.error("[InvocationTargetException] Setup FieldInfo type : {}, name : {}, setting parameter type : {}", setField.getType(), setField.getName(), (setValue != null ? setValue.getClass().getCanonicalName() : null));
 			}
 			throw new APIException(e);
 		} catch (NoSuchMethodException e) {
 			if(setField != null) {
-				logger.debug("[NoSuchMethodException] Setup FieldInfo type : {}, name : {}, setting parameter type : {}", setField.getType(), setField.getName(), (setValue != null ? setValue.getClass().getCanonicalName() : null));
+				logger.error("[NoSuchMethodException] Setup FieldInfo type : {}, name : {}, setting parameter type : {}", setField.getType(), setField.getName(), (setValue != null ? setValue.getClass().getCanonicalName() : null));
 			}
 			throw new APIException(e);
 		} catch (Exception e) {
 			if(setField != null) {
-				logger.debug("[Exception] Setup FieldInfo type : {}, name : {}, setting parameter type : {}", setField.getType(), setField.getName(), (setValue != null ? setValue.getClass().getCanonicalName() : null));
+				logger.error("[Exception] Setup FieldInfo type : {}, name : {}, setting parameter type : {}", setField.getType(), setField.getName(), (setValue != null ? setValue.getClass().getCanonicalName() : null));
 			}
 			throw new APIException(e);
 		}

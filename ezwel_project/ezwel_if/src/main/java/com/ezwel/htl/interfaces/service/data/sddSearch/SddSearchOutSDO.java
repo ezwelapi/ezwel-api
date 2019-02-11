@@ -1,16 +1,14 @@
 package com.ezwel.htl.interfaces.service.data.sddSearch;
 
+import java.util.ArrayList;
 import java.util.List;
 
-
 import com.ezwel.htl.interfaces.commons.abstracts.AbstractSDO;
+import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 import com.ezwel.htl.interfaces.commons.annotation.APIModel;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-
-
-import com.ezwel.htl.interfaces.commons.annotation.APIFields;
 
 /**
  * <pre>
@@ -78,6 +76,14 @@ public class SddSearchOutSDO extends AbstractSDO {
 		this.data = data;
 	}
 
+	public void addData(SddSearchDataOutSDO data) {
+		if(this.data == null) {
+			this.data = new ArrayList<SddSearchDataOutSDO>();
+		}
+		
+		this.data.add(data);
+	}
+	
 	public Integer getTxCount() {
 		return txCount;
 	}

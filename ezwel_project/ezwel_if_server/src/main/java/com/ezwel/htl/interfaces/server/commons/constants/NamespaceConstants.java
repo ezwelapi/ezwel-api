@@ -103,6 +103,7 @@ public class NamespaceConstants {
 		NAMESPACE_MAP.put("FC_META_TRAN", "com.ezwel.htl.interfaces.server.repository.FcMetaTranMapper");
 		NAMESPACE_MAP.put("FC_MSG_TRAN", "com.ezwel.htl.interfaces.server.repository.FcMsgTranMapper");
 		NAMESPACE_MAP.put("GUEST_ROOM_MAPPER", "com.ezwel.htl.interfaces.server.repository.EzcGuestRoomMapper");
+		NAMESPACE_MAP.put("ROOM_SEARCH_MAPPER", "com.ezwel.htl.interfaces.server.repository.EzcGuestRoomMapper");
 	}
 	
 	public static Map<String, String> getNamespace() {

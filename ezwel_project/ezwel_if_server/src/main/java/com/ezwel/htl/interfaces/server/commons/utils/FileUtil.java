@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -17,12 +18,14 @@ import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.UnknownHostException; 
+import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 
-import org.slf4j.Logger; 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
@@ -677,6 +680,57 @@ public class FileUtil {
 		}
     	
     	return out;
+    }
+    
+    
+    private synchronized boolean copy(FileInputStream in, FileOutputStream out)  {
+    	
+        FileChannel inc = null;
+        FileChannel outc = null;
+        boolean result = false;
+        int writeLength = 0;
+        try {
+        	
+        	inc = in.getChannel();
+        	outc = out.getChannel();
+            
+        	for(ByteBuffer buffer = ByteBuffer.allocate(in.available()); inc.read(buffer) != -1; buffer.clear()) {
+                buffer.flip();
+                writeLength = outc.write(buffer);
+                
+                if(writeLength > 0 && !result) {
+                	result = true;
+                }
+            }
+        	
+		} catch (Exception e) {
+			throw new APIException(e);
+		} finally {
+            try {
+				if(in != null) {
+					in.close();
+				}
+				if(out != null) {
+					out.close();
+				}
+				if(inc != null) {
+					inc.close();
+				}
+				if(outc != null) {
+					outc.close();
+				}
+            } catch (Exception e) {
+				throw new APIException(e);
+			}
+        }
+        
+        return result;
+    }
+
+    public boolean copy(String orginal, String copy) throws IOException {
+        FileInputStream fin = new FileInputStream(orginal);
+        FileOutputStream fout = new FileOutputStream(copy);
+        return copy(fin, fout);
     }
     
 }
