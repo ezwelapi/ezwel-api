@@ -950,7 +950,7 @@ public class OutsideRepository extends AbstractDataAccessObject {
 					txCount += sqlSession.update(getNamespace("CACHE_MIN_AMT_MAPPER", "mergeEzcCacheMinAmt"), outCacheMinAmt);
 				}
 				else {
-					logger.warn("- 제휴사코드 {}의 상품코드 {}에 해당하는 그룹시설정보가 존재하지 않습니다.", datas.getHttpAgentId(), data.getPdtNo());
+					logger.debug("- 제휴사코드 {}의 상품코드 {}에 해당하는 그룹시설정보가 존재하지 않습니다.", datas.getHttpAgentId(), data.getPdtNo());
 				}
 			}
 		}
