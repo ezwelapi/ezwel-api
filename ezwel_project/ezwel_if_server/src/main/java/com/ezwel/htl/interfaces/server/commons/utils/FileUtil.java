@@ -447,8 +447,8 @@ public class FileUtil {
     	
     	String out = null;
     	
-    	if(context != null) {
-    		context = LApplicationContext.getWebApplicationContext();
+    	if(context == null) {
+    		context = InterfaceFactory.getWebContext();
     	}
     	regexUtil = (RegexUtil) LApplicationContext.getBean(regexUtil, RegexUtil.class);
     	
@@ -477,6 +477,7 @@ public class FileUtil {
         	
     		if(!isCanonicalPath) {
     			//WebUtils.getRealPath
+    			logger.debug("# $context : {}", context);
     			out = WebUtils.getRealPath(context.getServletContext(), OperateConstants.STR_SLASH.concat(current));	
     		}
     		else {

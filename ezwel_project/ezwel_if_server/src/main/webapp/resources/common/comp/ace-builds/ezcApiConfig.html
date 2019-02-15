@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>EZC-API INTERFACE CONFIGURATOR</title>
+    <meta name="author" content="EZWEL">
+    <link rel="stylesheet" href="./ezwel/kitchen-sink/styles.css" type="text/css" media="screen" charset="utf-8">
+    <script async="true" src="./source-code-pro.js" type="text/javascript" charset="UTF-8"></script>
+</head>
+<body>
+	<div style="position:absolute;height:100%;width:260px">
+	  	<div style="font-weight:bold; text-align:center; font-size:10pt;padding:4px; position: absolute; overflow: hidden; top: 0px;">EZC-API INTERFACE CONFIGURATOR</div>
+	  	<div style="position: absolute; overflow: hidden; top:100px; bottom:0">
+	  		<div id="optionsPanel" style="width: 120%; height:100%; overflow-y: scroll"></div>
+	  	</div>
+		<div style="font-weight:bold; text-align:center; font-size:10pt;padding:4px; overflow: hidden; position: fixed; bottom: 0px;">EZC-API CONFIGURATOR</div>
+	</div>
+	<div id="editor-container"></div>
+	<script src="./src/ace.js" data-ace-base="src" type="text/javascript" charset="UTF-8"></script>
+	<script src="./src/keybinding-vim.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="./src/keybinding-emacs.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="./ezwel/kitchen-sink/ezwel.js" type="text/javascript" charset="UTF-8"></script>
+	<script type="text/javascript" type="text/javascript" charset="UTF-8">
+		require("kitchen-sink/ezwel");
+	</script>
+</body>
+</html>

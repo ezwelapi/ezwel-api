@@ -45,7 +45,9 @@ public class ManagerService {
 		CONFIG_FILE_EXT = "xml;";
 	}
 	
-	private String getAppBasePath() {
+	private String getAppBasePath() throws Exception {
+		
+		fileUtil = (FileUtil) LApplicationContext.getBean(fileUtil, FileUtil.class);
 		
 		ServerManagedConfig managedConfig = InterfaceFactory.getServerConfig();
 		
@@ -53,9 +55,7 @@ public class ManagerService {
 		
 		if(managedConfig != null && managedConfig.isServerRelativePath()) {
 			//상대경로
-			URL appBase = ClassLoader.getSystemResource("/");
-			logger.debug("# appBase : {}", appBase);
-			appBasePath = appBase.getPath().concat(File.separator);
+			appBasePath = fileUtil.getContextPath();
 			logger.debug("# appBase Path : {}", appBasePath);
 		}
 		
@@ -380,12 +380,22 @@ public class ManagerService {
 		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
 		fileUtil = (FileUtil) LApplicationContext.getBean(fileUtil, FileUtil.class);
 		
-	  	if(APIUtil.isEmpty(inManagerSDO.getStoreFileDir())) {
-	  		throw new APIException(MessageConstants.RESPONSE_CODE_9302, "임시저장경로 디렉토리 이름이 존재하지 않습니다.");
+		if(APIUtil.isEmpty(inManagerSDO.getStoreType())) {
+	  		throw new APIException(MessageConstants.RESPONSE_CODE_9302, "조회 형식 파라메터가 존재하지 않습니다.");
 	  	}
+		
 	  	ServerManagedConfig managedConfig = InterfaceFactory.getServerConfig();
 	  	
 	  	String userFileDir = new StringBuffer().append(getAppBasePath()).append(managedConfig.getTemporaryXmlStorageRoot()).toString();	  	
+	  	
+	  	if(!"root".equals(inManagerSDO.getStoreType())) {
+	  		
+			if(APIUtil.isEmpty(inManagerSDO.getStoreFileDir())) {
+		  		throw new APIException(MessageConstants.RESPONSE_CODE_9302, "임시저장경로 디렉토리 이름이 존재하지 않습니다.");
+		  	}
+			
+			userFileDir = new StringBuffer(userFileDir).append(File.separator).append(inManagerSDO.getStoreFileDir()).toString();
+	  	}
 	  	
 	  	logger.debug("userFileDir : {}", userFileDir);
 	  	
@@ -400,9 +410,6 @@ public class ManagerService {
 	  				fileList.add(file.getName());
 	  			}
 	  		}
-	  	}
-	  	else {
-	  		throw new APIException(MessageConstants.RESPONSE_CODE_9302, "전달된 파라메터의 임시저장경로 유저 디렉토리가 존재하지 않습니다.");
 	  	}
 
 	  	out.setFileList(fileList);

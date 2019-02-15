@@ -9,6 +9,12 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 @APIModel(modelNames="XML 관리 I/O")
 public class ManagerSDO extends AbstractSDO {
 
+	@APIFields(description = "code", maxLength=4)
+	private String code;
+	
+	@APIFields(description = "message", maxLength=100)
+	private String message;
+	
 	@APIFields(description = "사용자 ID")
 	private String userId;
 	
@@ -18,17 +24,8 @@ public class ManagerSDO extends AbstractSDO {
 	@APIFields(description = "XML 내용")
 	private String xmlCont;
 	
-	@APIFields(description = "XPATH Query")
-	private String xpathQuery;
-
-	@APIFields(description = "XML Node 이름")
-	private String nodeName;
-	
-	@APIFields(description = "XML Node 텍스트")
-	private String nodeText;
-	
 	@APIFields(description = "XML 파일 목록")
-	private List<String> fileList;
+	private List<StoreInfoSDO> fileList;
 
 	@APIFields(description = "XML 설정 반영")
 	private boolean isApplyXML;	
@@ -42,8 +39,26 @@ public class ManagerSDO extends AbstractSDO {
 	@APIFields(description = "저장 여부")
 	private boolean isSaved;	
 	
+	@APIFields(description = "저장소 조회 유형")
+	private String storeType;
 	
 	
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
@@ -68,35 +83,11 @@ public class ManagerSDO extends AbstractSDO {
 		this.xmlCont = xmlCont;
 	}
 
-	public String getXpathQuery() {
-		return xpathQuery;
-	}
-
-	public void setXpathQuery(String xpathQuery) {
-		this.xpathQuery = xpathQuery;
-	}
-
-	public String getNodeName() {
-		return nodeName;
-	}
-
-	public void setNodeName(String nodeName) {
-		this.nodeName = nodeName;
-	}
-
-	public String getNodeText() {
-		return nodeText;
-	}
-
-	public void setNodeText(String nodeText) {
-		this.nodeText = nodeText;
-	}
-
-	public List<String> getFileList() {
+	public List<StoreInfoSDO> getFileList() {
 		return fileList;
 	}
 
-	public void setFileList(List<String> fileList) {
+	public void setFileList(List<StoreInfoSDO> fileList) {
 		this.fileList = fileList;
 	}
 
@@ -131,6 +122,12 @@ public class ManagerSDO extends AbstractSDO {
 	public void setSaved(boolean isSaved) {
 		this.isSaved = isSaved;
 	}
-	
-	
+
+	public String getStoreType() {
+		return storeType;
+	}
+
+	public void setStoreType(String storeType) {
+		this.storeType = storeType;
+	}
 }

@@ -168,7 +168,7 @@ public class EzwelBatchJobExecutor {
 	 */
 	//초 분 시 일 월 주(년)  cron = "0 0 0/1 * * *"  1시간마다
 	//@Scheduled(cron="* 0/150 * * * *") // 0분 부터 2시간반 마다
-	@Scheduled(fixedDelay=((120L * 60L) * 1000L))
+	//     @Scheduled(fixedDelay=((120L * 60L) * 1000L))
 	//@Scheduled(fixedDelay=999999999)
 	@APIOperation(description="시설검색(최저가 정보) 인터페이스 : 0시30분부터 2시간마다")
 	public void allFaclSearchJob() {
