@@ -1,7 +1,6 @@
 package com.ezwel.htl.interfaces.server.service;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +20,7 @@ import com.ezwel.htl.interfaces.commons.utils.PropertyUtil;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.commons.utils.FileUtil;
 import com.ezwel.htl.interfaces.server.sdo.ManagerSDO;
+import com.ezwel.htl.interfaces.server.sdo.StoreInfoSDO;
 
 /**
  * <pre>
@@ -84,7 +84,7 @@ public class ManagerService {
 		String filePath = null;
 		String tempDir = null;
 		File dirPath = null;
-		List<String> dirList = new ArrayList<String>();
+		List<StoreInfoSDO> dirList = new ArrayList<StoreInfoSDO>();
 		
 		if(APIUtil.isNotEmpty(inManagerSDO.getStoreFileDir()) && APIUtil.isNotEmpty(inManagerSDO.getStoreFileName())) {
 			//임시저장소 XML 파일 조회
@@ -103,12 +103,17 @@ public class ManagerService {
 		tempDir = new StringBuffer().append(appBasePath).append(managedConfig.getTemporaryXmlStorageRoot()).toString();
 		dirPath = new File(tempDir);
 		
+	  	StoreInfoSDO storeInfoSDO = null;
+		
 		if(dirPath.exists() && dirPath.isDirectory()) {
 			
 			if(dirPath.listFiles() != null) {
 				
 				for(File userDir : dirPath.listFiles()) {
-					dirList.add(userDir.getName());
+					storeInfoSDO = new StoreInfoSDO();
+					storeInfoSDO.setName(userDir.getName());
+					storeInfoSDO.setStoreFileDir(userDir.getName());
+					dirList.add(storeInfoSDO);
 				}
 			}
 		}
@@ -400,14 +405,21 @@ public class ManagerService {
 	  	logger.debug("userFileDir : {}", userFileDir);
 	  	
 	  	File dirFile = new File(userFileDir);
-	  	List<String> fileList = new ArrayList<String>();
+	  	List<StoreInfoSDO> fileList = new ArrayList<StoreInfoSDO>();
+	  	StoreInfoSDO storeInfoSDO = null;
+	  	
 	  	out = new ManagerSDO();
 	  	if(dirFile != null && dirFile.exists() && dirFile.isDirectory()) {
 	  		
 	  		if(dirFile.listFiles() != null) {
 	  			
 	  			for(File file : dirFile.listFiles()) {
-	  				fileList.add(file.getName());
+	  				storeInfoSDO = new StoreInfoSDO();
+	  				storeInfoSDO.setName(file.getName());
+	  				//사용자 디렉토리 조회일경우 storeFileDir값 존재함
+  					storeInfoSDO.setStoreFileDir(inManagerSDO.getStoreFileDir());
+	  				
+	  				fileList.add(storeInfoSDO);
 	  			}
 	  		}
 	  	}

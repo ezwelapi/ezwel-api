@@ -7,7 +7,7 @@
 				// $.apiConfig.provider.editor
 				editor: {}
 			}
-			,define: function( folders ) {
+			,define: function( storeFile ) {
 
 				ace.define("ace/ext/rtl",["require","exports","module","ace/lib/dom","ace/lib/lang","ace/editor","ace/config"], 
 				function(require, exports, module) {
@@ -2198,6 +2198,12 @@
 						}
 						
 						var docs = {};
+						
+						$.each(storeFile.fileList, function(index, value) {
+							docs[value.name] = value;
+						});
+						
+						$.logger.debug("#storeFile", storeFile);
 						/*
 						var docs = {
 						    "docs/xml.xml": {order: 1, name: "XML"},
@@ -2232,6 +2238,7 @@
 						
 						
 						// modelist 를기준으로 docs 생성
+						/*
 						modelist.modes.forEach(function(m) {
 							
 							$.logger.debug("# [LOOP] doclist > modelist.modes.forEach modelList", arguments);
@@ -2252,7 +2259,7 @@
 						        docs[path].name = m.caption;
 						    }
 						});
-
+						*/
 
 						if (window.require && window.require.s) try {
 						    for (var path in window.require.s.contexts._.defined) {
@@ -2348,6 +2355,8 @@
 						    	path = "lib/" + path;
 						    }
 
+						    path = $.gf_cont.ctxp + $.gf_cont.reqNamespace + "/manager/saveXML";
+						    
 						    upload(path, doc.session.getValue(), callback);
 						}
 
@@ -2356,11 +2365,11 @@
 							
 						    var absUrl = net.qualifyURL(url);
 						    $.logger.debug("[START] upload absUrl: " + absUrl);
-						    
+						    /*
 						    if (/^file:/.test(absUrl)) {
 						    	absUrl = "http://localhost:8282/API1.0/" + url;
 						    }
-						    
+						    */
 						    url = absUrl;
 						    if (!/^https?:/.test(url)) {
 						    	return callback(new Error("Unsupported url scheme"));
@@ -2377,7 +2386,6 @@
 						}
 
 						var configXmlUrl = $.gf_cont.reqNamespace + "/configXML";
-						$.logger.debug("#folders", folders);
 						
 						module.exports = {
 						    fileCache: fileCache,
