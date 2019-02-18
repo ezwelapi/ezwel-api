@@ -3794,15 +3794,24 @@ define("ace/lib/net",["require","exports","module","ace/lib/dom"], function(requ
 "use strict";
 var dom = require("./dom");
 
-exports.get = function (url, callback) {
+exports.get = function (url, param, callback) {
+	/*
+	$.gf_tx.ajax( url, param, {
+		fn_success: function( response ) {
+			callback( response );
+		}
+	});
+	*/
+	
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-type','application/json; charset=UTF-8');
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
-            callback(xhr.responseText);
+            callback(xhr.responseText); 
         }
     };
-    xhr.send(null);
+    xhr.send(JSON.stringify(param));
 };
 
 exports.loadScript = function(path, callback) {
@@ -7525,7 +7534,6 @@ var Document = function(textOrLines) {
             return text.split(/\r\n|\r|\n/);
         };
     }
-
 
     this.$detectNewLine = function(text) {
         var match = text.match(/^.*?(\r\n|\r|\n)/m);

@@ -66,6 +66,12 @@ public class ApiBatcLogSDO extends AbstractSDO {
 	@APIFields(description = "입력 일시")
 	private String inptDt;
 	
+	@APIFields(description = "삭제 일자")
+	private Integer deleteDay;
+	
+	@APIFields(description = "트렌젝션 갯수")
+	private Integer txCount;
+	
 	public String getBatcExecCd() {
 		return batcExecCd;
 	}
@@ -169,6 +175,22 @@ public class ApiBatcLogSDO extends AbstractSDO {
 
 	public void setInptDt(String inptDt) {
 		this.inptDt = inptDt;
+	}
+
+	public Integer getDeleteDay() {
+		return deleteDay;
+	}
+
+	public void setDeleteDay(Integer deleteDay) {
+		this.deleteDay = deleteDay;
+	}
+
+	public Integer getTxCount() {
+		return txCount;
+	}
+
+	public void setTxCount(Integer txCount) {
+		this.txCount = txCount;
 	}
 
 

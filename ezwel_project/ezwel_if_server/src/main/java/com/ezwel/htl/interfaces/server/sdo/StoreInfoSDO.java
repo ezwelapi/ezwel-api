@@ -10,23 +10,33 @@ public class StoreInfoSDO extends AbstractSDO {
 	@APIFields(description = "파일명")
 	private String name;
 	
-	@APIFields(description = "요청경로")
+	@APIFields(description = "부모파일명(dir)")
+	private String prntName;
+	
+	@APIFields(description = "전체경로")
 	private String path;
 	
 	@APIFields(description = "파일설명")
 	private String desc;
 	
-	@APIFields(description = "임시 저장소 파일 디렉토리")
-	private String storeFileDir;
+	@APIFields(description = "파일타입")
+	private String fileType;
 	
-	@APIFields(description = "임시 저장소 파일 명")
-	private String storeFileName;
+	@APIFields(description = "실제운영파일여부")
+	private boolean isManagedXml;
 	
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getPrntName() {
+		return prntName;
+	}
+	public void setPrntName(String prntName) {
+		this.prntName = prntName;
 	}
 	public String getPath() {
 		return path;
@@ -40,16 +50,17 @@ public class StoreInfoSDO extends AbstractSDO {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	public String getStoreFileDir() {
-		return storeFileDir;
+	public String getFileType() {
+		return fileType;
 	}
-	public void setStoreFileDir(String storeFileDir) {
-		this.storeFileDir = storeFileDir;
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
 	}
-	public String getStoreFileName() {
-		return storeFileName;
+	public boolean isManagedXml() {
+		return isManagedXml;
 	}
-	public void setStoreFileName(String storeFileName) {
-		this.storeFileName = storeFileName;
+	public void setManagedXml(boolean isManagedXml) {
+		this.isManagedXml = isManagedXml;
 	}
+	
 }

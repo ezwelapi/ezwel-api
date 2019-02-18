@@ -4,22 +4,38 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>EZC-API INTERFACE CONFIGURATOR</title>
     <meta name="author" content="EZWEL">
-    <link rel="stylesheet" href="./ezwel/kitchen-sink/styles.css" type="text/css" media="screen" charset="utf-8">
+	<!-- stylesheet -->
+    <link rel="stylesheet" href="../../common/css/jquery.modal-0.9.1.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="../config/ezcApiConfig.css"	type="text/css" media="all" />
+	<!-- javascript -->
+   	<script type="text/javascript" src="../../common/jquery/jquery-1.11.1.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../../common/jquery/jquery.modal-0.9.1.js" charset="UTF-8"></script>
+	<script type="text/javascript"  src="../../common/lib/commons-api.js"	charset="UTF-8"></script>
     <script async="true" src="./source-code-pro.js" type="text/javascript" charset="UTF-8"></script>
 </head>
 <body>
-	<div style="position:absolute;height:100%;width:260px">
-	  	<div style="font-weight:bold; text-align:center; font-size:10pt;padding:4px; position: absolute; overflow: hidden; top: 0px;">EZC-API INTERFACE CONFIGURATOR</div>
-	  	<div style="position: absolute; overflow: hidden; top:100px; bottom:0">
-	  		<div id="optionsPanel" style="width: 120%; height:100%; overflow-y: scroll"></div>
+	<div class="leftside-container">
+		<div class="lefts-top">
+			<h3>EZC-API 인터페이스 환경관리</h3>
+			<ul class="button-container">
+				<li>
+					<!-- <button>임시저장</button> -->
+					<button>환경반영</button>
+					<button>반영로그</button>
+				</li>
+			</ul>
+		</div>  	
+	  	<div class="lefts-mid">
+	  		<div id="optionsPanel"></div>
 	  	</div>
-		<div style="font-weight:bold; text-align:center; font-size:10pt;padding:4px; overflow: hidden; position: fixed; bottom: 0px;">EZC-API CONFIGURATOR</div>
+	  	<div class="leftside-fixed-bottom">처리 메시지</div>
 	</div>
 	<div id="editor-container"></div>
 	<script src="./src/ace.js" data-ace-base="src" type="text/javascript" charset="UTF-8"></script>
 	<script src="./src/keybinding-vim.js" type="text/javascript" charset="UTF-8"></script>
 	<script src="./src/keybinding-emacs.js" type="text/javascript" charset="UTF-8"></script>
-	<script src="./ezwel/kitchen-sink/ezwel.js" type="text/javascript" charset="UTF-8"></script>
+	<!-- <script src="./ezwel/kitchen-sink/ezwel.js" type="text/javascript" charset="UTF-8"></script> -->
+	<script src="./ezcApiConfig.js" data-ace-base="src" type="text/javascript" charset="UTF-8"></script>
 	<script type="text/javascript" type="text/javascript" charset="UTF-8">
 		require("kitchen-sink/ezwel");
 	</script>

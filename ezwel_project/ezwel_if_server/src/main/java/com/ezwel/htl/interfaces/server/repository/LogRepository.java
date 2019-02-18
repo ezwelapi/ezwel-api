@@ -60,16 +60,19 @@ public class LogRepository extends AbstractDataAccessObject {
 	
 	@APIOperation(description="오늘로부터 2일전 인터페이스 로그와 API 배치로그 삭제")
 	@Transactional(rollbackFor={Exception.class, SQLException.class, APIException.class})
-	public Integer deleteLogData() {
+	public Integer deleteLogData(Integer deleteDay) {
 		logger.debug("[START] deleteLogData ");
 		
 		Integer txIfLogCount = OperateConstants.INTEGER_ZERO_VALUE;
 		Integer txApiBatcLogCount = OperateConstants.INTEGER_ZERO_VALUE;
-		
+		EzcApiBatcLog ezcApiBatcLog = new EzcApiBatcLog();
+		EzcIfLog ezcIfLog = new EzcIfLog();
 		try {
-			txIfLogCount = sqlSession.delete(getNamespace("IF_LOG_MAPPER", "deletePrevEzcIfLog"));
+			ezcIfLog.setDeleteDay(deleteDay);
+			ezcApiBatcLog.setDeleteDay(deleteDay);
 			
-			txApiBatcLogCount = sqlSession.delete(getNamespace("API_BATC_LOG_MAPPER", "deletePrevEzcApiBatcLog"));
+			txIfLogCount = sqlSession.delete(getNamespace("IF_LOG_MAPPER", "deletePrevEzcIfLog"), ezcIfLog);
+			txApiBatcLogCount = sqlSession.delete(getNamespace("API_BATC_LOG_MAPPER", "deletePrevEzcApiBatcLog"), ezcApiBatcLog);
 		}
 		catch(Exception e) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9500, "오늘로부터 2일전 인터페이스 로그와 API 배치로그 삭제 장애발생.", e);

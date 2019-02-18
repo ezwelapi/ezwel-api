@@ -9,10 +9,10 @@ import com.ezwel.htl.interfaces.commons.annotation.APIModel;
 @APIModel(modelNames="XML 관리 I/O")
 public class ManagerSDO extends AbstractSDO {
 
-	@APIFields(description = "code", maxLength=4)
+	@APIFields(description = "code")
 	private String code;
 	
-	@APIFields(description = "message", maxLength=100)
+	@APIFields(description = "message")
 	private String message;
 	
 	@APIFields(description = "사용자 ID")
@@ -41,6 +41,9 @@ public class ManagerSDO extends AbstractSDO {
 	
 	@APIFields(description = "저장소 조회 유형")
 	private String storeType;
+
+	@APIFields(description = "운영 XML 여부")
+	private boolean isManagedXml;
 	
 	
 	public String getCode() {
@@ -130,4 +133,14 @@ public class ManagerSDO extends AbstractSDO {
 	public void setStoreType(String storeType) {
 		this.storeType = storeType;
 	}
+
+	public boolean isManagedXml() {
+		return isManagedXml;
+	}
+
+	public void setManagedXml(boolean isManagedXml) {
+		this.isManagedXml = isManagedXml;
+	}
+	
+	
 }

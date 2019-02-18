@@ -173,4 +173,20 @@ public class ManagerController {
 		return out;
 	}
 	
+	
+	@APIOperation(description="인터페이스 설정 XML임시 저장내용 목록 조회", isOutputJsonMarshall=true, returnType=ManagerSDO.class)
+	@RequestMapping(value = "/manager/storeAllList")
+	public Object storeAllList(ManagerSDO inManagerSDO) throws Exception {
+		logger.debug("[START] storeAllList {}", inManagerSDO);
+		
+		ManagerSDO out = null;
+		
+		managerService = (ManagerService) LApplicationContext.getBean(managerService, ManagerService.class);
+		//실행
+		out = managerService.storeAllList(inManagerSDO);
+
+		logger.debug("[END] storeAllList {}", out);
+		return out;
+	}
+	
 }

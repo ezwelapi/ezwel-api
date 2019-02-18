@@ -1,8 +1,6 @@
 package com.ezwel.htl.interfaces.server.schedule;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,7 +77,7 @@ public class EzwelBatchJobExecutor {
 		}
 		
 		AllRegOutSDO out = null;
-		ExecutorService executorService = null;
+		//ExecutorService executorService = null;
 		CommonUtil.initCommonHeader();
 		
 		try {
@@ -95,7 +93,7 @@ public class EzwelBatchJobExecutor {
 		}
 		finally {
 
-			try {
+			/*try {
 				
 				executorService = Executors.newCachedThreadPool();
 				Runnable runnable = new Runnable() {
@@ -110,7 +108,10 @@ public class EzwelBatchJobExecutor {
 				
 			} catch (Exception e) {
 				logger.error("[Scheduled-Runnable-Exception] allFaclRegJob", e);
-			}
+			}*/
+			
+			// 전체 시설 매핑
+			allFaclMappingJob();
 			
 			if(Local.commonHeader() != null) {
 				Local.commonHeader().setHandlerInterceptorComplete(true);
@@ -129,7 +130,7 @@ public class EzwelBatchJobExecutor {
 		// 2. 전체 시설 매핑 : 전체 시설 배치 종료 30분 후 시작
 		Long sleepMinute = 30L;
 		TransactionOutSDO out = null;
-		CommonUtil.initCommonHeader();
+		//CommonUtil.initCommonHeader();
 		
 		try {
 			
@@ -154,9 +155,9 @@ public class EzwelBatchJobExecutor {
 		} catch (Exception e) {
 			logger.error("[Scheduled-Exception] allFaclMappingJob", e);
 		} finally {
-			if(Local.commonHeader() != null) {
+			/*if(Local.commonHeader() != null) {
 				Local.commonHeader().setHandlerInterceptorComplete(true);
-			}
+			}*/
 		}
 
 		logger.debug("[END-Scheduled] allFaclMappingJob end-time : {} {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT), out);
@@ -168,14 +169,14 @@ public class EzwelBatchJobExecutor {
 	 */
 	//초 분 시 일 월 주(년)  cron = "0 0 0/1 * * *"  1시간마다
 	//@Scheduled(cron="* 0/150 * * * *") // 0분 부터 2시간반 마다
-	//     @Scheduled(fixedDelay=((120L * 60L) * 1000L))
 	//@Scheduled(fixedDelay=999999999)
+	//     @Scheduled(fixedDelay=((120L * 60L) * 1000L)) // was 기동시 실행 완료후 2시간이후 다시 실행
 	@APIOperation(description="시설검색(최저가 정보) 인터페이스 : 0시30분부터 2시간마다")
 	public void allFaclSearchJob() {
 		logger.debug("[START-Scheduled] allFaclSearchJob start-time : {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT));
 		
 		List<FaclSearchOutSDO> out = null;
-		ExecutorService executorService = null;
+		//ExecutorService executorService = null;
 		CommonUtil.initCommonHeader();
 		
 		try {
@@ -191,8 +192,12 @@ public class EzwelBatchJobExecutor {
 			//시작일 당일(기준일)
 			faclSearchSDO.setStndDate(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT));
 			//종료일 당일로 부터 90일 이후
-			faclSearchSDO.setPlusDay(90);
+			faclSearchSDO.setPlusDay(60);
 			//시도 코드는 DB에서 조회 (EZC_CITY_CD)
+			
+			/*********************************************************
+			 * 1박, 2박, 3박 모두 가저와야함 삭제되었던 시작날짜~종료날짜 컬럼 추가되었음.
+			 *********************************************************/
 			
 			outsideService = (OutsideService) LApplicationContext.getBean(outsideService, OutsideService.class);
 			out = outsideService.callFaclSearchWithSidoList(userAgentSDO, faclSearchSDO);
@@ -200,7 +205,7 @@ public class EzwelBatchJobExecutor {
 			logger.error("[Scheduled-Exception] allFaclSearchJob", e);
 		} finally {
 			
-			try {
+			/*try {
 				
 				executorService = Executors.newCachedThreadPool();
 				Runnable runnable = new Runnable() {
@@ -215,7 +220,10 @@ public class EzwelBatchJobExecutor {
 				
 			} catch (Exception e) {
 				logger.error("[Scheduled-Runnable-Exception] allFaclSearchJob", e);
-			}
+			}*/
+			
+			//당일특가검색 인터페이스
+			allSddSearchJob();
 			
 			if(Local.commonHeader() != null) {
 				Local.commonHeader().setHandlerInterceptorComplete(true);
@@ -240,7 +248,7 @@ public class EzwelBatchJobExecutor {
 		// 시설검색(최저가 정보) 인터페이스 : 전체 시설 배치 종료 20분 후 시작
 		Long sleepMinute = 20L;
 		SddSearchOutSDO out = null;
-		CommonUtil.initCommonHeader();
+		//CommonUtil.initCommonHeader();
 		
 		try {
 			
@@ -260,9 +268,9 @@ public class EzwelBatchJobExecutor {
 		} catch (Exception e) {
 			logger.error("[Scheduled-Exception] allSddSearchJob", e);
 		} finally {
-			if(Local.commonHeader() != null) {
+			/*if(Local.commonHeader() != null) {
 				Local.commonHeader().setHandlerInterceptorComplete(true);
-			}
+			}*/
 		}
 		
 		logger.debug("[END-Scheduled] allSddSearchJob end-time : {} {}", APIUtil.getFastDate(OperateConstants.GENERAL_DATE_FORMAT), out);
@@ -271,12 +279,13 @@ public class EzwelBatchJobExecutor {
 	
 	//초 분 시 일 월 주(년)
 	@Scheduled(cron="0 10 0 * * ?")
-	@APIOperation(description="오늘로부터 2일전 인터페이스 로그와 API 배치로그 삭제")
+	@APIOperation(description="오늘로부터 1일전 인터페이스 로그와 API 배치로그 삭제")
 	public void deleteLogData() {
 		
 		logService = (LogService) LApplicationContext.getBean(logService, LogService.class);
-		
-		Integer out = logService.deleteLogData();
+		//1일전 로그데이터 삭제
+		Integer deleteDay = OperateConstants.INTEGER_ONE_VALUE;
+		Integer out = logService.deleteLogData(deleteDay);
 		logger.warn("[PROC-END] deleteLogData totalCount : {}", out);
 	}
 }

@@ -65,6 +65,8 @@ public class EzcApiBatcLog extends AbstractEntity {
 	@APIFields(description = "입력 일시")
 	private String inptDt;
 	
+	@APIFields(description = "삭제 일자")
+	private Integer deleteDay;
 	
 	public String getBatcExecCd() {
 		return batcExecCd;
@@ -168,6 +170,14 @@ public class EzcApiBatcLog extends AbstractEntity {
 
 	public void setInptDt(String inptDt) {
 		this.inptDt = inptDt;
+	}
+
+	public Integer getDeleteDay() {
+		return deleteDay;
+	}
+
+	public void setDeleteDay(Integer deleteDay) {
+		this.deleteDay = deleteDay;
 	}
 
 

@@ -135,11 +135,11 @@ public class LogService {
 	
 	
 	@APIOperation(description="오늘로부터 2일전 인터페이스 로그와 API 배치로그 삭제")
-	public Integer deleteLogData() throws APIException {
+	public Integer deleteLogData(Integer deleteDay) throws APIException {
 		logger.debug("[START] deleteLogData");
 		logRepository = (LogRepository) LApplicationContext.getBean(logRepository, LogRepository.class);
 		
-		Integer out = logRepository.deleteLogData();
+		Integer out = logRepository.deleteLogData(deleteDay);
 		
 		logger.debug("[END] deleteLogData delete log count : {}", out);
 		return out;

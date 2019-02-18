@@ -5,26 +5,454 @@
 <title>EZC-API INTERFACE CONFIGURATOR</title>
 	<meta name="author" content="ksw">
 	<!-- stylesheet -->
-	<link rel="stylesheet" href="../../common/css/jquery.modal-0.9.1.css" type="text/css" media="all" />	
-	<link rel="stylesheet" href="../../common/css/ezcApiConfig.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="../../common/css/jquery.modal-0.9.1.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="./ezcApiConfig.css"	type="text/css" media="all" />
 	<!-- javascript -->
 	<script type="text/javascript" src="../../common/jquery/jquery-1.11.1.js" charset="UTF-8"></script>
 	<script type="text/javascript" src="../../common/jquery/jquery.modal-0.9.1.js" charset="UTF-8"></script>
 	<!-- <script type="text/javascript" src="../../common/comp/ace-build/source-code-pro.js" charset="UTF-8" async="true" ></script> -->
-	<script type="text/javascript" src="../../common/comp/ace-builds/src/ace.js" charset="UTF-8"></script>
-	<script type="text/javascript" src="../../common/comp/ace-builds/src/keybinding-vim.js" charset="UTF-8"></script>
-	<script type="text/javascript" src="../../common/comp/ace-builds/src/keybinding-emacs.js" charset="UTF-8"></script>
-	<script type="text/javascript" src="../../common/lib/commons-api.js" charset="UTF-8"></script>
-	<script type="text/javascript" src="../../common/js/ezcApiConfig.js" charset="UTF-8"></script>
+	<script type="text/javascript"	src="../../common/comp/ace-builds/src/ace.js" charset="UTF-8"></script>
+	<script type="text/javascript"	src="../../common/comp/ace-builds/src/keybinding-vim.js" charset="UTF-8"></script>
+	<script type="text/javascript"	src="../../common/comp/ace-builds/src/keybinding-emacs.js"	charset="UTF-8"></script>
+	<script type="text/javascript"  src="../../common/lib/commons-api.js"	charset="UTF-8"></script>
+	<script type="text/javascript"  src="./ezcApiConfig.js"	charset="UTF-8"></script>
 </head>
 <body>
 	<div class="leftside-container">
-		<div class="lefts-top">EZC-API 인터페이스 환경관리</div>
+		<div class="lefts-top">
+			<h3>EZC-API 인터페이스 환경관리</h3>
+			<ul class="button-container">
+				<li>
+					<button>임시저장</button>
+					<button>환경반영</button>
+					<button>반영로그</button>
+				</li>
+			</ul>
+		</div>
+			
 		<div class="lefts-mid">
-			<div class="button-container">
-				<button>임시저장</button> <button>환경반영</button> <button>반영로그</button>
+			<div id="optionsPanel">
+				<div>
+					<div id="controls">
+						<ul class="ace_optionsMenuEntry">
+							<li><label for="folder">Folder</label></li>
+							<li>
+								<select id="folder" ux-component="storeFolder">
+									<optgroup label="Real ConfigXml">
+										<option value="realConfigXml">Operating ENV XML</option>
+									</optgroup>
+									<optgroup groupName="storeFolder" label="User Temporary Directory"></optgroup>
+								</select>
+							</li>
+						</ul>
+						<ul class="ace_optionsMenuEntry">
+							<li><label for="doc">ConfigXML</label></li>
+							<li><select id="doc" ux-component="storeFile"></select></li>
+						</ul>
+						<ul class="ace_optionsMenuEntry">
+							<li><label for="split">Split</label></li>
+							<li>
+								<div id="split" ux-component>
+									<button value="None" ace_selected_button="true">None</button><button value="Below" ace_selected_button="false">Below</button><button value="Beside" ace_selected_button="false">Beside</button>
+								</div>
+							</li>
+						</ul>
+						<ul class="ace_optionsMenuEntry">
+							<li><label for="mode">Mode</label></li>
+							<li><select id="mode" ux-component="mode">
+									<option value="ace/mode/abap">ABAP</option>
+									<option value="ace/mode/abc">ABC</option>
+									<option value="ace/mode/actionscript">ActionScript</option>
+									<option value="ace/mode/ada">ADA</option>
+									<option value="ace/mode/apache_conf">Apache Conf</option>
+									<option value="ace/mode/asciidoc">AsciiDoc</option>
+									<option value="ace/mode/asl">ASL</option>
+									<option value="ace/mode/assembly_x86">Assembly x86</option>
+									<option value="ace/mode/autohotkey">AutoHotKey</option>
+									<option value="ace/mode/apex">Apex</option>
+									<option value="ace/mode/batchfile">BatchFile</option>
+									<option value="ace/mode/bro">Bro</option>
+									<option value="ace/mode/c_cpp">C and C++</option>
+									<option value="ace/mode/c9search">C9Search</option>
+									<option value="ace/mode/cirru">Cirru</option>
+									<option value="ace/mode/clojure">Clojure</option>
+									<option value="ace/mode/cobol">Cobol</option>
+									<option value="ace/mode/coffee">CoffeeScript</option>
+									<option value="ace/mode/coldfusion">ColdFusion</option>
+									<option value="ace/mode/csharp">C#</option>
+									<option value="ace/mode/csound_document">Csound Document</option>
+									<option value="ace/mode/csound_orchestra">Csound</option>
+									<option value="ace/mode/csound_score">Csound Score</option>
+									<option value="ace/mode/css">CSS</option>
+									<option value="ace/mode/curly">Curly</option>
+									<option value="ace/mode/d">D</option>
+									<option value="ace/mode/dart">Dart</option>
+									<option value="ace/mode/diff">Diff</option>
+									<option value="ace/mode/dockerfile">Dockerfile</option>
+									<option value="ace/mode/dot">Dot</option>
+									<option value="ace/mode/drools">Drools</option>
+									<option value="ace/mode/edifact">Edifact</option>
+									<option value="ace/mode/eiffel">Eiffel</option>
+									<option value="ace/mode/ejs">EJS</option>
+									<option value="ace/mode/elixir">Elixir</option>
+									<option value="ace/mode/elm">Elm</option>
+									<option value="ace/mode/erlang">Erlang</option>
+									<option value="ace/mode/forth">Forth</option>
+									<option value="ace/mode/fortran">Fortran</option>
+									<option value="ace/mode/fsharp">FSharp</option>
+									<option value="ace/mode/fsl">FSL</option>
+									<option value="ace/mode/ftl">FreeMarker</option>
+									<option value="ace/mode/gcode">Gcode</option>
+									<option value="ace/mode/gherkin">Gherkin</option>
+									<option value="ace/mode/gitignore">Gitignore</option>
+									<option value="ace/mode/glsl">Glsl</option>
+									<option value="ace/mode/gobstones">Gobstones</option>
+									<option value="ace/mode/golang">Go</option>
+									<option value="ace/mode/graphqlschema">GraphQLSchema</option>
+									<option value="ace/mode/groovy">Groovy</option>
+									<option value="ace/mode/haml">HAML</option>
+									<option value="ace/mode/handlebars">Handlebars</option>
+									<option value="ace/mode/haskell">Haskell</option>
+									<option value="ace/mode/haskell_cabal">Haskell Cabal</option>
+									<option value="ace/mode/haxe">haXe</option>
+									<option value="ace/mode/hjson">Hjson</option>
+									<option value="ace/mode/html">HTML</option>
+									<option value="ace/mode/html_elixir">HTML (Elixir)</option>
+									<option value="ace/mode/html_ruby">HTML (Ruby)</option>
+									<option value="ace/mode/ini">INI</option>
+									<option value="ace/mode/io">Io</option>
+									<option value="ace/mode/jack">Jack</option>
+									<option value="ace/mode/jade">Jade</option>
+									<option value="ace/mode/java">Java</option>
+									<option value="ace/mode/javascript">JavaScript</option>
+									<option value="ace/mode/json">JSON</option>
+									<option value="ace/mode/jsoniq">JSONiq</option>
+									<option value="ace/mode/jsp">JSP</option>
+									<option value="ace/mode/jssm">JSSM</option>
+									<option value="ace/mode/jsx">JSX</option>
+									<option value="ace/mode/julia">Julia</option>
+									<option value="ace/mode/kotlin">Kotlin</option>
+									<option value="ace/mode/latex">LaTeX</option>
+									<option value="ace/mode/less">LESS</option>
+									<option value="ace/mode/liquid">Liquid</option>
+									<option value="ace/mode/lisp">Lisp</option>
+									<option value="ace/mode/livescript">LiveScript</option>
+									<option value="ace/mode/logiql">LogiQL</option>
+									<option value="ace/mode/lsl">LSL</option>
+									<option value="ace/mode/lua">Lua</option>
+									<option value="ace/mode/luapage">LuaPage</option>
+									<option value="ace/mode/lucene">Lucene</option>
+									<option value="ace/mode/makefile">Makefile</option>
+									<option value="ace/mode/markdown">Markdown</option>
+									<option value="ace/mode/mask">Mask</option>
+									<option value="ace/mode/matlab">MATLAB</option>
+									<option value="ace/mode/maze">Maze</option>
+									<option value="ace/mode/mel">MEL</option>
+									<option value="ace/mode/mixal">MIXAL</option>
+									<option value="ace/mode/mushcode">MUSHCode</option>
+									<option value="ace/mode/mysql">MySQL</option>
+									<option value="ace/mode/nix">Nix</option>
+									<option value="ace/mode/nsis">NSIS</option>
+									<option value="ace/mode/objectivec">Objective-C</option>
+									<option value="ace/mode/ocaml">OCaml</option>
+									<option value="ace/mode/pascal">Pascal</option>
+									<option value="ace/mode/perl">Perl</option>
+									<option value="ace/mode/perl6">Perl 6</option>
+									<option value="ace/mode/pgsql">pgSQL</option>
+									<option value="ace/mode/php_laravel_blade">PHP (Blade Template)</option>
+									<option value="ace/mode/php">PHP</option>
+									<option value="ace/mode/puppet">Puppet</option>
+									<option value="ace/mode/pig">Pig</option>
+									<option value="ace/mode/powershell">Powershell</option>
+									<option value="ace/mode/praat">Praat</option>
+									<option value="ace/mode/prolog">Prolog</option>
+									<option value="ace/mode/properties">Properties</option>
+									<option value="ace/mode/protobuf">Protobuf</option>
+									<option value="ace/mode/python">Python</option>
+									<option value="ace/mode/r">R</option>
+									<option value="ace/mode/razor">Razor</option>
+									<option value="ace/mode/rdoc">RDoc</option>
+									<option value="ace/mode/red">Red</option>
+									<option value="ace/mode/rhtml">RHTML</option>
+									<option value="ace/mode/rst">RST</option>
+									<option value="ace/mode/ruby">Ruby</option>
+									<option value="ace/mode/rust">Rust</option>
+									<option value="ace/mode/sass">SASS</option>
+									<option value="ace/mode/scad">SCAD</option>
+									<option value="ace/mode/scala">Scala</option>
+									<option value="ace/mode/scheme">Scheme</option>
+									<option value="ace/mode/scss">SCSS</option>
+									<option value="ace/mode/sh">SH</option>
+									<option value="ace/mode/sjs">SJS</option>
+									<option value="ace/mode/slim">Slim</option>
+									<option value="ace/mode/smarty">Smarty</option>
+									<option value="ace/mode/snippets">snippets</option>
+									<option value="ace/mode/soy_template">Soy Template</option>
+									<option value="ace/mode/space">Space</option>
+									<option value="ace/mode/sql">SQL</option>
+									<option value="ace/mode/sqlserver">SQLServer</option>
+									<option value="ace/mode/stylus">Stylus</option>
+									<option value="ace/mode/svg">SVG</option>
+									<option value="ace/mode/swift">Swift</option>
+									<option value="ace/mode/tcl">Tcl</option>
+									<option value="ace/mode/terraform">Terraform</option>
+									<option value="ace/mode/tex">Tex</option>
+									<option value="ace/mode/text">Text</option>
+									<option value="ace/mode/textile">Textile</option>
+									<option value="ace/mode/toml">Toml</option>
+									<option value="ace/mode/tsx">TSX</option>
+									<option value="ace/mode/twig">Twig</option>
+									<option value="ace/mode/typescript">Typescript</option>
+									<option value="ace/mode/vala">Vala</option>
+									<option value="ace/mode/vbscript">VBScript</option>
+									<option value="ace/mode/velocity">Velocity</option>
+									<option value="ace/mode/verilog">Verilog</option>
+									<option value="ace/mode/vhdl">VHDL</option>
+									<option value="ace/mode/visualforce">Visualforce</option>
+									<option value="ace/mode/wollok">Wollok</option>
+									<option value="ace/mode/xml">XML</option>
+									<option value="ace/mode/xquery">XQuery</option>
+									<option value="ace/mode/yaml">YAML</option>
+									<option value="ace/mode/django">Django</option>
+							</select></li>
+						</ul>
+						<ul class="ace_optionsMenuEntry">
+							<li><label for="theme">Theme</label></li>
+							<li><select id="theme" ux-component="theme">
+									<optgroup label="Bright">
+										<option value="ace/theme/chrome">Chrome</option>
+										<option value="ace/theme/clouds">Clouds</option>
+										<option value="ace/theme/crimson_editor">Crimson Editor</option>
+										<option value="ace/theme/dawn">Dawn</option>
+										<option value="ace/theme/dreamweaver">Dreamweaver</option>
+										<option value="ace/theme/eclipse">Eclipse</option>
+										<option value="ace/theme/github">GitHub</option>
+										<option value="ace/theme/iplastic">IPlastic</option>
+										<option value="ace/theme/solarized_light">Solarized Light</option>
+										<option value="ace/theme/textmate">TextMate</option>
+										<option value="ace/theme/tomorrow">Tomorrow</option>
+										<option value="ace/theme/xcode">XCode</option>
+										<option value="ace/theme/kuroir">Kuroir</option>
+										<option value="ace/theme/katzenmilch">KatzenMilch</option>
+										<option value="ace/theme/sqlserver">SQL Server</option>
+									</optgroup>
+									<optgroup label="Dark">
+										<option value="ace/theme/ambiance">Ambiance</option>
+										<option value="ace/theme/chaos">Chaos</option>
+										<option value="ace/theme/clouds_midnight">Clouds Midnight</option>
+										<option value="ace/theme/dracula">Dracula</option>
+										<option value="ace/theme/cobalt">Cobalt</option>
+										<option value="ace/theme/gruvbox">Gruvbox</option>
+										<option value="ace/theme/gob">Green on Black</option>
+										<option value="ace/theme/idle_fingers">idle Fingers</option>
+										<option value="ace/theme/kr_theme">krTheme</option>
+										<option value="ace/theme/merbivore">Merbivore</option>
+										<option value="ace/theme/merbivore_soft">Merbivore Soft</option>
+										<option value="ace/theme/mono_industrial">Mono Industrial</option>
+										<option value="ace/theme/monokai">Monokai</option>
+										<option value="ace/theme/pastel_on_dark">Pastel on dark</option>
+										<option value="ace/theme/solarized_dark">Solarized Dark</option>
+										<option value="ace/theme/terminal">Terminal</option>
+										<option value="ace/theme/tomorrow_night">Tomorrow Night</option>
+										<option value="ace/theme/tomorrow_night_blue">Tomorrow Night Blue</option>
+										<option value="ace/theme/tomorrow_night_bright">Tomorrow Night Bright</option>
+										<option value="ace/theme/tomorrow_night_eighties">Tomorrow Night 80s</option>
+										<option value="ace/theme/twilight">Twilight</option>
+										<option value="ace/theme/vibrant_ink">Vibrant Ink</option>
+									</optgroup>
+								</select>
+							</li>
+						</ul>
+						<ul class="ace_optionsMenuEntry">
+							<li><label for="keyboardHandler">Keybinding</label></li>
+							<li>
+								<div id="keyboardHandler" ux-component>
+									<button value="null" ace_selected_button="true">Ace</button><button value="ace/keyboard/vim" ace_selected_button="false">Vim</button><button value="ace/keyboard/emacs" ace_selected_button="false">Emacs</button>
+								</div>
+							</li>
+						</ul>
+						<ul class="ace_optionsMenuEntry">
+							<li><label for="fontSize">Font Size</label></li>
+							<li id="fontSize" ux-component>
+								<button ace_selected_button="true">12px</button><button>16px</button><button>20px</button>
+							</li>
+						</ul>
+						<ul class="ace_optionsMenuEntry">
+							<li><label for="wrap">Soft Wrap</label></li>
+							<li>
+								<div id="softWrap" ux-component>
+									<button value="off" ace_selected_button="true">Off</button><button value="free" ace_selected_button="false">View</button><button value="printMargin" ace_selected_button="false">margin</button><button value="40" ace_selected_button="false">40</button>
+								</div>
+							</li>
+						</ul>
+						<ul class="ace_optionsMenuEntry">
+							<li><label for="cursorStyle">Cursor</label></li>
+							<li>
+								<select id="cursorStyle" ux-component>
+									<option value="ace">Ace</option>
+									<option value="slim">Slim</option>
+									<option value="smooth">Smooth</option>
+									<option value="smooth slim">Smooth And Slim</option>
+									<option value="wide">Wide</option>
+								</select>
+							</li>
+						</ul> 
+						<ul class="ace_optionsMenuEntry">
+							<li><label for="foldStyle">Folding</label></li>
+							<li>
+								<select id="foldStyle" ux-component>
+									<option value="manual">Manual</option>
+									<option value="markbegin">Mark begin</option>
+									<option value="markbeginend">Mark begin and end</option>
+								</select>
+							</li>
+						</ul>
+						<ul class="ace_optionsMenuEntry">
+							<li><label for="undefined">Soft Tabs</label></li>
+							<li id="softTabs" ux-component><input type="checkbox" id="useSoftTabs" checked="true"><input type="number" style="width: 3em"></li>
+						</ul>
+						<ul class="ace_optionsMenuEntry">
+							<li><label for="scrollPastEnd">Overscroll</label></li>
+							<li>
+								<div id="scrollPastEnd" ux-component>
+									<button value="0" ace_selected_button="true">None</button><button value="0.5" ace_selected_button="false">Half</button><button value="1" ace_selected_button="false">Full</button>
+								</div>
+							</li>
+						</ul>
+						<ul>
+							<li colspan="2">
+								<div id="more-controls">
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="navigateWithinSoftTabs">Atomic soft tabs</label></li>
+										<li><input type="checkbox" id="navigateWithinSoftTabs" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="behavioursEnabled">Enable Behaviours</label></li>
+										<li><input type="checkbox" id="behavioursEnabled" checked="true" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="selectionStyle">Full Line Selection</label></li>
+										<li><input type="checkbox" id="selectionStyle" checked="true" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="highlightActiveLine">Highlight Active Line</label></li>
+										<li><input type="checkbox" id="highlightActiveLine" checked="true" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="showInvisibles">Show Invisibles</label></li>
+										<li><input type="checkbox" id="showInvisibles" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="displayIndentGuides">Show Indent Guides</label></li>
+										<li><input type="checkbox" id="displayIndentGuides" checked="true" ux-component></li>
+									</ul>
+									<!-- 
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="undefined">Persistent Scrollbar</label></li>
+										<li><input type="checkbox" id="undefined"><input type="checkbox" id="undefined" ux-component></li>
+									</ul>
+									-->
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="animatedScroll">Animate scrolling</label></li>
+										<li><input type="checkbox" id="animatedScroll" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="showGutter">Show Gutter</label></li>
+										<li><input type="checkbox" id="showGutter" checked="true" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="showLineNumbers">Show Line Numbers</label></li>
+										<li><input type="checkbox" id="showLineNumbers" checked="true" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="relativeLineNumbers">Relative Line Numbers</label></li>
+										<li><input type="checkbox" id="relativeLineNumbers" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="fixedWidthGutter">Fixed Gutter Width</label></li>
+										<li><input type="checkbox" id="fixedWidthGutter" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="undefined">Show Print Margin</label></li>
+										<li id="showPrintMargin" ux-component><input type="checkbox" checked="true"><input type="number" style="width: 3em"></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="indentedSoftWrap">Indented Soft Wrap</label></li>
+										<li><input type="checkbox" id="indentedSoftWrap" checked="true" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="highlightSelectedWord">Highlight selected word</label></li>
+										<li><input type="checkbox" id="highlightSelectedWord" checked="true" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="fadeFoldWidgets">Fade Fold Widgets</label></li>
+										<li><input type="checkbox" id="fadeFoldWidgets" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="useTextareaForIME">Use textarea for IME</label></li>
+										<li><input type="checkbox" id="useTextareaForIME" checked="true" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="mergeUndoDeltas">Merge Undo Deltas</label></li>
+										<li>
+											<select id="mergeUndoDeltas" ux-component>
+												<option value="always">Always</option>
+												<option value="false">Never</option>
+												<option value="true">Timed</option>
+											</select>
+										</li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="useElasticTabstops">Elastic Tabstops</lux-abel></li>
+										<li><input type="checkbox" id="useElasticTabstops" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="useIncrementalSearch">Incremental Search</label></li>
+										<li><input type="checkbox" id="useIncrementalSearch" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="readOnly">Read-only</label></li>
+										<li><input type="checkbox" id="readOnly" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="copyWithEmptySelection">Copy without selection</label></li>
+										<li><input type="checkbox" id="copyWithEmptySelection" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="rtlText">Rtl Text</label></li>
+										<li><input type="checkbox" id="rtlText" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="showTokenInfo">Show token info</label></li>
+										<li><input type="checkbox" id="showTokenInfo" ux-component></li>
+									</ul>
+									<ul class="ace_optionsMenuEntry">
+										<li><label for="textInputDebugger">Text Input Debugger</label></li>
+										<li><input type="checkbox" id="textInputDebugger" ux-component></li>
+									</ul>
+								</div></li>
+						</ul>
+					</div>
+				</div>
+				<!-- 
+				<div style="text-align: right; margin-right: 60px">
+					<div>
+						<button>Edit Snippets</button>
+					</div>
+					<div>
+						<button>Show Browser Info</button>
+					</div>
+					<div>
+						Test
+						<button>O</button>
+						<button>Record</button>
+						<button>Stop</button>
+						<button>Play</button>
+						<button>X</button>
+					</div>
+				</div>
+				 -->
 			</div>
-			<div id="optionsPanel"></div>
 		</div>
 		<div class="leftside-fixed-bottom">처리 메시지</div>
 	</div>

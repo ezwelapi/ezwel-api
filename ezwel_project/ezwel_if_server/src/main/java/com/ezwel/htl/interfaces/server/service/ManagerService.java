@@ -42,7 +42,7 @@ public class ManagerService {
 	private final static String CONFIG_FILE_EXT;
 	
 	static {
-		CONFIG_FILE_EXT = "xml;";
+		CONFIG_FILE_EXT = "xml";
 	}
 	
 	private String getAppBasePath() throws Exception {
@@ -86,7 +86,7 @@ public class ManagerService {
 		File dirPath = null;
 		List<StoreInfoSDO> dirList = new ArrayList<StoreInfoSDO>();
 		
-		if(APIUtil.isNotEmpty(inManagerSDO.getStoreFileDir()) && APIUtil.isNotEmpty(inManagerSDO.getStoreFileName())) {
+		if(!inManagerSDO.isManagedXml() && APIUtil.isNotEmpty(inManagerSDO.getStoreFileDir()) && APIUtil.isNotEmpty(inManagerSDO.getStoreFileName())) {
 			//임시저장소 XML 파일 조회
 			
 			filePath = new StringBuffer().append(appBasePath)
@@ -95,8 +95,10 @@ public class ManagerService {
 						.append(inManagerSDO.getStoreFileName()).toString();
 		}
 		else {
-			//현재 반영중인 메인 XML 파일 조회
-			filePath = new StringBuffer().append(appBasePath).append(managedConfig.getXmlConfigRealPath()).toString();
+			if(inManagerSDO.isManagedXml()) {
+				//현재 반영중인 메인 XML 파일 조회
+				filePath = new StringBuffer().append(appBasePath).append(managedConfig.getXmlConfigRealPath()).toString();
+			}
 		}		
 		
 		//임시저장소 루트 경로
@@ -112,7 +114,6 @@ public class ManagerService {
 				for(File userDir : dirPath.listFiles()) {
 					storeInfoSDO = new StoreInfoSDO();
 					storeInfoSDO.setName(userDir.getName());
-					storeInfoSDO.setStoreFileDir(userDir.getName());
 					dirList.add(storeInfoSDO);
 				}
 			}
@@ -182,16 +183,9 @@ public class ManagerService {
 			throw new APIException(MessageConstants.RESPONSE_CODE_2000, "입력값이 존재하지 않습니다.");
 		}
 		
-		if(APIUtil.isNotEmpty(inManagerSDO.getStoreFileDir()) && APIUtil.isEmpty(inManagerSDO.getStoreFileName())) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9302, "임시저장소 파일경로는 존재하나 파일명이 존재하지 않습니다.");
+		if(APIUtil.isEmpty(inManagerSDO.getStoreFileDir())) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_9302, "임시저장소 경로가 존재하지 않습니다.");
 		}
-		else if(APIUtil.isEmpty(inManagerSDO.getStoreFileDir()) && APIUtil.isNotEmpty(inManagerSDO.getStoreFileName())) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9302, "임시저장소 파일명은 존재하나 파일경로가 존재하지 않습니다.");
-		}
-		else if(APIUtil.isEmpty(inManagerSDO.getStoreFileDir()) && APIUtil.isEmpty(inManagerSDO.getStoreFileName())) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_9302, "반영할 파일의 디렉토리와 파일명이 존재하지 않습니다.");
-		}
-		
 		if(APIUtil.isEmpty(inManagerSDO.getXmlCont())) {
 			throw new APIException(MessageConstants.RESPONSE_CODE_9302, "XML 내용이 존재하지 않습니다.");
 		}
@@ -204,8 +198,8 @@ public class ManagerService {
 				.append(managedConfig.getTemporaryXmlStorageRoot()).append(File.separator)
 				.append(inManagerSDO.getStoreFileDir()).append(File.separator).toString();
 		
-		String fileName = new StringBuffer().append(inManagerSDO.getStoreFileDir())
-				.append(OperateConstants.STR_UNDERBAR).append(APIUtil.getFastDate(OperateConstants.DEF_DATE_MILLISECOND_FORMAT)).append(OperateConstants.STR_DOT)
+		String fileName = new StringBuffer()/*.append(inManagerSDO.getStoreFileDir().toUpperCase())*/
+				.append(APIUtil.getFastDate(OperateConstants.DEF_DATE_MILLISECOND_FORMAT)).append(OperateConstants.STR_DOT)
 				.append(CONFIG_FILE_EXT).toString();
 		
 		File newFile = fileUtil.mkfile(fileDir, fileName, inManagerSDO.getXmlCont(), OperateConstants.DEFAULT_ENCODING, false, true);
@@ -393,6 +387,8 @@ public class ManagerService {
 	  	
 	  	String userFileDir = new StringBuffer().append(getAppBasePath()).append(managedConfig.getTemporaryXmlStorageRoot()).toString();	  	
 	  	
+	  	
+	  	
 	  	if(!"root".equals(inManagerSDO.getStoreType())) {
 	  		
 			if(APIUtil.isEmpty(inManagerSDO.getStoreFileDir())) {
@@ -416,10 +412,79 @@ public class ManagerService {
 	  			for(File file : dirFile.listFiles()) {
 	  				storeInfoSDO = new StoreInfoSDO();
 	  				storeInfoSDO.setName(file.getName());
-	  				//사용자 디렉토리 조회일경우 storeFileDir값 존재함
-  					storeInfoSDO.setStoreFileDir(inManagerSDO.getStoreFileDir());
-	  				
 	  				fileList.add(storeInfoSDO);
+	  			}
+	  		}
+	  	}
+
+	  	out.setFileList(fileList);
+
+		logger.debug("[END] storeList {}", out);
+		return out;
+	}
+	
+	
+	@APIOperation(description="인터페이스 설정 XML임시 저장내용 전체 목록 조회")
+	public ManagerSDO storeAllList(ManagerSDO inManagerSDO) throws Exception {
+		logger.debug("[START] storeList {}", inManagerSDO);
+		
+		ManagerSDO out = null;
+		
+		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		fileUtil = (FileUtil) LApplicationContext.getBean(fileUtil, FileUtil.class);
+
+		ServerManagedConfig managedConfig = InterfaceFactory.getServerConfig();
+	  	
+	  	String userFileDir = new StringBuffer().append(getAppBasePath()).append(managedConfig.getTemporaryXmlStorageRoot()).toString();	  	
+	  	
+	  	File fileDir = new File(userFileDir);
+	  	
+	  	out = new ManagerSDO();
+	  	List<StoreInfoSDO> fileList = new ArrayList<StoreInfoSDO>();
+	  	StoreInfoSDO storeInfoSDO = null;
+	  	
+	  	//실제 운영 파일 디렉토리
+		storeInfoSDO = new StoreInfoSDO();
+		storeInfoSDO.setName("Operating ENV XML");
+		storeInfoSDO.setPath("Operating ENV XML");
+		storeInfoSDO.setFileType("D");
+		fileList.add(storeInfoSDO);
+
+		//실제 운영 파일 
+		storeInfoSDO = new StoreInfoSDO();
+		storeInfoSDO.setName("interface-configure.xml");
+		storeInfoSDO.setPath("interface-configure.xml");
+		storeInfoSDO.setPrntName("Operating ENV XML");
+		storeInfoSDO.setManagedXml(true);
+		storeInfoSDO.setFileType("F");
+		fileList.add(storeInfoSDO);
+		
+	  	if(fileDir != null && fileDir.listFiles() != null) {
+	  		
+	  		for(File dir : fileDir.listFiles()) {
+	  			
+	  			if(dir.isDirectory()) {
+	  				
+		  			storeInfoSDO = new StoreInfoSDO();
+		  			storeInfoSDO.setName(dir.getName());
+		  			storeInfoSDO.setPath(dir.getPath());
+		  			storeInfoSDO.setFileType("D");
+		  			fileList.add(storeInfoSDO);
+		  			
+		  			if(dir.listFiles() != null) {
+		  				
+		  				for(File file : dir.listFiles()) {
+		  					
+		  					if(file.isFile()) {
+					  			storeInfoSDO = new StoreInfoSDO();
+					  			storeInfoSDO.setName(file.getName());
+					  			storeInfoSDO.setPath(file.getPath());
+					  			storeInfoSDO.setPrntName(dir.getName());
+					  			storeInfoSDO.setFileType("F");
+					  			fileList.add(storeInfoSDO);
+		  					}
+		  				}
+		  			}
 	  			}
 	  		}
 	  	}
