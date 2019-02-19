@@ -101,24 +101,29 @@
 		}		
 		,gf_func: {
 			// $.gf_func.callback(callback, arrayArgument)
-			callback: function(callback, arrayArgument){
+			callback: function(callback, arrayArgument) {
 
 				if($.gf_func.isNotNull(callback) && typeof callback === 'function') {
-
-					if( arrayArgument ) {
-						$.logger.debug("-> arrayArgument type : " + Object.prototype.toString.apply(arrayArgument));
+					
+					try {
 						
-						if( Object.prototype.toString.apply(arrayArgument).indexOf("Array") > -1) {
-							$.logger.info("[COMMONS-CALLBACK] execute Use Argument Callback function ");
-							callback.apply(callback, arrayArgument);
+						if( arrayArgument ) {
+							$.logger.debug("-> arrayArgument type : " + Object.prototype.toString.apply(arrayArgument));
+							
+							if( Object.prototype.toString.apply(arrayArgument).indexOf("Array") > -1) {
+								$.logger.info("[COMMONS-CALLBACK] execute Use Argument Callback function ");
+								callback.apply(callback, arrayArgument);
+							}
+							else {
+								alert(" Arguments to the callback function must be an array ");
+							}
 						}
 						else {
-							alert(" Arguments to the callback function must be an array ");
+							$.logger.info("[COMMONS-CALLBACK] execute None Argument Callback function ");
+							callback.call(callback);
 						}
-					}
-					else {
-						$.logger.info("[COMMONS-CALLBACK] execute None Argument Callback function ");
-						callback.call(callback);
+					} catch( e ) {
+						$.logger.error( "$.gf_func.callback", e );
 					}
 				}
 			},
@@ -188,7 +193,45 @@
 				}
 
 				return jsRes;
-			}			
+			}
+			// $.gf_func.isValidateXml( xmlText )
+			,isValidateXml: function( xmlText ) {
+				var out = false;
+				$.logger.debug("# xmlText : " + xmlText);
+				try {
+					var dom = $.parseXML(xmlText);
+					out = true;
+				}
+				catch( e ) {
+					var message = "XML이 문법이 유효하지 않습니다.";
+					$.logger.error(message);
+
+					$.alert(message, { 
+						css: {
+							div: {width:"300px"},
+							p: {height:"20px",overflow:"auto","color":"red", "font-size":"14px"}
+						},
+						console: {"error": e}
+						}
+					);
+					
+				}
+				
+				$.logger.debug("$.gf_func.isValidateXml : " + out);
+				return out;
+			},
+			// $.gf_func.getParamObject()
+			getParamObject : function() {
+			    var params = {};
+			    window.location.search.replace(
+		    		 /[?&]+([^=&]+)=([^&]*)/gi
+		    		,function(str, key, value) {
+		    			params[key] = value;
+		    		}
+		    	);
+
+			    return params;
+			}
 		}
 		,gf_tx: {
 			// $.gf_tx.ajax( URL, input, ajaxOption )

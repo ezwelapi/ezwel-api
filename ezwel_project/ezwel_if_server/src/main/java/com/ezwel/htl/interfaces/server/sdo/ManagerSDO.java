@@ -45,6 +45,8 @@ public class ManagerSDO extends AbstractSDO {
 	@APIFields(description = "운영 XML 여부")
 	private boolean isManagedXml;
 	
+
+	
 	
 	public String getCode() {
 		return code;

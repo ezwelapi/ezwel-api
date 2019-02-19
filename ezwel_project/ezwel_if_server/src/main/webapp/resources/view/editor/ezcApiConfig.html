@@ -6,7 +6,7 @@
     <meta name="author" content="EZWEL">
 	<!-- stylesheet -->
     <link rel="stylesheet" href="../../common/css/jquery.modal-0.9.1.css" type="text/css" media="all" />
-    <link rel="stylesheet" href="../config/ezcApiConfig.css"	type="text/css" media="all" />
+    <link rel="stylesheet" href="./ezcApiConfig.css"	type="text/css" media="all" />
 	<!-- javascript -->
    	<script type="text/javascript" src="../../common/jquery/jquery-1.11.1.js" charset="UTF-8"></script>
 	<script type="text/javascript" src="../../common/jquery/jquery.modal-0.9.1.js" charset="UTF-8"></script>
@@ -18,11 +18,18 @@
 		<div class="lefts-top">
 			<h3>EZC-API 인터페이스 환경관리</h3>
 			<ul class="button-container">
-				<li>
-					<!-- <button>임시저장</button> -->
-					<button>환경반영</button>
-					<button>반영로그</button>
+				<li class="fl">
+					<select id="applyLog">
+						<option value="">반영로그</option>
+					</select>
+					<select id="backupFile">
+						<option value="">백업파일</option>
+					</select>					
 				</li>
+				<li class="fr">
+					<!-- <button>임시저장</button> -->
+					<button id="applyXML">운영환경반영</button>
+				</li>				
 			</ul>
 		</div>  	
 	  	<div class="lefts-mid">

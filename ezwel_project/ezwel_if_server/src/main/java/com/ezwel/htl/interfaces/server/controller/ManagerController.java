@@ -9,6 +9,7 @@ import com.ezwel.htl.interfaces.commons.annotation.APIOperation;
 import com.ezwel.htl.interfaces.commons.annotation.APIType;
 import com.ezwel.htl.interfaces.commons.constants.MessageConstants;
 import com.ezwel.htl.interfaces.commons.exception.APIException;
+import com.ezwel.htl.interfaces.commons.utils.APIUtil;
 import com.ezwel.htl.interfaces.server.commons.interfaces.RequestNamespace;
 import com.ezwel.htl.interfaces.server.commons.spring.LApplicationContext;
 import com.ezwel.htl.interfaces.server.sdo.ManagerSDO;
@@ -189,4 +190,50 @@ public class ManagerController {
 		return out;
 	}
 	
+	
+	@APIOperation(description="인터페이스 설정 XML 로그/백업 목록", isOutputJsonMarshall=true, returnType=ManagerSDO.class)
+	@RequestMapping(value = "/manager/applyList")
+	public Object applyList(ManagerSDO inManagerSDO) throws Exception {
+		logger.debug("[START] applyList {}", inManagerSDO);
+		
+		ManagerSDO out = null;
+		
+		if(inManagerSDO == null || APIUtil.isEmpty(inManagerSDO.getStoreType()) ) {
+			throw new APIException("조회유형이 존재하지 않습니다.");
+		}
+		
+		managerService = (ManagerService) LApplicationContext.getBean(managerService, ManagerService.class);
+		//실행
+		out = managerService.applyList(inManagerSDO);
+
+		logger.debug("[END] applyList {}", out);
+		return out;
+	}
+	
+	
+	@APIOperation(description="운영환경반영 로그/백업 파일 내용", isOutputJsonMarshall=true, returnType=ManagerSDO.class)
+	@RequestMapping(value = "/manager/applyView")
+	public Object applyView(ManagerSDO inManagerSDO) throws Exception {
+		logger.debug("[START] applyView {}", inManagerSDO);
+		if(inManagerSDO == null) {
+			throw new APIException("입력값이 존재하지 않습니다.");
+		}
+		
+		if(APIUtil.isEmpty(inManagerSDO.getStoreType()) ) {
+			throw new APIException("조회유형이 존재하지 않습니다.");
+		}
+		
+		if(APIUtil.isEmpty(inManagerSDO.getStoreFileName()) ) {
+			throw new APIException("파일명이 존재하지 않습니다.");
+		}
+		
+		ManagerSDO out = null;
+		
+		managerService = (ManagerService) LApplicationContext.getBean(managerService, ManagerService.class);
+		//실행
+		out = managerService.applyView(inManagerSDO);
+
+		logger.debug("[END] applyView {}", out);
+		return out;
+	}
 }

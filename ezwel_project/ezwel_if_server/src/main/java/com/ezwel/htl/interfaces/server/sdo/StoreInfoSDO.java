@@ -25,6 +25,9 @@ public class StoreInfoSDO extends AbstractSDO {
 	@APIFields(description = "실제운영파일여부")
 	private boolean isManagedXml;
 	
+	@APIFields(description = "소팅순서")
+	private Integer order;
+	
 	public String getName() {
 		return name;
 	}
@@ -61,6 +64,12 @@ public class StoreInfoSDO extends AbstractSDO {
 	}
 	public void setManagedXml(boolean isManagedXml) {
 		this.isManagedXml = isManagedXml;
+	}
+	public Integer getOrder() {
+		return order;
+	}
+	public void setOrder(Integer order) {
+		this.order = order;
 	}
 	
 }

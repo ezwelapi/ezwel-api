@@ -62,10 +62,26 @@ public class ManagerService {
 		return appBasePath;
 	}
 	
-	
-	@APIOperation(description="인터페이스 설정 XML파일 내용 조회")
-	private ManagerSDO getFileContents(ManagerSDO inManagerSDO) throws Exception {
-		logger.debug("[START] getFileContents : {}", inManagerSDO);
+	/**
+	 * <pre>
+	 * [메서드 설명]
+	 * 인터페이스 설정 XML내용 조회
+	 * 
+	 * </pre>
+	 * 
+	 * @param inManagerSDO
+	 * @return
+	 * @throws APIException
+	 * @throws Exception
+	 * @author swkim@ebsolution.co.kr
+	 * @since  2019. 02. 11. 
+	 */
+	@APIOperation(description="인터페이스 설정 XML내용 조회")
+	public ManagerSDO findXML(ManagerSDO inManagerSDO) throws Exception {
+		logger.debug("[START] findXML {}", inManagerSDO);
+		if(inManagerSDO == null) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_2000, "입력값이 존재하지 않습니다.");
+		}
 		
 		ManagerSDO out = null;
 		
@@ -126,34 +142,6 @@ public class ManagerService {
 		out = new ManagerSDO();
 		out.setXmlCont(fileUtil.getTextFileContent(new File(filePath)));
 		out.setFileList(dirList);
-		
-		
-		logger.debug("[END] getFileContents : {}", out);
-		return out;
-	}
-	
-	/**
-	 * <pre>
-	 * [메서드 설명]
-	 * 인터페이스 설정 XML내용 조회
-	 * 
-	 * </pre>
-	 * 
-	 * @param inManagerSDO
-	 * @return
-	 * @throws APIException
-	 * @throws Exception
-	 * @author swkim@ebsolution.co.kr
-	 * @since  2019. 02. 11. 
-	 */
-	@APIOperation(description="인터페이스 설정 XML내용 조회")
-	public ManagerSDO findXML(ManagerSDO inManagerSDO) throws Exception {
-		logger.debug("[START] findXML {}", inManagerSDO);
-		if(inManagerSDO == null) {
-			throw new APIException(MessageConstants.RESPONSE_CODE_2000, "입력값이 존재하지 않습니다.");
-		}
-		
-		ManagerSDO out = getFileContents(inManagerSDO);
 		
 		logger.debug("[END] findXML {}", out);
 		return out;
@@ -308,7 +296,7 @@ public class ManagerService {
 		logContents.append("]");		
 		
 		//원본 백업 후 어떤유저가 설정파일을 변경 반영하는지 로깅한다.
-		File logFile = fileUtil.mkfile(logPathDir, "SetupXMLConfig_".concat(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).concat(".log"), logContents.toString(), OperateConstants.DEFAULT_ENCODING, true, true);
+		File logFile = fileUtil.mkfile(logPathDir, "ApplyXML_".concat(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).concat(".log"), logContents.toString(), OperateConstants.DEFAULT_ENCODING, true, true);
 		logger.debug("- logFile : {}, file length : {}", logFile.exists(), logFile.length());
 		
 		if(!newConfigureFilePath.exists()) {
@@ -338,7 +326,7 @@ public class ManagerService {
 			logContents.append(APIUtil.getFastDate(OperateConstants.DEF_DATE_MILLISECOND_FORMAT));
 			logContents.append("]");
 			
-			logFile = fileUtil.mkfile(logPathDir, "SetupXMLConfig_".concat(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).concat(".log"), logContents.toString(), OperateConstants.DEFAULT_ENCODING, true, true);
+			logFile = fileUtil.mkfile(logPathDir, "ApplyXML_".concat(APIUtil.getFastDate(OperateConstants.DEF_DAY_FORMAT)).concat(".log"), logContents.toString(), OperateConstants.DEFAULT_ENCODING, true, true);
 			
 			logger.debug("- logFile : {}, file length : {}", logFile.exists(), logFile.length());
 			
@@ -455,9 +443,12 @@ public class ManagerService {
 		storeInfoSDO.setName("interface-configure.xml");
 		storeInfoSDO.setPath("interface-configure.xml");
 		storeInfoSDO.setPrntName("Operating ENV XML");
+		storeInfoSDO.setOrder(OperateConstants.INTEGER_ONE_VALUE);
 		storeInfoSDO.setManagedXml(true);
 		storeInfoSDO.setFileType("F");
 		fileList.add(storeInfoSDO);
+		
+		Integer orderIdx = OperateConstants.INTEGER_TWO_VALUE;
 		
 	  	if(fileDir != null && fileDir.listFiles() != null) {
 	  		
@@ -480,8 +471,10 @@ public class ManagerService {
 					  			storeInfoSDO.setName(file.getName());
 					  			storeInfoSDO.setPath(file.getPath());
 					  			storeInfoSDO.setPrntName(dir.getName());
+					  			storeInfoSDO.setOrder(orderIdx);
 					  			storeInfoSDO.setFileType("F");
 					  			fileList.add(storeInfoSDO);
+					  			orderIdx++;
 		  					}
 		  				}
 		  			}
@@ -494,5 +487,89 @@ public class ManagerService {
 		logger.debug("[END] storeList {}", out);
 		return out;
 	}
+
 	
+	@APIOperation(description="인터페이스 설정 XML임시 저장내용 전체 목록 조회")
+	public ManagerSDO applyList(ManagerSDO inManagerSDO) throws Exception {
+		logger.debug("[START] storeList {}", inManagerSDO);
+		
+		ManagerSDO out = null;
+		
+		propertyUtil = (PropertyUtil) LApplicationContext.getBean(propertyUtil, PropertyUtil.class);
+		fileUtil = (FileUtil) LApplicationContext.getBean(fileUtil, FileUtil.class);
+
+		ServerManagedConfig managedConfig = InterfaceFactory.getServerConfig();
+	  	
+		// xmlConfigFileBackupRoot 백업루트
+		// applyConfigLogRoot 로그루트
+		
+		String storeDir = null;
+		if("LOG".equals(inManagerSDO.getStoreType())) {
+			storeDir = managedConfig.getApplyConfigLogRoot();
+		}
+		else if("BAKUP".equals(inManagerSDO.getStoreType())) {
+			storeDir = managedConfig.getXmlConfigFileBackupRoot();
+		}
+		
+	  	String fileDir = new StringBuffer().append(getAppBasePath()).append(storeDir).toString();	  	
+	  	
+	  	File filePath = new File(fileDir);
+	  	out = new ManagerSDO();
+	  	StoreInfoSDO storeInfoSDO = null;
+	  	List<StoreInfoSDO> fileList = new ArrayList<StoreInfoSDO>();
+	  	if(filePath != null && filePath.listFiles() != null) {
+	  		
+	  		for(File dir : filePath.listFiles()) {
+	  			
+	  			if(dir.isFile()) {
+	  				
+		  			storeInfoSDO = new StoreInfoSDO();
+		  			storeInfoSDO.setName(dir.getName());
+		  			storeInfoSDO.setPath(dir.getPath());
+		  			storeInfoSDO.setFileType("F");
+		  			fileList.add(storeInfoSDO);
+	  			}
+	  		}
+	  	}
+
+	  	out.setFileList(fileList);
+	  	
+	  	return out;
+	}
+
+
+	@APIOperation(description="XML반영 로그/백업 내용 조회")
+	public ManagerSDO applyView(ManagerSDO inManagerSDO) throws Exception {
+		logger.debug("[START] applyView {}", inManagerSDO);
+		if(inManagerSDO == null) {
+			throw new APIException(MessageConstants.RESPONSE_CODE_2000, "입력값이 존재하지 않습니다.");
+		}
+		
+		ManagerSDO out = null;
+		
+		fileUtil = (FileUtil) LApplicationContext.getBean(fileUtil, FileUtil.class);
+		
+		ServerManagedConfig managedConfig = InterfaceFactory.getServerConfig();
+		
+		String storeDir = null;
+		if("LOG".equals(inManagerSDO.getStoreType())) {
+			storeDir = managedConfig.getApplyConfigLogRoot();
+		}
+		else if("BAKUP".equals(inManagerSDO.getStoreType())) {
+			storeDir = managedConfig.getXmlConfigFileBackupRoot();
+		}
+		
+	  	String filePath = new StringBuffer().append(getAppBasePath()).append(storeDir).append(File.separator).append(inManagerSDO.getStoreFileName()).toString();	  
+	  	File applyFile = new File(filePath); 
+	  	
+	  	if(!applyFile.exists()) {
+	  		throw new APIException("파일이 존재하지 않습니다.");
+	  	}
+		
+		out = new ManagerSDO();
+		out.setXmlCont(fileUtil.getTextFileContent(applyFile));
+		
+		logger.debug("[END] applyView {}", out);
+		return out;
+	}
 }

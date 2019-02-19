@@ -156,10 +156,13 @@ public class ParamValidate {
 	
 	@APIOperation(description="파라메터 유효성 검사를 설정된 정보에 의거하여 실행합니다.")
 	private ParamValidateSDO execution(){
+		//logger.debug("# validate execution : {}", this.params);
 		
 		ParamValidateSDO inValidate = null;
 		try {
 			int validateCnt = 1;
+			
+			
 			for(ParamValidateSDO validate : this.params) {
 				
 	    		//logger.debug("START Validate No.{}", validateCnt);
